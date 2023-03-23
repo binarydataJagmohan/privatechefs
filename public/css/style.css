@@ -965,3 +965,23 @@ img.banner-left {
 }
 
 }
+.table>tbody tr td ul li{
+  display: inline-block;
+  flex-direction: row;
+  text-align: center;
+  padding: 6px 12px;
+  gap: 10px;
+  width: 74px;
+  height: 30px;
+  left: 960px;
+  top: 483px;
+  background: rgba(197, 138, 13, 0.1);
+  border-radius: 68px;
+  color: #C58A0D;
+  margin-left: 10px;
+}
+.table>tbody tr .chefs_pic img{
+  width: 37px;
+  height: 37px;
+  border-radius: 20px;
+}
