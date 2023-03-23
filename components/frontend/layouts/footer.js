@@ -3,7 +3,7 @@ import React from 'react'
 export default function Footer() {
     return (
         <>
-            <footer className="footer-main mt-5">
+            <footer className="footer-main">
                 <div className="container-fluid">
                     <div className="footer-part ft-top-border text-center">
                         <h6 className="color-bs8639 ">Subscribe to our newsletter</h6>
