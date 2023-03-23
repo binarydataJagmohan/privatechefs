@@ -1,14 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import dynamic from 'next/dynamic'
-import { useRouter } from "next/router";
-
-export default function Header() {
+export default function Header(): JSX.Element {
     return (
         <>         
             <div className="right-header mt-4 text-right">
                 <div className="row">
                     <div className="col-lg-7 col-md-4 col-2">
-                     <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
+                        <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
                     </div>
                     <div className="col-lg-3 col-md-6 col-6">
                         <form className="form-Search">
@@ -24,5 +21,5 @@ export default function Header() {
                 </div>
             </div>             
         </>
-  )
+    )
 }

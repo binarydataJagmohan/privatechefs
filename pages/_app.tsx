@@ -12,7 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return(
       <>
         <Head>
-          <title>{Component.title}</title>        
+          <title>Admin Dashboard</title>  
+          <meta charSet="utf-8"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>    
         </Head>
         <AdminLayout>
           <Component {...pageProps} />
@@ -23,7 +25,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return(
       <>
         <Head>
-          <title>{Component.title}</title>        
+          <title>Chef Dashboard</title>  
+          <meta charSet="utf-8"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>       
         </Head>
         <ChefLayout>
           <Component {...pageProps} />
@@ -34,7 +38,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
       <>
         <Head>
-          <title>{Component.title}</title>        
+          <title>Private Chef</title>     
+          <meta charSet="utf-8"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>    
         </Head>
         <FrontendLayout>
           <Component {...pageProps} />
