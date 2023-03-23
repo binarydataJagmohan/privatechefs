@@ -4,36 +4,25 @@ import { useRouter } from "next/router";
 
 export default function Header() {
     return (
-        <>
-            <header className="header-part">
-                <div className="container-fluid">
-                    <nav className="navbar navbar-expand-lg navbar-light bottom-border"> 
-                        <a className="navbar-brand header-logo" href="#" ><img src="images/logo.png" alt="logo"/></a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                          <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav ms-auto mt-2 ">
-                                <li className="nav-item">
-                                  <a className="nav-link active" aria-current="page" href="#">COVID-19</a>
-                                </li>
-                                <li className="nav-item">
-                                  <a className="nav-link" href="#">Start your journey</a>
-                                </li> 
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Who we are</a>
-                                </li> 
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Our Chefs</a>
-                                </li>  
-                                <li className="user">
-                                    <a className="nav-link" href="#"><img src="images/user.png" alt="user" className="user-header"/></a>
-                                </li> 
-                            </ul> 
-                        </div> 
-                    </nav>
+        <>         
+            <div className="right-header mt-4 text-right">
+                <div className="row">
+                    <div className="col-lg-7 col-md-4 col-2">
+                     <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <form className="form-Search">
+                            <input type="text" placeholder="Search" />
+                        </form>
+                    </div>
+                    <div className="col-lg-1 col-md-1 col-2">
+                        <p className="mb-0 comments-bell"><a href="#"><i className="fa-solid fa-comments"></i></a></p>
+                    </div>
+                    <div className="col-lg-1 col-md-1 col-2">
+                        <p className="mb-0 comments-bell"><a href="#"><i className="fa-solid fa-bell"></i></a></p>
+                    </div>
                 </div>
-            </header>
+            </div>             
         </>
   )
 }
