@@ -46,7 +46,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Receipts</span> 
                         </div>
                     </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    <a href="/admin/chefs" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  
                             <span className="menu-collapsed">Chefs</span> 
@@ -64,7 +64,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Calendar</span> 
                         </div>
                     </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    <a href="/admin/villas" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-house"></i></span>  
                             <span className="menu-collapsed">Villas</span> 
