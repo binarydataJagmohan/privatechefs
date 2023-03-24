@@ -973,14 +973,8 @@ img.banner-left {
 }
 .table>tbody tr td ul li{
   display: inline-block;
-  flex-direction: row;
   text-align: center;
   padding: 6px 12px;
-  gap: 10px;
-  width: 74px;
-  height: 30px;
-  left: 960px;
-  top: 483px;
   background: rgba(197, 138, 13, 0.1);
   border-radius: 68px;
   color: #C58A0D;
@@ -1081,7 +1075,10 @@ ul#pills-tab .nav-link:hover {
   line-height: var(--font_h4);
   color: var(--color_1);
 }
- 
+ .table_header_button_section li {
+    display: inline-block;
+    margin-right: 7px;
+}
 
 
 

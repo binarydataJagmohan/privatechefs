@@ -1,10 +1,19 @@
 import React, { useState ,useEffect} from 'react'
+import PopupModal from '../../../components/commoncomponents/PopupModal';
 export default function Chefs() {
+	const [modalConfirm, setModalConfirm] = useState(false);
+	const modalConfirmOpen = () => {
+        setModalConfirm(true);
+    }
+    const modalConfirmClose = () => {
+        setModalConfirm(false);
+    }
     return (
         <>
 			<div className="table-part">
 				<h2>Chefs</h2>
 				<button className="table-btn">Total</button>
+				<button onClick={modalConfirmOpen}>Popup</button>
 				<div className="table-box">
 					<table className="table table-borderless">
 						<thead>
@@ -200,6 +209,9 @@ export default function Chefs() {
 					</table>
 				</div>
 			</div>
+			<PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
+				
+			</PopupModal>
         </>
     )
 }
