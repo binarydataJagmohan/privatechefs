@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import FrontendLayout from '../components/frontend/layouts/layout';
 import AdminLayout from '../components/admin/layouts/layout';
 import ChefLayout from '../components/chef/layouts/layout';
+import ConciergeLayout from '../components/concierge/layouts/layout';
 import { useRouter } from "next/router";
 import Head from 'next/head';
 
@@ -32,6 +33,19 @@ export default function App({ Component, pageProps }: AppProps) {
         <ChefLayout>
           <Component {...pageProps} />
         </ChefLayout>
+      </>
+    )
+  } else if (router.pathname.startsWith("/concierge")) {
+    return(
+      <>
+        <Head>
+          <title>Concierge Dashboard</title>  
+          <meta charSet="utf-8"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>       
+        </Head>
+        <ConciergeLayout>
+          <Component {...pageProps} />
+        </ConciergeLayout>
       </>
     )
   } else {

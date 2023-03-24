@@ -13,8 +13,10 @@ export default function Bookings() {
 			<div className="table-part">
 				<h2>Bookings</h2>
                 <ul className="table_header_button_section">
-                    <li><button className="table-btn">Total</button></li>
-				    <li><button className="table-btn" onClick={modalConfirmOpen}>Popup</button></li>
+                    <li><button className="table-btn active">Total</button></li>
+				    <li><button className="table-btn btn-2">Upcoming</button></li>
+                    <li><button className="table-btn btn-2">Cancelled</button></li>
+                    <li><button className="table-btn btn-2" onClick={modalConfirmOpen}>Completed</button></li>
                 </ul>
 				<div className="table-box">
 					<table className="table table-borderless">

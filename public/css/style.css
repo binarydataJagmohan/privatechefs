@@ -1346,3 +1346,9 @@ ul#pills-tab .nav-link {
 
 
 }
+.popup_logo_section{
+  text-align: center;
+}
+.popup_logo_section img{
+  width: 154px;
+}

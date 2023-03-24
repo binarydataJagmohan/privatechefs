@@ -1,8 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import dynamic from 'next/dynamic'
 import { useRouter } from "next/router";
+import PopupModal from '../../../components/commoncomponents/PopupModal';
 
 export default function Header() {
+    const [modalConfirm, setModalConfirm] = useState(false);
+	const modalConfirmOpen = () => {
+        setModalConfirm(true);
+    }
+    const modalConfirmClose = () => {
+        setModalConfirm(false);
+    }
     return (
         <>
             <header className="header-part">
@@ -26,14 +34,36 @@ export default function Header() {
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">Our Chefs</a>
                                 </li>  
-                                <li className="user">
+                                {/*<li className="user">
                                     <a className="nav-link" href="#"><img src="images/user.png" alt="user" className="user-header"/></a>
-                                </li> 
+                                </li>*/} 
+                                <li className="user">
+                                    <a className="nav-link" href="#" onClick={modalConfirmOpen}>SignIn/SignUp</a>
+                                </li>
                             </ul> 
                         </div> 
                     </nav>
                 </div>
             </header>
+            {/*<PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
+                <div className="popup_logo_section"><img src="images/logo.png" alt="logo"/></div>
+                <div className="row">
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input className="form-control" type="email" name="email" id="email" placeholder="Enter email" aria-describedby="emailHelp"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="exampleCheck1">Forgot Password?</label>
+                        </div>
+                        <button type="button" className="btn btn-primary">Continue</button>
+                    </form>
+                </div>
+			</PopupModal>*/}
         </>
   )
 }
