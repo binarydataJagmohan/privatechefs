@@ -40,12 +40,16 @@
  
 --font_size: 14px;
 --font_wt: 400;
+--font_size_2:20px;
 --font_wt_b: 500;
 --font_size_line_height: 21px;
 --font_name: 18px;
 --font_wt_name:600;
 --color_name: #454545;
 --line_height_name: 27px;
+
+
+
 
 --font_sab_dis: 12px;
 --font_sab_dis_line_height:18px;
@@ -380,7 +384,7 @@ a.list-group-item.active span.menu-collapsed {
 
 span.icon-dash {
   color: #8C8C8C;
-  font-size: 20px;
+  font-size: var(--font_size_2);
   margin-bottom: -5px;
 }
 
@@ -612,7 +616,7 @@ table tr:hover {
 
 @media (max-width:981px) {
 .table-part h2 {
-    font-size: 20px;
+    font-size: var(--font_size_2);
     line-height: 30px;
 }
 table  th { 
@@ -721,10 +725,7 @@ section{  padding: var(--section_padding);}
 
 .services-part h2 {
   font-weight: var(--font_wt_name);
-  font-size: var(--font_h2);
-    --font_h2_line_height:54px;
-    --font_h2_line_height:54px;
-    --font_h2_line_height:54px;
+  font-size: var(--font_h2); 
   line-height: var( --font_h2_line_height);
   text-align: center;
   color: var( --color_1);
@@ -885,11 +886,7 @@ color: var(--color_5);
   padding-left: 15%;
   padding-right: 15%;
 }
-
-
-
-
-
+ 
 @media (max-width:1150px) { 
   .home-page-banner-text {
     position: unset;
@@ -1011,7 +1008,7 @@ img.banner-left {
 }
 .goldan-text-20 {
   font-weight: 500;
-  font-size: 20px;
+  font-size: var(--font_size_2);
   line-height: 30px;
   color:var(--color_1);
 }
@@ -1075,15 +1072,150 @@ ul#pills-tab .nav-link:hover {
   line-height: var(--font_h4);
   color: var(--color_1);
 }
+.font-sb-title-up {
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_size_2);
+  line-height: 30px;
+  text-align: center;
+  color: var(--color_5);
+}
+
  .table_header_button_section li {
     display: inline-block;
     margin-right: 7px;
 }
+h2.font-black {
+  color: var(--color_5);
+}
+.small-title {
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_size_2);
+  line-height: 30px;
+  color: var(--color_5);
+}
+.italic-title {
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_h3);
+  line-height: var(--font_menu_left_line_height);
+  color: var(--color_1);
+  font-style: italic;
+  padding-left: 35px;
+  margin: 26px 0;
+}
+.messages-text {
+  width: 95%;
+  position: relative;
+  left: 5%;
+}
+.chef-img { 
+  border-radius: 200px;
+}
+.sab-title-banner {
+  font-weight: var(--font_wt_name);
+  font-size: var(--font_h2);
+  line-height: var( --font_h2_line_height);
+}  
+.text-left h2 {
+  text-align: left !important;
+}
 
+/* contact css */
+.all-form label {
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_title);
+  line-height: var(--font_menu_line_height);
+  color: var(--color_1) !important;
+  width: 100%;
+  margin-bottom: 6px;
+}
+.all-form h2 {
+  font-weight: var(--font_wt_name);
+  font-size: var(--font_h2);
+  line-height: var(--font_h2_line_height);
+  color: var(--color_5);
+}
+.text-right {
+  text-align: right;
+}
+.all-form{
+  padding: 15px;
+}
+.all-form input {
+  border-radius: 6px;
+  border: none;
+  font-weight: var(--input_font_weight);
+  font-size: var(--input_size);
+  color: var(--color_2) !important; 
+  outline: none;
+  background: var(--background-color_4);
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+textarea {
+  border-radius: 6px;
+  border: none;
+  font-weight: var(--input_font_weight);
+  font-size: var(--input_size);
+  color: var(--color_2) !important;
+  outline: none;
+  background: var(--background-color_4);
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 126px;
+}
+.btn-send {
+  background: var(--color_1);
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_size);
+  line-height: 24px;
+  color: var(--background-color_3);
+  border: none;
+}
+.btn-2 {
+  background: rgba(186, 134, 57, 0.1) !important;
+  color: var(--color_1);
+}
 
-
-
-
+.accordion-button.collapsed {
+  font-weight: 600 !important;
+  font-size: 16px;
+  line-height: 24px;
+  color: #333333 !important;
+}
+.accordion-button {
+  color: var(--color_1) !important;
+  font-weight: 600 !important;
+  padding-bottom: 0;
+}
+.accordion-body {
+  font-weight: var(--font_weight);
+  font-size: var(--font_sab_dis);
+  line-height: var(--font_sab_dis_line_height);
+  color: var(--color_5);
+}
+.accordion-item {
+  background: var(--background-color_3);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  margin-bottom: 13px;
+  padding: 0 0 10px 0;
+}
+.accordion-button:not(.collapsed) { 
+  background-color: unset;
+  box-shadow: unset;
+}
+.accordion-button::after {
+  background-image: var(--background-color_3) !important;
+}
+.accordion-button:focus{
+   
+    box-shadow: unset;
+ 
+}
 
 @media (min-width: 1200px){
 .container  {
@@ -1091,8 +1223,7 @@ ul#pills-tab .nav-link:hover {
 }
 
 }
-
-
+ 
 @media (min-width: 1500px){
   .margin-sp {
     margin-top: 14% !important;
@@ -1134,9 +1265,12 @@ ul#pills-tab .nav-link {
 ul#pills-tab li.nav-item {
   border-bottom: unset;
 }
-
-
-
+.chef-img {
+  width: 90px; 
+}
+.sab-title-banner {
+  font-size: var(--Res_mobile_banner-title);
+}
 }
 
 @media (max-width: 991px){
@@ -1161,10 +1295,23 @@ ul#pills-tab li.nav-item {
 ul#pills-tab .nav-link {
   margin-bottom: 15px;
 }
-
+.services-part h2 br {
+  display: none;
+}
+.messages-text {
+  width: 100%; 
+  left: 0;
+}
+.italic-title {
+  font-size: var(--font_h4);
+}
+.small-title {
+  font-size: var(--font_size);
 }
 
 
+}
+ 
 @media (max-width: 767px){
 .mobile-left {
   text-align: left;
@@ -1177,6 +1324,16 @@ ul#pills-tab .nav-link {
 }
 .mobile-p-0{
   padding-top:0 !important;
+}
+.italic-title { 
+  padding-left: 12px;
+  margin: 8px 0;
+}
+h2.font-black{
+  font-size: var(--font_size_2);
+}
+button.table-btn {
+  font-size: var(--font_table_data);
 }
 
 }
