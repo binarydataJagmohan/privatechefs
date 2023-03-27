@@ -45,9 +45,27 @@ export default function Header() {
                     </nav>
                 </div>
             </header>
-            {/*<PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
-                <div className="popup_logo_section"><img src="images/logo.png" alt="logo"/></div>
-                <div className="row">
+            <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
+                <div className="text-center popup-img">
+                    <img src="images/logo.png" alt="logo" />
+                </div>
+                <div className="all-form"> 
+                    <label>Email</label>
+                    <input type="text" placeholder="Email" />
+                    <label>Password</label>
+                    <input type="password" placeholder="........." /> 
+                    <p className="text-link text-left"><a href="#">Forgot password?</a></p>
+                    <div className="text-right mt-2">
+                    <button className="btn-send w-100">Continue</button>
+                    </div>
+                    <p className="text-link text-left my-2"><a href="#">Don’t have an account? <span>Sign up</span></a></p>
+
+                    <div className="or"><p>OR</p></div>
+                    <button className="btn-g"><img src="images/g-logo.png" alt="g-logo"/> Continue with Google</button>
+                    <button className="btn-g"><img src="images/a-logo.jpg" alt="a-logo"/> Continue with Apple</button>
+                    <button className="btn-g"><img src="images/f-logo.png" alt="f-logo"/> Continue with Facebook</button>
+                </div>
+                {/*<div className="row">
                     <form>
                         <div class="form-group">
                             <label for="email">Email address</label>
@@ -62,8 +80,8 @@ export default function Header() {
                         </div>
                         <button type="button" className="btn btn-primary">Continue</button>
                     </form>
-                </div>
-			</PopupModal>*/}
+                            </div>*/}
+			</PopupModal>
         </>
   )
 }
