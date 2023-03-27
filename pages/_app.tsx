@@ -4,6 +4,7 @@ import FrontendLayout from '../components/frontend/layouts/layout';
 import AdminLayout from '../components/admin/layouts/layout';
 import ChefLayout from '../components/chef/layouts/layout';
 import ConciergeLayout from '../components/concierge/layouts/layout';
+import BookingLayout from '../components/frontend/layouts/layout';
 import { useRouter } from "next/router";
 import Head from 'next/head';
 
@@ -46,6 +47,19 @@ export default function App({ Component, pageProps }: AppProps) {
         <ConciergeLayout>
           <Component {...pageProps} />
         </ConciergeLayout>
+      </>
+    )
+  } else if (router.pathname.startsWith("/bookings")) {
+    return(
+      <>
+        <Head>
+          <title>Bookings</title>  
+          <meta charSet="utf-8"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1"/>       
+        </Head>
+        <BookingLayout>
+          <Component {...pageProps} />
+        </BookingLayout>
       </>
     )
   } else {

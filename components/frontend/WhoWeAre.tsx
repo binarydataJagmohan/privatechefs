@@ -30,13 +30,13 @@ export default function WhoWeAre() {
                 <div className="container"> 
                     <div className="row">
                         <div className="col-sm-6">
-                          <div className="text-same-formatting top-pad text-right mt-5 mobile-left tab-m-0">
-                               <h2>Catering</h2> 
-                               <p className="mt-3 mb-3 max-80 tab-m-0 f-r">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>                               
+                          <div className="text-same-formatting top-pad text-right mt-5 mobile-left tab-m-0 left-areya">
+                               <h2>Mission</h2> 
+                               <p className="mt-3 mb-3 max-80 tab-m-0 f-r ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>                               
                             </div>
                            <div className="text-same-formatting  max-80 mt-5 mobile-left ">
-                                 <div className="text-left max-80 f-r">
-                                    <h2 className="mt-5 tab-m-0 ">Business Events</h2> 
+                                 <div className="text-left max-80  f-r">
+                                    <h2 className="mt-5 tab-m-0 ">Visions</h2> 
                                     <p className=" mb-3 tab-m-0 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p> 
                                  </div>  
                             </div>                          

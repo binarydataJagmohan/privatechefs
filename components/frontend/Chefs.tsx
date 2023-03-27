@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react'
-export default function Chefs() {
+export default function  Chefs() {
     return(
         <>
             <section className="banner-part p-0">

@@ -7,7 +7,7 @@ import FrontendChefs from '../components/frontend/Chefs';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Chefs() {
+export default function FrontChefs() {
   return (
     <>
       <FrontendChefs/>
