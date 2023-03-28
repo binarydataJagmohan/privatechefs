@@ -2050,6 +2050,23 @@ table input.placeholder-goldan-text {
   padding: 9px 3px;
 }
 
+.pages-banner h1 {
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_h1);
+  line-height: var(--font_h1_line_height);
+  color: var(--color_1); 
+}
+.pages-banner p {
+  font-weight: var(--font_weight);
+  font-size: var(--font_title);
+  line-height: var(--font_menu_line_height);
+  color: var(--color_5);
+}
+
+
+ 
+
+
 @media (max-width:767px){  
 .pop-btn { 
   margin-top: 0;
