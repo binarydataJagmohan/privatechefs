@@ -1945,3 +1945,118 @@ input{outline: none;}
   color: var(--color_5);
 }
 
+/*  */
+.modal.modal-part.d-block {
+  background: #0000003b;
+}
+.modal-dialog {
+  max-width: 690px; 
+}
+.modal-header {
+  border-bottom: 0;
+}
+.title-pop {
+  font-weight: 700;
+  font-size: var(--font_h3);
+  line-height: var(--font_h3_line_height);
+  color: var(--color_5);
+}
+.up-move {
+  margin-top: -35px;
+}
+.new-modala input {
+  font-size: var(--font_title);
+}
+.placeholder-goldan-text::placeholder{
+  color:var(--color_6);
+}
+.pop-btn {
+  font-weight: var(--font_weight);
+  font-size: var(--font_title);
+  line-height: var(--font_size_line_height);
+  color: var(--color_1);
+  padding: 10px 16px;
+  background: rgba(186, 134, 57, 0.1);
+  border-radius: 68px;
+  border: none;
+  margin-top: 40px;
+}
+.f-10 {
+  font-weight: var(--font_wt);
+  font-size: var(--font_h6);
+  line-height: var(--font_h4);
+  color: var(--color_5);
+  text-align: left !important;
+}
+.pop-border-box {
+  background: var(--background-color_3);
+  border: 1px solid #DDDDDD;
+  border-radius: 20px;
+  margin-top: 2%;
+  padding: 2%;
+}
+.pop-border-box .accordion-item {
+  box-shadow: unset;
+  border: none;
+} 
+.pop-border-box .faq-part .accordion-button::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+.banner-text p {
+  font-weight: var(--font_weight);
+  font-size: var(--font_title);
+  line-height: var(--font_menu_line_height);
+  color: var(--color_5);
+}
+.add-plus {
+  font-weight: var(--font_weight);
+  font-size: var(--font_title);
+  line-height: var(--font_menu_line_height);
+  color: var(--color_1);
+}
+.add-plus:hover {
+  color: var(--color_6);
+}
+.popup-align-left {
+  justify-content: left !important;
+}
+.popup-align-left {
+  position: relative;
+}
+li.add-plus-li {
+  position: absolute;
+  bottom: 11px;
+  right: 20px;
+}
+.width-100 {
+  width: 100%;
+}
+table input.placeholder-goldan-text {
+  border-radius: 6px;
+  border: none;
+  font-weight: var(--font_weight);
+  font-size: var(--font_size);
+  color: var(--color_6) !important;
+  outline: none;
+  background: var(--background-color_4);
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.icon-des i {
+  font-size: var(--font_title);
+  line-height: var(--font_menu_line_height);
+  color: var(--color_1);
+  padding: 9px 3px;
+}
+
+@media (max-width:767px){  
+.pop-btn { 
+  margin-top: 0;
+  width: 100%;
+}
+li.add-plus-li { 
+  bottom: 25px; 
+}
+
+}
