@@ -141,6 +141,7 @@
 --Res_line_height:13px;
 --Res_font_user:12px;
 --Res_line_height_table:20px;
+ 
 
 
 }
@@ -1904,3 +1905,43 @@ input{outline: none;}
 
 
 }
+
+/* Start......28-03-2023 */
+.title-18 {
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_name);
+  line-height: var(--line_height_name);
+  color: var(--color_1);
+}
+.input-big input {
+  height: 57px;
+  font-size: var(--font_name);
+}
+.select-op {
+  padding: 10px 14px;
+  background: var(--background-color_3);
+  border-radius: 6px;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  outline: none;
+  font-weight: var(--font_wt_b);
+  font-size: var(--font_size);
+  line-height: var(--font_size_line_height);
+  color: var(--color_1);
+}
+
+.conglatulations-part h3 {
+  font-weight: var(--font_wt_name);
+  font-size: 32px;
+  line-height: 48px;
+  color: var(--color_1);
+}
+.conglatulations-part p {
+  font-weight: var(--font_weight);
+  font-size: var(--font_title);
+  line-height: var(--font_menu_line_height);
+  text-align: center;
+  color: var(--color_5);
+}
+
