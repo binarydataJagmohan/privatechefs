@@ -6,7 +6,7 @@ export default function WhoWeAre() {
                 <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-6">
-                    <img src="images/banner-4.jpg" alt="banner-4" className="w-100 border-0 banner-left"/>
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-4.jpg'} alt="banner-4" className="w-100 border-0 banner-left"/>
                     </div>
                     <div className="col-sm-6">
                     <div className="banner-text pages-text">
@@ -43,7 +43,7 @@ export default function WhoWeAre() {
                         </div>
                         <div className="col-sm-6">
                             <div className="side-img">
-                             <img src="images/side-2.jpg" alt="side-2"/>
+                             <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/side-2.jpg'} alt="side-2"/>
                             </div>
                         </div>
                     </div>

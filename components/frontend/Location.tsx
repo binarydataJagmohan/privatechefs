@@ -6,7 +6,7 @@ export default function Location() {
                 <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-6">
-                    <img src="images/banner-2.jpg" alt="banner-2" className="w-100 border-0 banner-left"/>
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-2.jpg'} alt="banner-2" className="w-100 border-0 banner-left"/>
                     </div>
                     <div className="col-sm-6">
                     <div className="banner-text pages-text">
@@ -67,37 +67,37 @@ export default function Location() {
                     <div className="row">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/2.jpg" alt="2"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/3.jpg" alt="3"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/2.jpg" alt="2"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/3.jpg" alt="3"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/2.jpg" alt="2"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/3.jpg" alt="3"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
@@ -113,7 +113,7 @@ export default function Location() {
                     <div className="row mt-5">
                       <div className="col-lg-4 col-md-6">
                          <div className="step-box text-center customers-review ">
-                         <img src="images/1.png" alt="1" />
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/1.png'} alt="1" />
                           <h4>Cody Fisher</h4>
                               <p className="star-review">
                                 <i className="fa-solid fa-star"></i>
@@ -127,7 +127,7 @@ export default function Location() {
                         </div>
                         <div className="col-lg-4 col-md-6">
                          <div className="step-box text-center customers-review ">
-                         <img src="images/2.png" alt="2" />
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.png'} alt="2" />
                           <h4>Bessie Cooper</h4>
                               <p className="star-review">
                                 <i className="fa-solid fa-star"></i>
@@ -141,7 +141,7 @@ export default function Location() {
                         </div>
                         <div className="col-lg-4 col-md-6">
                          <div className="step-box text-center customers-review ">
-                         <img src="images/3.png" alt="3" />
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.png'} alt="3" />
                           <h4>Eleanor Pena</h4>
                               <p className="star-review">
                                 <i className="fa-solid fa-star"></i>
@@ -166,37 +166,37 @@ export default function Location() {
                     <div className="row">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-1.webp" alt="slider-1"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-1.webp'} alt="slider-1"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-2.webp" alt="slider-2"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-3.webp" alt="slider-3"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-3.webp'} alt="slider-3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-4.webp" alt="slider-4"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-2.webp" alt="slider-2"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-4.webp" alt="slider-4"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>

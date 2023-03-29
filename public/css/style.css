@@ -2049,7 +2049,6 @@ table input.placeholder-goldan-text {
   color: var(--color_1);
   padding: 9px 3px;
 }
-
 .pages-banner h1 {
   font-weight: var(--font_wt_b);
   font-size: var(--font_h1);
@@ -2062,11 +2061,6 @@ table input.placeholder-goldan-text {
   line-height: var(--font_menu_line_height);
   color: var(--color_5);
 }
-
-
- 
-
-
 @media (max-width:767px){  
 .pop-btn { 
   margin-top: 0;
@@ -2076,4 +2070,14 @@ li.add-plus-li {
   bottom: 25px; 
 }
 
+}
+.temprary_login_btn {
+  display: block;
+  text-align: center;
+}
+.temprary_login_btn:hover {
+  color: var(--color_4);
+}
+.modal.modal-part.d-block {
+  background: #00000070;
 }

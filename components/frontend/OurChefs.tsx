@@ -6,7 +6,7 @@ export default function OurChefs() {
                 <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-6">
-                    <img src="images/banner-4.jpg" alt="banner-4" className="w-100 border-0 banner-left"/>
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-4.jpg'} alt="banner-4" className="w-100 border-0 banner-left"/>
                     </div>
                     <div className="col-sm-6">
                     <div className="banner-text pages-text">
@@ -28,37 +28,37 @@ export default function OurChefs() {
                     <div className="row">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/2.jpg" alt="2"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/3.jpg" alt="3"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/2.jpg" alt="2"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/3.jpg" alt="3"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/2.jpg" alt="2"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/3.jpg" alt="3"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
@@ -106,37 +106,37 @@ export default function OurChefs() {
                                 <div className="row mt-4">
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase">
-                                        <img src="images/28.jpg" alt="22"/>
+                                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/28.jpg'} alt="22"/>
                                         <p className="plase-btn"><a href="#">Name</a></p>
                                     </div> 
                                 </div>
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase">
-                                        <img src="images/23.jpg" alt="23"/>
+                                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/23.jpg'} alt="23"/>
                                         <p className="plase-btn"><a href="#">Name</a></p>
                                     </div> 
                                 </div>
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase">
-                                    <img src="images/24.jpg" alt="24"/>
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/24.jpg'} alt="24"/>
                                         <p className="plase-btn"><a href="#">Name</a></p>
                                     </div> 
                                 </div>
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase">
-                                    <img src="images/25.jpg" alt="25"/>
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/25.jpg'} alt="25"/>
                                         <p className="plase-btn"><a href="#">Name</a></p>
                                     </div> 
                                 </div>
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase">
-                                    <img src="images/26.jpg" alt="26"/>
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/26.jpg'} alt="26"/>
                                         <p className="plase-btn"><a href="#">Name</a></p>
                                     </div> 
                                 </div>
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase">
-                                    <img src="images/27.jpg" alt="3"/>
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/27.jpg'} alt="3"/>
                                         <p className="plase-btn"><a href="#">Name</a></p>
                                     </div> 
                                 </div>
@@ -180,37 +180,37 @@ export default function OurChefs() {
                 <div className="row">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/28.jpg" alt="22"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/28.jpg'} alt="22"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/23.jpg" alt="23"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/23.jpg'} alt="23"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/24.jpg" alt="24"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/24.jpg'} alt="24"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/25.jpg" alt="25"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/25.jpg'} alt="25"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/26.jpg" alt="26"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/26.jpg'} alt="26"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/27.jpg" alt="3"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/27.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
@@ -219,37 +219,37 @@ export default function OurChefs() {
                     <div className="row mt-3">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/28.jpg" alt="22"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/28.jpg'} alt="22"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/23.jpg" alt="23"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/23.jpg'} alt="23"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/24.jpg" alt="24"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/24.jpg'} alt="24"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/25.jpg" alt="25"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/25.jpg'} alt="25"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/26.jpg" alt="26"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/26.jpg'} alt="26"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                            <img src="images/27.jpg" alt="3"/>
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/27.jpg'} alt="3"/>
                                 <p className="plase-btn"><a href="#">Name</a></p>
                             </div> 
                         </div>

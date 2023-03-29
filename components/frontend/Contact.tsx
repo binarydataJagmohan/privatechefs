@@ -6,7 +6,7 @@ export default function Contact() {
                 <div className="container">
                 <div className="row">
                     <div className="col-lg-8 col-md-12">
-                    <img src="images/banner-6.jpg" alt="banner-6" className="w-100 border-0 "/>
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-6.jpg'} alt="banner-6" className="w-100 border-0 "/>
                     </div>
                     <div className="col-lg-4 col-md-12">
                     <div className="all-form">
@@ -28,7 +28,7 @@ export default function Contact() {
                 </div>
             </section>
 
-            <section className="faq-part">
+            <section className="faq-part" id="faq">
               <div className="container">
                 <h3>Frequently Asked Questions (FAQ)</h3>
                     <ul className="table_header_button_section mt-3">
@@ -136,14 +136,8 @@ export default function Contact() {
                             
                         </div>
                     </div>
-
               </div>
             </section>
-
-            
-           
- 
-
         </>
     )
 }

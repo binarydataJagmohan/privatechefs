@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
-const PopupModal = ({ handleClose, show, children }) => {
+const PopupModal = ({ handleClose, show, children }: any) => {
   const showHideClassName = show ? "modal modal-part  d-block" : "modal modal-part d-none";
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = ({event}: any) => {
       if (event.target.className === "modal modal-part d-block") {
         handleClose();
       }

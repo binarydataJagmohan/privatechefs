@@ -11,12 +11,12 @@ export default function Footer() {
                             <input type="text" placeholder="Enter your email"/>
                         </form>
                         <ul className="ft-nav mt-3"> 
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Who we are</a></li>
-                            <li><a href="#">Our Chefs</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="/contact/#faq">FAQ</a></li>
+                            <li><a href="/contact">Contact Us</a></li>
+                            <li><a href="/whoweare">Who we are</a></li>
+                            <li><a href="/ourchefs">Our Chefs</a></li>
+                            <li><a href="/privacypolicy">Privacy Policy</a></li>
+                            <li><a href="/termsconditions">Terms & Conditions</a></li>
                         </ul>
                         <ul className="ft-social mt-3"> 
                             <li><a href="#"><i className="fa-brands fa-facebook"></i></a></li>

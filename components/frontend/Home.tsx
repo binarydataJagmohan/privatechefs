@@ -6,12 +6,12 @@ export default function Home() {
                 <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-8">
-                    <img src="images/banner.webp" alt="banner"/>
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner.webp'} alt="banner"/>
                     </div>
                     <div className="col-sm-4">
                     <div className="banner-text home-page-banner-text">
                     <h1>Creating memories with food</h1>
-                    <div className="banner-btn"><a href="#">Start your journey</a></div>
+                    <div className="banner-btn"><a href="/startjourney">Start your journey</a></div>
                     </div>
                     </div>
                 </div>    
@@ -26,37 +26,37 @@ export default function Home() {
                     <div className="row">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-1.webp" alt="slider-1"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-1.webp'} alt="slider-1"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-2.webp" alt="slider-2"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-3.webp" alt="slider-3"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-3.webp'} alt="slider-3"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-4.webp" alt="slider-4"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-2.webp" alt="slider-2"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/slider-4.webp" alt="slider-4"/>
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
                                 <p className="plase-btn"><a href="#">Greece</a></p>
                             </div> 
                         </div>
@@ -73,28 +73,28 @@ export default function Home() {
                     <div className="row mt-5">
                     <div className="col-lg-3 col-md-6">
                         <div className="card-box">
-                        <img src="images/11.webp" alt="11" />
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/11.webp'} alt="11" />
                         <h3>Chefs</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-6">
                         <div className="card-box">
-                        <img src="images/12.webp" alt="11" />
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/12.webp'} alt="11" />
                         <h3>Butlers</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-6">
                         <div className="card-box">
-                        <img src="images/13.webp" alt="11" />
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/13.webp'} alt="11" />
                         <h3>Bartenders</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-6">
                         <div className="card-box">
-                        <img src="images/14.webp" alt="11" />
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/14.webp'} alt="11" />
                         <h3>Massage</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                         </div>
@@ -109,13 +109,13 @@ export default function Home() {
             <div className="container">
                 <div className="row">
                 <div className="col-lg-6 col-md-12">
-                    <img src="images/7.webp" alt="7" className="border-radius" />
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/7.webp'} alt="7" className="border-radius" />
                 </div>
                 <div className="col-lg-6 col-md-12">
                     <div className="contant-box mt-5">
                     <h2>Design your next experience</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nec feugiat odio elit varius et feugiat in mattis. Convallis pellentesque suspendisse adipiscing lectus ultrices tristique eget. Dignissim elit in habitasse urna. Euismod commodo eget quis arcu neque. Suspendisse scelerisque vitae fringilla felis, a in. Nec facilisis rhoncus sit interdum amet massa eu erat in. Cursus sapien nulla tellus eu tellus quis ante a id. Nisi, sodales velit in malesuada porttitor in aliquet elit tellus. Arcu penatibus ornare id tortor, leo nulla aenean. Fusce.</p>
-                    <div className="banner-btn"><a href="#">Start your journey</a></div>
+                    <div className="banner-btn"><a href="/startjourney">Start your journey</a></div>
                     </div>
                 </div>
                 </div>
@@ -174,32 +174,32 @@ export default function Home() {
                     <div className="row mt-5">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-1.webp" alt="f-1"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-2.webp" alt="f-2"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-2.webp'} alt="f-2"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-3.webp" alt="f-3"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-3.webp'} alt="f-3"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-4.webp" alt="f-4"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-4.webp'} alt="f-4"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-5.webp" alt="f-5"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-5.webp'} alt="f-5"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-1.webp" alt="f-1"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
                             </div> 
                         </div>
                     </div>  

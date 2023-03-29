@@ -10,7 +10,7 @@ export default function  Chefs() {
                     </div>
                     <div className="col-sm-6">
                     <div className="banner-text pages-text  margin-sp">
-                    <img src="images/chef.png" alt="chef" className="chef-img" />
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chef.png'} alt="chef" className="chef-img" />
                     <h1>Athens, Greece</h1>
                         <p className="star-review">
                         <i className="fa-solid fa-star"></i>
@@ -100,32 +100,32 @@ export default function  Chefs() {
                     <div className="row mt-5 mobile-m-0">
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-1.webp" alt="f-1"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-2.webp" alt="f-2"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-2.webp'} alt="f-2"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-3.webp" alt="f-3"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-3.webp'} alt="f-3"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-4.webp" alt="f-4"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-4.webp'} alt="f-4"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-5.webp" alt="f-5"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-5.webp'} alt="f-5"/> 
                             </div> 
                         </div>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
-                                <img src="images/f-1.webp" alt="f-1"/> 
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
                             </div> 
                         </div>
                     </div>  
@@ -139,7 +139,7 @@ export default function  Chefs() {
                     <div className="row mt-5">
                       <div className="col-lg-4 col-md-6">
                          <div className="step-box text-center customers-review ">
-                         <img src="images/1.png" alt="1" />
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/1.png'} alt="1" />
                           <h4>Cody Fisher</h4>
                               <p className="star-review">
                                 <i className="fa-solid fa-star"></i>
@@ -153,7 +153,7 @@ export default function  Chefs() {
                         </div>
                         <div className="col-lg-4 col-md-6">
                          <div className="step-box text-center customers-review ">
-                         <img src="images/2.png" alt="2" />
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.png'} alt="2" />
                           <h4>Bessie Cooper</h4>
                               <p className="star-review">
                                 <i className="fa-solid fa-star"></i>
@@ -167,7 +167,7 @@ export default function  Chefs() {
                         </div>
                         <div className="col-lg-4 col-md-6">
                          <div className="step-box text-center customers-review ">
-                         <img src="images/3.png" alt="3" />
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.png'} alt="3" />
                           <h4>Eleanor Pena</h4>
                               <p className="star-review">
                                 <i className="fa-solid fa-star"></i>
@@ -182,13 +182,6 @@ export default function  Chefs() {
                       </div>                   
                 </div>
             </section>
-  
-
-            
-
-           
- 
-
         </>
     )
 }

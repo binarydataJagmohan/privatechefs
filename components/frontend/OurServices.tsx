@@ -6,7 +6,7 @@ export default function OurServices() {
                 <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-6">
-                    <img src="images/banner-3.jpg" alt="banner-3" className="w-100 border-0 banner-left"/>
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-3.jpg'} alt="banner-3" className="w-100 border-0 banner-left"/>
                     </div>
                     <div className="col-sm-6">
                     <div className="banner-text pages-text">
@@ -83,7 +83,7 @@ export default function OurServices() {
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="side-img">
-                             <img src="images/side-1.jpg" alt="side-1" className="side-1"/>
+                             <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/side-1.jpg'} alt="side-1" className="side-1"/>
                             </div>
                         </div>
                         <div className="col-sm-6">
@@ -105,7 +105,7 @@ export default function OurServices() {
                         </div>
                         <div className="col-sm-6">
                             <div className="side-img">
-                             <img src="images/side-2.jpg" alt="side-2" className="side-2"/>
+                             <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/side-2.jpg'} alt="side-2" className="side-2"/>
                             </div>
                         </div>
                     </div>
