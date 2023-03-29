@@ -53,8 +53,8 @@ export default function Step3() {
             </div>
             <div className="container-fluid mt-5">
             <div className="d-flx-step">
-            <div className="view-more  mt-4"><a href="#">Back</a></div>
-            <div className="view-more bg-golden mt-4"><a href="#">Next</a></div>    
+            <div className="view-more  mt-4"><a href="/bookings/step2">Back</a></div>
+            <div className="view-more bg-golden mt-4"><a href="/bookings/step4">Next</a></div>    
             </div> 
             <div className="rotate-box"> <h4 className="rotate-text">select type of meal</h4></div>
            </div>  

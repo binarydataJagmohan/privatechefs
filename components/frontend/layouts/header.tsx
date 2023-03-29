@@ -16,7 +16,7 @@ export default function Header() {
             <header className="header-part">
                 <div className="container-fluid">
                     <nav className="navbar navbar-expand-lg navbar-light bottom-border"> 
-                        <a className="navbar-brand header-logo" href="#" ><img src="images/logo.png" alt="logo"/></a>
+                        <a className="navbar-brand header-logo" href="/" ><img src="images/logo.png" alt="logo"/></a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                           <span className="navbar-toggler-icon"></span>
                         </button>
@@ -29,10 +29,10 @@ export default function Header() {
                                   <a className="nav-link" href="#">Start your journey</a>
                                 </li> 
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Who we are</a>
+                                    <a className="nav-link" href="/whoweare">Who we are</a>
                                 </li> 
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Our Chefs</a>
+                                    <a className="nav-link" href="/ourchefs">Our Chefs</a>
                                 </li>  
                                 {/*<li className="user">
                                     <a className="nav-link" href="#"><img src="images/user.png" alt="user" className="user-header"/></a>
@@ -59,28 +59,27 @@ export default function Header() {
                     <button className="btn-send w-100">Continue</button>
                     </div>
                     <p className="text-link text-left my-2"><a href="#">Don’t have an account? <span>Sign up</span></a></p>
-
+                    
                     <div className="or"><p>OR</p></div>
-                    <button className="btn-g"><img src="images/g-logo.png" alt="g-logo"/> Continue with Google</button>
-                    <button className="btn-g"><img src="images/a-logo.jpg" alt="a-logo"/> Continue with Apple</button>
-                    <button className="btn-g"><img src="images/f-logo.png" alt="f-logo"/> Continue with Facebook</button>
+                    <div className="mt-2">
+                        <a href="/admin/bookings" className="btn-send temprary_login_btn w-100">Login with Admin</a>
+                    </div>
+                    <div className="mt-2">
+                        <a href="/chef/bookings" className="btn-send temprary_login_btn w-100">Login with Chef</a>
+                    </div>
+                    <div className="mt-2">
+                        <a href="/concierge/bookings" className="btn-send temprary_login_btn w-100">Login with Concierge</a>
+                    </div>
+                    <div className="mt-2">
+                        <a href="/user/userprofile" className="btn-send temprary_login_btn w-100">Login with User</a>
+                    </div>
+                    <div className="mt-2">
+                        <a href="/bookings/step1" className="btn-send temprary_login_btn w-100">Bookings</a>
+                    </div>
+                    {/*<button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/g-logo.png'} alt="g-logo"/> Continue with Google</button>
+                    <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/a-logo.jpg'} alt="a-logo"/> Continue with Apple</button>
+                    <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-logo.png'} alt="f-logo"/> Continue with Facebook</button>*/}
                 </div>
-                {/*<div className="row">
-                    <form>
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input className="form-control" type="email" name="email" id="email" placeholder="Enter email" aria-describedby="emailHelp"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="exampleCheck1">Forgot Password?</label>
-                        </div>
-                        <button type="button" className="btn btn-primary">Continue</button>
-                    </form>
-                            </div>*/}
 			</PopupModal>
         </>
   )

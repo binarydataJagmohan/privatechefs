@@ -8,7 +8,7 @@ export default function Sidebar(): JSX.Element {
                 <div className="user-profile">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0"> 
-                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/user-menu.png'} alt="user-menu"/>
+                            <a href="/"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/user-menu.png'} alt="user-menu"/></a>
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">

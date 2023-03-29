@@ -9,19 +9,23 @@ export default function UserProfile() {
                   </div>
                 <div className="row">
                     <div className="col-lg-3 col-md-12">
-                        <div className="my-profile"> 
-                         <div className="profile-cols mt-5 active">
+                        <div className="my-profile">
+                          <div className="profile-cols mt-5 active">
                             <h4>Account Settings</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                         </div>
-                         <div className="profile-cols mt-4">
-                            <h4>My Bookings</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                         </div>
-                         <div className="profile-cols mt-4 mb-4">
-                            <h4>Preferences</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                         </div>
+                          </div>
+                          <a href="/user/userprofiletwo">
+                            <div className="profile-cols mt-4">
+                              <h4>My Bookings</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                          </a>
+                          <a href="/user/userprofilethree">
+                            <div className="profile-cols mt-4 mb-4">
+                              <h4>Preferences</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                          </a>
                         </div>
                      </div>
                     <div className="col-lg-6 col-md-12">
@@ -86,15 +90,13 @@ export default function UserProfile() {
                     </div>
                     <div className="col-lg-3 col-md-12">
                         <div className="user-img mt-5 ">
-                         <img src="images/user.png" alt="user" />
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/user.PNG'} alt="user" />
                          <label> <input type="file" /><i className="fa-solid fa-camera"></i></label>
                         </div> 
                     </div>
                 </div>    
                 </div>
             </section>
-
-             
         </>
     )
 }

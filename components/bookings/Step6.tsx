@@ -99,8 +99,8 @@ export default function Step6() {
             </div>
             <div className="container-fluid ">
             <div className="d-flx-step">
-            <div className="view-more  mt-4"><a href="#">Back</a></div>
-            <div className="view-more bg-golden mt-4"><a href="#">Next</a></div>    
+            <div className="view-more  mt-4"><a href="/bookings/step5">Back</a></div>
+            <div className="view-more bg-golden mt-4"><a href="/bookings/step7">Next</a></div>    
             </div>  
            </div>  
        </section>

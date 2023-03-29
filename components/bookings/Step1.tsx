@@ -46,7 +46,7 @@ export default function Step1() {
             <h4 className="rotate-text">selecy service type</h4>
             <div className="d-flx-step">
             <div className="view-more opec-v mt-4"><a href="#">Back</a></div>
-            <div className="view-more bg-golden mt-4"><a href="#">Next</a></div>    
+            <div className="view-more bg-golden mt-4"><a href="/bookings/step2">Next</a></div>    
             </div> 
            </div> 
        </section>

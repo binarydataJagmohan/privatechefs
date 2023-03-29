@@ -9,19 +9,23 @@ export default function UserProfileTwo() {
                   </div>
                 <div className="row">
                     <div className="col-lg-3 col-md-12">
-                        <div className="my-profile"> 
-                         <div className="profile-cols mt-5">
-                            <h4>Account Settings</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                         </div>
-                         <div className="profile-cols mt-4 active">
+                        <div className="my-profile">
+                          <a href="/user/userprofile">
+                            <div className="profile-cols mt-5">
+                              <h4>Account Settings</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                          </a>
+                          <div className="profile-cols mt-4 active">
                             <h4>My Bookings</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                         </div>
-                         <div className="profile-cols mt-4 mb-4">
-                            <h4>Preferences</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                         </div>
+                          </div>
+                          <a href="/user/userprofilethree">
+                            <div className="profile-cols mt-4 mb-4">
+                              <h4>Preferences</h4>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                          </a>
                         </div>
                      </div>
                     <div className="col-lg-9 col-md-12">
@@ -42,7 +46,7 @@ export default function UserProfileTwo() {
                                             </div>
                                             <div className="modal-body">
                                                <div className="text-center popup-img">
-                                                <img src="images/pop.jpg" alt="pop" />
+                                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/pop.jpg'} alt="pop" />
                                                </div>
                                                <p><b>Are you sure you want to cancel this booking?</b></p> 
                                                 <div className="text-right">
@@ -382,7 +386,7 @@ export default function UserProfileTwo() {
                                                         <p className="mony">1901 Thornridge Cir. Shiloh, Hawaii 81063</p>
                                                       </div> 
                                                     </div>
-                                                     <img src="images/map.png" alt="map"/>
+                                                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/map.png'} alt="map"/>
                                                 </div>
                                               </div>
                                             </div>
@@ -391,17 +395,13 @@ export default function UserProfileTwo() {
                                         </div>
                                         </div>
                                     </div> 
-
                             </div>
                           </div>
                         </div>
                     </div>
-                     
                 </div>    
                 </div>
             </section>
-
-             
         </>
     )
 }

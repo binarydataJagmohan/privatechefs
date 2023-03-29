@@ -13,7 +13,6 @@ export default function Chefs() {
 			<div className="table-part">
 				<h2>Chefs</h2>
 				<button className="table-btn">Total</button>
-				<button onClick={modalConfirmOpen}>Popup</button>
 				<div className="table-box">
 					<table className="table table-borderless">
 						<thead>
