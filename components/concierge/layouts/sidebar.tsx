@@ -54,6 +54,12 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Chefs</span> 
                         </div>
                     </a>
+                    <a href="/concierge/customers" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/customers' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  
+                            <span className="menu-collapsed">Customers</span> 
+                        </div>
+                    </a>
                     <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-spoon"></i></span>  

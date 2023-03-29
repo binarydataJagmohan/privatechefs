@@ -2150,6 +2150,15 @@ li.add-plus-li {
 .modal.modal-part.d-block {
   background: #00000070;
 }
+.slider-img-plase{
+  padding-right: 4%;
+}
+
+@media (max-width:767px){ 
+  .slider-img-plase{
+    padding-right: 0;
+  } 
+}
 .right-side {
   padding: 15px;
 }

@@ -1,5 +1,44 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState ,useEffect} from 'react';
+import Slider from "react-slick";
 export default function Home() {
+    const settings = {
+        rows: 1,
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        //slidesToScroll: 1,
+        centerMode: false,
+        variableWidth: true,
+        autoplay:true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    variableWidth: false,
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    variableWidth: false,
+                }
+            } 
+        ]
+    }
     return(
         <>
             <section className="banner-part">
@@ -24,42 +63,44 @@ export default function Home() {
                 </div>
                 <div className="container-fluid mt-5">
                     <div className="row">
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-1.webp'} alt="slider-1"/>
-                                <p className="plase-btn"><a href="#">Greece</a></p>
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
-                                <p className="plase-btn"><a href="#">Greece</a></p>
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-3.webp'} alt="slider-3"/>
-                                <p className="plase-btn"><a href="#">Greece</a></p>
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
-                                <p className="plase-btn"><a href="#">Greece</a></p>
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
-                                <p className="plase-btn"><a href="#">Greece</a></p>
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
-                                <p className="plase-btn"><a href="#">Greece</a></p>
-                            </div> 
-                        </div>
+                        <Slider {...settings}>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-1.webp'} alt="slider-1"/>
+                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
+                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-3.webp'} alt="slider-3"/>
+                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
+                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-2.webp'} alt="slider-2"/>
+                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/slider-4.webp'} alt="slider-4"/>
+                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                                </div> 
+                            </div>
+                        </Slider>
                     </div> 
                     <div className="text-center view-more mt-4"><a href="#">View More</a></div>
                 </div> 
@@ -172,36 +213,48 @@ export default function Home() {
                 <div className="container-fluid ">
                  <h2> Our photo album</h2>
                     <div className="row mt-5">
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-2.webp'} alt="f-2"/> 
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-3.webp'} alt="f-3"/> 
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-4.webp'} alt="f-4"/> 
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-5.webp'} alt="f-5"/> 
-                            </div> 
-                        </div>
-                        <div className="col-lg-2 col-md-6">
-                            <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
-                            </div> 
-                        </div>
+                        <Slider {...settings}>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-2.webp'} alt="f-2"/> 
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-3.webp'} alt="f-3"/> 
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-4.webp'} alt="f-4"/> 
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-5.webp'} alt="f-5"/> 
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-5.webp'} alt="f-5"/> 
+                                </div> 
+                            </div>
+                            <div className="col-lg-2 col-md-6">
+                                <div className="slider-img-plase">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-3.webp'} alt="f-3"/> 
+                                </div> 
+                            </div>
+                        </Slider>
                     </div>  
                 </div> 
             </section>
