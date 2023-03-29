@@ -199,7 +199,7 @@ export default function Dashboard() {
 							</div>
 						</div>
 						<div className="col-2">
-						 <a href="#"> <a href="#"><i className="fa-solid fa-ellipsis"></i></a></a>
+						 	<a href="#"><i className="fa-solid fa-ellipsis"></i></a>
 						</div>
 					  </div>
 
