@@ -45,7 +45,7 @@ export default function Header() {
                     </nav>
                 </div>
             </header>
-            <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
+            <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
                 <div className="text-center popup-img">
                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
                 </div>

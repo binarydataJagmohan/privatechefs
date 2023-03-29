@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 
-const PopupModal = ({ handleClose, show, children }: any) => {
-  const showHideClassName = show ? "modal modal-part  d-block" : "modal modal-part d-none";
+const PopupModal = ({ handleClose, show, children, staticClass }: any) => {
+  let showHideClassName = '';
+  if(staticClass == 'var-login'){
+    showHideClassName = show ? "modal modal-part var-login  d-block" : "modal modal-part d-none";
+  } else {
+    showHideClassName = show ? "modal modal-part  d-block" : "modal modal-part d-none";
+  }
 
   useEffect(() => {
-    const handleClickOutside = ({event}: any) => {
+    const handleClickOutside = (event: any) => {
       if (event.target.className === "modal modal-part d-block") {
         handleClose();
       }
