@@ -13,7 +13,7 @@ export default function Header(): JSX.Element {
                         </form>
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
-                        <p className="mb-0 comments-bell"><a href="#"><i className="fa-solid fa-comments"></i></a></p>
+                        <p className="mb-0 comments-bell"><a href="/admin/chats"><i className="fa-solid fa-comments"></i></a></p>
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
                         <p className="mb-0 comments-bell"><a href="#"><i className="fa-solid fa-bell"></i></a></p>

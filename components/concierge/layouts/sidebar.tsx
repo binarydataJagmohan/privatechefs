@@ -12,7 +12,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">
-                                <a href="/concierge/myprofile" className={router.pathname == '/concierge/myprofile' ? 'active' : ''}><h5>Name Surname</h5></a>
+                                <h5>Name Surname</h5>
                                 <p>Concierge</p>
                             </div>
                         </div>
