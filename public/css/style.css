@@ -2711,3 +2711,28 @@ li.right-li {
 }
 
 }
+.chats-circle {
+    color: #ba8639;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+
+/*  */
+
+.notification-box {
+  background: var(--background-color_3);
+  border: 1px solid #DDDDDD;
+  border-radius: 20px;
+  margin-top: 2%;
+  padding: 2%;
+}
+
+
+
+
+
+
+
+
