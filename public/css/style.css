@@ -2738,11 +2738,45 @@ li.right-li {
   margin-top: 2%;
   padding: 2%;
 }
+.circle {
+  width: 4%;
+}
+.text-noti {
+    width: 96%;
+} 
+.text-noti p {
+  font-weight: var(--font_weight);
+  font-size: var(--font_title);
+  line-height: var(--font_menu_line_height);
+  color: var(--color_5);
+}
+.notification-hover { 
+  padding: 6px 7px;
+  border-radius: 12px;
+  transition: 0.6s;
+}
+.notification-hover:hover {
+  box-shadow: 0px 3px 11px rgb(0 0 0 / 11%); 
+}
+.circle {
+  width: 38px;
+  background: var(--color_1);
+  border-radius: 100px;
+  height: 38px;
+  margin-right: 20px;
+  padding: 7px 0;
+  text-align: center;
+}
+.circle i {
+  font-size: var(--font_h4);
+  line-height: var(--font_menu_left_line_height);
+  color: var(--color_4);
+}
 
+@media (max-width:767px){ 
+.circle { 
+  height: 33px; 
+  padding: 3px 0; 
+}
 
-
-
-
-
-
-
+}
