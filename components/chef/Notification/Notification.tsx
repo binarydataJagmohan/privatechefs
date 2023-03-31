@@ -18,14 +18,14 @@ export default function Notification() {
 					</div>
 
 					<div className="notification-hover">
-					<div className="d-flex">
-						<div className="circle">
-						<i className="fa-solid fa-money-check-dollar"></i>
+						<div className="d-flex">
+							<div className="circle">
+								<i className="fa-solid fa-money-check-dollar"></i>
+							</div>
+							<div className="text-noti">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin.</p>
+							</div>
 						</div>
-						<div className="text-noti">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin.</p>
-						</div>
-					</div>
 					</div>
 
 					<div className="notification-hover">
