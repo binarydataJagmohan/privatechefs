@@ -1,5 +1,45 @@
 import React, { useState ,useEffect} from 'react'
+import Slider from "react-slick";
 export default function Step4() {
+    const settings = {
+      rows: 1,
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      centerMode: false,
+      variableWidth: false,
+      autoplay:true,
+      arrows: true,
+      responsive: [
+          {
+              breakpoint: 1024,
+              settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  infinite: true,
+                  dots: true,
+              }
+          },
+          {
+              breakpoint: 600,
+              settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  variableWidth: false,
+              }
+          },
+          {
+              breakpoint: 480,
+              settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                  variableWidth: false,
+              }
+          } 
+      ]
+    }
     return (
         <>
        <section className="journey-part">
@@ -18,37 +58,46 @@ export default function Step4() {
             <div className="col-lg-1 col-md-12"></div>
              <div className="col-lg-11 col-md-12">
                 <div className="row"> 
+                  <Slider {...settings}>
                     <div className="col-sm-3"> 
                       <div className="slider-img-plase">
-                      <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
+                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/1.jpg'} alt="1" /> 
                         <p className="plase-btn"><a href="#">Family Style</a></p>
                       </div>
                     </div>
                     <div className="col-sm-3"> 
-                     <div className="slider-img-plase">
-                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
+                      <div className="slider-img-plase">
+                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
                         <p className="plase-btn"><a href="#">Standard Style</a></p>
                       </div> 
                     </div>
                     <div className="col-sm-3"> 
-                     <div className="slider-img-plase">
-                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/3.jpg'} alt="3" />
+                      <div className="slider-img-plase">
+                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/3.jpg'} alt="3" />
                         <p className="plase-btn"><a href="#">Premium Style</a></p>
                       </div> 
                     </div>
                     <div className="col-sm-3"> 
-                     <div className="slider-img-plase">
-                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/4.jpg'} alt="4" />
+                      <div className="slider-img-plase">
+                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/4.jpg'} alt="4" />
                         <p className="plase-btn"><a href="#">Premium Style</a></p>
                       </div> 
-                    </div>  
-                    
+                    </div> 
+                    <div className="col-sm-3"> 
+                      <div className="slider-img-plase">
+                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
+                        <p className="plase-btn"><a href="#">Standard Style</a></p>
+                      </div> 
+                    </div> 
+                  </Slider>
                 </div>
                 <div className="row mt-3"> 
+                  <Slider {...settings}>
                     <div className="col-sm-3"> 
                       <div className="slider-img-plase">
                       <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
@@ -76,8 +125,15 @@ export default function Step4() {
                      <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/4.jpg'} alt="4" />
                         <p className="plase-btn"><a href="#">Premium Style</a></p>
                       </div> 
-                    </div>  
-                    
+                    </div> 
+                    <div className="col-sm-3"> 
+                     <div className="slider-img-plase">
+                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
+                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
+                        <p className="plase-btn"><a href="#">Standard Style</a></p>
+                      </div> 
+                    </div> 
+                  </Slider>  
                 </div>
              </div>  
             </div> 

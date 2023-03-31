@@ -12,7 +12,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">
-                                <h5>Name Surname</h5>
+                                <a href="/concierge/myprofile" className={router.pathname == '/concierge/myprofile' ? 'active' : ''}><h5>Name Surname</h5></a>
                                 <p>Concierge</p>
                             </div>
                         </div>
@@ -24,7 +24,7 @@ export default function Sidebar(): JSX.Element {
                             <i className="fa-solid fa-caret-right"></i> 
                         </div>
                     </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    <a href="/concierge/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-boxes-stacked"></i></span>  
                             <span className="menu-collapsed">General</span> 
@@ -60,19 +60,19 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Customers</span> 
                         </div>
                     </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    {/*<a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-spoon"></i></span>  
                             <span className="menu-collapsed">Menus</span> 
                         </div>
-                    </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    </a>*/}
+                    <a href="/concierge/calender" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/calender' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-calendar"></i></span>  
                             <span className="menu-collapsed">Calendar</span> 
                         </div>
                     </a>
-                    <a href="/concierge/villas" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/villas' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/villas" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/villas' || router.pathname == '/concierge/villas2' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-house"></i></span>  
                             <span className="menu-collapsed">Villas</span> 

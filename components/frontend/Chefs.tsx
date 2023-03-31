@@ -1,5 +1,44 @@
 import React, { useState ,useEffect} from 'react'
+import Slider from "react-slick";
 export default function  Chefs() {
+    const settings = {
+        rows: 1,
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        //slidesToScroll: 1,
+        centerMode: false,
+        variableWidth: true,
+        autoplay:true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    variableWidth: false,
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    variableWidth: false,
+                }
+            } 
+        ]
+    }
     return(
         <>
             <section className="banner-part p-0">
@@ -98,6 +137,7 @@ export default function  Chefs() {
                 <div className="container ">
                  <h2 className="font-black">Xenofon’s photo album</h2>
                     <div className="row mt-5 mobile-m-0">
+                    <Slider {...settings}>
                         <div className="col-lg-2 col-md-6">
                             <div className="slider-img-plase">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
@@ -128,6 +168,7 @@ export default function  Chefs() {
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-1.webp'} alt="f-1"/> 
                             </div> 
                         </div>
+                    </Slider>
                     </div>  
                 </div> 
             </section>

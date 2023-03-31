@@ -62,13 +62,13 @@ export default function Header() {
                     
                     <div className="or"><p>OR</p></div>
                     <div className="mt-2">
-                        <a href="/admin/bookings" className="btn-send temprary_login_btn w-100">Login with Admin</a>
+                        <a href="/admin/dashboard" className="btn-send temprary_login_btn w-100">Login with Admin</a>
                     </div>
                     <div className="mt-2">
-                        <a href="/chef/bookings" className="btn-send temprary_login_btn w-100">Login with Chef</a>
+                        <a href="/chef/dashboard" className="btn-send temprary_login_btn w-100">Login with Chef</a>
                     </div>
                     <div className="mt-2">
-                        <a href="/concierge/bookings" className="btn-send temprary_login_btn w-100">Login with Concierge</a>
+                        <a href="/concierge/dashboard" className="btn-send temprary_login_btn w-100">Login with Concierge</a>
                     </div>
                     <div className="mt-2">
                         <a href="/user/userprofile" className="btn-send temprary_login_btn w-100">Login with User</a>

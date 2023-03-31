@@ -10,9 +10,9 @@ export default function Menus3() {
 				       <a href="#" className="t-icon"><i className="fa-solid fa-trash"></i></a>
              </h2>
 				      <ul className="table_header_button_section p-r mt-4">
-                  <li><button className="table-btn btn-2">Type of food </button></li>
+                  <li><a href="/chef/menus2"><button className="table-btn btn-2">Type of food </button></a></li>
                   <li><button className="table-btn  ">Dishes </button></li>
-                  <li><button className="table-btn btn-2">Persons & Prices </button></li>
+                  <li><a href="/chef/menus4"><button className="table-btn btn-2">Persons & Prices </button></a></li>
                   <li className="right-li"><button className="table-btn opacity">Save menu </button></li> 
               </ul>
               

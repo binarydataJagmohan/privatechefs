@@ -2711,7 +2711,17 @@ li.right-li {
 }
 
 }
-.chats-circle {
+.active h5 {
+  color: var(--color_1);
+}
+.slick-arrow.slick-prev{
+  left: 20px;
+  z-index: 9999;
+}
+.slick-arrow.slick-next{
+  right: 25px;
+  z-index: 9999;
+}.chats-circle {
     color: #ba8639;
     position: absolute;
     left: 0;

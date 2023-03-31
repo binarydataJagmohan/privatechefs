@@ -30,7 +30,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -41,7 +41,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -52,7 +52,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -63,7 +63,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -74,7 +74,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -85,7 +85,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -96,7 +96,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -107,7 +107,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -118,7 +118,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -129,7 +129,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 							<tr>
                                 <td>2493</td>
@@ -140,7 +140,7 @@ export default function Villas() {
 								<td>One time</td>
 								<td>One time</td>
                                 <td>One time</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+								<td><a href="/admin/villas2"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
 						</tbody>
 					</table>

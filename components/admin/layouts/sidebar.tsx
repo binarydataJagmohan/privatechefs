@@ -12,7 +12,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">
-                                <h5>Name Surname</h5>
+                                <a href="/admin/myprofile" className={router.pathname == '/admin/myprofile' ? 'active' : ''}><h5>Name Surname</h5></a>
                                 <p>Admin</p>
                             </div>
                         </div>
@@ -24,7 +24,7 @@ export default function Sidebar(): JSX.Element {
                             <i className="fa-solid fa-caret-right"></i> 
                         </div>
                     </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    <a href="/admin/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-boxes-stacked"></i></span>  
                             <span className="menu-collapsed">General</span> 
@@ -54,19 +54,19 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Chefs</span> 
                         </div>
                     </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    {/*<a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-spoon"></i></span>  
                             <span className="menu-collapsed">Menus</span> 
                         </div>
-                    </a>
-                    <a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
+                    </a>*/}
+                    <a href="/admin/calender" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/calender' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-calendar"></i></span>  
                             <span className="menu-collapsed">Calendar</span> 
                         </div>
                     </a>
-                    <a href="/admin/villas" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/villas' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/admin/villas" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/villas' || router.pathname == '/admin/villas2' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-house"></i></span>  
                             <span className="menu-collapsed">Villas</span> 
