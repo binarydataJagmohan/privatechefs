@@ -109,14 +109,11 @@ export default function Step5() {
                   <div className="col-lg-1 col-md-12"></div>
                   <div className="col-lg-11 col-md-12"> 
                   <div className="row">
-                    <div className="col-lg-6 col-md-12">
+                    <div className="col-lg-12 col-md-12">
                         <h4 className="title-20">Any special requests?</h4> 
                         <textarea className="textarea-part mt-3" placeholder="This is a sample text"></textarea>
                     </div>
-                    <div className="col-lg-6 col-md-12">
-                        <h4 className="title-20">Any special requests?</h4> 
-                        <textarea className="textarea-part mt-3" placeholder="This is a sample text"></textarea>
-                    </div>
+                    
                   </div>
                   </div>
                 </div>

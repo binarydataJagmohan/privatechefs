@@ -214,7 +214,7 @@ export default function OurChefs() {
                 </div>
             </section>
 
-            <section className="services-part location-how  mobile-m-0">
+            {/* <section className="services-part location-how  mobile-m-0">
                 <div className="container">
                     <h2>Our Fleet</h2> 
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
@@ -299,7 +299,7 @@ export default function OurChefs() {
                     </div>
                     <div className="text-center view-more mt-4"><a href="#">View More</a></div>
                 </div> 
-            </section>
+            </section> */}
 
             
 

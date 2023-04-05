@@ -22,9 +22,9 @@ export default function Header() {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mt-2 ">
-                                <li className="nav-item">
+                                {/* <li className="nav-item">
                                   <a className="nav-link active" aria-current="page" href="/covid19">COVID-19</a>
-                                </li>
+                                </li> */}
                                 <li className="nav-item">
                                   <a className="nav-link" href="/startjourney">Start your journey</a>
                                 </li> 

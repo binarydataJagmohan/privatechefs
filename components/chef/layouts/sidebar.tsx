@@ -48,12 +48,12 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Receipts</span> 
                         </div>
                     </a>
-                    <a href="/chef/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/chefs' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    {/* <a href="/chef/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/chefs' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  
                             <span className="menu-collapsed">Chefs</span> 
                         </div>
-                    </a>
+                    </a> */}
                     <a href="/chef/menus" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/menus' || router.pathname == '/chef/menus2' || router.pathname == '/chef/menus3' || router.pathname == '/chef/menus4' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-spoon"></i></span>  

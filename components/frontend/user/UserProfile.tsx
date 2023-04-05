@@ -4,13 +4,13 @@ export default function UserProfile() {
         <>
             <section className="userprofile-part">
                 <div className="container">
-                  <div className="my-profile mt-5 tab-m-0">
+                  <div className="my-profile mt-5 mb-5 tab-m-0">
                     <h2> My profile <span className="log-out"><a href="#">Log out</a></span></h2>
                   </div>
                 <div className="row">
                     <div className="col-lg-3 col-md-12">
                         <div className="my-profile">
-                          <div className="profile-cols mt-5 active">
+                          <div className="profile-cols  active">
                             <h4>Account Settings</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                           </div>
@@ -22,14 +22,14 @@ export default function UserProfile() {
                           </a>
                           <a href="/user/userprofilethree">
                             <div className="profile-cols mt-4 mb-4">
-                              <h4>Preferences</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <h4>Aditional Information/Preferences</h4>
+                                <p>Halal, Kosher, Hindu.</p>
                             </div>
                           </a>
                         </div>
                      </div>
                     <div className="col-lg-6 col-md-12">
-                        <div className="all-form mt-4 tab-m-0  right-left-spacing"> 
+                        <div className="all-form tab-m-0 pt-0 right-left-spacing"> 
                          <div className="row">
                             <div className="col-lg-6 col-md-6">
                               <label>Name  </label>
@@ -68,7 +68,7 @@ export default function UserProfile() {
                          </div>
                          <div className="checkbox-size text-left mt-3 mb-3">
                          <input type="checkbox" className="checkbox-" />
-                         <label> I have a bike</label>
+                         <label> Invoice details</label>
                          </div>
                          <label className="mt-3">Company Name</label>
                         <input type="text" placeholder="Company Name" />
@@ -89,7 +89,7 @@ export default function UserProfile() {
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-12">
-                        <div className="user-img mt-5 ">
+                        <div className="user-img  ">
                          <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/user.PNG'} alt="user" />
                          <label> <input type="file" /><i className="fa-solid fa-camera"></i></label>
                         </div> 

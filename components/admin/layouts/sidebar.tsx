@@ -5,6 +5,7 @@ export default function Sidebar(): JSX.Element {
     return (
         <>
             <div id="sidebar-container" className="sidebar-expanded  mobile-view d-md-block">
+             <div className="fixed-left">
                 <div className="user-profile">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0"> 
@@ -79,6 +80,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                 </ul>
+              </div>
             </div>
         </>
     )

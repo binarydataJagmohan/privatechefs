@@ -22,8 +22,8 @@ export default function UserProfileTwo() {
                           </div>
                           <a href="/user/userprofilethree">
                             <div className="profile-cols mt-4 mb-4">
-                              <h4>Preferences</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <h4>Aditional Information/Preferences</h4>
+                                <p>Halal, Kosher, Hindu.</p>
                             </div>
                           </a>
                         </div>

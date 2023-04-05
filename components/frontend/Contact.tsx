@@ -6,7 +6,7 @@ export default function Contact() {
                 <div className="container">
                 <div className="row">
                     <div className="col-lg-8 col-md-12">
-                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-6.jpg'} alt="banner-6" className="w-100 border-0 "/>
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-6.jpg'} alt="banner-6" className="w-100   img-b"/>
                     </div>
                     <div className="col-lg-4 col-md-12">
                     <div className="all-form">

@@ -7,6 +7,7 @@ export default function Menus() {
             <ul className="table_header_button_section p-r">
               <li><button className="table-btn btn-2">Thai <i className="fa-solid fa-xmark"></i></button></li>
               <li><button className="table-btn btn-2">Greek <i className="fa-solid fa-xmark"></i></button></li>
+              <li><button className="table-btn btn-2">Desserts  <i className="fa-solid fa-xmark"></i></button></li>
               <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> 
             </ul> 
             <div className="row mt-4"> 

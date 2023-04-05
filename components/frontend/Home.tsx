@@ -153,7 +153,7 @@ export default function Home() {
                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/7.webp'} alt="7" className="border-radius" />
                 </div>
                 <div className="col-lg-6 col-md-12">
-                    <div className="contant-box mt-5">
+                    <div className="contant-box mt-5 mt-0-1024">
                     <h2>Design your next experience</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nec feugiat odio elit varius et feugiat in mattis. Convallis pellentesque suspendisse adipiscing lectus ultrices tristique eget. Dignissim elit in habitasse urna. Euismod commodo eget quis arcu neque. Suspendisse scelerisque vitae fringilla felis, a in. Nec facilisis rhoncus sit interdum amet massa eu erat in. Cursus sapien nulla tellus eu tellus quis ante a id. Nisi, sodales velit in malesuada porttitor in aliquet elit tellus. Arcu penatibus ornare id tortor, leo nulla aenean. Fusce.</p>
                     <div className="banner-btn"><a href="/startjourney">Start your journey</a></div>
@@ -211,7 +211,7 @@ export default function Home() {
 
             <section className="experience-slider "> 
                 <div className="container-fluid ">
-                 <h2> Our photo album</h2>
+                 <h2>Instagram feeds</h2>
                     <div className="row mt-5">
                         <Slider {...settings}>
                             <div className="col-lg-2 col-md-6">
@@ -257,6 +257,115 @@ export default function Home() {
                         </Slider>
                     </div>  
                 </div> 
+            </section>
+
+            <section className="testimonial-part"> 
+                <div className="container">
+                    <h2 className="text-center">What they say about us...</h2>
+                    <h4 className="text-center">So proud to create such beautiful memories!</h4>
+                    <div className="row mt-5">
+                        <div className="col-lg-4 col-md-12">
+                            <div className="test-box">
+                                <p>The best culinary week of my life was with Chef Andreas in Mykonos. The tallent this Chef has is amazing. He took care of me and my family as we were his own. Highly recomended.</p>
+                                <div className="row">
+                                    <div className="col-3">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/ava4.png'} alt="ava4"/> 
+                                    </div>
+                                    <div className="col-9">
+                                        <div className="say">
+                                            <h5 className="mt-2">Christopher Adams</h5>
+                                            <p className="font-12">Basebassl player</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-lg-4 col-md-12">
+                            <div className="test-box">
+                                <p>I had my weeding thid year in Greece and we were recomended to contracts Private Chefs Worldwide for our ceremony event. This was the best choice i have made for a high end catering. Everything was spectacular.</p>
+                                <div className="row">
+                                    <div className="col-3">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/ava3.png'} alt="ava3"/> 
+                                    </div>
+                                    <div className="col-9">
+                                        <div className="say">
+                                            <h5 className="mt-2">Mila Kunis</h5>
+                                            <p className="font-12">Make-up artist</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-lg-4 col-md-12">
+                            <div className="test-box">
+                                <p>I travelled in Spain with my friends and heard about this amazing company. They provided us a Chef and assistant for a week and the food was out of this world. Everythid super fresh and made at the spot.</p>
+                                <div className="row">
+                                    <div className="col-3">
+                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/ava2.png'} alt="ava2"/> 
+                                    </div>
+                                    <div className="col-9">
+                                        <div className="say">
+                                            <h5 className="mt-2">Mike Stuart</h5>
+                                            <p className="font-12">IT Tech</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="trusted-part">
+              <div className="container">
+                <h2>Trusted by pioneers around the world</h2>
+                <p>Serving exelence and quality services to clients around the globe. <br/> Our paramount priority? You...</p>
+
+                <div className="row   mt-5">
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-1.png'} alt="logo-1"/> 
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-2.png'} alt="logo-2"/> 
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-3.png'} alt="logo-3"/> 
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-4.png'} alt="logo-4"/> 
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-5.png'} alt="logo-5"/> 
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-6.png'} alt="logo-6"/> 
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-7.png'} alt="logo-7"/> 
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6 col-6">
+                        <div className="logos">
+                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo-8.png'} alt="logo-8"/> 
+                        </div>
+                    </div>
+                </div>
+              </div>
             </section>
  
 

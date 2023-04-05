@@ -4,7 +4,10 @@ export default function Villas() {
         <>
 			<div className="table-part">
 				<h2>Villas</h2>
-				<button className="table-btn">Total</button>
+				<ul className="table_header_button_section p-r">
+					<li><button className="table-btn">Total</button></li>
+					<li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> 
+				</ul> 
 				<div className="table-box">
 					<table className="table table-borderless">
 						<thead>

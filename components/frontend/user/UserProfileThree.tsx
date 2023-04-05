@@ -23,8 +23,8 @@ export default function UserProfileThree() {
                                 </div>
                             </a>
                             <div className="profile-cols active mt-4 mb-4">
-                                <h4>Preferences</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                <h4>Aditional Information/Preferences</h4>
+                                <p>Halal, Kosher, Hindu.</p>
                             </div>
                         </div>
                      </div>

@@ -12,7 +12,12 @@ export default function Chefs() {
         <>
 			<div className="table-part">
 				<h2>Chefs</h2>
-				<button className="table-btn">Total</button>
+				<ul className="table_header_button_section p-r">
+					<li><button className="table-btn">Total</button></li>
+					<li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> 
+					</ul> 
+
+				
 				<div className="table-box">
 					<table className="table table-borderless">
 						<thead>
@@ -21,9 +26,9 @@ export default function Chefs() {
 								<th scope="col">Name/Surname</th>
 								<th scope="col">Current Location</th>
 								<th scope="col">Cuisines</th>
-								<th scope="col">Column</th>
-								<th scope="col">Column</th>
-								<th scope="col">Column</th>
+								<th scope="col">Location</th>
+								<th scope="col">Dietary restrictios</th>
+								<th scope="col">Rating</th>
 								<th scope="col"></th>
 							</tr>
 						</thead>

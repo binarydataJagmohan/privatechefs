@@ -22,21 +22,21 @@ export default function Step3() {
                       <div className="slider-img-plase">
                       <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
                         <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/step-img-3.jpg'} alt="step-img-3" /> 
-                        <p className="plase-btn"><a href="#">Family Style</a></p>
+                        <p className="plase-btn"><a href="#">Breakfast</a></p>
                       </div>
                     </div>
                     <div className="col-sm-4"> 
                      <div className="slider-img-plase">
                      <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
                      <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/step-img-4.jpg'} alt="step-img-4" />
-                        <p className="plase-btn"><a href="#">Standard Style</a></p>
+                        <p className="plase-btn"><a href="#">Lunch</a></p>
                       </div> 
                     </div>
                     <div className="col-sm-4"> 
                      <div className="slider-img-plase">
                      <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
                      <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/step-img-5.jpg'} alt="step-img-5" />
-                        <p className="plase-btn"><a href="#">Premium Style</a></p>
+                        <p className="plase-btn"><a href="#">Dinner</a></p>
                       </div> 
                     </div>
                     

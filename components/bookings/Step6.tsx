@@ -65,7 +65,7 @@ export default function Step6() {
                <div className="row">
                 <div className="col-lg-12 col-md-12">
                   <div className="all-form input-big">
-                    <h4 className="title-18">Your location</h4>
+                    <h4 className="title-18">We will be at</h4>
                     <input type="text"/>  
                   </div>
                 </div>

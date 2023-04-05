@@ -39,16 +39,16 @@ export default function Dashboard() {
 					<h3 className="f-30 mb-4">Weekly Stats </h3>
 						<div className="row">
 							<div className="col-lg-6 col-md-6">
-								 <div className="golden-box">
-								  <div className="golden-box-2"></div>
+								 <div className="golden-box m-center">
+								  <div className="golden-box-2 m-center"></div>
 									<h5>Bookings</h5>
 									<h2>1,382</h2>
 									<h6>+8,3%</h6>
 								 </div>
 							</div>
 							<div className="col-lg-6 col-md-6"> 
-								 <div className="golden-box">
-								  <div className="golden-box-2"></div>
+								 <div className="golden-box m-center">
+								  <div className="golden-box-2 m-center"></div>
 									<h5>Customers</h5>
 									<h2>234</h2>
 									<h6>+2,5%</h6>
