@@ -893,8 +893,8 @@ color: var(--color_5);
  
 @media (max-width:1150px) { 
   .home-page-banner-text {
-    position: unset;
-    right: unset;
+    position: relative;
+    right: 50px;
     width: unset;
 }
 .banner-text h1 {
@@ -970,6 +970,10 @@ img.banner-left {
 .mobile-m-0 {
   margin-top: 0 !important;
 }
+.home-page-banner-text {
+  position: unset; 
+}
+
 
 }
 .table>tbody tr td ul li{
@@ -2784,7 +2788,8 @@ li.right-li {
 
 }
 
-/* Strat........05-04-2023 */
+/* Strat........6-04-2023 */
+
 .testimonial-part h2 {
   font-weight: var(--font_wt_name);
   font-size: var(--font_h2);
@@ -2885,6 +2890,31 @@ li.right-li {
 .pages-banner ul li {
   margin-bottom: 15px;
 }
+.slider-img-plase::before {
+  content: "";
+  background: #08070745;
+  width: 96%;
+  height: 100%;
+  position: absolute;
+  border-radius: 25px;
+}
+.offcanvas-part ::-webkit-scrollbar {
+  width: 1px;
+}
+.offcanvas-part  ::-webkit-scrollbar-track {
+  background: #fff; 
+}
+.offcanvas-part  ::-webkit-scrollbar-thumb {
+  background: #fff; 
+}
+.modal-dialog.modal-dialog-centered {
+  background: #fff0 !important;
+}
+.select-op {
+  width: 30%;
+}
+
+
 
 @media (min-width:1600px){ 
   .sidebar-expanded {
@@ -2899,13 +2929,22 @@ li.right-li {
 .right-part.collapsed_section {
   width: 94%;
 }
-
-
+ 
 }
 
+@media (min-width:1200px){ 
+.comments-bell a i.fa-bell {
+  position: relative;
+  right: 35px;
+}
+
+}
 @media (max-width:1100px){ 
 .mt-0-1024 {
   margin-top: 0 !important;
+}
+.text-side h2 {
+  font-size: var(--font_h3);
 }
 
 }
@@ -2918,7 +2957,9 @@ li.right-li {
   margin-bottom: 20px;
   height: unset;
 }
-
+.mt-0-1024 {
+  margin-top: 15px !important;
+}
 
 }
 
@@ -2938,6 +2979,27 @@ li.right-li {
 }
 .golden-box-2.m-center {
   margin: 10px auto;
+}
+.text-side h2 {
+  font-size: var(--font_h3);
+}
+.table>tbody tr td ul li { 
+  font-size: 11px;  
+  padding: 3px 6px; 
+}
+button.table-btn { 
+  padding: 6px 10px;
+  margin: 8px 0; 
+}
+
+}
+
+@media (max-width:350px){ 
+.table>tbody tr td ul li { 
+  font-size: 9px; 
+}
+button.table-btn { 
+  font-size: 8px !important;
 }
 
 }

@@ -36,9 +36,9 @@ export default function UserProfileTwo() {
                                         <li><button className="table-btn btn-2">Upcoming</button></li>
                                         <li><button className="table-btn btn-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancelled</button></li> 
                                     </ul>  
-                                    <div className="popup-part ">
+                                    <div className="popup-part " id="back-no">
                                       <div className="modal fade" id="exampleModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div className="modal-dialog ">
+                                        <div className="modal-dialog modal-dialog-centered">
                                           <div className="modal-content">
                                             <div className="modal-header">
                                               <h5 className="modal-title" id="exampleModalLabel"> </h5>
