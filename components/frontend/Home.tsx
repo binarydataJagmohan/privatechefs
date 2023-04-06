@@ -110,59 +110,54 @@ export default function Home() {
                 <div className="container">
                     <h2> Our services</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
-
                     <div className="row mt-5">
-                    <div className="col-lg-3 col-md-6">
-                        <div className="card-box">
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/11.webp'} alt="11" />
-                        <h3>Chefs</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                        <div className="col-lg-4 col-md-6">
+                            <div className="card-box">
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/11.webp'} alt="11" />
+                            <h3>Chefs</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-lg-3 col-md-6">
-                        <div className="card-box">
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/12.webp'} alt="11" />
-                        <h3>Butlers</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                        <div className="col-lg-4 col-md-6">
+                            <div className="card-box">
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/12.webp'} alt="11" />
+                            <h3>Butlers</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-lg-3 col-md-6">
-                        <div className="card-box">
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/13.webp'} alt="11" />
-                        <h3>Bartenders</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                        <div className="col-lg-4 col-md-6">
+                            <div className="card-box">
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/13.webp'} alt="11" />
+                            <h3>Bartenders</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                            </div>
                         </div>
+                        {/*<div className="col-lg-3 col-md-6">
+                            <div className="card-box">
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/14.webp'} alt="11" />
+                            <h3>Massage</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                            </div>
+                        </div>*/}
                     </div>
-                    <div className="col-lg-3 col-md-6">
-                        <div className="card-box">
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/14.webp'} alt="11" />
-                        <h3>Massage</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
-                        </div>
-                    </div>
-                    </div>
-                    
                 </div>
             </section>
-
-
             <section className="text-side">
-            <div className="container">
-                <div className="row">
-                <div className="col-lg-6 col-md-12">
-                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/7.webp'} alt="7" className="border-radius" />
-                </div>
-                <div className="col-lg-6 col-md-12">
-                    <div className="contant-box mt-5 mt-0-1024">
-                    <h2>Design your next experience</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nec feugiat odio elit varius et feugiat in mattis. Convallis pellentesque suspendisse adipiscing lectus ultrices tristique eget. Dignissim elit in habitasse urna. Euismod commodo eget quis arcu neque. Suspendisse scelerisque vitae fringilla felis, a in. Nec facilisis rhoncus sit interdum amet massa eu erat in. Cursus sapien nulla tellus eu tellus quis ante a id. Nisi, sodales velit in malesuada porttitor in aliquet elit tellus. Arcu penatibus ornare id tortor, leo nulla aenean. Fusce.</p>
-                    <div className="banner-btn"><a href="/startjourney">Start your journey</a></div>
+                <div className="container">
+                    <div className="row">
+                    <div className="col-lg-6 col-md-12">
+                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/7.webp'} alt="7" className="border-radius" />
+                    </div>
+                    <div className="col-lg-6 col-md-12">
+                        <div className="contant-box mt-5 mt-0-1024">
+                        <h2>Design your next experience</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nec feugiat odio elit varius et feugiat in mattis. Convallis pellentesque suspendisse adipiscing lectus ultrices tristique eget. Dignissim elit in habitasse urna. Euismod commodo eget quis arcu neque. Suspendisse scelerisque vitae fringilla felis, a in. Nec facilisis rhoncus sit interdum amet massa eu erat in. Cursus sapien nulla tellus eu tellus quis ante a id. Nisi, sodales velit in malesuada porttitor in aliquet elit tellus. Arcu penatibus ornare id tortor, leo nulla aenean. Fusce.</p>
+                        <div className="banner-btn"><a href="/startjourney">Start your journey</a></div>
+                        </div>
+                    </div>
                     </div>
                 </div>
-                </div>
-            </div>
             </section>
-
             <section className="services-part mt-5">
                 <div className="container">
                     <h2>How it works?  </h2>
@@ -170,10 +165,10 @@ export default function Home() {
                     <p className="dis-max-width mb-4">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chef (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row mt-5">
                     <div className="col-lg-4 col-md-6">
-                         <div className="num-list">
+                        <div className="num-list">
                           <h4><span className="big-48">1</span> You choose the menu</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet vel. Diam tellus laoreet dolor lorem facilisis eleifend odio suspendisse. Mauris sodales quis odio nulla.</p>
-                         </div>
+                        </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                          <div className="num-list">
