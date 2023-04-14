@@ -15,3 +15,16 @@ form#login_form .error_login     {
     right: 0;
     top: 0;
 }
+.ppupclass .modal-dialog {
+    max-width: 500px;
+    background:unset;
+    box-shadow: unset;
+  }
+  /* .modal-dialog {
+    background: var( --background-color_3);
+    box-shadow: var(--admin_base-shadow);
+    border-radius: 10px;
+  } */
+  #exampleModal2.modal.popopacity {
+    background: #ffffffd1;
+  }
