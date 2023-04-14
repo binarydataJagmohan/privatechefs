@@ -1,6 +1,53 @@
 import React, { useState ,useEffect} from 'react';
 import Slider from "react-slick";
+import { useRouter } from "next/router";
+import 'sweetalert2/dist/sweetalert2.min.css';
+import {CheckUserEmailVerification} from '../../lib/frontendapi';
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
+
+    const router = useRouter();
+    useEffect(() => {
+        if(router.query.id && router.query.hash ){
+            
+            CheckEmailVerification();
+        }
+
+    }, [router]);
+
+    const CheckEmailVerification = async () => {
+
+      
+        const data = {
+            id:router.query.id,
+            token:router.query.hash
+        }
+
+        CheckUserEmailVerification(data)
+        .then(res => {
+            if(res){
+               if(res.status == true){
+                    Swal.fire({
+                        title: 'Successfull!',
+                        text: res.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
+               }else {
+                    toast.info(res.message, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    });
+               }
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+
     const settings = {
         rows: 1,
         dots: false,
@@ -39,6 +86,7 @@ export default function Home() {
             } 
         ]
     }
+
     return(
         <>
             <section className="banner-part">

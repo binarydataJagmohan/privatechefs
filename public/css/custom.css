@@ -1,0 +1,17 @@
+form#register_form  .register_div {
+    position: relative;
+}
+form#register_form .error_register {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+form#login_form  .login_div {
+    position: relative;
+}
+form#login_form .error_login     {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
