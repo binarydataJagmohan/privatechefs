@@ -15,7 +15,23 @@ form#login_form .error_login     {
     right: 0;
     top: 0;
 }
+<<<<<<< HEAD
 .confirm-button-class {
     background: #ff4e00 !important;
     border: 1px solid red !important;
 }
+=======
+.ppupclass .modal-dialog {
+    max-width: 500px;
+    background:unset;
+    box-shadow: unset;
+  }
+  /* .modal-dialog {
+    background: var( --background-color_3);
+    box-shadow: var(--admin_base-shadow);
+    border-radius: 10px;
+  } */
+  #exampleModal2.modal.popopacity {
+    background: #ffffffd1;
+  }
+>>>>>>> 72ec26a8bf103c95290bd2fbd45749b29b5c901b
