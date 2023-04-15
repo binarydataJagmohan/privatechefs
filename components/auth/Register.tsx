@@ -222,11 +222,7 @@ export default function Register({ modalConfirmTwo, setModalConfirmTwo }) {
             <a href="/admin/dashboard" className="btn-send temprary_login_btn w-100">Login with Admin</a>
           </div>
           <div className="mt-2">
-            {role === 'chef' ? (
               <a href="/chef/dashboard" className="btn-send temprary_login_btn w-100">Login with Chef</a>
-            ) : (
-              <a href="#" className="btn-send temprary_login_btn w-100">Login with Chef</a>
-            )}
           </div>
           <div className="mt-2">
             <a href="/concierge/dashboard" className="btn-send temprary_login_btn w-100">Login with Concierge</a>
