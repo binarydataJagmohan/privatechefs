@@ -30,14 +30,24 @@ export default function Home() {
             if(res){
                if(res.status == true){
                     Swal.fire({
-                        title: 'Successfull!',
+                        title: 'Thanks!',
                         text: res.message,
                         icon: 'success',
-                        confirmButtonText: 'Ok'
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'confirm-button-class'
+                        }
+                        
                     });
                }else {
-                    toast.info(res.message, {
-                        position: toast.POSITION.BOTTOM_RIGHT
+                    Swal.fire({
+                        title: 'Oops!',
+                        text: res.message,
+                        icon: 'success',
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'confirm-button-class'
+                        }
                     });
                }
             }

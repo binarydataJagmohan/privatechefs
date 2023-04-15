@@ -29,7 +29,7 @@ export default function Register({ modalConfirmTwo, setModalConfirmTwo }) {
 
     const signinpopup = () => {
       setModalConfirm(true);
-      setModalConfirmTwo(false);
+      
     };
 
     const handleSubmit = (event) => {
