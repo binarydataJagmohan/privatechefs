@@ -15,11 +15,14 @@ export default function Login({ modalConfirm, setModalConfirm }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
+
+    
     const modalConfirmClose = () => {
       setModalConfirm(false);
     };
 
     const signuppopup = () => {
+
         setModalConfirm(false);
         setModalConfirmTwo(true);
     };
@@ -168,7 +171,7 @@ export default function Login({ modalConfirm, setModalConfirm }) {
 
 			</PopupModal>
 
-            {modalConfirmTwo && ( <Register modalConfirmTwo={modalConfirmTwo} setModalConfirmTwo={setModalConfirmTwo} /> )} 
+            {modalConfirmTwo && ( <Register modalConfirmTwo={modalConfirmTwo} setModalConfirmTwo={setModalConfirmTwo}  /> )} 
 
         </>
   )
