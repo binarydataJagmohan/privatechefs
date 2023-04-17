@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateChefProfile, getChefDetail,UpdateChefResume,getChefResume} from '../../../lib/chefapi'
+import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume } from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 export default function MyProfile() {
 
@@ -18,6 +19,8 @@ export default function MyProfile() {
 	const [bank_name, setBankName] = useState("");
 	const [holder_name, setHolderName] = useState("");
 	const [bank_address, setBankAddress] = useState("");
+	const [image, setImage] = useState('');
+	const [buttonStatus, setButtonState] = useState(false);
 
 	const [about, setAbout] = useState("");
 	const [description, setDescription] = useState("");
@@ -42,6 +45,7 @@ export default function MyProfile() {
 
 	const handleUpdateProfile = async (e: any) => {
 		e.preventDefault();
+		setButtonState(true);
 		const userid = currentUserData.id;
 		const data = {
 			id: userid,
@@ -57,25 +61,51 @@ export default function MyProfile() {
 			holder_name: holder_name,
 			bank_address: bank_address,
 		};
-		updateChefProfile(userid, data)
-			.then(res => {
-				toast.success(res.message, {
-					position: toast.POSITION.TOP_RIGHT
-				});
 
-			}).catch(err => {
-				toast.error('Error occured', {
-					position: toast.POSITION.BOTTOM_RIGHT
+		updateChefProfile(userid, data, image)
+			.then((res) => {
+				setButtonState(false);
+				console.log(res.data);
+				toast.success(res.message, {
+					position: toast.POSITION.TOP_RIGHT,
+				});
+			})
+			.catch((err) => {
+				setButtonState(false);
+				toast.error("Error occurred", {
+					position: toast.POSITION.BOTTOM_RIGHT,
 				});
 			});
 	};
 
+	const uploadimage = () => {
+		$("#uploadfile").trigger("click");
+	};
+
+	const hoverinimage = () => {
+		$(this).css("opacity", "0.3");
+		$(".fa-image").css("display", "block");
+	};
+
+	const hoveroutimage = () => {
+		$(this).css("opacity", "1");
+		$(".fa-image").css("display", "none");
+	};
+
+	const imageChange = (e: any) => {
+		if (e.target.files && e.target.files.length > 0) {
+			setImage(e.target.files[0]);
+		}
+	};
+
+
 	const resumeUpdate = async (e: any) => {
 		e.preventDefault();
+		setButtonState(true);
 		const id = currentUserData.id;
 		const data = {
 			id: id,
-			about:about,
+			about: about,
 			description: description,
 			services_type: services_type,
 			employment_status: employment_status,
@@ -90,15 +120,17 @@ export default function MyProfile() {
 			instagram_link: instagram_link,
 			twitter_link: twitter_link,
 			linkedin_link: linkedin_link,
-			youtube_link:youtube_link
+			youtube_link: youtube_link
 		};
-		UpdateChefResume(id, data)
+		UpdateChefResume(id, data, image)
 			.then(res => {
+				setButtonState(false);
 				toast.success(res.message, {
 					position: toast.POSITION.TOP_RIGHT
 				});
 
 			}).catch(err => {
+				setButtonState(false);
 				toast.error('Error occured', {
 					position: toast.POSITION.BOTTOM_RIGHT
 				});
@@ -107,54 +139,56 @@ export default function MyProfile() {
 
 	useEffect(() => {
 		getUserData();
-	  }, []);
-	
-	  const getUserData = async () => {
+	}, []);
+
+	const getUserData = async () => {
 		const data = isPageVisibleToRole('chef-menu');
-		if(data == 2) {
-		  window.location.href = '/';
+		if (data == 2) {
+			window.location.href = '/';
 		}
-		if(data == 0) {
-		  window.location.href = '/404';
+		if (data == 0) {
+			window.location.href = '/404';
 		}
-		if(data ==1) {
-		  const userData = getCurrentUserData();
-		  setCurrentUserData(userData);
-		  getChefDetailData(userData.id);
-		  getChefResumeData(userData.id);
+		if (data == 1) {
+			const userData = getCurrentUserData();
+			setCurrentUserData(userData);
+			getChefDetailData(userData.id);
+			getChefResumeData(userData.id);
 		}
-	  }
+	}
 
 	const getChefDetailData = async (id) => {
 		getChefDetail(id)
-		.then(res => {
-		  if(res.status==true){
-				setUserData(res.data);
-		  } else {
-			  toast.error(res.message, {
-			  position: toast.POSITION.TOP_RIGHT
+			.then(res => {
+				setButtonState(false);
+				if (res.status == true) {
+					setUserData(res.data);
+				} else {
+					setButtonState(false);
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
 			});
-		  }
-		})
-		.catch(err => {
-			console.log(err);
-		});
 	}
 
 	const getChefResumeData = async (id) => {
 		getChefResume(id)
-		.then(res => {
-		  if(res.status==true){
-			setChefResume(res.data);
-		  } else {
-			  toast.error(res.message, {
-			  position: toast.POSITION.TOP_RIGHT
+			.then(res => {
+				if (res.status == true) {
+					setChefResume(res.data);
+				} else {
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
 			});
-		  }
-		})
-		.catch(err => {
-			console.log(err);
-		});
 	}
 
 	return (
@@ -186,14 +220,39 @@ export default function MyProfile() {
 											<div className="picture-profile">
 												<div className="row">
 													<div className="col-lg-4 col-md-5 col-4 pr-0">
-														<a href="/">
-															<img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/user.png'} alt="" />
-														</a>
+														<input
+															type="file"
+															name="image"
+															id="uploadfile"
+															className="d-none"
+															onChange={imageChange}
+														/>
+														{userData.pic ? <img
+															className="profile_upload_form img-cicle"
+															src={
+																image ? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/' + userData.pic
+															}
+															alt=""
+															onClick={() => uploadimage()}
+															onMouseEnter={() => hoverinimage()}
+															onMouseLeave={() => hoveroutimage()}
+														/> : <img
+															className="profile_upload_form img-cicle"
+															src={
+																image ? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "images/chef/users.jpg"
+															}
+															crop={{ ratio: "1/1", position: "center" }}
+															alt=""
+															onClick={() => uploadimage()}
+															onMouseEnter={() => hoverinimage()}
+															onMouseLeave={() => hoveroutimage()}
+														/>}
+
 													</div>
 													<div className="col-lg-8 col-md-7 col-8">
 														<div className="user-profile-collapsed mt-3">
 															<h6>Profile Picture</h6>
-															<p className="f-10-2">Upload lalalalalalallalalalalala alalalalalallalalalala</p>
+															<p className="f-10-2">{currentUserData.name}</p>
 														</div>
 													</div>
 												</div>
@@ -271,7 +330,7 @@ export default function MyProfile() {
 									</div>
 								</div>
 								<div className="text-right">
-								<button className="table-btn" type="submit">Save</button>
+									<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
 								</div>
 								<hr />
 								{/* <div className="row">
@@ -313,134 +372,157 @@ export default function MyProfile() {
 						<div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 							<form onSubmit={resumeUpdate}>
 								<>
-								<div className="row">
-									<div className="col-lg-4 col-md-12">
-										<div className="text-left">
-											<h5>Professional Profile</h5>
-											<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
-											<div className="picture-profile">
-												<div className="row">
-													<div className="col-lg-4 col-md-5 col-4 pr-0">
-														<a href="/">
-															<img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/user.png'} alt="" />
-														</a>
-													</div>
-													<div className="col-lg-8 col-md-7 col-8">
-														<div className="user-profile-collapsed mt-3">
-															<h6>Profile Picture</h6>
-															<p className="f-10-2">Upload lalalalalalallalalalalala alalalalalallalalalala</p>
+									<div className="row">
+										<div className="col-lg-4 col-md-12">
+											<div className="text-left">
+												<h5>Professional Profile</h5>
+												<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+												<div className="picture-profile">
+													<div className="row">
+														<div className="col-lg-4 col-md-5 col-4 pr-0">
+															<input
+																type="file"
+																name="image"
+																id="uploadfile"
+																className="d-none"
+																onChange={imageChange}
+															/>
+															{userData.pic ? <img
+																className="profile_upload_form img-cicle"
+																src={
+																	image ? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/' + userData.pic
+																}
+																alt=""
+																onClick={() => uploadimage()}
+																onMouseEnter={() => hoverinimage()}
+																onMouseLeave={() => hoveroutimage()}
+															/> : <img
+																className="profile_upload_form img-cicle"
+																src={
+																	image ? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "images/chef/users.jpg"
+																}
+																crop={{ ratio: "1/1", position: "center" }}
+																alt=""
+																onClick={() => uploadimage()}
+																onMouseEnter={() => hoverinimage()}
+																onMouseLeave={() => hoveroutimage()}
+															/>}
+														</div>
+														<div className="col-lg-8 col-md-7 col-8">
+															<div className="user-profile-collapsed mt-3">
+																<h6>Profile Picture</h6>
+																<p className="f-10-2">{currentUserData.name}</p>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div className="col-lg-8 col-md-12">
-										<div className="all-form">
-											<div className="row">
-												<div className="col-lg-12 col-md-12">
-													<label>Tell us about you</label>
-													<textarea  name="about" defaultValue={chefResume.about} onChange={(e) => setAbout(e.target.value)}></textarea>
-												</div>
-												<div className="col-lg-12 col-md-12">
-													<label>What describes you best?</label>
-													<textarea name="description"  defaultValue={chefResume.description} onChange={(e) => setDescription(e.target.value)}></textarea>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Type of services</label>
-													<input type="text" name="services_type"  defaultValue={chefResume.services_type} onChange={(e) => setServicesType(e.target.value)}/>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Employment Status</label>
-													<input type="text" name="employment_status" defaultValue={chefResume.employment_status} onChange={(e) => setEmploymentStatus(e.target.value)}/>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Your website</label>
-													<input type="text" name="website"  defaultValue={chefResume.website} onChange={(e) => setWebsite(e.target.value)}/>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Languages</label>
-													<input type="text" name="languages" defaultValue={chefResume.languages} onChange={(e) => setLanguages(e.target.value)} />
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<hr />
-								<div className="row">
-									<div className="col-lg-4 col-md-12">
-										<div className="text-left">
-											<h5>Professional Experience</h5>
-											<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
-										</div>
-									</div>
-									<div className="col-lg-8 col-md-12">
-										<div className="all-form">
-											<div className="row">
-												<div className="col-lg-12 col-md-12">
-													<label>I love cooking because</label>
-													<textarea name="love_cooking" defaultValue={chefResume.love_cooking} onChange={(e) => setLoveCooking(e.target.value)}></textarea>
-												</div>
-												<div className="col-lg-12 col-md-12">
-													<label>Culinary experience</label>
-													<textarea name="experience"  defaultValue={chefResume.experience} onChange={(e) => setExperience(e.target.value)}></textarea>
-												</div>
-												<div className="col-lg-12 col-md-12">
-													<label>Tell us about your favorite chefs</label>
-													<textarea name="favorite_chef" defaultValue={chefResume.favorite_chef} onChange={(e) => setFavoriteChef(e.target.value)}></textarea>
-												</div>
-												<div className="col-lg-12 col-md-12">
-													<label>Tell us about your favorite cuisines</label>
-													<textarea name="favorite_dishes" defaultValue={chefResume.favorite_dishes} onChange={(e) => setFavoriteDishes(e.target.value)}></textarea>
-												</div>
-												<div className="col-lg-12 col-md-12">
-													<label>Any special skills?</label>
-													<textarea name="skills"  defaultValue={chefResume.skills} onChange={(e) => setSkills(e.target.value)}></textarea>
+										<div className="col-lg-8 col-md-12">
+											<div className="all-form">
+												<div className="row">
+													<div className="col-lg-12 col-md-12">
+														<label>Tell us about you</label>
+														<textarea name="about" defaultValue={chefResume.about} onChange={(e) => setAbout(e.target.value)}></textarea>
+													</div>
+													<div className="col-lg-12 col-md-12">
+														<label>What describes you best?</label>
+														<textarea name="description" defaultValue={chefResume.description} onChange={(e) => setDescription(e.target.value)}></textarea>
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Type of services</label>
+														<input type="text" name="services_type" defaultValue={chefResume.services_type} onChange={(e) => setServicesType(e.target.value)} />
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Employment Status</label>
+														<input type="text" name="employment_status" defaultValue={chefResume.employment_status} onChange={(e) => setEmploymentStatus(e.target.value)} />
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Your website</label>
+														<input type="text" name="website" defaultValue={chefResume.website} onChange={(e) => setWebsite(e.target.value)} />
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Languages</label>
+														<input type="text" name="languages" defaultValue={chefResume.languages} onChange={(e) => setLanguages(e.target.value)} />
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+									<hr />
+									<div className="row">
+										<div className="col-lg-4 col-md-12">
+											<div className="text-left">
+												<h5>Professional Experience</h5>
+												<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+											</div>
+										</div>
+										<div className="col-lg-8 col-md-12">
+											<div className="all-form">
+												<div className="row">
+													<div className="col-lg-12 col-md-12">
+														<label>I love cooking because</label>
+														<textarea name="love_cooking" defaultValue={chefResume.love_cooking} onChange={(e) => setLoveCooking(e.target.value)}></textarea>
+													</div>
+													<div className="col-lg-12 col-md-12">
+														<label>Culinary experience</label>
+														<textarea name="experience" defaultValue={chefResume.experience} onChange={(e) => setExperience(e.target.value)}></textarea>
+													</div>
+													<div className="col-lg-12 col-md-12">
+														<label>Tell us about your favorite chefs</label>
+														<textarea name="favorite_chef" defaultValue={chefResume.favorite_chef} onChange={(e) => setFavoriteChef(e.target.value)}></textarea>
+													</div>
+													<div className="col-lg-12 col-md-12">
+														<label>Tell us about your favorite cuisines</label>
+														<textarea name="favorite_dishes" defaultValue={chefResume.favorite_dishes} onChange={(e) => setFavoriteDishes(e.target.value)}></textarea>
+													</div>
+													<div className="col-lg-12 col-md-12">
+														<label>Any special skills?</label>
+														<textarea name="skills" defaultValue={chefResume.skills} onChange={(e) => setSkills(e.target.value)}></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 
-								<hr />
-								<div className="row">
-									<div className="col-lg-4 col-md-12">
-										<div className="text-left">
-											<h5>Social Networks</h5>
-											<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+									<hr />
+									<div className="row">
+										<div className="col-lg-4 col-md-12">
+											<div className="text-left">
+												<h5>Social Networks</h5>
+												<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+											</div>
 										</div>
-									</div>
-									<div className="col-lg-8 col-md-12">
-										<div className="all-form">
-											<div className="row">
-												<div className="col-lg-6 col-md-6">
-													<label>Facebook</label>
-													<input type="text" name="facebook_link" defaultValue={chefResume.facebook_link} onChange={(e) => setFacebookLink(e.target.value)}/>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Instagram</label>
-													<input type="text" name="instagram_link"  defaultValue={chefResume.instagram_link} onChange={(e) => setInstagramLink(e.target.value)}/>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Twitter</label>
-													<input type="text" name="twitter_link" defaultValue={chefResume.twitter_link} onChange={(e) => setTwitterLink(e.target.value)}/>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Linkedin</label>
-													<input type="text" name="linkedin_link" defaultValue={chefResume.linkedin_link} onChange={(e) => setLinkedinLink(e.target.value)}/>
-												</div>
-												<div className="col-lg-6 col-md-6">
-													<label>Youtube</label>
-													<input type="text" name="youtube_link" defaultValue={chefResume.youtube_link} onChange={(e) => setYoutubeLink(e.target.value)}/>
+										<div className="col-lg-8 col-md-12">
+											<div className="all-form">
+												<div className="row">
+													<div className="col-lg-6 col-md-6">
+														<label>Facebook</label>
+														<input type="text" name="facebook_link" defaultValue={chefResume.facebook_link} onChange={(e) => setFacebookLink(e.target.value)} />
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Instagram</label>
+														<input type="text" name="instagram_link" defaultValue={chefResume.instagram_link} onChange={(e) => setInstagramLink(e.target.value)} />
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Twitter</label>
+														<input type="text" name="twitter_link" defaultValue={chefResume.twitter_link} onChange={(e) => setTwitterLink(e.target.value)} />
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Linkedin</label>
+														<input type="text" name="linkedin_link" defaultValue={chefResume.linkedin_link} onChange={(e) => setLinkedinLink(e.target.value)} />
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Youtube</label>
+														<input type="text" name="youtube_link" defaultValue={chefResume.youtube_link} onChange={(e) => setYoutubeLink(e.target.value)} />
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div className="text-right">
-								<button className="table-btn text-right" type="submit">Save</button>
-								</div>
-								<hr></hr>
+									<div className="text-right">
+										<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>									</div>
+									<hr></hr>
 								</>
 							</form>
 						</div>
@@ -452,7 +534,7 @@ export default function MyProfile() {
 											<div className="col-9"><p className="f-16">Location Name 1</p></div>
 											<div className="col-3">
 												<label className="switch">
-													<input type="checkbox"  />
+													<input type="checkbox" />
 													<span className="slider round"></span>
 												</label>
 											</div>
