@@ -1,5 +1,9 @@
 import React, { useState ,useEffect} from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
+import { getAllChefDetails } from '../../../lib/adminapi';
+import { toast } from 'react-toastify';
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+
 export default function Chefs() {
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const modalConfirmOpen = () => {
@@ -8,6 +12,37 @@ export default function Chefs() {
     const modalConfirmClose = () => {
         setModalConfirm(false);
     }
+
+		const [chefs, setChefs] = useState([]);
+
+		useEffect(() => {
+
+			const data = isPageVisibleToRole('admin-chefs');
+			if (data == 2) {
+			  window.location.href = '/login'; // redirect to login if not logged in
+			} else if (data == 0) {
+			  window.location.href = '/404'; // redirect to 404 if not authorized
+			}
+		  
+			getAllChefDetails()
+			  .then((res) => {
+				if (res.status) {
+					console.log(res);
+				  setChefs(res.data);
+				} else {
+				  toast.error(res.message, {
+					position: toast.POSITION.TOP_RIGHT,
+				  });
+				}
+			  })
+			  .catch((err) => {
+				toast.error(err.message, {
+				  position: toast.POSITION.BOTTOM_RIGHT,
+				});
+			  });
+		  }, []);
+		
+
     return (
         <>
 			<div className="table-part">
@@ -33,182 +68,25 @@ export default function Chefs() {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-								<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-								<td>Leslie Alexander</td>
-								<td>Leslie Alexander</td>
-								<td>
-									<ul>
-										<li>Greek</li>
-										<li>Italian</li>
-										<li>+4</li>
-									</ul>
-								</td>
-								<td>Ut pulvinar.</td>
-								<td>Arcu nibh non.</td>
-								<td>Eu nibh.</td>
-								<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
+						{chefs.map(chef => (
+						<tr key={chef.id}>
+                      <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
+                      <td>{ chef.name }</td>
+                      <td>{ chef.address}</td>
+                      <td>
+                      <ul>
+                     <li>Greek</li>
+                     <li>Italian</li>
+                     <li>+4</li>
+                     </ul>
+                     </td>
+                     <td>Ut pulvinar.</td>
+                     <td>Arcu nibh non.</td>
+                     <td>Eu nibh.</td>
+                     <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+                    </tr>
+                    ))}
+
 						</tbody>
 					</table>
 				</div>

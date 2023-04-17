@@ -10,3 +10,8 @@
     top: 0;
     right: 0;
 }
+img.profile_upload_form.img-cicle {
+    border-radius: 50px;
+    height: 80px;
+    width: 80px;
+}

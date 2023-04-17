@@ -1,7 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
+import { getAllChefDetails } from '../../../lib/adminapi';
+import { toast } from 'react-toastify';
 export default function Sidebar(): JSX.Element {
+    
     const router = useRouter();
+
+    
+   
     return (
         <>
             <div id="sidebar-container" className="sidebar-expanded  mobile-view d-md-block">
@@ -13,7 +19,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">
-                                <h5>Name Surname</h5>
+                                <h5></h5>
                                 <p>Admin</p>
                             </div>
                         </div>

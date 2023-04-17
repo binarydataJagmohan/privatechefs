@@ -20,6 +20,8 @@
     "next-auth": "^4.21.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-easy-crop": "^4.7.4",
+    "react-image-crop": "^10.0.9",
     "react-slick": "^0.29.0",
     "react-toastify": "^9.1.2",
     "sweetalert2": "^11.7.3"
