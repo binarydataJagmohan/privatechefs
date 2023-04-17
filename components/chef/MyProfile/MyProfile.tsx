@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { upadte_chef_profile, get_chef_detail,upadte_chef_resume,get_chef_resume} from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -109,10 +110,21 @@ export default function MyProfile() {
 			try {
 				const userData = getCurrentUserData();
 				setCurrentUserData(userData);
-				const chefData = await get_chef_detail(userData.id);
-				setUserData(chefData.data);
-				const chefResumeData = await get_chef_resume(userData.id);
-				setChefResume(chefResumeData.data);
+				const data = isPageVisibleToRole('chef-edit-profile');
+				if(data == 2) {
+					window.location.href = '/';
+				}
+				if(data == 0) {
+				window.location.href = '/404';
+				}
+				if(data == 1) {
+					const chefData = await get_chef_detail(userData.id);
+					setUserData(chefData.data);
+					const chefResumeData = await get_chef_resume(userData.id);
+					setChefResume(chefResumeData.data);
+				}
+
+				
 			} catch (error) {
 				console.error(error);
 			}
@@ -415,7 +427,7 @@ export default function MyProfile() {
 											<div className="col-9"><p className="f-16">Location Name 1</p></div>
 											<div className="col-3">
 												<label className="switch">
-													<input type="checkbox" checked />
+													<input type="checkbox"  />
 													<span className="slider round"></span>
 												</label>
 											</div>
@@ -446,7 +458,7 @@ export default function MyProfile() {
 										</div>
 									</div>
 
-									<div className="location-name">
+									{/* <div className="location-name">
 										<div className="row">
 											<div className="col-9"><p className="f-16">Location Name 1</p></div>
 											<div className="col-3">
@@ -456,7 +468,7 @@ export default function MyProfile() {
 												</label>
 											</div>
 										</div>
-									</div>
+									</div> */}
 									<div className="banner-btn position-bottom"><a href="/startjourney">Start your journey</a></div>
 								</div>
 								<div className="col-lg-8 col-md-12">
