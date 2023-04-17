@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { upadte_chef_profile, get_chef_detail,upadte_chef_resume,get_chef_resume} from '../../../lib/chefapi'
+import { updateChefProfile, getChefDetail,UpdateChefResume,getChefResume} from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -57,7 +57,7 @@ export default function MyProfile() {
 			holder_name: holder_name,
 			bank_address: bank_address,
 		};
-		upadte_chef_profile(userid, data)
+		updateChefProfile(userid, data)
 			.then(res => {
 				toast.success(res.message, {
 					position: toast.POSITION.TOP_RIGHT
@@ -92,7 +92,7 @@ export default function MyProfile() {
 			linkedin_link: linkedin_link,
 			youtube_link:youtube_link
 		};
-		upadte_chef_resume(id, data)
+		UpdateChefResume(id, data)
 			.then(res => {
 				toast.success(res.message, {
 					position: toast.POSITION.TOP_RIGHT
@@ -106,31 +106,56 @@ export default function MyProfile() {
 	};
 
 	useEffect(() => {
-		async function fetchData() {
-			try {
-				const userData = getCurrentUserData();
-				setCurrentUserData(userData);
-				const data = isPageVisibleToRole('chef-edit-profile');
-				if(data == 2) {
-					window.location.href = '/';
-				}
-				if(data == 0) {
-				window.location.href = '/404';
-				}
-				if(data == 1) {
-					const chefData = await get_chef_detail(userData.id);
-					setUserData(chefData.data);
-					const chefResumeData = await get_chef_resume(userData.id);
-					setChefResume(chefResumeData.data);
-				}
-
-				
-			} catch (error) {
-				console.error(error);
-			}
+		getUserData();
+	  }, []);
+	
+	  const getUserData = async () => {
+		const data = isPageVisibleToRole('chef-menu');
+		if(data == 2) {
+		  window.location.href = '/';
 		}
-		fetchData();
-	}, []);
+		if(data == 0) {
+		  window.location.href = '/404';
+		}
+		if(data ==1) {
+		  const userData = getCurrentUserData();
+		  setCurrentUserData(userData);
+		  getChefDetailData(userData.id);
+		  getChefResumeData(userData.id);
+		}
+	  }
+
+	const getChefDetailData = async (id) => {
+		getChefDetail(id)
+		.then(res => {
+		  if(res.status==true){
+				setUserData(res.data);
+		  } else {
+			  toast.error(res.message, {
+			  position: toast.POSITION.TOP_RIGHT
+			});
+		  }
+		})
+		.catch(err => {
+			console.log(err);
+		});
+	}
+
+	const getChefResumeData = async (id) => {
+		getChefResume(id)
+		.then(res => {
+		  if(res.status==true){
+			setChefResume(res.data);
+		  } else {
+			  toast.error(res.message, {
+			  position: toast.POSITION.TOP_RIGHT
+			});
+		  }
+		})
+		.catch(err => {
+			console.log(err);
+		});
+	}
 
 	return (
 		<>
@@ -458,17 +483,17 @@ export default function MyProfile() {
 										</div>
 									</div>
 
-									{/* <div className="location-name">
+									<div className="location-name">
 										<div className="row">
 											<div className="col-9"><p className="f-16">Location Name 1</p></div>
 											<div className="col-3">
 												<label className="switch">
-													<input type="checkbox" checked />
+													<input type="checkbox" />
 													<span className="slider round"></span>
 												</label>
 											</div>
 										</div>
-									</div> */}
+									</div>
 									<div className="banner-btn position-bottom"><a href="/startjourney">Start your journey</a></div>
 								</div>
 								<div className="col-lg-8 col-md-12">

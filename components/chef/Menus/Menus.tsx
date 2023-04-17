@@ -5,7 +5,7 @@ import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import {getAllCrusine,saveChefMenu} from '../../../lib/chefapi';
 import { useRouter } from "next/router";
-import { getToken } from "../../../lib/session";
+import { getToken ,getCurrentUserData} from "../../../lib/session";
 import { ToastContainer,toast } from 'react-toastify';
 export default function Menus() {
 
@@ -18,6 +18,7 @@ export default function Menus() {
  const [description, setDescription] = useState('');
  const [cuisineid, setCuisineDataId] = useState('');
  const [image, setImage] = useState('');
+ const [currentUserData, setCurrentUserData] = useState({});
 
  const modalConfirmClose = () => {
     setModalConfirm(false);
@@ -25,7 +26,6 @@ export default function Menus() {
 
   useEffect(() => {
     getUserData();
-    getAllCrusineData();
   }, []);
 
   const getUserData = async () => {
@@ -36,6 +36,11 @@ export default function Menus() {
     if(data == 0) {
       window.location.href = '/404';
     }
+    if(data ==1) {
+      const userData = getCurrentUserData();
+      setCurrentUserData(userData);
+      getAllCrusineData();
+    }
   }
 
   const getAllCrusineData = async () => {
@@ -44,7 +49,9 @@ export default function Menus() {
         if(res.status==true){
           setCuisineData(res.data);
         } else {
-         
+            toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
         }
       })
       .catch(err => {
