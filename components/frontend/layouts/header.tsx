@@ -98,6 +98,13 @@ export default function Header({}) {
                 toast.success(res.message, {
                   position: toast.POSITION.TOP_RIGHT
                 });
+
+                setTimeout(() => {
+                  if(res.user.role == 'admin'){
+                    window.location.href = '/admin/dashboard';
+                  }
+                 
+                }, 1000);
            
               } else {
                 setButtonState(false);
@@ -218,6 +225,8 @@ export default function Header({}) {
                   }
                  
                 }, 1000);
+
+
 
               } else {
                 setButtonState(false);
