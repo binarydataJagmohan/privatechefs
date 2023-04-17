@@ -456,36 +456,36 @@ export default function Header({}) {
                 </div>
                 <div className="all-form"> 
                 <form onSubmit={handleRegisterSubmit} className="common_form_error" id="register_form">
-                    <div className='register_div'>
+                    <div className='login_div'>
                         <label htmlFor="name">Name:</label>
                         <input type="text" id="name"  name="name" value={name} onChange={(e) => setName(e.target.value)}  onBlur={handleRegisterBlur} />
-                        {errors.name && <span className="small error text-danger mb-2 d-inline-block error_register ">{errors.name}</span>}
+                        {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.name}</span>}
                     </div>
-                    <div className='register_div'>
+                    <div className='login_div'>
                         <label htmlFor="email">Email:</label>
                         <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} autoComplete="username"/>
-                        {errors.email && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.email}</span>}
+                        {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
                     </div>
 
-                    <div className='register_div mb-2'>
+                    <div className='login_div mb-2'>
                         <label htmlFor="email">Role:</label>
                         <select className="" onChange={(e) => setRole(e.target.value)} name="role">
                           <option value="user">User</option>
                           <option value="chef">Chef</option>
                           <option value="concierge">Conciergehief</option>
                         </select>
-                        {errors.role && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.role}</span>}
+                        {errors.role && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.role}</span>}
                     </div>
 
-                    <div className='register_div'>
+                    <div className='login_div'>
                         <label htmlFor="password">Password:</label>
                         <input type="password" id="registerpassword" name='password' value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password"/>
-                        {errors.password && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.password}</span>}
+                        {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.password}</span>}
                     </div>
-                    <div className='register_div'>
+                    <div className='login_div'>
                         <label htmlFor="confirmPassword">Confirm Password:</label>
                         <input type="password" id="confirmPassword text-danger mb-2 d-inline-block" name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password"/>
-                        {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_register" >{errors.confirmPassword}</span>}
+                        {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_login" >{errors.confirmPassword}</span>}
                     </div>
                     <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit' }</button>
                 </form>
