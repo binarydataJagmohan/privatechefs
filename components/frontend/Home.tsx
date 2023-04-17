@@ -2,24 +2,62 @@ import React, { useState ,useEffect} from 'react';
 import Slider from "react-slick";
 import { useRouter } from "next/router";
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {CheckUserEmailVerification} from '../../lib/frontendapi';
+import {CheckUserEmailVerification,CheckUserResetPasswordVerification,UpdateResetPassword} from '../../lib/frontendapi';
+import PopupModal from '../../components/commoncomponents/PopupModal';
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
 
     const router = useRouter();
+    const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
+    const [buttonStatus, setButtonState] = useState(false);
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [errors, setErrors] = useState({});
+
+
     useEffect(() => {
         if(router.query.id && router.query.hash ){
-            
             CheckEmailVerification();
+        }
+
+        if(router.query.userid && router.query.resettoken ){
+            CheckResetPasswordVerification();
         }
 
     }, [router]);
 
-    const CheckEmailVerification = async () => {
+    const CheckResetPasswordVerification = async () => {
+        const data = {
+            id:router.query.userid,
+            token:router.query.resettoken
+        }
 
-      
+        CheckUserResetPasswordVerification(data)
+        .then(res => {
+            if(res){
+               if(res.status == true){
+                setModalConfirmTwo(true);
+               }else {
+                    Swal.fire({
+                        title: 'Oops!',
+                        text: res.message,
+                        icon: 'info',
+                        confirmButtonText: 'Ok',
+                        customClass: {
+                            confirmButton: 'confirm-button-class'
+                        }
+                    });
+               }
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }   
+
+    const CheckEmailVerification = async () => {
         const data = {
             id:router.query.id,
             token:router.query.hash
@@ -58,6 +96,106 @@ export default function Home() {
     }
 
 
+
+    const modalConfirmCloseTwo = () => {
+        setModalConfirmTwo(false);
+    }
+
+    //register submit start
+
+    const handleResetSubmit = (event) => {
+        event.preventDefault();
+    
+        // Validate form data
+        const errors = {};
+        
+        if (!password) {
+          errors.password = "Password is required";
+        } else if (password.length < 8) {
+          errors.password = "Password must be at least 8 characters";
+        }
+        if (!confirmPassword) {
+          errors.confirmPassword = "Please confirm your password";
+        } else if (password !== confirmPassword) {
+          errors.confirmPassword = "Passwords do not match";
+        }
+        
+        setErrors(errors);
+    
+        // Submit form data if there are no errors
+        if (Object.keys(errors).length === 0) {
+
+          setButtonState(true);
+         
+           // Call an API or perform some other action to register the user
+           const data = {
+             user_id:router.query.userid,
+             password: password,
+           };
+           UpdateResetPassword(data)
+          .then(res => {
+            if(res.status==true){
+
+                setButtonState(false);
+                toast.info(res.message, {
+                  position: toast.POSITION.TOP_RIGHT
+                });
+                
+             
+            } else {
+              setButtonState(false);
+              if (res.status === false && res.errors) {
+                Object.keys(res.errors).forEach(function(key) {
+                  res.errors[key].forEach(function(errorMessage) {
+                    toast.error(errorMessage);
+                  });
+                });
+              }
+              
+            }
+          })
+          .catch(err => {
+              console.log(err);
+          });
+        }
+        
+      };
+
+      const handleResetBlur = (event) => {
+        const { name, value } = event.target;
+        const newErrors = { ...errors };
+    
+        switch (name) {
+          
+          case "password":
+            if (!value) {
+              newErrors.password = "Password is required";
+            } else if (value.length < 8) {
+              newErrors.password = "Password must be at least 8 characters";
+            } else {
+              delete newErrors.password;
+            }
+            break;
+          case "confirmPassword":
+            if (!value) {
+              newErrors.confirmPassword = "Please confirm your password";
+            } else if (value !== password) {
+              newErrors.confirmPassword = "Passwords do not match";
+            } else {
+              delete newErrors.confirmPassword;
+            }
+            break;
+          default:
+            break;
+        }
+    
+        setErrors(newErrors);
+      };
+    
+       //register submit close
+
+
+    
     const settings = {
         rows: 1,
         dots: false,
@@ -421,6 +559,33 @@ export default function Home() {
               </div>
             </section>
  
+             {/* // register popup code start  */}
+
+             <PopupModal show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
+                <div className="text-center popup-img">
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
+                </div>
+                <div className="all-form"> 
+                <form onSubmit={handleResetSubmit} id="reset_register_form">
+
+                    <div className='register_div'>
+                        <label htmlFor="password">Password:</label>
+                        <input type="password" id="resetpassword" name='password' value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password"/>
+                        {errors.password && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.password}</span>}
+                    </div>
+                    <div className='register_div'>
+                        <label htmlFor="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="resetconfirmPassword text-danger mb-2 d-inline-block" name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password"/>
+                        {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_register" >{errors.confirmPassword}</span>}
+                    </div>
+                    <button type="submit" className="btn-send w-100" disabled={buttonStatus}>Continue</button>
+                </form>
+                   
+                </div>
+
+			</PopupModal>
+
+            {/* // register popup code end  */}
 
         </>
     )

@@ -1,37 +1,12 @@
-form#register_form  .register_div {
-    position: relative;
-}
-form#register_form .error_register {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-form#login_form  .login_div {
-    position: relative;
-}
-form#login_form .error_login     {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-<<<<<<< HEAD
 .confirm-button-class {
     background: #ff4e00 !important;
     border: 1px solid red !important;
 }
-=======
-.ppupclass .modal-dialog {
-    max-width: 500px;
-    background:unset;
-    box-shadow: unset;
-  }
-  /* .modal-dialog {
-    background: var( --background-color_3);
-    box-shadow: var(--admin_base-shadow);
-    border-radius: 10px;
-  } */
-  #exampleModal2.modal.popopacity {
-    background: #ffffffd1;
-  }
->>>>>>> 72ec26a8bf103c95290bd2fbd45749b29b5c901b
+.common_form_error .login_div {
+    position: relative;
+}
+.common_form_error .error_login {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
