@@ -3,7 +3,7 @@ import Pagination from "../../../components/commoncomponents/Pagination";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import {getAllCrusine,saveChefMenu} from '../../../lib/chefapi';
+import {getAllCrusine,saveChefMenu,getAllChefMenu} from '../../../lib/chefapi';
 import { useRouter } from "next/router";
 import { getToken ,getCurrentUserData} from "../../../lib/session";
 import { ToastContainer,toast } from 'react-toastify';
@@ -13,12 +13,15 @@ export default function Menus() {
  const [cuisinedata, setCuisineData] = useState({});
  const [modalConfirm, setModalConfirm] = useState(false);
  const [buttonStatus, setButtonState] = useState(false);
-
  const [name, setName] = useState('');
  const [description, setDescription] = useState('');
  const [cuisineid, setCuisineDataId] = useState('');
  const [image, setImage] = useState('');
  const [currentUserData, setCurrentUserData] = useState({});
+ const [totalMenu, setTotalMenu] = useState([]);
+ const [menuData, setMenu] = useState([]);
+ const [currentPage, setCurrentPage] = useState(1);
+ const pageSize = 6;
 
  const modalConfirmClose = () => {
     setModalConfirm(false);
@@ -40,6 +43,7 @@ export default function Menus() {
       const userData = getCurrentUserData();
       setCurrentUserData(userData);
       getAllCrusineData();
+      getAllChefMenuData(userData.id);
     }
   }
 
@@ -49,15 +53,39 @@ export default function Menus() {
         if(res.status==true){
           setCuisineData(res.data);
         } else {
-            toast.error(res.message, {
-            position: toast.POSITION.TOP_RIGHT
-          });
+          //   toast.error(res.message, {
+          //   position: toast.POSITION.TOP_RIGHT
+          // });
         }
       })
       .catch(err => {
           console.log(err);
       });
   }
+
+  const getAllChefMenuData = async (id) => {
+		getAllChefMenu(id)
+		.then(res => {
+		  if(res.status==true){
+        setTotalMenu(res.data);
+        const paginatedPosts = paginate(res.data, currentPage, pageSize);
+        setMenu(paginatedPosts);
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+		  } else {
+			//   toast.error(res.message, {
+			//   position: toast.POSITION.TOP_RIGHT
+			// });
+		  }
+		})
+		.catch(err => {
+			console.log(err);
+		});
+	}
+
 
   //login submit start
 
@@ -85,6 +113,7 @@ export default function Menus() {
          name: name,
          description: description,
          cuisineid : cuisineid,
+         user_id : currentUserData.id
 
        };
        saveChefMenu(data,image[0])
@@ -93,6 +122,13 @@ export default function Menus() {
           
             setModalConfirm(false);
             setButtonState(false);
+            setTotalMenu(res.data);
+            const paginatedPosts = paginate(res.data, currentPage, pageSize);
+            setMenu(paginatedPosts);
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT
             });
@@ -154,30 +190,36 @@ export default function Menus() {
               <li><button className="table-btn btn-2">Desserts  <i className="fa-solid fa-xmark"></i></button></li>
               <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> 
             </ul> 
-            <div className="row mt-4"> 
-              <div className="col-sm-3"> 
+            <div className="row mt-4 add_menu_items"> 
+              <div className="col-sm-3" onClick={() => setModalConfirm(true)} role="button"> 
                 <div className="menu-name">
-                  <p onClick={() => setModalConfirm(true)} role="button">Add Menu Name </p>
+                  <p>Add Menu Name </p>
                 </div>
               </div>
-              <div className="col-sm-3"> 
-                <div className="slider-img-plase">
-                  <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
-                  <p className="plase-btn"><a href="/chef/menus2">Standard Style</a></p>
-                </div> 
-              </div>
-              <div className="col-sm-3"> 
-                <div className="slider-img-plase">
-                  <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/3.jpg'} alt="3" />
-                  <p className="plase-btn"><a href="/chef/menus2">Premium Style</a></p>
-                </div> 
-              </div>
-              <div className="col-sm-3"> 
-                <div className="slider-img-plase">
-                  <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/4.jpg'} alt="4" />
-                  <p className="plase-btn"><a href="/chef/menus2">Premium Style</a></p>
-                </div> 
-              </div>        
+
+              {menuData.length > 0 ? menuData.map((menu,index)=>{
+                return (
+                    <div className="col-sm-3" key={index}> 
+                      <div className="slider-img-plase">
+
+                          {menu.image
+                              ?
+                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/chef/menu/'+menu.image} alt="" width={612} height={300} alt={menu.name} />
+                              :
+                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/placeholder.jpg'}  width={612} height={300} alt={menu.menu_name} />
+                              
+                          }
+                        <p className="plase-btn" data-bs-toggle="tooltip" title={menu.menu_name}><a href="/chef/menus2">{menu.  menu_name.length > 15 ? menu.menu_name.slice(0,15)+'...' : menu.menu_name }</a></p>
+                      </div> 
+                    </div>
+                  )
+
+                }) : <div className="col-sm-3"> 
+                  <div className="slider-img-plase">
+                   
+                  </div> 
+              </div>  
+              }     
             </div>
             
           </div>
