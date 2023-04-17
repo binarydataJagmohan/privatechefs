@@ -137,7 +137,7 @@ export default function Home() {
             if(res.status==true){
 
                 setButtonState(false);
-                toast.info(res.message, {
+                toast.success(res.message, {
                   position: toast.POSITION.TOP_RIGHT
                 });
                 
@@ -578,7 +578,7 @@ export default function Home() {
                         <input type="password" id="resetconfirmPassword text-danger mb-2 d-inline-block" name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password"/>
                         {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_register" >{errors.confirmPassword}</span>}
                     </div>
-                    <button type="submit" className="btn-send w-100" disabled={buttonStatus}>Continue</button>
+                    <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait' : 'Submit'}</button>
                 </form>
                    
                 </div>
