@@ -9,6 +9,7 @@ export function isPageVisibleToRole(pageName) {
         "admin-page": ["admin"],
         "chef-menu": ["chef"],
         "chef-edit-profile": ["chef"],
+        "chef-single-menu": ["chef"],
         "admin-chefs": ["admin"],
         
       };

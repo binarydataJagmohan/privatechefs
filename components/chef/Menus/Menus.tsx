@@ -1,12 +1,13 @@
 import React, { useState ,useEffect} from 'react'
-import Pagination from "../../../components/commoncomponents/Pagination";
-import PopupModal from '../../../components/commoncomponents/PopupModal';
+import Pagination from "../../commoncomponents/Pagination";
+import PopupModal from '../../commoncomponents/PopupModal';
 import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import {getAllCrusine,saveChefMenu,getAllChefMenu} from '../../../lib/chefapi';
 import { useRouter } from "next/router";
 import { getToken ,getCurrentUserData} from "../../../lib/session";
 import { ToastContainer,toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 export default function Menus() {
 
  const [errors, setErrors] = useState({});
@@ -46,6 +47,23 @@ export default function Menus() {
       getAllChefMenuData(userData.id);
     }
   }
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+    getAllChefMenu(currentUserData.id)
+    .then(res => {
+      if(res.status==true){
+        setTotalMenu(res.data);
+        const paginatedPosts = paginate(res.data, page, pageSize);
+        setMenu(paginatedPosts);
+      } else {
+        setErrorMessage(res.message);
+      }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
 
   const getAllCrusineData = async () => {
       getAllCrusine()
@@ -200,8 +218,9 @@ export default function Menus() {
               {menuData.length > 0 ? menuData.map((menu,index)=>{
                 return (
                     <div className="col-sm-3" key={index}> 
+                   
                       <div className="slider-img-plase">
-
+                      <a href={"/chef/menu/"+menu.id} className="sdf">
                           {menu.image
                               ?
                               <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/chef/menu/'+menu.image} alt="" width={612} height={300} alt={menu.name} />
@@ -209,8 +228,10 @@ export default function Menus() {
                               <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/placeholder.jpg'}  width={612} height={300} alt={menu.menu_name} />
                               
                           }
-                        <p className="plase-btn" data-bs-toggle="tooltip" title={menu.menu_name}><a href="/chef/menus2">{menu.  menu_name.length > 15 ? menu.menu_name.slice(0,15)+'...' : menu.menu_name }</a></p>
+                          </a>
+                        <p className="plase-btn" data-bs-toggle="tooltip" title={menu.menu_name}><a href={"/chef/menu/"+menu.id}>{menu.  menu_name.length > 15 ? menu.menu_name.slice(0,15)+'...' : menu.menu_name }</a></p>
                       </div> 
+                      
                     </div>
                   )
 
@@ -223,6 +244,12 @@ export default function Menus() {
             </div>
             
           </div>
+          <Pagination
+              items={totalMenu.length} 
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onPageChange={onPageChange}
+          />   
 
            {/* // Menu popup start  */}
            <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">

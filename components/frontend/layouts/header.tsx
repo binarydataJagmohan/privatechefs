@@ -99,9 +99,16 @@ export default function Header({}) {
                   position: toast.POSITION.TOP_RIGHT
                 });
 
-                setTimeout(() => {
+                  setTimeout(() => {
                   if(res.user.role == 'admin'){
                     window.location.href = '/admin/dashboard';
+                  }
+                 
+                }, 1000);
+
+                setTimeout(() => {
+                  if(res.user.role == 'chef'){
+                    window.location.href = '/chef/dashboard';
                   }
                  
                 }, 1000);
@@ -225,8 +232,6 @@ export default function Header({}) {
                   }
                  
                 }, 1000);
-
-
 
               } else {
                 setButtonState(false);

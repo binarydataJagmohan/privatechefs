@@ -15,3 +15,15 @@ img.profile_upload_form.img-cicle {
     height: 80px;
     width: 80px;
 }
+div#all_menu_dishes_form .dishes_name_input {
+    padding: 14px;
+}
+
+div#all_menu_dishes_form .btn-send {
+    height: 45px;
+}
+.dishes_form .error_login {
+    position: absolute;
+    bottom: -14px;
+    left: 11px;
+}

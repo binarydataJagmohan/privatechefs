@@ -264,7 +264,7 @@ export default function MyProfile() {
 											<div className="row">
 												<div className="col-lg-4 col-md-6">
 													<label>Name</label>
-													<input type="text" name="name" defaultValue={currentUserData.name} onChange={(e) => setFullName(e.target.value)} />
+													<input type="text" name="name" defaultValue={userData.name} onChange={(e) => setFullName(e.target.value)} />
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Surname</label>
@@ -272,7 +272,7 @@ export default function MyProfile() {
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Email</label>
-													<input type="text" name="email" defaultValue={currentUserData.email} onChange={(e) => setEmail(e.target.value)} />
+													<input type="text" name="email" defaultValue={userData.email} onChange={(e) => setEmail(e.target.value)} />
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Phone Number</label>
