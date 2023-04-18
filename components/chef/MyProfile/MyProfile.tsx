@@ -142,7 +142,7 @@ export default function MyProfile() {
 	}, []);
 
 	const getUserData = async () => {
-		const data = isPageVisibleToRole('chef-menu');
+		const data = isPageVisibleToRole('chef-edit-profile');
 		if (data == 2) {
 			window.location.href = '/';
 		}
@@ -230,7 +230,7 @@ export default function MyProfile() {
 														{userData.pic ? <img
 															className="profile_upload_form img-cicle"
 															src={
-																image ? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/' + userData.pic
+																image ? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/users' + userData.pic
 															}
 															alt=""
 															onClick={() => uploadimage()}
