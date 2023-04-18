@@ -10,7 +10,7 @@ export function isPageVisibleToRole(pageName) {
         "chef-menu": ["chef"],
         "chef-edit-profile": ["chef"],
         "admin-chefs": ["admin"],
-        
+        "user-edit-profile": ["user"],
       };
 
       if (pageName in pageRoles) {

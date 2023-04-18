@@ -105,6 +105,13 @@ export default function Header({}) {
                   }
                  
                 }, 1000);
+
+                setTimeout(() => {
+                  if(res.user.role == 'user'){
+                    window.location.href = '/user/userprofile';
+                  }
+                 
+                }, 1000);
            
               } else {
                 setButtonState(false);
@@ -226,7 +233,12 @@ export default function Header({}) {
                  
                 }, 1000);
 
-
+                setTimeout(() => {
+                  if(res.data.user.role == 'user'){
+                    window.location.href = '/user/userprofile';
+                  }
+                 
+                }, 1000);
 
               } else {
                 setButtonState(false);
