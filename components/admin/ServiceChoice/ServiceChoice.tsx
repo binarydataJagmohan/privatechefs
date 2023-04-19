@@ -2,6 +2,7 @@ import React, { useState ,useEffect} from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { ToastContainer,toast } from 'react-toastify';
 import { saveService,getServiceDetails,serviceDelete } from '../../../lib/adminapi';
+import swal from "sweetalert";
 
 export default function ServiceChoice()
 {
@@ -40,28 +41,41 @@ export default function ServiceChoice()
 			  });
 		  }, []);
 
-		  const handleDelete = (e,id) => {
+		const handleDelete = (e, id) => {
 			e.preventDefault();
-			serviceDelete(id)
-					   .then((res) => {
-						console.log(res)
-						 if (res.status === true) {
-							toast.success(res.message, {
-								position: toast.POSITION.TOP_RIGHT,
-							  });
-							  location.reload();
-						 } else {
-						   toast.error(res.message, {
-							 position: toast.POSITION.TOP_RIGHT,
-						   });
-						 }
-					   })
-					   .catch((err) => {
-						 toast.error(err.message, {
-						   position: toast.POSITION.BOTTOM_RIGHT,
-						 });
-					   });
-					 };
+			swal({
+			  title: "Are you sure?",
+			  text: "You want to delete the Allergy detail",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			  buttons: ["Cancel", "Yes, I am sure!"],
+			  confirmButtonColor: "#062B60",
+			}).then((willDelete) => {
+			  if (willDelete) {
+				serviceDelete(id)
+				  .then((res) => {
+					if (res.status === true) {
+					swal("Your Allergy Details has been deleted!", {
+						icon: "success",
+					  });
+					  location.reload();
+					} else {
+					  toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT,
+					  });
+					}
+				  })
+				  .catch((err) => {
+					toast.error(err.message, {
+					  position: toast.POSITION.BOTTOM_RIGHT,
+					});
+				  });
+			  } else {
+				// handle cancel
+			  }
+			});
+		  };
 
     //login submit start
 
@@ -138,12 +152,12 @@ export default function ServiceChoice()
           <div className="table-part">
 				<h2>Service Choice</h2>
 				<ul className="table_header_button_section p-r">
-					<li><button className="table-btn">Total</button></li>
+					{/* <li><button className="table-btn">Total</button></li> */}
 					<li className="right-li"><button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>Add </button></li> 
 					</ul> 
 
 				
-				<div className="table-box">
+				<div className="table-box" id='ffff'>
 					<table className="table table-borderless">
 						<thead>
 							<tr>
@@ -164,7 +178,7 @@ export default function ServiceChoice()
                       <td>{service.service_name}</td>
                       <td>{service.description}</td>
 					  <td>
-                      <div className="dropdown">
+                      <div className="dropdown" id='none-class'>
                       <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                       <i className="fa-solid fa-ellipsis"></i>
                       </a>
@@ -176,8 +190,6 @@ export default function ServiceChoice()
                   </td>
                     </tr>
 					 ))}
-                   
-
 						</tbody>
 					</table>
 				</div>
@@ -185,7 +197,6 @@ export default function ServiceChoice()
 			{/* // Menu popup start  */}
 			<PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
                   <div className="text-center popup-img">
-                      <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
                   </div>
                   <div className="all-form" > 
                   <form onSubmit={handlMenuSubmit}  className="common_form_error" id="menu_form">

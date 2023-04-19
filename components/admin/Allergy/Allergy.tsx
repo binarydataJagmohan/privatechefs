@@ -2,6 +2,9 @@ import React, { useState ,useEffect} from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { ToastContainer,toast } from 'react-toastify';
 import { allergy,getAllergyDetails,allergyDelete } from '../../../lib/adminapi';
+import Pagination from "../../commoncomponents/Pagination";
+import { paginate } from "../../../helpers/paginate";
+import swal from "sweetalert";
 
 export default function Allergy()
 {
@@ -14,6 +17,11 @@ export default function Allergy()
   const [editAllergy, seteditAllergy] = useState(null);
   const [deleteAllergy, setdeleteAllergy,] = useState(null);
   const [allergis, setAllergis] = useState([]);
+  const [allergyList, setAllergyList] = useState([]);
+  const [totalMenu, setTotalMenu] = useState([]);
+  const [menuData, setMenu] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   const handleEdit = (id) => {
     seteditAllergy(id);
@@ -26,12 +34,56 @@ export default function Allergy()
         setModalConfirm(false);
     }
 	
+	
 	useEffect(() => {
-		getAllergyDetails()
+		const fetchAllergyDetails = async () => {
+		  try {
+			const res = await getAllergyDetails();
+			if (res.status) {
+			  console.log(res);
+			  setAllergis(res.data);
+	  
+			  const paginatedPosts = paginate(res.data, currentPage, pageSize);
+			  setMenu(paginatedPosts);
+			} else {
+			  toast.error(res.message, {
+				position: toast.POSITION.TOP_RIGHT,
+			  });
+			}
+		  } catch (err) {
+			toast.error(err.message, {
+			  position: toast.POSITION.BOTTOM_RIGHT,
+			});
+		  }
+		};
+	  
+		fetchAllergyDetails();
+	  }, [currentPage, pageSize]);
+	  
+	  const onPageChange = (page) => {
+		setCurrentPage(page);
+	  };
+		
+
+	  const handleDelete = (e, id) => {
+		e.preventDefault();
+		swal({
+		  title: "Are you sure?",
+		  text: "You want to delete the Allergy detail",
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true,
+		  buttons: ["Cancel", "Yes, I am sure!"],
+		  confirmButtonColor: "#062B60",
+		}).then((willDelete) => {
+		  if (willDelete) {
+			allergyDelete(id)
 			  .then((res) => {
-				if (res.status) {
-					console.log(res);
-					setAllergis(res.data);
+				if (res.status === true) {
+				swal("Your Allergy Details has been deleted!", {
+					icon: "success",
+				  });
+				  location.reload();
 				} else {
 				  toast.error(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
@@ -43,31 +95,12 @@ export default function Allergy()
 				  position: toast.POSITION.BOTTOM_RIGHT,
 				});
 			  });
-		  }, []);
-
-		  const handleDelete = (e,id) => {
-			e.preventDefault();
-			// setdeleteAllergy(id);
-			 allergyDelete(id)
-					   .then((res) => {
-						console.log(res)
-						 if (res.status === true) {
-							toast.success(res.message, {
-								position: toast.POSITION.TOP_RIGHT,
-							  });
-							  location.reload();
-						 } else {
-						   toast.error(res.message, {
-							 position: toast.POSITION.TOP_RIGHT,
-						   });
-						 }
-					   })
-					   .catch((err) => {
-						 toast.error(err.message, {
-						   position: toast.POSITION.BOTTOM_RIGHT,
-						 });
-					   });
-					 };
+		  } else {
+			// handle cancel
+		  }
+		});
+	  };
+	  
 	//login submit start
 
 	const handlMenuSubmit = (event) => {
@@ -79,6 +112,10 @@ export default function Allergy()
 		if (!name) {
 		  errors.name = "Name is required";
 		}
+
+		if (!description) {
+			errors.description = "Name is required";
+		  }
 	
 		setErrors(errors);
 	
@@ -97,7 +134,7 @@ export default function Allergy()
 			  
 				setModalConfirm(false);
 				setButtonState(false);
-				console.log(res);
+				//console.log(res);
 				setAllergis(res.data);
 
 				toast.success(res.message, {
@@ -146,10 +183,10 @@ export default function Allergy()
           <div className="table-part">
 				<h2>Allergy</h2>
 				<ul className="table_header_button_section p-r">
-					<li><button className="table-btn">Total</button></li>
+					{/* <li><button className="table-btn">Total</button></li> */}
 					<li className="right-li"><button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>Add </button></li>
 					</ul>
-				  <div className="table-box">
+				  <div className="table-box" id='ffff'>
 					<table className="table table-borderless">
 						<thead>
 							<tr>
@@ -172,7 +209,7 @@ export default function Allergy()
 						</a>
 						</td> */}
 						<td>
-                      <div className="dropdown">
+                      <div className="dropdown" id='none-class'>
                       <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                       <i className="fa-solid fa-ellipsis"></i>
                       </a>
@@ -187,12 +224,16 @@ export default function Allergy()
 						</tbody>
 					</table>
 				</div>
+				<Pagination
+              items={totalMenu.length} 
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onPageChange={onPageChange}
+          /> 
 			</div>
+			
 			{/* // Menu popup start  */}
 			<PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
-                  {/* <div className="text-center popup-img">
-                      <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
-                  </div> */}
                   <div className="all-form" > 
                   <form onSubmit={handlMenuSubmit}  className="common_form_error" id="menu_form">
                       <div className='login_div'>
