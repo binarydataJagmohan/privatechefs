@@ -52,8 +52,6 @@
 --line_height_name: 27px;
 
 
-
-
 --font_sab_dis: 12px;
 --font_sab_dis_line_height:18px;
 
@@ -810,7 +808,7 @@ color: var(--color_5);
 .slider-img-plase {
   position: relative;
 }
-.plase-btn a {
+.plase-btn a,.plase-btn-span {
   padding: 10px 14px;
   background: var(--background-color_3);
   border-radius: 6px;

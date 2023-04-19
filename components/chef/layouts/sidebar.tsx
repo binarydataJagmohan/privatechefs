@@ -1,15 +1,26 @@
-import React, {useState, useEffect} from 'react';
-import { useRouter } from "next/router";
-import { removeToken, removeStorageData } from "../../../lib/session";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
+
 
 export default function Sidebar(): JSX.Element {
-    const router = useRouter();
+  const router = useRouter();
+  const [currentUserData, setCurrentUserData] = useState({});
 
-    function handleLogout() {
-        removeToken(); 
-        removeStorageData();
-        window.location.href = "/";
-      }
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    const userData = getCurrentUserData();
+    setCurrentUserData(userData);
+  };
+
+  function handleLogout() {
+    removeToken();
+    removeStorageData();
+    window.location.href = '/';
+  }
 
     return (
         <>
@@ -17,12 +28,15 @@ export default function Sidebar(): JSX.Element {
                 <div className="user-profile">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0"> 
-                            <a href="/"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/user-menu.png'} alt="user-menu"/></a>
+                            <a href="/">
+                            {currentUserData.pic == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/users.jpg'} alt="user-menu"/> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'images/chef/users/'+currentUserData.pic} alt="user-menu"/>} 
+                                
+                            </a>
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">
-                                <a href="/chef/myprofile" className={router.pathname == '/chef/myprofile' ? 'active' : ''}><h5>Name Surname</h5></a>
-                                <p>Chef</p>
+                                <a href="/chef/myprofile" className={router.pathname == '/chef/myprofile' ? 'active' : ''}><h5>{currentUserData.name} {currentUserData.surname != 'null' ? currentUserData.surname : '' }</h5></a>
+                                <p>{currentUserData.role}</p>
                             </div>
                         </div>
                     </div>         

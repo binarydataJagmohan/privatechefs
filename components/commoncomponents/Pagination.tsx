@@ -4,7 +4,7 @@ const Pagination = ({ items, pageSize, currentPage, onPageChange }) => {
   if (pagesCount === 1) return null;
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
   return (
-    <div className="container">
+    <div className="container-fluid">
      <ul className={`${styles.pagination} row `}>
   {pages.map((page) => (
     <li

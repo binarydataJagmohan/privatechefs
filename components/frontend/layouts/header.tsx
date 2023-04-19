@@ -94,6 +94,8 @@ export default function Header({}) {
                 window.localStorage.setItem("name", res.user.name);
                 window.localStorage.setItem("email", res.user.email);
                 window.localStorage.setItem("role", res.user.role);
+                window.localStorage.setItem("pic", res.user.pic);
+                window.localStorage.setItem("surname", res.user.surname);
 
                 toast.success(res.message, {
                   position: toast.POSITION.TOP_RIGHT
@@ -103,7 +105,6 @@ export default function Header({}) {
                   if(res.user.role == 'admin'){
                     window.location.href = '/admin/dashboard';
                   }
-                 
                 }, 1000);
 
                 setTimeout(() => {
@@ -221,13 +222,14 @@ export default function Header({}) {
            register(data)
           .then(res => {
             if(res.status==true){
-              if(res.data.token){
-
+              if(res.data.token){ 
                 window.localStorage.setItem("token", res.data.token);
                 window.localStorage.setItem("id", res.data.user.id);
                 window.localStorage.setItem("name", res.data.user.name);
                 window.localStorage.setItem("email", res.data.user.email);
                 window.localStorage.setItem("role", res.data.user.role);
+                window.localStorage.setItem("pic", res.data.user.pic);
+                window.localStorage.setItem("surname", res.data.user.surname);
                
                 toast.success(res.message, {
                   position: toast.POSITION.TOP_RIGHT

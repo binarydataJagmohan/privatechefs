@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { getToken ,getCurrentUserData} from "../../../lib/session";
 import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import Image from 'next/image'
 export default function Menus() {
 
  const [errors, setErrors] = useState({});
@@ -22,7 +23,7 @@ export default function Menus() {
  const [totalMenu, setTotalMenu] = useState([]);
  const [menuData, setMenu] = useState([]);
  const [currentPage, setCurrentPage] = useState(1);
- const pageSize = 6;
+ const pageSize = 4;
 
  const modalConfirmClose = () => {
     setModalConfirm(false);
@@ -105,7 +106,7 @@ export default function Menus() {
 	}
 
 
-  //login submit start
+  //menus submit start
 
   const handlMenuSubmit = (event) => {
     event.preventDefault();
@@ -150,6 +151,10 @@ export default function Menus() {
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT
             });
+
+            setTimeout(() => {
+                window.location.href = '/chef/menu/'+res.save_menu_id;
+            }, 1000);
          
         } else {
             setButtonState(false);
@@ -194,7 +199,7 @@ export default function Menus() {
     setErrors(newErrors);
   };
 
-  //login submit close
+  //menus submit close
 
 
     return (
@@ -218,20 +223,21 @@ export default function Menus() {
               {menuData.length > 0 ? menuData.map((menu,index)=>{
                 return (
                     <div className="col-sm-3" key={index}> 
-                   
-                      <div className="slider-img-plase">
-                      <a href={"/chef/menu/"+menu.id} className="sdf">
-                          {menu.image
-                              ?
-                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/chef/menu/'+menu.image} alt="" width={612} height={300} alt={menu.name} />
-                              :
-                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/placeholder.jpg'}  width={612} height={300} alt={menu.menu_name} />
-                              
-                          }
-                          </a>
-                        <p className="plase-btn" data-bs-toggle="tooltip" title={menu.menu_name}><a href={"/chef/menu/"+menu.id}>{menu.  menu_name.length > 15 ? menu.menu_name.slice(0,15)+'...' : menu.menu_name }</a></p>
-                      </div> 
-                      
+                    <a href={"/chef/menu/"+menu.id} className="sdf">
+                        <div className="slider-img-plase">
+                          
+                            {menu.image
+                                ?
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/chef/menu/'+menu.image} alt="" width={612} height={300} alt={menu.name} />
+                                :
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/placeholder.jpg'}  width={612} height={300} alt={menu.menu_name} />
+                                
+                            }
+                            
+                          <p className="plase-btn" data-bs-toggle="tooltip" title={menu.menu_name}><span className='plase-btn-span'>{menu.  menu_name.length > 15 ? menu.menu_name.slice(0,15)+'...' : menu.menu_name }</span></p>
+                        
+                        </div> 
+                      </a>
                     </div>
                   )
 
@@ -253,9 +259,9 @@ export default function Menus() {
 
            {/* // Menu popup start  */}
            <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
-                  <div className="text-center popup-img">
+                  {/* <div className="text-center popup-img">
                       <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
-                  </div>
+                  </div> */}
                   <div className="all-form" > 
                   <form onSubmit={handlMenuSubmit}  className="common_form_error" id="menu_form">
                       
@@ -284,6 +290,17 @@ export default function Menus() {
                       <div className='login_div'>
                           <label htmlFor="Image">Image:</label>
                             <input type="file" name="imge"  onChange={ (e) => setImage(e.target.files) } accept="jpg,png"/>
+                      </div>
+
+                      <div className="image-preview mb-4">
+                        {image && image.length > 0 && image[0] && (
+                          <Image
+                            src={URL.createObjectURL(image[0])}
+                            alt="Preview"
+                            width={100}
+                            height={100}
+                          />
+                        )}
                       </div>
                     
                       <button type="submit" className="btn-send w-100" disabled={buttonStatus}>Submit</button>
