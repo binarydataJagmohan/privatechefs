@@ -2,11 +2,26 @@ import React, {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
 import { getAllChefDetails } from '../../../lib/adminapi';
 import { toast } from 'react-toastify';
-export default function Sidebar(): JSX.Element {
-    
-    const router = useRouter();
+import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
 
-    
+export default function Sidebar(): JSX.Element {
+    const router = useRouter();
+    const [currentUserData, setCurrentUserData] = useState({});
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    const userData = getCurrentUserData();
+    setCurrentUserData(userData);
+  };
+
+  function handleLogout() {
+    removeToken();
+    removeStorageData();
+    window.location.href = '/';
+  }
    
     return (
         <>
@@ -15,12 +30,14 @@ export default function Sidebar(): JSX.Element {
                 <div className="user-profile">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0"> 
-                            <a href="/"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/user-menu.png'} alt="user-menu"/></a>
+                            <a href="/">
+                            {currentUserData.pic == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/users.jpg'} alt="user-menu"/> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'images/chef/users/'+currentUserData.pic} alt="user-menu"/>} 
+                                </a>
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">
                                 <h5></h5>
-                                <p>Admin</p>
+                                <p>{currentUserData.role}</p>
                             </div>
                         </div>
                     </div>         
@@ -95,6 +112,12 @@ export default function Sidebar(): JSX.Element {
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-bell-concierge"></i></span>  
                             <span className="menu-collapsed">Service choice</span> 
+                        </div>
+                    </a>
+                    <a onClick={handleLogout} data-toggle="collapse" aria-expanded="false" role="button" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>  
+                            <span className="menu-collapsed">Logout</span> 
                         </div>
                     </a>
                 </ul>
