@@ -24,6 +24,12 @@ div#all_menu_dishes_form .btn-send {
 }
 .dishes_form .error_login {
     position: absolute;
-    bottom: -14px;
+    top: 55px;
     left: 11px;
+}
+.accordion-body {
+    padding: 0px;
+}
+.small {
+    font-size: 11px;
 }

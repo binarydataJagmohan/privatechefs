@@ -103,7 +103,6 @@ export default function Header({}) {
                   if(res.user.role == 'admin'){
                     window.location.href = '/admin/dashboard';
                   }
-                 
                 }, 1000);
 
                 setTimeout(() => {

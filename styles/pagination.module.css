@@ -88,8 +88,8 @@
   .card:hover,
   .card:focus,
   .card:active {
-    color: #0070f3;
-    border-color: #0070f3;
+    color: #ff4e00;
+    border-color: #ff4e00;
   }
   
   .card h2 {
@@ -147,7 +147,7 @@
    width: 2rem;
    height: 2rem;
    /*border: 1px solid #eaeaea;*/
-   border: 1px solid #062B60;
+   border: 1px solid #ff4e00;
    border-radius: 0.5rem;
    cursor: pointer;
    margin: 5px;
@@ -160,10 +160,10 @@
    align-items: center;
    width: 2rem;
    height: 2rem;
-   border: 1px solid #062B60;
+   border: 1px solid #ff4e00;
    border-radius: 0.5rem;
    cursor: pointer;
-   background-color: #062B60;
+   background-color: #ff4e00;
    margin: 5px;
   }
   .pageItemActive a{
