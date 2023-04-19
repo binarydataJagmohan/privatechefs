@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { ToastContainer,toast } from 'react-toastify';
-import { allergy } from '../../../lib/adminapi';
+import { allergy,getAllergyDetails,allergyDelete } from '../../../lib/adminapi';
 
 export default function Allergy()
 {
@@ -12,16 +12,12 @@ export default function Allergy()
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [editAllergy, seteditAllergy] = useState(null);
-  const [deleteAllergy, setdeleteAllergy] = useState(null);
+  const [deleteAllergy, setdeleteAllergy,] = useState(null);
   const [allergis, setAllergis] = useState([]);
 
   const handleEdit = (id) => {
     seteditAllergy(id);
   };
-  const handleDelete = (id) => {
-    setdeleteAllergy(id);
-  };
-
   
 	const modalConfirmOpen = () => {
         setModalConfirm(true);
@@ -29,11 +25,49 @@ export default function Allergy()
     const modalConfirmClose = () => {
         setModalConfirm(false);
     }
-
+	
 	useEffect(() => {
-		
-	  }, []);
-   
+		getAllergyDetails()
+			  .then((res) => {
+				if (res.status) {
+					console.log(res);
+					setAllergis(res.data);
+				} else {
+				  toast.error(res.message, {
+					position: toast.POSITION.TOP_RIGHT,
+				  });
+				}
+			  })
+			  .catch((err) => {
+				toast.error(err.message, {
+				  position: toast.POSITION.BOTTOM_RIGHT,
+				});
+			  });
+		  }, []);
+
+		  const handleDelete = (e,id) => {
+			e.preventDefault();
+			// setdeleteAllergy(id);
+			 allergyDelete(id)
+					   .then((res) => {
+						console.log(res)
+						 if (res.status === true) {
+							toast.success(res.message, {
+								position: toast.POSITION.TOP_RIGHT,
+							  });
+							  location.reload();
+						 } else {
+						   toast.error(res.message, {
+							 position: toast.POSITION.TOP_RIGHT,
+						   });
+						 }
+					   })
+					   .catch((err) => {
+						 toast.error(err.message, {
+						   position: toast.POSITION.BOTTOM_RIGHT,
+						 });
+					   });
+					 };
 	//login submit start
 
 	const handlMenuSubmit = (event) => {
@@ -130,9 +164,9 @@ export default function Allergy()
 						{allergis.map((allergy) => (
 						  <tr key={allergy.id}>
                         <td>{allergy.id}</td>
-                      <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/chefs_profile_pic.png'} alt=""/></td>
-                      <td>Allgendre</td>
-                      <td>louis</td>
+                      <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/admin/allergy/'+ allergy.image} alt=""/></td>
+                      <td>{allergy.allergy_name}</td>
+                      <td>{allergy.description}</td>
                      {/* <td>
 						<a href="#" onClick={handleEdit}><i className="fa-solid fa-ellipsis"></i>
 						</a>
@@ -144,7 +178,7 @@ export default function Allergy()
                       </a>
                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li><a className="dropdown-item" href="#">Edit</a></li>
-                    <li><a className="dropdown-item" href="#">Delete</a></li>
+                    <li><a className="dropdown-item" href="#" onClick={(e)=>handleDelete(e,allergy.id)}>Delete</a></li>
                    </ul>
                   </div>
                   </td>
@@ -156,9 +190,9 @@ export default function Allergy()
 			</div>
 			{/* // Menu popup start  */}
 			<PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
-                  <div className="text-center popup-img">
+                  {/* <div className="text-center popup-img">
                       <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
-                  </div>
+                  </div> */}
                   <div className="all-form" > 
                   <form onSubmit={handlMenuSubmit}  className="common_form_error" id="menu_form">
                       <div className='login_div'>
