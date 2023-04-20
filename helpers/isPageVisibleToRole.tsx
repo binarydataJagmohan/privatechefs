@@ -12,6 +12,7 @@ export function isPageVisibleToRole(pageName) {
         "chef-single-menu": ["chef"],
         "admin-chefs": ["admin"],
         "user-edit-profile": ["user"],
+        "notification": ["admin","chef","user"],
       };
 
       if (pageName in pageRoles) {
