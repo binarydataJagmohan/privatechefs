@@ -3140,6 +3140,9 @@ div#all_menu_dishes_form .btn-send {
   text-align: center;
   object-fit: cover;
 }
+p.notify {
+  margin-left: 20px;
+}
 
 
 

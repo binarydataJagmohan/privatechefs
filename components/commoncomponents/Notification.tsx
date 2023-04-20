@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { getCurrentUserData } from '../../lib/session'
 import { notificationForUserAdmin, notificationStatus } from '../../lib/notificationapi';
 import { isPageVisibleToRole } from "../../helpers/isPageVisibleToRole";
+import moment from 'moment';
+
 
 export default function Notification() {
 
@@ -24,7 +26,7 @@ export default function Notification() {
             const userData = getCurrentUserData();
             setCurrentUserData(userData);
             getNotification(userData.id);
-            notificationStatus(userData.id);
+            notificationStaus(userData.id);
         }
     }
 
@@ -72,9 +74,12 @@ export default function Notification() {
                                             <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/users.jpg`} alt="user-menu" />
                                         )}
                                     </div>
-
                                     <div className="text-noti mt-2">
-                                        <p>{notification.description}</p>
+                                        <p className='notify'>{notification.description}</p>
+                                    </div>
+
+                                    <div className="text-noti mt-2 text-right">
+                                    <p>{moment(notification.created_at).fromNow()}</p>
                                     </div>
                                 </div>
                             </div>
