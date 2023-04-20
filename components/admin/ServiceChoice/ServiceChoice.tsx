@@ -1,19 +1,25 @@
 import React, { useState ,useEffect} from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { ToastContainer,toast } from 'react-toastify';
-import { saveService,getServiceDetails,serviceDelete } from '../../../lib/adminapi';
+import { saveService,getServiceDetails,serviceDelete,getSingleServiceDetail } from '../../../lib/adminapi';
 import swal from "sweetalert";
+import { paginate } from "../../../helpers/paginate";
+import Pagination from "../../commoncomponents/Pagination";
 
 export default function ServiceChoice()
 {
 	const [errors, setErrors] = useState({});
 	const [buttonStatus, setButtonState] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
+	const [editmodalConfirm, editsetModalConfirm] = useState(false);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState('');
 	const[services,setService] = useState([]);
+	const [services2, setService2] = useState([]);
 	//const [serviceDelete, setdeleteservice,] = useState(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const pageSize = 5;
  
 	const modalConfirmOpen = () => {
         setModalConfirm(true);
@@ -22,12 +28,60 @@ export default function ServiceChoice()
         setModalConfirm(false);
     }
 
+	const editmodalConfirmOpen = () => {
+		editsetModalConfirm(true);
+	  };
+	  const editmodalConfirmClose = () => {
+		editsetModalConfirm(false);
+	  };
+
 	useEffect(() => {
-		getServiceDetails()
+		fetchServiceDetails();
+	  }, [currentPage, pageSize]);
+	
+	  const fetchServiceDetails = async () => {
+		try {
+		  const res = await getServiceDetails();
+		  if (res.status) {
+			setService2(res.data);
+			const paginatedPosts = paginate(res.data, currentPage, pageSize);
+			setService(paginatedPosts);
+		  } else {
+			toast.error(res.message, {
+			  position: toast.POSITION.TOP_RIGHT,
+			});
+		  }
+		} catch (err) {
+		  toast.error(err.message, {
+			position: toast.POSITION.BOTTOM_RIGHT,
+		  });
+		}
+	  };
+	
+	  const onPageChange = (page) => {
+		setCurrentPage(page);
+	  };
+
+	  const handleDelete = (e, id) => {
+		e.preventDefault();
+		swal({
+		  title: "Are you sure?",
+		  text: "You want to delete the Allergy detail",
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true,
+		  buttons: ["Cancel", "Yes, I am sure!"],
+		  confirmButtonColor: "#062B60",
+		}).then((willDelete) => {
+		  if (willDelete) {
+			serviceDelete(id)
 			  .then((res) => {
-				if (res.status) {
-					console.log(res);
-					setService(res.data);
+				if (res.status === true) {
+				  swal("Your Allergy Details has been deleted!", {
+					icon: "success",
+				  });
+				  fetchServiceDetails();
+				  setService([]);
 				} else {
 				  toast.error(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
@@ -39,43 +93,11 @@ export default function ServiceChoice()
 				  position: toast.POSITION.BOTTOM_RIGHT,
 				});
 			  });
-		  }, []);
-
-		const handleDelete = (e, id) => {
-			e.preventDefault();
-			swal({
-			  title: "Are you sure?",
-			  text: "You want to delete the Allergy detail",
-			  icon: "warning",
-			  buttons: true,
-			  dangerMode: true,
-			  buttons: ["Cancel", "Yes, I am sure!"],
-			  confirmButtonColor: "#062B60",
-			}).then((willDelete) => {
-			  if (willDelete) {
-				serviceDelete(id)
-				  .then((res) => {
-					if (res.status === true) {
-					swal("Your Allergy Details has been deleted!", {
-						icon: "success",
-					  });
-					  location.reload();
-					} else {
-					  toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-					  });
-					}
-				  })
-				  .catch((err) => {
-					toast.error(err.message, {
-					  position: toast.POSITION.BOTTOM_RIGHT,
-					});
-				  });
-			  } else {
-				// handle cancel
-			  }
-			});
-		  };
+		  } else {
+			// handle cancel
+		  }
+		});
+	  };
 
     //login submit start
 
@@ -89,40 +111,44 @@ export default function ServiceChoice()
 		  errors.name = "Name is required";
 		}
 	
+		if (!description) {
+		  errors.description = "description is required";
+		}
+	
 		setErrors(errors);
 	
 		// Submit form data if there are no errors
 		if (Object.keys(errors).length === 0) {
 		  setButtonState(true);
-		   // Call an API or perform some other action to register the user
-		   const data = {
-			 name: name,
-			 description: description,
-		   };
-
-		   saveService(data,image[0])
-		  .then(res => {
-			if(res.status==true){
-			  
+		  // Call an API or perform some other action to register the user
+		  const data = {
+			name: name,
+			description: description,
+		  };
+	
+		  saveService(data, image[0])
+			.then((res) => {
+			  if (res.status == true) {
 				setModalConfirm(false);
 				setButtonState(false);
-				
+				//console.log(res);
+				const paginatedPosts = paginate(res.data, currentPage, pageSize);
+				setService(paginatedPosts);
+				//setService([]);
 				toast.success(res.message, {
-				  position: toast.POSITION.TOP_RIGHT
+				  position: toast.POSITION.TOP_RIGHT,
 				});
-			 
-			} else {
+			  } else {
 				setButtonState(false);
 				toast.error(res.message, {
-					position: toast.POSITION.TOP_RIGHT
-				  });
-			}
-		  })
-		  .catch(err => {
+				  position: toast.POSITION.TOP_RIGHT,
+				});
+			  }
+			})
+			.catch((err) => {
 			  console.log(err);
-		  });
+			});
 		}
-		
 	  };
 
 	  const handleMenuBlur = (event) => {
@@ -145,8 +171,16 @@ export default function ServiceChoice()
 	
 		setErrors(newErrors);
 	  };
-	
 	  //login submit close
+
+	  const editService = (e, id) => {
+		e.preventDefault();
+		editsetModalConfirm(true);
+		getSingleServiceDetail(id).then((res) => {
+		  //console.log(res);
+		  setAllergyList(res.allergy);
+		});
+	  };
     return(
         <>
           <div className="table-part">
@@ -183,7 +217,7 @@ export default function ServiceChoice()
                       <i className="fa-solid fa-ellipsis"></i>
                       </a>
                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a className="dropdown-item" href="#">Edit</a></li>
+                    <li><a className="dropdown-item" href="#" onClick={(e) => editService(e, allergy.id)}>Edit</a></li>
                     <li><a className="dropdown-item" href="#" onClick={(e)=>handleDelete(e,service.id)}>Delete</a></li>
                    </ul>
                   </div>
@@ -193,7 +227,14 @@ export default function ServiceChoice()
 						</tbody>
 					</table>
 				</div>
+				<Pagination
+          items={services2.length}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          onPageChange={onPageChange}
+        />
 			</div>
+			
 			{/* // Menu popup start  */}
 			<PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
                   <div className="text-center popup-img">
