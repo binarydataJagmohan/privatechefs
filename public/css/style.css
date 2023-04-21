@@ -3143,6 +3143,8 @@ div#all_menu_dishes_form .btn-send {
 p.notify {
   margin-left: 20px;
 }
-
+.d-flex.justify-content-space-between {
+  justify-content: space-between;
+}
 
 
