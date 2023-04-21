@@ -76,7 +76,7 @@ export default function MyProfile() {
 				toast.success(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
 				});
-				//window.location.reload();
+				window.location.reload();
 			})
 			.catch((err) => {
 				setButtonState(false);
@@ -144,7 +144,7 @@ export default function MyProfile() {
 					position: toast.POSITION.TOP_RIGHT
 				});
 
-				//window.location.reload();
+				window.location.reload();
 
 			}).catch(err => {
 				setButtonState(false);
