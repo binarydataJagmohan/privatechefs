@@ -16,6 +16,7 @@ export function isPageVisibleToRole(pageName) {
         "user-edit-profile": ["user"],
         "notification": ["admin","chef","user"],
         "villas": ["admin"],
+        "chef-dish" : ["chef"],
       };
 
       if (pageName in pageRoles) {

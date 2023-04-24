@@ -135,6 +135,10 @@ export default function Allergy() {
     if (!description) {
       errors.description = "description is required";
     }
+
+    if (!image) {
+      errors.image = "Image is required";
+    }
     setErrors(errors);
 
     // Submit form data if there are no errors
@@ -208,6 +212,7 @@ const handleUpdateAllergy = (e) => {
       setAllergyList([]);
       toast.success("Allergy updated successfully!");
     })
+
     .catch((err) => {
       toast.error("Failed to update allergy. Please try again.");
       console.log(err);
@@ -235,9 +240,6 @@ const handleUpdateAllergy = (e) => {
   };
 
   
-
-
-
   return (
     <>
       <div className="table-part">
@@ -364,6 +366,11 @@ const handleUpdateAllergy = (e) => {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
+               {errors.description && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.description}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
@@ -373,6 +380,10 @@ const handleUpdateAllergy = (e) => {
                 onChange={(e) => setImage(e.target.files)}
                 accept="jpg,png"
               />
+                 {errors.image && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.image}</span>
+                   )}
             </div>
 
             <button

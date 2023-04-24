@@ -133,6 +133,10 @@ export default function ServiceChoice() {
     if (!description) {
       errors.description = "description is required";
     }
+
+    if (!image) {
+      errors.image = "Image is required";
+    }
     setErrors(errors);
 
     // Submit form data if there are no errors
@@ -376,6 +380,10 @@ const handleUpdateService = (e) => {
                 onChange={(e) => setImage(e.target.files)}
                 accept="jpg,png"
               />
+               {errors.image && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.image}</span>
+                   )}
             </div>
 
             <button
