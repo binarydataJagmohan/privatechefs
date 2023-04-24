@@ -3147,4 +3147,14 @@ p.notify {
   justify-content: space-between;
 }
 
-
+.var-login .modal-dialog.modal-xl.villas {
+  max-width: 900px;
+}
+td#villa_img img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+}
+div#villa_table .table>tbody tr td ul li {
+  background: none;
+}
