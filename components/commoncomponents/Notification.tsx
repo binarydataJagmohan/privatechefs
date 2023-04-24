@@ -4,7 +4,6 @@ import { notificationForUserAdmin, notificationStatus } from '../../lib/notifica
 import { isPageVisibleToRole } from "../../helpers/isPageVisibleToRole";
 import moment from 'moment';
 
-
 export default function Notification() {
 
     const [currentUserData, setCurrentUserData] = useState({});
@@ -58,28 +57,32 @@ export default function Notification() {
             });
     }
 
+
+
+
     return (
         <>
             <div className="table-part">
                 <h2>Notification</h2>
                 <div className="notification-box">
                     {Array.isArray(userData) && userData.length > 0 ? (
-                        userData.map((notification) => (
-                            <div className="notification-hover">
+                        userData.map((notification, index) => (
+                            <div key={index} className="notification-hover">
                                 <div className="d-flex">
                                     <div className="circle1">
                                         {notification.pic ? (
-                                            <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}images/chef/users/${notification.pic}`} alt="user-menu" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/users/' + notification.pic} alt="user-menu" />
                                         ) : (
-                                            <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/users.jpg`} alt="user-menu" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/users.jpg'} alt="user-menu" />
                                         )}
+
                                     </div>
                                     <div className="text-noti mt-2">
                                         <p className='notify'>{notification.description}</p>
                                     </div>
 
                                     <div className="text-noti mt-2 text-right">
-                                    <p>{moment(notification.created_at).fromNow()}</p>
+                                        <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm a')}</p>
                                     </div>
                                 </div>
                             </div>

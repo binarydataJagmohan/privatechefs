@@ -11,9 +11,12 @@ export function isPageVisibleToRole(pageName) {
         "chef-edit-profile": ["chef"],
         "chef-single-menu": ["chef"],
         "admin-chefs": ["admin"],
+        "admin-allergy":["admin"],
+        "admin-servicechoice":["admin"],
         "user-edit-profile": ["user"],
         "notification": ["admin","chef","user"],
-        "booking-step-two": ["user"],
+        "villas": ["admin"],
+        "chef-dish" : ["chef"],
       };
 
       if (pageName in pageRoles) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getToken, getCurrentUserData } from "../../../lib/session";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -6,16 +7,19 @@ import {
   getAllergyDetails,
   allergyDelete,
   getSingleAllergy,
+  updateAllergy
 } from "../../../lib/adminapi";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 
 export default function Allergy() {
   const [errors, setErrors] = useState({});
   const [buttonStatus, setButtonState] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [editmodalConfirm, editsetModalConfirm] = useState(false);
+  const [currentUserData, setCurrentUserData] = useState({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
@@ -41,6 +45,18 @@ export default function Allergy() {
   };
 
   useEffect(() => {
+
+    const data = isPageVisibleToRole('admin-allergy');
+			if (data == 2) {
+			  window.location.href = '/login'; // redirect to login if not logged in
+			} else if (data == 0) {
+			  window.location.href = '/404'; // redirect to 404 if not authorized
+			}
+      if (data == 1) {
+        const userData = getCurrentUserData();
+        // console.log(userData);
+        setCurrentUserData(userData);
+      }
     fetchAllergyDetails();
   }, [currentPage, pageSize]);
 
@@ -120,23 +136,36 @@ export default function Allergy() {
       errors.description = "description is required";
     }
 
+    if (!image) {
+      errors.image = "Image is required";
+    }
     setErrors(errors);
 
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
+
+      
       // Call an API or perform some other action to register the user
       const data = {
         name: name,
         description: description,
+        user_id: currentUserData.id,
+        
       };
 
       allergy(data, image[0])
         .then((res) => {
           if (res.status == true) {
+            console.log(data);
             setModalConfirm(false);
             setButtonState(false);
             //console.log(res);
+
+        // Reset form data
+        setName("");
+        setDescription("");
+        setImage("");
 			const paginatedPosts = paginate(res.data, currentPage, pageSize);
 			setAllergis(paginatedPosts);
 			setAllergyList([]);
@@ -155,15 +184,41 @@ export default function Allergy() {
         });
     }
   };
+//login submit close
 
-  const editAllergy = (e, id) => {
-    e.preventDefault();
-    editsetModalConfirm(true);
-    getSingleAllergy(id).then((res) => {
-      //console.log(res);
-	  setAllergyList(res.allergy);
-    });
+const editAllergy = (e, id) => {
+  e.preventDefault();
+  editsetModalConfirm(true);
+  getSingleAllergy(id).then((res) => {
+    setAllergyList(res.allergy);
+  });
+};
+
+const handleUpdateAllergy = (e) => {
+  e.preventDefault();
+  const updatedData = {
+    id: allergyList.id,
+    allergy_name: allergyList.allergy_name,
+    description: allergyList.description,
   };
+  if (e.target.image.files[0]) {
+    updatedData.image = e.target.image.files[0];
+  }
+
+  updateAllergy(allergyList.id, updatedData)
+    .then((res) => {
+      console.log(res.data);
+      editsetModalConfirm(false);
+      setAllergyList([]);
+      toast.success("Allergy updated successfully!");
+    })
+
+    .catch((err) => {
+      toast.error("Failed to update allergy. Please try again.");
+      console.log(err);
+    });
+};
+
   const handleMenuBlur = (event) => {
     const { name, value } = event.target;
     const newErrors = { ...errors };
@@ -184,10 +239,7 @@ export default function Allergy() {
     setErrors(newErrors);
   };
 
-  //login submit close
-
-  //edit Allergy functions
-
+  
   return (
     <>
       <div className="table-part">
@@ -288,6 +340,7 @@ export default function Allergy() {
             onSubmit={handlMenuSubmit}
             className="common_form_error"
             id="menu_form"
+            
           >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
@@ -313,6 +366,11 @@ export default function Allergy() {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
+               {errors.description && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.description}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
@@ -322,6 +380,10 @@ export default function Allergy() {
                 onChange={(e) => setImage(e.target.files)}
                 accept="jpg,png"
               />
+                 {errors.image && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.image}</span>
+                   )}
             </div>
 
             <button
@@ -340,41 +402,38 @@ export default function Allergy() {
         handleClose={editmodalConfirmClose}
         staticClass="var-login"
       >
-        <div className="all-form">
-          <form className="common_form_error" id="menu_form">
-            <div className="login_div">
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={allergyList.allergy_name}
-                onBlur={handleMenuBlur}
-                autoComplete="username"
-              />
-              {errors.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.name}
-                </span>
-              )}
-            </div>
-            <div className="login_div">
-              <label htmlFor="Description">Description:</label>
-              <textarea name="description" value={allergyList.description} onBlur={handleMenuBlur}></textarea>
-            </div>
-            <div className="login_div">
-              <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" accept="jpg,png" />
-            </div>
+       <div className="all-form">
+  <form className="common_form_error" id="menu_form" onSubmit={handleUpdateAllergy}>
+    <div className="login_div">
+      <label htmlFor="name">Name:</label>
+      <input
+        type="text"
+        name="allergy_name"
+        value={allergyList ? allergyList.allergy_name : ''}
+        onBlur={handleMenuBlur}
+        autoComplete="username"
+        onChange={(e) => setAllergyList({ ...allergyList, allergy_name: e.target.value })}
+      />
+      {errors.name && (
+        <span className="small error text-danger mb-2 d-inline-block error_login">
+          {errors.name}
+        </span>
+      )}
+    </div>
+    <div className="login_div">
+      <label htmlFor="Description">Description:</label>
+      <textarea name="description" value={allergyList ? allergyList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setAllergyList({ ...allergyList, description: e.target.value })}></textarea>
+    </div>
+    <div className="login_div">
+      <label htmlFor="Image">Image:</label>
+      <input type="file" name="image" accept="jpg,png" />
+    </div>
 
-            <button
-              type="submit"
-              className="btn-send w-100"
-              disabled={buttonStatus}
-            >
-              Update
-            </button>
-          </form>
-        </div>
+    <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
+      Update
+    </button>
+  </form>
+</div>
       </PopupModal>
 
       {/* // Menu popup end  */}

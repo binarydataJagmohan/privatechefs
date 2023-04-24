@@ -39,7 +39,7 @@ export default function Home() {
                if(res.status == true){
                 setModalConfirmTwo(true);
                }else {
-                swal.fire({
+                    swal.fire({
                         title: 'Oops!',
                         text: res.message,
                         icon: 'info',

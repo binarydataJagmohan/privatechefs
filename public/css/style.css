@@ -3131,10 +3131,10 @@ div#all_menu_dishes_form .btn-send {
   margin-left: 20px;
 }
 .circle1 img {
-  width: 40px;
+  width: 100px;
   /* background: var(--color_1); */
   border-radius: 50px;
-  height: 40px;
+  height: 58px;
   margin-right: 20px;
   padding: 0px 0;
   text-align: center;
@@ -3142,6 +3142,9 @@ div#all_menu_dishes_form .btn-send {
 }
 p.notify {
   margin-left: 20px;
+}
+.d-flex.justify-content-space-between {
+  justify-content: space-between;
 }
 
 /* radio btn checked css */
@@ -3186,3 +3189,14 @@ p.notify {
 }
 
 /* radio btn checked css stop */
+.var-login .modal-dialog.modal-xl.villas {
+  max-width: 900px;
+}
+td#villa_img img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+}
+div#villa_table .table>tbody tr td ul li {
+  background: none;
+}
