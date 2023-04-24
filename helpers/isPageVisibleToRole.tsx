@@ -13,6 +13,7 @@ export function isPageVisibleToRole(pageName) {
         "admin-chefs": ["admin"],
         "user-edit-profile": ["user"],
         "notification": ["admin","chef","user"],
+        "booking-step-two": ["user"],
       };
 
       if (pageName in pageRoles) {

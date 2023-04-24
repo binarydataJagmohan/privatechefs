@@ -3144,5 +3144,45 @@ p.notify {
   margin-left: 20px;
 }
 
+/* radio btn checked css */
 
 
+.step_radio_css{
+  display: none;
+}
+
+.step_label_css {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+
+.step_radio_css{
+  display: none;
+}
+
+.step_label_css {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+:checked + .step_label_css:before {
+  content: "✓";
+  position: absolute;
+  right: 15px;
+  height: 44px;
+  width: 44px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 9px rgb(0 0 0 / 25%);
+  border-radius: 100%;
+  color: var(--color_1);
+  padding: 14px;
+  font-size: 30px;
+  padding: 4px 114;
+  top: 10px;
+  padding: 1px 10px;
+}
+
+/* radio btn checked css stop */

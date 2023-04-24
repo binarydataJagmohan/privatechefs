@@ -1,10 +1,9 @@
 import React, { useState ,useEffect} from 'react';
 import Slider from "react-slick";
 import { useRouter } from "next/router";
-import 'sweetalert2/dist/sweetalert2.min.css';
 import {CheckUserEmailVerification,CheckUserResetPasswordVerification,UpdateResetPassword} from '../../lib/frontendapi';
 import PopupModal from '../../components/commoncomponents/PopupModal';
-import Swal from 'sweetalert2';
+import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export default function Home() {
@@ -40,7 +39,7 @@ export default function Home() {
                if(res.status == true){
                 setModalConfirmTwo(true);
                }else {
-                    Swal.fire({
+                swal.fire({
                         title: 'Oops!',
                         text: res.message,
                         icon: 'info',

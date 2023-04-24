@@ -1,6 +1,77 @@
 import React, { useState ,useEffect} from 'react'
+import { getAllergyDetails } from 'lib/adminapi';
+import { ToastContainer,toast } from 'react-toastify';
+import swal from "sweetalert";
+import "react-toastify/dist/ReactToastify.css";
 import Slider from "react-slick";
 export default function Step5() {
+
+  const [allergiesdata, setAllergies] = useState([]);
+  const [selectedallergies, setSelectedAllergies] = useState([]);
+
+  const [additionalnotes, setAdditionalNotes] = useState([]);
+
+  useEffect(() => {
+    BookingStepFive();
+  }, []);
+
+  const BookingStepFive = async () => {
+    
+    const serviceType = window.localStorage.getItem('servicetype');
+    const time = window.localStorage.getItem('time');
+    const servicestyle = window.localStorage.getItem('servicestyle');
+    const mealsSelected = window.localStorage.getItem("selectedMeals");
+    const storedCuisine = window.localStorage.getItem("selectedcuisine");
+    const storeallergies = window.localStorage.getItem("selectedallergies");
+    const getadditionalnotes = window.localStorage.getItem("additionalnotes");
+
+    if(serviceType && time) {
+        if(servicestyle) {
+           
+            if(!mealsSelected){
+              window.location.href = '/bookings/step3';
+            }else {
+
+              if(!storedCuisine){
+                window.location.href = '/bookings/step4';
+              }else {
+                getAllergyDetailsData();
+                if (storeallergies) {
+                  const selectedAllergiesArray = JSON.parse(storeallergies);
+                  setSelectedAllergies(selectedAllergiesArray);
+                }
+                setAdditionalNotes(getadditionalnotes);
+              }
+
+            }
+            
+        }else {
+          window.location.href = '/bookings/step2';
+        }
+    }else {
+      window.location.href = '/bookings/step1';
+    }
+    
+  };
+
+  const getAllergyDetailsData = async () => {
+    try {
+      const res = await getAllergyDetails();
+      if (res.status) {
+        setAllergies(res.data);
+       
+      } else {
+      toast.error(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      }
+    } catch (err) {
+      toast.error(err.message, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  };
+
     const settings = {
       rows: 1,
       dots: false,
@@ -40,6 +111,14 @@ export default function Step5() {
           } 
       ]
     }
+
+    const CheckStepFive = () => {
+
+      window.localStorage.setItem("selectedallergies", JSON.stringify(selectedallergies));
+      window.localStorage.setItem("additionalnotes", additionalnotes);
+      window.location.href = '/bookings/step6';
+    }
+
     return (
         <>
           <section className="journey-part">
@@ -65,43 +144,37 @@ export default function Step5() {
                 <div className="col-lg-1 col-md-12"></div>
                 <div className="col-lg-11 col-md-12">
                     <div className="row"> 
-                      <Slider {...settings}>
-                        <div className="col-sm-3"> 
-                          <div className="slider-img-plase">
-                          <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/special-requests/1.jpg'} alt="1" /> 
-                            <p className="plase-btn"><a href="#">Nuts</a></p>
-                          </div>
-                        </div>
-                        <div className="col-sm-3"> 
+                    <Slider {...settings} className="mt-2">
+                    {allergiesdata.map((allergies) => (
+                      <div className="col-sm-3" key={allergies.id}>
                         <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/special-requests/2.jpg'} alt="2" />
-                            <p className="plase-btn"><a href="#">Lactose</a></p>
-                          </div> 
+                          <input
+                            type="checkbox"
+                            id={`myCheckbox2_${allergies.id}`}
+                            name="cuisine_type"
+                            value={allergies.id}
+                            className="step_radio_css"
+                            onChange={(e) => {
+                              const { value } = e.target;
+                              setSelectedAllergies((prevSelectedCuisine) => {
+                                if (prevSelectedCuisine.includes(String(value))) {
+                                  return prevSelectedCuisine.filter((c) => c !== String(value));
+                                } else {
+                                  return [...prevSelectedCuisine, String(value)];
+                                }
+                              });
+                            }}
+                            checked={selectedallergies.includes(String(allergies.id))}
+                          />
+
+                          <label htmlFor={`myCheckbox2_${allergies.id}`} className="step_label_css">
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/admin/allergy/'+allergies.image} alt="1" /> 
+                            <p className="plase-btn"><a href="#">{allergies.allergy_name}</a></p>
+                          </label>
                         </div>
-                        <div className="col-sm-3"> 
-                        <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/special-requests/3.jpg'} alt="3" />
-                            <p className="plase-btn"><a href="#">Gluten</a></p>
-                          </div> 
-                        </div>
-                        <div className="col-sm-3"> 
-                        <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/special-requests/4.jpg'} alt="4" />
-                            <p className="plase-btn"><a href="#">Seafood</a></p>
-                          </div> 
-                        </div> 
-                        <div className="col-sm-3"> 
-                        <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/special-requests/2.jpg'} alt="2" />
-                            <p className="plase-btn"><a href="#">Lactose</a></p>
-                          </div> 
-                        </div>
-                      </Slider>  
+                      </div>
+                    ))}
+                  </Slider>
                     </div> 
                 </div>  
                 </div> 
@@ -111,7 +184,7 @@ export default function Step5() {
                   <div className="row">
                     <div className="col-lg-12 col-md-12">
                         <h4 className="title-20">Any special requests?</h4> 
-                        <textarea className="textarea-part mt-3" placeholder="This is a sample text"></textarea>
+                        <textarea className="textarea-part mt-3"  onChange={(e) => setAdditionalNotes(e.target.value)} placeholder="Let us know more about your prefferences.."></textarea>
                     </div>
                     
                   </div>
@@ -121,7 +194,7 @@ export default function Step5() {
                 <div className="container-fluid mt-5">
                 <div className="d-flx-step">
                 <div className="view-more  mt-4"><a href="/bookings/step4">Back</a></div>
-                <div className="view-more bg-golden mt-4"><a href="/bookings/step6">Next</a></div>    
+                <div className="view-more bg-golden mt-4"><a href="#" onClick={(e) => CheckStepFive()}>Next</a></div>    
                 </div> 
                 <div className="rotate-box"> <h4 className="rotate-text">enter any special requests</h4></div>
               </div>  
