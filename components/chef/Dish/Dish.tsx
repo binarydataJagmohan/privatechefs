@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getDishecategory,dishInsert,getDishes } from '../../../lib/adminapi';
+import { getDishecategory,dishInsert,getDishes,deleteSingleDish,getSingleDish } from '../../../lib/adminapi';
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { ToastContainer, toast } from "react-toastify";
+import swal from "sweetalert";
 
 export default function Dish() {
   const [errors, setErrors] = useState({});
   const [modalConfirm, setModalConfirm] = useState(false);
+  const [editmodalConfirm, editsetModalConfirm] = useState(false);
   const [buttonStatus, setButtonState] = useState(false);
   const [dishCategories, setDishCategories] = useState([]);
   const [currentUserData, setCurrentUserData] = useState({});
@@ -21,6 +23,12 @@ export default function Dish() {
 
   const modalConfirmClose = () => {
     setModalConfirm(false);
+  };
+  const editmodalConfirmOpen = () => {
+    editsetModalConfirm(true);
+  };
+  const editmodalConfirmClose = () => {
+    editsetModalConfirm(false);
   };
 
   useEffect(() => {
@@ -118,6 +126,43 @@ export default function Dish() {
           });
       }
     };
+
+    const handleDelete = (e, id) => {
+      e.preventDefault();
+      swal({
+        title: "Are you sure?",
+        text: "You want to delete the Allergy detail",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        buttons: ["Cancel", "Yes, I am sure!"],
+        confirmButtonColor: "#062B60",
+      }).then((willDelete) => {
+        if (willDelete) {
+          deleteSingleDish(id)
+            .then((res) => {
+              if (res.status === true) {
+                swal("Your Dish Details has been deleted!", {
+                  icon: "success",
+                });
+                fetchdishes();
+                setDishLists([]);
+              } else {
+                toast.error(res.message, {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              }
+            })
+            .catch((err) => {
+              toast.error(err.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+              });
+            });
+        } else {
+          // handle cancel
+        }
+      });
+    };
     
 
   const handleMenuBlur = (event) => {
@@ -148,41 +193,66 @@ export default function Dish() {
     setErrors(newErrors);
   };
 
+  
+
+ 
+
   return (
     <>
       <div className="table-part">
         <h2>Dishes</h2>
         <div className="d-flex justify-content-space-between">
-        <div className="md">
-        {Array.isArray(dishCategories) && dishCategories.map((category) => (
-    <button key={category.id} className="table-btn" onClick={() => setDishcategory(category.dish_category)}>{category.dish_category}</button>
-     ))}
-   </div>
-     {/* <button className="table-btn">Starter</button> */}
-           <div>
-          <button className="table-btn" onClick={() => setModalConfirm(true)}>
-            Add Dish
-          </button>
+
+          <div className="md">
+            {Array.isArray(dishCategories) &&
+              dishCategories.map((category) => (
+                <button
+                  key={category.id}
+                  className="table-btn"
+                  onClick={() => setDishcategory(category.dish_category)} 
+                  >
+                  {category.dish_category}
+                </button>
+              ))}
+          </div>
+
+          {/* <button className="table-btn">Starter</button> */}
+          <div>
+            <button className="table-btn" onClick={() => setModalConfirm(true)}>
+              Add Dish
+            </button>
           </div>
         </div>
         <div className="table-box">
           <table className="table">
             <thead>
-
               <tr>
                 <th scope="col">#</th>
               </tr>
             </thead>
+
             <tbody>
-            {dishList.map((dish) => (
-              <tr key={dish.id}>
-                <th scope="row">{String.fromCharCode(65 + parseInt(dish.id))}</th>
-                <td>{dish.item_name}</td>
-                <td className="text-end">
-                  <i className="fa-solid fa-pencil"></i>
-                  <i className="fa-sharp fa-solid fa-trash"></i></td>
-              </tr>
-              ))}
+              {dishList
+                .sort((a, b) => a.item_name.localeCompare(b.item_name))
+                .map((dish, index) => {
+                  const firstLetter = dish.item_name.charAt(0).toUpperCase();
+                  return (
+                    <tr key={index}>
+                      <th scope="row">{firstLetter}</th>
+                      <td>{dish.item_name}</td>
+                      <td className="text-end">
+                        <i
+                          className="fa-solid fa-pencil"
+                          onClick={(e) => editDish(e, dish.id)}
+                        ></i>
+                        <i
+                          className="fa-sharp fa-solid fa-trash"
+                          onClick={(e) => handleDelete(e, dish.id)}
+                        ></i>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -190,20 +260,37 @@ export default function Dish() {
 
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
         <div className="all-form">
-          <form className="common_form_error" id="menu_form"  onSubmit={handlMenuSubmit}>
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handlMenuSubmit}
+          >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input type="text" name="name" onBlur={handleMenuBlur} autoComplete="username" onChange={(e) => setDishName(e.target.value)}/>
+              <input
+                type="text"
+                name="name"
+                onBlur={handleMenuBlur}
+                autoComplete="username"
+                onChange={(e) => setDishName(e.target.value)}
+              />
               {errors.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.name}
+                </span>
               )}
             </div>
-          
+
             <div className="login_div">
               <label htmlFor="dishcategory">Dish Category:</label>
-              <select name="dishcategory" onBlur={handleMenuBlur} onChange={(e) => setDishcategory(e.target.value)} value={dishCategory}>
+              <select
+                name="dishcategory"
+                onBlur={handleMenuBlur}
+                onChange={(e) => setDishcategory(e.target.value)}
+                value={dishCategory}
+              >
                 <option value="">Select a dish category</option>
-                
+
                 {Array.isArray(dishCategories) &&
                   dishCategories.map((category) => (
                     <option key={category.id} value={category.dish_category}>
@@ -216,16 +303,22 @@ export default function Dish() {
                   {errors.dishcategory}
                 </span>
               )}
-                      </div>
-  
-                      <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
-                          Submit
-                      </button>
-                  </form>
-          </div>
-          </PopupModal>
-          <ToastContainer />
-      </>
+            </div>
+
+            <button
+              type="submit"
+              className="btn-send w-100 mt-3"
+              disabled={buttonStatus}
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </PopupModal>
+
+   
+      <ToastContainer />
+    </>
   );
   
 }
