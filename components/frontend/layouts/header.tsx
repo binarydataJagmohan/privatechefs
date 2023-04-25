@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { ToastContainer,toast} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import {login,register,forgetPassword} from '../../../lib/frontendapi';
+import { removeToken, removeStorageData,removeBookingData } from "../../../lib/session";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 export default function Header({}) {
 
@@ -18,6 +19,12 @@ export default function Header({}) {
     const [role, setRole] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
+
+
+    useEffect(() => {
+      // removeBookingData();
+    }, []);
+    
 
     const modalConfirmClose = () => {
         setModalConfirm(false);
@@ -36,6 +43,8 @@ export default function Header({}) {
         setModalConfirmTwo(true);
         SetModalConfirmThree(false);
         setButtonState(false);
+        removeToken();
+    	  removeStorageData();
     };
 
     const signinpopup = () => {
@@ -43,6 +52,8 @@ export default function Header({}) {
         setModalConfirmTwo(false);
         SetModalConfirmThree(false);
         setButtonState(false);
+        removeToken();
+    	  removeStorageData();
     };
 
     const forgotpopup = () => {
@@ -431,7 +442,7 @@ export default function Header({}) {
                                 </li>  
                               
                                 <li className="user">
-                                    <a className="nav-link" href="#" onClick={() => setModalConfirm(true)}>SignIn/SignUp</a>
+                                    <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a>
                                 </li>
                             </ul> 
                         </div> 

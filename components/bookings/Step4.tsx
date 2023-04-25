@@ -1,8 +1,73 @@
 import React, { useState ,useEffect} from 'react'
+import { getAllCuisine } from 'lib/adminapi';
+import { ToastContainer,toast } from 'react-toastify';
+import swal from "sweetalert";
+import "react-toastify/dist/ReactToastify.css";
 import Slider from "react-slick";
 export default function Step4() {
+
+    const [cuisinedata, setCuisine] = useState([]);
+    const [selectedcuisine, setSelectedCuisine] = useState([]);
+
+    useEffect(() => {
+       BookingStepFour();
+	  }, []);
+
+    const BookingStepFour = async () => {
+    
+      const serviceType = window.localStorage.getItem('servicetype');
+      const time = window.localStorage.getItem('time');
+      const servicestyle = window.localStorage.getItem('servicestyle');
+      const mealsSelected = window.localStorage.getItem("selectedMeals");
+      const storedCuisine = window.localStorage.getItem("selectedcuisine");
+
+
+      if(serviceType && time) {
+          if(servicestyle) {
+             
+              if(!mealsSelected){
+                window.location.href = '/bookings/step3';
+              }else {
+            
+                getAllCuisineData();
+                if (storedCuisine) {
+                  const selectedCuisineArray = JSON.parse(storedCuisine);
+              
+                  setSelectedCuisine(selectedCuisineArray);
+                }
+
+              }
+               
+
+          }else {
+            window.location.href = '/bookings/step2';
+          }
+      }else {
+        window.location.href = '/bookings/step1';
+      }
+      
+    };
+
+    const getAllCuisineData = async () => {
+      try {
+        const res = await getAllCuisine();
+        if (res.status) {
+          setCuisine(res.data);
+         
+        } else {
+        toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        }
+      } catch (err) {
+        toast.error(err.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+    };
+
     const settings = {
-      rows: 1,
+      rows:2,
       dots: false,
       infinite: true,
       speed: 500,
@@ -40,8 +105,29 @@ export default function Step4() {
           } 
       ]
     }
+
+    const CheckStepFour = () => {
+
+      if (selectedcuisine.length === 0) {
+            swal({
+              title: 'Oops!',
+              text: 'You need to select aleast one cuisine further proceduce',
+              icon: 'info',
+              confirmButtonText: 'Ok',
+              customClass: {
+                  confirmButton: 'confirm-button-class'
+              }
+          });
+      }else {
+          window.localStorage.setItem("selectedcuisine", JSON.stringify(selectedcuisine));
+          window.location.href = '/bookings/step5';
+      }
+
+    }
+
     return (
         <>
+       
        <section className="journey-part">
          <div className="container size-real">
             <div className="row">
@@ -58,90 +144,46 @@ export default function Step4() {
             <div className="col-lg-1 col-md-12"></div>
              <div className="col-lg-11 col-md-12">
                 <div className="row"> 
-                  <Slider {...settings}>
-                    <div className="col-sm-3"> 
-                      <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/1.jpg'} alt="1" /> 
-                        <p className="plase-btn"><a href="#">Family Style</a></p>
+                <Slider {...settings} className="mt-2">
+                    {cuisinedata.map((cuisine) => (
+                      <div className="col-sm-3" key={cuisine.id}>
+                        <div className="slider-img-plase">
+                          <input
+                            type="checkbox"
+                            id={`myCheckbox2_${cuisine.id}`}
+                            name="cuisine_type"
+                            value={cuisine.id}
+                            className="step_radio_css"
+                            onChange={(e) => {
+                              const { value } = e.target;
+                              setSelectedCuisine((prevSelectedCuisine) => {
+                                if (prevSelectedCuisine.includes(String(value))) {
+                                  return prevSelectedCuisine.filter((c) => c !== String(value));
+                                } else {
+                                  return [...prevSelectedCuisine, String(value)];
+                                }
+                              });
+                            }}
+                            checked={selectedcuisine.includes(String(cuisine.id))}
+                          />
+
+                          <label htmlFor={`myCheckbox2_${cuisine.id}`} className="step_label_css">
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/admin/cuisines/'+cuisine.image} alt="1" /> 
+                            <p className="plase-btn"><a href="#">{cuisine.name}</a></p>
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-sm-3"> 
-                      <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
-                        <p className="plase-btn"><a href="#">Standard Style</a></p>
-                      </div> 
-                    </div>
-                    <div className="col-sm-3"> 
-                      <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/3.jpg'} alt="3" />
-                        <p className="plase-btn"><a href="#">Premium Style</a></p>
-                      </div> 
-                    </div>
-                    <div className="col-sm-3"> 
-                      <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/4.jpg'} alt="4" />
-                        <p className="plase-btn"><a href="#">Premium Style</a></p>
-                      </div> 
-                    </div> 
-                    <div className="col-sm-3"> 
-                      <div className="slider-img-plase">
-                        <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
-                        <p className="plase-btn"><a href="#">Standard Style</a></p>
-                      </div> 
-                    </div> 
+                    ))}
                   </Slider>
                 </div>
-                <div className="row mt-3"> 
-                  <Slider {...settings}>
-                    <div className="col-sm-3"> 
-                      <div className="slider-img-plase">
-                      <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/1.jpg'} alt="1" /> 
-                        <p className="plase-btn"><a href="#">Family Style</a></p>
-                      </div>
-                    </div>
-                    <div className="col-sm-3"> 
-                     <div className="slider-img-plase">
-                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
-                        <p className="plase-btn"><a href="#">Standard Style</a></p>
-                      </div> 
-                    </div>
-                    <div className="col-sm-3"> 
-                     <div className="slider-img-plase">
-                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/3.jpg'} alt="3" />
-                        <p className="plase-btn"><a href="#">Premium Style</a></p>
-                      </div> 
-                    </div>
-                    <div className="col-sm-3"> 
-                     <div className="slider-img-plase">
-                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/4.jpg'} alt="4" />
-                        <p className="plase-btn"><a href="#">Premium Style</a></p>
-                      </div> 
-                    </div> 
-                    <div className="col-sm-3"> 
-                     <div className="slider-img-plase">
-                     <div className="icon-check"> <i className="fa-solid fa-check"></i></div>
-                     <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/cuishine/2.jpg'} alt="2" />
-                        <p className="plase-btn"><a href="#">Standard Style</a></p>
-                      </div> 
-                    </div> 
-                  </Slider>  
-                </div>
+                
              </div>  
             </div> 
             </div>
             <div className="container-fluid mt-5">
             <div className="d-flx-step">
             <div className="view-more  mt-4"><a href="/bookings/step3">Back</a></div>
-            <div className="view-more bg-golden mt-4"><a href="/bookings/step5">Next</a></div>    
+            <div className="view-more bg-golden mt-4"><a href="#" onClick={(e) => CheckStepFour()}>Next</a></div>    
             </div> 
             <div className="rotate-box"> <h4 className="rotate-text">select type of cuisine</h4></div>
            </div>  
