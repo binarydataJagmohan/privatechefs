@@ -6,6 +6,7 @@ import PopupModal from '../../components/commoncomponents/PopupModal';
 import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { removeBookingData } from "../../lib/session";
 export default function Home() {
 
     const router = useRouter();
@@ -17,6 +18,9 @@ export default function Home() {
 
 
     useEffect(() => {
+        
+        removeBookingData();
+
         if(router.query.id && router.query.hash ){
             CheckEmailVerification();
         }

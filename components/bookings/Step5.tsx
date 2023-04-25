@@ -25,6 +25,7 @@ export default function Step5() {
     const storeallergies = window.localStorage.getItem("selectedallergies");
     const getadditionalnotes = window.localStorage.getItem("additionalnotes");
 
+
     if(serviceType && time) {
         if(servicestyle) {
            
@@ -168,7 +169,11 @@ export default function Step5() {
                           />
 
                           <label htmlFor={`myCheckbox2_${allergies.id}`} className="step_label_css">
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/admin/allergy/'+allergies.image} alt="1" /> 
+                          {allergies.image ? 
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/'+allergies.image} alt="step-img-1" /> 
+                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={245} height={190}/> 
+                          }
+                            
                             <p className="plase-btn"><a href="#">{allergies.allergy_name}</a></p>
                           </label>
                         </div>
@@ -184,7 +189,7 @@ export default function Step5() {
                   <div className="row">
                     <div className="col-lg-12 col-md-12">
                         <h4 className="title-20">Any special requests?</h4> 
-                        <textarea className="textarea-part mt-3"  onChange={(e) => setAdditionalNotes(e.target.value)} placeholder="Let us know more about your prefferences.."></textarea>
+                        <textarea className="textarea-part mt-3" value={additionalnotes}  onChange={(e) => setAdditionalNotes(e.target.value)} placeholder="Let us know more about your prefferences.."></textarea>
                     </div>
                     
                   </div>

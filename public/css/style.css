@@ -3161,16 +3161,6 @@ p.notify {
 }
 
 
-.step_radio_css{
-  display: none;
-}
-
-.step_label_css {
-  display: block;
-  position: relative;
-  cursor: pointer;
-}
-
 :checked + .step_label_css:before {
   content: "✓";
   position: absolute;
@@ -3188,6 +3178,40 @@ p.notify {
   padding: 1px 10px;
 }
 
+:checked + .step_label_css_mutiple:before {
+  content: "✓";
+  background: #FFFFFF;
+  box-shadow: 0px 0px 9px rgb(0 0 0 / 25%);
+  border-radius: 100%;
+  color: var(--color_1);
+  font-size: 30px;
+  top: 10px;
+  padding: 1px 10px;
+}
+.step_radio_css_mutiple:not(:checked) + .step_label_css_mutiple:before {
+  content: "x";
+  background: #FFFFFF;
+  box-shadow: 0px 0px 9px rgb(0 0 0 / 25%);
+  border-radius: 100%;
+  color: var(--color_1);
+  font-size: 30px;
+  top: 10px;
+  padding: 1px 15px;
+  /* other styles for unchecked checkbox */
+}
+.step_radio_css_mutiple{
+  display: none;
+}
+
+.step_label_css_mutiple {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+
+
 /* radio btn checked css stop */
 .var-login .modal-dialog.modal-xl.villas {
   max-width: 900px;
@@ -3199,4 +3223,28 @@ td#villa_img img {
 }
 div#villa_table .table>tbody tr td ul li {
   background: none;
+}
+
+.react-tel-input .form-control {
+  height: 54px !important;
+  width: 100% !important;
+}
+
+.booking_submit_btn {
+  font-weight: var(--font_wt_b);
+    font-size: var(--font_size);
+    line-height: var(--font_size_line_height);
+    color: var(--color_1);
+    padding: 10px 14px;
+    border: 1px solid var(--color_1);
+    border-radius: 6px;
+    transition: 0.6s;
+}
+.booking_submit_btn:hover {
+  background: var(--background_5);
+  color: var(--color_4);
+}
+.bg-golden .booking_submit_btn {
+  color: var(--color_4);
+  background: var(--background_5);
 }

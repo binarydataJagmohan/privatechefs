@@ -1,5 +1,22 @@
 import React, { useState ,useEffect} from 'react'
+
+
+
 export default function Step7() {
+
+  useEffect(() => {
+    BookingStepSeven();
+  }, []);
+
+  const BookingStepSeven = async () => {
+    const bookingid = window.localStorage.getItem("bookingid");
+   
+    if (!bookingid) {
+      window.location.href = "/bookings/step1";
+    } 
+  };
+
+
     return (
         <>
        <section className="journey-part">

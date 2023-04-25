@@ -8,10 +8,11 @@ export default function Step2() {
 
   const [services, setService] = useState([]);
   const [servicetype, setServiceType] = useState([]);
-  const [servicestyle, setServieStyle] = useState('familystyle');
+  const [servicestyle, setServieStyle] = useState('');
 
   useEffect(() => {
     BookingStepTwo();
+    
 	  }, []);
 
     const BookingStepTwo = async () => {
@@ -85,12 +86,20 @@ export default function Step2() {
 
     const CheckStepTwo = () => {
 
-      if(servicestyle || 'familystyle' || servicestyle || 'standardstyle' || servicestyle || 'premiumstyle'){
+      if(servicestyle){
         window.localStorage.setItem("servicestyle", servicestyle);
         window.location.href = '/bookings/step3';
-        
-        // window.localStorage.removeItem("selectedMeals");
-      }  
+      } else {
+        swal({
+          title: 'Oops!',
+          text: 'You need to select aleast one service and time for further proceduce',
+          icon: 'info',
+          confirmButtonText: 'Ok',
+          customClass: {
+              confirmButton: 'confirm-button-class'
+          }
+      });
+      } 
     }
 
     return (
@@ -119,13 +128,17 @@ export default function Step2() {
                         type="radio"
                         id={`myCheckbox2_${service.id}`}
                         name="service_type"
-                        value={service.service_name.toLowerCase().replace(' ', '')}
+                        value={service.id}
                         className="step_radio_css"
-                        checked={servicestyle === service.service_name.toLowerCase().replace(' ', '')}
-                        onChange={(e) => setServieStyle(service.service_name.toLowerCase().replace(' ', ''))}
+                        checked={servicestyle == service.id}
+                        onChange={(e) => setServieStyle(service.id)}
                       />
                       <label htmlFor={`myCheckbox2_${service.id}`} className="step_label_css">
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/service/'+service.image} alt="step-img-1" /> 
+                        {service.image ? 
+                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/service/'+service.image} alt="step-img-1" /> 
+                         :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={204} height={283}/> 
+                         }
+                        
                         <p className="plase-btn"><a href="#">{service.service_name}</a></p>
                         </label>
                       </div>

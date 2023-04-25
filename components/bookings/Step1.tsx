@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Component } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
-
 import swal from "sweetalert";
 export default function Step1() {
 

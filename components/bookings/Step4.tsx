@@ -168,7 +168,11 @@ export default function Step4() {
                           />
 
                           <label htmlFor={`myCheckbox2_${cuisine.id}`} className="step_label_css">
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/admin/cuisines/'+cuisine.image} alt="1" /> 
+
+                          {cuisine.image ? 
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/cuisines/'+cuisine.image} alt="step-img-1" /> 
+                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={245} height={245}/> 
+                          }
                             <p className="plase-btn"><a href="#">{cuisine.name}</a></p>
                           </label>
                         </div>

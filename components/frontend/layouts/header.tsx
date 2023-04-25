@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { ToastContainer,toast} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import {login,register,forgetPassword} from '../../../lib/frontendapi';
-import { removeToken, removeStorageData,removeBookingData } from "../../../lib/session";
+import { removeToken, removeStorageData,getCurrentUserData,removeBookingData} from "../../../lib/session";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 export default function Header({}) {
 
@@ -19,10 +19,12 @@ export default function Header({}) {
     const [role, setRole] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
+    const [current_user_id, setCurrentUserId] = useState(false);
 
 
     useEffect(() => {
-      // removeBookingData();
+      const current_user_data = getCurrentUserData();
+      current_user_data.id ? setCurrentUserId(true) : setCurrentUserId(false);
     }, []);
     
 
@@ -63,7 +65,12 @@ export default function Header({}) {
         setButtonState(false);
     };
 
-    
+    function handleLogout() {
+      removeToken();
+      removeStorageData();
+      removeBookingData();
+      window.location.href = '/';
+  }
 
     //login submit start
 
@@ -432,7 +439,7 @@ export default function Header({}) {
                                   <a className="nav-link active" aria-current="page" href="/covid19">COVID-19</a>
                                 </li> */}
                                 <li className="nav-item">
-                                  <a className="nav-link" href="/startjourney">Start your journey</a>
+                                  <a className="nav-link" href="/bookings/step1">Start your journey</a>
                                 </li> 
                                 <li className="nav-item">
                                     <a className="nav-link" href="/whoweare">Who we are</a>
@@ -442,7 +449,8 @@ export default function Header({}) {
                                 </li>  
                               
                                 <li className="user">
-                                    <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a>
+                                  {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a> :  <a className="nav-link" href="#" onClick={handleLogout} >Logout</a> }
+                                    
                                 </li>
                             </ul> 
                         </div> 
