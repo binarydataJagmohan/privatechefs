@@ -3248,3 +3248,8 @@ div#villa_table .table>tbody tr td ul li {
   color: var(--color_4);
   background: var(--background_5);
 }
+table#alpabet_table th::after {
+  content: "*";
+  display: block;
+  margin: 0;
+}
