@@ -29,7 +29,7 @@ export default function Sidebar(): JSX.Element {
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0"> 
                             <a href="/">
-                            {currentUserData.pic == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/users.jpg'} alt="user-menu"/> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'images/chef/users/'+currentUserData.pic} alt="user-menu"/>} 
+                            {currentUserData.pic == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/users.jpg'} alt="user-menu"/> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/chef/users/'+currentUserData.pic} alt="user-menu"/>} 
                                 
                             </a>
                         </div>
@@ -69,6 +69,12 @@ export default function Sidebar(): JSX.Element {
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-credit-card"></i></span>  
                             <span className="menu-collapsed">Receipts</span> 
+                        </div>
+                    </a>
+                    <a href="/chef/cuisine" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/cuisine' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-bowl-food"></i></span>  
+                            <span className="menu-collapsed">Cuisine</span> 
                         </div>
                     </a>
                     {/* <a href="/chef/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/chefs' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>

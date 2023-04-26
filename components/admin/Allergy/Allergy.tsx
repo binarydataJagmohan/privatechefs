@@ -209,6 +209,7 @@ const handleUpdateAllergy = (e) => {
     .then((res) => {
       console.log(res.data);
       editsetModalConfirm(false);
+      fetchAllergyDetails();
       setAllergyList([]);
       toast.success("Allergy updated successfully!");
     })
