@@ -17,7 +17,7 @@ export function isPageVisibleToRole(pageName) {
         "notification": ["admin","chef","user"],
         "villas": ["admin"],
         "chef-dish" : ["chef"],
-        "chef-cuisine" : ['chef'],
+        "admin-cuisine" : ['admin'],
         "admin-bookings" : ['admin'],
       };
 

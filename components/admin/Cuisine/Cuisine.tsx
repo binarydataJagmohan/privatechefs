@@ -8,7 +8,7 @@ import {
    cuisneDelete,
    getSingleCisine,
    updateCuisine
-} from "../../../lib/chefapi";
+} from "../../../lib/adminapi";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
@@ -45,7 +45,7 @@ export default function Cuisine() {
 
   useEffect(() => {
 
-    const data = isPageVisibleToRole('chef-cuisine');
+    const data = isPageVisibleToRole('admin-cuisine');
 			if (data == 2) {
 			  window.location.href = '/login'; // redirect to login if not logged in
 			} else if (data == 0) {
