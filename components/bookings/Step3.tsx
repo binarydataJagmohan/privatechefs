@@ -3,9 +3,9 @@ import swal from "sweetalert";
 export default function Step3() {
 
   const [mealValues, setMealValues] = useState({
-    breakfast: false,
-    lunch: false,
-    dinner: false,
+    breakfast: true,
+    lunch: true,
+    dinner: true,
   });
 
   const [newtime, setTime] = useState({});

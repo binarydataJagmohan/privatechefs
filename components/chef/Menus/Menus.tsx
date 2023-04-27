@@ -64,7 +64,7 @@ export default function Menus() {
     .catch(err => {
         console.log(err);
     });
-};
+  };
 
   const getAllCrusineData = async () => {
       getAllCrusine()

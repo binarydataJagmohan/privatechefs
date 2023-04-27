@@ -3,12 +3,14 @@ import { getToken, getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import {
   getSingleChefMenu,
-  saveChefDishes,
-  deleteDish,
+  saveChefMenuItems,
+  deleteChefMenuItem,
   getAllCrusine,
   updateChefMenu,
   deleteMenu,
-  updateChefPersonPrice
+  updateChefPersonPrice,
+  getDishes,
+  updateChefDishCount
 } from "../../../lib/chefapi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +26,6 @@ export default function Menus2(props) {
   const [errors, setErrors] = useState({});
   const [buttonStatus, setButtonState] = useState(false);
   const [name, setName] = useState("");
-  const [type, setType] = useState("");
   const [modalConfirm, setModalConfirm] = useState(false);
   const [cuisinedata, setCuisineData] = useState({});
   const [menuname, setMenuName] = useState("");
@@ -40,6 +41,20 @@ export default function Menus2(props) {
   const [maxprice,setMaxPice] = useState('');
   const [comments, setcomments] = useState('');
 
+  const [chefalldishes, setChefAllDish] = useState('');
+
+  const [searchInputValue, setSearchInputValue] = useState("");
+  const [searchResultsVisible, setSearchResultsVisible] = useState(true);
+  
+  const [dishtype, setDishType] = useState('');
+
+  const [dishid, setDishId] = useState('');
+
+  const [starter_items, setStartItems] = useState('');
+  const [firstcourse_items, setFirstCourseItems] = useState('');
+  const [maincourse_items, setMainCourseItems] = useState('');
+  const [desert_items, setDesertItems] = useState('');
+  
 
   useEffect(() => {
     getUserData();
@@ -63,6 +78,28 @@ export default function Menus2(props) {
       setCurrentUserData(userData);
       getSingleChefMenuData(id);
       getAllCrusineData();
+      fetchdishes(userData.id);
+    }
+  };
+
+  const fetchdishes = async (user_id) => {
+    
+    try {
+      const res = await getDishes(user_id);
+      if (res.status) {
+    
+        setChefAllDish(res.data);
+
+        //console.log(res.data);
+      } else {
+        toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (err) {
+      toast.error(err.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
   };
 
@@ -95,7 +132,7 @@ export default function Menus2(props) {
     .catch(err => {
         console.log(err);
     });
-}
+  }
 
   const getSingleChefMenuData = async (id) => {
     getSingleChefMenu(id)
@@ -112,6 +149,12 @@ export default function Menus2(props) {
           setMaxPice(res.menudata.max_price);
           setcomments(res.menudata.comments);
           setDishes(res.dishes);
+          setStartItems(res.menudata.starter_items);
+          setFirstCourseItems(res.menudata.firstcourse_items);
+          setMainCourseItems(res.menudata.maincourse_items);
+          setDesertItems(res.menudata.desert_items);
+          
+
           const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
           const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
@@ -130,32 +173,22 @@ export default function Menus2(props) {
 
   //dishes hanle submit start
 
-  const handlDishesSubmit = (event) => {
+  const handlMenuItemsSubmit = (event) => {
     event.preventDefault();
-
-    // Validate form data
-    const errors = {};
-
-    if (!name) {
-      errors.name = "Name is required";
-    }
-
-    setErrors(errors);
-
-    // Submit form data if there are no errors
-    if (Object.keys(errors).length === 0) {
-      // Call an API or perform some other action to register the user
 
       const data = {
         menu_id: id,
+        dish_id : dishid,
         user_id: currentUserData.id,
-        item_name: name,
-        type: type,
+        type: dishtype,
       };
-      saveChefDishes(data)
+      saveChefMenuItems(data)
         .then((res) => {
           if (res.status == true) {
             setDishes(res.dishes);
+            setSearchInputValue('');
+            setDishType('');
+            setSearchResultsVisible(false);
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
             });
@@ -170,35 +203,13 @@ export default function Menus2(props) {
         .catch((err) => {
           console.log(err);
         });
-    }
+    
   };
 
-  const handleDishesBlur = (event) => {
-    const { name, value } = event.target;
-    const newErrors = { ...errors };
-
-    switch (name) {
-      case "name":
-        if (!value) {
-          newErrors.name = "Name is required";
-        } else {
-          delete newErrors.name;
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    setErrors(newErrors);
-  };
-
-    //dishes hanle submit end
-
-  const deleteSingleDish = (id) => {
+  const deleteMenuitem = (id) => {
     swal({
       title: "Are you sure?",
-      text: "You want to delete the dish",
+      text: "You want to delete the menu item",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -206,13 +217,15 @@ export default function Menus2(props) {
       confirmButtonColor: "#062B60",
     }).then((willDelete) => {
       if (willDelete) {
-        deleteDish(id)
+        deleteChefMenuItem(id)
           .then((res) => {
             if (res.status == true) {
-              swal("Your Dish has been deleted!", {
+
+              getSingleChefMenuData(props.MenuId);
+              swal("Your menu item has been deleted!", {
                 icon: "success",
               });
-              $("#dishes_" + id).hide();
+             
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -464,6 +477,103 @@ export default function Menus2(props) {
 
   //menus submit close
 
+  function renderSearchResults() {
+    
+    const query = searchInputValue.toLowerCase();   
+    
+    const type = dishtype; 
+
+    const matchingData = Object.entries(chefalldishes)
+      .filter(([slug, dish]) => {
+        return (
+          dish.type === type && // filter by type
+          dish.item_name.toLowerCase().includes(query) // filter by query
+        );
+      })
+      .reduce((acc, [id, dish]) => {
+        acc[dish.id] = dish.item_name;
+        return acc;
+      }, {});
+    return (
+      <div id="search-results" style={{height: Object.keys(matchingData).length > 0 ? '' : 'auto',display: searchResultsVisible ? 'block' : 'none'}}>
+        <ul>
+        {Object.keys(matchingData).length > 0 ? (
+              Object.entries(matchingData).map(([id, name]) => (
+                <li key={name} onClick={() => addItem(id,name)} role="button">
+                  {name}
+                </li>
+              ))
+            ) : (
+              <li>
+                  No record found
+                </li>
+            )}
+        </ul>
+      </div>
+    );
+  }
+
+  function handleSearchInputChange(event) {
+    
+    setSearchInputValue(event.target.value.trim());
+    setDishType(event.target.name);
+    setSearchResultsVisible(true);
+    
+  }
+
+  function addItem(id, name) {
+    setSearchInputValue(name)
+    setSearchResultsVisible(false)
+    setDishId(id)
+  }
+
+  function handleDishCount(e) {
+
+      if(e.target.name == 'starter_items'){
+          setStartItems(e.target.value);
+      }
+
+      if(e.target.name == 'firstcourse_items'){
+        setFirstCourseItems(e.target.value);
+      }
+
+      if(e.target.name == 'maincourse_items'){
+        setMainCourseItems(e.target.value);
+      }
+      if(e.target.name == 'desert_items'){
+        setDesertItems(e.target.value);
+      }
+
+      const data = {
+        menu_id: props.MenuId,
+        dishcount: e.target.value,
+        name: e.target.name,
+
+      };
+      updateChefDishCount(data)
+    .then(res => {
+      if(res.status==true){
+
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+        
+      } else {
+          setButtonState(false);
+          toast.error(res.message, {
+              position: toast.POSITION.TOP_RIGHT
+            });
+        
+      }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+    
+  }
+
+
+  
 
   return (
     <>
@@ -549,9 +659,15 @@ export default function Menus2(props) {
                             data-bs-target="#collapseOne"
                             aria-expanded="true"
                             aria-controls="collapseOne"
+                            onClick={() => {
+                              setSearchInputValue('');
+                              setDishType('');
+                              setSearchResultsVisible(false);
+                            }}
                           >
                             Starter
                           </button>
+                          
                         </h2>
                         <div
                           id="collapseOne"
@@ -561,38 +677,54 @@ export default function Menus2(props) {
                         >
                           <div className="accordion-body">
                             <div className="all-form" id="all_menu_dishes_form">
+                              
                               <form
-                                onSubmit={handlDishesSubmit}
+                                onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
                                 <div className="login_div d-flex">
                                   <input
                                     type="text"
-                                    name="name"
-                                    onChange={(e) => {
-                                      setName(e.target.value);
-                                      
-                                    }}
-                                    value={name}
-                                    onBlur={handleDishesBlur}
+                                    name="starter"
+                                    value={searchInputValue} onChange={handleSearchInputChange} 
+                                    placeholder="Search starter..."
                                    
                                     className="mx-2 dishes_name_input"
+                                    required
                                   />
-                                  {errors.name && (
-                                    <span className="small error text-danger mb-2 d-inline-block error_login">
-                                      {errors.name}
-                                    </span>
-                                  )}
+                                  
+
+                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="starter_items" value={starter_items} style={{height:'46px'}}>
+                                      <option value="0">Choose Dishes</option>
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                      <option value="9">9</option>
+                                      <option value="10">10</option>
+  
+                                  </select>
+                                  
+
                                   <button
                                     type="submit"
-                                    className="btn-send w-25"
-                                    onClick={() => setType("starter")}
+                                    className="btn-send w-50"
                                   >
                                     Add Starter Course
                                   </button>
+                                  
                                 </div>
                               </form>
+                              <div className="" id="compare_countries_result">
+                                  {searchInputValue && renderSearchResults()}
+                              </div>
                             </div>
+
+                            
 
                             {dishesdata &&
                               dishesdata.length > 0 &&
@@ -602,7 +734,7 @@ export default function Menus2(props) {
                                   <div
                                     className="row mt-2"
                                     key={index}
-                                    id={`dishes_${dishes.id}`}
+                                    id={`dishes_${dishes.menu_item_id}`}
                                   >
                                     <div className="col-1 bg-fff">
                                       <h3 className="num-">{index + 1}</h3>
@@ -624,7 +756,7 @@ export default function Menus2(props) {
                                     <div className="col-1 bg-f1f1f1 text-center trash">
                                       <i
                                         onClick={(e) =>
-                                          deleteSingleDish(dishes.id)
+                                          deleteMenuitem(dishes.menu_item_id)
                                         }
                                         className="fa-solid fa-trash"
                                       ></i>
@@ -643,6 +775,11 @@ export default function Menus2(props) {
                             data-bs-target="#collapseTwo"
                             aria-expanded="false"
                             aria-controls="collapseTwo"
+                            onClick={() => {
+                              setSearchInputValue('');
+                              setDishType('');
+                              setSearchResultsVisible(false);
+                            }}
                           >
                             First Course
                           </button>
@@ -656,49 +793,62 @@ export default function Menus2(props) {
                           <div className="accordion-body">
                             <div className="all-form" id="all_menu_dishes_form">
                               <form
-                                onSubmit={handlDishesSubmit}
+                                onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
                                 <div className="login_div d-flex">
                                   <input
                                     type="text"
-                                    name="name"
-                                    value={name}
-                                    onChange={(e) => {
-                                      setName(e.target.value);
-                                      
-                                    }}
-                                    onBlur={handleDishesBlur}
-                                  
+                                    name="firstcourse"
+                                    value={searchInputValue} onChange={handleSearchInputChange} 
                                     className="mx-2 dishes_name_input"
+                                    required
                                   />
                                   {errors.name && (
                                     <span className="small error text-danger mb-2 d-inline-block error_login">
                                       {errors.name}
                                     </span>
                                   )}
+
+                                    <select className="w-25 mx-2 dishes_name_input"  onChange={handleDishCount} name="firstcourse_items" value={firstcourse_items} style={{height:'46px'}}>
+                                      <option value="0">Choose Dishes</option>
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                      <option value="9">9</option>
+                                      <option value="10">10</option>
+  
+                                  </select>
+
                                   <button
                                     type="submit"
-                                    className="btn-send w-25"
-                                    onClick={() => setType("first_course")}
+                                    className="btn-send w-50"
                                   >
                                     Add First Course
                                   </button>
                                 </div>
                               </form>
+                              <div className="" id="compare_countries_result">
+                                  {searchInputValue && renderSearchResults()}
+                              </div>
                             </div>
 
                             {dishesdata &&
                               dishesdata.length > 0 &&
                               dishesdata
                                 .filter(
-                                  (dishes) => dishes.type == "first_course"
+                                  (dishes) => dishes.type == "firstcourse"
                                 )
                                 .map((dishes, index) => (
                                   <div
                                     className="row mt-2"
                                     key={index}
-                                    id={`dishes_${dishes.id}`}
+                                    id={`dishes_${dishes.menu_item_id}`}
                                   >
                                     <div className="col-1 bg-fff">
                                       <h3 className="num-">{index + 1}</h3>
@@ -720,7 +870,7 @@ export default function Menus2(props) {
                                     <div className="col-1 bg-f1f1f1 text-center trash">
                                       <i
                                         onClick={(e) =>
-                                          deleteSingleDish(dishes.id)
+                                          deleteMenuitem(dishes.menu_item_id)
                                         }
                                         className="fa-solid fa-trash"
                                       ></i>
@@ -739,6 +889,11 @@ export default function Menus2(props) {
                             data-bs-target="#collapseThree"
                             aria-expanded="false"
                             aria-controls="collapseThree"
+                            onClick={() => {
+                              setSearchInputValue('');
+                              setDishType('');
+                              setSearchResultsVisible(false);
+                            }}
                           >
                             Main Course
                           </button>
@@ -752,48 +907,58 @@ export default function Menus2(props) {
                           <div className="accordion-body">
                             <div className="all-form" id="all_menu_dishes_form">
                               <form
-                                onSubmit={handlDishesSubmit}
+                                onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
                                 <div className="login_div d-flex">
                                   <input
                                     type="text"
-                                    name="name"
-                                    value={name}
-                                    onChange={(e) => {
-                                      setName(e.target.value);
-                                    }}
-                                    onBlur={handleDishesBlur}
-                                    
+                                    name="maincourse"
+                                    value={searchInputValue} onChange={handleSearchInputChange} 
+
                                     className="mx-2 dishes_name_input"
+                                    required
                                   />
-                                  {errors.name && (
-                                    <span className="small error text-danger mb-2 d-inline-block error_login">
-                                      {errors.name}
-                                    </span>
-                                  )}
+                                 
+                                   <select className="w-25 mx-2 dishes_name_input"  onChange={handleDishCount} name="maincourse_items" value={maincourse_items} style={{height:'46px'}}>
+                                      <option value="0">Choose Dishes</option>
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                      <option value="9">9</option>
+                                      <option value="10">10</option>
+  
+                                  </select>
+
                                   <button
                                     type="submit"
-                                    className="btn-send w-25"
-                                    onClick={() => setType("main_course")}
+                                    className="btn-send w-50"
                                   >
                                     Add Main Course
                                   </button>
                                 </div>
                               </form>
+                              <div className="" id="compare_countries_result">
+                                  {searchInputValue && renderSearchResults()}
+                              </div>
                             </div>
 
                             {dishesdata &&
                               dishesdata.length > 0 &&
                               dishesdata
                                 .filter(
-                                  (dishes) => dishes.type == "main_course"
+                                  (dishes) => dishes.type == "maincourse"
                                 )
                                 .map((dishes, index) => (
                                   <div
                                     className="row mt-2"
                                     key={index}
-                                    id={`dishes_${dishes.id}`}
+                                    id={`dishes_${dishes.menu_item_id}`}
                                   >
                                     <div className="col-1 bg-fff">
                                       <h3 className="num-">{index + 1}</h3>
@@ -815,7 +980,7 @@ export default function Menus2(props) {
                                     <div className="col-1 bg-f1f1f1 text-center trash">
                                       <i
                                         onClick={(e) =>
-                                          deleteSingleDish(dishes.id)
+                                          deleteMenuitem(dishes.menu_item_id)
                                         }
                                         className="fa-solid fa-trash"
                                       ></i>
@@ -832,15 +997,20 @@ export default function Menus2(props) {
                             className="accordion-button collapsed"
                             type="button"
                             data-bs-toggle="collapse"
-                            data-bs-target="#collapseThree"
+                            data-bs-target="#collapseFour"
                             aria-expanded="false"
-                            aria-controls="collapseThree"
+                            aria-controls="collapseFour"
+                            onClick={() => {
+                              setSearchInputValue('');
+                              setDishType('');
+                              setSearchResultsVisible(false);
+                            }}
                           >
                             Desert
                           </button>
                         </h2>
                         <div
-                          id="collapseThree"
+                          id="collapseFour"
                           className="accordion-collapse collapse"
                           aria-labelledby="headingThree"
                           data-bs-parent="#accordionExample"
@@ -848,36 +1018,46 @@ export default function Menus2(props) {
                           <div className="accordion-body">
                             <div className="all-form" id="all_menu_dishes_form">
                               <form
-                                onSubmit={handlDishesSubmit}
+                                onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
                                 <div className="login_div d-flex">
                                   <input
                                     type="text"
-                                    name="name"
-                                    value={name}
-                                    onChange={(e) => {
-                                      setName(e.target.value);
-                                     
-                                    }}
-                                    onBlur={handleDishesBlur}
-                                  
+                                    name="desert"
+                                    value={searchInputValue} onChange={handleSearchInputChange} 
+
                                     className="mx-2 dishes_name_input"
+                                    required
                                   />
-                                  {errors.name && (
-                                    <span className="small error text-danger mb-2 d-inline-block error_login">
-                                      {errors.name}
-                                    </span>
-                                  )}
+                                 
+                                    <select className="w-25 mx-2"  onChange={handleDishCount} name="desert_items" value={desert_items} style={{height:'48px'}}>
+                                      <option value="0">Choose Dishes</option>
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
+                                      <option value="9">9</option>
+                                      <option value="10">10</option>
+  
+                                  </select>
+
                                   <button
                                     type="submit"
-                                    className="btn-send w-25"
-                                    onClick={() => setType("desert")}
+                                    className="btn-send w-50"
+                                   
                                   >
                                     Add Desert
                                   </button>
                                 </div>
                               </form>
+                              <div className="" id="compare_countries_result">
+                                  {searchInputValue && renderSearchResults()}
+                              </div>
                             </div>
 
                             {dishesdata &&
@@ -888,7 +1068,7 @@ export default function Menus2(props) {
                                   <div
                                     className="row mt-2"
                                     key={index}
-                                    id={`dishes_${dishes.id}`}
+                                    id={`dishes_${dishes.menu_item_id}`}
                                   >
                                     <div className="col-1 bg-fff">
                                       <h3 className="num-">{index + 1}</h3>
@@ -910,7 +1090,7 @@ export default function Menus2(props) {
                                     <div className="col-1 bg-f1f1f1 text-center trash">
                                       <i
                                         onClick={(e) =>
-                                          deleteSingleDish(dishes.id)
+                                          deleteMenuitem(dishes.menu_item_id)
                                         }
                                         className="fa-solid fa-trash"
                                       ></i>

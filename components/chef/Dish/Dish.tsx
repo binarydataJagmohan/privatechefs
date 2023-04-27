@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import {
   getDishecategory,
-  dishInsert,
+  dishAddUpdate,
   getDishes,
   deleteSingleDish,
-  getSingleDish,
-} from "../../../lib/adminapi";
+  fetchDishCategoryById
+} from "../../../lib/chefapi";
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { ToastContainer, toast } from "react-toastify";
 import swal from "sweetalert";
+import Pagination from "../../commoncomponents/Pagination";
+import { paginate } from "../../../helpers/paginate";
 
 export default function Dish() {
   const [errors, setErrors] = useState({});
@@ -23,6 +25,17 @@ export default function Dish() {
   const [dishCategory, setDishcategory] = useState("");
   const [dishList, setDishLists] = useState([]);
 
+  const [dishmethod, setDishMethod] = useState('');
+  const [dishid, setDishId] = useState('');
+
+  const [dishcategoryid, setDishCategoryId] = useState('all');
+
+  const [dishTotalList, setTotalDishLists] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [alphabetletter, setAlphabetLetter] = useState('');
+
+  const pageSize = 25;
+
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -30,12 +43,7 @@ export default function Dish() {
   const modalConfirmClose = () => {
     setModalConfirm(false);
   };
-  const editmodalConfirmOpen = () => {
-    editsetModalConfirm(true);
-  };
-  const editmodalConfirmClose = () => {
-    editsetModalConfirm(false);
-  };
+ 
 
   useEffect(() => {
     const data = isPageVisibleToRole("chef-dish");
@@ -48,6 +56,7 @@ export default function Dish() {
       const userData = getCurrentUserData();
       // console.log(userData);
       setCurrentUserData(userData);
+      fetchdishes(userData.id);
     }
     // Fetch the list of dish categories from the API
     getDishecategory()
@@ -58,14 +67,19 @@ export default function Dish() {
       .catch((error) => {
         console.error(error);
       });
-    fetchdishes();
+     
   }, []);
 
-  const fetchdishes = async () => {
+  const fetchdishes = async (user_id) => {
+    
     try {
-      const res = await getDishes();
+      const res = await getDishes(user_id);
       if (res.status) {
-        setDishLists(res.data);
+     
+        setTotalDishLists(res.data);
+        const paginatedPosts = paginate(res.data, currentPage, pageSize);
+        setDishLists(paginatedPosts);
+
         //console.log(res.data);
       } else {
         toast.error(res.message, {
@@ -77,6 +91,23 @@ export default function Dish() {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     }
+  };
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+    fetchdishes(currentUserData.id)
+    .then(res => {
+      if(res.status==true){
+        setTotalDishLists(res.data);
+        const paginatedPosts = paginate(res.data, page, pageSize);
+        setDishLists(paginatedPosts);
+      } else {
+        setErrorMessage(res.message);
+      }
+    })
+    .catch(err => {
+        console.log(err);
+    });
   };
 
   const handlMenuSubmit = (event) => {
@@ -101,12 +132,14 @@ export default function Dish() {
 
       // Call an API or perform some other action to register the user
       const data = {
+        id:dishid,
         item_name: dishName,
-        type: dishCategory,
+        dish_category_id: dishCategory,
         userId: currentUserData.id,
       };
 
-      dishInsert(data)
+
+      dishAddUpdate(data)
         .then((res) => {
           if (res.status == true) {
             setModalConfirm(false);
@@ -133,11 +166,23 @@ export default function Dish() {
     }
   };
 
+
+  const handleEdit = (e, id) => {
+    e.preventDefault();
+    setDishId(id);
+    const dish = dishTotalList.find(d => d.id === id);
+    if (dish) {
+      setDishName(dish.item_name);
+      setDishcategory(dish.dish_category_id)
+      setModalConfirm(true);
+    }
+  };
+
   const handleDelete = (e, id) => {
     e.preventDefault();
     swal({
       title: "Are you sure?",
-      text: "You want to delete the Allergy detail",
+      text: "You want to delete the dish",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -148,10 +193,10 @@ export default function Dish() {
         deleteSingleDish(id)
           .then((res) => {
             if (res.status === true) {
-              swal("Your Dish Details has been deleted!", {
+              swal("Your Dish  has been deleted!", {
                 icon: "success",
               });
-              fetchdishes();
+              fetchdishes(currentUserData.id);
               setDishLists([]);
             } else {
               toast.error(res.message, {
@@ -198,18 +243,64 @@ export default function Dish() {
     setErrors(newErrors);
   };
 
+  const fetchDishCategoryDataById = (id,alphabetletter='') => {
+    
+    setDishCategoryId(id);
+   
+    const data = {
+      letter: alphabetletter,
+      dish_category_id: id,
+      user_id: currentUserData.id,
+    };
+
+    fetchDishCategoryById(data)
+      .then((res) => {
+        if (res.status == true) {
+          
+          setTotalDishLists(res.data);
+          const paginatedPosts = paginate(res.data, currentPage, pageSize);
+          setDishLists(paginatedPosts);
+
+        } else {
+      
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      })
+      .catch((err) => {
+       
+        toast.error(err.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      });
+    
+  };
+
+
+  // const fetchDishCategoryDataByAlphabet = (letter) => {
+  //   setAlphabetLetter(letter);
+  //   fetchDishCategoryDataById(dishcategoryid)
+  // };
+
+
   return (
     <>
       <div className="table-part">
-        <h2>Dishes</h2>
+        <h2>Dishes</h2> {alphabetletter}
           <div className="d-flex justify-content-space-between">
             <div className="md">
+
+            <button key='' className={`${dishcategoryid == 'all' ? 'table-btn btn-2' : 'table-btn'}`} onClick={() => {fetchDishCategoryDataById('all');}}>
+                 All
+            </button>
+
               {Array.isArray(dishCategories) &&
                 dishCategories.map((category) => (
                   <button
                     key={category.id}
-                    className="table-btn"
-                    onClick={() => setDishcategory(category.dish_category)}
+                    className={`${dishcategoryid == category.id ? 'table-btn btn-2 ' : 'table-btn'}`}
+                    onClick={() => fetchDishCategoryDataById(category.id)}
                   >
                     {category.dish_category}
                   </button>
@@ -218,27 +309,30 @@ export default function Dish() {
 
             {/* <button className="table-btn">Starter</button> */}
             <div>
-              <button className="table-btn" onClick={() => setModalConfirm(true)}>
+            <button className="table-btn" onClick={() => {
+                setDishId('');
+                setModalConfirm(true);
+                  }}>
                 Add Dish
-              </button>
+            </button>
             </div>
           </div>
         <div className="row mt-4">
-          <div className="col-lg-1">
+          <div className="col-auto">
             <table className="table" id="alpabet_table">
             
 
             <tbody>
               {Array.from(Array(26), (e, i) => String.fromCharCode(65 + i)).map((letter, index) => (
                 <tr key={index}>
-                  <th scope="row" style={{border:'none',padding:'0px'}}>{letter}</th>
+                  <th scope="row" onClick={() => fetchDishCategoryDataById(dishcategoryid,letter)} style={{border:'none',padding:'0px'} } role='button'>{letter}</th>
 
                 </tr>
               ))}
             </tbody>
           </table>
           </div>
-          <div className="col-lg-10">
+          <div className="col">
        
           <table className="table">
             <thead>
@@ -257,11 +351,14 @@ export default function Dish() {
                       <td className="text-end">
                         <i
                           className="fa-solid fa-pencil"
-                          onClick={(e) => editDish(e, dish.id)}
+                          role='button'
+                          onClick={(e) => handleEdit(e, dish.id)}
                         ></i>
                         <i
                           className="fa-sharp fa-solid fa-trash"
+                          
                           onClick={(e) => handleDelete(e, dish.id)}
+
                         ></i>
                       </td>
                     </tr>
@@ -269,6 +366,14 @@ export default function Dish() {
                 })}
             </tbody>
           </table>
+
+          <Pagination
+              items={dishTotalList.length} 
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onPageChange={onPageChange}
+          /> 
+           
           
           </div>
         </div>
@@ -286,9 +391,11 @@ export default function Dish() {
               <input
                 type="text"
                 name="name"
+                value={dishName}
                 onBlur={handleMenuBlur}
                 autoComplete="username"
                 onChange={(e) => setDishName(e.target.value)}
+                placeholder="Enter dish name"
               />
               {errors.name && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
@@ -309,7 +416,7 @@ export default function Dish() {
 
                 {Array.isArray(dishCategories) &&
                   dishCategories.map((category) => (
-                    <option key={category.id} value={category.dish_category}>
+                    <option key={category.id} value={category.id}>
                       {category.dish_category}
                     </option>
                   ))}
