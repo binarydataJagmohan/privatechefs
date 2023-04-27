@@ -3,18 +3,18 @@ import { getToken, getCurrentUserData } from "../../../lib/session";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { ToastContainer, toast } from "react-toastify";
 import {
-	saveService,
-	getServiceDetails,
-	serviceDelete,
-	getSingleService,
-	serviceUpdate
-} from "../../../lib/adminapi";
+    saveCuisine,
+   getAllCrusine,
+   cuisneDelete,
+   getSingleCisine,
+   updateCuisine
+} from "../../../lib/chefapi";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 
-export default function ServiceChoice() {
+export default function Cuisine() {
   const [errors, setErrors] = useState({});
   const [buttonStatus, setButtonState] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -23,11 +23,11 @@ export default function ServiceChoice() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  const [services, setService] = useState([]);
-  const [service2, setService2] = useState([]);
-  const [serviceList, setServiceList] = useState([]);
+  const [cuisines, setCuisines] = useState([]);
+  const [cuisines2, setCuisines2] = useState([]);
+  const [cuisinesList, setCuisinesList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 5;
+  const pageSize = 10;
 
   
   const modalConfirmOpen = () => {
@@ -45,7 +45,7 @@ export default function ServiceChoice() {
 
   useEffect(() => {
 
-    const data = isPageVisibleToRole('admin-servicechoice');
+    const data = isPageVisibleToRole('chef-cuisine');
 			if (data == 2) {
 			  window.location.href = '/login'; // redirect to login if not logged in
 			} else if (data == 0) {
@@ -53,18 +53,19 @@ export default function ServiceChoice() {
 			}
       if (data == 1) {
         const userData = getCurrentUserData();
+        // console.log(userData);
         setCurrentUserData(userData);
       }
-	  fetchServiceDetails();
+      fetchCuisneDetails();
   }, [currentPage, pageSize]);
 
-  const fetchServiceDetails = async () => {
+  const fetchCuisneDetails = async () => {
 	try {
-	  const res = await getServiceDetails();
+	  const res = await getAllCrusine();
 	  if (res.status) {
-		setService2(res.data);
+		setCuisines2(res.data);
 		const paginatedPosts = paginate(res.data, currentPage, pageSize);
-		setService(paginatedPosts);
+		setCuisines(paginatedPosts);
 	  } else {
 		toast.error(res.message, {
 		  position: toast.POSITION.TOP_RIGHT,
@@ -85,7 +86,7 @@ export default function ServiceChoice() {
     e.preventDefault();
     swal({
       title: "Are you sure?",
-      text: "You want to delete the Service detail",
+      text: "You want to delete the cuisine detail",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -93,14 +94,14 @@ export default function ServiceChoice() {
       confirmButtonColor: "#062B60",
     }).then((willDelete) => {
       if (willDelete) {
-        serviceDelete(id)
+        cuisneDelete(id)
           .then((res) => {
             if (res.status === true) {
-              swal("Your Service Details has been deleted!", {
+              swal("Your cuisine Details has been deleted!", {
                 icon: "success",
               });
-              fetchServiceDetails();
-			  setServiceList([]);
+              fetchCuisneDetails();
+			  setCuisinesList([]);
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -152,7 +153,7 @@ export default function ServiceChoice() {
         
       };
 
-      saveService(data, image[0])
+      saveCuisine(data, image[0])
         .then((res) => {
           if (res.status == true) {
             console.log(data);
@@ -165,8 +166,8 @@ export default function ServiceChoice() {
         setDescription("");
         setImage("");
 			const paginatedPosts = paginate(res.data, currentPage, pageSize);
-			setService(paginatedPosts);
-			setServiceList([]);
+			setCuisines(paginatedPosts);
+			setCuisinesList([]);
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
             });
@@ -184,35 +185,35 @@ export default function ServiceChoice() {
   };
 //login submit close
 
-const editService = (e, id) => {
+const editCuisine = (e, id) => {
   e.preventDefault();
   editsetModalConfirm(true);
-  getSingleService(id).then((res) => {
-    setServiceList(res.data);
+  getSingleCisine(id).then((res) => {
+    setCuisinesList(res.data);
   });
 };
 
-const handleUpdateService = (e) => {
+const handleUpdateCuisine = (e) => {
   e.preventDefault();
   const updatedData = {
-    id: serviceList.id,
-    service_name: serviceList.service_name,
-    description: serviceList.description,
+    id: cuisinesList.id,
+    name: cuisinesList.name,
+    description: cuisinesList.description,
   };
   if (e.target.image.files[0]) {
     updatedData.image = e.target.image.files[0];
   }
 
-  serviceUpdate(serviceList.id, updatedData)
+  updateCuisine(cuisinesList.id, updatedData)
     .then((res) => {
-      //console.log(res.data);
+      console.log(res.data);
       editsetModalConfirm(false);
-      fetchServiceDetails();
-      setServiceList(res.data);
-      toast.success("service updated successfully!");
+      fetchCuisneDetails();
+      toast.success("Cuisine updated successfully!");
     })
+
     .catch((err) => {
-      toast.error("Failed to update Service. Please try again.");
+      toast.error("Failed to update cuisine. Please try again.");
       console.log(err);
     });
 };
@@ -238,13 +239,10 @@ const handleUpdateService = (e) => {
   };
 
   
-
-
-
   return (
     <>
       <div className="table-part">
-        <h2>Allergy</h2>
+        <h2>Cuisine</h2>
         <ul className="table_header_button_section p-r">
           {/* <li><button className="table-btn">Total</button></li> */}
           <li className="right-li">
@@ -268,21 +266,21 @@ const handleUpdateService = (e) => {
               </tr>
             </thead>
             <tbody>
-              {services.map((service) => (
-                <tr key={service.id}>
-                  <td>{service.id}</td>
+              {cuisines.map((cuisine) => (
+                <tr key={cuisine.id}>
+                  <td>{cuisine.id}</td>
                   <td className="chefs_pic">
                     <img
                       src={
                         process.env.NEXT_PUBLIC_IMAGE_URL +
-                        "/images/admin/service/" +
-                        service.image
+                        "/images/chef/cuisine/" +
+                        cuisine.image
                       }
                       alt=""
                     />
                   </td>
-                  <td>{service.service_name}</td>
-                  <td>{service.description}</td>
+                  <td>{cuisine.name}</td>
+                  <td>{cuisine.description}</td>
                   <td>
                     <div className="dropdown" id="none-class">
                       <a
@@ -300,7 +298,7 @@ const handleUpdateService = (e) => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={(e) => editService(e, service.id)}
+                            onClick={(e) => editCuisine(e, cuisine.id)}
                           >
                             Edit
                           </a>
@@ -309,7 +307,7 @@ const handleUpdateService = (e) => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={(e) => handleDelete(e, service.id)}
+                            onClick={(e) => handleDelete(e, cuisine.id)}
                           >
                             Delete
                           </a>
@@ -323,7 +321,7 @@ const handleUpdateService = (e) => {
           </table>
         </div>
         <Pagination
-          items={service2.length}
+          items={cuisines2.length}
           currentPage={currentPage}
           pageSize={pageSize}
           onPageChange={onPageChange}
@@ -367,7 +365,7 @@ const handleUpdateService = (e) => {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
-              {errors.description && (
+               {errors.description && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
                   {errors.description}
                 </span>
@@ -381,7 +379,7 @@ const handleUpdateService = (e) => {
                 onChange={(e) => setImage(e.target.files)}
                 accept="jpg,png"
               />
-               {errors.image && (
+                 {errors.image && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
                   {errors.image}</span>
                    )}
@@ -404,16 +402,16 @@ const handleUpdateService = (e) => {
         staticClass="var-login"
       >
        <div className="all-form">
-  <form className="common_form_error" id="menu_form" onSubmit={handleUpdateService}>
-    <div className="login_div">
+      <form className="common_form_error" id="menu_form" onSubmit={handleUpdateCuisine}>
+      <div className="login_div">
       <label htmlFor="name">Name:</label>
       <input
         type="text"
-        name="service_name"
-        value={serviceList ? serviceList.service_name : ''}
+        name="allergy_name"
+        value={cuisinesList ? cuisinesList.name : ''}
         onBlur={handleMenuBlur}
         autoComplete="username"
-        onChange={(e) => setServiceList({ ...serviceList, service_name: e.target.value })}
+        onChange={(e) => setCuisinesList({ ...cuisinesList, name: e.target.value })}
       />
       {errors.name && (
         <span className="small error text-danger mb-2 d-inline-block error_login">
@@ -423,7 +421,7 @@ const handleUpdateService = (e) => {
     </div>
     <div className="login_div">
       <label htmlFor="Description">Description:</label>
-      <textarea name="description" value={serviceList ? serviceList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setServiceList({ ...serviceList, description: e.target.value })}></textarea>
+      <textarea name="description" value={cuisinesList ? cuisinesList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setCuisinesList({ ...cuisinesList, description: e.target.value })}></textarea>
     </div>
     <div className="login_div">
       <label htmlFor="Image">Image:</label>

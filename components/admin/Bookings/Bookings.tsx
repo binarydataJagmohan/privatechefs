@@ -1,6 +1,17 @@
 import React, { useState ,useEffect} from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import {
+	getUserBybooking
+  } from "../../../lib/adminapi";
+  import { paginate } from "../../../helpers/paginate";
+import swal from "sweetalert";
+import { ToastContainer, toast } from "react-toastify";
+
 export default function Bookings() {
+   
+    const [bookingUsers,setBookingUser] = useState([]);
+
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const modalConfirmOpen = () => {
         setModalConfirm(true);
@@ -8,6 +19,39 @@ export default function Bookings() {
     const modalConfirmClose = () => {
         setModalConfirm(false);
     }
+
+	useEffect(() => {
+
+		const data = isPageVisibleToRole('admin-bookings');
+				if (data == 2) {
+				  window.location.href = '/login'; // redirect to login if not logged in
+				} else if (data == 0) {
+				  window.location.href = '/404'; // redirect to 404 if not authorized
+				}
+		  if (data == 1) {
+			
+		  }
+		  fetchBookingUserDetails();
+	  }, []);
+
+	  const fetchBookingUserDetails = async () => {
+		try {
+		  const res = await getUserBybooking();
+		  if (res.status) {
+			setBookingUser(res.data);
+			//const paginatedPosts = paginate(res.data, currentPage, pageSize);
+			//setAllergis(paginatedPosts);
+		  } else {
+			toast.error(res.message, {
+			  position: toast.POSITION.TOP_RIGHT,
+			});
+		  }
+		} catch (err) {
+		  toast.error(err.message, {
+			position: toast.POSITION.BOTTOM_RIGHT,
+		  });
+		}
+	  };
     return (
         <>
 			<div className="table-part">
@@ -34,127 +78,19 @@ export default function Bookings() {
 							</tr>
 						</thead>
 						<tbody>
+						{bookingUsers.map((user) => (
 							<tr>
-								<td>2493</td>
-								<td>Devon Lane</td>
+								<td>{user.id}</td>
+								<td>{user.name+" "+user.surname}</td>
+								<td>{user.date}</td>
 								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
+								<td>{user.address}</td>
+								<td>{user.category}</td>
                                 <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
+								<td>{user.booking_status}</td>
                                 <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
 							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
-							<tr>
-                                <td>2493</td>
-								<td>Devon Lane</td>
-								<td>2/11/12</td>
-								<td>2/11/12</td>
-								<td>Stockton, New Hampshire</td>
-								<td>One time</td>
-                                <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/booking_chef_pic.png'} alt=""/></td>
-								<td>Completed</td>
-                                <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-							</tr>
+							 ))}
 						</tbody>
 					</table>
 				</div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from "../../../components/commoncomponents/PopupModalLarge";
 import { getCurrentUserData } from '../../../lib/session'
-import { saveVilla, updateVilla, getVillas, getSingleVillas ,deleteSingleVilla } from '../../../lib/adminapi'
+import { saveVilla, updateVilla, getVillas, getSingleVillas, deleteSingleVilla } from '../../../lib/adminapi'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -19,8 +19,8 @@ export default function Villas() {
 	const [capacity, setCapacity] = useState("");
 	const [category, setCategory] = useState("");
 	const [price_per_day, setPrice] = useState("");
-	const [bedrooms, setBedrooms] = useState([]);
-	const [image, setImage] = useState('');
+	const [bedrooms, setBedrooms] = useState("");
+	const [image, setImage] = useState([]);
 	const [bathrooms, setBathrooms] = useState("");
 	const [BBQ, setBBQ] = useState("");
 	const [type_of_stove, setTypeStove] = useState("");
@@ -39,6 +39,7 @@ export default function Villas() {
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [buttonStatus, setButtonState] = useState(false);
+
 
 	const modalConfirmClose = () => {
 		setModalConfirm(false);
@@ -85,6 +86,7 @@ export default function Villas() {
 		getSingleVillas(id)
 			.then(res => {
 				if (res.status == true) {
+					setModalConfirm(false);
 					editsetModalConfirm(true);
 					setGetSingleData(res.data);
 					setFullName(res.data.name);
@@ -109,8 +111,10 @@ export default function Villas() {
 					setTwitterLink(res.data.twitter_link);
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
-					setImage(res.data.image);
-					//console.log(res.data);
+						const imageNames = res.data.image.split(',');
+						setImage(imageNames);
+						console.log(imageNames);
+					
 				} else {
 					console.log("error");
 				}
@@ -169,12 +173,34 @@ export default function Villas() {
 				.then(res => {
 					if (res.status == true) {
 						console.log(res.status);
+						getAllVillasData();
 						setModalConfirm(false);
 						setButtonState(false);
+						setFullName("");
+						setEmail("");
+						setPhone("");
+						setAddress("");
+						setCity("");
+						setState("");
+						setPartnerOwner("");
+						setCapacity("");
+						setPrice("");
+						setBedrooms("");
+						setImage("");
+						setBathrooms("");
+						setBBQ("");
+						setTypeStove("");
+						setEquipment("");
+						setWebsite("");
+						setConsiergePhone("");
+						setFacebookLink("");
+						setInstagramLink("");
+						setTwitterLink("");
+						setLinkedinLink("");
+						setYoutubeLink("");
 						toast.success(res.message, {
 							position: toast.POSITION.TOP_RIGHT
 						});
-						
 
 					} else {
 						setButtonState(false);
@@ -192,91 +218,87 @@ export default function Villas() {
 	const handleVillaupdate = (e: any) => {
 		e.preventDefault();
 		// Validate form data
-		setButtonState(true);
-		const id = getsingledata.id;
-		// Call an API or perform some other action to register the user
-		const data = {
-			name: name,
-			email: email,
-			phone: phone,
-			address: address,
-			city: city,
-			state: state,
-			partner_owner: partner_owner,
-			capacity: capacity,
-			category: category,
-			price_per_day: price_per_day,
-			bedrooms: bedrooms,
-			bathrooms: bathrooms,
-			BBQ: BBQ,
-			type_of_stove: type_of_stove,
-			equipment: equipment,
-			consierge_phone: consierge_phone,
-			website: website,
-			facebook_link: facebook_link,
-			instagram_link: instagram_link,
-			twitter_link: twitter_link,
-			linkedin_link: linkedin_link,
-			youtube_link: youtube_link
-		};
-		updateVilla(id,data,image)
-			.then(res => {
-				if (res.status == true) {
-					console.log(res.status);
-					editsetModalConfirm(false);
-					setButtonState(false);
-					setFullName(res.data.name);
-					setEmail(res.data.email);
-					setPhone(res.data.phone);
-					setAddress(res.data.address);
-					setCity(res.data.city);
-					setState(res.data.state);
-					setPartnerOwner(res.data.partner_owner);
-					setCapacity(res.data.capacity);
-					setCategory(res.data.category);
-					setPrice(res.data.price_per_day);
-					setBedrooms(res.data.bedrooms);
-					setBathrooms(res.data.bathrooms);
-					setBBQ(res.data.BBQ);
-					setTypeStove(res.data.type_of_stove);
-					setEquipment(res.data.equipment);
-					setWebsite(res.data.website);
-					setConsiergePhone(res.data.consierge_phone);
-					setFacebookLink(res.data.facebook_link);
-					setInstagramLink(res.data.instagram_link);
-					setTwitterLink(res.data.twitter_link);
-					setLinkedinLink(res.data.linkedin_link);
-					setYoutubeLink(res.data.youtube_link);
-					setImage(res.data.image);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
-					setTimeout(() => {
-						window.location.href = '/admin/villas/';
-					}, 1000);
 
-				} else {
-					setButtonState(false);
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		const errors = {};
+		if (!name) {
+			errors.name = "Name is required";
+		}
+		if (!address) {
+			errors.address = "Address is required";
+		}
+		if (!image) {
+			errors.image = "Image is required";
+		}
+
+		setErrors(errors);
+		if (Object.keys(errors).length === 0) {
+			setButtonState(true);
+			const id = getsingledata.id;
+			// Call an API or perform some other action to register the user
+			const data = {
+				name: name,
+				email: email,
+				phone: phone,
+				address: address,
+				city: city,
+				state: state,
+				partner_owner: partner_owner,
+				capacity: capacity,
+				category: category,
+				price_per_day: price_per_day,
+				bedrooms: bedrooms,
+				bathrooms: bathrooms,
+				BBQ: BBQ,
+				type_of_stove: type_of_stove,
+				equipment: equipment,
+				consierge_phone: consierge_phone,
+				website: website,
+				facebook_link: facebook_link,
+				instagram_link: instagram_link,
+				twitter_link: twitter_link,
+				linkedin_link: linkedin_link,
+				youtube_link: youtube_link,
+				image: image
+			};
+			updateVilla(id, data, image)
+				.then(res => {
+					if (res.status == true) {
+						console.log(res.status);
+						getAllVillasData();
+						editsetModalConfirm(false);
+						setButtonState(false);
+
+						toast.success(res.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+						// setTimeout(() => {
+						// 	window.location.href = '/admin/villas/';
+						// }, 1000);
+
+					} else {
+						setButtonState(false);
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		}
 
 	};
 
 	const handleImageChange = (e) => {
 		const files = e.target.files;
 		const imagesArray = [];
-	  
+	
 		for (let i = 0; i < files.length; i++) {
 		  imagesArray.push(files[i]);
 		}
-	  
+	
 		setImage(imagesArray);
+		console.log(imagesArray);
 	  };
 	  
 
@@ -316,36 +338,36 @@ export default function Villas() {
 
 	const deleteSinglevilla = (id) => {
 		swal({
-		  title: "Are you sure?",
-		  text: "You want to delete the dish",
-		  icon: "warning",
-		  buttons: true,
-		  dangerMode: true,
-		  buttons: ["Cancel", "Yes, I am sure!"],
-		  confirmButtonColor: "#062B60",
+			title: "Are you sure?",
+			text: "You want to delete the villa",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+			buttons: ["Cancel", "Yes, I am sure!"],
+			confirmButtonColor: "#062B60",
 		}).then((willDelete) => {
-		  if (willDelete) {
-			deleteSingleVilla(id)
-			  .then((res) => {
-				if (res.status == true) {
-				  swal("Your Dish has been deleted!", {
-					icon: "success",
-				  });
-				  $("#dishes_" + id).hide();
-				  setTimeout(() => {
-					window.location.href = '/admin/villas/';
-				}, 1000);
-				} else {
-				  toast.error(res.message, {
-					position: toast.POSITION.TOP_RIGHT,
-				  });
-				}
-			  })
-			  .catch((err) => {});
-		  } else {
-		  }
+			if (willDelete) {
+				deleteSingleVilla(id)
+					.then((res) => {
+						if (res.status == true) {
+							getAllVillasData();
+							swal("Your Villa has been deleted!", {
+								icon: "success",
+							});
+							// setTimeout(() => {
+							// 	window.location.href = '/admin/villas/';
+							// }, 1000);
+						} else {
+							toast.error(res.message, {
+								position: toast.POSITION.TOP_RIGHT,
+							});
+						}
+					})
+					.catch((err) => { });
+			} else {
+			}
 		});
-	  };
+	};
 
 	return (
 		<>
@@ -359,8 +381,8 @@ export default function Villas() {
 					<table className="table table-borderless">
 						<thead>
 							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Image</th>
+								<th scope="col">Sr No.</th>
+								{/* <th scope="col">Image</th> */}
 								<th scope="col">Name</th>
 								<th scope="col">Phone</th>
 								<th scope="col">Address</th>
@@ -374,9 +396,9 @@ export default function Villas() {
 							{Array.isArray(villasdata) && villasdata.map((villa) => (
 								<tr key={villa.id}>
 									<td>{villa.id}</td>
-									<td id="villa_img">
+									{/* <td id="villa_img">
 										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
-									</td>
+									</td> */}
 									<td>{villa.name}</td>
 									<td>{villa.phone}</td>
 									<td>{villa.address}</td>
@@ -402,9 +424,7 @@ export default function Villas() {
 														href="#"
 														onClick={() => {
 															getSingleData(villa.id);
-
 														}}
-
 													>
 														Edit
 													</a>
@@ -415,7 +435,7 @@ export default function Villas() {
 														href="#"
 														onClick={(e) =>
 															deleteSinglevilla(villa.id)
-														  }
+														}
 													>
 														Delete
 													</a>
@@ -639,8 +659,8 @@ export default function Villas() {
 									<label htmlFor="equipment">Equipment:</label>
 									<select aria-label="Default select example" name="equipment" value={equipment} onChange={(e) => setEquipment(e.target.value)}>
 										<option value=''>Select Equipment</option>
-										<option value='basic'>basic</option>
-										<option value='fully_equipped'>fully_equipped</option>
+										<option value='basic'>Basic</option>
+										<option value='fully_equipped'>Fully equipped</option>
 									</select>
 								</div>
 							</div>
@@ -730,17 +750,31 @@ export default function Villas() {
 							<label htmlFor="Image">Image:</label>
 							<input
 								type="file"
-								name="image[]"
+								name="image"
 								onBlur={handleMenuBlur}
-								onChange={(e) => setImage(e.target.files)}
+								onChange={handleImageChange}
 								accept="jpg,png"
 								multiple
 							/>
+
 							{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
+							<div className='row mt-3'>
+								{image && image.map((image, index) => (
+									image instanceof Blob || image instanceof File ? (
+										<div className='col-md-2' key={index}>
+											<img src={URL.createObjectURL(image)} alt="selected image" width={100} height={100} />
+										</div>
+									) :
+										<div className='col-md-2' key={index}>
+											<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + image} alt="villa-image" width={100} height={100} />
+										</div>
+								))}
+							</div>
+
 						</div>
 						<button
 							type="submit"
-							className="btn-send w-100"
+							className="btn-send w-100 mt-5"
 						>
 							Submit
 						</button>
@@ -769,8 +803,10 @@ export default function Villas() {
 										type="text"
 										name="name"
 										defaultValue={name}
+										onBlur={handleMenuBlur}
 										onChange={(e) => setFullName(e.target.value)}
 									/>
+									{errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -804,8 +840,10 @@ export default function Villas() {
 										type="text"
 										name="address"
 										defaultValue={address}
+										onBlur={handleMenuBlur}
 										onChange={(e) => setAddress(e.target.value)}
 									/>
+									{errors.address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.address}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -836,11 +874,11 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="partner_owner">Partner/Owner:</label>
 									<select aria-label="Default select example" name="partner_owner"
-										defaultValue={partner_owner}
+										value={partner_owner}
 										onChange={(e) => setPartnerOwner(e.target.value)}>
 										<option value=''>Select partner/owner</option>
-										<option value='partner'>Partner</option>
-										<option value='owner'>Owner</option>
+										<option value='partner' defaultValue={partner_owner === 'partner'}>Partner</option>
+										<option value='owner' defaultValue={partner_owner === 'owner'}>Owner</option>
 									</select>
 								</div>
 							</div>
@@ -848,11 +886,11 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="category">Category:</label>
 									<select aria-label="Default select example" name="category"
-										defaultValue={category}
+										value={category}
 										onChange={(e) => setCategory(e.target.value)}>
 										<option value=''>Select category</option>
-										<option value='basic'>Basic</option>
-										<option value='luxury'>Luxury</option>
+										<option value='basic' defaultValue={category === 'basic'}>Basic</option>
+										<option value='luxury' defaultValue={category === 'luxury'}>Luxury</option>
 									</select>
 								</div>
 							</div>
@@ -929,10 +967,10 @@ export default function Villas() {
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="BBQ">BBQ:</label>
-									<select aria-label="Default select example" name="BBQ" defaultValue={BBQ} onChange={(e) => setBBQ(e.target.value)}>
+									<select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
 										<option value=''>Select BBQ</option>
-										<option value='yes'>Yes</option>
-										<option value='no'>No</option>
+										<option value='yes' defaultValue={BBQ === 'yes'}>Yes</option>
+										<option value='no' defaultValue={BBQ === 'no'}>No</option>
 									</select>
 								</div>
 							</div>
@@ -940,22 +978,22 @@ export default function Villas() {
 						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
-									<label htmlFor="type_of_stove">Type of stove:</label>
-									<select aria-label="Default select example" name="type_of_stove" defaultValue={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
+									<label htmlFor="type_of_stove">Type of stove1:</label>
+									<select aria-label="Default select example" name="type_of_stove" value={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
 										<option value=''>Select Stove</option>
-										<option value='gas'>Gas</option>
-										<option value='electric'>Electric</option>
-										<option value='induction'>Induction</option>
+										<option value='gas' defaultValue={type_of_stove === 'gas'}>Gas</option>
+										<option value='electric' defaultValue={type_of_stove === 'electric'}>Electric</option>
+										<option value='induction' defaultValue={type_of_stove === 'induction'}>Induction</option>
 									</select>
 								</div>
 							</div>
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="equipment">Equipment:</label>
-									<select aria-label="Default select example" name="equipment" defaultValue={equipment} onChange={(e) => setEquipment(e.target.value)}>
+									<select aria-label="Default select example" name="equipment" value={equipment} onChange={(e) => setEquipment(e.target.value)}>
 										<option value=''>Select Equipment</option>
-										<option value='basic'>basic</option>
-										<option value='fully_equipped'>fully_equipped</option>
+										<option value='basic' defaultValue={equipment === 'basic'}>basic</option>
+										<option value='fully_equipped' defaultValue={equipment === 'basic'}>fully_equipped</option>
 									</select>
 								</div>
 							</div>
@@ -1047,16 +1085,35 @@ export default function Villas() {
 								type="file"
 								name="image"
 								onChange={handleImageChange}
+								onBlur={handleMenuBlur}
 								accept="jpg,png"
 								multiple
 							/>
+							{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
+
+							<div className='row mt-3'>
+								{image && image.map((image, index) => (
+									image instanceof Blob || image instanceof File ? (
+										<div className='col-md-2' key={index}>
+											<img src={URL.createObjectURL(image)} alt="selected image" width={100} height={100} />
+										</div>
+									) : (
+										<div className='col-md-2' key={index}>
+											<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + image} alt="villa-image" width={100} height={100} />
+										</div>
+									)
+								))}
+
+							</div>
 						</div>
-						<button
-							type="submit"
-							className="btn-send w-100"
-						>
-							Submit
-						</button>
+						<div className='mt-4'>
+							<button
+								type="submit"
+								className="btn-send w-100"
+							>
+								Submit
+							</button>
+						</div>
 					</form>
 				</div>
 			</PopupModal>
