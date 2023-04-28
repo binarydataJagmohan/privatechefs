@@ -6,6 +6,8 @@ import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
+import Pagination from "../../commoncomponents/Pagination";
+import { paginate } from "../../../helpers/paginate";
 
 export default function Villas() {
 
@@ -34,12 +36,14 @@ export default function Villas() {
 	const [youtube_link, setYoutubeLink] = useState("");
 
 	const [errors, setErrors] = useState({});
+	const [totalMenu, setTotalMenu] = useState({});
 	const [villasdata, setVillasData] = useState({});
 	const [getsingledata, setGetSingleData] = useState([]);
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [buttonStatus, setButtonState] = useState(false);
-
+	const [currentPage, setCurrentPage] = useState(1);
+	const pageSize = 10;
 
 	const modalConfirmClose = () => {
 		setModalConfirm(false);
@@ -67,12 +71,33 @@ export default function Villas() {
 		}
 	}
 
+
+	const onPageChange = (page) => {
+		setCurrentPage(page);
+		getVillas()
+		.then(res => {
+		  if(res.status==true){
+			setTotalMenu(res.data);
+			const paginatedPosts = paginate(res.data, page, pageSize);
+			setVillasData(paginatedPosts);
+		  } else {
+			console.log(res.message);
+		  }
+		})
+		.catch(err => {
+			console.log(err);
+		});
+	  };
+	
+
 	const getAllVillasData = async () => {
 		getVillas()
 			.then(res => {
 				if (res.status == true) {
-					setVillasData(res.data);
-					console.log(res.data);
+					setTotalMenu(res.data);
+					const paginatedPosts = paginate(res.data, currentPage, pageSize);
+					setVillasData(paginatedPosts);
+					console.log(paginatedPosts);
 				} else {
 					console.log("error");
 				}
@@ -82,6 +107,7 @@ export default function Villas() {
 			});
 	}
 
+	
 	const getSingleData = async (id: any) => {
 		getSingleVillas(id)
 			.then(res => {
@@ -111,10 +137,10 @@ export default function Villas() {
 					setTwitterLink(res.data.twitter_link);
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
-						const imageNames = res.data.image.split(',');
-						setImage(imageNames);
-						console.log(imageNames);
-					
+					const imageNames = res.data.image.split(',');
+					setImage(imageNames);
+					console.log(imageNames);
+
 				} else {
 					console.log("error");
 				}
@@ -169,6 +195,7 @@ export default function Villas() {
 				youtube_link: youtube_link,
 				image: image
 			};
+			
 			saveVilla(data, image)
 				.then(res => {
 					if (res.status == true) {
@@ -186,7 +213,7 @@ export default function Villas() {
 						setCapacity("");
 						setPrice("");
 						setBedrooms("");
-						setImage("");
+						setImage([]);
 						setBathrooms("");
 						setBBQ("");
 						setTypeStove("");
@@ -226,16 +253,13 @@ export default function Villas() {
 		if (!address) {
 			errors.address = "Address is required";
 		}
-		if (!image) {
-			errors.image = "Image is required";
-		}
-
 		setErrors(errors);
+
 		if (Object.keys(errors).length === 0) {
 			setButtonState(true);
 			const id = getsingledata.id;
-			// Call an API or perform some other action to register the user
-			const data = {
+			// Call an API or perform some other action to update the villa data
+			let data = {
 				name: name,
 				email: email,
 				phone: phone,
@@ -260,47 +284,43 @@ export default function Villas() {
 				youtube_link: youtube_link,
 				image: image
 			};
+			
 			updateVilla(id, data, image)
-				.then(res => {
+				.then((res) => {
 					if (res.status == true) {
 						console.log(res.status);
 						getAllVillasData();
 						editsetModalConfirm(false);
 						setButtonState(false);
-
 						toast.success(res.message, {
-							position: toast.POSITION.TOP_RIGHT
+							position: toast.POSITION.TOP_RIGHT,
 						});
-						// setTimeout(() => {
-						// 	window.location.href = '/admin/villas/';
-						// }, 1000);
-
 					} else {
 						setButtonState(false);
 						toast.error(res.message, {
-							position: toast.POSITION.TOP_RIGHT
+							position: toast.POSITION.TOP_RIGHT,
 						});
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.log(err);
 				});
 		}
-
 	};
 
+
 	const handleImageChange = (e) => {
-		const files = e.target.files;
+		const files = Array.from(e.target.files);
 		const imagesArray = [];
-	
+
 		for (let i = 0; i < files.length; i++) {
-		  imagesArray.push(files[i]);
+			imagesArray.push(files[i]);
 		}
-	
+
 		setImage(imagesArray);
 		console.log(imagesArray);
-	  };
-	  
+	};
+
 
 	const handleMenuBlur = (e: any) => {
 		const { name, value } = e.target;
@@ -450,6 +470,13 @@ export default function Villas() {
 				</div>
 			</div>
 
+			<Pagination
+              items={totalMenu.length} 
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onPageChange={onPageChange}
+          />   
+
 			{/* // villa popup start  */}
 			<PopupModal
 				show={modalConfirm}
@@ -465,7 +492,7 @@ export default function Villas() {
 						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
-									<label htmlFor="name">Name1:</label>
+									<label htmlFor="name">Name:</label>
 									<input
 										type="text"
 										name="name"
@@ -611,40 +638,6 @@ export default function Villas() {
 						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
-									<label htmlFor="bedrooms">Bedrooms:</label>
-									<input
-										type="number"
-										name="bedrooms"
-										value={bedrooms}
-										onChange={(e) => setBedrooms(e.target.value)}
-									/>
-								</div>
-							</div>
-							<div className='col-md-4'>
-								<div className="login_div">
-									<label htmlFor="bathrooms">Bathrooms:</label>
-									<input
-										type="number"
-										name="bathrooms"
-										value={bathrooms}
-										onChange={(e) => setBathrooms(e.target.value)}
-									/>
-								</div>
-							</div>
-							<div className='col-md-4'>
-								<div className="login_div">
-									<label htmlFor="BBQ">BBQ:</label>
-									<select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
-										<option value=''>Select BBQ</option>
-										<option value='yes'>Yes</option>
-										<option value='no'>No</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div className="row">
-							<div className='col-md-4'>
-								<div className="login_div">
 									<label htmlFor="type_of_stove">Type of stove:</label>
 									<select aria-label="Default select example" name="type_of_stove" value={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
 										<option value=''>Select Stove</option>
@@ -666,6 +659,19 @@ export default function Villas() {
 							</div>
 							<div className='col-md-4'>
 								<div className="login_div">
+									<label htmlFor="BBQ">BBQ:</label>
+									<select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
+										<option value=''>Select BBQ</option>
+										<option value='yes'>Yes</option>
+										<option value='no'>No</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+
+							<div className='col-md-4'>
+								<div className="login_div">
 									<label htmlFor="consierge_phone">Consierge Phone:</label>
 									<input
 										type="number"
@@ -675,8 +681,6 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-						</div>
-						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="website">Website:</label>
@@ -699,6 +703,8 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
+						</div>
+						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="instagram_link">Instagram Link:</label>
@@ -710,8 +716,6 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-						</div>
-						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="twitter_link">Twitter Link:</label>
@@ -734,7 +738,38 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-							<div className='col-md-4'>
+						</div>
+						<div className="row">
+							<div className='col-md-6'>
+								<div className="login_div">
+									<label htmlFor="Image">Image:</label>
+									<input
+										type="file"
+										name="image"
+										onBlur={handleMenuBlur}
+										onChange={handleImageChange}
+										multiple
+									/>
+
+									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
+
+									<div className='row mt-3 g-3'>
+										{image && image.map((image, index) => (
+											image instanceof Blob || image instanceof File ? (
+												<div className='col-md-4' key={index}>
+													<div className='v-img'>
+														<img src={URL.createObjectURL(image)} className="s-image" alt="selected image" width={100} height={100} />
+													</div>
+												</div>
+											) : (
+												null // or you can add some other placeholder element here
+											)
+										))}
+									</div>
+
+								</div>
+							</div>
+							<div className='col-md-6'>
 								<div className="login_div">
 									<label htmlFor="youtube_link">Youtube Link:</label>
 									<input
@@ -746,32 +781,7 @@ export default function Villas() {
 								</div>
 							</div>
 						</div>
-						<div className="login_div">
-							<label htmlFor="Image">Image:</label>
-							<input
-								type="file"
-								name="image"
-								onBlur={handleMenuBlur}
-								onChange={handleImageChange}
-								accept="jpg,png"
-								multiple
-							/>
 
-							{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
-							<div className='row mt-3'>
-								{image && image.map((image, index) => (
-									image instanceof Blob || image instanceof File ? (
-										<div className='col-md-2' key={index}>
-											<img src={URL.createObjectURL(image)} alt="selected image" width={100} height={100} />
-										</div>
-									) :
-										<div className='col-md-2' key={index}>
-											<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + image} alt="villa-image" width={100} height={100} />
-										</div>
-								))}
-							</div>
-
-						</div>
 						<button
 							type="submit"
 							className="btn-send w-100 mt-5"
@@ -944,40 +954,6 @@ export default function Villas() {
 						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
-									<label htmlFor="bedrooms">Bedrooms:</label>
-									<input
-										type="number"
-										name="bedrooms"
-										defaultValue={bedrooms}
-										onChange={(e) => setBedrooms(e.target.value)}
-									/>
-								</div>
-							</div>
-							<div className='col-md-4'>
-								<div className="login_div">
-									<label htmlFor="bathrooms">Bathrooms:</label>
-									<input
-										type="number"
-										name="bathrooms"
-										defaultValue={bathrooms}
-										onChange={(e) => setBathrooms(e.target.value)}
-									/>
-								</div>
-							</div>
-							<div className='col-md-4'>
-								<div className="login_div">
-									<label htmlFor="BBQ">BBQ:</label>
-									<select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
-										<option value=''>Select BBQ</option>
-										<option value='yes' defaultValue={BBQ === 'yes'}>Yes</option>
-										<option value='no' defaultValue={BBQ === 'no'}>No</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div className="row">
-							<div className='col-md-4'>
-								<div className="login_div">
 									<label htmlFor="type_of_stove">Type of stove1:</label>
 									<select aria-label="Default select example" name="type_of_stove" value={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
 										<option value=''>Select Stove</option>
@@ -999,6 +975,18 @@ export default function Villas() {
 							</div>
 							<div className='col-md-4'>
 								<div className="login_div">
+									<label htmlFor="BBQ">BBQ:</label>
+									<select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
+										<option value=''>Select BBQ</option>
+										<option value='yes' defaultValue={BBQ === 'yes'}>Yes</option>
+										<option value='no' defaultValue={BBQ === 'no'}>No</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
 									<label htmlFor="consierge_phone">Consierge Phone:</label>
 									<input
 										type="number"
@@ -1008,8 +996,6 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-						</div>
-						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="website">Website:</label>
@@ -1032,6 +1018,8 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
+						</div>
+						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="instagram_link">Instagram Link:</label>
@@ -1043,8 +1031,6 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-						</div>
-						<div className="row">
 							<div className='col-md-4'>
 								<div className="login_div">
 									<label htmlFor="twitter_link">Twitter Link:</label>
@@ -1067,7 +1053,39 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-							<div className='col-md-4'>
+						</div>
+						<div className="row">
+							<div className='col-md-6'>
+								<div className="login_div">
+									<label htmlFor="Image">Image:</label>
+									<input
+										type="file"
+										name="image"
+										onChange={handleImageChange}
+										onBlur={handleMenuBlur}										multiple
+									/>
+									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
+
+									<div className='row mt-3 g-3'>
+										{image && image.map((image, index) => (
+											image instanceof Blob || image instanceof File ? (
+												<div className='col-md-4' key={index}>
+													<div className='v-img'>
+														<img src={URL.createObjectURL(image)} className="s-image" alt="selected image" width={100} height={100} />
+													</div>
+												</div>
+											) : (
+												<div className='col-md-4' key={index}>
+													<div className='v-img'>
+														<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + image} alt="villa-image" width={100} height={100} className="s-image" />
+													</div>
+												</div>
+											)
+										))}
+									</div>
+								</div>
+							</div>
+							<div className='col-md-6'>
 								<div className="login_div">
 									<label htmlFor="youtube_link">Youtube Link:</label>
 									<input
@@ -1079,39 +1097,12 @@ export default function Villas() {
 								</div>
 							</div>
 						</div>
-						<div className="login_div">
-							<label htmlFor="Image">Image:</label>
-							<input
-								type="file"
-								name="image"
-								onChange={handleImageChange}
-								onBlur={handleMenuBlur}
-								accept="jpg,png"
-								multiple
-							/>
-							{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
-
-							<div className='row mt-3'>
-								{image && image.map((image, index) => (
-									image instanceof Blob || image instanceof File ? (
-										<div className='col-md-2' key={index}>
-											<img src={URL.createObjectURL(image)} alt="selected image" width={100} height={100} />
-										</div>
-									) : (
-										<div className='col-md-2' key={index}>
-											<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + image} alt="villa-image" width={100} height={100} />
-										</div>
-									)
-								))}
-
-							</div>
-						</div>
 						<div className='mt-4'>
 							<button
 								type="submit"
 								className="btn-send w-100"
 							>
-								Submit
+								Update
 							</button>
 						</div>
 					</form>

@@ -3253,3 +3253,6 @@ table#alpabet_table th::after {
   display: block;
   margin: 0;
 }
+.v-img img {
+  width: 100%;
+}
