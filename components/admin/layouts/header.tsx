@@ -6,7 +6,6 @@ import Link from 'next/link'
 export default function Header() {
 
     const [currentUserData, setCurrentUserData] = useState({});
-    const [userData, setUserData] = useState({});
     const [countdata, setCountData] = useState("");
 
     useEffect(() => {
@@ -23,7 +22,6 @@ export default function Header() {
         notificationForUserAdmin(id)
             .then(res => {
                 if (res.status == true) {
-                    setUserData(res.data);
                     setCountData(res.count);
                 } else {
                     console.log("error");

@@ -168,50 +168,55 @@ export default function UserProfile() {
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <label>Name  </label>
-                      <input type="text" name="name" defaultValue={currentUserData.name} placeholder="Name " onChange={(e) => setFullName(e.target.value)} />
+                      <input type="text" name="name" value={currentUserData.name} placeholder="Name " onChange={(e) => setFullName(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Surname</label>
-                      <input type="text" name="surname" defaultValue={surname} placeholder="Surname" onChange={(e) => setSurName(e.target.value)} />
+                      <input type="text" name="surname" value={surname} placeholder="Surname" onChange={(e) => setSurName(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Phone</label>
-                      <input type="number" name="phone" maxLength={10} defaultValue={phone} placeholder="Phone" onChange={(e) => setPhone(e.target.value)} />
+                      <input type="text" name="phone" maxLength={10} value={phone} placeholder="Phone" onChange={(e) => {
+											const re = /^[0-9\b]+$/;
+											if (e.target.value === '' || re.test(e.target.value)) {
+												setPhone(e.target.value);
+											}
+										}} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Birthday</label>
-                      <input type="date" name="birthday" defaultValue={birthday} placeholder="Birthday" onChange={(e) => setBirthday(e.target.value)} />
+                      <input type="date" name="birthday" value={birthday} placeholder="Birthday" onChange={(e) => setBirthday(e.target.value)} />
                     </div>
                   </div>
 
                   <label>Adress</label>
-                  <input type="text" name="address" defaultValue={address} placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                  <input type="text" name="address" value={address} placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
 
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <label>Timezone</label>
-                      <input type="date" name="timezone" defaultValue={timezone} placeholder="Timezone" onChange={(e) => setTimezone(e.target.value)} />
+                      <input type="date" name="timezone" value={timezone} placeholder="Timezone" onChange={(e) => setTimezone(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Currency</label>
-                      <input type="text" name="currency" defaultValue={currency} placeholder="Currency" onChange={(e) => setCurrency(e.target.value)} />
+                      <input type="text" name="currency" value={currency} placeholder="Currency" onChange={(e) => setCurrency(e.target.value)} />
                     </div>
 
                   </div>
                   <div className="checkbox-size text-left mt-3 mb-3"> 
-                  <input type="checkbox" name="invoice_details" defaultChecked={invoice_details} className="checkbox-" onChange={(e) => setInvoiceDetails(e.target.checked ? "1" : "0")}  />
+                  <input type="checkbox" name="invoice_details" value={invoice_details} className="checkbox-" onChange={(e) => setInvoiceDetails(e.target.checked ? "1" : "0")}  />
                     <label> Invoice details</label>
                   </div>
                   <label className="mt-3">Company Name</label>
-                  <input type="text" name="company_name" defaultValue={company_name} placeholder="Company Name" onChange={(e) => setCompanyName(e.target.value)} />
+                  <input type="text" name="company_name" value={company_name} placeholder="Company Name" onChange={(e) => setCompanyName(e.target.value)} />
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <label>VAT Number</label>
-                      <input type="text" name="vat_no" defaultValue={vat_no} placeholder="VAT Number" onChange={(e) => setVatNo(e.target.value)} />
+                      <input type="text" name="vat_no" value={vat_no} placeholder="VAT Number" maxLength={15}  onChange={(e) => setVatNo(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>TAX ID</label>
-                      <input type="text" name="tax_id" defaultValue={tax_id} placeholder="TAX ID" onChange={(e) => setTaxId(e.target.value)} />
+                      <input type="text" name="tax_id" value={tax_id} placeholder="TAX ID" maxLength={15}  onChange={(e) => setTaxId(e.target.value)} />
                     </div>
                   </div>
                   <div className="text-right mt-4">

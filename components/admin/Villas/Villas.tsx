@@ -42,6 +42,7 @@ export default function Villas() {
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [buttonStatus, setButtonState] = useState(false);
+	const [serialNo, setSerialNo] = useState(1);
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 10;
 
@@ -75,20 +76,20 @@ export default function Villas() {
 	const onPageChange = (page) => {
 		setCurrentPage(page);
 		getVillas()
-		.then(res => {
-		  if(res.status==true){
-			setTotalMenu(res.data);
-			const paginatedPosts = paginate(res.data, page, pageSize);
-			setVillasData(paginatedPosts);
-		  } else {
-			console.log(res.message);
-		  }
-		})
-		.catch(err => {
-			console.log(err);
-		});
-	  };
-	
+			.then(res => {
+				if (res.status == true) {
+					setTotalMenu(res.data);
+					const paginatedPosts = paginate(res.data, page, pageSize);
+					setVillasData(paginatedPosts);
+				} else {
+					console.log(res.message);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
 
 	const getAllVillasData = async () => {
 		getVillas()
@@ -96,8 +97,10 @@ export default function Villas() {
 				if (res.status == true) {
 					setTotalMenu(res.data);
 					const paginatedPosts = paginate(res.data, currentPage, pageSize);
+					const nextSerialNo = res.villas_count + 1;
+					setSerialNo(nextSerialNo);
 					setVillasData(paginatedPosts);
-					console.log(paginatedPosts);
+
 				} else {
 					console.log("error");
 				}
@@ -107,7 +110,7 @@ export default function Villas() {
 			});
 	}
 
-	
+
 	const getSingleData = async (id: any) => {
 		getSingleVillas(id)
 			.then(res => {
@@ -160,8 +163,23 @@ export default function Villas() {
 		if (!address) {
 			errors.address = "Address is required";
 		}
-		if (!image) {
+		if (!image || image.length === 0) {
 			errors.image = "Image is required";
+		}
+		if (!partner_owner) {
+			errors.partner_owner = "Partner/Owner is required";
+		}
+		if (!category) {
+			errors.category = "Category is required";
+		}
+		if (!BBQ) {
+			errors.BBQ = "BBQ is required";
+		}
+		if (!type_of_stove) {
+			errors.type_of_stove = "Stove is required";
+		}
+		if (!equipment) {
+			errors.equipment = "Equipment is required";
 		}
 
 		setErrors(errors);
@@ -195,7 +213,7 @@ export default function Villas() {
 				youtube_link: youtube_link,
 				image: image
 			};
-			
+
 			saveVilla(data, image)
 				.then(res => {
 					if (res.status == true) {
@@ -253,13 +271,32 @@ export default function Villas() {
 		if (!address) {
 			errors.address = "Address is required";
 		}
+		if (!image || image.length === 0) {
+			errors.image = "Image is required";
+		}
+		if (!partner_owner) {
+			errors.partner_owner = "Partner/Owner is required";
+		}
+		if (!category) {
+			errors.category = "Category is required";
+		}
+		if (!BBQ) {
+			errors.BBQ = "BBQ is required";
+		}
+		if (!type_of_stove) {
+			errors.type_of_stove = "Stove is required";
+		}
+		if (!equipment) {
+			errors.equipment = "Equipment is required";
+		}
+
 		setErrors(errors);
 
 		if (Object.keys(errors).length === 0) {
 			setButtonState(true);
 			const id = getsingledata.id;
-			// Call an API or perform some other action to update the villa data
-			let data = {
+			
+			const data = {
 				name: name,
 				email: email,
 				phone: phone,
@@ -284,7 +321,7 @@ export default function Villas() {
 				youtube_link: youtube_link,
 				image: image
 			};
-			
+
 			updateVilla(id, data, image)
 				.then((res) => {
 					if (res.status == true) {
@@ -308,8 +345,7 @@ export default function Villas() {
 		}
 	};
 
-
-	const handleImageChange = (e) => {
+	const handleImageChange = (e: any) => {
 		const files = Array.from(e.target.files);
 		const imagesArray = [];
 
@@ -413,9 +449,9 @@ export default function Villas() {
 							</tr>
 						</thead>
 						<tbody>
-							{Array.isArray(villasdata) && villasdata.map((villa) => (
+							{Array.isArray(villasdata) && villasdata.map((villa, index) => (
 								<tr key={villa.id}>
-									<td>{villa.id}</td>
+									<td>{serialNo - index}</td>
 									{/* <td id="villa_img">
 										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
 									</td> */}
@@ -471,11 +507,11 @@ export default function Villas() {
 			</div>
 
 			<Pagination
-              items={totalMenu.length} 
-              currentPage={currentPage}
-              pageSize={pageSize}
-              onPageChange={onPageChange}
-          />   
+				items={totalMenu.length}
+				currentPage={currentPage}
+				pageSize={pageSize}
+				onPageChange={onPageChange}
+			/>
 
 			{/* // villa popup start  */}
 			<PopupModal
@@ -497,7 +533,6 @@ export default function Villas() {
 										type="text"
 										name="name"
 										value={name}
-										onBlur={handleMenuBlur}
 										onChange={(e) => setFullName(e.target.value)}
 									/>
 									{errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
@@ -521,7 +556,12 @@ export default function Villas() {
 										type="text"
 										name="phone"
 										value={phone}
-										onChange={(e) => setPhone(e.target.value)}
+										onChange={(e) => {
+											const re = /^[0-9\b]+$/;
+											if (e.target.value === '' || re.test(e.target.value)) {
+												setPhone(e.target.value);
+											}
+										}}
 									/>
 								</div>
 							</div>
@@ -534,7 +574,6 @@ export default function Villas() {
 										type="text"
 										name="address"
 										value={address}
-										onBlur={handleMenuBlur}
 										onChange={(e) => setAddress(e.target.value)}
 									/>
 									{errors.address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.address}</span>}
@@ -574,6 +613,7 @@ export default function Villas() {
 										<option value='partner'>Partner</option>
 										<option value='owner'>Owner</option>
 									</select>
+									{errors.partner_owner && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.partner_owner}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -586,6 +626,7 @@ export default function Villas() {
 										<option value='basic'>Basic</option>
 										<option value='luxury'>Luxury</option>
 									</select>
+									{errors.category && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.category}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -645,6 +686,7 @@ export default function Villas() {
 										<option value='electric'>Electric</option>
 										<option value='induction'>Induction</option>
 									</select>
+									{errors.type_of_stove && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.type_of_stove}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -655,6 +697,7 @@ export default function Villas() {
 										<option value='basic'>Basic</option>
 										<option value='fully_equipped'>Fully equipped</option>
 									</select>
+									{errors.equipment && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.equipment}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -665,6 +708,7 @@ export default function Villas() {
 										<option value='yes'>Yes</option>
 										<option value='no'>No</option>
 									</select>
+									{errors.BBQ && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.BBQ}</span>}
 								</div>
 							</div>
 						</div>
@@ -674,10 +718,15 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="consierge_phone">Consierge Phone:</label>
 									<input
-										type="number"
+										type="text"
 										name="consierge_phone"
 										value={consierge_phone}
-										onChange={(e) => setConsiergePhone(e.target.value)}
+										onChange={(e) => {
+											const re = /^[0-9\b]+$/;
+											if (e.target.value === '' || re.test(e.target.value)) {
+												setConsiergePhone(e.target.value);
+											}
+										}}
 									/>
 								</div>
 							</div>
@@ -746,7 +795,6 @@ export default function Villas() {
 									<input
 										type="file"
 										name="image"
-										onBlur={handleMenuBlur}
 										onChange={handleImageChange}
 										multiple
 									/>
@@ -784,9 +832,8 @@ export default function Villas() {
 
 						<button
 							type="submit"
-							className="btn-send w-100 mt-5"
-						>
-							Submit
+							className="btn-send w-100"
+							disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
 						</button>
 					</form>
 				</div>
@@ -812,8 +859,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="name"
-										defaultValue={name}
-										onBlur={handleMenuBlur}
+										value={name}
 										onChange={(e) => setFullName(e.target.value)}
 									/>
 									{errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
@@ -825,7 +871,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="email"
-										defaultValue={email}
+										value={email}
 										onChange={(e) => setEmail(e.target.value)}
 									/>
 								</div>
@@ -836,8 +882,13 @@ export default function Villas() {
 									<input
 										type="text"
 										name="phone"
-										defaultValue={phone}
-										onChange={(e) => setPhone(e.target.value)}
+										value={phone}
+										onChange={(e) => {
+											const re = /^[0-9\b]+$/;
+											if (e.target.value === '' || re.test(e.target.value)) {
+												setPhone(e.target.value);
+											}
+										}}
 									/>
 								</div>
 							</div>
@@ -849,8 +900,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="address"
-										defaultValue={address}
-										onBlur={handleMenuBlur}
+										value={address}
 										onChange={(e) => setAddress(e.target.value)}
 									/>
 									{errors.address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.address}</span>}
@@ -862,7 +912,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="city"
-										defaultValue={city}
+										value={city}
 										onChange={(e) => setCity(e.target.value)}
 									/>
 								</div>
@@ -873,7 +923,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="state"
-										defaultValue={state}
+										value={state}
 										onChange={(e) => setState(e.target.value)}
 									/>
 								</div>
@@ -890,6 +940,7 @@ export default function Villas() {
 										<option value='partner' defaultValue={partner_owner === 'partner'}>Partner</option>
 										<option value='owner' defaultValue={partner_owner === 'owner'}>Owner</option>
 									</select>
+									{errors.partner_owner && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.partner_owner}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -902,6 +953,7 @@ export default function Villas() {
 										<option value='basic' defaultValue={category === 'basic'}>Basic</option>
 										<option value='luxury' defaultValue={category === 'luxury'}>Luxury</option>
 									</select>
+									{errors.category && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.category}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -910,7 +962,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="capacity"
-										defaultValue={capacity}
+										value={capacity}
 										onChange={(e) => setCapacity(e.target.value)}
 									/>
 								</div>
@@ -923,7 +975,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="price_per_day"
-										defaultValue={price_per_day}
+										value={price_per_day}
 										onChange={(e) => setPrice(e.target.value)}
 									/>
 								</div>
@@ -934,7 +986,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="bedrooms"
-										defaultValue={bedrooms}
+										value={bedrooms}
 										onChange={(e) => setBedrooms(e.target.value)}
 									/>
 								</div>
@@ -945,7 +997,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="bathrooms"
-										defaultValue={bathrooms}
+										value={bathrooms}
 										onChange={(e) => setBathrooms(e.target.value)}
 									/>
 								</div>
@@ -961,6 +1013,7 @@ export default function Villas() {
 										<option value='electric' defaultValue={type_of_stove === 'electric'}>Electric</option>
 										<option value='induction' defaultValue={type_of_stove === 'induction'}>Induction</option>
 									</select>
+									{errors.type_of_stove && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.type_of_stove}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -971,6 +1024,7 @@ export default function Villas() {
 										<option value='basic' defaultValue={equipment === 'basic'}>basic</option>
 										<option value='fully_equipped' defaultValue={equipment === 'basic'}>fully_equipped</option>
 									</select>
+									{errors.equipment && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.equipment}</span>}
 								</div>
 							</div>
 							<div className='col-md-4'>
@@ -981,6 +1035,7 @@ export default function Villas() {
 										<option value='yes' defaultValue={BBQ === 'yes'}>Yes</option>
 										<option value='no' defaultValue={BBQ === 'no'}>No</option>
 									</select>
+									{errors.BBQ && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.BBQ}</span>}
 								</div>
 							</div>
 						</div>
@@ -989,10 +1044,15 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="consierge_phone">Consierge Phone:</label>
 									<input
-										type="number"
+										type="text"
 										name="consierge_phone"
-										defaultValue={consierge_phone}
-										onChange={(e) => setConsiergePhone(e.target.value)}
+										value={consierge_phone}
+										onChange={(e) => {
+											const re = /^[0-9\b]+$/;
+											if (e.target.value === '' || re.test(e.target.value)) {
+												setConsiergePhone(e.target.value);
+											}
+										}}
 									/>
 								</div>
 							</div>
@@ -1002,7 +1062,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="website"
-										defaultValue={website}
+										value={website}
 										onChange={(e) => setWebsite(e.target.value)}
 									/>
 								</div>
@@ -1013,7 +1073,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="facebook_link"
-										defaultValue={facebook_link}
+										value={facebook_link}
 										onChange={(e) => setFacebookLink(e.target.value)}
 									/>
 								</div>
@@ -1026,7 +1086,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="instagram_link"
-										defaultValue={instagram_link}
+										value={instagram_link}
 										onChange={(e) => setInstagramLink(e.target.value)}
 									/>
 								</div>
@@ -1037,7 +1097,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="twitter_link"
-										defaultValue={twitter_link}
+										value={twitter_link}
 										onChange={(e) => setTwitterLink(e.target.value)}
 									/>
 								</div>
@@ -1048,7 +1108,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="linkedin_link"
-										defaultValue={linkedin_link}
+										value={linkedin_link}
 										onChange={(e) => setLinkedinLink(e.target.value)}
 									/>
 								</div>
@@ -1062,7 +1122,7 @@ export default function Villas() {
 										type="file"
 										name="image"
 										onChange={handleImageChange}
-										onBlur={handleMenuBlur}										multiple
+										multiple
 									/>
 									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
 
@@ -1091,7 +1151,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="youtube_link"
-										defaultValue={youtube_link}
+										value={youtube_link}
 										onChange={(e) => setYoutubeLink(e.target.value)}
 									/>
 								</div>
@@ -1101,8 +1161,7 @@ export default function Villas() {
 							<button
 								type="submit"
 								className="btn-send w-100"
-							>
-								Update
+								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}
 							</button>
 						</div>
 					</form>

@@ -105,7 +105,7 @@ export default function Notification() {
                                     </div>
 
                                     <div className="text-noti mt-2 text-right">
-                                        <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm a')}</p>
+                                        <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm')}</p>
                                     </div>
                                 </div>
                             </div>
