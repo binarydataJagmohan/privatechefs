@@ -196,8 +196,9 @@ export default function Dish() {
               swal("Your Dish  has been deleted!", {
                 icon: "success",
               });
-              fetchdishes(currentUserData.id);
-              setDishLists([]);
+              $('#singledish_'+id).hide();
+              // fetchdishes(currentUserData.id);
+              // setDishLists([]);
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -345,7 +346,7 @@ export default function Dish() {
                 .sort((a, b) => a.item_name.localeCompare(b.item_name))
                 .map((dish, index) => {
                   return (
-                    <tr key={index} style={{border:'none'}}>
+                    <tr key={index} style={{border:'none'}} id={`singledish_${dish.id}`}>
                       
                       <td>{dish.item_name}</td>
                       <td className="text-end">
