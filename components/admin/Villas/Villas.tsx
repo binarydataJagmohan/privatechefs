@@ -140,9 +140,7 @@ export default function Villas() {
 					setTwitterLink(res.data.twitter_link);
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
-					const imageNames = res.data.image.split(',');
-					setImage(imageNames);
-					console.log(imageNames);
+					setImage(res.villaImg);
 
 				} else {
 					console.log("error");
@@ -454,8 +452,8 @@ export default function Villas() {
 						</thead>
 						<tbody>
 							{Array.isArray(villasdata) && villasdata.map((villa, index) => (
-								<tr key={villa.id}>
-									<td>{serialNo - index}</td>
+								<tr key={index}>
+									<td>{index+1}</td>
 									{/* <td id="villa_img">
 										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
 									</td> */}
@@ -1129,19 +1127,20 @@ export default function Villas() {
 										multiple
 									/>
 									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
+									
 
 									<div className='row mt-3 g-3'>
-										{image && image.map((image, index) => (
-											image instanceof Blob || image instanceof File ? (
+										{image && image.map((images, index) => (
+											images instanceof Blob || images instanceof File ? (
 												<div className='col-md-4' key={index}>
 													<div className='v-img'>
-														<img src={URL.createObjectURL(image)} className="s-image" alt="selected image" width={100} height={100} />
+														<img src={URL.createObjectURL(images)} className="s-image" alt="selected image" width={100} height={100} />
 													</div>
 												</div>
 											) : (
 												<div className='col-md-4' key={index}>
 													<div className='v-img'>
-														<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + image} alt="villa-image" width={100} height={100} className="s-image" />
+														<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + images.image} alt="villa-image" width={100} height={100} className="s-image" />
 													</div>
 												</div>
 											)
