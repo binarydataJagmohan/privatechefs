@@ -42,7 +42,6 @@ export default function Villas() {
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [buttonStatus, setButtonState] = useState(false);
-	const [serialNo, setSerialNo] = useState(1);
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 10;
 
@@ -97,8 +96,6 @@ export default function Villas() {
 				if (res.status == true) {
 					setTotalMenu(res.data);
 					const paginatedPosts = paginate(res.data, currentPage, pageSize);
-					const nextSerialNo = res.villas_count + 1;
-					setSerialNo(nextSerialNo);
 					setVillasData(paginatedPosts);
 
 				} else {
@@ -299,27 +296,27 @@ export default function Villas() {
 
 			const data = {
 				name: name,
-				email: email,
-				phone: phone,
+				email: email || '',
+				phone: phone || '',
 				address: address,
-				city: city,
-				state: state,
+				city: city || '',
+				state: state || '',
 				partner_owner: partner_owner,
-				capacity: capacity,
-				category: category,
-				price_per_day: price_per_day,
-				bedrooms: bedrooms,
-				bathrooms: bathrooms,
-				BBQ: BBQ,
-				type_of_stove: type_of_stove,
-				equipment: equipment,
-				consierge_phone: consierge_phone,
-				website: website,
-				facebook_link: facebook_link,
-				instagram_link: instagram_link,
-				twitter_link: twitter_link,
-				linkedin_link: linkedin_link,
-				youtube_link: youtube_link,
+				capacity: capacity || '',
+				category: category || '',
+				price_per_day: price_per_day || '',
+				bedrooms: bedrooms || '',
+				bathrooms: bathrooms || '',
+				BBQ: BBQ || '',
+				type_of_stove: type_of_stove || '',
+				equipment: equipment || '',
+				consierge_phone: consierge_phone || '',
+				website: website || '',
+				facebook_link: facebook_link || '',
+				instagram_link: instagram_link || '',
+				twitter_link: twitter_link || '',
+				linkedin_link: linkedin_link || '',
+				youtube_link: youtube_link || '',
 				image: image
 			};
 
@@ -534,7 +531,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="name"
-										value={name}
+										value={name }
 										onChange={(e) => setFullName(e.target.value)}
 									/>
 									{errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
@@ -557,7 +554,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="phone"
-										value={phone}
+										value={phone }
 										onChange={(e) => {
 											const re = /^[0-9\b]+$/;
 											if (e.target.value === '' || re.test(e.target.value)) {
@@ -862,7 +859,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="name"
-										value={name}
+										value={name || ''}
 										onChange={(e) => setFullName(e.target.value)}
 									/>
 									{errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
@@ -874,7 +871,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="email"
-										value={email}
+										value={email || ''}
 										onChange={(e) => setEmail(e.target.value)}
 									/>
 								</div>
@@ -885,7 +882,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="phone"
-										value={phone}
+										value={phone || ''}
 										onChange={(e) => {
 											const re = /^[0-9\b]+$/;
 											if (e.target.value === '' || re.test(e.target.value)) {
@@ -903,7 +900,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="address"
-										value={address}
+										value={address || ''}
 										onChange={(e) => setAddress(e.target.value)}
 									/>
 									{errors.address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.address}</span>}
@@ -915,7 +912,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="city"
-										value={city}
+										value={city || ''}
 										onChange={(e) => setCity(e.target.value)}
 									/>
 								</div>
@@ -926,7 +923,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="state"
-										value={state}
+										value={state || ''}
 										onChange={(e) => setState(e.target.value)}
 									/>
 								</div>
@@ -965,7 +962,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="capacity"
-										value={capacity}
+										value={capacity || ''}
 										onChange={(e) => setCapacity(e.target.value)}
 									/>
 								</div>
@@ -978,7 +975,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="price_per_day"
-										value={price_per_day}
+										value={price_per_day || ''}
 										onChange={(e) => setPrice(e.target.value)}
 									/>
 								</div>
@@ -989,7 +986,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="bedrooms"
-										value={bedrooms}
+										value={bedrooms || ''}
 										onChange={(e) => setBedrooms(e.target.value)}
 									/>
 								</div>
@@ -1000,7 +997,7 @@ export default function Villas() {
 									<input
 										type="number"
 										name="bathrooms"
-										value={bathrooms}
+										value={bathrooms || ''}
 										onChange={(e) => setBathrooms(e.target.value)}
 									/>
 								</div>
@@ -1049,7 +1046,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="consierge_phone"
-										value={consierge_phone}
+										value={consierge_phone || ''}
 										onChange={(e) => {
 											const re = /^[0-9\b]+$/;
 											if (e.target.value === '' || re.test(e.target.value)) {
@@ -1065,7 +1062,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="website"
-										value={website}
+										value={website || ''}
 										onChange={(e) => setWebsite(e.target.value)}
 									/>
 								</div>
@@ -1076,7 +1073,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="facebook_link"
-										value={facebook_link}
+										value={facebook_link || ''}
 										onChange={(e) => setFacebookLink(e.target.value)}
 									/>
 								</div>
@@ -1089,7 +1086,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="instagram_link"
-										value={instagram_link}
+										value={instagram_link || ''}
 										onChange={(e) => setInstagramLink(e.target.value)}
 									/>
 								</div>
@@ -1100,7 +1097,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="twitter_link"
-										value={twitter_link}
+										value={twitter_link || ''}
 										onChange={(e) => setTwitterLink(e.target.value)}
 									/>
 								</div>
@@ -1111,7 +1108,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="linkedin_link"
-										value={linkedin_link}
+										value={linkedin_link || ''}
 										onChange={(e) => setLinkedinLink(e.target.value)}
 									/>
 								</div>

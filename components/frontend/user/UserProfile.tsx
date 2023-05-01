@@ -31,17 +31,17 @@ export default function UserProfile() {
     const userid = currentUserData.id;
     
     const data = {
-      name: name,
-      surname: surname,
-      phone: phone,
-      address: address,
-      timezone: timezone,
-      birthday: birthday,
-      currency: currency,
+      name: name || '',
+      surname: surname || '',
+      phone: phone || '',
+      address: address || '',
+      timezone: timezone || '',
+      birthday: birthday || '',
+      currency: currency || '',
       invoice_details: invoice_details,
-      company_name: company_name,
-      vat_no: vat_no,
-      tax_id: tax_id
+      company_name: company_name || '',
+      vat_no: vat_no || '',
+      tax_id: tax_id || ''
     };
 
     updateUserProfile(userid, data, image)
@@ -168,15 +168,15 @@ export default function UserProfile() {
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <label>Name  </label>
-                      <input type="text" name="name" value={currentUserData.name} placeholder="Name " onChange={(e) => setFullName(e.target.value)} />
+                      <input type="text" name="name" value={currentUserData.name || ''} placeholder="Name " onChange={(e) => setFullName(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Surname</label>
-                      <input type="text" name="surname" value={surname} placeholder="Surname" onChange={(e) => setSurName(e.target.value)} />
+                      <input type="text" name="surname" value={surname || ''} placeholder="Surname" onChange={(e) => setSurName(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Phone</label>
-                      <input type="text" name="phone" maxLength={10} value={phone} placeholder="Phone" onChange={(e) => {
+                      <input type="text" name="phone" maxLength={10} value={phone || ''} placeholder="Phone" onChange={(e) => {
 											const re = /^[0-9\b]+$/;
 											if (e.target.value === '' || re.test(e.target.value)) {
 												setPhone(e.target.value);
@@ -185,42 +185,42 @@ export default function UserProfile() {
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Birthday</label>
-                      <input type="date" name="birthday" value={birthday} placeholder="Birthday" onChange={(e) => setBirthday(e.target.value)} />
+                      <input type="date" name="birthday" value={birthday || ''} placeholder="Birthday" onChange={(e) => setBirthday(e.target.value)} />
                     </div>
                   </div>
 
-                  <label>Adress</label>
-                  <input type="text" name="address" value={address} placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                  <label>Address</label>
+                  <input type="text" name="address" value={address || ''} placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
 
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <label>Timezone</label>
-                      <input type="date" name="timezone" value={timezone} placeholder="Timezone" onChange={(e) => setTimezone(e.target.value)} />
+                      <input type="date" name="timezone" value={timezone || ''} placeholder="Timezone" onChange={(e) => setTimezone(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Currency</label>
-                      <input type="text" name="currency" value={currency} placeholder="Currency" onChange={(e) => setCurrency(e.target.value)} />
+                      <input type="text" name="currency" value={currency || ''} placeholder="Currency" onChange={(e) => setCurrency(e.target.value)} />
                     </div>
 
                   </div>
                   <div className="checkbox-size text-left mt-3 mb-3"> 
-                  <input type="checkbox" name="invoice_details" value={invoice_details} className="checkbox-" onChange={(e) => setInvoiceDetails(e.target.checked ? "1" : "0")}  />
+                  <input type="checkbox" name="invoice_details" value={invoice_details || ''} className="checkbox-" onChange={(e) => setInvoiceDetails(e.target.checked ? "1" : "0")}  />
                     <label> Invoice details</label>
                   </div>
                   <label className="mt-3">Company Name</label>
-                  <input type="text" name="company_name" value={company_name} placeholder="Company Name" onChange={(e) => setCompanyName(e.target.value)} />
+                  <input type="text" name="company_name" value={company_name || ''} placeholder="Company Name" onChange={(e) => setCompanyName(e.target.value)} />
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <label>VAT Number</label>
-                      <input type="text" name="vat_no" value={vat_no} placeholder="VAT Number" maxLength={15}  onChange={(e) => setVatNo(e.target.value)} />
+                      <input type="text" name="vat_no" value={vat_no || ''} placeholder="VAT Number" maxLength={15}  onChange={(e) => setVatNo(e.target.value)} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>TAX ID</label>
-                      <input type="text" name="tax_id" value={tax_id} placeholder="TAX ID" maxLength={15}  onChange={(e) => setTaxId(e.target.value)} />
+                      <input type="text" name="tax_id" value={tax_id || ''} placeholder="TAX ID" maxLength={15}  onChange={(e) => setTaxId(e.target.value)} />
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                  <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Send'}</button>
+                  <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
                   </div>
                 </div>
               </div>

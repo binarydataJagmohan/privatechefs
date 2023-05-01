@@ -3259,3 +3259,12 @@ table#alpabet_table th::after {
 .v-img img {
   width: 100%;
 }
+span.react-read-more-read-less.react-read-more-read-less-more {
+  color: #ff4e00;
+}
+span.react-read-more-read-less.react-read-more-read-less-less {
+  color: #ff4e00;
+}
+div#receipt_table .table>tbody tr td ul li {
+  background: none;
+}
