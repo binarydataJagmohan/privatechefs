@@ -140,9 +140,7 @@ export default function Villas() {
 					setTwitterLink(res.data.twitter_link);
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
-					const imageNames = res.data.image.split(',');
-					setImage(imageNames);
-					console.log(imageNames);
+					setImage(res.villaImg);
 
 				} else {
 					console.log("error");
@@ -151,6 +149,31 @@ export default function Villas() {
 			.catch(err => {
 				console.log(err);
 			});
+	}
+
+	const resetFields = () => {
+		setFullName("");
+		setEmail("");
+		setPhone("");
+		setAddress("");
+		setCity("");
+		setState("");
+		setPartnerOwner("");
+		setCapacity("");
+		setPrice("");
+		setBedrooms("");
+		setImage([]);
+		setBathrooms("");
+		setBBQ("");
+		setTypeStove("");
+		setEquipment("");
+		setWebsite("");
+		setConsiergePhone("");
+		setFacebookLink("");
+		setInstagramLink("");
+		setTwitterLink("");
+		setLinkedinLink("");
+		setYoutubeLink("");
 	}
 
 	const handleVillaSubmit = (e: any) => {
@@ -221,28 +244,6 @@ export default function Villas() {
 						getAllVillasData();
 						setModalConfirm(false);
 						setButtonState(false);
-						setFullName("");
-						setEmail("");
-						setPhone("");
-						setAddress("");
-						setCity("");
-						setState("");
-						setPartnerOwner("");
-						setCapacity("");
-						setPrice("");
-						setBedrooms("");
-						setImage([]);
-						setBathrooms("");
-						setBBQ("");
-						setTypeStove("");
-						setEquipment("");
-						setWebsite("");
-						setConsiergePhone("");
-						setFacebookLink("");
-						setInstagramLink("");
-						setTwitterLink("");
-						setLinkedinLink("");
-						setYoutubeLink("");
 						toast.success(res.message, {
 							position: toast.POSITION.TOP_RIGHT
 						});
@@ -295,7 +296,7 @@ export default function Villas() {
 		if (Object.keys(errors).length === 0) {
 			setButtonState(true);
 			const id = getsingledata.id;
-			
+
 			const data = {
 				name: name,
 				email: email,
@@ -426,11 +427,12 @@ export default function Villas() {
 	};
 
 	return (
+
 		<>
 			<div className="table-part">
 				<h2>Villas</h2>
 				<ul className="table_header_button_section p-r">
-					<li><button className="table-btn" onClick={() => setModalConfirm(true)}>Add</button></li>
+					<li><button className="table-btn" onClick={() => { setModalConfirm(true); resetFields(); }}>Add</button></li>
 					<li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li>
 				</ul>
 				<div className="table-box" id="villa_table">
@@ -450,8 +452,8 @@ export default function Villas() {
 						</thead>
 						<tbody>
 							{Array.isArray(villasdata) && villasdata.map((villa, index) => (
-								<tr key={villa.id}>
-									<td>{serialNo - index}</td>
+								<tr key={index}>
+									<td>{index + 1}</td>
 									{/* <td id="villa_img">
 										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
 									</td> */}
@@ -810,7 +812,7 @@ export default function Villas() {
 													</div>
 												</div>
 											) : (
-												null // or you can add some other placeholder element here
+												null
 											)
 										))}
 									</div>
@@ -829,12 +831,13 @@ export default function Villas() {
 								</div>
 							</div>
 						</div>
-
-						<button
-							type="submit"
-							className="btn-send w-100"
-							disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
-						</button>
+						<div className='mt-4'>
+							<button
+								type="submit"
+								className="btn-send w-100"
+								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
+							</button>
+						</div>
 					</form>
 				</div>
 			</PopupModal>
@@ -1126,18 +1129,19 @@ export default function Villas() {
 									/>
 									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
 
+
 									<div className='row mt-3 g-3'>
-										{image && image.map((image, index) => (
-											image instanceof Blob || image instanceof File ? (
+										{image && image.map((images, index) => (
+											images instanceof Blob || images instanceof File ? (
 												<div className='col-md-4' key={index}>
 													<div className='v-img'>
-														<img src={URL.createObjectURL(image)} className="s-image" alt="selected image" width={100} height={100} />
+														<img src={URL.createObjectURL(images)} className="s-image" alt="selected image" width={100} height={100} />
 													</div>
 												</div>
 											) : (
 												<div className='col-md-4' key={index}>
 													<div className='v-img'>
-														<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + image} alt="villa-image" width={100} height={100} className="s-image" />
+														<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/villas/images/' + images.image} alt="villa-image" width={100} height={100} className="s-image" />
 													</div>
 												</div>
 											)
