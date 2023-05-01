@@ -153,6 +153,31 @@ export default function Villas() {
 			});
 	}
 
+	const resetFields = () => {
+		setFullName("");
+		setEmail("");
+		setPhone("");
+		setAddress("");
+		setCity("");
+		setState("");
+		setPartnerOwner("");
+		setCapacity("");
+		setPrice("");
+		setBedrooms("");
+		setImage([]);
+		setBathrooms("");
+		setBBQ("");
+		setTypeStove("");
+		setEquipment("");
+		setWebsite("");
+		setConsiergePhone("");
+		setFacebookLink("");
+		setInstagramLink("");
+		setTwitterLink("");
+		setLinkedinLink("");
+		setYoutubeLink("");
+	}
+
 	const handleVillaSubmit = (e: any) => {
 		e.preventDefault();
 		// Validate form data
@@ -221,28 +246,6 @@ export default function Villas() {
 						getAllVillasData();
 						setModalConfirm(false);
 						setButtonState(false);
-						setFullName("");
-						setEmail("");
-						setPhone("");
-						setAddress("");
-						setCity("");
-						setState("");
-						setPartnerOwner("");
-						setCapacity("");
-						setPrice("");
-						setBedrooms("");
-						setImage([]);
-						setBathrooms("");
-						setBBQ("");
-						setTypeStove("");
-						setEquipment("");
-						setWebsite("");
-						setConsiergePhone("");
-						setFacebookLink("");
-						setInstagramLink("");
-						setTwitterLink("");
-						setLinkedinLink("");
-						setYoutubeLink("");
 						toast.success(res.message, {
 							position: toast.POSITION.TOP_RIGHT
 						});
@@ -295,7 +298,7 @@ export default function Villas() {
 		if (Object.keys(errors).length === 0) {
 			setButtonState(true);
 			const id = getsingledata.id;
-			
+
 			const data = {
 				name: name,
 				email: email,
@@ -430,7 +433,7 @@ export default function Villas() {
 			<div className="table-part">
 				<h2>Villas</h2>
 				<ul className="table_header_button_section p-r">
-					<li><button className="table-btn" onClick={() => setModalConfirm(true)}>Add</button></li>
+					<li><button className="table-btn" onClick={() => { setModalConfirm(true); resetFields(); }}>Add</button></li>
 					<li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li>
 				</ul>
 				<div className="table-box" id="villa_table">
