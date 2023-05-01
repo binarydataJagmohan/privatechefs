@@ -3256,14 +3256,6 @@ table#alpabet_table th::after {
   display: block;
   margin: 0;
 }
-
-@media(max-width:767px)
-{
-  .table>tbody td {
-    padding-left: 15%;
-}
-td.text-end.add-icon-class {
-  display: flex;
-  justify-content: center;
-}
+.v-img img {
+  width: 100%;
 }

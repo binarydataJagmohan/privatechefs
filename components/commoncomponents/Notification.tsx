@@ -3,11 +3,16 @@ import { getCurrentUserData } from '../../lib/session'
 import { notificationForUserAdmin, notificationStatus } from '../../lib/notificationapi';
 import { isPageVisibleToRole } from "../../helpers/isPageVisibleToRole";
 import moment from 'moment';
+import Pagination from "../commoncomponents/Pagination";
+import { paginate } from "../../helpers/paginate";
 
 export default function Notification() {
 
     const [currentUserData, setCurrentUserData] = useState({});
+    const [totalNotify, setTotalNotify] = useState({});
     const [userData, setUserData] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
 
     useEffect(() => {
         getAllNotify();
@@ -29,11 +34,31 @@ export default function Notification() {
         }
     }
 
+    const onPageChange = (page) => {
+        setCurrentPage(page);
+        notificationForUserAdmin(currentUserData.id)
+            .then(res => {
+                if (res.status == true) {
+                    setTotalNotify(res.data);
+                    const paginatedPosts = paginate(res.data, page, pageSize);
+                    setUserData(paginatedPosts);
+                } else {
+                    setErrorMessage(res.message);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+
     const getNotification = async (id) => {
         notificationForUserAdmin(id)
             .then(res => {
                 if (res.status == true) {
-                    setUserData(res.data);
+                    setTotalNotify(res.data);
+                    const paginatedPosts = paginate(res.data, currentPage, pageSize);
+                    setUserData(paginatedPosts);
                 } else {
                     console.log("error");
                 }
@@ -58,8 +83,6 @@ export default function Notification() {
     }
 
 
-
-
     return (
         <>
             <div className="table-part">
@@ -82,7 +105,7 @@ export default function Notification() {
                                     </div>
 
                                     <div className="text-noti mt-2 text-right">
-                                        <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm a')}</p>
+                                        <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm')}</p>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +116,14 @@ export default function Notification() {
                         </div>
                     )}
                 </div>
+                <Pagination
+                    items={totalNotify.length}
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    onPageChange={onPageChange}
+                />
             </div>
+
         </>
     )
 }
