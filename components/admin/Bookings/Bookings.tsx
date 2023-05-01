@@ -8,8 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 export default function Bookings() {
   const [bookingUsers, setBookingUser] = useState([]);
   const [modalConfirm, setModalConfirm] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [sidebarConfirm,setSidebarConfirm] = useState(false);
+  const [selectedUser, setSelectedUser] = useState([]);
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -17,6 +17,13 @@ export default function Bookings() {
   const modalConfirmClose = () => {
     setModalConfirm(false);
   };
+  const sidebarConfirmOpen = () => {
+    setSidebarConfirm(true);
+  };
+  const sidebarConfirmClose = () => {
+    setModalConfirm(false);
+  };
+ 
 
   useEffect(() => {
     const data = isPageVisibleToRole("admin-bookings");
@@ -53,9 +60,12 @@ export default function Bookings() {
     e.preventDefault();
     getUserBookingId(id).then((res) => {
       setSelectedUser(res.data);
-      setSidebarOpen(true);
+      console.log(res.data)
+      setSidebarConfirm(true);
     });
   };
+
+  
 
   return (
     <>
@@ -72,7 +82,7 @@ export default function Bookings() {
             <button className="table-btn btn-2">Cancelled</button>
           </li>
           <li>
-            <button className="table-btn btn-2" onClick={modalConfirmOpen}>
+            <button className="table-btn btn-2" >
               Completed
             </button>
           </li>
@@ -116,7 +126,8 @@ export default function Bookings() {
                     <a
                       href="#"
                       className="popup"
-                      onClick={(e) => getSingleBookingUser(e, user.id)}
+                      onClick={(e)=>getSingleBookingUser(e,user.id)}
+                      data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"    
                     >
                       <i className="fa-solid fa-ellipsis"></i>
                     </a>
@@ -128,7 +139,7 @@ export default function Bookings() {
         </div>
       </div>
 
-      {sidebarOpen ? (
+      
         <div className="offcanvas-part">
           <div
             className="offcanvas offcanvas-end"
@@ -148,7 +159,7 @@ export default function Bookings() {
             </div>
             <div className="offcanvas-body">
               <div>
-                <button className="table-btn btn-2 date mr-sp">10/11/21</button>
+                <button className="table-btn btn-2 date mr-sp">{selectedUser.date}</button>
                 <button className="table-btn btn-2 Pending">Pending</button>
               </div>
               <div className="off-can">
@@ -178,7 +189,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">Service Type:</p>
                           </div>
                           <div className="col-8">
-                            <p className="mony f-w-4">one time</p>
+                            <p className="mony f-w-4">{selectedUser.category}</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -186,7 +197,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">Service </p>
                           </div>
                           <div className="col-8">
-                            <p className="mony f-w-4">Family Style</p>
+                            <p className="mony f-w-4">{selectedUser.service_name}</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -277,7 +288,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">adults</p>
                           </div>
                           <div className="col-7">
-                            <p className="mony">13</p>
+                            <p className="mony">{selectedUser.adults}</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -285,7 +296,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">Teens:</p>
                           </div>
                           <div className="col-7">
-                            <p className="mony">1</p>
+                            <p className="mony">{selectedUser.teens}</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -293,7 +304,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">Children:</p>
                           </div>
                           <div className="col-7">
-                            <p className="mony">1</p>
+                            <p className="mony">{selectedUser.childrens}</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -301,7 +312,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">Full Name:</p>
                           </div>
                           <div className="col-7">
-                            <p className="mony">Kathryn Murphy</p>
+                            <p className="mony">{selectedUser.name + " " +selectedUser. surname }</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -309,7 +320,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">Email:</p>
                           </div>
                           <div className="col-7">
-                            <p className="mony">bill.sanders@example.com</p>
+                            <p className="mony">{selectedUser.email}</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -317,7 +328,7 @@ export default function Bookings() {
                             <p className="chefs-name name-12">Phone Number:</p>
                           </div>
                           <div className="col-7">
-                            <p className="mony">(480) 555-0103</p>
+                            <p className="mony">{selectedUser.phone}</p>
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -326,7 +337,8 @@ export default function Bookings() {
                           </div>
                           <div className="col-7">
                             <p className="mony">
-                              1901 Thornridge Cir. Shiloh, Hawaii 81063
+                              {/* 1901 Thornridge Cir. Shiloh, Hawaii 81063 */}
+                              {selectedUser.location}
                             </p>
                           </div>
                         </div>
@@ -344,9 +356,8 @@ export default function Bookings() {
             </div>
           </div>
         </div>
-      ) : (
-        null
-      )}
+       
+     
 
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
         <div className="popup-part new-modala">

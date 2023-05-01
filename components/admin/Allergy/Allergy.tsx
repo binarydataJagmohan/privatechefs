@@ -279,29 +279,52 @@ const handleUpdateAllergy = (e) => {
               </tr>
             </thead>
             <tbody>
-              {allergis.map((allergy,index) => (
+              {allergis.map((allergy, index) => (
                 <tr key={allergy.id}>
-                  <td>{allergy.id}</td>
+                  <td>{++index}</td>
                   <td className="chefs_pic">
-                    <img
-                      src={
-                        process.env.NEXT_PUBLIC_IMAGE_URL +
-                        "/images/admin/allergy/" +
-                        allergy.image
-                      }
-                      alt=""
-                    />
+                    {allergy.image ? (
+                      <img
+                        src={
+                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                          "/images/admin/allergy/" +
+                          allergy.image
+                        }
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        src={
+                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                          "/images/placeholder.jpg"
+                        }
+                        alt=""
+                      />
+                    )}
                   </td>
+
                   <td>{allergy.allergy_name}</td>
                   {/* <td>{allergy.description}</td> */}
-                  <td>
-              {showFullDescription[index] && allergy.description ? allergy.description : (allergy.description ? `${allergy.description.slice(0, 50)}...` : '')}
-              {allergy.description && (
-                <a className="read-more-link" onClick={() => toggleDescription(index)}>
-                  {showFullDescription[index] ? 'Read Less' : 'Read More'}
-                </a>
-              )}
-            </td>
+                  <td className="abc">
+                    {showFullDescription[index] && allergy.description
+                      ? allergy.description
+                      : allergy.description
+                      ? allergy.description.length > 100
+                        ? `${allergy.description.slice(0, 100)}...`
+                        : allergy.description
+                      : ""}
+                    {allergy.description &&
+                      allergy.description.length > 100 && (
+                        <a
+                          className="read-more-link"
+                          onClick={() => toggleDescription(index)}
+                        >
+                          {showFullDescription[index]
+                            ? "Read Less"
+                            : "Read More"}
+                        </a>
+                      )}
+                  </td>
                   <td>
                     <div className="dropdown" id="none-class">
                       <a
@@ -360,7 +383,6 @@ const handleUpdateAllergy = (e) => {
             onSubmit={handlMenuSubmit}
             className="common_form_error"
             id="menu_form"
-            
           >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
@@ -386,7 +408,7 @@ const handleUpdateAllergy = (e) => {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
-               {errors.description && (
+              {errors.description && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
                   {errors.description}
                 </span>
@@ -400,10 +422,11 @@ const handleUpdateAllergy = (e) => {
                 onChange={(e) => setImage(e.target.files)}
                 accept="jpg,png"
               />
-                 {errors.image && (
+              {errors.image && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.image}</span>
-                   )}
+                  {errors.image}
+                </span>
+              )}
             </div>
 
             <button
@@ -422,38 +445,61 @@ const handleUpdateAllergy = (e) => {
         handleClose={editmodalConfirmClose}
         staticClass="var-login"
       >
-       <div className="all-form">
-  <form className="common_form_error" id="menu_form" onSubmit={handleUpdateAllergy}>
-    <div className="login_div">
-      <label htmlFor="name">Name:</label>
-      <input
-        type="text"
-        name="allergy_name"
-        value={allergyList ? allergyList.allergy_name : ''}
-        onBlur={handleMenuBlur}
-        autoComplete="username"
-        onChange={(e) => setAllergyList({ ...allergyList, allergy_name: e.target.value })}
-      />
-      {errors.name && (
-        <span className="small error text-danger mb-2 d-inline-block error_login">
-          {errors.name}
-        </span>
-      )}
-    </div>
-    <div className="login_div">
-      <label htmlFor="Description">Description:</label>
-      <textarea name="description" value={allergyList ? allergyList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setAllergyList({ ...allergyList, description: e.target.value })}></textarea>
-    </div>
-    <div className="login_div">
-      <label htmlFor="Image">Image:</label>
-      <input type="file" name="image" accept="jpg,png" />
-    </div>
+        <div className="all-form">
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handleUpdateAllergy}
+          >
+            <div className="login_div">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                name="allergy_name"
+                value={allergyList ? allergyList.allergy_name : ""}
+                onBlur={handleMenuBlur}
+                autoComplete="username"
+                onChange={(e) =>
+                  setAllergyList({
+                    ...allergyList,
+                    allergy_name: e.target.value,
+                  })
+                }
+              />
+              {errors.name && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.name}
+                </span>
+              )}
+            </div>
+            <div className="login_div">
+              <label htmlFor="Description">Description:</label>
+              <textarea
+                name="description"
+                value={allergyList ? allergyList.description : ""}
+                onBlur={handleMenuBlur}
+                onChange={(e) =>
+                  setAllergyList({
+                    ...allergyList,
+                    description: e.target.value,
+                  })
+                }
+              ></textarea>
+            </div>
+            <div className="login_div">
+              <label htmlFor="Image">Image:</label>
+              <input type="file" name="image" accept="jpg,png" />
+            </div>
 
-    <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-      Update
-    </button>
-  </form>
-</div>
+            <button
+              type="submit"
+              className="btn-send w-100"
+              disabled={buttonStatus}
+            >
+              Update
+            </button>
+          </form>
+        </div>
       </PopupModal>
 
       {/* // Menu popup end  */}

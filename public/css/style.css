@@ -3259,3 +3259,7 @@ table#alpabet_table th::after {
 .v-img img {
   width: 100%;
 }
+
+td.abc {
+  max-width: 100px;
+}
