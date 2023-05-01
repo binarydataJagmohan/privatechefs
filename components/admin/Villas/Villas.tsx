@@ -427,7 +427,7 @@ export default function Villas() {
 	};
 
 	return (
-		
+
 		<>
 			<div className="table-part">
 				<h2>Villas</h2>
@@ -453,7 +453,7 @@ export default function Villas() {
 						<tbody>
 							{Array.isArray(villasdata) && villasdata.map((villa, index) => (
 								<tr key={index}>
-									<td>{index+1}</td>
+									<td>{index + 1}</td>
 									{/* <td id="villa_img">
 										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
 									</td> */}
@@ -812,7 +812,7 @@ export default function Villas() {
 													</div>
 												</div>
 											) : (
-												null // or you can add some other placeholder element here
+												null
 											)
 										))}
 									</div>
@@ -831,12 +831,13 @@ export default function Villas() {
 								</div>
 							</div>
 						</div>
-
-						<button
-							type="submit"
-							className="btn-send w-100"
-							disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
-						</button>
+						<div className='mt-4'>
+							<button
+								type="submit"
+								className="btn-send w-100"
+								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
+							</button>
+						</div>
 					</form>
 				</div>
 			</PopupModal>
@@ -1127,7 +1128,7 @@ export default function Villas() {
 										multiple
 									/>
 									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
-									
+
 
 									<div className='row mt-3 g-3'>
 										{image && image.map((images, index) => (
