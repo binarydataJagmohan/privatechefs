@@ -26,11 +26,22 @@ export default function Cuisine() {
   const [image, setImage] = useState("");
   const [cuisines, setCuisines] = useState([]);
   const [cuisines2, setCuisines2] = useState([]);
+  const [showFullDescription, setShowFullDescription] = useState(new Array(cuisines.length).fill(false));
   const [cuisinesList, setCuisinesList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
+<<<<<<< HEAD
 
+=======
+  const toggleDescription = (index) => {
+    const newShowFullDescription = [...showFullDescription];
+    newShowFullDescription[index] = !newShowFullDescription[index];
+    setShowFullDescription(newShowFullDescription);
+  };
+
+  
+>>>>>>> refs/remotes/origin/main
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -267,6 +278,7 @@ export default function Cuisine() {
               </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
               {cuisines.map((cuisine, index) => (
                 <tr key={cuisine.id}>
                   <td>{index + 1}</td>
@@ -306,6 +318,49 @@ export default function Cuisine() {
                   </td>
 
 
+=======
+              {cuisines.map((cuisine,index) => (
+                <tr key={cuisine.id}>
+                  <td>{++index}</td>
+                  <td className="chefs_pic">
+                    {cuisine.image ? (
+                      <img
+                      src={
+                        process.env.NEXT_PUBLIC_IMAGE_URL +
+                        "/images/chef/cuisine/" +
+                        cuisine.image
+                      }
+                      alt=""
+                    />
+                    ): (
+
+                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                    )}
+                    
+                  </td>
+                  <td>{cuisine.name}</td>
+                  {/* <td>{cuisine.description}</td> */}
+                  <td className="abc">
+                    {showFullDescription[index] && cuisine.description
+                      ? cuisine.description
+                      : cuisine.description
+                      ? cuisine.description.length > 100
+                        ? `${cuisine.description.slice(0, 100)}...`
+                        : cuisine.description
+                      : ""}
+                    {cuisine.description &&
+                      cuisine.description.length > 100 && (
+                        <a
+                          className="read-more-link"
+                          onClick={() => toggleDescription(index)}
+                        >
+                          {showFullDescription[index]
+                            ? "Read Less"
+                            : "Read More"}
+                        </a>
+                      )}
+                  </td>
+>>>>>>> refs/remotes/origin/main
                   <td>
                     <div className="dropdown" id="none-class">
                       <a

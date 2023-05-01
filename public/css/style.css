@@ -3259,6 +3259,7 @@ table#alpabet_table th::after {
 .v-img img {
   width: 100%;
 }
+<<<<<<< HEAD
 span.react-read-more-read-less.react-read-more-read-less-more {
   color: #ff4e00;
 }
@@ -3267,4 +3268,9 @@ span.react-read-more-read-less.react-read-more-read-less-less {
 }
 div#receipt_table .table>tbody tr td ul li {
   background: none;
+=======
+
+td.abc {
+  max-width: 100px;
+>>>>>>> refs/remotes/origin/main
 }

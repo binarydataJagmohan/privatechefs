@@ -25,9 +25,16 @@ export default function ServiceChoice() {
   const [image, setImage] = useState("");
   const [services, setService] = useState([]);
   const [service2, setService2] = useState([]);
+  const [showFullDescription, setShowFullDescription] = useState(new Array(services.length).fill(false));
   const [serviceList, setServiceList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
+
+  const toggleDescription = (index) => {
+    const newShowFullDescription = [...showFullDescription];
+    newShowFullDescription[index] = !newShowFullDescription[index];
+    setShowFullDescription(newShowFullDescription);
+  };
 
   
   const modalConfirmOpen = () => {
@@ -268,21 +275,48 @@ const handleUpdateService = (e) => {
               </tr>
             </thead>
             <tbody>
-              {services.map((service) => (
+              {services.map((service,index) => (
                 <tr key={service.id}>
-                  <td>{service.id}</td>
+                  <td>{++index}</td>
                   <td className="chefs_pic">
-                    <img
-                      src={
-                        process.env.NEXT_PUBLIC_IMAGE_URL +
-                        "/images/admin/service/" +
-                        service.image
-                      }
-                      alt=""
-                    />
-                  </td>
+  {service.image ? (
+    <img
+      src={
+        process.env.NEXT_PUBLIC_IMAGE_URL +
+        "/images/admin/service/" +
+        service.image
+      }
+      alt=""
+    />
+  ) : (
+    <img
+      src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"}
+      alt=""
+    />
+  )}
+</td>
+
                   <td>{service.service_name}</td>
-                  <td>{service.description}</td>
+                  <td className="abc">
+                    {showFullDescription[index] && service.description
+                      ? service.description
+                      : service.description
+                      ? service.description.length > 100
+                        ? `${service.description.slice(0, 100)}...`
+                        : service.description
+                      : ""}
+                    {service.description &&
+                      service.description.length > 100 && (
+                        <a
+                          className="read-more-link"
+                          onClick={() => toggleDescription(index)}
+                        >
+                          {showFullDescription[index]
+                            ? "Read Less"
+                            : "Read More"}
+                        </a>
+                      )}
+                  </td>
                   <td>
                     <div className="dropdown" id="none-class">
                       <a
