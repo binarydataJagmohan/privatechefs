@@ -112,3 +112,10 @@ a {
 i.fa-solid.fa-pencil {
   margin: 0 10px;
 }
+
+@media(max-width:767px){
+  button.table-btn {
+    width: 100%;
+    margin-bottom: 10px;
+}
+}

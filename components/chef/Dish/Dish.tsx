@@ -288,13 +288,11 @@ export default function Dish() {
     <>
       <div className="table-part">
         <h2>Dishes</h2> {alphabetletter}
-          <div className="d-flex justify-content-space-between">
+          <div className="d-md-flex justify-content-space-between">
             <div className="md">
-
             <button key='' className={`${dishcategoryid == 'all' ? 'table-btn btn-2' : 'table-btn'}`} onClick={() => {fetchDishCategoryDataById('all');}}>
                  All
             </button>
-
               {Array.isArray(dishCategories) &&
                 dishCategories.map((category) => (
                   <button
@@ -320,8 +318,6 @@ export default function Dish() {
         <div className="row mt-4">
           <div className="col-auto">
             <table className="table" id="alpabet_table">
-            
-
             <tbody>
               {Array.from(Array(26), (e, i) => String.fromCharCode(65 + i)).map((letter, index) => (
                 <tr key={index}>
@@ -333,12 +329,9 @@ export default function Dish() {
           </table>
           </div>
           <div className="col">
-       
           <table className="table">
             <thead>
-             
             </thead>
-
             <tbody>
               
               {dishList
@@ -348,7 +341,7 @@ export default function Dish() {
                     <tr key={index} style={{border:'none'}}>
                       
                       <td>{dish.item_name}</td>
-                      <td className="text-end">
+                      <td className="text-end add-icon-class">
                         <i
                           className="fa-solid fa-pencil"
                           role='button'

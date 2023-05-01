@@ -244,7 +244,7 @@ const handleUpdateService = (e) => {
   return (
     <>
       <div className="table-part">
-        <h2>Allergy</h2>
+        <h2>Services Choice</h2>
         <ul className="table_header_button_section p-r">
           {/* <li><button className="table-btn">Total</button></li> */}
           <li className="right-li">

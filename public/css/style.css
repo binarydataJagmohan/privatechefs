@@ -636,10 +636,10 @@ table td {
 
   @media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px)  {
  
-  table, thead, tbody, th, td, tr { 
+  /* table, thead, tbody, th, td, tr { 
     display: block; 
   }
-   
+    */
   thead tr { 
     position: absolute;
     top: -9999px;
@@ -2100,6 +2100,9 @@ li.add-plus-li {
 .border-right {
   border-right: 1px solid #FFFFFF;
 }
+.read-more-link {
+  color: green;
+}
 .box-today h2 {
   font-weight: var(--font_wt_name);
   font-size: var(--font_h1);
@@ -3252,4 +3255,15 @@ table#alpabet_table th::after {
   content: "*";
   display: block;
   margin: 0;
+}
+
+@media(max-width:767px)
+{
+  .table>tbody td {
+    padding-left: 15%;
+}
+td.text-end.add-icon-class {
+  display: flex;
+  justify-content: center;
+}
 }

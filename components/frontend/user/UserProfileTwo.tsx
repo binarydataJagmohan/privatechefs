@@ -394,7 +394,7 @@ export default function UserProfileTwo() {
                                           </div>
                                         </div>
                                         </div>
-                                    </div> 
+                              </div> 
                             </div>
                           </div>
                         </div>
