@@ -19,6 +19,7 @@ export default function Allergy() {
   const [buttonStatus, setButtonState] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [editmodalConfirm, editsetModalConfirm] = useState(false);
+  
   const [currentUserData, setCurrentUserData] = useState({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -26,9 +27,17 @@ export default function Allergy() {
   const [deleteAllergy, setdeleteAllergy] = useState(null);
   const [allergis, setAllergis] = useState([]);
   const [allergis2, setAllergis2] = useState([]);
+  const [showFullDescription, setShowFullDescription] = useState(new Array(allergis.length).fill(false));
+  
   const [allergyList, setAllergyList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+
+  const toggleDescription = (index) => {
+    const newShowFullDescription = [...showFullDescription];
+    newShowFullDescription[index] = !newShowFullDescription[index];
+    setShowFullDescription(newShowFullDescription);
+  };
 
   
   const modalConfirmOpen = () => {
@@ -43,6 +52,8 @@ export default function Allergy() {
   const editmodalConfirmClose = () => {
     editsetModalConfirm(false);
   };
+
+ 
 
   useEffect(() => {
 
@@ -268,7 +279,7 @@ const handleUpdateAllergy = (e) => {
               </tr>
             </thead>
             <tbody>
-              {allergis.map((allergy) => (
+              {allergis.map((allergy,index) => (
                 <tr key={allergy.id}>
                   <td>{allergy.id}</td>
                   <td className="chefs_pic">
@@ -282,7 +293,15 @@ const handleUpdateAllergy = (e) => {
                     />
                   </td>
                   <td>{allergy.allergy_name}</td>
-                  <td>{allergy.description}</td>
+                  {/* <td>{allergy.description}</td> */}
+                  <td>
+              {showFullDescription[index] && allergy.description ? allergy.description : (allergy.description ? `${allergy.description.slice(0, 50)}...` : '')}
+              {allergy.description && (
+                <a className="read-more-link" onClick={() => toggleDescription(index)}>
+                  {showFullDescription[index] ? 'Read Less' : 'Read More'}
+                </a>
+              )}
+            </td>
                   <td>
                     <div className="dropdown" id="none-class">
                       <a
