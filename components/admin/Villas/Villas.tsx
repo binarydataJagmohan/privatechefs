@@ -429,6 +429,7 @@ export default function Villas() {
 	};
 
 	return (
+		
 		<>
 			<div className="table-part">
 				<h2>Villas</h2>
