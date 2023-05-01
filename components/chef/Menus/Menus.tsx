@@ -43,9 +43,13 @@ export default function Menus() {
     }
     if(data ==1) {
       const userData = getCurrentUserData();
-      setCurrentUserData(userData);
-      getAllCrusineData();
-      getAllChefMenuData(userData.id);
+      if(userData.approved_by_admin == 'yes'){
+        setCurrentUserData(userData);
+        getAllCrusineData();
+        getAllChefMenuData(userData.id);
+      }else {
+        window.location.href = '/404';
+      }
     }
   }
 

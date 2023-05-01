@@ -68,27 +68,27 @@ export default function Chefs() {
 							</tr>
 						</thead>
 						<tbody>
-						{chefs.map(chef => (
-						<tr key={chef.id}>
-							{chef.pic ? (
-                      <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_IMAGE_URL+'images/chef/users/' + chef.pic } alt=""/></td>
-							) : ( 
-					 <td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/placeholder.jpg'} alt=""/></td>
-								)}
-                      <td>{ chef.name+ " " +chef.surname }</td>
-                      <td>{ chef.address}</td>
-                      <td>
-                      <ul>
-                     <li>{chef.cuisine_name}</li>
-                     {/* <li>Italian</li>
-                     <li>+4</li> */}
-                     </ul>
-                     </td>
-                     <td>Ut pulvinar.</td>
-                     <td>Arcu nibh non.</td>
-                     <td>Eu nibh.</td>
-                     <td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
-                    </tr>
+							{chefs.map((chef, index) => (
+							<tr key={index}>
+								{chef.pic ? (
+						<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_IMAGE_URL+'images/chef/users/' + chef.pic } alt=""/></td>
+								) : ( 
+						<td className='chefs_pic'><img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/placeholder.jpg'} alt=""/></td>
+									)}
+						<td>{ chef.name+ " " +chef.surname }</td>
+						<td>{ chef.address}</td>
+						<td>
+						<ul>
+						<li>{chef.cuisine_name}</li>
+						{/* <li>Italian</li>
+						<li>+4</li> */}
+						</ul>
+						</td>
+						<td>Ut pulvinar.</td>
+						<td>Arcu nibh non.</td>
+						<td>Eu nibh.</td>
+						<td><a href="#"><i className="fa-solid fa-ellipsis"></i></a></td>
+						</tr>
                     ))}
 
 						</tbody>

@@ -54,9 +54,13 @@ export default function Dish() {
     }
     if (data == 1) {
       const userData = getCurrentUserData();
-      // console.log(userData);
-      setCurrentUserData(userData);
-      fetchdishes(userData.id);
+      if(userData.approved_by_admin == 'yes'){
+        setCurrentUserData(userData);
+        fetchdishes(userData.id);
+      }else {
+        window.location.href = '/404';
+      }
+      
     }
     // Fetch the list of dish categories from the API
     getDishecategory()

@@ -106,7 +106,7 @@ export default function Header({}) {
           .then(res => {
             if(res.status==true){
                 if(res.authorisation.token){
-
+                
                 window.localStorage.setItem("token", res.authorisation.token);
                 window.localStorage.setItem("id", res.user.id);
                 window.localStorage.setItem("name", res.user.name);
@@ -114,6 +114,8 @@ export default function Header({}) {
                 window.localStorage.setItem("role", res.user.role);
                 window.localStorage.setItem("pic", res.user.pic);
                 window.localStorage.setItem("surname", res.user.surname);
+                window.localStorage.setItem("phone", res.user.phone);
+                window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
 
                 toast.success(res.message, {
                   position: toast.POSITION.TOP_RIGHT
@@ -134,7 +136,12 @@ export default function Header({}) {
 
                 setTimeout(() => {
                   if(res.user.role == 'chef'){
-                    window.location.href = '/chef/dashboard';
+
+                    if(res.user.approved_by_admin == 'yes'){
+                      window.location.href = '/chef/dashboard';
+                    }else {
+                      window.location.href = '/chef/myprofile';
+                    }
                   }
                  
                 }, 1000);
@@ -248,6 +255,8 @@ export default function Header({}) {
                 window.localStorage.setItem("role", res.data.user.role);
                 window.localStorage.setItem("pic", res.data.user.pic);
                 window.localStorage.setItem("surname", res.data.user.surname);
+                window.localStorage.setItem("phone", res.data.user.phone);
+                window.localStorage.setItem("approved_by_admin", res.data.user.approved_by_admin);
                
                 toast.success(res.message, {
                   position: toast.POSITION.TOP_RIGHT
@@ -255,7 +264,13 @@ export default function Header({}) {
                 
                 setTimeout(() => {
                   if(res.data.user.role == 'chef'){
-                    window.location.href = '/chef/dashboard';
+
+                    if(res.data.user.approved_by_admin == 'yes'){
+                      window.location.href = '/chef/dashboard';
+                    }else {
+                      window.location.href = '/chef/myprofile';
+                    }
+
                   }
                  
                 }, 1000);
