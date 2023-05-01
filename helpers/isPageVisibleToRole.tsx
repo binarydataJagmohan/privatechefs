@@ -19,6 +19,7 @@ export function isPageVisibleToRole(pageName) {
         "chef-dish" : ["chef"],
         "admin-cuisine" : ['admin'],
         "admin-bookings" : ['admin'],
+        "receipt": ["chef"],
       };
 
       if (pageName in pageRoles) {

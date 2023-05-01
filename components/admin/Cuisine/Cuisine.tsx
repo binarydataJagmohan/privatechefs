@@ -3,16 +3,17 @@ import { getToken, getCurrentUserData } from "../../../lib/session";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { ToastContainer, toast } from "react-toastify";
 import {
-    saveCuisine,
-   getAllCrusine,
-   cuisneDelete,
-   getSingleCisine,
-   updateCuisine
+  saveCuisine,
+  getAllCrusine,
+  cuisneDelete,
+  getSingleCisine,
+  updateCuisine
 } from "../../../lib/adminapi";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import ReactReadMoreReadLess from "react-read-more-read-less";
 
 export default function Cuisine() {
   const [errors, setErrors] = useState({});
@@ -53,36 +54,36 @@ export default function Cuisine() {
   useEffect(() => {
 
     const data = isPageVisibleToRole('admin-cuisine');
-			if (data == 2) {
-			  window.location.href = '/login'; // redirect to login if not logged in
-			} else if (data == 0) {
-			  window.location.href = '/404'; // redirect to 404 if not authorized
-			}
-      if (data == 1) {
-        const userData = getCurrentUserData();
-        // console.log(userData);
-        setCurrentUserData(userData);
-      }
-      fetchCuisneDetails();
+    if (data == 2) {
+      window.location.href = '/login'; // redirect to login if not logged in
+    } else if (data == 0) {
+      window.location.href = '/404'; // redirect to 404 if not authorized
+    }
+    if (data == 1) {
+      const userData = getCurrentUserData();
+      // console.log(userData);
+      setCurrentUserData(userData);
+    }
+    fetchCuisneDetails();
   }, [currentPage, pageSize]);
 
   const fetchCuisneDetails = async () => {
-	try {
-	  const res = await getAllCrusine();
-	  if (res.status) {
-		setCuisines2(res.data);
-		const paginatedPosts = paginate(res.data, currentPage, pageSize);
-		setCuisines(paginatedPosts);
-	  } else {
-		toast.error(res.message, {
-		  position: toast.POSITION.TOP_RIGHT,
-		});
-	  }
-	} catch (err) {
-	  toast.error(err.message, {
-		position: toast.POSITION.BOTTOM_RIGHT,
-	  });
-	}
+    try {
+      const res = await getAllCrusine();
+      if (res.status) {
+        setCuisines2(res.data);
+        const paginatedPosts = paginate(res.data, currentPage, pageSize);
+        setCuisines(paginatedPosts);
+      } else {
+        toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (err) {
+      toast.error(err.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
   };
 
   const onPageChange = (page) => {
@@ -108,7 +109,7 @@ export default function Cuisine() {
                 icon: "success",
               });
               fetchCuisneDetails();
-			  setCuisinesList([]);
+              setCuisinesList([]);
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -151,13 +152,13 @@ export default function Cuisine() {
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
 
-      
+
       // Call an API or perform some other action to register the user
       const data = {
         name: name,
         description: description,
         user_id: currentUserData.id,
-        
+
       };
 
       saveCuisine(data, image[0])
@@ -168,13 +169,13 @@ export default function Cuisine() {
             setButtonState(false);
             //console.log(res);
 
-        // Reset form data
-        setName("");
-        setDescription("");
-        setImage("");
-			const paginatedPosts = paginate(res.data, currentPage, pageSize);
-			setCuisines(paginatedPosts);
-			setCuisinesList([]);
+            // Reset form data
+            setName("");
+            setDescription("");
+            setImage("");
+            const paginatedPosts = paginate(res.data, currentPage, pageSize);
+            setCuisines(paginatedPosts);
+            setCuisinesList([]);
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
             });
@@ -190,40 +191,40 @@ export default function Cuisine() {
         });
     }
   };
-//login submit close
+  //login submit close
 
-const editCuisine = (e, id) => {
-  e.preventDefault();
-  editsetModalConfirm(true);
-  getSingleCisine(id).then((res) => {
-    setCuisinesList(res.data);
-  });
-};
-
-const handleUpdateCuisine = (e) => {
-  e.preventDefault();
-  const updatedData = {
-    id: cuisinesList.id,
-    name: cuisinesList.name,
-    description: cuisinesList.description,
-  };
-  if (e.target.image.files[0]) {
-    updatedData.image = e.target.image.files[0];
-  }
-
-  updateCuisine(cuisinesList.id, updatedData)
-    .then((res) => {
-      console.log(res.data);
-      editsetModalConfirm(false);
-      fetchCuisneDetails();
-      toast.success("Cuisine updated successfully!");
-    })
-
-    .catch((err) => {
-      toast.error("Failed to update cuisine. Please try again.");
-      console.log(err);
+  const editCuisine = (e, id) => {
+    e.preventDefault();
+    editsetModalConfirm(true);
+    getSingleCisine(id).then((res) => {
+      setCuisinesList(res.data);
     });
-};
+  };
+
+  const handleUpdateCuisine = (e) => {
+    e.preventDefault();
+    const updatedData = {
+      id: cuisinesList.id,
+      name: cuisinesList.name,
+      description: cuisinesList.description,
+    };
+    if (e.target.image.files[0]) {
+      updatedData.image = e.target.image.files[0];
+    }
+
+    updateCuisine(cuisinesList.id, updatedData)
+      .then((res) => {
+        console.log(res.data);
+        editsetModalConfirm(false);
+        fetchCuisneDetails();
+        toast.success("Cuisine updated successfully!");
+      })
+
+      .catch((err) => {
+        toast.error("Failed to update cuisine. Please try again.");
+        console.log(err);
+      });
+  };
 
   const handleMenuBlur = (event) => {
     const { name, value } = event.target;
@@ -245,7 +246,7 @@ const handleUpdateCuisine = (e) => {
     setErrors(newErrors);
   };
 
-  
+
   return (
     <>
       <div className="table-part">
@@ -273,6 +274,47 @@ const handleUpdateCuisine = (e) => {
               </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
+              {cuisines.map((cuisine, index) => (
+                <tr key={cuisine.id}>
+                  <td>{index + 1}</td>
+                  <td className="chefs_pic">
+                    {cuisine.image && cuisine.image !== 'null' ?
+                      <img
+                        src={
+                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                          "/images/chef/cuisine/" +
+                          cuisine.image
+                        }
+                        alt=""
+                      />
+                      :
+                      <img
+                        src={
+                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                          "/images/placeholder.jpg"
+                        }
+                        alt=""
+                      />
+                    }
+                  </td>
+                  <td>{cuisine.name}</td>
+                  <td>
+                    {cuisine.description && cuisine.description.length > 100 ? (
+                      <ReactReadMoreReadLess
+                        charLimit={100}
+                        readMoreText={"Read more..."}
+                        readLessText={"Read less..."}
+                      >
+                        {cuisine.description}
+                      </ReactReadMoreReadLess>
+                    ) : (
+                      cuisine.description
+                    )}
+                  </td>
+
+
+=======
               {cuisines.map((cuisine,index) => (
                 <tr key={cuisine.id}>
                   <td>{++index}</td>
@@ -314,6 +356,7 @@ const handleUpdateCuisine = (e) => {
                         </a>
                       )}
                   </td>
+>>>>>>> refs/remotes/origin/main
                   <td>
                     <div className="dropdown" id="none-class">
                       <a
@@ -372,7 +415,7 @@ const handleUpdateCuisine = (e) => {
             onSubmit={handlMenuSubmit}
             className="common_form_error"
             id="menu_form"
-            
+
           >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
@@ -398,7 +441,7 @@ const handleUpdateCuisine = (e) => {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
-               {errors.description && (
+              {errors.description && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
                   {errors.description}
                 </span>
@@ -412,10 +455,10 @@ const handleUpdateCuisine = (e) => {
                 onChange={(e) => setImage(e.target.files)}
                 accept="jpg,png"
               />
-                 {errors.image && (
+              {errors.image && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
                   {errors.image}</span>
-                   )}
+              )}
             </div>
 
             <button
@@ -434,38 +477,38 @@ const handleUpdateCuisine = (e) => {
         handleClose={editmodalConfirmClose}
         staticClass="var-login"
       >
-       <div className="all-form">
-      <form className="common_form_error" id="menu_form" onSubmit={handleUpdateCuisine}>
-      <div className="login_div">
-      <label htmlFor="name">Name:</label>
-      <input
-        type="text"
-        name="allergy_name"
-        value={cuisinesList ? cuisinesList.name : ''}
-        onBlur={handleMenuBlur}
-        autoComplete="username"
-        onChange={(e) => setCuisinesList({ ...cuisinesList, name: e.target.value })}
-      />
-      {errors.name && (
-        <span className="small error text-danger mb-2 d-inline-block error_login">
-          {errors.name}
-        </span>
-      )}
-    </div>
-    <div className="login_div">
-      <label htmlFor="Description">Description:</label>
-      <textarea name="description" value={cuisinesList ? cuisinesList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setCuisinesList({ ...cuisinesList, description: e.target.value })}></textarea>
-    </div>
-    <div className="login_div">
-      <label htmlFor="Image">Image:</label>
-      <input type="file" name="image" accept="jpg,png" />
-    </div>
+        <div className="all-form">
+          <form className="common_form_error" id="menu_form" onSubmit={handleUpdateCuisine}>
+            <div className="login_div">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                name="allergy_name"
+                value={cuisinesList ? cuisinesList.name : ''}
+                onBlur={handleMenuBlur}
+                autoComplete="username"
+                onChange={(e) => setCuisinesList({ ...cuisinesList, name: e.target.value })}
+              />
+              {errors.name && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.name}
+                </span>
+              )}
+            </div>
+            <div className="login_div">
+              <label htmlFor="Description">Description:</label>
+              <textarea name="description" value={cuisinesList ? cuisinesList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setCuisinesList({ ...cuisinesList, description: e.target.value })}></textarea>
+            </div>
+            <div className="login_div">
+              <label htmlFor="Image">Image:</label>
+              <input type="file" name="image" accept="jpg,png" />
+            </div>
 
-    <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-      Update
-    </button>
-  </form>
-</div>
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
+              Update
+            </button>
+          </form>
+        </div>
       </PopupModal>
 
       {/* // Menu popup end  */}
