@@ -48,17 +48,17 @@ export default function MyProfile() {
 		setButtonState(true);
 		const userid = currentUserData.id;
 		const data = {
-			name: name,
-			surname: surname,
-			email: email,
-			phone: phone,
-			address: address,
-			passport_no: passport_no,
-			BIC: BIC,
-			IBAN: IBAN,
-			bank_name: bank_name,
-			holder_name: holder_name,
-			bank_address: bank_address,
+			name: name || '',
+			surname: surname || '',
+			email: email || '',
+			phone: phone || '',
+			address: address || '',
+			passport_no: passport_no || '',
+			BIC: BIC || '',
+			IBAN: IBAN || '',
+			bank_name: bank_name || '',
+			holder_name: holder_name || '',
+			bank_address: bank_address || '',
 		};
 
 		updateChefProfile(userid, data, image)
@@ -112,22 +112,22 @@ export default function MyProfile() {
 		setButtonState(true);
 		const id = currentUserData.id;
 		const data = {
-			about: about,
-			description: description,
-			services_type: services_type,
-			employment_status: employment_status,
-			website: website,
-			languages: languages,
-			experience: experience,
-			skills: skills,
-			favorite_chef: favorite_chef,
-			favorite_dishes: favorite_dishes,
-			love_cooking: love_cooking,
-			facebook_link: facebook_link,
-			instagram_link: instagram_link,
-			twitter_link: twitter_link,
-			linkedin_link: linkedin_link,
-			youtube_link: youtube_link
+			about: about || '',
+			description: description || '',
+			services_type: services_type || '',
+			employment_status: employment_status || '',
+			website: website || '',
+			languages: languages || '',
+			experience: experience || '', 
+			skills: skills || '',
+			favorite_chef: favorite_chef || '',
+			favorite_dishes: favorite_dishes || '',
+			love_cooking: love_cooking || '',
+			facebook_link: facebook_link || '',
+			instagram_link: instagram_link || '',
+			twitter_link: twitter_link || '',
+			linkedin_link: linkedin_link || '',
+			youtube_link: youtube_link || ''
 		};
 		UpdateChefResume(id, data, image)
 			.then(res => {
@@ -309,19 +309,19 @@ export default function MyProfile() {
 											<div className="row">
 												<div className="col-lg-4 col-md-6">
 													<label>Name</label>
-													<input type="text" name="name" value={name} onChange={(e) => setFullName(e.target.value)} />
+													<input type="text" name="name" value={name || ''} onChange={(e) => setFullName(e.target.value)} />
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Surname</label>
-													<input type="text" name="surname" value={surname} onChange={(e) => setSurName(e.target.value)} />
+													<input type="text" name="surname" value={surname || ''} onChange={(e) => setSurName(e.target.value)} />
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Email</label>
-													<input type="text" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+													<input type="text" name="email" value={email || ''} onChange={(e) => setEmail(e.target.value)} />
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Phone Number</label>
-													<input type="number" name="phone" value={phone} onChange={(e) => {
+													<input type="number" name="phone" value={phone || ''} onChange={(e) => {
 														const re = /^[0-9\b]+$/;
 														if (e.target.value === '' || re.test(e.target.value)) {
 															setPhone(e.target.value);
@@ -329,12 +329,12 @@ export default function MyProfile() {
 													}} />
 												</div>
 												<div className="col-lg-5 col-md-6">
-													<label>Adress</label>
-													<input type="text" name="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+													<label>Address</label>
+													<input type="text" name="address" value={address || ''} onChange={(e) => setAddress(e.target.value)} />
 												</div>
 												<div className="col-lg-3 col-md-6">
 													<label>ID/Passport Number</label>
-													<input type="text" name="passport_no" value={passport_no} onChange={(e) => setPassportNo(e.target.value)} />
+													<input type="text" name="passport_no" value={passport_no || ''} onChange={(e) => setPassportNo(e.target.value)} />
 												</div>
 											</div>
 										</div>
@@ -353,23 +353,23 @@ export default function MyProfile() {
 											<div className="row">
 												<div className="col-lg-4 col-md-6">
 													<label>IBAN</label>
-													<input type="text" name="BIC" value={BIC} onChange={(e) => setBIC(e.target.value)} />
-												</div>
-												<div className="col-lg-8 col-md-6">
-													<label>BIC</label>
-													<input type="text" name="IBAN" value={IBAN} onChange={(e) => setIBAN(e.target.value)} />
+													<input type="text" name="IBAN" value={IBAN || ''} onChange={(e) => setIBAN(e.target.value)} />
 												</div>
 												<div className="col-lg-8 col-md-7">
 													<label>Bank Holder Name</label>
-													<input type="text" name="holder_name" value={holder_name} onChange={(e) => setHolderName(e.target.value)} />
+													<input type="text" name="holder_name" value={holder_name || ''} onChange={(e) => setHolderName(e.target.value)} />
 												</div>
 												<div className="col-lg-4 col-md-5">
 													<label>Bank Name</label>
-													<input type="text" name="bank_name" value={bank_name} onChange={(e) => setBankName(e.target.value)} />
+													<input type="text" name="bank_name" value={bank_name || ''} onChange={(e) => setBankName(e.target.value)} />
 												</div>
 												<div className="col-lg-8 col-md-7">
-													<label>Bank Adress</label>
-													<input type="text" name="bank_address" value={bank_address} onChange={(e) => setBankAddress(e.target.value)} />
+													<label>Bank Address</label>
+													<input type="text" name="bank_address" value={bank_address || ''} onChange={(e) => setBankAddress(e.target.value)} />
+												</div>
+												<div className="col-lg-12 col-md-6">
+													<label>BIC</label>
+													<textarea name="BIC" value={BIC || ''} onChange={(e) => setBIC(e.target.value)}></textarea>
 												</div>
 												{/* <div className="col-lg-4 col-md-5">
 													<label>ID/Passport Number</label>
@@ -473,27 +473,27 @@ export default function MyProfile() {
 												<div className="row">
 													<div className="col-lg-12 col-md-12">
 														<label>Tell us about you</label>
-														<textarea name="about" value={about} onChange={(e) => setAbout(e.target.value)}></textarea>
+														<textarea name="about" value={about || ''} onChange={(e) => setAbout(e.target.value)}></textarea>
 													</div>
 													<div className="col-lg-12 col-md-12">
 														<label>What describes you best?</label>
-														<textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+														<textarea name="description" value={description || ''} onChange={(e) => setDescription(e.target.value)}></textarea>
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Type of services</label>
-														<input type="text" name="services_type" value={services_type} onChange={(e) => setServicesType(e.target.value)} />
+														<input type="text" name="services_type" value={services_type || ''} onChange={(e) => setServicesType(e.target.value)} />
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Employment Status</label>
-														<input type="text" name="employment_status" value={employment_status} onChange={(e) => setEmploymentStatus(e.target.value)} />
+														<input type="text" name="employment_status" value={employment_status || ''} onChange={(e) => setEmploymentStatus(e.target.value)} />
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Your website</label>
-														<input type="text" name="website" value={website} onChange={(e) => setWebsite(e.target.value)} />
+														<input type="text" name="website" value={website || ''} onChange={(e) => setWebsite(e.target.value)} />
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Languages</label>
-														<input type="text" name="languages" value={languages} onChange={(e) => setLanguages(e.target.value)} />
+														<input type="text" name="languages" value={languages || ''} onChange={(e) => setLanguages(e.target.value)} />
 													</div>
 												</div>
 											</div>
@@ -512,23 +512,23 @@ export default function MyProfile() {
 												<div className="row">
 													<div className="col-lg-12 col-md-12">
 														<label>I love cooking because</label>
-														<textarea name="love_cooking" value={love_cooking} onChange={(e) => setLoveCooking(e.target.value)}></textarea>
+														<textarea name="love_cooking" value={love_cooking || ''} onChange={(e) => setLoveCooking(e.target.value)}></textarea>
 													</div>
 													<div className="col-lg-12 col-md-12">
 														<label>Culinary experience</label>
-														<textarea name="experience" value={experience} onChange={(e) => setExperience(e.target.value)}></textarea>
+														<textarea name="experience" value={experience || ''} onChange={(e) => setExperience(e.target.value)}></textarea>
 													</div>
 													<div className="col-lg-12 col-md-12">
 														<label>Tell us about your favorite chefs</label>
-														<textarea name="favorite_chef" value={favorite_chef} onChange={(e) => setFavoriteChef(e.target.value)}></textarea>
+														<textarea name="favorite_chef" value={favorite_chef || ''} onChange={(e) => setFavoriteChef(e.target.value)}></textarea>
 													</div>
 													<div className="col-lg-12 col-md-12">
 														<label>Tell us about your favorite cuisines</label>
-														<textarea name="favorite_dishes" value={favorite_dishes} onChange={(e) => setFavoriteDishes(e.target.value)}></textarea>
+														<textarea name="favorite_dishes" value={favorite_dishes || ''} onChange={(e) => setFavoriteDishes(e.target.value)}></textarea>
 													</div>
 													<div className="col-lg-12 col-md-12">
 														<label>Any special skills?</label>
-														<textarea name="skills" value={skills} onChange={(e) => setSkills(e.target.value)}></textarea>
+														<textarea name="skills" value={skills || ''} onChange={(e) => setSkills(e.target.value)}></textarea>
 													</div>
 												</div>
 											</div>
@@ -548,23 +548,23 @@ export default function MyProfile() {
 												<div className="row">
 													<div className="col-lg-6 col-md-6">
 														<label>Facebook</label>
-														<input type="text" name="facebook_link" value={facebook_link} onChange={(e) => setFacebookLink(e.target.value)} />
+														<input type="text" name="facebook_link" value={facebook_link || ''} onChange={(e) => setFacebookLink(e.target.value)} />
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Instagram</label>
-														<input type="text" name="instagram_link" value={instagram_link} onChange={(e) => setInstagramLink(e.target.value)} />
+														<input type="text" name="instagram_link" value={instagram_link || ''} onChange={(e) => setInstagramLink(e.target.value)} />
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Twitter</label>
-														<input type="text" name="twitter_link" value={twitter_link} onChange={(e) => setTwitterLink(e.target.value)} />
+														<input type="text" name="twitter_link" value={twitter_link || ''} onChange={(e) => setTwitterLink(e.target.value)} />
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Linkedin</label>
-														<input type="text" name="linkedin_link" value={linkedin_link} onChange={(e) => setLinkedinLink(e.target.value)} />
+														<input type="text" name="linkedin_link" value={linkedin_link || ''} onChange={(e) => setLinkedinLink(e.target.value)} />
 													</div>
 													<div className="col-lg-6 col-md-6">
 														<label>Youtube</label>
-														<input type="text" name="youtube_link" value={youtube_link} onChange={(e) => setYoutubeLink(e.target.value)} />
+														<input type="text" name="youtube_link" value={youtube_link || ''} onChange={(e) => setYoutubeLink(e.target.value)} />
 													</div>
 												</div>
 											</div>

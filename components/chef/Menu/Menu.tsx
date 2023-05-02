@@ -75,10 +75,14 @@ export default function Menus2(props) {
     }
     if (data == 1) {
       const userData = getCurrentUserData();
-      setCurrentUserData(userData);
-      getSingleChefMenuData(id);
-      getAllCrusineData();
-      fetchdishes(userData.id);
+      if(userData.approved_by_admin == 'yes'){
+        setCurrentUserData(userData);
+        getSingleChefMenuData(id);
+        getAllCrusineData();
+        fetchdishes(userData.id);
+      }else {
+        window.location.href = "/404";
+      }
     }
   };
 

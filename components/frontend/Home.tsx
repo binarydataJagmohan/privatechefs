@@ -249,7 +249,7 @@ export default function Home() {
                     <div className="col-sm-4">
                     <div className="banner-text home-page-banner-text">
                     <h1>Creating memories with food</h1>
-                    <div className="banner-btn"><a href="/startjourney">Start your journey</a></div>
+                    <div className="banner-btn"><a href="/bookings/step1">Start your journey</a></div>
                     </div>
                     </div>
                 </div>    

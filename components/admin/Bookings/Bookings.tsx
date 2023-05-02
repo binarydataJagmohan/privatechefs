@@ -103,8 +103,8 @@ export default function Bookings() {
               </tr>
             </thead>
             <tbody>
-              {bookingUsers.map((user) => (
-                <tr>
+              {bookingUsers.map((user,index) => (
+                <tr key={index}>
                   <td>{user.id}</td>
                   <td>{user.name + " " + user.surname}</td>
                   <td>{user.date}</td>
