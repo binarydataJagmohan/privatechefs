@@ -3263,3 +3263,6 @@ table#alpabet_table th::after {
 td.abc {
   max-width: 100px;
 }
+.chkbox label {
+  padding-left: 12px;
+}
