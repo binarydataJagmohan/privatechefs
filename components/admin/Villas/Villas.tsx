@@ -518,7 +518,7 @@ export default function Villas() {
 				handleClose={modalConfirmClose}
 				staticClass="var-login"
 			>
-				<div className="all-form">
+				<div className="all-form" id="form_id">
 					<form
 						className="common_form_error"
 						id="menu_form"
@@ -828,13 +828,13 @@ export default function Villas() {
 								</div>
 							</div>
 						</div>
-						<div className='mt-4'>
+						{/* <div className='mt-4'> */}
 							<button
 								type="submit"
 								className="btn-send w-100"
 								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
 							</button>
-						</div>
+						{/* </div> */}
 					</form>
 				</div>
 			</PopupModal>
@@ -846,7 +846,7 @@ export default function Villas() {
 				handleClose={editmodalConfirmClose}
 				staticClass="var-login"
 			>
-				<div className="all-form">
+				<div className="all-form" id="form_id">
 					<form
 						className="common_form_error"
 						id="menu_form"
