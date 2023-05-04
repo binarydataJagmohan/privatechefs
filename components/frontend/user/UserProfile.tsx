@@ -5,6 +5,9 @@ import { updateUserProfile, getSingleUserProfile } from '../../../lib/userapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken, removeStorageData } from "../../../lib/session";
+import TimezonePicker from 'react-bootstrap-timezone-picker';
+import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
+
 
 export default function UserProfile() {
 
@@ -128,6 +131,11 @@ export default function UserProfile() {
       });
   }
 
+  const handleTimezoneChange = (selectedTimezone:any) => {
+    setTimezone(selectedTimezone);
+  };
+
+
   function handleLogout() {
     removeToken(); 
     removeStorageData();
@@ -195,7 +203,7 @@ export default function UserProfile() {
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
                       <label>Timezone</label>
-                      <input type="date" name="timezone" value={timezone || ''} placeholder="Timezone" onChange={(e) => setTimezone(e.target.value)} />
+                      <TimezonePicker name="timezone" value={timezone || ''} placeholder="Timezone" onChange={handleTimezoneChange} />
                     </div>
                     <div className="col-lg-6 col-md-6">
                       <label>Currency</label>
@@ -204,7 +212,7 @@ export default function UserProfile() {
 
                   </div>
                   <div className="checkbox-size text-left mt-3 mb-3"> 
-                  <input type="checkbox" name="invoice_details" value={invoice_details || ''} className="checkbox-" onChange={(e) => setInvoiceDetails(e.target.checked ? "1" : "0")}  />
+                  <input type="checkbox" name="invoice_details" value="1" className="checkbox-" onChange={(e) => setInvoiceDetails(e.target.checked ? "1" : "0")}  checked={invoice_details === "1"} />
                     <label> Invoice details</label>
                   </div>
                   <label className="mt-3">Company Name</label>

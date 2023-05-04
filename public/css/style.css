@@ -3275,3 +3275,16 @@ span.react-read-more-read-less.react-read-more-read-less-less {
 div#receipt_table .table>tbody tr td ul li {
   background: none;
 }
+div#form_id {
+  padding-top: 0;
+}
+textarea#form-description {
+  margin-bottom: 0;
+  height: 100px;
+}
+div#villa_header {
+  padding-bottom: 0px;
+}
+div#villa_modal {
+  padding-top: 0;
+}
