@@ -3259,6 +3259,13 @@ table#alpabet_table th::after {
 .v-img img {
   width: 100%;
 }
+
+td.abc {
+  max-width: 100px;
+}
+.chkbox label {
+  padding-left: 12px;
+}
 span.react-read-more-read-less.react-read-more-read-less-more {
   color: #ff4e00;
 }
