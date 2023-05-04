@@ -333,7 +333,7 @@ export default function MyProfile() {
 													<input type="text" name="address" value={address || ''} onChange={(e) => setAddress(e.target.value)} />
 												</div>
 												<div className="col-lg-3 col-md-6">
-													<label>ID/Passport Number</label>
+													<label>ID/Passport No.</label>
 													<input type="text" name="passport_no" value={passport_no || ''} onChange={(e) => setPassportNo(e.target.value)} />
 												</div>
 											</div>
