@@ -35,15 +35,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/chef/bookings": [
+    "/user/userprofile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/bookings.js"
-    ],
-    "/chef/menus": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/chef/menus.js"
+      "static/chunks/pages/user/userprofile.js"
     ]
   },
   "ampFirstPages": []

@@ -269,11 +269,11 @@ export default function Bookings() {
         // Validate form data
         const newErrors: Errors = {};
 		alert("sdf")
-        if (!amount) {
-          newErrors.amount = "Amount is required";
-        } else if (menuItems.length) {
-          newErrors.menuItems = "Please choose alteast one Menu";
-        }
+        // if (!amount) {
+        //   newErrors.amount = "Amount is required";
+        // } else if (menuItems.length) {
+        //   newErrors.menuItems = "Please choose alteast one Menu";
+        // }
         
 
         setErrors(errors);
