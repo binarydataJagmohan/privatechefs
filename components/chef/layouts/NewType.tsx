@@ -1,0 +1,1 @@
+export type NewType = JSX.Element;
