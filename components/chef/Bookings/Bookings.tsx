@@ -266,39 +266,7 @@ export default function Bookings() {
 	const handleBookingApplyJobSubmit = (event:any) => {
         event.preventDefault();
     
-        // Validate form data
-        const newErrors: Errors = {};
-		alert("sdf")
-        // if (!amount) {
-        //   newErrors.amount = "Amount is required";
-        // } else if (menuItems.length) {
-        //   newErrors.menuItems = "Please choose alteast one Menu";
-        // }
         
-
-        setErrors(errors);
-    
-        // Submit form data if there are no errors
-        if (Object.keys(errors).length === 0) {
-          // setButtonState(true);
-           // Call an API or perform some other action to register the user
-           const data = {
-             amount: amount,
-             menu: menu,
-           };
-        //    login(data)
-		// 	.then(res => {
-		// 		if(res.status==true){
-					
-		// 		} else {
-		// 			toast.info(res.message, {
-		// 				position: toast.POSITION.TOP_RIGHT
-		// 			});
-				
-		// 		}
-		// 	})
-         	
-        }
         
     };
 
