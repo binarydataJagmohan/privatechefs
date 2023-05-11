@@ -35,10 +35,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/user/userprofile": [
+    "/chef/myprofile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/user/userprofile.js"
+      "static/chunks/pages/chef/myprofile.js"
     ]
   },
   "ampFirstPages": []

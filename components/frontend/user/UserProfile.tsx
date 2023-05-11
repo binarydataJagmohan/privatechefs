@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { removeToken, removeStorageData } from "../../../lib/session";
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
+import { Loader } from '@googlemaps/js-api-loader';
 
 export default function UserProfile() {
 
@@ -41,6 +42,8 @@ export default function UserProfile() {
   const [tax_id, setTaxId] = useState("");
   const [image, setImage] = useState("");
   const [buttonStatus, setButtonState] = useState(false);
+  const [lat,setLat ] = useState("");
+  const [lng, setLng] = useState("");
 
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
     id: '',
@@ -74,7 +77,9 @@ export default function UserProfile() {
       business_phoneno: business_phoneno || '',
       company_name: company_name || '',
       vat_no: vat_no || '',
-      tax_id: tax_id || ''
+      tax_id: tax_id || '',
+      lat:lat,
+      lng:lng,
     };
 
     updateUserProfile(userid, data, image)
@@ -112,7 +117,45 @@ export default function UserProfile() {
     }
   };
 
+  // useEffect(() => {
+  //   getUserData();
+  // }, []);
+
   useEffect(() => {
+
+    const apiKey = 'AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU'; // replace with your actual API key
+    const loader = new Loader({
+      apiKey,
+      version: 'weekly',
+      libraries: ['places']
+    });
+
+    loader.load().then(() => {
+      const input: HTMLInputElement | null = document.getElementById('address-input') as HTMLInputElement | null;
+      if (input) {
+        const autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', () => {
+        
+          const place = autocomplete.getPlace();
+
+        // Get the address
+        if (place && place.formatted_address && place.geometry && place.geometry.location) {
+          // Get the address
+          const address = place.formatted_address;
+          const lat = place.geometry.location.lat();
+          const lng = place.geometry.location.lng();
+  
+          setAddress(address)
+          setLat(lat.toString());
+          setLng(lng.toString());
+          // Do something with the selected place
+        }
+          // Do something with the selected place
+        });
+      }
+    }).catch((error) => {
+      console.error('Failed to load Google Maps API', error);
+    });
     getUserData();
   }, []);
 
@@ -260,7 +303,14 @@ export default function UserProfile() {
                       <div className='row'>
                         <div className='col-md-4'>
                           <label>Address</label>
-                          <input type="text" name="address" value={address || ''} placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                          <input type="text" id="address-input" name="address" value={address || ''} placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                          {/* <input
+                      id="address-input"
+                      type="text"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      required
+                    /> */}
                         </div>
                         <div className='col-md-4'>
                           <label>City</label>
