@@ -2,9 +2,14 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
   "/chef/applied-booking": "pages/chef/applied-booking.js",
   "/user/booking": "pages/user/booking.js",
   "/chef/myprofile": "pages/chef/myprofile.js",
   "/chef/bookings": "pages/chef/bookings.js",
   "/chef/menus": "pages/chef/menus.js"
+=======
+  "/admin/servicechoice": "pages/admin/servicechoice.js",
+  "/chef/menu/[id]": "pages/chef/menu/[id].js"
+>>>>>>> 626e0316507b2f989a6f832072db1afbb1c50245
 }

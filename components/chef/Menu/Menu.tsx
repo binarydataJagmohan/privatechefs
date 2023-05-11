@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import PopupModal from '../../commoncomponents/PopupModal';
 import Image from 'next/image'
-export default function Menus2(props:any) {
+export default function Menus2(props: any) {
 
   let id = props.MenuId;
 
@@ -35,29 +35,29 @@ export default function Menus2(props:any) {
   interface Errors {
     menuname?: string;
     cuisine?: string;
-    name?:string;
-    minprice?:string;
-    maxprice?:string;
-    minperson?:string;
-    maxperson?:string;
+    name?: string;
+    minprice?: string;
+    maxprice?: string;
+    minperson?: string;
+    maxperson?: string;
     // add more properties as needed
   }
 
   interface DishSearch {
     dish_category_id?: string;
     id?: number;
-    item_name?:string;
-    type?:string;
-    menu_item_id?:string
+    item_name?: string;
+    type?: string;
+    menu_item_id?: string
   }
 
   interface CuisineData {
     id?: number;
-    name?:string;
+    name?: string;
   }
 
   interface Menu {
-    name?:string;
+    name?: string;
   }
 
 
@@ -72,7 +72,7 @@ export default function Menus2(props:any) {
     role: '',
     approved_by_admin: ''
   });
-  
+
   const [errors, setErrors] = useState<Errors>({});
   const [buttonStatus, setButtonState] = useState(false);
   const [name, setName] = useState("");
@@ -82,34 +82,35 @@ export default function Menus2(props:any) {
   const [description, setDescription] = useState('');
   const [cuisineid, setCuisineDataId] = useState('');
   const [image, setImage] = useState('');
-  const [previewimage,setPreviewimage] = useState('');
+  const [previewimage, setPreviewimage] = useState('');
   const [Uploadimage, setUploadImage] = useState('');
 
   const [minperson, setMinPerson] = useState('');
   const [maxperson, setMaxPerson] = useState('');
   const [minprice, setMinPice] = useState('');
-  const [maxprice,setMaxPice] = useState('');
+  const [maxprice, setMaxPice] = useState('');
   const [comments, setcomments] = useState('');
-
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [chefalldishes, setChefAllDish] = useState<DishSearch>({});
-
   const [searchInputValue, setSearchInputValue] = useState("");
   const [searchResultsVisible, setSearchResultsVisible] = useState(true);
-  
   const [dishtype, setDishType] = useState('');
-
   const [dishid, setDishId] = useState('');
-
   const [starter_items, setStartItems] = useState('');
   const [firstcourse_items, setFirstCourseItems] = useState('');
   const [maincourse_items, setMainCourseItems] = useState('');
   const [desert_items, setDesertItems] = useState('');
-  
+  const [showActualImage, setShowActualImage] = useState(false);
+
+
+
+
 
   useEffect(() => {
     getUserData();
   }, []);
-  
+
 
   const modalConfirmClose = () => {
     setModalConfirm(false);
@@ -125,7 +126,7 @@ export default function Menus2(props:any) {
     }
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
-      if(userData.approved_by_admin == 'yes'){
+      if (userData.approved_by_admin == 'yes') {
         getSingleChefMenuData(id);
         getAllCrusineData();
         fetchdishes(userData.id);
@@ -137,20 +138,20 @@ export default function Menus2(props:any) {
           surname: userData.surname,
           role: userData.role,
           approved_by_admin: userData.approved_by_admin,
-  
+
         });
-      }else {
+      } else {
         window.location.href = "/404";
       }
     }
   };
 
-  const fetchdishes = async (user_id:any) => {
-    
+  const fetchdishes = async (user_id: any) => {
+
     try {
       const res = await getDishes(user_id);
       if (res.status) {
-    
+
         setChefAllDish(res.data);
 
         //console.log(res.data);
@@ -166,41 +167,51 @@ export default function Menus2(props:any) {
     }
   };
 
-  const handleImageChange = (event:any) => {
+  // const handleImageChange = (event: any) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+
+  //   reader.onload = () => {
+  //     setUploadImage(event.target.files);
+  //     setPreviewImage(reader.result as string);
+  //     $('.image_actual').toggleClass('d-block d-none');
+  //     $('.image_preview').toggleClass('d-none d-block');
+  //   };
+
+  //   reader.readAsDataURL(file);
+  // };
+
+  const handleImageChange = (event: any) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = () => {
       setUploadImage(event.target.files);
-      const result = reader.result;
-      if (typeof result === 'string') {
-        setPreviewimage(result);
-      }
-      $('.image_actual').toggleClass('d-block d-none');
-      $('.image_preview').toggleClass('d-none d-block');
-      
+      setPreviewImage(reader.result as string);
+      setShowActualImage(false);
     };
 
     reader.readAsDataURL(file);
   };
 
+
   const getAllCrusineData = async () => {
     getAllCrusine()
-    .then(res => {
-      if(res.status==true){
-        setCuisineData(res.data);
-      } else {
-        //   toast.error(res.message, {
-        //   position: toast.POSITION.TOP_RIGHT
-        // });
-      }
-    })
-    .catch(err => {
+      .then(res => {
+        if (res.status == true) {
+          setCuisineData(res.data);
+        } else {
+          //   toast.error(res.message, {
+          //   position: toast.POSITION.TOP_RIGHT
+          // });
+        }
+      })
+      .catch(err => {
         console.log(err);
-    });
+      });
   }
 
-  const getSingleChefMenuData = async (id:any) => {
+  const getSingleChefMenuData = async (id: any) => {
     getSingleChefMenu(id)
       .then((res) => {
         if (res.status == true) {
@@ -219,8 +230,8 @@ export default function Menus2(props:any) {
           setFirstCourseItems(res.menudata.firstcourse_items);
           setMainCourseItems(res.menudata.maincourse_items);
           setDesertItems(res.menudata.desert_items);
-        
-          
+
+
         } else {
           //   toast.error(res.message, {
           //   position: toast.POSITION.TOP_RIGHT
@@ -234,40 +245,40 @@ export default function Menus2(props:any) {
 
   //dishes hanle submit start
 
-  const handlMenuItemsSubmit = (event:any) => {
+  const handlMenuItemsSubmit = (event: any) => {
     event.preventDefault();
 
-      const data = {
-        menu_id: id,
-        dish_id : dishid,
-        user_id: currentUserData.id,
-        type: dishtype,
-      };
-      saveChefMenuItems(data)
-        .then((res) => {
-          if (res.status == true) {
-            setDishes(res.dishes);
-            setSearchInputValue('');
-            setDishType('');
-            setSearchResultsVisible(false);
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            
-            setName('');
-          } else {
-            toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    
+    const data = {
+      menu_id: id,
+      dish_id: dishid,
+      user_id: currentUserData.id,
+      type: dishtype,
+    };
+    saveChefMenuItems(data)
+      .then((res) => {
+        if (res.status == true) {
+          setDishes(res.dishes);
+          setSearchInputValue('');
+          setDishType('');
+          setSearchResultsVisible(false);
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+
+          setName('');
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   };
 
-  const deleteMenuitem = (id:any) => {
+  const deleteMenuitem = (id: any) => {
     swal({
       title: "Are you sure?",
       text: "You want to delete the menu item",
@@ -284,14 +295,14 @@ export default function Menus2(props:any) {
               swal("Your menu item has been deleted!", {
                 icon: "success",
               });
-             
+
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
               });
             }
           })
-          .catch((err) => {});
+          .catch((err) => { });
       } else {
       }
     });
@@ -299,7 +310,7 @@ export default function Menus2(props:any) {
 
   //menu submit start
 
-  const handlMenuSubmit = (event:any) => {
+  const handlMenuSubmit = (event: any) => {
     event.preventDefault();
 
     // Validate form data
@@ -312,25 +323,25 @@ export default function Menus2(props:any) {
     if (!cuisineid) {
       newErrors.cuisine = "Cuisine is required";
     }
-    
+
     setErrors(errors);
 
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
 
       setButtonState(true);
-       // Call an API or perform some other action to register the user
-       const data = {
-         menu_id: id,
-         name: menuname,
-         description: description,
-         cuisineid : cuisineid,
-         user_id : currentUserData.id
+      // Call an API or perform some other action to register the user
+      const data = {
+        menu_id: id,
+        name: menuname,
+        description: description,
+        cuisineid: cuisineid,
+        user_id: currentUserData.id
 
-       };
-       updateChefMenu(data,Uploadimage[0])
-      .then(res => {
-        if(res.status==true){
+      };
+      updateChefMenu(data, Uploadimage[0])
+        .then(res => {
+          if (res.status == true) {
             setModalConfirm(false);
             setButtonState(false);
             setMenuName(res.menudata.menu_name);
@@ -340,28 +351,28 @@ export default function Menus2(props:any) {
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT
             });
-         
-        } else {
+
+          } else {
             setButtonState(false);
             toast.error(res.message, {
-                position: toast.POSITION.TOP_RIGHT
-              });
-          
-        }
-      })
-      .catch(err => {
+              position: toast.POSITION.TOP_RIGHT
+            });
+
+          }
+        })
+        .catch(err => {
           console.log(err);
-      });
+        });
     }
-    
+
   };
 
-  const handleMenuBlur = (event:any) => {
+  const handleMenuBlur = (event: any) => {
     const { menuname, value } = event.target;
     const newErrors = { ...errors };
 
     switch (menuname) {
-      
+
       case "name":
         if (!value) {
           newErrors.name = "Name is required";
@@ -370,12 +381,12 @@ export default function Menus2(props:any) {
         }
         break;
       case "cuisineid":
-          if (!value) {
-            newErrors.cuisine = "Cuisine is required";
-          } else {
-            delete newErrors.cuisine;
-          }
-          break;
+        if (!value) {
+          newErrors.cuisine = "Cuisine is required";
+        } else {
+          delete newErrors.cuisine;
+        }
+        break;
 
       default:
         break;
@@ -386,9 +397,9 @@ export default function Menus2(props:any) {
 
   //menu submit close
 
-//delete menu start
+  //delete menu start
 
-  const deleteSingleMenu = (id:any) => {
+  const deleteSingleMenu = (id: any) => {
     swal({
       title: "Are you sure?",
       text: "You want to delete the menu",
@@ -404,7 +415,7 @@ export default function Menus2(props:any) {
                 icon: "success",
               });
               setTimeout(() => {
-                  window.location.href = '/chef/menus';
+                window.location.href = '/chef/menus';
               }, 1000);
             } else {
               toast.error(res.message, {
@@ -412,17 +423,17 @@ export default function Menus2(props:any) {
               });
             }
           })
-          .catch((err) => {});
+          .catch((err) => { });
       } else {
       }
     });
   };
-//delete menu start
+  //delete menu start
 
 
   //PersonPriceSubmit submit start
 
-  const handlPersonPriceSubmit = (event:any) => {
+  const handlPersonPriceSubmit = (event: any) => {
     event.preventDefault();
 
     // Validate form data
@@ -443,25 +454,25 @@ export default function Menus2(props:any) {
     if (!maxperson) {
       newErrors.maxperson = "Max Person is required";
     }
-    
+
     setErrors(errors);
 
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
-       // Call an API or perform some other action to register the user
-       const data = {
-         menu_id: id,
-         min_person: minperson,
-         max_person: maxperson,
-         min_price : minprice,
-         max_price : maxprice,
-         comments	 : comments
+      // Call an API or perform some other action to register the user
+      const data = {
+        menu_id: id,
+        min_person: minperson,
+        max_person: maxperson,
+        min_price: minprice,
+        max_price: maxprice,
+        comments: comments
 
-       };
-       updateChefPersonPrice(data)
-      .then(res => {
-        if(res.status==true){
+      };
+      updateChefPersonPrice(data)
+        .then(res => {
+          if (res.status == true) {
             setButtonState(false);
             setMinPerson(res.menudata.min_person);
             setMaxPerson(res.menudata.max_person);
@@ -471,29 +482,29 @@ export default function Menus2(props:any) {
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT
             });
-         
-        } else {
+
+          } else {
             setButtonState(false);
             toast.error(res.message, {
-                position: toast.POSITION.TOP_RIGHT
-              });
-          
-        }
-      })
-      .catch(err => {
+              position: toast.POSITION.TOP_RIGHT
+            });
+
+          }
+        })
+        .catch(err => {
           console.log(err);
-      });
+        });
     }
-    
+
   };
 
-  const handlPersonPriceBlur = (event:any) => {
+  const handlPersonPriceBlur = (event: any) => {
     const { name, value } = event.target;
     const newErrors = { ...errors };
 
     switch (name) {
-      
-      
+
+
       case "minprice":
         if (!value) {
           newErrors.minprice = "Min Price is required";
@@ -502,12 +513,12 @@ export default function Menus2(props:any) {
         }
         break;
       case "maxprice":
-          if (!value) {
-            newErrors.maxprice = "Max Price is required";
-          } else {
-            delete newErrors.maxprice;
-          }
-          break;
+        if (!value) {
+          newErrors.maxprice = "Max Price is required";
+        } else {
+          delete newErrors.maxprice;
+        }
+        break;
 
       case "minperson":
         if (!value) {
@@ -518,12 +529,12 @@ export default function Menus2(props:any) {
         break;
 
       case "maxperson":
-      if (!value) {
-        newErrors.maxperson = "Max Person is required";
-      } else {
-        delete newErrors.maxperson;
-      }
-      break;
+        if (!value) {
+          newErrors.maxperson = "Max Person is required";
+        } else {
+          delete newErrors.maxperson;
+        }
+        break;
 
       default:
         break;
@@ -535,10 +546,10 @@ export default function Menus2(props:any) {
   //menus submit close
 
   function renderSearchResults() {
-    const query = searchInputValue.toLowerCase();   
-    const type = dishtype; 
+    const query = searchInputValue.toLowerCase();
+    const type = dishtype;
     const matchingData = Object.values(chefalldishes)
-   
+
       .filter((dish) => dish.type === type && dish.item_name.toLowerCase().includes(query))
       .reduce((acc, dish) => {
         acc[dish.id] = dish.item_name;
@@ -546,14 +557,14 @@ export default function Menus2(props:any) {
       }, {});
 
     return (
-      <div id="search-results" style={{height: Object.keys(matchingData).length > 0 ? '' : 'auto',display: searchResultsVisible ? 'block' : 'none'}}>
+      <div id="search-results" style={{ height: Object.keys(matchingData).length > 0 ? '' : 'auto', display: searchResultsVisible ? 'block' : 'none' }}>
         <ul>
           {Object.keys(matchingData).length > 0 ? (
             Object.entries(matchingData).map(([id, name]) => (
               <li key={id} onClick={() => addItem(id, name as string)} role="button">
-              {name as string}
-            </li>
-          
+                {name as string}
+              </li>
+
             ))
           ) : (
             <li>
@@ -566,67 +577,67 @@ export default function Menus2(props:any) {
   }
 
 
-  function handleSearchInputChange(event:any) {
-    
+  function handleSearchInputChange(event: any) {
+
     setSearchInputValue(event.target.value.trim());
     setDishType(event.target.name);
     setSearchResultsVisible(true);
-    
+
   }
 
-  function addItem(id:any, name:any) {
+  function addItem(id: any, name: any) {
     setSearchInputValue(name)
     setSearchResultsVisible(false)
     setDishId(id)
   }
 
-  function handleDishCount(e:any) {
+  function handleDishCount(e: any) {
 
-      if(e.target.name == 'starter_items'){
-          setStartItems(e.target.value);
-      }
+    if (e.target.name == 'starter_items') {
+      setStartItems(e.target.value);
+    }
 
-      if(e.target.name == 'firstcourse_items'){
-        setFirstCourseItems(e.target.value);
-      }
+    if (e.target.name == 'firstcourse_items') {
+      setFirstCourseItems(e.target.value);
+    }
 
-      if(e.target.name == 'maincourse_items'){
-        setMainCourseItems(e.target.value);
-      }
-      if(e.target.name == 'desert_items'){
-        setDesertItems(e.target.value);
-      }
+    if (e.target.name == 'maincourse_items') {
+      setMainCourseItems(e.target.value);
+    }
+    if (e.target.name == 'desert_items') {
+      setDesertItems(e.target.value);
+    }
 
-      const data = {
-        menu_id: props.MenuId,
-        dishcount: e.target.value,
-        name: e.target.name,
+    const data = {
+      menu_id: props.MenuId,
+      dishcount: e.target.value,
+      name: e.target.name,
 
-      };
-      updateChefDishCount(data)
-    .then(res => {
-      if(res.status==true){
+    };
+    updateChefDishCount(data)
+      .then(res => {
+        if (res.status == true) {
 
           toast.success(res.message, {
             position: toast.POSITION.TOP_RIGHT
           });
-        
-      } else {
+
+        } else {
           setButtonState(false);
           toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
-            });
-        
-      }
-    })
-    .catch(err => {
+            position: toast.POSITION.TOP_RIGHT
+          });
+
+        }
+      })
+      .catch(err => {
         console.log(err);
-    });
-    
+      });
+
   }
 
 
-  
+
 
   return (
     <>
@@ -634,12 +645,12 @@ export default function Menus2(props:any) {
         <div className="row">
           <div className="col-lg-8 col-md-12">
             <h2>
-             
-              {menuname ? menuname : '' }
+
+              {menuname ? menuname : ''}
               <a href="#" className="t-icon">
                 <i className="fa-solid fa-pencil" onClick={() => setModalConfirm(true)} ></i>
               </a>
-              <a href="#" className="t-icon"  onClick={(e) =>deleteSingleMenu(id)}>
+              <a href="#" className="t-icon" onClick={(e) => deleteSingleMenu(id)}>
                 <i className="fa-solid fa-trash"></i>
               </a>
             </h2>
@@ -693,7 +704,7 @@ export default function Menus2(props:any) {
               </li>
             </ul>
             <div className="tab-content" id="pills-tabContent">
-              
+
               <div
                 className="tab-pane fade show active"
                 id="pills-profile"
@@ -720,7 +731,7 @@ export default function Menus2(props:any) {
                           >
                             Starter
                           </button>
-                          
+
                         </h2>
                         <div
                           id="collapseOne"
@@ -730,7 +741,7 @@ export default function Menus2(props:any) {
                         >
                           <div className="accordion-body">
                             <div className="all-form" id="all_menu_dishes_form">
-                              
+
                               <form
                                 onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
@@ -739,29 +750,29 @@ export default function Menus2(props:any) {
                                   <input
                                     type="text"
                                     name="starter"
-                                    value={searchInputValue} onChange={handleSearchInputChange} 
+                                    value={searchInputValue} onChange={handleSearchInputChange}
                                     placeholder="Search starter..."
-                                   
+
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
-                                  
 
-                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="starter_items" value={starter_items} style={{height:'46px'}}>
-                                      <option value="0">Choose Dishes</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="3">3</option>
-                                      <option value="4">4</option>
-                                      <option value="5">5</option>
-                                      <option value="6">6</option>
-                                      <option value="7">7</option>
-                                      <option value="8">8</option>
-                                      <option value="9">9</option>
-                                      <option value="10">10</option>
-  
+
+                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="starter_items" value={starter_items} style={{ height: '46px' }}>
+                                    <option value="0">Choose Dishes</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+
                                   </select>
-                                  
+
 
                                   <button
                                     type="submit"
@@ -769,15 +780,15 @@ export default function Menus2(props:any) {
                                   >
                                     Add Starter Course
                                   </button>
-                                  
+
                                 </div>
                               </form>
                               <div className="" id="compare_countries_result">
-                                  {searchInputValue && renderSearchResults()}
+                                {searchInputValue && renderSearchResults()}
                               </div>
                             </div>
 
-                            
+
 
                             {dishesdata &&
                               dishesdata.length > 0 &&
@@ -853,7 +864,7 @@ export default function Menus2(props:any) {
                                   <input
                                     type="text"
                                     name="firstcourse"
-                                    value={searchInputValue} onChange={handleSearchInputChange} 
+                                    value={searchInputValue} onChange={handleSearchInputChange}
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
@@ -863,19 +874,19 @@ export default function Menus2(props:any) {
                                     </span>
                                   )}
 
-                                    <select className="w-25 mx-2 dishes_name_input"  onChange={handleDishCount} name="firstcourse_items" value={firstcourse_items} style={{height:'46px'}}>
-                                      <option value="0">Choose Dishes</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="3">3</option>
-                                      <option value="4">4</option>
-                                      <option value="5">5</option>
-                                      <option value="6">6</option>
-                                      <option value="7">7</option>
-                                      <option value="8">8</option>
-                                      <option value="9">9</option>
-                                      <option value="10">10</option>
-  
+                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="firstcourse_items" value={firstcourse_items} style={{ height: '46px' }}>
+                                    <option value="0">Choose Dishes</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+
                                   </select>
 
                                   <button
@@ -887,7 +898,7 @@ export default function Menus2(props:any) {
                                 </div>
                               </form>
                               <div className="" id="compare_countries_result">
-                                  {searchInputValue && renderSearchResults()}
+                                {searchInputValue && renderSearchResults()}
                               </div>
                             </div>
 
@@ -967,25 +978,25 @@ export default function Menus2(props:any) {
                                   <input
                                     type="text"
                                     name="maincourse"
-                                    value={searchInputValue} onChange={handleSearchInputChange} 
+                                    value={searchInputValue} onChange={handleSearchInputChange}
 
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
-                                 
-                                   <select className="w-25 mx-2 dishes_name_input"  onChange={handleDishCount} name="maincourse_items" value={maincourse_items} style={{height:'46px'}}>
-                                      <option value="0">Choose Dishes</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="3">3</option>
-                                      <option value="4">4</option>
-                                      <option value="5">5</option>
-                                      <option value="6">6</option>
-                                      <option value="7">7</option>
-                                      <option value="8">8</option>
-                                      <option value="9">9</option>
-                                      <option value="10">10</option>
-  
+
+                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="maincourse_items" value={maincourse_items} style={{ height: '46px' }}>
+                                    <option value="0">Choose Dishes</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+
                                   </select>
 
                                   <button
@@ -997,7 +1008,7 @@ export default function Menus2(props:any) {
                                 </div>
                               </form>
                               <div className="" id="compare_countries_result">
-                                  {searchInputValue && renderSearchResults()}
+                                {searchInputValue && renderSearchResults()}
                               </div>
                             </div>
 
@@ -1078,38 +1089,38 @@ export default function Menus2(props:any) {
                                   <input
                                     type="text"
                                     name="desert"
-                                    value={searchInputValue} onChange={handleSearchInputChange} 
+                                    value={searchInputValue} onChange={handleSearchInputChange}
 
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
-                                 
-                                    <select className="w-25 mx-2"  onChange={handleDishCount} name="desert_items" value={desert_items} style={{height:'48px'}}>
-                                      <option value="0">Choose Dishes</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="3">3</option>
-                                      <option value="4">4</option>
-                                      <option value="5">5</option>
-                                      <option value="6">6</option>
-                                      <option value="7">7</option>
-                                      <option value="8">8</option>
-                                      <option value="9">9</option>
-                                      <option value="10">10</option>
-  
+
+                                  <select className="w-25 mx-2" onChange={handleDishCount} name="desert_items" value={desert_items} style={{ height: '48px' }}>
+                                    <option value="0">Choose Dishes</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+
                                   </select>
 
                                   <button
                                     type="submit"
                                     className="btn-send w-50"
-                                   
+
                                   >
                                     Add Desert
                                   </button>
                                 </div>
                               </form>
                               <div className="" id="compare_countries_result">
-                                  {searchInputValue && renderSearchResults()}
+                                {searchInputValue && renderSearchResults()}
                               </div>
                             </div>
 
@@ -1163,35 +1174,35 @@ export default function Menus2(props:any) {
                 role="tabpanel"
                 aria-labelledby="pills-contact-tab"
               >
-                <form onSubmit={handlPersonPriceSubmit}  className="common_form_error" id="menu_form">
+                <form onSubmit={handlPersonPriceSubmit} className="common_form_error" id="menu_form">
                   <div className="row mt-4 all-form">
                     <div className="col-lg-3 col-md-6">
                       <label>Minimum Person</label>
-                      <input type="number" name='minperson' value={minperson || ''} onChange={(e) => setMinPerson(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='1'/>
+                      <input type="number" name='minperson' value={minperson || ''} onChange={(e) => setMinPerson(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='1' />
                       {errors.minperson && <span className="small error text-danger mb-2 d-inline-block ">{errors.minperson}</span>}
                     </div>
                     <div className="col-lg-3 col-md-6">
                       <label>Maximum Person</label>
-                      <input type="number" name='maxperson' value={maxperson || ''} onChange={(e) => setMaxPerson(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='10'/>
+                      <input type="number" name='maxperson' value={maxperson || ''} onChange={(e) => setMaxPerson(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='10' />
                       {errors.maxperson && <span className="small error text-danger mb-2 d-inline-block ">{errors.maxperson}</span>}
                     </div>
                     <div className="col-lg-3 col-md-6">
                       <label>Price for 6</label>
-                          <input type="number" name='minprice' value={minprice || ''} onChange={(e) => setMinPice(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='50'/>
-                          {errors.minprice && <span className="small error text-danger mb-2 d-inline-block ">{errors.minprice}</span>}
+                      <input type="number" name='minprice' value={minprice || ''} onChange={(e) => setMinPice(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='50' />
+                      {errors.minprice && <span className="small error text-danger mb-2 d-inline-block ">{errors.minprice}</span>}
                     </div>
                     <div className="col-lg-3 col-md-6">
                       <label>Price for 7 to 20</label>
-                      <input type="number" name='maxprice' value={maxprice || ''} onChange={(e) => setMaxPice(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='100'/>
-                          {errors.maxprice && <span className="small error text-danger mb-2 d-inline-block ">{errors.maxprice}</span>}
+                      <input type="number" name='maxprice' value={maxprice || ''} onChange={(e) => setMaxPice(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='100' />
+                      {errors.maxprice && <span className="small error text-danger mb-2 d-inline-block ">{errors.maxprice}</span>}
                     </div>
                     <div className="col-lg-12 col-md-6 mt-2">
                       <label>Add Comments</label>
                       <textarea name="comments" value={comments || ''} onChange={(e) => setcomments(e.target.value)} onBlur={handlPersonPriceBlur} ></textarea>
                     </div>
                     <div className="col-lg-12 text-end col-md-6 mt-2">
-                    <button type="submit" className="btn-send w-20" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
-                      
+                      <button type="submit" className="btn-send w-20" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
+
                     </div>
                   </div>
                 </form>
@@ -1211,60 +1222,60 @@ export default function Menus2(props:any) {
 
 
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
-              {/* <div className="text-center popup-img">
+        {/* <div className="text-center popup-img">
                   <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
               </div> */}
-              <div className="all-form" > 
-              <form onSubmit={handlMenuSubmit}  className="common_form_error" id="menu_form">
-                  
-                  <div className='login_div'>
-                      <label htmlFor="name">Name:</label>
-                      <input type="text" name='name' value={menuname} onChange={(e) => setMenuName(e.target.value)} onBlur={handleMenuBlur} autoComplete="username"/>
-                      {errors.menuname && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.menuname}</span>}
-                  </div>
-                  <div className='login_div'>
-                      <label htmlFor="Description">Description:</label>
-                      <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onBlur={handleMenuBlur} ></textarea>
-                      
-                  </div>
-                  
-                  <div className='login_div'>
-                      <label htmlFor="Cuisine">Cuisine:</label>
-                      <select aria-label="Default select example" value={cuisineid} onChange={(e) => setCuisineDataId(e.target.value)}>
-                          <option value=''>Select Cuisine</option>
-                          {cuisinedata.length > 0 ? cuisinedata.map((cuisine, index) => (
-                              <option key={cuisine.id} value={cuisine.id}>{cuisine.name}</option>
-                          )) : ''}
-                      </select>
+        <div className="all-form" >
+          <form onSubmit={handlMenuSubmit} className="common_form_error" id="menu_form">
 
-                      {errors.cuisine && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.cuisine}</span>}
-                  </div>
+            <div className='login_div'>
+              <label htmlFor="name">Name:</label>
+              <input type="text" name='name' value={menuname} onChange={(e) => setMenuName(e.target.value)} onBlur={handleMenuBlur} autoComplete="username" />
+              {errors.menuname && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.menuname}</span>}
+            </div>
+            <div className='login_div'>
+              <label htmlFor="Description">Description:</label>
+              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onBlur={handleMenuBlur} ></textarea>
 
-                  <div className='login_div'>
-                      <label htmlFor="Image">Image:</label>
-                        <input type="file" name="imge" onChange={handleImageChange} accept="jpg,png"/>
-                        {/* {preview && <img src={preview} alt="Preview" width={100} height={100} />} */}
-                  </div>
+            </div>
 
-                  <div className="image_actual mb-4 d-block">
-                    {image && (
-                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL+'/images/chef/menu/'+image} width={100} height={100} />           
-                    )}
-                  </div>
+            <div className='login_div'>
+              <label htmlFor="Cuisine">Cuisine:</label>
+              <select aria-label="Default select example" value={cuisineid} onChange={(e) => setCuisineDataId(e.target.value)}>
+                <option value=''>Select Cuisine</option>
+                {cuisinedata.length > 0 ? cuisinedata.map((cuisine, index) => (
+                  <option key={cuisine.id} value={cuisine.id}>{cuisine.name}</option>
+                )) : ''}
+              </select>
 
-                
-                  <div className="image_preview mb-4 d-none">
-                    {previewimage && (
-                        <img src={previewimage} alt="Preview" width={100} height={100} />
-                    )}
-                  </div>
+              {errors.cuisine && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.cuisine}</span>}
+            </div>
+            <div className='login_div'>
+              <label htmlFor="Image">Image:</label>
+              <input type="file" name="image" accept="jpg,png" onChange={handleImageChange} />
+              {previewImage && (
+                <div className="image_preview mb-4 d-block">
+                  <img src={previewImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                </div>
+              )}
+              {image && (
+                <div className="image_actual mb-4 d-block">
+                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/public/images/chef/menu/' + image} width={100} height={100} />
+                </div>
+              )}
+            </div>
+            <div className="image_preview mb-4 d-none">
+              {previewimage && (
+                <img src={previewimage} alt="Preview" width={100} height={100} />
+              )}
+            </div>
 
-                  <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}</button>
-              </form>
-                              
+            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}</button>
+          </form>
+
         </div>
 
-        </PopupModal>
+      </PopupModal>
 
       <ToastContainer />
     </>

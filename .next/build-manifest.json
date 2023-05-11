@@ -25,6 +25,7 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+<<<<<<< HEAD
     "/chef/applied-booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -49,6 +50,17 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/user/booking.js"
+=======
+    "/admin/servicechoice": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/servicechoice.js"
+    ],
+    "/chef/menu/[id]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/menu/[id].js"
+>>>>>>> 626e0316507b2f989a6f832072db1afbb1c50245
     ]
   },
   "ampFirstPages": []

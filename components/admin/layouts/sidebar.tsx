@@ -48,6 +48,12 @@ export default function Sidebar(): JSX.Element {
                             <i className="fa-solid fa-caret-right"></i> 
                         </div>
                     </a>
+                    <a href="/" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-house"></i></span>  
+                            <span className="menu-collapsed">Home</span> 
+                        </div>
+                    </a> 
                     <a href="/admin/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-boxes-stacked"></i></span>  
@@ -76,6 +82,13 @@ export default function Sidebar(): JSX.Element {
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  
                             <span className="menu-collapsed">Chefs</span> 
+                        </div>
+                    </a>
+
+                    <a href="/admin/users" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/users' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  
+                            <span className="menu-collapsed">Users</span> 
                         </div>
                     </a>
                     {/*<a href="#submenu1" data-toggle="collapse" aria-expanded="false" className="list-group-item list-group-item-action flex-column align-items-start">
