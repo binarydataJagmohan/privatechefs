@@ -3285,3 +3285,24 @@ div#villa_modal {
 .common_booking>tbody tr td ul li {
   background: none !important;
 }
+
+.nav-item.active a {
+  color: black;
+}
+
+i.fa-solid.fa-ellipsis:hover {
+  background: #eeeeee;
+  padding: 3px 3px;
+}
+
+li.nav-item.active {
+  color: var(--color_1) !important;
+  background: rgba(186, 134, 57, 0.1);
+  border: none;
+  border-radius: 10px;
+  padding-left: 15px;
+}
+
+i.fa-solid.fa-ellipsis {
+  cursor: pointer;
+}

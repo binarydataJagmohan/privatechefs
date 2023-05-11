@@ -15,6 +15,7 @@ export default function Step6() {
     name: string;
     surname: string;
     email: string;
+    
   }
   
 
@@ -26,7 +27,7 @@ export default function Step6() {
   const [adults, setAdults] = useState("");
   const [teens, setTeens] = useState("");
   const [childrens, setChildren] = useState("");
-  const [location, setLocation] = useState("");
+  const [address, setLocation] = useState("");
   const [lat,setLat ] = useState("");
   const [lng, setLng] = useState("");
 
@@ -63,6 +64,9 @@ export default function Step6() {
           const address = place.formatted_address;
           const lat = place.geometry.location.lat();
           const lng = place.geometry.location.lng();
+
+          console.log(lat);
+          console.log(lng);
   
           setLocation(address)
           setLat(lat.toString());
@@ -112,6 +116,8 @@ export default function Step6() {
               setName(user.name);
               setSurname(user.surname);
               setEmail(user.email);
+              setLocation(user.address || '');
+              
             }
             
           }
@@ -148,7 +154,7 @@ export default function Step6() {
           adults:adults,
           childrens:childrens,
           teens:teens,
-          location:location,
+          address:address,
           lat:lat,
           lng:lng,
         }
@@ -175,8 +181,6 @@ export default function Step6() {
                   toastId: 'error'
               });
           });
-		    
-
       }else {
 
         swal({
@@ -287,7 +291,7 @@ export default function Step6() {
                     <input
                       id="address-input"
                       type="text"
-                      value={location}
+                      value={address}
                       onChange={(e) => setLocation(e.target.value)}
                       required
                     />
