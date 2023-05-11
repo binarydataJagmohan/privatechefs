@@ -22,11 +22,12 @@ interface Allergy {
   id: number;
   allergy_name: string;
   description: string;
-  image: null;
+  image: String;
 }
 
 export default function Allergy() {
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [buttonStatus, setButtonState] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [editmodalConfirm, editsetModalConfirm] = useState(false);
@@ -34,14 +35,18 @@ export default function Allergy() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  // const [image, setImage] = useState<File | null>(null);
+
   const [deleteAllergy, setdeleteAllergy] = useState(null);
   const [allergis, setAllergis] = useState([]);
   const [allergis2, setAllergis2] = useState([]);
   const [newImage, setNewImage] = useState("");
   const [showFullDescription, setShowFullDescription] = useState(new Array(allergis.length).fill(false));
+  const [previewImage, setPreviewImage] = useState("");
+
 
   // const [allergyList, setAllergyList] = useState<Allergy[]>([]);
-  const [allergyList, setAllergyList] = useState<Allergy>({ id: 0, allergy_name: '', description: '', image: null });
+  const [allergyList, setAllergyList] = useState<Allergy>({ id: 0, allergy_name: '', description: '', image: '' });
 
 
 
@@ -161,12 +166,10 @@ export default function Allergy() {
     if (!name) {
       errors.name = "Name is required";
     }
-    if (!description) {
-      errors.description = "description is required";
-    }
+
     if (!image) {
       errors.image = "Image is required";
-    }
+
     setErrors(errors);
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
@@ -178,7 +181,7 @@ export default function Allergy() {
         description: description,
         user_id: currentUserData.id,
       };
-      allergy(data, image[0])
+      allergy(data, image)
         .then((res) => {
           if (res.status == true) {
             console.log(data);
@@ -189,9 +192,10 @@ export default function Allergy() {
             setName("");
             setDescription("");
             setImage("");
+            setPreviewImage("");
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
             setAllergis(paginatedPosts);
-            setAllergyList({ id: 0, allergy_name: '', description: '', image: null });
+            setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
             });
@@ -208,6 +212,16 @@ export default function Allergy() {
     }
   };
   //login submit close
+
+  const handleImageChange = (event: any) => {
+    event.preventDefault();
+    const selectedFile = event.target.files[0];
+    setImage(selectedFile);
+    console.log(image);
+
+    setPreviewImage(URL.createObjectURL(selectedFile));
+  };
+
 
   const editAllergy = (e: any, id: any) => {
     e.preventDefault();
@@ -239,22 +253,6 @@ export default function Allergy() {
         console.log(err);
       });
   };
-
-  // const handleInputChange = (e: any) => {
-  //   const { name, value } = e.target;
-  //   if (name === "image") {
-  //     const file = e.target.files[0];
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       setPreview(reader.result as string);
-  //     };
-  //   }
-  //   setAllergyList((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (name === "image") {
@@ -276,7 +274,6 @@ export default function Allergy() {
   const handleMenuBlur = (event: any) => {
     const { name, value } = event.target;
     const newErrors: any = { ...errors };
-
     switch (name) {
       case "name":
         if (!value) {
@@ -285,13 +282,27 @@ export default function Allergy() {
           delete newErrors.name;
         }
         break;
-
+      case "image":
+        if (!value) {
+          newErrors.image = "Image is required";
+        } else {
+          delete newErrors.image;
+        }
+        break;
       default:
         break;
     }
-
     setErrors(newErrors);
   };
+  
+
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setImage("");
+    setErrors({});
+  };
+
 
   return (
     <>
@@ -300,12 +311,22 @@ export default function Allergy() {
         <ul className="table_header_button_section p-r">
           {/* <li><button className="table-btn">Total</button></li> */}
           <li className="right-li">
-            <button
+            {/* <button
               className="table-btn border-radius round-white"
               onClick={() => setModalConfirm(true)}
             >
               Add{" "}
+            </button> */}
+            <button
+              className="table-btn border-radius round-white"
+              onClick={() => {
+                resetForm();
+                setModalConfirm(true);
+              }}
+            >
+              Add
             </button>
+
           </li>
         </ul>
         <div className="table-box" id="ffff">
@@ -435,11 +456,11 @@ export default function Allergy() {
                 onBlur={handleMenuBlur}
                 autoComplete="username"
               />
-              {errors_name.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors_name.name}
-                </span>
-              )}
+              {errors.name && (
+          <span className="small error text-danger mb-2 d-inline-block error_login">
+            {errors.name}
+          </span>
+        )}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
@@ -449,29 +470,33 @@ export default function Allergy() {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
-              {errors_name.description && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors_name.description}
-                </span>
-              )}
+             
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
+              {/* <input
+                type="file"
+                name="image"
+                onChange={(e: any) => setImage(e.target.files)}
+                accept="jpg,png"
+              /> */}
               <input
                 type="file"
                 name="image"
                 onChange={(e: any) => setImage(e.target.files)}
                 accept="jpg,png"
               />
-              {errors_name.image && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors_name.image}
-                </span>
+              {previewImage && (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  style={{ width: "20%", height: "auto" }}
+                />
               )}
             </div>
             <button
               type="submit"
-              className="btn-send w-100"
+              className="btn-send w-100 mt-3"
               disabled={buttonStatus}
             >
               Submit
@@ -521,12 +546,15 @@ export default function Allergy() {
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
               <input type="file" name="image" accept="jpg,png" onChange={handleInputChange} />
-              {newImage ? ( // Conditionally render the new image or the default image
+              {/* {newImage ? (
                 <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
               ) : (
-                <img src={process.env.NEXT_PUBLIC_IMAGE_URL +
-                  "/images/admin/allergy/" +
-                  allergyList.image} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                allergyList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/service/${allergyList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
+              )} */}
+              {newImage ? (
+                <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
+              ) : (
+                allergyList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/allergy/${allergyList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
               )}
             </div>
             <button

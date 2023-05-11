@@ -3,7 +3,7 @@ import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import {getUserBookingId } from "../../../lib/adminapi";
-import { getUserChefByBooking,getUserChefFilterByBooking,getAllChefMenu } from "../../../lib/chefapi";
+import { getUserChefByBooking,getUserChefFilterByBooking,getAllChefMenu,saveChefAppliedBookingJob } from "../../../lib/chefapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -62,12 +62,12 @@ export default function Bookings() {
 
   interface Errors {
 	amount?: string;
-	menu?:string;
+	selectedmenu?:string;
   }
 
 
   const [bookingUsers, setBookingUser] = useState([]);
-  const [modalConfirm, setModalConfirm] = useState(true);
+  const [modalConfirm, setModalConfirm] = useState(false);
   const [sidebarConfirm,setSidebarConfirm] = useState(false);
   const [booking, setBooking] = useState<Booking>({});
   const [totalBooking, setTotalBooking] = useState([]);
@@ -94,8 +94,8 @@ export default function Bookings() {
 
   const [amount, setAmount] = useState('');
 
-  const [menuItems, setMenuItems] = useState([]);
-  
+  const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
+
   
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -123,7 +123,7 @@ export default function Bookings() {
     if (data == 1) {
 	const userData = getCurrentUserData() as CurrentUserData;
       if(userData.approved_by_admin == 'yes'){
-		fetchBookingUserDetails();
+		fetchBookingUserDetails(userData.id);
         getAllChefMenuData(userData.id)
         setCurrentUserData({
           ...userData,
@@ -144,9 +144,9 @@ export default function Bookings() {
 	
   }, []);
 
-  const fetchBookingUserDetails = async () => {
+  const fetchBookingUserDetails = async (id:any) => {
     try {
-      const res = await getUserChefByBooking();
+      const res = await getUserChefByBooking(id);
       if (res.status) {
 		setTotalBooking(res.data);
         const paginatedPosts = paginate(res.data, currentPage, pageSize);
@@ -166,7 +166,7 @@ export default function Bookings() {
 
   const onPageChange = (page:any) => {
     setCurrentPage(page);
-    getUserChefByBooking()
+    getUserChefByBooking(currentUserData.id)
     .then(res => {
       if(res.status==true){
 		setTotalBooking(res.data);
@@ -230,12 +230,12 @@ export default function Bookings() {
 	return moment(value).format('D/M/YY');
   }
   
-  const handleButtonClick = (index:any,type:string) => {
+  const handleButtonClick = (index:any,type:string,id:string) => {
     setActiveIndex(index);
 	if(type == 'all'){
-		fetchBookingUserDetails();
+		fetchBookingUserDetails(id);
 	}else {
-		getUserChefFilterByBooking(type)
+		getUserChefFilterByBooking(id,type)
 			.then(res => {
 			if(res.status==true){
 				setTotalBooking(res.data);
@@ -263,64 +263,106 @@ export default function Bookings() {
 		});
 	}
 
-	const handleBookingApplyJobSubmit = (event:any) => {
-        event.preventDefault();
-    
-        
-        
-    };
 
 	const handleBookingApplyAmount = (e:any) => {
 		const { name, value } = e.target;
-		let errorsCopy = { ...errors };
+		const newErrors = { ...errors };
 		switch (name) {
 		  case "amount":
 			if (value.trim() === "") {
-			  errorsCopy.amount = "Amount is required";
+				newErrors.amount = "Amount is required";
 			} else if (!/^\d+$/.test(value.trim())) {
-			  errorsCopy.amount = "Amount should be a number";
+				newErrors.amount = "Amount should be a number";
 			} else {
-			  delete errorsCopy.amount;
+			  delete newErrors.amount;
 			}
 			break;
 		  default:
 			break;
 		}
-		setErrors(errorsCopy);
+		setErrors(newErrors);
 	};
 	  
 	const handleMenuItemChange = (event:any, menuItemId:any) => {
 		const isChecked = event.target.checked;
-		setMenuItems((prevMenuItems:any) =>
+		setSelectedMenu((prevMenuItems:any) =>
 		  isChecked
 			? [...prevMenuItems, menuItemId]
 			: prevMenuItems.filter((item:any) => item !== menuItemId)
 		);
 		
-	  };
+	};
 	  
 	  const handleMenuItemBlur = (event:any) => {
-		const { name, value } = event.target;
-		let error = "";
-	  
-		if (!value.trim()) {
-		  error = "Please select at least one menu item";
-		}
-	  
-		setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+		
 	  };
 	  
+	  const handleBookingApplyJobSubmit = (event:any) => {
+		event.preventDefault();
+		
+		// Validate form data
+		const newErrors: Errors = {};
+
+		if (!amount) {
+		  newErrors.amount = "Amount is required";
+		}
+
+		if (!selectedmenu || selectedmenu.length === 0) {
+			newErrors.selectedmenu = "Please select at least one menu item";
+		}
+		setErrors(newErrors);
+		
+	
+		// Submit form data if there are no errors
+		if (( amount && selectedmenu.length >= 1) ) {
+
+		   const data = {
+			 amount: amount,
+			 menu: selectedmenu.join(','),
+			 booking_id : bookingid,
+			 chef_id : currentUserData.id
+	
+		   };
+		   saveChefAppliedBookingJob(data)
+			.then(res => {
+				if(res.status==true){
+					setModalConfirm(false);
+					fetchBookingUserDetails(currentUserData.id);
+					toast.success(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+					
+				} else {
+				
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				
+				}
+		  	})
+			.catch(err => {
+				console.log(err);
+			});
+		}
+		
+	  };
+
+	const resetFields = () => {
+		setAmount('');
+		setSelectedMenu([]);
+		console.log(selectedmenu);
+	}
 
   return (
     <>
       <div className="table-part">
-        <h2>Bookings</h2>
+        <h2 className="mb-4">Avaialable Bookings</h2>
 		
 		<ul className="table_header_button_section">
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(0,'all')}
+				onClick={() => handleButtonClick(0,'all',currentUserData.id)}
 				>
 				Total
 				</button>
@@ -328,7 +370,7 @@ export default function Bookings() {
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(1,'upcoming')}
+				onClick={() => handleButtonClick(1,'upcoming',currentUserData.id)}
 				>
 				Upcoming
 				</button>
@@ -336,7 +378,7 @@ export default function Bookings() {
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(2,'cancelled')}
+				onClick={() => handleButtonClick(2,'cancelled',currentUserData.id)}
 				>
 				Cancelled
 				</button>
@@ -344,28 +386,31 @@ export default function Bookings() {
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(3,'completed')}
+				onClick={() => handleButtonClick(3,'completed',currentUserData.id)}
 				>
 				Completed
 				</button>
 			</li>
 			</ul>
         <div className="table-box">
+		{bookingUsers.length > 0 ?
           <table className="table table-borderless common_booking">
             <thead>
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Customer</th>
+				<th scope="col">User</th>
                 <th scope="col">Date Requested</th>
                 <th scope="col">Booking Date</th>
                 <th scope="col">Address</th>
                 <th scope="col">Category</th>
-                <th scope="col">User</th>
+               
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
+				
               {bookingUsers.map((user:any,index) =>  {
 
 					const datesString = user.dates;
@@ -378,12 +423,6 @@ export default function Bookings() {
 						<tr key={index}>
 						<td>{index+1}</td>
 						<td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
-
-						<td>{formatDate(user.latest_created_at)}</td>
-						
-						<td>{user.category == 'onetime' ? formatDate(user.dates) : output }</td>
-						<td>{user.location}</td>	
-						<td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
 						<td className="chefs_pic">
 							{user.pic ?  <img
 							src={
@@ -400,6 +439,12 @@ export default function Bookings() {
 							/>}
 							
 						</td>
+						<td>{formatDate(user.latest_created_at)}</td>
+						
+						<td>{user.category == 'onetime' ? formatDate(user.dates) : output }</td>
+						<td>{user.location}</td>	
+						<td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
+						
 						<td>{user.booking_status}</td>
 
 						
@@ -431,7 +476,7 @@ export default function Bookings() {
 										<a
 											className="dropdown-item"
 											href="#"
-											onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); }}
+											onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields()}}
 										>
 											Apply
 										</a>
@@ -444,6 +489,9 @@ export default function Bookings() {
               })}
             </tbody>
           </table>
+		  :
+		  <p>No Booking Records Found</p>
+		  }
         </div>
       </div>
 
@@ -455,7 +503,7 @@ export default function Bookings() {
           />  
 
       
-	  <div className="offcanvas-part"> 
+	 	<div className="offcanvas-part"> 
 			<div className="offcanvas offcanvas-end"  id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
 			<div className="offcanvas-header">
 				<h5 id="offcanvasRightLabel">Booking Details</h5>
@@ -669,14 +717,14 @@ export default function Bookings() {
         <div className="popup-part new-modala">
           <h2 className="title-pop up-move">Booking #{bookingid}</h2>
           	<div className="offers">
-			  <form onSubmit={handleBookingApplyJobSubmit} className="common_form_error" id="login_form">  
+			  <form onSubmit={handleBookingApplyJobSubmit} className="common_form_error" id="">  
             	<div className="row">
 					<div className="col-sm-6 col-12">
 						<div className="all-form">
 						<div className='login_div'>
 							<label className="f-w-4">Chef’s Offer:</label>
 							
-							<input type="text" id="name" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} onBlur={handleBookingApplyAmount} placeholder="Enter Amount"/>
+							<input type="text" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} onBlur={handleBookingApplyAmount} placeholder="Enter Amount"/>
 								{errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.amount}</span>}
 									</div>
 						</div>
@@ -690,33 +738,36 @@ export default function Bookings() {
 							Please pick one to send to the customer
 						</p>
 						</div>
-
-						<div className="row px-4">
-						{menu.length ? (
-								menu.map((menuItem, index) => (
-									<div key={index} className="form-check col-6">
-									<input
-										className="form-check-input"
-										type="checkbox"
-										value={menuItem.id}
-										id={`menuItem-${index}`}
-										onChange={(e) => handleMenuItemChange(e, menuItem.id)}
-										onBlur={handleMenuItemBlur}
-									/>
-									<label className="form-check-label" htmlFor={`menuItem-${index}`}>
-										{menuItem.menu_name}
-									</label>
-									
-									</div>
-								))
-								) : (
-								<p>No menu items found</p>
-						)}
-						
-						</div>
+						<div className='login_div'>			
+							<div className="row px-4">
+							{menu.length ? (
+									menu.map((menuItem, index) => (
+										<div key={index} className="form-check col-6">
+										<input
+											className="form-check-input"
+											type="checkbox"
+											value={menuItem.id}
+											id={`menuItem-${index}`}
+											onChange={(e) => handleMenuItemChange(e, menuItem.id)}
+											onBlur={handleMenuItemBlur}
+											checked={selectedmenu.includes(menuItem.id)}
+										/>
+										<label className="form-check-label" htmlFor={`menuItem-${index}`}>
+											{menuItem.menu_name}
+										</label>
+										
+										</div>
+									))
+									) : (
+									<p>No menu items found</p>
+							)}
+							
+							</div>
+							{errors.selectedmenu && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.selectedmenu}</span>}
+						</div>	
 						<div className="text-right">
 						<div className="banner-btn">
-							{/* <a href="#">Send Request</a> */}
+						
 							<button id="btn_offer" type="submit">Send Request</button>
 						</div>
 						</div>
@@ -726,6 +777,7 @@ export default function Bookings() {
           	</div>
         </div>
       </PopupModal>
+	  <ToastContainer/>
     </>
   );
 }

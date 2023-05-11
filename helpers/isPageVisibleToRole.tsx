@@ -28,6 +28,7 @@ export function isPageVisibleToRole(pageName: string): number {
       "admin-cuisine": ['admin'],
       "admin-bookings": ['admin'],
       "chef-bookings": ['chef'],
+      "user-bookings": ['user'],
       "receipt": ["chef"],
     };
 

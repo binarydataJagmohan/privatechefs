@@ -137,7 +137,7 @@ export default function UserProfileThree() {
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                 </div>
                             </a>
-                            <a href="/user/userprofiletwo">
+                            <a href="/user/booking">
                                 <div className="profile-cols mt-4 ">
                                     <h4>My Bookings</h4>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>

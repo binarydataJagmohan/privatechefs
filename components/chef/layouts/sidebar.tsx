@@ -102,6 +102,12 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                 
+                    <a href="/" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {if (currentUserData.approved_by_admin === 'no') {e.preventDefault(); AdminApprovalInfoAlert()}}}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-house"></i></span>  
+                            <span className="menu-collapsed">Home</span> 
+                        </div>
+                    </a>
 
                     <a href="/chef/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {if (currentUserData.approved_by_admin === 'no') {e.preventDefault(); AdminApprovalInfoAlert()}}}>
                         <div className="d-flex ">
@@ -114,9 +120,17 @@ export default function Sidebar(): JSX.Element {
                     <a href="/chef/bookings" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/bookings' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {if (currentUserData.approved_by_admin === 'no') {e.preventDefault(); AdminApprovalInfoAlert()}}}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>  
-                            <span className="menu-collapsed">Bookings</span> 
+                            <span className="menu-collapsed">Available Bookings</span> 
                         </div>
                     </a>
+
+                    <a href="/chef/applied-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/applied-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {if (currentUserData.approved_by_admin === 'no') {e.preventDefault(); AdminApprovalInfoAlert()}}}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>  
+                            <span className="menu-collapsed">Applied Bookings</span> 
+                        </div>
+                    </a>
+
                     <a href="/chef/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {if (currentUserData.approved_by_admin === 'no') {e.preventDefault(); AdminApprovalInfoAlert()}}}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file"></i></span>  

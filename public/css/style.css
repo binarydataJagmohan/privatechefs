@@ -3285,3 +3285,13 @@ div#villa_modal {
 .common_booking>tbody tr td ul li {
   background: none !important;
 }
+#btn_offer {
+    background: var(--background_5);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-weight: var(--banner_btn_wt);
+    font-size: var(--banner_btn_font_size);
+    line-height: var(--banner_btn_line_height);
+    color: var(--color_4);
+    border: none;
+}
