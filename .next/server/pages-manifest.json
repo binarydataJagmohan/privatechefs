@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chef/menu/[id]": "pages/chef/menu/[id].js",
-  "/admin/servicechoice": "pages/admin/servicechoice.js"
+  "/admin/servicechoice": "pages/admin/servicechoice.js",
+  "/chef/menu/[id]": "pages/chef/menu/[id].js"
 }

@@ -18,11 +18,6 @@ type Employee = {
   [key: string]: any; // 👈️ variable key
 };
 
-interface FormErrors {
-  name?: string;
-  description?: string;
-  image?: string;
-}
 interface Allergy {
   id: number;
   allergy_name: string;
@@ -144,7 +139,7 @@ export default function Allergy() {
                 icon: "success",
               });
               fetchAllergyDetails();
-              setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
+              setAllergyList({ id: 0, allergy_name: '', description: '', image: null });
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -171,9 +166,10 @@ export default function Allergy() {
     if (!name) {
       errors.name = "Name is required";
     }
-    // if (!description) {
-    //   errors.description = "Description is required";
-    // }
+
+    if (!image) {
+      errors.image = "Image is required";
+
     setErrors(errors);
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
@@ -487,7 +483,7 @@ export default function Allergy() {
               <input
                 type="file"
                 name="image"
-                onChange={handleImageChange}
+                onChange={(e: any) => setImage(e.target.files)}
                 accept="jpg,png"
               />
               {previewImage && (
