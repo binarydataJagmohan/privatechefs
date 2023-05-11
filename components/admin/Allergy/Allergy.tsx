@@ -17,12 +17,19 @@ import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 type Employee = {
   [key: string]: any; // 👈️ variable key
 };
+
+interface Allergy {
+  id: number;
+  allergy_name: string;
+  description: string;
+  image: null;
+}
+
 export default function Allergy() {
   const [errors, setErrors] = useState({});
   const [buttonStatus, setButtonState] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [editmodalConfirm, editsetModalConfirm] = useState(false);
-  
   const [currentUserData, setCurrentUserData] = useState({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -30,22 +37,30 @@ export default function Allergy() {
   const [deleteAllergy, setdeleteAllergy] = useState(null);
   const [allergis, setAllergis] = useState([]);
   const [allergis2, setAllergis2] = useState([]);
+  const [newImage, setNewImage] = useState("");
   const [showFullDescription, setShowFullDescription] = useState(new Array(allergis.length).fill(false));
-  
-  const [allergyList, setAllergyList] = useState([]);
+
+  // const [allergyList, setAllergyList] = useState<Allergy[]>([]);
+  const [allergyList, setAllergyList] = useState<Allergy>({ id: 0, allergy_name: '', description: '', image: null });
+
+
+
+
+  const [preview, setPreview] = useState<null | string>(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
-  const errors_name: any = {errors};
-  const allergy_List: any = {allergyList};
+  const errors_name: any = { errors };
+  const allergy_List: any = { allergyList };
 
-  const toggleDescription = (index:any) => {
+  const toggleDescription = (index: any) => {
     const newShowFullDescription = [...showFullDescription];
     newShowFullDescription[index] = !newShowFullDescription[index];
     setShowFullDescription(newShowFullDescription);
   };
 
-  
+
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -59,48 +74,48 @@ export default function Allergy() {
     editsetModalConfirm(false);
   };
 
- 
+
 
   useEffect(() => {
 
     const data = isPageVisibleToRole('admin-allergy');
-			if (data == 2) {
-			  window.location.href = '/login'; // redirect to login if not logged in
-			} else if (data == 0) {
-			  window.location.href = '/404'; // redirect to 404 if not authorized
-			}
-      if (data == 1) {
-        const userData = getCurrentUserData();
-        // console.log(userData);
-        setCurrentUserData(userData);
-      }
+    if (data == 2) {
+      window.location.href = '/login'; // redirect to login if not logged in
+    } else if (data == 0) {
+      window.location.href = '/404'; // redirect to 404 if not authorized
+    }
+    if (data == 1) {
+      const userData = getCurrentUserData();
+      // console.log(userData);
+      setCurrentUserData(userData);
+    }
     fetchAllergyDetails();
   }, [currentPage, pageSize]);
 
   const fetchAllergyDetails = async () => {
-	try {
-	  const res = await getAllergyDetails();
-	  if (res.status) {
-		setAllergis2(res.data);
-		const paginatedPosts = paginate(res.data, currentPage, pageSize);
-		setAllergis(paginatedPosts);
-	  } else {
-		toast.error(res.message, {
-		  position: toast.POSITION.TOP_RIGHT,
-		});
-	  }
-	} catch (err:any) {
-	  toast.error(err.message, {
-		position: toast.POSITION.BOTTOM_RIGHT,
-	  });
-	}
+    try {
+      const res = await getAllergyDetails();
+      if (res.status) {
+        setAllergis2(res.data);
+        const paginatedPosts = paginate(res.data, currentPage, pageSize);
+        setAllergis(paginatedPosts);
+      } else {
+        toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+    } catch (err: any) {
+      toast.error(err.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
   };
 
-  const onPageChange = (page:any) => {
+  const onPageChange = (page: any) => {
     setCurrentPage(page);
   };
 
-  const handleDelete = (e:any, id:any) => {
+  const handleDelete = (e: any, id: any) => {
     e.preventDefault();
     swal({
       title: "Are you sure?",
@@ -119,7 +134,7 @@ export default function Allergy() {
                 icon: "success",
               });
               fetchAllergyDetails();
-			  setAllergyList([]);
+              setAllergyList({ id: 0, allergy_name: '', description: '', image: null });
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -139,37 +154,30 @@ export default function Allergy() {
 
   //login submit start
 
-  const handlMenuSubmit = (event:any) => {
+  const handlMenuSubmit = (event: any) => {
     event.preventDefault();
-
     // Validate form data
     const errors: any = {};
     if (!name) {
       errors.name = "Name is required";
     }
-
     if (!description) {
       errors.description = "description is required";
     }
-
     if (!image) {
       errors.image = "Image is required";
     }
     setErrors(errors);
-
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
-
-      const currentUserData:any = {};
+      const currentUserData: any = {};
       // Call an API or perform some other action to register the user
       const data = {
         name: name,
         description: description,
         user_id: currentUserData.id,
-        
       };
-
       allergy(data, image[0])
         .then((res) => {
           if (res.status == true) {
@@ -177,14 +185,13 @@ export default function Allergy() {
             setModalConfirm(false);
             setButtonState(false);
             //console.log(res);
-
-        // Reset form data
-        setName("");
-        setDescription("");
-        setImage("");
-			const paginatedPosts = paginate(res.data, currentPage, pageSize);
-			setAllergis(paginatedPosts);
-			setAllergyList([]);
+            // Reset form data
+            setName("");
+            setDescription("");
+            setImage("");
+            const paginatedPosts = paginate(res.data, currentPage, pageSize);
+            setAllergis(paginatedPosts);
+            setAllergyList({ id: 0, allergy_name: '', description: '', image: null });
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
             });
@@ -200,48 +207,75 @@ export default function Allergy() {
         });
     }
   };
-//login submit close
+  //login submit close
 
-const editAllergy = (e:any, id:any) => {
-  e.preventDefault();
-  editsetModalConfirm(true);
-  getSingleAllergy(id).then((res) => {
-    setAllergyList(res.allergy);
-  });
-};
-
-const handleUpdateAllergy = (e:any) => {
-  e.preventDefault();
-  const allergyList: any = {};
-  const updatedData: any = {
-    id: allergyList.id,
-    allergy_name: allergyList.allergy_name,
-    description: allergyList.description,
-  };
-  
-  if (e.target.image.files[0]) {
-    allergyList
-    updatedData.image = e.target.image.files[0];
-  }
-
-  updateAllergy(allergyList.id, updatedData)
-    .then((res) => {
-      console.log(res.data);
-      editsetModalConfirm(false);
-      fetchAllergyDetails();
-      setAllergyList([]);
-      toast.success("Allergy updated successfully!");
-    })
-
-    .catch((err) => {
-      toast.error("Failed to update allergy. Please try again.");
-      console.log(err);
+  const editAllergy = (e: any, id: any) => {
+    e.preventDefault();
+    editsetModalConfirm(true);
+    getSingleAllergy(id).then((res) => {
+      setAllergyList(res.allergy);
+      console.log(res)
     });
-};
+  };
 
-  const handleMenuBlur = (event:any) => {
+  const handleUpdateAllergy = (e: any) => {
+    e.preventDefault();
+    const updatedData = { ...allergyList };
+    // Get the image file
+    const imageFile = e.target.image.files[0];
+    if (imageFile) {
+      updatedData.image = imageFile;
+    }
+    updateAllergy(updatedData)
+      .then((res) => {
+        console.log(res.data);
+        editsetModalConfirm(false);
+        fetchAllergyDetails();
+        setAllergyList(updatedData);
+        toast.success("Allergy updated successfully!");
+      })
+      .catch((err) => {
+        toast.error("Failed to update allergy. Please try again.");
+        console.log(err);
+      });
+  };
+
+  // const handleInputChange = (e: any) => {
+  //   const { name, value } = e.target;
+  //   if (name === "image") {
+  //     const file = e.target.files[0];
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => {
+  //       setPreview(reader.result as string);
+  //     };
+  //   }
+  //   setAllergyList((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    if (name === "image") {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setPreview(reader.result as string);
+        setNewImage(reader.result as string); // Set the new image URL here
+      };
+    }
+    setAllergyList((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+
+  const handleMenuBlur = (event: any) => {
     const { name, value } = event.target;
-    const newErrors:any = { ...errors };
+    const newErrors: any = { ...errors };
 
     switch (name) {
       case "name":
@@ -258,7 +292,7 @@ const handleUpdateAllergy = (e:any) => {
 
     setErrors(newErrors);
   };
-  
+
   return (
     <>
       <div className="table-part">
@@ -286,7 +320,7 @@ const handleUpdateAllergy = (e:any) => {
               </tr>
             </thead>
             <tbody>
-              {allergis.map((allergy:any, index) => (
+              {allergis.map((allergy: any, index) => (
                 <tr key={allergy.id}>
                   <td>{++index}</td>
                   <td className="chefs_pic">
@@ -316,10 +350,10 @@ const handleUpdateAllergy = (e:any) => {
                     {showFullDescription[index] && allergy.description
                       ? allergy.description
                       : allergy.description
-                      ? allergy.description.length > 100
-                        ? `${allergy.description.slice(0, 100)}...`
-                        : allergy.description
-                      : ""}
+                        ? allergy.description.length > 100
+                          ? `${allergy.description.slice(0, 100)}...`
+                          : allergy.description
+                        : ""}
                     {allergy.description &&
                       allergy.description.length > 100 && (
                         <a
@@ -426,7 +460,7 @@ const handleUpdateAllergy = (e:any) => {
               <input
                 type="file"
                 name="image"
-                onChange={(e:any) => setImage(e.target.files)}
+                onChange={(e: any) => setImage(e.target.files)}
                 accept="jpg,png"
               />
               {errors_name.image && (
@@ -435,7 +469,6 @@ const handleUpdateAllergy = (e:any) => {
                 </span>
               )}
             </div>
-
             <button
               type="submit"
               className="btn-send w-100"
@@ -460,18 +493,15 @@ const handleUpdateAllergy = (e:any) => {
           >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
+              <input type="hidden" id="name" value={allergyList.id} />
+
               <input
                 type="text"
                 name="allergy_name"
-                value={allergy_List ? allergy_List.allergy_name : ""}
+                value={allergyList ? allergyList.allergy_name : ""}
                 onBlur={handleMenuBlur}
                 autoComplete="username"
-                onChange={(e) =>
-                  setAllergyList({
-                    ...allergy_List,
-                    allergy_name: e.target.value,
-                  })
-                }
+                onChange={handleInputChange}
               />
               {errors_name.name && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
@@ -483,24 +513,25 @@ const handleUpdateAllergy = (e:any) => {
               <label htmlFor="Description">Description:</label>
               <textarea
                 name="description"
-                value={allergy_List ? allergy_List.description : ""}
+                value={allergyList ? allergyList.description : ""}
                 onBlur={handleMenuBlur}
-                onChange={(e) =>
-                  setAllergyList({
-                    ...allergy_List,
-                    description: e.target.value,
-                  })
-                }
+                onChange={handleInputChange}
               ></textarea>
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" accept="jpg,png" />
+              <input type="file" name="image" accept="jpg,png" onChange={handleInputChange} />
+              {newImage ? ( // Conditionally render the new image or the default image
+                <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
+              ) : (
+                <img src={process.env.NEXT_PUBLIC_IMAGE_URL +
+                  "/images/admin/allergy/" +
+                  allergyList.image} alt="Preview" style={{ width: "20%", height: "100px" }} />
+              )}
             </div>
-
             <button
               type="submit"
-              className="btn-send w-100"
+              className="btn-send w-100 mt-3"
               disabled={buttonStatus}
             >
               Update

@@ -1,0 +1,211 @@
+import React, { useState, useEffect } from 'react'
+import { getSingleUserProfile } from "../../../lib/userapi"
+import { getUserBookingById } from "../../../lib/adminapi";
+import moment from 'moment';
+import Pagination from "../../commoncomponents/Pagination";
+import { paginate } from "../../../helpers/paginate";
+
+export default function MyProfile(props: any) {
+
+    interface User {
+        id: number,
+        name: string,
+        surname: string,
+        phone: string,
+        email: string,
+        BIC: string,
+        IBAN: string,
+        address: string,
+        bank_address: string,
+        bank_name: string,
+        holder_name: string,
+        passport_no:string,
+        pic:string,
+    }
+
+    const [getUsers, setUsers] = useState<User>({
+        id: 0,
+        name: "",
+        surname: "",
+        phone: "",
+        email: "",
+        address: "",
+        BIC: "",
+        IBAN: "",
+        bank_address: "",
+        bank_name: "",
+        holder_name: "",
+        passport_no:"",
+        pic:"",
+    });
+    const [bookingUsers, setBookingUser] = useState([]);
+    const [totalMenu, setTotalMenu]:any = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+	const pageSize = 10;
+
+    let id = props.userId;
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const userData = await getSingleUserProfile(id);
+            setUsers(userData.data);
+        };
+        fetchUserData();
+        getSingleBookingUser(id);
+    }, []);
+
+    const getSingleBookingUser = (id: any) => {
+        getUserBookingById(id).then((res) => {
+            setBookingUser(res.data);
+            console.log(res.data);
+        });
+    };
+
+    	const onPageChange = (page:any) => {
+		setCurrentPage(page);
+		getUserBookingById(id)
+			.then(res => {
+				if (res.status == true) {
+					setTotalMenu(res.data);
+					const paginatedPosts = paginate(res.data, page, pageSize);
+					setBookingUser(paginatedPosts);
+				} else {
+					console.log(res.message);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+    const formatDate = (value:any) => {
+	return moment(value).format('D/M/YY');
+  }
+  
+
+    return (
+        <>
+         <h5 style={{color:"#ff4e00"}}>Chefs Detail</h5>
+            <div className="user-class pt-5">
+                <div style={{ flex: "1" }}>
+
+                    {getUsers.pic ? (
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users/' +getUsers.pic} alt="" width={100} height={100} />
+                    ) : (
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" width={100} height={100} />
+                    )}
+                </div>
+                <div style={{ flex: "2" }}>
+                    <p><span id="book-user">Name</span> : {getUsers.name} {getUsers.surname}</p>
+                    <p><span id="book-user">Email</span> : {getUsers.email}</p>
+                    {getUsers.phone ? (
+                    <p><span id="book-user">Phone no.</span> : {getUsers.phone}</p>
+                    ):(
+                        null
+                    )}
+                     {getUsers.address ? (
+                    <p><span id="book-user">Address</span> : {getUsers.address}</p>
+                    ):(
+                        null
+                    )}
+                     {getUsers.passport_no ? (
+                    <p><span id="book-user">ID/Passport No. </span>: {getUsers.passport_no}</p>
+                    ):(
+                        null
+                    )}
+                </div>
+                <div style={{ flex: "2" }}>
+                {getUsers.IBAN ? (
+                    <p><span id="book-user">IBAN</span> : {getUsers.IBAN}</p>
+                    ):(
+                        null
+                    )}
+                    {getUsers.holder_name ? (
+                    <p><span id="book-user">Bank Holder Name </span>: {getUsers.holder_name}</p>
+                    ):(
+                        null
+                    )}
+                    {getUsers.bank_name ? (
+                    <p><span id="book-user">Bank Name </span>: {getUsers.bank_name}</p>
+                    ):(
+                        null
+                    )}
+                    {getUsers.bank_address ? (
+                    <p><span id="book-user">Bank Address </span>: {getUsers.bank_address}</p>
+                    ):(
+                        null
+                    )}
+                    {getUsers.BIC ? (
+                    <p><span id="book-user">BIC </span>: {getUsers.BIC}</p>
+                    ):(
+                        null
+                    )}
+                </div>
+            </div>
+            <div className='users-boking'>
+                <div className="table-box">
+                    <table className="table table-borderless common_booking">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Date Requested</th>
+                                <th scope="col">Booking Date</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {bookingUsers.map((user: any, index) => {
+
+                                const datesString = user.dates;
+                                const dates = datesString.split(',').map(dateString => formatDate(dateString));
+                                const startDate = dates[0];
+                                const endDate = dates[dates.length - 1];
+                                const output = `${startDate} to ${endDate}`;
+
+                                return (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+
+                                        <td>{formatDate(user.latest_created_at)}</td>
+
+                                        <td>{user.category == 'onetime' ? formatDate(user.dates) : output}</td>
+                                        <td>{user.location}</td>
+                                        <td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
+                                        <td className="chefs_pic">
+                                            {user.pic ? <img
+                                                src={
+                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                    "/images/users/" + user.pic
+                                                }
+                                                alt=""
+                                            /> : <img
+                                                src={
+                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                    "/images/users.jpg"
+                                                }
+                                                alt=""
+                                            />}
+                                        </td>
+                                        <td>{user.booking_status}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <Pagination
+				items={totalMenu.length}
+				currentPage={currentPage}
+				pageSize={pageSize}
+				onPageChange={onPageChange}
+			/>
+        </>
+    )
+}
