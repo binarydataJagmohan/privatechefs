@@ -182,6 +182,8 @@ export default function Dish() {
       newErrors.dishcategory = "Dish Category is required";
     }
 
+    // console.log(newErrors)
+
     setErrors(errors);
 
     // Submit form data if there are no errors

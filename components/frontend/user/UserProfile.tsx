@@ -241,7 +241,7 @@ export default function UserProfile() {
                     <h4>Account Settings</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                   </div>
-                  <a href="/user/userprofiletwo">
+                  <a href="/user/booking">
                     <div className="profile-cols mt-4">
                       <h4>My Bookings</h4>
                       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -255,7 +255,7 @@ export default function UserProfile() {
                   </a>
                 </div>
               </div>
-              <div className="col-lg-6 col-md-12">
+              <div className="col-lg-7 col-md-12">
                 <div className="all-form tab-m-0 pt-0 right-left-spacing">
                   <div className="row">
                     <div className="col-lg-6 col-md-6">

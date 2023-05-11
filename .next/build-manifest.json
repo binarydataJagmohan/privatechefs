@@ -25,10 +25,30 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/user/userprofile": [
+    "/chef/applied-booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/user/userprofile.js"
+      "static/chunks/pages/chef/applied-booking.js"
+    ],
+    "/chef/bookings": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/bookings.js"
+    ],
+    "/chef/menus": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/menus.js"
+    ],
+    "/chef/myprofile": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/myprofile.js"
+    ],
+    "/user/booking": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/booking.js"
     ]
   },
   "ampFirstPages": []
