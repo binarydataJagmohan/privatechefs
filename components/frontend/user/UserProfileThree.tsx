@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react'
-import { getAllergyDetails,getAllCuisine } from '@/lib/adminapi';
+import { getAllergyDetails,getAllCuisine } from '../../../lib/adminapi';
 import { ToastContainer,toast } from 'react-toastify';
 import swal from "sweetalert";
 import "react-toastify/dist/ReactToastify.css";

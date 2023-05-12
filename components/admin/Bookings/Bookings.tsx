@@ -1,18 +1,115 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef} from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
+import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBybooking, getUserBookingId } from "../../../lib/adminapi";
+import {getUserBookingId ,UpdatedAppliedBookingJob} from "../../../lib/adminapi";
+import { getUserChefByBooking,getUserChefFilterByBooking,getAllChefMenu } from "../../../lib/chefapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
+import moment from 'moment';
+import { Loader } from "@googlemaps/js-api-loader";
+import Pagination from "../../commoncomponents/Pagination";
 
 export default function Bookings() {
+
+  interface Booking {
+	adults?: number;
+	allergies?: string;
+	booking_id?: number;
+	booking_status?: string;
+	category?: string;
+	childrens?: number;
+	cuisines?: string;
+	dates?: string;
+	email?: string;
+	lat?: string;
+	lng?: string;
+	latest_created_at?: string;
+	location?: string;
+	name?: string;
+	notes?: string;
+	service_name?: string;
+	surname?: string;
+	teens?: number;
+	user_id?: number;
+	phone?:string;
+ }
+
+ interface DaysBookingCheck {
+    breakfast?: string;
+    lunch?:string;
+	dinner?:string;
+  }
+
+  interface CurrentUserData {
+    id: string;
+    name: string;
+    email: string;
+    pic: string | null;
+    surname: string;
+    role: string;
+    approved_by_admin: string
+  }
+
+
+  interface MenuData {
+    id: number;
+    name?:string;
+    menu_name?:string;
+    image?:string;
+
+  }
+
+  interface Errors {
+	  chefid?:string;
+  }
+
+
   const [bookingUsers, setBookingUser] = useState([]);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [sidebarConfirm,setSidebarConfirm] = useState(false);
-  const [selectedUser, setSelectedUser] = useState([]);
+  const [booking, setBooking] = useState<Booking>({});
+  const [totalBooking, setTotalBooking] = useState([]);
+  const [bookingdate, setBookingDate] = useState('');
+  const [daysbooking, setDaysBooking] = useState<DaysBookingCheck[]>([]);
+  const mapRef = useRef(null); 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [bookingid, setBookingId] = useState('');
+  const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
+    id: '',
+    name: '',
+    email: '',
+    pic: null,
+    surname: '',
+    role: '',
+    approved_by_admin: ''
+  });
 
-  const selected_User:any = {selectedUser};
+  interface ChefOffer {
+    name?: string;
+    surname?:string;
+    menu_names?:string;
+    amount?:string;
+    id?:number
+  }
 
+
+  const [menu, setMenu] = useState<MenuData[]>([]);
+
+  const [errors, setErrors] = useState<Errors>({});
+
+  const [amount, setAmount] = useState('');
+
+  const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
+
+  const [chefoffer, setChefOffer] = useState<ChefOffer[]>([]);
+
+  const radioRef = useRef(null);
+
+  const [chefid, setChefId] = useState('');
+  
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -25,6 +122,8 @@ export default function Bookings() {
   const sidebarConfirmClose = () => {
     setModalConfirm(false);
   };
+
+  const pageSize = 10;
  
 
   useEffect(() => {
@@ -35,17 +134,33 @@ export default function Bookings() {
       window.location.href = "/404"; // redirect to 404 if not authorized
     }
     if (data == 1) {
+	const userData = getCurrentUserData() as CurrentUserData;
+		    fetchBookingUserDetails(userData.id);
+        getAllChefMenuData(userData.id)
+        setCurrentUserData({
+          ...userData,
+          id: userData.id,
+          name: userData.name,
+          pic: userData.pic,
+          surname: userData.surname,
+          role: userData.role,
+          approved_by_admin: userData.approved_by_admin,
+  
+        });
     }
-    fetchBookingUserDetails();
+    
+	
   }, []);
 
-  const fetchBookingUserDetails = async () => {
+  const fetchBookingUserDetails = async (id:any) => {
     try {
-      const res = await getUserBybooking();
+      const res = await getUserChefByBooking(id);
       if (res.status) {
-        setBookingUser(res.data);
-        //const paginatedPosts = paginate(res.data, currentPage, pageSize);
-        //setAllergis(paginatedPosts);
+		  console.log(res.data);
+		setTotalBooking(res.data);
+        const paginatedPosts = paginate(res.data, currentPage, pageSize);
+        setBookingUser(paginatedPosts);
+
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -58,434 +173,630 @@ export default function Bookings() {
     }
   };
 
-  const getSingleBookingUser = (e:any, id:any) => {
-    e.preventDefault();
-    getUserBookingId(id).then((res) => {
-      setSelectedUser(res.data);
-      setSidebarConfirm(true);
+  const onPageChange = (page:any) => {
+    setCurrentPage(page);
+    getUserChefByBooking(currentUserData.id)
+    .then(res => {
+      if(res.status==true){
+		setTotalBooking(res.data);
+        const paginatedPosts = paginate(res.data, page, pageSize);
+        setBookingUser(paginatedPosts);
+      } else {
+        setErrorMessage(res.message);
+      }
+    })
+    .catch(err => {
+        console.log(err);
     });
   };
 
+  const getSingleBookingUser = (e:any, id:any) => {
+    e.preventDefault();
+    getUserBookingId(id).then((res) => {
+    setBooking(res.booking[0]);
+    setChefOffer(res.chefoffer);
+	  setDaysBooking(res.days_booking);
+    setSidebarConfirm(true);
+
+	  if(res.days_booking.length == 1){
+			setBookingDate(formatDate(res.booking[0].dates))
+	  }else {
+		const datesString = res.booking[0].dates;
+		const dates = datesString.split(',').map((dateString:string) => formatDate(dateString));
+		const startDate = dates[0];
+		const endDate = dates[dates.length - 1];
+		const output = `${startDate} to ${endDate}`;
+		setBookingDate(output)
+		
+	  }
+
+	  const loader = new Loader({
+		apiKey: "AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU",
+		version: "weekly",
+	  });
+
+	  loader.load().then(() => {
+		// create a new map instance
+		if (mapRef.current) {
+			const map = new google.maps.Map(mapRef.current, {
+			  center: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+			  zoom: 12,
+			});
+		  
+			const marker = new google.maps.Marker({
+			  position: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+			  map: map,
+			  title: res.booking[0].location,
+			});
+		  }
+	  });
+		
+
+    });
+  };
+
+  const formatDate = (value:any) => {
+	return moment(value).format('D/M/YY');
+  }
   
+  const handleButtonClick = (index:any,type:string,id:string) => {
+    setActiveIndex(index);
+	if(type == 'all'){
+		fetchBookingUserDetails(id);
+	}else {
+		getUserChefFilterByBooking(id,type)
+			.then(res => {
+			if(res.status==true){
+				setTotalBooking(res.data);
+				const paginatedPosts = paginate(res.data, currentPage, pageSize);
+				setBookingUser(paginatedPosts);
+			} else {
+				setErrorMessage(res.message);
+			}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}
+  };
+
+  	const getAllChefMenuData = async (id:any) => {
+		getAllChefMenu(id)
+		.then(res => {
+		if(res.status==true){
+			setMenu(res.data);
+		} 
+		})
+		.catch(err => {
+			console.log(err);
+		});
+	}
+
+
+	  const handleBookingAssignJobSubmit = (event:any) => {
+		event.preventDefault();
+		
+		// Validate form data
+		const newErrors: Errors = {};
+
+		if (!chefid) {
+		  newErrors.chefid = "Please assign the booking to chef";
+		}
+
+		setErrors(newErrors);
+		
+		// Submit form data if there are no errors
+		if (( chefid) ) {
+
+		   const data = {
+       chef_id: chefid,
+			 booking_id : bookingid,
+		   };
+		   UpdatedAppliedBookingJob(data)
+			.then(res => {
+				if(res.status==true){
+					setModalConfirm(false);
+					fetchBookingUserDetails(currentUserData.id);
+					toast.success(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+					
+				} else {
+				
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				
+				}
+		  	})
+			.catch(err => {
+				console.log(err);
+			});
+		}
+		
+	  };
+
+	const resetFields = () => {
+		setAmount('');
+		setSelectedMenu([]);
+		console.log(selectedmenu);
+	}
+
+  const handleClear = () => {
+    radioRef.current.checked = false;
+  };
 
   return (
     <>
       <div className="table-part">
-        <h2>Bookings</h2>
-        <ul className="table_header_button_section">
-          <li>
-            <button className="table-btn active">Total</button>
-          </li>
-          <li>
-            <button className="table-btn btn-2">Upcoming</button>
-          </li>
-          <li>
-            <button className="table-btn btn-2">Cancelled</button>
-          </li>
-          <li>
-            <button className="table-btn btn-2" >
-              Completed
-            </button>
-          </li>
-        </ul>
+        <h2 className="mb-4">Available Bookings</h2>
+		
+		<ul className="table_header_button_section">
+			<li>
+				<button
+				className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`}
+				onClick={() => handleButtonClick(0,'all',currentUserData.id)}
+				>
+				Total
+				</button>
+			</li>
+			<li>
+				<button
+				className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`}
+				onClick={() => handleButtonClick(1,'upcoming',currentUserData.id)}
+				>
+				Upcoming
+				</button>
+			</li>
+			<li>
+				<button
+				className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`}
+				onClick={() => handleButtonClick(2,'cancelled',currentUserData.id)}
+				>
+				Cancelled
+				</button>
+			</li>
+			<li>
+				<button
+				className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`}
+				onClick={() => handleButtonClick(3,'completed',currentUserData.id)}
+				>
+				Completed
+				</button>
+			</li>
+			</ul>
         <div className="table-box">
-          <table className="table table-borderless">
+		{bookingUsers.length > 0 ?
+          <table className="table table-borderless common_booking">
             <thead>
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Customer</th>
+				<th scope="col">User</th>
                 <th scope="col">Date Requested</th>
-                {/* <th scope="col">Booking Date</th> */}
+                <th scope="col">Booking Date</th>
                 <th scope="col">Address</th>
                 <th scope="col">Category</th>
-                <th scope="col">Chef</th>
+               
                 <th scope="col">Status</th>
-                <th scope="col"></th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {bookingUsers.map((user:any,index) => (
-                <tr key={index}>
-                  <td>{user.id}</td>
-                  <td>{user.name + " " + user.surname}</td>
-                  <td>{user.date}</td>
-                  {/* <td>2/11/12</td> */}
-                  <td>{user.address}</td>
-                  <td>{user.category}</td>
-                  <td className="chefs_pic">
-                    <img
-                      src={
-                        process.env.NEXT_PUBLIC_BASE_URL +
-                        "images/booking_chef_pic.png"
-                      }
-                      alt=""
-                    />
-                  </td>
-                  <td>{user.booking_status}</td>
+				
+              {bookingUsers.map((user:any,index) =>  {
 
-                  <td>
-                    <a
-                      href="#"
-                      className="popup"
-                      onClick={(e)=>getSingleBookingUser(e,user.id)}
-                      data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"    
-                    >
-                      <i className="fa-solid fa-ellipsis"></i>
-                    </a>
-                  </td>
-                </tr>
-              ))}
+					const datesString = user.dates;
+					const dates = datesString.split(',').map((dateString:string) => formatDate(dateString));
+					const startDate = dates[0];
+					const endDate = dates[dates.length - 1];
+					const output = `${startDate} to ${endDate}`;
+
+					return (
+						<tr key={index}>
+						<td>{index+1}</td>
+						<td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+						<td className="chefs_pic">
+							{user.pic ?  <img
+							src={
+								process.env.NEXT_PUBLIC_IMAGE_URL +
+								"/images/users/"+user.pic
+							}
+							alt=""
+							/> : <img
+							src={
+								process.env.NEXT_PUBLIC_IMAGE_URL +
+								"/images/users.jpg"
+							}
+							alt=""
+							/>}
+							
+						</td>
+						<td>{formatDate(user.latest_created_at)}</td>
+						
+						<td>{user.category == 'onetime' ? formatDate(user.dates) : output }</td>
+						<td>{user.location}</td>	
+						<td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
+						
+						<td>{user.booking_status}</td>
+
+						
+						<td>
+							<div className="dropdown" id="none-class">
+								<a
+									className="dropdown-toggle"
+									data-bs-toggle="dropdown"
+									aria-expanded="false"
+								>
+									<i className="fa-solid fa-ellipsis" role="button"></i>
+								</a>
+								<ul
+									className="dropdown-menu"
+									aria-labelledby="dropdownMenuButton"
+								>
+									<li>
+										<a
+											className="dropdown-item"
+											href="#"
+											onClick={(e)=>getSingleBookingUser(e,user.booking_id)}
+											data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+										>
+											View Booking
+										</a>
+									</li>
+									
+									<li>
+										<a
+											className="dropdown-item"
+											href="#"
+											onClick={(e) => { setModalConfirm(true); getSingleBookingUser(e,user.booking_id); setBookingId(user.booking_id); resetFields()}}
+										>
+											Assign Booking
+										</a>
+									</li>
+                  <li>
+										<a
+											className="dropdown-item"
+											href="#"
+											onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields()}}
+										>
+											Edit
+										</a>
+									</li>
+                  <li>
+										<a
+											className="dropdown-item"
+											href="#"
+											onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields()}}
+										>
+											Delete
+										</a>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				);
+              })}
             </tbody>
           </table>
+		  :
+		  <p>No Booking Records Found</p>
+		  }
         </div>
       </div>
 
+	  <Pagination
+              items={totalBooking.length} 
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onPageChange={onPageChange}
+          />  
+
       
-        <div className="offcanvas-part">
-          <div
-            className="offcanvas offcanvas-end"
-            id="offcanvasRight"
-            aria-labelledby="offcanvasRightLabel"
-          >
-            <div className="offcanvas-header">
-              <h5 id="offcanvasRightLabel">
-                Booking Details <button>Cancel</button>
-              </h5>
-              <button
-                type="button"
-                className="btn-close text-reset"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="offcanvas-body">
-              <div>
-                <button className="table-btn btn-2 date mr-sp">{selected_User.date}</button>
-                <button className="table-btn btn-2 Pending">Pending</button>
-              </div>
-              <div className="off-can">
-                <div className="accordion" id="accordionExample">
-                  <div className="accordion-item">
-                    <h2 className="accordion-header" id="headingTwo">
-                      <button
-                        className="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo"
-                        aria-expanded="false"
-                        aria-controls="collapseTwo"
-                      >
-                        Service Details
-                      </button>
-                    </h2>
-                    <div
-                      id="collapseTwo"
-                      className="accordion-collapse collapse"
-                      aria-labelledby="headingTwo"
-                      data-bs-parent="#accordionExample"
-                    >
-                      <div className="accordion-body">
-                        <div className="row mt-1">
-                          <div className="col-4">
-                            <p className="chefs-name name-12">Service Type:</p>
-                          </div>
-                          <div className="col-8">
-                            <p className="mony f-w-4">{selected_User.category}</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-4">
-                            <p className="chefs-name name-12">Service </p>
-                          </div>
-                          <div className="col-8">
-                            <p className="mony f-w-4">{selected_User.service_name}</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-4">
-                            <p className="chefs-name name-12">Meal:</p>
-                          </div>
-                          <div className="col-8">
-                            <button className="table-btn btn-2 list-btn">
-                              Breakfast
-                            </button>
-                            <button className="table-btn btn-2 list-btn">
-                              Lunch
-                            </button>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-4">
-                            <p className="chefs-name name-12">Meal:</p>
-                          </div>
-                          <div className="col-8">
-                            <button className="table-btn btn-2 list-btn">
-                              Breakfast
-                            </button>
-                            <button className="table-btn btn-2 list-btn">
-                              Lunch
-                            </button>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-4">
-                            <p className="chefs-name name-12">Meal:</p>
-                          </div>
-                          <div className="col-8">
-                            <button className="table-btn btn-2 list-btn">
-                              Breakfast
-                            </button>
-                            <button className="table-btn btn-2 list-btn">
-                              Lunch
-                            </button>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-4">
-                            <p className="chefs-name name-12">
-                              Special Requests:
-                            </p>
-                          </div>
-                          <div className="col-8">
-                            <p className="mony f-w-4">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit. Sit neque diam neque facilisis.
-                            </p>
-                          </div>
-                        </div>
+	 	<div className="offcanvas-part"> 
+			<div className="offcanvas offcanvas-end"  id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+			<div className="offcanvas-header">
+				<h5 id="offcanvasRightLabel">Booking Details</h5>
+				<button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			<div className="offcanvas-body">
+				<div>
+				<button className="table-btn btn-2 date mr-sp">{bookingdate}</button>
+				
+				</div>
+				<div className="off-can">
+				<div className="accordion" id="accordionExample">
+
+        <div className="accordion-item">
+            <h2 className="accordion-header" id="headingOne">
+              <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Chefs offers
+              </button>
+            </h2>
+            <div id="collapseOne" className="mt-2 accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div className="accordion-body">
+              {chefoffer.length > 0 ? (
+                  chefoffer.map((chef, index) => (
+                    <div className="row" key={index}>
+                      <div className="col-5">
+                        <p className="chefs-name m-2">{chef.name}</p>
+                      </div>
+                      <div className="col-2">
+                        <p className="mony m-2">${chef.amount}</p>
+                      </div>
+                      <div className="col-5">
+                        {chef.menu_names?.split(",").map((menu, index) => (
+                          <button className="table-btn btn-2 list-btn m-2" key={index}>{menu.trim()}</button> 
+                        ))}
                       </div>
                     </div>
-                  </div>
-                  <div className="accordion-item">
-                    <h2 className="accordion-header" id="headingThree">
-                      <button
-                        className="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree"
-                        aria-expanded="false"
-                        aria-controls="collapseThree"
-                      >
-                        Customer Details
-                      </button>
-                    </h2>
-                    <div
-                      id="collapseThree"
-                      className="accordion-collapse collapse"
-                      aria-labelledby="headingThree"
-                      data-bs-parent="#accordionExample"
-                    >
-                      <div className="accordion-body">
-                        <div className="row mt-1">
-                          <div className="col-5 text-right">
-                            <p className="chefs-name name-12">
-                              Number of people:
-                            </p>
-                          </div>
-                          <div className="col-7"></div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-5 text-right">
-                            <p className="chefs-name name-12">adults</p>
-                          </div>
-                          <div className="col-7">
-                            <p className="mony">{selected_User.adults}</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-5 text-right">
-                            <p className="chefs-name name-12">Teens:</p>
-                          </div>
-                          <div className="col-7">
-                            <p className="mony">{selected_User.teens}</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-5 text-right">
-                            <p className="chefs-name name-12">Children:</p>
-                          </div>
-                          <div className="col-7">
-                            <p className="mony">{selected_User.childrens}</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-5">
-                            <p className="chefs-name name-12">Full Name:</p>
-                          </div>
-                          <div className="col-7">
-                            <p className="mony">{selected_User.name + " " +selected_User. surname }</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-5">
-                            <p className="chefs-name name-12">Email:</p>
-                          </div>
-                          <div className="col-7">
-                            <p className="mony">{selected_User.email}</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-5">
-                            <p className="chefs-name name-12">Phone Number:</p>
-                          </div>
-                          <div className="col-7">
-                            <p className="mony">{selected_User.phone}</p>
-                          </div>
-                        </div>
-                        <div className="row mt-1">
-                          <div className="col-5">
-                            <p className="chefs-name name-12">Location:</p>
-                          </div>
-                          <div className="col-7">
-                            <p className="mony">
-                              {/* 1901 Thornridge Cir. Shiloh, Hawaii 81063 */}
-                              {selected_User.location}
-                            </p>
-                          </div>
-                        </div>
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_BASE_URL + "images/map.png"
-                          }
-                          alt="map"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  ))
+                ) : (
+                  <p className="mt-2">No Chef apply for this booking</p>
+                )}
+
+              
+
               </div>
             </div>
           </div>
-        </div>
+                                    
+				
+				<div className="accordion-item">
+					<h2 className="accordion-header" id="headingTwo">
+					<button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+					Service Details
+					</button>
+					</h2>
+					<div id="collapseTwo" className="accordion-collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+					<div className="accordion-body">
+						<div className="row mt-1">
+							<div className="col-4">
+							<p className="chefs-name name-12">Service Type:</p>
+							</div>
+							<div className="col-8">
+							<p className="mony f-w-4">{booking.category == 'onetime' ? 'One time Service' : 'Mutiple Times Services'} </p>
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-4">
+							<p className="chefs-name name-12">Services </p>
+							</div>
+							<div className="col-8">
+							<p className="mony f-w-4">{booking.service_name}</p>
+							</div> 
+						</div>
+						{daysbooking.length === 1 && (
+							<div className="row mt-1">
+								<div className="col-4">
+								<p className="chefs-name name-12">Meal:</p>
+								</div>
+								<div className="col-8">
+								<>
+									{daysbooking[0].breakfast === 'yes' &&
+									<button className="table-btn btn-2 list-btn">Breakfast</button>
+									}
+									{daysbooking[0].lunch === 'yes' &&
+									<button className="table-btn btn-2 list-btn">Lunch</button>
+									}
+									{daysbooking[0].dinner === 'yes' &&
+									<button className="table-btn btn-2 list-btn">Dinner</button>
+									}
+								</>
+								</div> 
+							</div>
+							)}
+						
+							<div className="row mt-1">
+								<div className="col-4">
+								<p className="chefs-name name-12">Cuisine:</p>
+								</div>
+								<div className="col-8">
+								{booking && booking.cuisines && booking.cuisines.split(",").map((cuisine, index) => (
+									<button key={index} className="table-btn btn-2 list-btn m-1 mb-2">{cuisine.trim()}</button>
+								))}
+								</div> 
+							</div>
+						
+						<div className="row mt-1">
+							<div className="col-4">
+							<p className="chefs-name name-12">Allergies:</p>
+							</div>
+							<div className="col-8">
+							{booking && booking.allergies && booking.allergies.split(",").map((allergies, index) => (
+								<button key={index} className="table-btn btn-2 list-btn m-1 mb-2">{allergies.trim()}</button>
+							))}
+								
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-4">
+							<p className="chefs-name name-12">Special Requests:</p>
+							</div>
+							<div className="col-8">
+							<p className="mony f-w-4">{booking.notes}</p>
+							</div> 
+						</div>
+						
+					</div>
+					</div>
+				</div>
+				{daysbooking.length > 1 && (
+					<div className="accordion-item">
+						<h2 className="accordion-header" id="headingTwo4">
+						<button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo4" aria-expanded="true" aria-controls="collapseTwo4">
+						Days Overview
+						</button>
+						</h2>
+						<div id="collapseTwo4" className="accordion-collapse show" aria-labelledby="headingTwo4" data-bs-parent="#accordionExample">
+						<div className="accordion-body">
+						{daysbooking.map((daybooking, index) => (
+							<div key={index} className="row mt-1">
+								<div className="col-4">
+								<p className="chefs-name name-12">Days {index+1}:</p>
+								</div>
+								<div className="col-8">
+								<p className="mony f-w-4">
+								{daybooking.breakfast === 'yes' &&
+									<button className="table-btn btn-2 list-btn">Breakfast</button>
+									
+									}
+									{daybooking.lunch === 'yes' &&
+									<button className="table-btn btn-2 list-btn">Lunch</button>
+									}
+									{daybooking.dinner === 'yes' &&
+									<button className="table-btn btn-2 list-btn">Dinner</button>
+									}
+								</p>
+								</div> 
+							</div>
+							))}
+							
+						</div>
+						</div>
+					</div>
+				)}
+				<div className="accordion-item">
+					<h2 className="accordion-header" id="headingThree">
+					<button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+					Customer Details
+					</button>
+					</h2>
+					<div id="collapseThree" className="accordion-collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+					<div className="accordion-body">
+						<div className="row mt-1">
+							<div className="col-5 text-right">
+							<p className="chefs-name name-12">Number of people:</p>
+							</div>
+							<div className="col-7"></div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-5 text-right">
+							<p className="chefs-name name-12">Adults</p>
+							</div>
+							<div className="col-7">
+							<p className="mony">{booking.adults}</p>
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-5 text-right">
+							<p className="chefs-name name-12">Teens:</p>
+							</div>
+							<div className="col-7">
+							<p className="mony">{booking.teens}</p>
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-5 text-right">
+							<p className="chefs-name name-12">Children:</p>
+							</div>
+							<div className="col-7">
+							<p className="mony">{booking.childrens}</p>
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-5">
+							<p className="chefs-name name-12">Full Name:</p>
+							</div>
+							<div className="col-7">
+							<p className="mony">{booking.name} {booking.surname}</p>
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-5">
+							<p className="chefs-name name-12">Email:</p>
+							</div>
+							<div className="col-7">
+							<p className="mony">{booking.email}</p>
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-5">
+							<p className="chefs-name name-12">Phone Number:</p>
+							</div>
+							<div className="col-7">
+							<p className="mony">{booking.phone}</p>
+							</div> 
+						</div>
+						<div className="row mt-1">
+							<div className="col-5">
+							<p className="chefs-name name-12">Location:</p>
+							</div>
+							<div className="col-7">
+							<p className="mony">{booking.location}</p>
+							</div> 
+						</div>
+						<div ref={mapRef} style={{ height: "400px" }}></div>
+					</div>
+					</div>
+				</div>
+				</div>
+				</div>
+			</div>
+			</div>
+    	</div>
        
      
 
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
         <div className="popup-part new-modala">
-          <h2 className="title-pop up-move">Booking #98283</h2>
-          <div className="offers">
-            <div className="row">
-              <div className="col-sm-6 col-12">
-                <div className="all-form">
-                  <label className="f-w-4">Chef’s Offer:</label>
-                  <input
-                    type="text"
-                    placeholder="432$"
-                    className="placeholder-goldan-text"
-                  />
-                </div>
-              </div>
-              <div className="col-sm-2  col-6">
-                <button className="pop-btn ">Menu 1</button>
-              </div>
-              <div className="col-sm-2  col-6">
-                <button className="pop-btn">Menu 2</button>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-12">
-                <div className="all-form">
-                  <label className="f-w-4">Chef’s Menu:</label>
-                  <p className="f-10">
-                    Please pick one to send to the customer
-                  </p>
-                </div>
-                <div className="pop-border-box">
-                  <div className="faq-part">
-                    <div className="accordion-part ">
-                      <div className="accordion" id="accordionExample">
-                        <div className="accordion-item">
-                          <h2 className="accordion-header" id="headingOne">
-                            <button
-                              className="accordion-button"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target="#collapseOne"
-                              aria-expanded="true"
-                              aria-controls="collapseOne"
-                            >
-                              How does Private Chef Work?
-                            </button>
-                          </h2>
-                          <div
-                            id="collapseOne"
-                            className="accordion-collapse collapse show"
-                            aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample"
-                          >
-                            <div className="accordion-body">
-                              Private Chefs allows you to enjoy the experience
-                              of having a private chef anywhere in the world. As
-                              a guest,
-                            </div>
-                          </div>
-                        </div>
-                        <div className="accordion-item">
-                          <h2 className="accordion-header" id="headingTwo">
-                            <button
-                              className="accordion-button collapsed"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target="#collapseTwo"
-                              aria-expanded="false"
-                              aria-controls="collapseTwo"
-                            >
-                              Who is the team behind Private Chefs?
-                            </button>
-                          </h2>
-                          <div
-                            id="collapseTwo"
-                            className="accordion-collapse collapse"
-                            aria-labelledby="headingTwo"
-                            data-bs-parent="#accordionExample"
-                          >
-                            <div className="accordion-body">
-                              Private Chefs allows you to enjoy the experience
-                              of having a private chef anywhere in the world. As
-                              a guest...
-                            </div>
-                          </div>
-                        </div>
-                        <div className="accordion-item">
-                          <h2 className="accordion-header" id="headingThree">
-                            <button
-                              className="accordion-button collapsed"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target="#collapseThree"
-                              aria-expanded="false"
-                              aria-controls="collapseThree"
-                            >
-                              How can I contact Private Chefs?
-                            </button>
-                          </h2>
-                          <div
-                            id="collapseThree"
-                            className="accordion-collapse collapse"
-                            aria-labelledby="headingThree"
-                            data-bs-parent="#accordionExample"
-                          >
-                            <div className="accordion-body">
-                              Private Chefs allows you to enjoy the experience
-                              of having a private chef anywhere in the world.
-                            </div>
-                          </div>
-                        </div>
+          <h2 className="title-pop up-move">Booking id #{bookingid}</h2>
+          	<div className="offers">
+			  <form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">  
+            	
+				<div className="row">
+					<div className="col-12">
+						<div className="all-form">
+						<label className="f-w-4">Chef’s Offer:</label>
+						<p className="f-10">
+               Please choose one and assign the booking to the chef.
+						</p>
+						</div>
+						<div className='login_div'>			
+						
+              {chefoffer.length > 0 ? (
+                  chefoffer.map((chef, index) => (
+                    <div className="row admin_assign_booking_row m-2" key={index}>
+                      <div className="col-1">
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="flexRadioDefault" value={chef.id} onChange={(e) => setChefId(e.target.value)} ref={radioRef}/>
+                       
+                      </div>
+                      </div>
+                      <div className="col-3">
+                        <p className="chefs-name">{chef.name}</p>
+                      </div>
+                      <div className="col-2">
+                        <p className="mony">${chef.amount}</p>
+                      </div>
+                      <div className="col-5 admin_assign_booking_menu">
+                        {chef.menu_names?.split(",").map((menu, index) => (
+                          <button className="table-btn btn-2 list-btn" key={index}>{menu.trim()}</button> 
+                        ))}
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="banner-btn">
-                    <a href="#">Start your journey</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                  ))
+                ) : (
+                  <p className="mt-2">No Chef apply for this booking</p>
+                )}
+							
+						
+							{errors.chefid && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.chefid}</span>}
+						</div>	
+						<div className="text-right">
+						<div className="banner-btn">
+              <button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>Clear</button>   
+							<button id="btn_offer" type="submit">Assign Booking</button>
+						</div>
+						</div>
+					</div>
+				</div>
+				</form>
+          	</div>
         </div>
       </PopupModal>
+	  <ToastContainer/>
     </>
   );
 }
