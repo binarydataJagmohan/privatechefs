@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume } from '../../../lib/chefapi'
+import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateChefLocation,SaveChefLocation,getChefLocation} from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { Loader } from '@googlemaps/js-api-loader';
+import PopupModal from '../../../components/commoncomponents/PopupModal';
 
 
 export default function MyProfile() {
 
-	interface CurrentUserData {
-		id: number;
-		name: string;
-	  }
+	interface Location {
+		address: string;
+	}
 
-	  interface User {
+	interface User {
 		id: number;
 		name: string;
 		surname: string;
 		email: string;
 		approved_by_admin: string;
-	  }
+	}
 
-	  interface UserData {
+	interface UserData {
 		pic: string | null;
-	  }
+	}
 
 	const [name, setFullName] = useState("");
 	const [surname, setSurName] = useState("");
@@ -56,8 +59,12 @@ export default function MyProfile() {
 	const [linkedin_link, setLinkedinLink] = useState("");
 	const [youtube_link, setYoutubeLink] = useState("");
 
+	const [locationaddress, setLocationaddress] = useState("");
+	const [lat, setLat] = useState("");
+	const [lng, setLng] = useState("");
+	const [modalConfirm, setModalConfirm] = useState(false);
 	const [currentUserData, setCurrentUserData] = useState<User>({
-		
+
 		id: 0,
 		name: "",
 		surname: "",
@@ -65,67 +72,149 @@ export default function MyProfile() {
 		approved_by_admin: ""
 	});
 
-    const [userData, setUserData] = useState<UserData>({ pic: "" });
+	const [userData, setUserData] = useState<UserData>({ pic: "" });
 	const [chefResume, setChefResume] = useState({});
+	const [chefLocation, setChefLocation] = useState<Location[]>([]);
+	const [errors, setErrors]: any = useState({});
+
+	const modalConfirmOpen = () => {
+		setModalConfirm(true);
+	}
+	const modalConfirmClose = () => {
+		setModalConfirm(false);
+	}
 
 	const handleUpdateProfile = async (e: any) => {
 		e.preventDefault();
-		setButtonState(true);
-		const userid = currentUserData.id;
-		console.log(userid);
-		const data = {
-			name: name || '',
-			surname: surname || '',
-			email: email || '',
-			phone: phone || '',
-			address: address || '',
-			passport_no: passport_no || '',
-			BIC: BIC || '',
-			IBAN: IBAN || '',
-			bank_name: bank_name || '',
-			holder_name: holder_name || '',
-			bank_address: bank_address || '',
-		};
 
-		updateChefProfile(userid, data, image)
-			.then((res) => {
-				setButtonState(false);
-				console.log(res.data);
-				window.localStorage.setItem("name", res.data.name);
-				window.localStorage.setItem("pic", res.data.pic);
-				window.localStorage.setItem("surname", res.data.surname);
-				window.localStorage.setItem("profile_status", res.data.profile_status);
+		const errors: any = {};
 
-				toast.success(res.message, {
-					position: toast.POSITION.TOP_RIGHT,
+		if (!name) {
+			errors.name = "Name is required";
+		}
+		if (!surname) {
+			errors.surname = "Surname is required";
+		}
+		if (!email) {
+			errors.email = "Email is required";
+		}
+		if (!phone) {
+			errors.phone = "Phone is required";
+		}
+		if (!address) {
+			errors.address = "Address is required";
+		}
+		if (!passport_no) {
+			errors.passport_no = "Passport No. is required";
+		}
+		if (!BIC) {
+			errors.BIC = "BIC is required";
+		}
+		if (!IBAN) {
+			errors.IBAN = "IBAN is required";
+		}
+		if (!bank_name) {
+			errors.bank_name = "Bank Name is required";
+		}
+		if (!holder_name) {
+			errors.holder_name = "Holder Name is required";
+		}
+		if (!bank_address) {
+			errors.bank_address = "Bank Address is required";
+		}
+		setErrors(errors);
+
+		if (Object.keys(errors).length === 0) {
+			setButtonState(true);
+			const userid = currentUserData.id;
+			//console.log(userid);
+			const data = {
+				name: name || '',
+				surname: surname || '',
+				email: email || '',
+				phone: phone || '',
+				address: address || '',
+				passport_no: passport_no || '',
+				BIC: BIC || '',
+				IBAN: IBAN || '',
+				bank_name: bank_name || '',
+				holder_name: holder_name || '',
+				bank_address: bank_address || '',
+			};
+
+			updateChefProfile(userid, data, image)
+				.then((res) => {
+					setButtonState(false);
+					console.log(res.data);
+					window.localStorage.setItem("name", res.data.name);
+					window.localStorage.setItem("pic", res.data.pic);
+					window.localStorage.setItem("surname", res.data.surname);
+					window.localStorage.setItem("profile_status", res.data.profile_status);
+
+					toast.success(res.message, {
+						position: toast.POSITION.TOP_RIGHT,
+					});
+					//window.location.reload();
+				})
+				.catch((err) => {
+					setButtonState(false);
+					toast.error("Error occurred", {
+						position: toast.POSITION.BOTTOM_RIGHT,
+					});
 				});
-				window.location.reload();
-			})
-			.catch((err) => {
-				setButtonState(false);
-				toast.error("Error occurred", {
-					position: toast.POSITION.BOTTOM_RIGHT,
-				});
-			});
+		}
 	};
 
 	const uploadimage = () => {
 		$("#uploadfile").trigger("click");
-	  };
-	
-	  const hoverinimage = function (e: any) {
+	};
+
+	const hoverinimage = function (e: any) {
 		$(e.target).css("opacity", "0.3");
 		$(".fa-image").css("display", "block");
-	  };
-	  const hoveroutimage = function (e: any) {
+	};
+	const hoveroutimage = function (e: any) {
 		$(e.target).css("opacity", "1");
 		$(".fa-image").css("display", "none");
-	  };
+	};
 
 	const imageChange = (e: any) => {
 		if (e.target.files && e.target.files.length > 0) {
 			setImage(e.target.files[0]);
 		}
+	};
+
+	const saveLocation = async (e: any) => {
+		e.preventDefault();
+		setButtonState(true);
+		const user_id = currentUserData.id;
+		console.log(user_id)
+		const data = {
+			user_id: user_id,
+			address: locationaddress,
+			lat: lat,
+			lng: lng,
+		};
+		SaveChefLocation(data)
+		.then(res => {
+			if (res.status == true) {
+				console.log(res.status);
+				setModalConfirm(false);
+				setButtonState(false);
+				toast.success(res.message, {
+					position: toast.POSITION.TOP_RIGHT
+				});
+
+			} else {
+				setButtonState(false);
+				toast.error(res.message, {
+					position: toast.POSITION.TOP_RIGHT
+				});
+			}
+		})
+		.catch(err => {
+			console.log(err);
+		});
 	};
 
 
@@ -140,7 +229,7 @@ export default function MyProfile() {
 			employment_status: employment_status || '',
 			website: website || '',
 			languages: languages || '',
-			experience: experience || '', 
+			experience: experience || '',
 			skills: skills || '',
 			favorite_chef: favorite_chef || '',
 			favorite_dishes: favorite_dishes || '',
@@ -166,8 +255,6 @@ export default function MyProfile() {
 					position: toast.POSITION.TOP_RIGHT
 				});
 
-				window.location.reload();
-
 			}).catch(err => {
 				setButtonState(false);
 				toast.error('Error occured', {
@@ -178,6 +265,48 @@ export default function MyProfile() {
 
 	useEffect(() => {
 		getUserData();
+
+		const apiKey = 'AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU'; // replace with your actual API key
+		const loader = new Loader({
+			apiKey,
+			version: 'weekly',
+			libraries: ['places']
+		});
+
+		function setupAddressAutocomplete(inputId: string) {
+			const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null;
+			if (input) {
+			  const autocomplete = new google.maps.places.Autocomplete(input);
+			  autocomplete.addListener('place_changed', () => {
+				const place = autocomplete.getPlace();
+		  
+				if (place && place.formatted_address && place.geometry && place.geometry.location) {
+				  const address = place.formatted_address;
+				  const lat = place.geometry.location.lat();
+				  const lng = place.geometry.location.lng();
+		  
+				  // Set the values for the corresponding input field
+				  if (inputId === 'address-input') {
+					setAddress(address)
+					setLat(lat.toString());
+					setLng(lng.toString());
+				  } else if (inputId === 'address-input1') {
+					setLocationaddress(address)
+					setLat(lat.toString());
+					setLng(lng.toString());
+				  }
+				}
+			  });
+			}
+		  }
+
+		  loader.load().then(() => {
+			setupAddressAutocomplete('address-input');
+			setupAddressAutocomplete('address-input1');
+		  }).catch((error) => {
+			console.error('Failed to load Google Maps API', error);
+		  });
+
 	}, []);
 
 	const getUserData = async () => {
@@ -193,10 +322,11 @@ export default function MyProfile() {
 			setCurrentUserData(userData);
 			getChefDetailData(userData.id);
 			getChefResumeData(userData.id);
+			getChefLocationData(userData.id);
 		}
 	}
 
-	const getChefDetailData = async (id:any) => {
+	const getChefDetailData = async (id: any) => {
 		getChefDetail(id)
 			.then(res => {
 				setButtonState(false);
@@ -225,7 +355,7 @@ export default function MyProfile() {
 			});
 	}
 
-	const getChefResumeData = async (id:any) => {
+	const getChefResumeData = async (id: any) => {
 		getChefResume(id)
 			.then(res => {
 				if (res.status == true) {
@@ -248,6 +378,25 @@ export default function MyProfile() {
 					setYoutubeLink(res.data.youtube_link);
 					setChefResume(res.data);
 				} else {
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}
+
+	const getChefLocationData = async (id: any) => {
+		getChefLocation(id)
+			.then(res => {
+				setButtonState(false);
+				if (res.status == true) {
+					setChefLocation(res.data);
+					console.log(res.data);
+				} else {
+					setButtonState(false);
 					toast.error(res.message, {
 						position: toast.POSITION.TOP_RIGHT
 					});
@@ -297,24 +446,24 @@ export default function MyProfile() {
 														{userData.pic ? <img
 															className="profile_upload_form img-cicle"
 															src={
-																image && (typeof image !== 'string') 
-																? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic
+																image && (typeof image !== 'string')
+																	? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic
 															}
 															alt=""
 															onClick={() => uploadimage()}
 															onMouseEnter={(e) => hoverinimage(e.currentTarget)}
-                                                            onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
+															onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
 														/> : <img
 															className="profile_upload_form img-cicle"
 															src={
-																image && (typeof image !== 'string') 
-																? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users.jpg"
+																image && (typeof image !== 'string')
+																	? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users.jpg"
 															}
 															// crop={{ ratio: "1/1", position: "center" }}
 															alt=""
 															onClick={() => uploadimage()}
 															onMouseEnter={(e) => hoverinimage(e.currentTarget)}
-                                                            onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
+															onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
 														/>}
 
 													</div>
@@ -334,31 +483,61 @@ export default function MyProfile() {
 												<div className="col-lg-4 col-md-6">
 													<label>Name</label>
 													<input type="text" name="name" value={name || ''} onChange={(e) => setFullName(e.target.value)} />
+													{errors.name && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.name}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Surname</label>
 													<input type="text" name="surname" value={surname || ''} onChange={(e) => setSurName(e.target.value)} />
+													{errors.description && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.description}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Email</label>
 													<input type="text" name="email" value={email || ''} onChange={(e) => setEmail(e.target.value)} />
+													{errors.email && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.email}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Phone Number</label>
-													<input type="number" name="phone" value={phone || ''} onChange={(e) => {
-														const re = /^[0-9\b]+$/;
-														if (e.target.value === '' || re.test(e.target.value)) {
-															setPhone(e.target.value);
-														}
-													}} />
+													<PhoneInput
+														country={"us"}
+														value={phone}
+														onChange={(phone) => setPhone(phone)}
+													// add the required attribute here
+													/>
+													{errors.phone && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.phone}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-5 col-md-6">
 													<label>Address</label>
-													<input type="text" name="address" value={address || ''} onChange={(e) => setAddress(e.target.value)} />
+													<input id="address-input" type="text" name="address" value={address || ''} onChange={(e) => setAddress(e.target.value)} />
+													{errors.address && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.address}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-3 col-md-6">
 													<label>ID/Passport No.</label>
 													<input type="text" name="passport_no" value={passport_no || ''} onChange={(e) => setPassportNo(e.target.value)} />
+													{errors.passport_no && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.passport_no}
+														</span>
+													)}
 												</div>
 											</div>
 										</div>
@@ -378,22 +557,47 @@ export default function MyProfile() {
 												<div className="col-lg-4 col-md-6">
 													<label>IBAN</label>
 													<input type="text" name="IBAN" value={IBAN || ''} onChange={(e) => setIBAN(e.target.value)} />
+													{errors.IBAN && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.IBAN}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-8 col-md-7">
 													<label>Bank Holder Name</label>
 													<input type="text" name="holder_name" value={holder_name || ''} onChange={(e) => setHolderName(e.target.value)} />
+													{errors.description && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.description}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-4 col-md-5">
 													<label>Bank Name</label>
 													<input type="text" name="bank_name" value={bank_name || ''} onChange={(e) => setBankName(e.target.value)} />
+													{errors.bank_name && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.bank_name}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-8 col-md-7">
 													<label>Bank Address</label>
 													<input type="text" name="bank_address" value={bank_address || ''} onChange={(e) => setBankAddress(e.target.value)} />
+													{errors.bank_address && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.bank_address}
+														</span>
+													)}
 												</div>
 												<div className="col-lg-12 col-md-6">
 													<label>BIC</label>
 													<textarea name="BIC" value={BIC || ''} onChange={(e) => setBIC(e.target.value)}></textarea>
+													{errors.BIC && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.BIC}
+														</span>
+													)}
 												</div>
 												{/* <div className="col-lg-4 col-md-5">
 													<label>ID/Passport Number</label>
@@ -464,8 +668,8 @@ export default function MyProfile() {
 															{userData.pic ? <img
 																className="profile_upload_form img-cicle"
 																src={
-																	image && (typeof image !== 'string') 
-																	? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic
+																	image && (typeof image !== 'string')
+																		? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic
 																}
 																alt=""
 																onClick={() => uploadimage()}
@@ -474,8 +678,8 @@ export default function MyProfile() {
 															/> : <img
 																className="profile_upload_form img-cicle"
 																src={
-																	image && (typeof image !== 'string') 
-																	? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users.jpg"
+																	image && (typeof image !== 'string')
+																		? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users.jpg"
 																}
 																// crop={{ ratio: "1/1", position: "center" }}
 																alt=""
@@ -605,9 +809,10 @@ export default function MyProfile() {
 						<div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 							<div className="row">
 								<div className="col-lg-4 col-md-12 position-r">
+								{Array.isArray(chefLocation) && chefLocation.map((location,index) => (
 									<div className="location-name">
-										<div className="row">
-											<div className="col-9"><p className="f-16">Location Name 1</p></div>
+										<div className="row" key={index}>
+											<div className="col-9"><p className="f-16">{location.address}</p></div>
 											<div className="col-3">
 												<label className="switch">
 													<input type="checkbox" />
@@ -616,48 +821,46 @@ export default function MyProfile() {
 											</div>
 										</div>
 									</div>
-
-									<div className="location-name">
-										<div className="row">
-											<div className="col-9"><p className="f-16">Location Name 1</p></div>
-											<div className="col-3">
-												<label className="switch">
-													<input type="checkbox" />
-													<span className="slider round"></span>
-												</label>
+									))}
+									<div className='row'>
+										<div className='col-md-6'>
+											<div className="banner-btn position-top">
+												<a onClick={() => { modalConfirmOpen(); }}>Add New Location</a>
+											</div>
+										</div>
+										<div className='col-md-6'>
+											<div className="banner-btn position-bottom">
+												<a href="/startjourney">Start your journey</a>
 											</div>
 										</div>
 									</div>
-
-									<div className="location-name">
-										<div className="row">
-											<div className="col-9"><p className="f-16">Location Name 1</p></div>
-											<div className="col-3">
-												<label className="switch">
-													<input type="checkbox" />
-													<span className="slider round"></span>
-												</label>
-											</div>
-										</div>
-									</div>
-
-									<div className="location-name">
-										<div className="row">
-											<div className="col-9"><p className="f-16">Location Name 1</p></div>
-											<div className="col-3">
-												<label className="switch">
-													<input type="checkbox" />
-													<span className="slider round"></span>
-												</label>
-											</div>
-										</div>
-									</div>
-									<div className="banner-btn position-bottom"><a href="/startjourney">Start your journey</a></div>
 								</div>
 								<div className="col-lg-8 col-md-12">
 									<img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/map-3.png'} alt="map-3" className="w-100" />
 								</div>
 							</div>
+
+							<PopupModal
+								show={modalConfirm}
+								handleClose={modalConfirmClose}
+								staticClass="var-login"
+							>
+								<div className="all-form" id="form_id">
+									<form onSubmit={saveLocation}>
+										<h5>Add Location</h5>
+										<div className='row'>
+											<div className='col-md-12'>
+												<label>Address</label>
+												<input id="address-input1" type="text" name="address" defaultValue={address || ''} onChange={(e) => setLocationaddress(e.target.value)} />
+												{/* <iframe id="popup" style={{display:"none"}}src="about:blank"></iframe> */}
+											</div>
+										</div>
+										<div className="text-right">
+											<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+										</div>
+									</form>
+								</div>
+							</PopupModal>
 						</div>
 					</div>
 				</div>
