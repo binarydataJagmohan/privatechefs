@@ -15,6 +15,11 @@
   ],
   "rootMainFiles": [],
   "pages": {
+    "/404": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/404.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -30,10 +35,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/admin/servicechoice.js"
     ],
-    "/chef/menu/[id]": [
+    "/chef/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/menu/[id].js"
+      "static/chunks/pages/chef/dashboard.js"
     ]
   },
   "ampFirstPages": []

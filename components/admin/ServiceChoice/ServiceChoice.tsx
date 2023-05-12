@@ -508,7 +508,7 @@ export default function ServiceChoice() {
               {newImage ? (
                 <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
               ) : (
-                serviceList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/service/${serviceList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                serviceList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/allergy/${serviceList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
               )}
 
             </div>
