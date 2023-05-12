@@ -2,25 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  "/user/userprofilethree": "pages/user/userprofilethree.js"
-=======
-<<<<<<< HEAD
-  "/chef/applied-booking": "pages/chef/applied-booking.js",
->>>>>>> refs/remotes/origin/main
-  "/user/booking": "pages/user/booking.js",
-  "/chef/dashboard": "pages/chef/dashboard.js",
-  "/chef/bookings": "pages/chef/bookings.js",
-<<<<<<< HEAD
-  "/chef/applied-booking": "pages/chef/applied-booking.js"
-=======
-  "/chef/menus": "pages/chef/menus.js"
-=======
-  "/admin/servicechoice": "pages/admin/servicechoice.js",
-  "/chef/menu/[id]": "pages/chef/menu/[id].js"
->>>>>>> 626e0316507b2f989a6f832072db1afbb1c50245
->>>>>>> 1728fd8c8e36da9ad10e8d866a43bf50606d3e20
->>>>>>> refs/remotes/origin/main
+  "/chef/myprofile": "pages/chef/myprofile.js",
+  "/admin/users": "pages/admin/users.js"
 }

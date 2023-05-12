@@ -87,7 +87,7 @@ export default function Sidebar(): JSX.Element {
 
                     <a href="/admin/users" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/users' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
-                            <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  
+                            <span className="icon-dash"><i className="fa fa-user" aria-hidden="true"></i></span>  
                             <span className="menu-collapsed">Users</span> 
                         </div>
                     </a>

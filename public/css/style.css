@@ -2514,6 +2514,10 @@ input:checked + .slider:before {
   right: 15px;
   bottom: 20px;
 }
+.position-top {
+  position: absolute; 
+  bottom: 20px;
+}
 .p-r{position: relative;}
 .border-radius{border-radius: 68px;}
 /* .round-white::after {
@@ -3294,4 +3298,7 @@ div#villa_modal {
     line-height: var(--banner_btn_line_height);
     color: var(--color_4);
     border: none;
+}
+div#location_popup {
+  z-index: 1;
 }
