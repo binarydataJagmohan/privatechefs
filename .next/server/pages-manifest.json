@@ -3,7 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/whoweare": "pages/whoweare.js",
-  "/bookings/step1": "pages/bookings/step1.js",
-  "/ourchefs": "pages/ourchefs.js"
+  "/admin/allergy": "pages/admin/allergy.js",
+  "/404": "pages/404.js"
 }
