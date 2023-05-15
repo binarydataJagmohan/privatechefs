@@ -175,7 +175,6 @@ export default function Step5() {
                             }}
                             checked={selectedallergies.includes(String(allergies.id))}
                           />
-
                           <label htmlFor={`myCheckbox2_${allergies.id}`} className="step_label_css">
                           {allergies.image ? 
                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/'+allergies.image} alt="step-img-1" /> 

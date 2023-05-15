@@ -3285,24 +3285,22 @@ div#villa_modal {
 .common_booking>tbody tr td ul li {
   background: none !important;
 }
-
-.nav-item.active a {
-  color: black;
+#btn_offer {
+    background: var(--background_5);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-weight: var(--banner_btn_wt);
+    font-size: var(--banner_btn_font_size);
+    line-height: var(--banner_btn_line_height);
+    color: var(--color_4);
+    border: none;
 }
+a.nav-link:hover {
 
-i.fa-solid.fa-ellipsis:hover {
-  background: #eeeeee;
-  padding: 3px 3px;
 }
-
-li.nav-item.active {
-  color: var(--color_1) !important;
-  background: rgba(186, 134, 57, 0.1);
-  border: none;
-  border-radius: 10px;
+.bg-color {
+  background: #f3eee6;
+  border-radius:10px;
   padding-left: 15px;
-}
 
-i.fa-solid.fa-ellipsis {
-  cursor: pointer;
 }

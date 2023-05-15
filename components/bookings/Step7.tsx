@@ -26,7 +26,7 @@ export default function Step7() {
            <h3 className="mt-4 mb-3">Conglatulations!</h3>
            <p>Your booking was succesful! </p>
            <p>Our congierge team will contact you for any further details. Please be aware for any<br/> email about chef’s offers! </p>
-           <div className="text-center view-more mt-4"><a href="#">See booking details</a></div>
+           <div className="text-center view-more mt-4"><a href="/user/booking">See booking details</a></div>
           </div>  
          </div>  
        </section>
