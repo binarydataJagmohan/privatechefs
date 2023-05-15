@@ -28,7 +28,8 @@ export default function Menus2(props: any) {
     pic: string | null;
     surname: string;
     role: string;
-    approved_by_admin: string
+    approved_by_admin: string;
+    profile_status:string;
   }
 
 
@@ -70,7 +71,8 @@ export default function Menus2(props: any) {
     pic: null,
     surname: '',
     role: '',
-    approved_by_admin: ''
+    approved_by_admin: '',
+    profile_status:''
   });
 
   const [errors, setErrors] = useState<Errors>({});
@@ -126,7 +128,7 @@ export default function Menus2(props: any) {
     }
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
-      if (userData.approved_by_admin == 'yes') {
+      if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
         getSingleChefMenuData(id);
         getAllCrusineData();
         fetchdishes(userData.id);

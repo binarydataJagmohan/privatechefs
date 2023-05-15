@@ -154,6 +154,7 @@ export default function Header({ }) {
               window.localStorage.setItem("pic", res.user.pic);
               window.localStorage.setItem("surname", res.user.surname);
               window.localStorage.setItem("phone", res.user.phone);
+              window.localStorage.setItem("address", res.user.address);
               window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
               window.localStorage.setItem("profile_status", res.user.profile_status);
               toast.success(res.message, {
@@ -292,6 +293,7 @@ export default function Header({ }) {
               window.localStorage.setItem("pic", res.data.user.pic);
               window.localStorage.setItem("surname", res.data.user.surname);
               window.localStorage.setItem("phone", res.data.user.phone);
+              window.localStorage.setItem("address", res.data.user.address);
               window.localStorage.setItem(
                 "approved_by_admin",
                 res.data.user.approved_by_admin

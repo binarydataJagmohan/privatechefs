@@ -2514,6 +2514,10 @@ input:checked + .slider:before {
   right: 15px;
   bottom: 20px;
 }
+.position-top {
+  position: absolute; 
+  bottom: 20px;
+}
 .p-r{position: relative;}
 .border-radius{border-radius: 68px;}
 /* .round-white::after {
