@@ -1,21 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateChefLocation,SaveChefLocation,getChefLocation} from '../../../lib/chefapi'
+import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateLocationStatus, SaveChefLocation, getChefLocation, UpdateChefLocation, getSingleLocation, deleteSingleLocation } from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Loader } from '@googlemaps/js-api-loader';
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-
+import swal from "sweetalert";
+import Pagination from "../../commoncomponents/Pagination";
+import { paginate } from "../../../helpers/paginate";
 
 export default function MyProfile() {
 
 	interface Location {
+		id: number;
 		address: string;
+		location_status: string;
 	}
-
+	interface Location1 {
+		id: number;
+	}
 	interface User {
 		id: number;
 		name: string;
@@ -62,9 +68,9 @@ export default function MyProfile() {
 	const [locationaddress, setLocationaddress] = useState("");
 	const [lat, setLat] = useState("");
 	const [lng, setLng] = useState("");
+	const [location_status, setLocationStatus] = useState("");
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [currentUserData, setCurrentUserData] = useState<User>({
-
 		id: 0,
 		name: "",
 		surname: "",
@@ -76,6 +82,13 @@ export default function MyProfile() {
 	const [chefResume, setChefResume] = useState({});
 	const [chefLocation, setChefLocation] = useState<Location[]>([]);
 	const [errors, setErrors]: any = useState({});
+	const mapRef = useRef(null);
+	const [editmodalConfirm, editsetModalConfirm] = useState(false);
+	const [getsingledata, setGetSingleData]: any = useState([]);
+	const [totalMenu, setTotalMenu]:any = useState({});
+	const [currentPage, setCurrentPage] = useState(1);
+	const pageSize = 5;
+
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
@@ -83,6 +96,73 @@ export default function MyProfile() {
 	const modalConfirmClose = () => {
 		setModalConfirm(false);
 	}
+	const editmodalConfirmOpen = () => {
+		editsetModalConfirm(true);
+	}
+	const editmodalConfirmClose = () => {
+		editsetModalConfirm(false);
+	}
+
+const updateLocationStatus = async (id: number, location_status: string) => {
+		setButtonState(true);
+		const data = {
+			location_status: location_status 
+		};
+		UpdateLocationStatus(id, data)
+			.then(res => {
+				if (res.status == true) {
+					getChefLocationData(currentUserData.id);
+					setModalConfirm(false);
+					setButtonState(false);
+					toast.success(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				} else {
+					setButtonState(false);
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	const updateLocation = async (e: any) => {
+		e.preventDefault();
+		// const user_id = chefLocation.user_id;
+		// console.log(user_id);
+		const id = getsingledata.id;
+		setButtonState(true);
+		const data = {
+			user_id: currentUserData.id,
+			address: locationaddress,
+			lat: lat,
+			lng: lng,
+		};
+		UpdateChefLocation(id, data)
+			.then(res => {
+				if (res.status == true) {
+					setModalConfirm(false);
+					editmodalConfirmClose();
+					setButtonState(false);
+					getChefLocationData(currentUserData.id);
+					toast.success(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				} else {
+					setButtonState(false);
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
 
 	const handleUpdateProfile = async (e: any) => {
 		e.preventDefault();
@@ -188,7 +268,7 @@ export default function MyProfile() {
 		e.preventDefault();
 		setButtonState(true);
 		const user_id = currentUserData.id;
-		console.log(user_id)
+		//console.log(user_id)
 		const data = {
 			user_id: user_id,
 			address: locationaddress,
@@ -196,25 +276,26 @@ export default function MyProfile() {
 			lng: lng,
 		};
 		SaveChefLocation(data)
-		.then(res => {
-			if (res.status == true) {
-				console.log(res.status);
-				setModalConfirm(false);
-				setButtonState(false);
-				toast.success(res.message, {
-					position: toast.POSITION.TOP_RIGHT
-				});
+			.then(res => {
+				if (res.status == true) {
+					console.log(res.status);
+					getChefLocationData(user_id);
+					setModalConfirm(false);
+					setButtonState(false);
+					toast.success(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
 
-			} else {
-				setButtonState(false);
-				toast.error(res.message, {
-					position: toast.POSITION.TOP_RIGHT
-				});
-			}
-		})
-		.catch(err => {
-			console.log(err);
-		});
+				} else {
+					setButtonState(false);
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	};
 
 
@@ -276,36 +357,41 @@ export default function MyProfile() {
 		function setupAddressAutocomplete(inputId: string) {
 			const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null;
 			if (input) {
-			  const autocomplete = new google.maps.places.Autocomplete(input);
-			  autocomplete.addListener('place_changed', () => {
-				const place = autocomplete.getPlace();
-		  
-				if (place && place.formatted_address && place.geometry && place.geometry.location) {
-				  const address = place.formatted_address;
-				  const lat = place.geometry.location.lat();
-				  const lng = place.geometry.location.lng();
-		  
-				  // Set the values for the corresponding input field
-				  if (inputId === 'address-input') {
-					setAddress(address)
-					setLat(lat.toString());
-					setLng(lng.toString());
-				  } else if (inputId === 'address-input1') {
-					setLocationaddress(address)
-					setLat(lat.toString());
-					setLng(lng.toString());
-				  }
-				}
-			  });
-			}
-		  }
+				const autocomplete = new google.maps.places.Autocomplete(input);
+				autocomplete.addListener('place_changed', () => {
+					const place = autocomplete.getPlace();
 
-		  loader.load().then(() => {
+					if (place && place.formatted_address && place.geometry && place.geometry.location) {
+						const address = place.formatted_address;
+						const lat = place.geometry.location.lat();
+						const lng = place.geometry.location.lng();
+
+						// Set the values for the corresponding input field
+						if (inputId === 'address-input') {
+							setAddress(address)
+							setLat(lat.toString());
+							setLng(lng.toString());
+						} else if (inputId === 'address-input1') {
+							setLocationaddress(address)
+							setLat(lat.toString());
+							setLng(lng.toString());
+						} else if (inputId === 'address-input2') {
+							setLocationaddress(address)
+							setLat(lat.toString());
+							setLng(lng.toString());
+						}
+					}
+				});
+			}
+		}
+
+		loader.load().then(() => {
 			setupAddressAutocomplete('address-input');
 			setupAddressAutocomplete('address-input1');
-		  }).catch((error) => {
+			setupAddressAutocomplete('address-input2');
+		}).catch((error) => {
 			console.error('Failed to load Google Maps API', error);
-		  });
+		});
 
 	}, []);
 
@@ -388,13 +474,60 @@ export default function MyProfile() {
 			});
 	}
 
+	const onPageChange = (page:any) => {
+		setCurrentPage(page);
+		getChefLocation(currentUserData.id)
+			.then(res => {
+				if (res.status == true) {
+					setTotalMenu(res.data);
+					const paginatedPosts = paginate(res.data, page, pageSize);
+					setChefLocation(paginatedPosts);
+				} else {
+					console.log(res.message);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	// let googleMapsApiLoaded = false;
+
 	const getChefLocationData = async (id: any) => {
 		getChefLocation(id)
 			.then(res => {
 				setButtonState(false);
 				if (res.status == true) {
-					setChefLocation(res.data);
-					console.log(res.data);
+					setTotalMenu(res.data);
+					const paginatedPosts = paginate(res.data, currentPage, pageSize);
+					setChefLocation(paginatedPosts);
+					//console.log(res.data);
+
+					const loader = new Loader({
+						apiKey: "AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU",
+						version: "weekly",
+						libraries: ["places"]
+					});
+					loader.load().then(() => {
+						if (res.data && res.data.length > 0) {
+							const firstData = res.data[0];
+							if (mapRef.current) {
+								const map = new google.maps.Map(mapRef.current, {
+									center: { lat: parseFloat(res.data[0].lat), lng: parseFloat(res.data[0].lng) },
+									zoom: 12,
+								});
+
+								const marker = new google.maps.Marker({
+									position: { lat: parseFloat(res.data[0].lat), lng: parseFloat(res.data[0].lng) },
+									map: map,
+									title: res.data[0].address,
+								});
+								//console.log(res.data[0].address);
+							}
+						} else {
+							// handle case where res.data is undefined or empty
+						}
+					});
 				} else {
 					setButtonState(false);
 					toast.error(res.message, {
@@ -406,6 +539,53 @@ export default function MyProfile() {
 				console.log(err);
 			});
 	}
+
+	const GetSingleLocation = async (id: any) => {
+		getSingleLocation(id)
+			.then(res => {
+				if (res.status == true) {
+					setModalConfirm(false);
+					editsetModalConfirm(true);
+					setGetSingleData(res.data);
+					setLocationaddress(res.data.address);
+					//console.log(res.data.address);
+					// setChefLocation(res.data);
+				} else {
+					console.log("error");
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}
+
+	const deleteReceiptData = (id: any) => {
+		swal({
+			title: "Are you sure?",
+			text: "You want to delete the Address",
+			icon: "warning",
+			dangerMode: true,
+			buttons: ["Cancel", "Yes, I am sure!"],
+		}).then((willDelete) => {
+			if (willDelete) {
+				deleteSingleLocation(id)
+					.then((res) => {
+						if (res.status == true) {
+							getChefLocationData(currentUserData.id);
+							swal("Your Address has been deleted!", {
+								icon: "success",
+							});
+						} else {
+							toast.error(res.message, {
+								position: toast.POSITION.TOP_RIGHT,
+							});
+						}
+					})
+					.catch((err) => { });
+			} else {
+			}
+		});
+	};
 
 	return (
 		<>
@@ -807,39 +987,55 @@ export default function MyProfile() {
 							</form>
 						</div>
 						<div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-							<div className="row">
-								<div className="col-lg-4 col-md-12 position-r">
-								{Array.isArray(chefLocation) && chefLocation.map((location,index) => (
-									<div className="location-name">
-										<div className="row" key={index}>
-											<div className="col-9"><p className="f-16">{location.address}</p></div>
-											<div className="col-3">
-												<label className="switch">
-													<input type="checkbox" />
-													<span className="slider round"></span>
-												</label>
+								<div className="row">
+									<div className="col-lg-5 col-md-12 position-r">
+										{Array.isArray(chefLocation) && chefLocation.map((location, index) => (
+											<div className="location-name" key={index}>
+												<div className="row" >
+													<div className="col-7"><p className="f-16">{location.address}</p></div>
+													<div className="col-2">
+														<label className="switch">
+															<input
+																type="checkbox"
+																name="location_status"
+																// key={location.id}
+																value={location_status}
+																checked={location.location_status === "visible" ? true : false}
+																onChange={(e) => {
+																	setLocationStatus(e.target.checked ? "visible" : "unvisible");
+																	updateLocationStatus(location.id, e.target.checked ? "visible" : "unvisible");
+																  }}
+															/>
+															<span className="slider round"></span>
+														</label>
+													</div>
+													<div className="col-3 social">
+														<a onClick={() => GetSingleLocation(location.id)} id={`myCheckbox_${location.id}`}><i className="fa fa-edit" aria-hidden="true"></i></a>
+														<a onClick={() =>
+															deleteReceiptData(location.id)
+														}><i className="fa fa-times" aria-hidden="true"></i></a>
+													</div>
+												</div>
+											</div>
+										))}
+										<div className='row'>
+											<div className='col-md-6'>
+												<div className="banner-btn position-top">
+													<a onClick={() => { modalConfirmOpen(); }}>Add New Location</a>
+												</div>
+											</div>
+											<div className='col-md-6'>
+												<div className="banner-btn position-bottom">
+													<a href="/startjourney">Start your journey</a>
+												</div>
 											</div>
 										</div>
 									</div>
-									))}
-									<div className='row'>
-										<div className='col-md-6'>
-											<div className="banner-btn position-top">
-												<a onClick={() => { modalConfirmOpen(); }}>Add New Location</a>
-											</div>
-										</div>
-										<div className='col-md-6'>
-											<div className="banner-btn position-bottom">
-												<a href="/startjourney">Start your journey</a>
-											</div>
-										</div>
+									<div className="col-lg-7 col-md-12">
+										<div ref={mapRef} style={{ height: "400px" }}></div>
+										{/* <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/map-3.png'} alt="map-3" className="w-100" /> */}
 									</div>
 								</div>
-								<div className="col-lg-8 col-md-12">
-									<img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/map-3.png'} alt="map-3" className="w-100" />
-								</div>
-							</div>
-
 							<PopupModal
 								show={modalConfirm}
 								handleClose={modalConfirmClose}
@@ -861,8 +1057,36 @@ export default function MyProfile() {
 									</form>
 								</div>
 							</PopupModal>
+
+							<PopupModal
+								show={editmodalConfirm}
+								handleClose={editmodalConfirmClose}
+								staticClass="var-login"
+							>
+								<div className="all-form" id="form_id">
+									<form onSubmit={updateLocation}>
+										<h5>Edit Location</h5>
+										<div className='row'>
+											<div className='col-md-12'>
+												<label>Address</label>
+												<input id="address-input2" type="text" name="address" defaultValue={locationaddress || ''} onChange={(e) => setLocationaddress(e.target.value)} />
+												{/* <iframe id="popup" style={{display:"none"}}src="about:blank"></iframe> */}
+											</div>
+										</div>
+										<div className="text-right">
+											<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}</button>
+										</div>
+									</form>
+								</div>
+							</PopupModal>
 						</div>
 					</div>
+					<Pagination
+				items={totalMenu.length}
+				currentPage={currentPage}
+				pageSize={pageSize}
+				onPageChange={onPageChange}
+			/>
 				</div>
 				<ToastContainer />
 			</div>

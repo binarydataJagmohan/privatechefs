@@ -3308,3 +3308,12 @@ div#villa_modal {
 div#xtra_large {
   max-width: 1400px;
 }
+div#location_popup {
+  z-index: 1;
+}
+.social i.fa {
+  font-size: 18px !important;
+  color: #fd5800;
+  margin-left: 18px;
+  cursor: pointer;
+}
