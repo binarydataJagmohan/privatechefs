@@ -3295,3 +3295,31 @@ div#villa_modal {
     color: var(--color_4);
     border: none;
 }
+button.remove-btn {
+  margin-left: 10px;
+  border: none;
+  background: none;
+  color: #fff;
+  font-size: 16px;
+}
+
+
+.modal.modal-part.d-block.same-here .modal-dialog {
+  position: absolute;
+  right: 34px;
+  width: 100%;
+  top: 23%;
+  max-width: 560px;
+}
+.same-here label{
+  font-size: 12px;
+}
+.same-here .accordion-button:not(.collapsed) {
+   color: unset; 
+   background-color:unset;
+   box-shadow: unset;
+}
+.same-here .accordion-item {
+  background-color: #fff;
+  border:unset;
+}
