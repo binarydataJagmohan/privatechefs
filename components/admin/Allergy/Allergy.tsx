@@ -18,6 +18,11 @@ type Employee = {
   [key: string]: any; // 👈️ variable key
 };
 
+interface FormErrors {
+  name?: string;
+  description?: string;
+  image?: string;
+}
 interface Allergy {
   id: number;
   allergy_name: string;
@@ -32,7 +37,6 @@ interface FormErrors {
 
 
 export default function Allergy() {
-  // const [errors, setErrors] = useState({});
   const [errors, setErrors] = useState<FormErrors>({});
   const [buttonStatus, setButtonState] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -41,17 +45,12 @@ export default function Allergy() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  // const [image, setImage] = useState<File | null>(null);
-
   const [deleteAllergy, setdeleteAllergy] = useState(null);
   const [allergis, setAllergis] = useState([]);
   const [allergis2, setAllergis2] = useState([]);
   const [newImage, setNewImage] = useState("");
   const [showFullDescription, setShowFullDescription] = useState(new Array(allergis.length).fill(false));
   const [previewImage, setPreviewImage] = useState("");
-
-
-  // const [allergyList, setAllergyList] = useState<Allergy[]>([]);
   const [allergyList, setAllergyList] = useState<Allergy>({ id: 0, allergy_name: '', description: '', image: '' });
 
 
@@ -224,7 +223,6 @@ export default function Allergy() {
     const selectedFile = event.target.files[0];
     setImage(selectedFile);
     console.log(image);
-
     setPreviewImage(URL.createObjectURL(selectedFile));
   };
 
@@ -489,7 +487,7 @@ export default function Allergy() {
               <input
                 type="file"
                 name="image"
-                onChange={(e: any) => setImage(e.target.files)}
+                onChange={handleImageChange}
                 accept="jpg,png"
               />
               {previewImage && (

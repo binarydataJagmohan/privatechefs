@@ -2,8 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/bookings": "pages/admin/bookings.js",
-  "/user/booking": "pages/user/booking.js",
-  "/user/userprofile": "pages/user/userprofile.js",
-  "/404": "pages/404.js"
+  "/admin/bookings": "pages/admin/bookings.js"
 }

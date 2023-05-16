@@ -6,6 +6,7 @@ import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 
+
 export default function Chefs() {
 
 	interface FilterData {
@@ -33,6 +34,8 @@ export default function Chefs() {
 	const [filteredChefs, setFilteredChefs] = useState<FilterData[]>([]);
 	const [chefs, setChefs] = useState<chefData[]>([]);
 	const [getcuisine, setGetCuisine] = useState<GetCuisine[]>([]);
+	const [showAllCuisines, setShowAllCuisines] = useState(false);
+	const [activeIndex, setActiveIndex] = useState(null);
 	const [totalMenu, setTotalMenu]: any = useState({});
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 10;
@@ -140,247 +143,365 @@ export default function Chefs() {
 			});
 	};
 
+      const removeCuisine = (cuisine) => {
+	  setSelectedCuisines((prevSelectedCuisines) => prevSelectedCuisines.filter((c) => c !== cuisine));
+	};
+
+	const handleShowAllCuisines = () => {
+		setShowAllCuisines(true);
+	  };
+
+	  const handleClosePopup = () => {
+		setShowAllCuisines(false);
+	  };
+
+	  const handleCollapse = (index) => {
+		setActiveIndex(index === activeIndex ? null : index);
+	  };
+
 	return (
-		<>
-			<div className="table-part">
-				<h2>Chefs</h2>
-				<ul className="table_header_button_section p-r">
-					<li>
-						<button className="table-btn">Total</button>
-					</li>
-					<li className="right-li">
-						<button
-							className="table-btn border-radius round-white"
-							onClick={() => setModalConfirm(true)}
-						>
-							Filter{" "}
-						</button>
-					</li>
-				</ul>
+    <>
+      <div className="table-part">
+        <h2>Chefs</h2>
+        <ul className="table_header_button_section p-r">
+          <li>
+            {/* <button className="table-btn">Total</button> */}
+            {selectedCuisines.map((cuisine, index) => (
+              <li>
+                {" "}
+                <div key={index} className="table-btn">
+                  <span>{cuisine}</span>
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeCuisine(cuisine)}
+                  >
+                    x
+                  </button>
+                </div>
+              </li>
+            ))}
+          </li>
+          <li className="right-li">
+            <button
+              className="table-btn border-radius round-white"
+              onClick={() => setModalConfirm(true)}
+            >
+              Filter{" "}
+            </button>
+          </li>
+        </ul>
 
-				<div className="table-box">
-					<table className="table table-borderless">
-						<thead>
-							<tr>
-								<th scope="col">Photo</th>
-								<th scope="col">Name/Surname</th>
-								<th scope="col">Current Location</th>
-								<th scope="col">Cuisines</th>
-								{/* <th scope="col">Location</th> */}
-								{/* <th scope="col">Dietary restrictios</th>
+        <div className="table-box">
+          <table className="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">Name/Surname</th>
+                <th scope="col">Current Location</th>
+                <th scope="col">Cuisines</th>
+                {/* <th scope="col">Location</th> */}
+                {/* <th scope="col">Dietary restrictios</th>
 								<th scope="col">Rating</th> */}
-								<th scope="col"></th>
-							</tr>
-						</thead>
-						<tbody>
-							{filteredChefs.length > 0 ? (
-								filteredChefs.map((filter) => (
-									<tr key={filter.id}>
-										{filter.pic ? (
-											<td className="chefs_pic">
-												<img
-													src={
-														process.env.NEXT_PUBLIC_IMAGE_URL +
-														"/images/chef/users/" +
-														filter.pic
-													}
-													alt=""
-												/>
-											</td>
-										) : (
-											<td className="chefs_pic">
-												<img
-													src={
-														process.env.NEXT_PUBLIC_IMAGE_URL +
-														"/images/placeholder.jpg"
-													}
-													alt=""
-												/>
-											</td>
-										)}
-										<td>{filter.name || ''} {filter.surname || ''}</td>
-										<td>{filter.address || ''}</td>
-										<td>
-											<ul>
-												<li>{filter.cuisine_name || ''}</li>
-												{/* <li>Italian</li>
-                                                <li>+4</li> */}
-											</ul>
-										</td>
-										{/* <td>Ut pulvinar.</td> */}
-										{/* <td>Arcu nibh non.</td>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredChefs.length > 0 ? (
+                filteredChefs.map((filter) => (
+                  <tr key={filter.id}>
+                    {filter.pic ? (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/chef/users/" +
+                            filter.pic
+                          }
+                          alt=""
+                        />
+                      </td>
+                    ) : (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/placeholder.jpg"
+                          }
+                          alt=""
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {filter.name || ""} {filter.surname || ""}
+                    </td>
+                    <td>{filter.address || ""}</td>
+                    <td>
+                      <ul>
+                        <ul>
+                          {filter.cuisine_name
+                            .split(",")
+                            .map((cuisine, index) => {
+                              if (index < 2) {
+                                return <li key={index}>{cuisine}</li>;
+                              } else if (index === 2) {
+                                return (
+                                  <li
+                                    key={index}
+                                    onClick={() => setShowAllCuisines(true)}
+                                  >
+                                    +{filter.cuisine_name.split(",").length - 2}
+                                  </li>
+                                );
+                              }
+                              return null;
+                            })}
+                        </ul>
+                      </ul>
+                    </td>
+                    {/* <td>Ut pulvinar.</td> */}
+                    {/* <td>Arcu nibh non.</td>
 										<td>Eu nibh.</td> */}
-										<td>
-											<a href="#">
-												<i className="fa-solid fa-ellipsis"></i>
-											</a>
-										</td>
-									</tr>
-								))
-							) : (
-								chefs.length > 0 ? (
-									chefs.map((chef) => (
-										<tr key={chef.id}>
-											{chef.pic ? (
-												<td className="chefs_pic">
-													<img
-														src={
-															process.env.NEXT_PUBLIC_IMAGE_URL +
-															"/images/chef/users/" +
-															chef.pic
-														}
-														alt=""
-													/>
-												</td>
-											) : (
-												<td className="chefs_pic">
-													<img
-														src={
-															process.env.NEXT_PUBLIC_IMAGE_URL +
-															"/images/placeholder.jpg"
-														}
-														alt=""
-													/>
-												</td>
-											)}
-											<td>{chef.name || ''} {chef.surname || ''}</td>
-											<td>{chef.address || ''}</td>
-											<td>
-												<ul>
-													<li>{chef.cuisine_name || ''}</li>
-													{/* <li>Italian</li>
-             <li>+4</li> */}
-												</ul>
-											</td>
-											{/* <td>Ut pulvinar.</td> */}
-											{/* <td>Arcu nibh non.</td>
-											<td>Eu nibh.</td> */}
-											<td>
-												<a href="#">
-													<i className="fa-solid fa-ellipsis"></i>
-												</a>
-											</td>
-										</tr>
-									))
-								) : (
-									<tr>
-										<td colSpan={8}>No record found.</td>
-									</tr>
-								)
-							)}
-						</tbody>
-					</table>
-				</div>
-			</div>
+                    <td>
+                      <a href="#">
+                        <i className="fa-solid fa-ellipsis"></i>
+                      </a>
+                    </td>
+                  </tr>
+                ))
+              ) : chefs.length > 0 ? (
+                chefs.map((chef) => (
+                  <tr key={chef.id}>
+                    {chef.pic ? (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/chef/users/" +
+                            chef.pic
+                          }
+                          alt=""
+                        />
+                      </td>
+                    ) : (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/placeholder.jpg"
+                          }
+                          alt=""
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {chef.name || ""} {chef.surname || ""}
+                    </td>
+                    <td>{chef.address || ""}</td>
+                    <td>
+                      {/* <ul>
+                        <li>{chef.cuisine_name || ""}</li>
+                        <li>Italian</li>
+                        <li>+4</li>
+                      </ul> */}
 
-			<Pagination
-				items={totalMenu.length}
-				currentPage={currentPage}
-				pageSize={pageSize}
-				onPageChange={onPageChange}
-			/>
+                      {/* <ul>
+                        {chef.cuisine_name && (
+                          <>
+                            {chef.cuisine_name
+                              .split(",")
+                              .map((cuisine, index) => {
+                                if (index < 2) {
+                                  return <li key={index}>{cuisine}</li>;
+                                } else if (index === 2) {
+                                  return (
+                                    <li
+                                      key={index}
+                                      onClick={() => setShowAllCuisines(true)}
+                                    >
+                                      +{chef.cuisine_name.split(",").length - 2}
+                                    </li>
+                                  );
+                                }
+                                return null;
+                              })}
+                          </>
+                        )}
+                      </ul>  */}
 
-			<PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
-				<div className="accordion" id="accordionExample">
-					<div className="accordion-item">
-						<h2 className="accordion-header" id="headingOne">
-							<button
-								className="accordion-button"
-								type="button"
-								data-bs-toggle="collapse"
-								data-bs-target="#collapseOne"
-								aria-expanded="true"
-								aria-controls="collapseOne"
-							>
-								Cuisines
-							</button>
-						</h2>
-						<div
-							id="collapseOne"
-							className="accordion-collapse collapse show"
-							aria-labelledby="headingOne"
-							data-bs-parent="#accordionExample"
-						>
-							<div className="accordion-body">
-								<div className="container chkbox">
-									<div className="row">
-										{getcuisine.map((cuisines, index) => (
-											<div className="col-sm-4" key={index}>
-												<input type="checkbox" value={cuisines.name} onChange={handleCheckboxChange} />
-												<label>{cuisines.name}</label>
-											</div>
-										))}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className="accordion-item">
-						<h2 className="accordion-header" id="headingTwo">
-							<button
-								className="accordion-button collapsed"
-								type="button"
-								data-bs-toggle="collapse"
-								data-bs-target="#collapseTwo"
-								aria-expanded="false"
-								aria-controls="collapseTwo"
-							>
-								Locations
-							</button>
-						</h2>
-						<div
-							id="collapseTwo"
-							className="accordion-collapse collapse"
-							aria-labelledby="headingTwo"
-							data-bs-parent="#accordionExample"
-						>
-							<div className="accordion-body">
-								<strong>This is the second item's accordion body.</strong> It
-								is hidden by default, until the collapse plugin adds the
-								appropriate classNamees that we use to style each element.
-								These classNamees control the overall appearance, as well as
-								the showing and hiding via CSS transitions. You can modify any
-								of this with custom CSS or overriding our default variables.
-								It's also worth noting that just about any HTML can go within
-								the <code>.accordion-body</code>, though the transition does
-								limit overflow.
-							</div>
-						</div>
-					</div>
-					<div className="accordion-item">
-						<h2 className="accordion-header" id="headingThree">
-							<button
-								className="accordion-button collapsed"
-								type="button"
-								data-bs-toggle="collapse"
-								data-bs-target="#collapseThree"
-								aria-expanded="false"
-								aria-controls="collapseThree"
-							>
-								Dietaty Restrictions
-							</button>
-						</h2>
-						<div
-							id="collapseThree"
-							className="accordion-collapse collapse"
-							aria-labelledby="headingThree"
-							data-bs-parent="#accordionExample"
-						>
-							<div className="accordion-body">
-								<strong>This is the third item's accordion body.</strong> It
-								is hidden by default, until the collapse plugin adds the
-								appropriate classNamees that we use to style each element.
-								These classNamees control the overall appearance, as well as
-								the showing and hiding via CSS transitions. You can modify any
-								of this with custom CSS or overriding our default variables.
-								It's also worth noting that just about any HTML can go within
-								the <code>.accordion-body</code>, though the transition does
-								limit overflow.
-							</div>
-						</div>
-					</div>
-				</div>
-			</PopupModal>
-		</>
-	);
+                       <ul>
+                        {chef.cuisine_name && (
+                          <>
+                            {chef.cuisine_name
+                              .split(",")
+                              .map((cuisine, index) => {
+                                if (index < 2) {
+                                  return <li key={index}>{cuisine}</li>;
+                                } else if (index === 2) {
+                                  return (
+                                    <li
+                                      key={index}
+                                      onClick={handleShowAllCuisines}
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#collapseCuisines"
+                                      aria-expanded={showAllCuisines}
+                                    >
+                                      +{chef.cuisine_name.split(",").length - 2}
+                                    </li>
+                                  );
+                                }
+                                return null;
+                              })}
+                          </>
+                        )}
+                      </ul> 
+
+                      <div
+                        className={`collapse${showAllCuisines ? " show" : ""}`}
+                        id="collapseCuisines"
+                      >
+                        <ul>
+                          {chef.cuisine_name &&
+                            chef.cuisine_name
+                              .split(",")
+                              .map((cuisine, index) => (
+                                <li key={index}>{cuisine}</li>
+                              ))}
+                        </ul>
+                      </div>
+                    </td>
+                    {/* <td>Ut pulvinar.</td> */}
+                    {/* <td>Arcu nibh non.</td>
+					<td>Eu nibh.</td> */}
+                    <td>
+                      <a href="#">
+                        <i className="fa-solid fa-ellipsis"></i>
+                      </a>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={8}>No record found.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <Pagination
+        items={totalMenu.length}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        onPageChange={onPageChange}
+      />
+      <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
+        <div className="accordion" id="accordionExample">
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingOne">
+              <button
+                className="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Cuisines
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              className="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample"
+            >
+              <div className="accordion-body">
+                <div className="container chkbox">
+                  <div className="row">
+                    {getcuisine.map((cuisines, index) => (
+                      <div className="col-sm-4" key={index}>
+                        <input
+                          type="checkbox"
+                          value={cuisines.name}
+                          onChange={handleCheckboxChange}
+                          style={{ marginRight: "5px" }}
+                        />
+                        <label style={{ marginLeft: "5px" }}>
+                          {cuisines.name}
+                        </label>{" "}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingTwo">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Locations
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              className="accordion-collapse collapse show"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample"
+            >
+              <div className="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is
+                hidden by default, until the collapse plugin adds the
+                appropriate classNamees that we use to style each element. These
+                classNamees control the overall appearance, as well as the
+                showing and hiding via CSS transitions. You can modify any of
+                this with custom CSS or overriding our default variables. It's
+                also worth noting that just about any HTML can go within the{" "}
+                <code>.accordion-body</code>, though the transition does limit
+                overflow.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingThree">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                Dietaty Restrictions
+              </button>
+            </h2>
+            <div
+              id="collapseThree"
+              className="accordion-collapse collapse show"
+              aria-labelledby="headingThree"
+              data-bs-parent="#accordionExample"
+            >
+              <div className="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is
+                hidden by default, until the collapse plugin adds the
+                appropriate classNamees that we use to style each element. These
+                classNamees control the overall appearance, as well as the
+                showing and hiding via CSS transitions. You can modify any of
+                this with custom CSS or overriding our default variables. It's
+                also worth noting that just about any HTML can go within the{" "}
+                <code>.accordion-body</code>, though the transition does limit
+                overflow.
+              </div>
+            </div>
+          </div>
+        </div>
+      </PopupModal>
+    </>
+  );
 }

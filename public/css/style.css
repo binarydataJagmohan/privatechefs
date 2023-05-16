@@ -3299,17 +3299,33 @@ div#villa_modal {
     color: var(--color_4);
     border: none;
 }
-.admin_assign_booking_menu button {
+button.remove-btn {
+  margin-left: 10px;
+  border: none;
+  background: none;
+  color: #fff;
+  font-size: 16px;
+}
+
+
+.modal.modal-part.d-block.same-here .modal-dialog {
+  position: absolute;
+  right: 34px;
+  width: 100%;
+  top: 23%;
+  max-width: 560px;
+}
+.same-here label{
   font-size: 12px;
-  padding: 6px 10px;
-  margin-left: 8px;
-  margin-bottom: 4px;
 }
-div#xtra_large {
-  max-width: 1400px;
+.same-here .accordion-button:not(.collapsed) {
+   color: unset; 
+   background-color:unset;
+   box-shadow: unset;
 }
-div#location_popup {
-  z-index: 1;
+.same-here .accordion-item {
+  background-color: #fff;
+  border:unset;
 }
 .social i.fa {
   font-size: 18px !important;

@@ -559,6 +559,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 			});
 	}
 
+
 	const deleteReceiptData = (id: any) => {
 		swal({
 			title: "Are you sure?",

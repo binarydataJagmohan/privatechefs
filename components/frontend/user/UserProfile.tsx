@@ -354,7 +354,7 @@ export default function UserProfile() {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-12">
+              <div className="col-lg-2 col-md-12">
                 <div className="user-img  ">
                   {userData.pic ? (
                     <img
@@ -374,7 +374,7 @@ export default function UserProfile() {
                       src={
                         image && (typeof image !== 'string')
                           ? URL.createObjectURL(image)
-                          : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/default.png'
+                          : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'
                       }
                       // crop={{ ratio: "1/1", position: "center" }}
                       alt=""
