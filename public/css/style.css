@@ -3317,3 +3317,7 @@ div#location_popup {
   margin-left: 18px;
   cursor: pointer;
 }
+
+a {
+  text-decoration-line: none;
+}

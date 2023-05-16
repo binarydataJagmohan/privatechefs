@@ -2,13 +2,14 @@ import React, { useState, useEffect,useRef} from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import {getUserBookingId } from "../../../lib/adminapi";
+import {getUserBookingId,deleteBooking } from "../../../lib/adminapi";
 import { getCurrentUserByBooking,getUserFilterByBooking } from "../../../lib/userapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
 import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
+import swal from "sweetalert";
 export default function Booking() {
 
   interface Booking {
@@ -69,6 +70,10 @@ export default function Booking() {
       surname?:string;
       menu_names?:string;
       amount?:string;
+      admin_amount?:string;
+      client_amount?:string;
+      pic?:string;
+      user_show?:string;
     }
   
     const [bookingUsers, setBookingUser] = useState([]);
@@ -205,7 +210,7 @@ export default function Booking() {
       }
   
       const loader = new Loader({
-      apiKey: "AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU",
+      apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
       version: "weekly",
       });
   
@@ -295,6 +300,39 @@ export default function Booking() {
       setSelectedMenu([]);
       console.log(selectedmenu);
     }
+
+    const deleteBookingByAdmin = (id:any) => {
+      swal({
+        title: "Are you sure?",
+        text: "You want to delete the booking",
+        icon: "warning",
+        buttons: ["No", "Yes"], // Modify the buttons here
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+        deleteBooking(id)
+          .then((res) => {
+          if (res.status === true) {
+            swal("Booking has been deleted succesfully", {
+            icon: "success",
+            });
+            fetchBookingUserDetails(currentUserData.id);
+          
+          } else {
+            swal(res.message, {
+              icon: "info",
+              });
+          }
+          })
+          .catch((err) => {
+          // Handle error
+          });
+        } else {
+        // Handle cancellation
+        }
+      });
+      };
+      
 
     return(
         <>
@@ -446,14 +484,14 @@ export default function Booking() {
                                                       </a>
                                                     </li>
                                                     <li>
-                                                      <a
-                                                        className="dropdown-item"
-                                                        href="#"
-                                                        onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields()}}
-                                                      >
-                                                        Delete
-                                                      </a>
-                                                    </li>
+                                                        <a
+                                                          className="dropdown-item"
+                                                          href="#"
+                                                          onClick={() => { deleteBookingByAdmin(user.booking_id);}}
+                                                        >
+                                                          Delete
+                                                        </a>
+                                                      </li>
                                                   </ul>
                                                 </div>
 						                                  </td>
@@ -495,13 +533,14 @@ export default function Booking() {
                                         <div id="collapseOne" className="mt-2 accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                           <div className="accordion-body">
                                           {chefoffer.length > 0 ? (
-                                              chefoffer.map((chef, index) => (
+                                            chefoffer.map((chef, index) => (
+                                              chef.user_show === 'visible' ? (
                                                 <div className="row" key={index}>
                                                   <div className="col-5">
                                                     <p className="chefs-name m-2">{chef.name}</p>
                                                   </div>
                                                   <div className="col-2">
-                                                    <p className="mony m-2">${chef.amount}</p>
+                                                    <p className="mony m-2">${chef.client_amount}</p>
                                                   </div>
                                                   <div className="col-5">
                                                     {chef.menu_names?.split(",").map((menu, index) => (
@@ -509,12 +548,13 @@ export default function Booking() {
                                                     ))}
                                                   </div>
                                                 </div>
-                                              ))
-                                            ) : (
-                                              <p className="mt-2">No Chef apply for this booking</p>
-                                            )}
-
-                                          
+                                              ) : (
+                                                <p className="mt-2">No Chef apply for this booking</p>
+                                              )
+                                            ))
+                                          ) : (
+                                            <p className="mt-2">No Chef apply for this booking</p>
+                                          )}
 
                                           </div>
                                         </div>

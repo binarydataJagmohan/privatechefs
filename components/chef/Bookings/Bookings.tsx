@@ -116,42 +116,53 @@ export default function Bookings() {
  
 
   useEffect(() => {
-    const data = isPageVisibleToRole("chef-bookings");
-    if (data == 2) {
-      window.location.href = "/login"; // redirect to login if not logged in
-    } else if (data == 0) {
-      window.location.href = "/404"; // redirect to 404 if not authorized
-    }
-    if (data == 1) {
-	const userData = getCurrentUserData() as CurrentUserData;
-      if(userData.approved_by_admin == 'yes' && userData.profile_status == 'completed'){
-		fetchBookingUserDetails(userData.id);
-        getAllChefMenuData(userData.id)
-        setCurrentUserData({
-          ...userData,
-          id: userData.id,
-          name: userData.name,
-          pic: userData.pic,
-          surname: userData.surname,
-          role: userData.role,
-          approved_by_admin: userData.approved_by_admin,
+	const loadData = async () => {
+	  const data = isPageVisibleToRole("chef-bookings");
+	  if (data == 2) {
+		window.location.href = "/login"; // redirect to login if not logged in
+	  } else if (data == 0) {
+		window.location.href = "/404"; // redirect to 404 if not authorized
+	  }
+	  if (data == 1) {
+		const userData = getCurrentUserData() as CurrentUserData;
+		if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
+			fetchBookingUserDetails(userData.id)
+			getAllChefMenuData(userData.id)
+			setCurrentUserData({
+				...userData,
+				id: userData.id,
+				name: userData.name,
+				pic: userData.pic,
+				surname: userData.surname,
+				role: userData.role,
+				approved_by_admin: userData.approved_by_admin,
+		
+			  });
+		} else {
+		  window.location.href = "/404";
+		}
+	  }
+	};
   
-        });
-      }else {
-        window.location.href = "/404";
-      }
-	 
-    }
-    
-	
+	loadData();
   }, []);
-
+  
   const fetchBookingUserDetails = async (id:any) => {
     try {
       const res = await getUserChefByBooking(id);
       if (res.status) {
-		setTotalBooking(res.data);
-        const paginatedPosts = paginate(res.data, currentPage, pageSize);
+
+		const filteredData = res.data.filter((record:any) => {
+			return (
+				record.chef_id != id &&
+				record.applied_jobs_status != 'hired' && 
+				record.applied_jobs_status != 'discussion' && 
+				record.applied_jobs_status != 'rejected' 
+			  );
+		  });
+
+		setTotalBooking(filteredData);
+        const paginatedPosts = paginate(filteredData, currentPage, pageSize);
         setBookingUser(paginatedPosts);
 
       } else {
@@ -171,9 +182,20 @@ export default function Bookings() {
     getUserChefByBooking(currentUserData.id)
     .then(res => {
       if(res.status==true){
-		setTotalBooking(res.data);
-        const paginatedPosts = paginate(res.data, page, pageSize);
-        setBookingUser(paginatedPosts);
+	
+		const filteredData = res.data.filter((record:any) => {
+			return (
+				record.chef_id != currentUserData.id &&
+				record.applied_jobs_status != 'hired' && 
+				record.applied_jobs_status != 'discussion' && 
+				record.applied_jobs_status != 'rejected' 
+			  );
+		  });
+
+		setTotalBooking(filteredData);
+		const paginatedPosts = paginate(filteredData, page, pageSize);
+		setBookingUser(paginatedPosts);
+
       } else {
         setErrorMessage(res.message);
       }
@@ -204,7 +226,7 @@ export default function Bookings() {
 	  }
 
 	  const loader = new Loader({
-		apiKey: "AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU",
+		apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
 		version: "weekly",
 	  });
 
@@ -240,8 +262,18 @@ export default function Bookings() {
 		getUserChefFilterByBooking(id,type)
 			.then(res => {
 			if(res.status==true){
-				setTotalBooking(res.data);
-				const paginatedPosts = paginate(res.data, currentPage, pageSize);
+
+				const filteredData = res.data.filter((record:any) => {
+					return (
+						record.chef_id != id &&
+						record.applied_jobs_status != 'hired' && 
+						record.applied_jobs_status != 'discussion' && 
+						record.applied_jobs_status != 'rejected' 
+					  );
+				  });
+		
+				setTotalBooking(filteredData);
+				const paginatedPosts = paginate(filteredData, currentPage, pageSize);
 				setBookingUser(paginatedPosts);
 			} else {
 				setErrorMessage(res.message);
@@ -726,7 +758,7 @@ export default function Bookings() {
 						<div className='login_div'>
 							<label className="f-w-4">Chef’s Offer:</label>
 							
-							<input type="text" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} onBlur={handleBookingApplyAmount} placeholder="Enter Amount"/>
+							<input type="number" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} onBlur={handleBookingApplyAmount} placeholder="Enter Amount"/>
 								{errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.amount}</span>}
 									</div>
 						</div>

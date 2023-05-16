@@ -1,14 +1,14 @@
 import React, { useState, useEffect,useRef} from "react";
-import PopupModal from "../../../components/commoncomponents/PopupModal";
+import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import {getUserBookingId ,UpdatedAppliedBookingJob} from "../../../lib/adminapi";
-import { getUserChefByBooking,getUserChefFilterByBooking,getAllChefMenu } from "../../../lib/chefapi";
+import {getUserBookingId ,getSingleUserAssignBooking,UpdatedAppliedBookingByKeyValue,getAdminChefByBooking,getAdminChefFilterByBooking,deleteBooking} from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
 import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
+import swal from "sweetalert";
 
 export default function Bookings() {
 
@@ -49,16 +49,9 @@ export default function Bookings() {
     surname: string;
     role: string;
     approved_by_admin: string
+	
   }
 
-
-  interface MenuData {
-    id: number;
-    name?:string;
-    menu_name?:string;
-    image?:string;
-
-  }
 
   interface Errors {
 	  chefid?:string;
@@ -92,11 +85,16 @@ export default function Bookings() {
     surname?:string;
     menu_names?:string;
     amount?:string;
-    id?:number
+    id?:number;
+	chef_id?:number;
+	client_amount?:string;
+	admin_amount?:string;
+	user_show?:string;
+	applied_jobs_status:string;
+	applied_jobs_id:string;
+
   }
 
-
-  const [menu, setMenu] = useState<MenuData[]>([]);
 
   const [errors, setErrors] = useState<Errors>({});
 
@@ -106,10 +104,13 @@ export default function Bookings() {
 
   const [chefoffer, setChefOffer] = useState<ChefOffer[]>([]);
 
-  const radioRef = useRef(null);
+  const radioRef = useRef<HTMLInputElement>(null);
 
-  const [chefid, setChefId] = useState('');
-  
+
+  const [appliedid, setAppliedId] = useState('');
+  const [appliedkey, setAppliedKey] = useState('');
+  const [appliedValue, setAppliedValue] = useState('');
+
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -135,8 +136,7 @@ export default function Bookings() {
     }
     if (data == 1) {
 	const userData = getCurrentUserData() as CurrentUserData;
-		    fetchBookingUserDetails(userData.id);
-        getAllChefMenuData(userData.id)
+		fetchBookingAdminDetails();
         setCurrentUserData({
           ...userData,
           id: userData.id,
@@ -152,11 +152,11 @@ export default function Bookings() {
 	
   }, []);
 
-  const fetchBookingUserDetails = async (id:any) => {
+  const fetchBookingAdminDetails = async () => {
     try {
-      const res = await getUserChefByBooking(id);
+      const res = await getAdminChefByBooking();
       if (res.status) {
-		  console.log(res.data);
+	
 		setTotalBooking(res.data);
         const paginatedPosts = paginate(res.data, currentPage, pageSize);
         setBookingUser(paginatedPosts);
@@ -175,12 +175,15 @@ export default function Bookings() {
 
   const onPageChange = (page:any) => {
     setCurrentPage(page);
-    getUserChefByBooking(currentUserData.id)
+    getAdminChefByBooking()
     .then(res => {
       if(res.status==true){
+	
 		setTotalBooking(res.data);
         const paginatedPosts = paginate(res.data, page, pageSize);
         setBookingUser(paginatedPosts);
+
+
       } else {
         setErrorMessage(res.message);
       }
@@ -195,7 +198,7 @@ export default function Bookings() {
     getUserBookingId(id).then((res) => {
     setBooking(res.booking[0]);
     setChefOffer(res.chefoffer);
-	  setDaysBooking(res.days_booking);
+	setDaysBooking(res.days_booking);
     setSidebarConfirm(true);
 
 	  if(res.days_booking.length == 1){
@@ -211,7 +214,7 @@ export default function Bookings() {
 	  }
 
 	  const loader = new Loader({
-		apiKey: "AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU",
+		apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
 		version: "weekly",
 	  });
 
@@ -235,18 +238,45 @@ export default function Bookings() {
     });
   };
 
+  const getSingleUserAssignBookingData  = (id:any) => {
+  
+	getSingleUserAssignBooking(id)
+    .then(res => {
+      if(res.status==true){
+		setChefOffer(res.data);
+		// console.log(res.data);
+		res.data.forEach((item: any) => {
+			// 
+			if (item.applied_jobs_status == "hired") {
+			  setAppliedId(item.applied_jobs_id);
+			}
+		});
+
+      } else {
+        setErrorMessage(res.message);
+      }
+    })
+    .catch(err => {
+        console.log(err);
+    });		
+
+
+  };
+
+
   const formatDate = (value:any) => {
 	return moment(value).format('D/M/YY');
   }
   
-  const handleButtonClick = (index:any,type:string,id:string) => {
+  const handleButtonClick = (index:any,type:string) => {
     setActiveIndex(index);
 	if(type == 'all'){
-		fetchBookingUserDetails(id);
+		fetchBookingAdminDetails();
 	}else {
-		getUserChefFilterByBooking(id,type)
+		getAdminChefFilterByBooking(type)
 			.then(res => {
 			if(res.status==true){
+
 				setTotalBooking(res.data);
 				const paginatedPosts = paginate(res.data, currentPage, pageSize);
 				setBookingUser(paginatedPosts);
@@ -260,47 +290,107 @@ export default function Bookings() {
 	}
   };
 
-  	const getAllChefMenuData = async (id:any) => {
-		getAllChefMenu(id)
-		.then(res => {
-		if(res.status==true){
-			setMenu(res.data);
-		} 
-		})
-		.catch(err => {
-			console.log(err);
-		});
+
+
+	const handleBookingAssignJobSubmit = (event:any) => {
+		event.preventDefault();
+
+		var client = $('#client_amount_'+appliedid).val();
+		var admin = $('#admin_amount_'+appliedid).val();
+		var user_show = $('#user_show_'+appliedid).val();
+
+		if(!appliedid){
+
+			swal({
+				title: 'Oops!',
+				text: 'please choose one user to assign this booking',
+				icon: 'info',
+				
+			});
+		}else {
+
+			if(client && admin && user_show == 'visible'){
+
+				const data = {
+					id: appliedid,
+					key:'status',
+					value:'hired',
+					message:'assign',
+				}
+				UpdatedAppliedBookingByKeyValue(data)
+				.then(res => {
+					if(res.status==true){
+		
+						toast.success(res.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+
+						setModalConfirm(false);
+						
+						getSingleUserAssignBookingData(bookingid)
+						fetchBookingAdminDetails();
+					} else {
+					
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+					
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+
+			}else {
+				swal({
+					title: 'Oops!',
+					text: 'Please enter admin amount,client amount and select user status is visible',
+					icon: 'info',
+					
+				});
+			}
+		}
+		
+	};
+
+	function handleChange(event:any) {
+		const name = event.target.name;
+		const value = event.target.value;
+		const id = name.split('_')[2];
+
+		if(name == 'id'){
+			setAppliedId(value);
+			setAppliedKey(name);
+		}else {
+			setAppliedId(id);
+			setAppliedKey(name.split('_').slice(0, -1).join('_'));
+		}
+			
+	
+		setAppliedValue(value);
+		
+		// console.log(chefId);
 	}
 
+	function handleBlur(event:any) {
 
-	  const handleBookingAssignJobSubmit = (event:any) => {
-		event.preventDefault();
-		
-		// Validate form data
-		const newErrors: Errors = {};
+		if(appliedkey != 'id'){
 
-		if (!chefid) {
-		  newErrors.chefid = "Please assign the booking to chef";
-		}
-
-		setErrors(newErrors);
-		
-		// Submit form data if there are no errors
-		if (( chefid) ) {
-
-		   const data = {
-       chef_id: chefid,
-			 booking_id : bookingid,
-		   };
-		   UpdatedAppliedBookingJob(data)
+			const data = {
+				id: appliedid,
+				key:appliedkey,
+				value:appliedValue,
+				message:'data',
+			}
+			UpdatedAppliedBookingByKeyValue(data)
 			.then(res => {
 				if(res.status==true){
-					setModalConfirm(false);
-					fetchBookingUserDetails(currentUserData.id);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
+	
+					// toast.success(res.message, {
+					// 	position: toast.POSITION.TOP_RIGHT
+					// });
 					
+					getSingleUserAssignBookingData(bookingid)
 				} else {
 				
 					toast.error(res.message, {
@@ -308,13 +398,15 @@ export default function Bookings() {
 					});
 				
 				}
-		  	})
+			})
 			.catch(err => {
 				console.log(err);
 			});
+
 		}
+
 		
-	  };
+	}
 
 	const resetFields = () => {
 		setAmount('');
@@ -322,10 +414,49 @@ export default function Bookings() {
 		console.log(selectedmenu);
 	}
 
-  const handleClear = () => {
-    radioRef.current.checked = false;
-  };
+	const handleClear = () => {
+		if (radioRef.current) {
+		  radioRef.current.checked = false;
+		}
+	};
 
+	const deleteBookingByAdmin = (id:any) => {
+		swal({
+		  title: "Are you sure?",
+		  text: "You want to delete the booking",
+		  icon: "warning",
+		  buttons: ["No", "Yes"], // Modify the buttons here
+		  dangerMode: true,
+		}).then((willDelete) => {
+		  if (willDelete) {
+			deleteBooking(id)
+			  .then((res) => {
+				if (res.status === true) {
+				  swal("Booking has been deleted succesfully", {
+					icon: "success",
+				  });
+				  fetchBookingAdminDetails();
+				
+				} else {
+					swal(res.message, {
+						icon: "info",
+					  });
+				}
+			  })
+			  .catch((err) => {
+				// Handle error
+			  });
+		  } else {
+			// Handle cancellation
+		  }
+		});
+	  };
+	  
+
+	  
+
+ 
+  
   return (
     <>
       <div className="table-part">
@@ -335,7 +466,7 @@ export default function Bookings() {
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(0,'all',currentUserData.id)}
+				onClick={() => handleButtonClick(0,'all')}
 				>
 				Total
 				</button>
@@ -343,7 +474,7 @@ export default function Bookings() {
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(1,'upcoming',currentUserData.id)}
+				onClick={() => handleButtonClick(1,'upcoming')}
 				>
 				Upcoming
 				</button>
@@ -351,7 +482,7 @@ export default function Bookings() {
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(2,'cancelled',currentUserData.id)}
+				onClick={() => handleButtonClick(2,'cancelled')}
 				>
 				Cancelled
 				</button>
@@ -359,7 +490,7 @@ export default function Bookings() {
 			<li>
 				<button
 				className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`}
-				onClick={() => handleButtonClick(3,'completed',currentUserData.id)}
+				onClick={() => handleButtonClick(3,'completed')}
 				>
 				Completed
 				</button>
@@ -444,17 +575,19 @@ export default function Bookings() {
 											View Booking
 										</a>
 									</li>
-									
-									<li>
+
+									{user.category == 'multipletimes' && ( <li>
 										<a
 											className="dropdown-item"
 											href="#"
-											onClick={(e) => { setModalConfirm(true); getSingleBookingUser(e,user.booking_id); setBookingId(user.booking_id); resetFields()}}
+											onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields()}}
 										>
 											Assign Booking
 										</a>
-									</li>
-                  <li>
+									</li>)}
+									
+									
+                  					<li>
 										<a
 											className="dropdown-item"
 											href="#"
@@ -463,11 +596,11 @@ export default function Bookings() {
 											Edit
 										</a>
 									</li>
-                  <li>
+                  					<li>
 										<a
 											className="dropdown-item"
 											href="#"
-											onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields()}}
+											onClick={() => { deleteBookingByAdmin(user.booking_id);}}
 										>
 											Delete
 										</a>
@@ -741,58 +874,111 @@ export default function Bookings() {
 
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
         <div className="popup-part new-modala">
-          <h2 className="title-pop up-move">Booking id #{bookingid}</h2>
+          <h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
           	<div className="offers">
-			  <form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">  
-            	
-				<div className="row">
-					<div className="col-12">
-						<div className="all-form">
-						<label className="f-w-4">Chef’s Offer:</label>
-						<p className="f-10">
-               Please choose one and assign the booking to the chef.
-						</p>
-						</div>
-						<div className='login_div'>			
-						
-              {chefoffer.length > 0 ? (
-                  chefoffer.map((chef, index) => (
-                    <div className="row admin_assign_booking_row m-2" key={index}>
-                      <div className="col-1">
-                      <div className="form-check">
-                        <input className="form-check-input" type="radio" name="flexRadioDefault" value={chef.id} onChange={(e) => setChefId(e.target.value)} ref={radioRef}/>
-                       
-                      </div>
-                      </div>
-                      <div className="col-3">
-                        <p className="chefs-name">{chef.name}</p>
-                      </div>
-                      <div className="col-2">
-                        <p className="mony">${chef.amount}</p>
-                      </div>
-                      <div className="col-5 admin_assign_booking_menu">
-                        {chef.menu_names?.split(",").map((menu, index) => (
-                          <button className="table-btn btn-2 list-btn" key={index}>{menu.trim()}</button> 
-                        ))}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="mt-2">No Chef apply for this booking</p>
-                )}
-							
-						
-							{errors.chefid && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.chefid}</span>}
-						</div>	
-						<div className="text-right">
+			  <form onSubmit={handleBookingAssignJobSubmit}  className="common_form_error" id="">
+					<table className="table">
+						<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Chef's Name</th>
+							<th scope="col-2">Menu</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Client Amount</th>
+							<th scope="col">Admin Amount</th>
+							<th scope="col">Show to user</th>
+						</tr>
+						</thead>
+						<tbody>
+						{chefoffer.length > 0 ? (
+							chefoffer.map((chef, index) => (
+							<tr key={index}>
+								<th scope="row">
+								<div className="form-check">
+									<input
+									className="form-check-input"
+									type="radio"
+									name="id"
+									defaultValue={chef.applied_jobs_id}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									ref={radioRef}
+									defaultChecked={chef.applied_jobs_status ==  'hired'}
+									/>
+								</div>
+								</th>
+								<td>{chef.name} {chef.surname}</td>
+								<td>
+								{chef.menu_names?.split(",").map((menu, index) => (
+									<button className="table-btn btn-2 list-btn mb-1" key={index}>
+									{menu.trim()}
+									</button>
+								))}
+								</td>
+								<td>{chef.amount}</td>
+								<td>
+									<div className="all-form p-0">
+										<div className="login_div">
+										<input
+											type="number"
+											id={`client_amount_${chef.applied_jobs_id}`}
+											name={`client_amount_${chef.applied_jobs_id}`}
+											placeholder="Client Amount"
+											onChange={handleChange}
+											onBlur={handleBlur}
+											defaultValue={chef.client_amount}
+											/>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div className="all-form p-0">
+										<div className="login_div">
+										<input
+											type="number"
+											id={`admin_amount_${chef.applied_jobs_id}`}
+											name={`admin_amount_${chef.applied_jobs_id}`}
+											placeholder="Admin Amount"
+											onChange={handleChange}
+											onBlur={handleBlur}
+											defaultValue={chef.admin_amount}
+										/>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div className="all-form p-0">
+										<div className="login_div">
+											<select name={`user_show_${chef.applied_jobs_id}`} onChange={handleChange}
+											onBlur={handleBlur} defaultValue={chef.user_show} id={`user_show_${chef.applied_jobs_id}`}>
+											<option value="">Choose Option</option>
+											<option value="visible">Visible</option>
+											<option value="invisible">Invisible</option>
+    									</select>
+										</div>
+									</div>
+								</td>
+							</tr>
+							))
+						) : (
+							<tr>
+							<td className="">No Chef apply for this booking</td>
+							</tr>
+						)}
+						</tbody>
+					</table>
+					<div className="text-right">
 						<div className="banner-btn">
-              <button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>Clear</button>   
-							<button id="btn_offer" type="submit">Assign Booking</button>
-						</div>
+						<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
+							Clear
+						</button>
+						<button id="btn_offer" type="submit">
+							Assign Booking
+						</button>
 						</div>
 					</div>
-				</div>
-				</form>
+					</form>
+
           	</div>
         </div>
       </PopupModal>

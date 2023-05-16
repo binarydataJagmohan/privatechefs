@@ -15,10 +15,10 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
+    "/404": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/index.js"
+      "static/chunks/pages/404.js"
     ],
     "/_app": [
       "static/chunks/webpack.js",
@@ -30,22 +30,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-<<<<<<< HEAD
     "/admin/bookings": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/bookings.js"
     ],
-    "/admin/dashboard": [
+    "/user/booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/dashboard.js"
-=======
-    "/chef/myprofile": [
+      "static/chunks/pages/user/booking.js"
+    ],
+    "/user/userprofile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/myprofile.js"
->>>>>>> 1909dac0b5c12b92de70621540585d644e28b0a6
+      "static/chunks/pages/user/userprofile.js"
     ]
   },
   "ampFirstPages": []

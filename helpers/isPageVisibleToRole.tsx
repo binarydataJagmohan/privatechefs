@@ -27,8 +27,11 @@ export function isPageVisibleToRole(pageName: string): number {
       "chef-dish": ["chef"],
       "admin-cuisine": ['admin'],
       "admin-bookings": ['admin'],
+      "admin-assigned-bookings": ['admin'],
       "users": ['admin'],
       "chef-bookings": ['chef'],
+      "chef-applied-bookings": ['chef'],
+      "chef-hired-bookings": ['chef'],
       "user-bookings": ['user'],
       "receipt": ["chef"],
     };

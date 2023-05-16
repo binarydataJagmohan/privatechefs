@@ -147,7 +147,7 @@ export default function Sidebar(): JSX.Element {
                     }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
-                            <span className="menu-collapsed">Available Bookings</span>
+                            <span className="menu-collapsed">Available Jobs</span>
                         </div>
                     </a>
 
@@ -162,7 +162,22 @@ export default function Sidebar(): JSX.Element {
                     }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
-                            <span className="menu-collapsed">Applied Bookings</span>
+                            <span className="menu-collapsed">Applied Jobs</span>
+                        </div>
+                    </a>
+
+                    <a href="/chef/hired-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/hired-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin === 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        } else if (currentUserData.profile_status === 'pending') {
+                            e.preventDefault();
+                            CompleteProfile();
+                        }
+                    }}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
+                            <span className="menu-collapsed">My Jobs</span>
                         </div>
                     </a>
 
