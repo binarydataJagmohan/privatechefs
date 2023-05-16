@@ -3308,3 +3308,13 @@ a.nav-link:hover {
   padding-left: 15px;
 
 }
+
+.p.star-list {
+  font-size: 35px;
+  color: #ffc800;
+  margin: 0;
+}
+
+i.fa-solid.fa-ellipsis {
+    cursor: pointer;
+}

@@ -20,6 +20,7 @@ export function isPageVisibleToRole(pageName: string): number {
       "chef-single-menu": ["chef"],
       "admin-chefs": ["admin"],
       "admin-allergy": ["admin"],
+      "admin-testimonial": ["admin"],
       "admin-servicechoice": ["admin"],
       "user-edit-profile": ["user"],
       "notification": ["admin", "chef", "user"],
