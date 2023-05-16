@@ -1,4 +1,4 @@
-import '@/styles/globals.css'
+// import '@/styles/globals.css'
 import type { AppProps } from 'next/app';
 import FrontendLayout from '../components/frontend/layouts/layout';
 import AdminLayout from '../components/admin/layouts/layout';
@@ -7,29 +7,30 @@ import ConciergeLayout from '../components/concierge/layouts/layout';
 import BookingLayout from '../components/frontend/layouts/layout';
 import { useRouter } from "next/router";
 import Head from 'next/head';
+import { SessionProvider } from 'next-auth/react';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const router = useRouter();
   if (router.pathname.startsWith("/admin")) {
-    return(
+    return (
       <>
         <Head>
-          <title>Admin Dashboard</title>  
-          <meta charSet="utf-8"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>    
+          <title>Admin Dashboard</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <AdminLayout>
           <Component {...pageProps} />
         </AdminLayout>
       </>
-    ) 
+    )
   } else if (router.pathname.startsWith("/chef")) {
-    return(
+    return (
       <>
         <Head>
-          <title>Chef Dashboard</title>  
-          <meta charSet="utf-8"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>       
+          <title>Chef Dashboard</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <ChefLayout>
           <Component {...pageProps} />
@@ -37,12 +38,12 @@ export default function App({ Component, pageProps }: AppProps) {
       </>
     )
   } else if (router.pathname.startsWith("/concierge")) {
-    return(
+    return (
       <>
         <Head>
-          <title>Concierge Dashboard</title>  
-          <meta charSet="utf-8"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>       
+          <title>Concierge Dashboard</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <ConciergeLayout>
           <Component {...pageProps} />
@@ -50,29 +51,32 @@ export default function App({ Component, pageProps }: AppProps) {
       </>
     )
   } else if (router.pathname.startsWith("/bookings")) {
-    return(
+    return (
       <>
         <Head>
-          <title>Bookings</title>  
-          <meta charSet="utf-8"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>       
+          <title>Bookings</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <BookingLayout>
           <Component {...pageProps} />
         </BookingLayout>
       </>
     )
-  } else {
+  }
+  else {
     return (
       <>
         <Head>
-          <title>Private Chef</title>     
-          <meta charSet="utf-8"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1"/>    
+          <title>Private Chef</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <FrontendLayout>
-          <Component {...pageProps} />
-        </FrontendLayout>
+        <SessionProvider session={session}>
+          <FrontendLayout>
+            <Component {...pageProps} />
+          </FrontendLayout>
+        </SessionProvider>
       </>
     )
   }

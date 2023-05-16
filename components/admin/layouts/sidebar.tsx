@@ -63,13 +63,20 @@ export default function Sidebar(): JSX.Element {
                     <a href="/admin/bookings" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/bookings' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>  
-                            <span className="menu-collapsed">Bookings</span> 
+                            <span className="menu-collapsed">Available Booking</span> 
                         </div>
                     </a>
                     <a href="/admin/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file"></i></span>  
                             <span className="menu-collapsed">Invoices</span> 
+                        </div>
+                    </a>
+
+                    <a href="/admin/testimonial" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/testimonial' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-file"></i></span>  
+                            <span className="menu-collapsed">Testimonial</span> 
                         </div>
                     </a>
                     <a href="/admin/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/receipts' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
@@ -87,7 +94,7 @@ export default function Sidebar(): JSX.Element {
 
                     <a href="/admin/users" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/users' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
-                            <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  
+                            <span className="icon-dash"><i className="fa fa-user" aria-hidden="true"></i></span>  
                             <span className="menu-collapsed">Users</span> 
                         </div>
                     </a>

@@ -23,7 +23,7 @@ const PopupModal = ({ handleClose, show, children, staticClass }: any) => {
   }, [handleClose]);
 
   return (
-    <div className={showHideClassName}>
+    <div className={showHideClassName} id="location_popup">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">

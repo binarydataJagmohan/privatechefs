@@ -15,11 +15,31 @@
   ],
   "rootMainFiles": [],
   "pages": {
+<<<<<<< HEAD
     "/404": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/404.js"
     ],
+    "/_app": [
+=======
+    "/": [
+>>>>>>> 74605f14e3f71ff2fec3d41e9fb2951de91c54c8
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
+    "/404": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/404.js"
+    ],
+<<<<<<< HEAD
+    "/admin/chefs": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/chefs.js"
+=======
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -30,10 +50,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/chefs": [
+    "/admin/testimonial": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/chefs.js"
+      "static/chunks/pages/admin/testimonial.js"
+>>>>>>> 74605f14e3f71ff2fec3d41e9fb2951de91c54c8
     ]
   },
   "ampFirstPages": []

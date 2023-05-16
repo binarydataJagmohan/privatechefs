@@ -2,6 +2,11 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
   "/admin/chefs": "pages/admin/chefs.js",
+=======
+  "/": "pages/index.js",
+  "/admin/testimonial": "pages/admin/testimonial.js",
+>>>>>>> 74605f14e3f71ff2fec3d41e9fb2951de91c54c8
   "/404": "pages/404.js"
 }
