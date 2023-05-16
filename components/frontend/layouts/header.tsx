@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic'
 import { useRouter } from "next/router";
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { login, register, forgetPassword } from '../../../lib/frontendapi';
+import { login, register, forgetPassword, socialDataSave } from '../../../lib/frontendapi';
 import { removeToken, removeStorageData, getCurrentUserData, removeBookingData } from "../../../lib/session";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 export default function Header({ }) {
@@ -20,7 +21,6 @@ export default function Header({ }) {
     id: string;
     // Other properties of the user data object
   }
-
   const router = useRouter();
 
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -37,9 +37,7 @@ export default function Header({ }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const userrole = 'admin';
   const [activeTab, setActiveTab] = useState("");
-
-
-
+  const { data: session } = useSession();
 
   useEffect(() => {
     checkuser();
@@ -54,7 +52,68 @@ export default function Header({ }) {
       setIsAuthenticated(true);
       setRole(role);
     }
-  }, []);
+
+    removeToken();
+    removeStorageData();
+
+    // if(session){
+		// 	if(session.user.image){
+    //     if(session.user.image.indexOf('googleusercontent')  >= 0){
+		// 		  SocialData(session.user,'google');
+    //     }
+		// 	} else {
+		// 	}
+		// }
+
+    if (session && session.user && session.user.image) {
+      if (session.user.image.indexOf('googleusercontent') >= 0) {
+        SocialData(session.user, 'google');
+      }
+    }
+
+  }, [session]);
+
+  const SocialData = (user:any,type:any) => {
+		const data = {
+		  name: user.name,
+		  email : user.email,
+		  password:'123456'
+		};
+		socialDataSave(data)
+		.then((res) => {
+			if(res.status==true){
+        if(res.authorisation.token){
+          window.localStorage.setItem("token", res.authorisation.token);
+            window.localStorage.setItem("id", res.user.id);
+            window.localStorage.setItem("name", res.user.name);
+            window.localStorage.setItem("email", res.user.email);
+            window.localStorage.setItem("role", res.user.role);
+            window.localStorage.setItem("pic", res.user.pic);
+            window.localStorage.setItem("surname", res.user.surname);
+            window.localStorage.setItem("phone", res.user.phone);
+            window.localStorage.setItem("address", res.user.address);
+            window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
+            window.localStorage.setItem("profile_status", res.user.profile_status);
+          
+        } else {
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            toastId: 'success',
+          });
+          //setErrorMessage(data.message);
+        }
+	    } else {
+	    	toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT,
+          toastId: 'error',
+        });
+	    	//setErrorMessage(res.message);
+	    }
+		})
+		.catch((err:any) => {
+		
+		});
+	};
 
   const checkuser = async () => {
     const user: User = getCurrentUserData() as User;
@@ -517,7 +576,11 @@ export default function Header({ }) {
                   </li>
                 )}
                 <li className="user">
-                  {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
+                  {current_user_id ? (
+                    <a className="nav-link" href="#" onClick={handleLogout}>Logout</a>
+                  ) : (
+                    <a className="nav-link" href="#" onClick={() => signinpopup()}>Sign In/Sign Up</a>
+                  )}
 
                 </li>
               </ul>
@@ -556,7 +619,8 @@ export default function Header({ }) {
 
           </div>
 
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
+          <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
+
           <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
           <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
@@ -587,6 +651,7 @@ export default function Header({ }) {
             <div className='login_div mb-2'>
               <label htmlFor="email">Role:</label>
               <select className="" onChange={(e) => setRole(e.target.value)} name="role">
+                <option value="">Select role</option>
                 <option value="user">User</option>
                 <option value="chef">Chef</option>
                 <option value="concierge">Conciergehief</option>
@@ -607,6 +672,9 @@ export default function Header({ }) {
             <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
           </form>
           <p className="text-link text-left my-2"><a href="#" onClick={() => signinpopup()}>Already have account? <span>Sign in</span></a></p>
+
+          <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
+
 
           {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/g-logo.png'} alt="g-logo"/> Continue with Google</button>
                     <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/a-logo.jpg'} alt="a-logo"/> Continue with Apple</button>
