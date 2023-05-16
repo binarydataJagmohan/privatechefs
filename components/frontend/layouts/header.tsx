@@ -4,9 +4,11 @@ import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { login, register, forgetPassword, socialDataSave } from '../../../lib/frontendapi';
+import { login, register, forgetPassword, socialDataSave,selectRole,getEmail} from '../../../lib/frontendapi';
 import { removeToken, removeStorageData, getCurrentUserData, removeBookingData } from "../../../lib/session";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
+
+
 export default function Header({ }) {
 
   interface Errors {
@@ -21,6 +23,15 @@ export default function Header({ }) {
     id: string;
     // Other properties of the user data object
   }
+
+
+  interface User1 {
+    id: number;
+    role:string;
+    approved_by_admin:string;
+    profile_status:string;
+  }
+
   const router = useRouter();
 
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -37,6 +48,13 @@ export default function Header({ }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const userrole = 'admin';
   const [activeTab, setActiveTab] = useState("");
+  const [logoutButtonVisible, setLogoutButtonVisible] = useState(true);
+  const [current_user_data, setCurrentUserData] = useState<User1>({
+    id: 0,
+    role: "",
+    approved_by_admin: "",
+    profile_status: "",
+});
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -56,34 +74,39 @@ export default function Header({ }) {
     removeToken();
     removeStorageData();
 
-    // if(session){
-		// 	if(session.user.image){
-    //     if(session.user.image.indexOf('googleusercontent')  >= 0){
-		// 		  SocialData(session.user,'google');
-    //     }
-		// 	} else {
-		// 	}
-		// }
+    const fetchDataByEmail = async (email: string) => {
+      try {
+        const response = await getEmail(email);
+        const userdata = response.data; // Modify as per your API response structure
+        setCurrentUserData(userdata);
+        //console.log(userdata);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
     if (session && session.user && session.user.image) {
       if (session.user.image.indexOf('googleusercontent') >= 0) {
         SocialData(session.user, 'google');
+        const sessionEmail = session.user.email;
+        fetchDataByEmail(sessionEmail);
+      }else{
+        SocialData(session.user, 'facebook');
       }
     }
-
   }, [session]);
 
-  const SocialData = (user:any,type:any) => {
-		const data = {
-		  name: user.name,
-		  email : user.email,
-		  password:'123456'
-		};
-		socialDataSave(data)
-		.then((res) => {
-			if(res.status==true){
-        if(res.authorisation.token){
-          window.localStorage.setItem("token", res.authorisation.token);
+  const SocialData = (user: any, type: any) => {
+    const data = {
+      name: user.name,
+      email: user.email,
+      password: '123456'
+    };
+    socialDataSave(data)
+      .then((res) => {
+        if (res.status == true) {
+          if (res.authorisation.token) {
+            window.localStorage.setItem("token", res.authorisation.token);
             window.localStorage.setItem("id", res.user.id);
             window.localStorage.setItem("name", res.user.name);
             window.localStorage.setItem("email", res.user.email);
@@ -94,26 +117,51 @@ export default function Header({ }) {
             window.localStorage.setItem("address", res.user.address);
             window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
             window.localStorage.setItem("profile_status", res.user.profile_status);
-          
+            setTimeout(() => {
+              if (res.user.role === null) {
+                router.push("/select-role");
+              }
+            }, 1000);
+
+            setTimeout(() => {
+              if (current_user_data.role == "admin") {
+                router.push("/admin/dashboard");
+              }
+            }, 1000);
+
+            setTimeout(() => {
+              //alert(132);
+              if (current_user_data.role === "user") {
+                //alert(132);
+                router.push("/user/userprofile");
+              }
+            }, 1000);
+
+            setTimeout(() => {
+              if (current_user_data.role == "chef") {
+                  router.push("/chef/myprofile")
+              }
+            }, 1000);
+
+          } else {
+            toast.success(res.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              toastId: 'success',
+            });
+            //setErrorMessage(data.message);
+          }
         } else {
-          toast.success(res.message, {
+          toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
-            toastId: 'success',
+            toastId: 'error',
           });
-          //setErrorMessage(data.message);
+          //setErrorMessage(res.message);
         }
-	    } else {
-	    	toast.error(res.message, {
-          position: toast.POSITION.TOP_RIGHT,
-          toastId: 'error',
-        });
-	    	//setErrorMessage(res.message);
-	    }
-		})
-		.catch((err:any) => {
-		
-		});
-	};
+      })
+      .catch((err: any) => {
+
+      });
+  };
 
   const checkuser = async () => {
     const user: User = getCurrentUserData() as User;
@@ -170,6 +218,13 @@ export default function Header({ }) {
 
   }
 
+  function handleLogouttwo() {
+    removeToken();
+    removeStorageData();
+    signOut();
+    // window.location.reload();
+    // setIsAuthenticated(false);
+  }
   //login submit start
 
   const handleLoginSubmit = (event: any) => {
@@ -576,10 +631,11 @@ export default function Header({ }) {
                   </li>
                 )}
                 <li className="user">
-                  {current_user_id ? (
-                    <a className="nav-link" href="#" onClick={handleLogout}>Logout</a>
-                  ) : (
+
+                  {!current_user_id ? (
                     <a className="nav-link" href="#" onClick={() => signinpopup()}>Sign In/Sign Up</a>
+                  ) : (
+                    <a className="nav-link" href="#" onClick={session ? handleLogouttwo : handleLogout}>{session ? 'Logout' : 'Logout'}</a>
                   )}
 
                 </li>
@@ -618,11 +674,10 @@ export default function Header({ }) {
             <p className="text-link text-left my-2"><a href="#" onClick={() => forgotpopup()}><span>Forgot password? </span></a></p>
 
           </div>
-
           <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
 
           <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
+          <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
 
       </PopupModal>
@@ -676,9 +731,9 @@ export default function Header({ }) {
           <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
 
 
-          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/g-logo.png'} alt="g-logo"/> Continue with Google</button>
+          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/g-logo.png'} alt="g-logo"/> Continue with Google</button> */}
                     <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/a-logo.jpg'} alt="a-logo"/> Continue with Apple</button>
-                    <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-logo.png'} alt="f-logo"/> Continue with Facebook</button> */}
+                    <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-logo.png'} alt="f-logo"/> Continue with Facebook</button>
         </div>
 
       </PopupModal>

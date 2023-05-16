@@ -20,6 +20,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
     ],
+    "/404": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/404.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -29,26 +34,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
-<<<<<<< HEAD
-=======
     ],
-<<<<<<< HEAD
-    "/admin/bookings": [
+    "/privacypolicy": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/bookings.js"
-    ],
-    "/admin/dashboard": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/dashboard.js"
-=======
-    "/chef/myprofile": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/chef/myprofile.js"
->>>>>>> 1909dac0b5c12b92de70621540585d644e28b0a6
->>>>>>> refs/remotes/origin/main
+      "static/chunks/pages/privacypolicy.js"
     ]
   },
   "ampFirstPages": []
