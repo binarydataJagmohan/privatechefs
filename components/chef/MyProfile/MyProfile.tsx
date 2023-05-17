@@ -347,7 +347,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 	useEffect(() => {
 		getUserData();
 
-		const apiKey = 'AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU'; // replace with your actual API key
+		const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
 		const loader = new Loader({
 			apiKey,
 			version: 'weekly',
@@ -504,7 +504,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 					//console.log(res.data);
 
 					const loader = new Loader({
-						apiKey: "AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU",
+						apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
 						version: "weekly",
 						libraries: ["places"]
 					});

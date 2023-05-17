@@ -105,15 +105,15 @@ export default function UserProfileThree() {
           selectedallergies: allergies,
           selectedcuisine: cuisine
         };
-       
-
         const userData = getCurrentUserData();
          const id = userData.id;
          const url = `http://127.0.0.1:8000/api/updateAllergyCusine/${id}`;
 
          axios.post(url, data)
        .then((response) => {
-      alert(selectedallergies)
+      // alert(selectedallergies)
+       window.localStorage.setItem("selectedcuisine", JSON.stringify(selectedallergies));
+       window.localStorage.setItem("selectedcuisine", JSON.stringify(selectedcuisine));
        })
      .catch((error) => {
     // Handle error if needed
@@ -187,7 +187,7 @@ export default function UserProfileThree() {
                         </div>
                       </div>
                     ))}
-                   </Slider>
+                    </Slider>
                       </div>
 
                       <h4 className="check-title  mt-5">Favorite kitchen?</h4>
@@ -251,6 +251,7 @@ export default function UserProfileThree() {
                                   return [...prevSelectedCuisine, String(value)];
                                 }
                               });
+                              handleCheckboxClick(selectedallergies, selectedcuisine);
                             }}
                             checked={selectedcuisine.includes(String(cuisine.id))}
                           />

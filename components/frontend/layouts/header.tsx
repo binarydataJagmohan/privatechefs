@@ -598,7 +598,7 @@ export default function Header({ }) {
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li> */}
 
-                <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
+                <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active  bg-color' : ''}`}>
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li>
                 {/* {isAuthenticated && role === "user" && (
@@ -609,22 +609,22 @@ export default function Header({ }) {
               </li>
             )} */}
 
-                <li className={`nav-item ${router.pathname === '/whoweare' ? 'active' : ''}`}>
+                <li className={`nav-item ${router.pathname === '/whoweare' ? 'active bg-color' : ''}`}>
                   <a className="nav-link" href="/whoweare">Who we are</a>
                 </li>
-                <li className={`nav-item ${router.pathname === '/ourchefs' ? 'active' : ''}`}>
+                <li className={`nav-item ${router.pathname === '/ourchefs' ? 'active bg-color' : ''}`}>
                   <a className="nav-link" href="/ourchefs">Our Chefs</a>
                 </li>
 
                 {isAuthenticated && role === "admin" && (
-                  <li className={`nav-item ${router.pathname === '/admin/dashboard' ? 'active' : ''}`}>
+                  <li className={`nav-item ${router.pathname === '/admin/dashboard bg-color' ? 'active' : ''}`}>
                     <a className="nav-link" href="/admin/dashboard">
                       Dashboard
                     </a>
                   </li>
                 )}
                 {isAuthenticated && role === "chef" && (
-                  <li className={`nav-item ${router.pathname === '/chef/dashboard' ? 'active' : ''}`}>
+                  <li className={`nav-item ${router.pathname === '/chef/dashboard' ? 'active bg-color' : ''}`}>
                     <a className="nav-link" href="/chef/dashboard">
                       Dashboard
                     </a>

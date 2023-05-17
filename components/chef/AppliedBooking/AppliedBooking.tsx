@@ -58,6 +58,17 @@ export default function Bookings() {
 	selectedmenu?:string;
   }
 
+  interface ChefOffer {
+	name?: string;
+	surname?:string;
+	menu_names?:string;
+	amount?:string;
+	admin_amount?:string;
+	client_amount?:string;
+	pic?:string;
+	user_show?:string;
+  }
+
 
   const [bookingUsers, setBookingUser] = useState([]);
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -81,12 +92,13 @@ export default function Bookings() {
 	profile_status:''
   });
 
+  const [chefoffer, setChefOffer] = useState<ChefOffer[]>([]);
 
   const pageSize = 10;
  
 
   useEffect(() => {
-    const data = isPageVisibleToRole("chef-bookings");
+    const data = isPageVisibleToRole("chef-applied-bookings");
     if (data == 2) {
       window.location.href = "/login"; // redirect to login if not logged in
     } else if (data == 0) {
@@ -119,10 +131,18 @@ export default function Bookings() {
     try {
       const res = await getChefAppliedBooking(id);
       if (res.status) {
-		setTotalBooking(res.data);
-        const paginatedPosts = paginate(res.data, currentPage, pageSize);
-        setBookingUser(paginatedPosts);
 
+		const filteredData = res.data.filter((record:any) => {
+			return (
+				record.chef_id != id &&
+				record.applied_jobs_status == 'applied'
+			  );
+		  });
+
+		setTotalBooking(filteredData);
+        const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+        setBookingUser(paginatedPosts);
+		
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -140,9 +160,18 @@ export default function Bookings() {
     getChefAppliedBooking(currentUserData.id)
     .then(res => {
       if(res.status==true){
-		setTotalBooking(res.data);
-        const paginatedPosts = paginate(res.data, page, pageSize);
+
+		const filteredData = res.data.filter((record:any) => {
+			return (
+				record.chef_id != currentUserData.id &&
+				record.applied_jobs_status == 'applied'
+			  );
+		  });
+
+		setTotalBooking(filteredData);
+        const paginatedPosts = paginate(filteredData, page, pageSize);
         setBookingUser(paginatedPosts);
+
       } else {
         setErrorMessage(res.message);
       }
@@ -158,7 +187,8 @@ export default function Bookings() {
       setBooking(res.booking[0]);
 	  setDaysBooking(res.days_booking);
       setSidebarConfirm(true);
-
+	 const filteredChefOffer = res.chefoffer.filter((chef:any) => chef.id == currentUserData.id);
+	  setChefOffer(filteredChefOffer);
 	  if(res.days_booking.length == 1){
 			setBookingDate(formatDate(res.booking[0].dates))
 	  }else {
@@ -172,7 +202,7 @@ export default function Bookings() {
 	  }
 
 	  const loader = new Loader({
-		apiKey: "AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU",
+		apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
 		version: "weekly",
 	  });
 
@@ -208,9 +238,17 @@ export default function Bookings() {
 		getChefAppliedFilterByBooking(id,type)
 			.then(res => {
 			if(res.status==true){
-				setTotalBooking(res.data);
-				const paginatedPosts = paginate(res.data, currentPage, pageSize);
+				const filteredData = res.data.filter((record:any) => {
+					return (
+						record.chef_id != id &&
+						record.applied_jobs_status == 'applied'
+					  );
+				  });
+		
+				setTotalBooking(filteredData);
+				const paginatedPosts = paginate(filteredData, currentPage, pageSize);
 				setBookingUser(paginatedPosts);
+				
 			} else {
 				setErrorMessage(res.message);
 			}
@@ -226,7 +264,7 @@ export default function Bookings() {
     <>
     
       <div className="table-part">
-        <h2 className="mb-4">Avaialable Bookings</h2>
+        <h2 className="mb-4">Applied Bookings</h2>
 		
 		<ul className="table_header_button_section">
 			<li>
@@ -309,8 +347,9 @@ export default function Bookings() {
 							/>}
 							
 						</td>
+
 						
-						<td>{user.category == 'onetime' ? formatDate(user.dates) : output }</td>
+						<td>{user.category == 'onetime' ? formatDate(user.latest_created_at) : output }</td>
 						
 						<td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
                         <td>{user.menu_names}</td>
@@ -447,6 +486,27 @@ export default function Bookings() {
 								
 							</div> 
 						</div>
+
+						<div className="row mt-1">
+							<div className="col-4">
+							<p className="chefs-name name-12">Menu </p>
+							</div>
+							<div className="col-8">
+						{chefoffer.length > 0 ? (
+									chefoffer.map((chef, index) => (
+										<p className="mony f-w-4" key={index}>
+										{chef.menu_names?.split(",").map((menu, index) => (
+											<p>{menu.trim()} </p>
+										))}
+										</p>
+										
+									))
+								) : (
+									<p className="mt-2">No Chef apply for this booking</p>
+								)}
+							</div> 
+						</div>
+
 						<div className="row mt-1">
 							<div className="col-4">
 							<p className="chefs-name name-12">Special Requests:</p>
@@ -459,6 +519,44 @@ export default function Bookings() {
 					</div>
 					</div>
 				</div>
+
+				<div className="accordion-item">
+							<h2 className="accordion-header" id="headingOne">
+								<button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								Chefs offers
+								</button>
+							</h2>
+							
+							<div id="collapseOne" className="mt-2 accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+							<div className="accordion-body">
+								{chefoffer.length > 0 ? (
+									<table className="table">
+										<thead>
+											<tr>
+												
+												<th scope="col">Chef Amount</th>
+												<th scope="col">Admin Amount</th>
+											</tr>
+										</thead>
+										<tbody>
+											{chefoffer.map((chef, index) => (
+												<tr key={index}>
+												
+													<td >{chef.amount}</td>
+													<td>{chef.admin_amount}</td>
+												</tr>
+											))}
+
+											
+										</tbody>
+									</table>
+								) : (
+									<p className="mt-2">No Chef applied for this booking</p>
+								)}
+							</div>
+							</div>
+            	</div>
+
 				{daysbooking.length > 1 && (
 					<div className="accordion-item">
 						<h2 className="accordion-header" id="headingTwo4">

@@ -15,6 +15,7 @@ export default function Step6() {
     name: string;
     surname: string;
     email: string;
+    address:string;
     
   }
   
@@ -43,7 +44,7 @@ export default function Step6() {
 
   useEffect(() => {
     BookingStepSix();
-    const apiKey = 'AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU'; // replace with your actual API key
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
     const loader = new Loader({
       apiKey,
       version: 'weekly',

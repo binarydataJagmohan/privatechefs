@@ -123,7 +123,7 @@ export default function UserProfile() {
 
   useEffect(() => {
 
-    const apiKey = 'AIzaSyBsHfzLkbQHTlW5mg3tyVFKCffTb1TfRaU'; // replace with your actual API key
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
     const loader = new Loader({
       apiKey,
       version: 'weekly',
