@@ -15,19 +15,7 @@
   ],
   "rootMainFiles": [],
   "pages": {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 37a42f7d550eeb72355a00afc93de00ef42f910f
-    "/404": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/404.js"
-    ],
-    "/_app": [
-=======
     "/": [
->>>>>>> 74605f14e3f71ff2fec3d41e9fb2951de91c54c8
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
@@ -37,32 +25,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/404.js"
     ],
-<<<<<<< HEAD
-    "/admin/bookings": [
-=======
-<<<<<<< HEAD
-    "/admin/chefs": [
->>>>>>> 37a42f7d550eeb72355a00afc93de00ef42f910f
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/chefs.js"
-=======
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_app.js"
     ],
-<<<<<<< HEAD
-    "/user/booking": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/booking.js"
-    ],
-    "/user/userprofile": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/userprofile.js"
-=======
     "/_error": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -72,8 +39,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/testimonial.js"
->>>>>>> 74605f14e3f71ff2fec3d41e9fb2951de91c54c8
->>>>>>> 37a42f7d550eeb72355a00afc93de00ef42f910f
     ]
   },
   "ampFirstPages": []

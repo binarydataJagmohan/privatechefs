@@ -86,6 +86,7 @@ export default function MyProfile() {
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [getsingledata, setGetSingleData]: any = useState([]);
 	const [totalMenu, setTotalMenu]:any = useState({});
+	const [getsinglelocation, setGetSingleLocation]=useState<Location[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 5;
 
@@ -294,7 +295,10 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 				}
 			})
 			.catch(err => {
-				console.log(err);
+				setButtonState(false);
+					toast.error('Maximum limit of locations reached', {
+						position: toast.POSITION.TOP_RIGHT
+					});
 			});
 	};
 
@@ -379,7 +383,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 							setLocationaddress(address)
 							setLat(lat.toString());
 							setLng(lng.toString());
-						}
+						} 
 					}
 				});
 			}
@@ -394,6 +398,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 		});
 
 	}, []);
+
 
 	const getUserData = async () => {
 		const data = isPageVisibleToRole('chef-edit-profile');
@@ -411,7 +416,58 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 			getChefLocationData(userData.id);
 		}
 	}
-
+	const getLocation = async (id: any) => {
+		try {
+		  const res = await getSingleLocation(id);
+		  if (res.status == true) {
+			setModalConfirm(false);
+			setGetSingleLocation(res.data.address);
+	  
+			// Display the map for the selected location
+			let lat, lng;
+	  
+			// Update the property access based on the response structure
+			if (res.data.geometry && res.data.geometry.location) {
+			  lat = res.data.geometry.location.lat;
+			  lng = res.data.geometry.location.lng;
+			} else if (res.data.lat && res.data.lng) {
+			  lat = res.data.lat;
+			  lng = res.data.lng;
+			} else {
+			  // Handle the case when the location coordinates are not available
+			  console.log("Location coordinates not found");
+			  return;
+			}
+	  
+			const parsedLat = parseFloat(lat);
+			const parsedLng = parseFloat(lng);
+	  
+			// Check if the parsed lat and lng are valid numbers
+			if (!isNaN(parsedLat) && !isNaN(parsedLng)) {
+			  const mapOptions = {
+				center: { lat: parsedLat, lng: parsedLng },
+				zoom: 12,
+			  };
+	  
+			  // Ensure google is defined before creating the map
+			  if (typeof google !== 'undefined') {
+				const map = new google.maps.Map(mapRef.current, mapOptions);
+				const marker = new google.maps.Marker({
+				  position: { lat: parsedLat, lng: parsedLng },
+				  map: map,
+				  title: res.data.address,
+				});
+			  }
+			}
+		  } else {
+			console.log("error");
+		  }
+		} catch (err) {
+		  console.log(err);
+		}
+	  }
+	  
+	  
 	const getChefDetailData = async (id: any) => {
 		getChefDetail(id)
 			.then(res => {
@@ -547,6 +603,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 					setModalConfirm(false);
 					editsetModalConfirm(true);
 					setGetSingleData(res.data);
+					setGetSingleLocation(res.data.address);
 					setLocationaddress(res.data.address);
 					//console.log(res.data.address);
 					// setChefLocation(res.data);
@@ -587,6 +644,11 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 			}
 		});
 	};
+
+	const resetFields = () => {
+		setLocationStatus("");
+		setLocationaddress("");
+	}
 
 	return (
 		<>
@@ -993,7 +1055,9 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 										{Array.isArray(chefLocation) && chefLocation.map((location, index) => (
 											<div className="location-name" key={index}>
 												<div className="row" >
-													<div className="col-7"><p className="f-16">{location.address}</p></div>
+													<div className="col-7">
+														<a  onClick={() => getLocation(location.id)}><p className="f-16" style={{cursor: "pointer"}}>{location.address}</p></a>
+														</div>
 													<div className="col-2">
 														<label className="switch">
 															<input
@@ -1022,7 +1086,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 										<div className='row'>
 											<div className='col-md-6'>
 												<div className="banner-btn position-top">
-													<a onClick={() => { modalConfirmOpen(); }}>Add New Location</a>
+													<a  onClick={() =>  {modalConfirmOpen();resetFields();}} style = {{cursor : "pointer",color: "white"}}>Add New Location</a>
 												</div>
 											</div>
 											<div className='col-md-6'>
