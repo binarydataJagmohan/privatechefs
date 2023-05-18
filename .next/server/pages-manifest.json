@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/testimonial": "pages/admin/testimonial.js",
-  "/": "pages/index.js",
+  "/chef/myprofile": "pages/chef/myprofile.js",
+  "/user/userprofile": "pages/user/userprofile.js",
   "/404": "pages/404.js"
 }

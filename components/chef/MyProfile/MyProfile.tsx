@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateLocationStatus, SaveChefLocation, getChefLocation, UpdateChefLocation, getSingleLocation, deleteSingleLocation } from '../../../lib/chefapi'
+import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateLocationStatus, SaveChefLocation, getChefLocation, UpdateChefLocation, getSingleLocation, deleteSingleLocation, updateChefImage } from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
@@ -85,8 +85,8 @@ export default function MyProfile() {
 	const mapRef = useRef(null);
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [getsingledata, setGetSingleData]: any = useState([]);
-	const [totalMenu, setTotalMenu]:any = useState({});
-	const [getsinglelocation, setGetSingleLocation]=useState<Location[]>([]);
+	const [totalMenu, setTotalMenu]: any = useState({});
+	const [getsinglelocation, setGetSingleLocation] = useState<Location[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 5;
 
@@ -104,10 +104,10 @@ export default function MyProfile() {
 		editsetModalConfirm(false);
 	}
 
-const updateLocationStatus = async (id: number, location_status: string) => {
+	const updateLocationStatus = async (id: number, location_status: string) => {
 		setButtonState(true);
 		const data = {
-			location_status: location_status 
+			location_status: location_status
 		};
 		UpdateLocationStatus(id, data)
 			.then(res => {
@@ -223,13 +223,16 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 				bank_address: bank_address || '',
 			};
 
-			updateChefProfile(userid, data, image)
+			updateChefProfile(userid, data)
 				.then((res) => {
 					setButtonState(false);
 					console.log(res.data);
 					window.localStorage.setItem("name", res.data.name);
 					window.localStorage.setItem("pic", res.data.pic);
 					window.localStorage.setItem("surname", res.data.surname);
+					window.localStorage.setItem("email", res.data.email);
+					window.localStorage.setItem("address", res.data.address);
+					window.localStorage.setItem("phone", res.data.phone);
 					window.localStorage.setItem("profile_status", res.data.profile_status);
 
 					toast.success(res.message, {
@@ -259,11 +262,29 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 		$(".fa-image").css("display", "none");
 	};
 
-	const imageChange = (e: any) => {
-		if (e.target.files && e.target.files.length > 0) {
-			setImage(e.target.files[0]);
-		}
+	const imageChange = async (e: any) => {
+		const file = e.target.files[0];
+		setImage(file);
+
+		updateChefImage(currentUserData.id, file)
+			.then((res) => {
+				window.localStorage.setItem("name", res.data.name);
+				window.localStorage.setItem("pic", res.data.pic);
+				window.localStorage.setItem("surname", res.data.surname);
+				window.localStorage.setItem("address", res.data.address);
+				window.localStorage.setItem("phone", res.data.phone);
+				toast.success(res.message, {
+					position: toast.POSITION.TOP_RIGHT,
+				});
+			})
+			.catch(error => {
+				console.error(error);
+				toast.error('Error occurred', {
+					position: toast.POSITION.TOP_RIGHT,
+				});
+			});
 	};
+
 
 	const saveLocation = async (e: any) => {
 		e.preventDefault();
@@ -296,9 +317,9 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 			})
 			.catch(err => {
 				setButtonState(false);
-					toast.error('Maximum limit of locations reached', {
-						position: toast.POSITION.TOP_RIGHT
-					});
+				toast.error('Maximum limit of locations reached', {
+					position: toast.POSITION.TOP_RIGHT
+				});
 			});
 	};
 
@@ -325,7 +346,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 			linkedin_link: linkedin_link || '',
 			youtube_link: youtube_link || ''
 		};
-		UpdateChefResume(id, data, image)
+		UpdateChefResume(id, data)
 			.then(res => {
 				setButtonState(false);
 				console.log(res.data);
@@ -383,7 +404,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 							setLocationaddress(address)
 							setLat(lat.toString());
 							setLng(lng.toString());
-						} 
+						}
 					}
 				});
 			}
@@ -418,56 +439,56 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 	}
 	const getLocation = async (id: any) => {
 		try {
-		  const res = await getSingleLocation(id);
-		  if (res.status == true) {
-			setModalConfirm(false);
-			setGetSingleLocation(res.data.address);
-	  
-			// Display the map for the selected location
-			let lat, lng;
-	  
-			// Update the property access based on the response structure
-			if (res.data.geometry && res.data.geometry.location) {
-			  lat = res.data.geometry.location.lat;
-			  lng = res.data.geometry.location.lng;
-			} else if (res.data.lat && res.data.lng) {
-			  lat = res.data.lat;
-			  lng = res.data.lng;
+			const res = await getSingleLocation(id);
+			if (res.status == true) {
+				setModalConfirm(false);
+				setGetSingleLocation(res.data.address);
+
+				// Display the map for the selected location
+				let lat, lng;
+
+				// Update the property access based on the response structure
+				if (res.data.geometry && res.data.geometry.location) {
+					lat = res.data.geometry.location.lat;
+					lng = res.data.geometry.location.lng;
+				} else if (res.data.lat && res.data.lng) {
+					lat = res.data.lat;
+					lng = res.data.lng;
+				} else {
+					// Handle the case when the location coordinates are not available
+					console.log("Location coordinates not found");
+					return;
+				}
+
+				const parsedLat = parseFloat(lat);
+				const parsedLng = parseFloat(lng);
+
+				// Check if the parsed lat and lng are valid numbers
+				if (!isNaN(parsedLat) && !isNaN(parsedLng)) {
+					const mapOptions = {
+						center: { lat: parsedLat, lng: parsedLng },
+						zoom: 12,
+					};
+
+					// Ensure google is defined before creating the map
+					if (typeof google !== 'undefined') {
+						const map = new google.maps.Map(mapRef.current, mapOptions);
+						const marker = new google.maps.Marker({
+							position: { lat: parsedLat, lng: parsedLng },
+							map: map,
+							title: res.data.address,
+						});
+					}
+				}
 			} else {
-			  // Handle the case when the location coordinates are not available
-			  console.log("Location coordinates not found");
-			  return;
+				console.log("error");
 			}
-	  
-			const parsedLat = parseFloat(lat);
-			const parsedLng = parseFloat(lng);
-	  
-			// Check if the parsed lat and lng are valid numbers
-			if (!isNaN(parsedLat) && !isNaN(parsedLng)) {
-			  const mapOptions = {
-				center: { lat: parsedLat, lng: parsedLng },
-				zoom: 12,
-			  };
-	  
-			  // Ensure google is defined before creating the map
-			  if (typeof google !== 'undefined') {
-				const map = new google.maps.Map(mapRef.current, mapOptions);
-				const marker = new google.maps.Marker({
-				  position: { lat: parsedLat, lng: parsedLng },
-				  map: map,
-				  title: res.data.address,
-				});
-			  }
-			}
-		  } else {
-			console.log("error");
-		  }
 		} catch (err) {
-		  console.log(err);
+			console.log(err);
 		}
-	  }
-	  
-	  
+	}
+
+
 	const getChefDetailData = async (id: any) => {
 		getChefDetail(id)
 			.then(res => {
@@ -530,7 +551,7 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 			});
 	}
 
-	const onPageChange = (page:any) => {
+	const onPageChange = (page: any) => {
 		setCurrentPage(page);
 		getChefLocation(currentUserData.id)
 			.then(res => {
@@ -679,35 +700,39 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 											<div className="picture-profile">
 												<div className="row">
 													<div className="col-lg-4 col-md-5 col-4 pr-0">
-														<input
-															type="file"
-															name="image"
-															id="uploadfile"
-															className="d-none"
-															onChange={imageChange}
-														/>
-														{userData.pic ? <img
-															className="profile_upload_form img-cicle"
-															src={
-																image && (typeof image !== 'string')
-																	? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic
-															}
-															alt=""
-															onClick={() => uploadimage()}
-															onMouseEnter={(e) => hoverinimage(e.currentTarget)}
-															onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
-														/> : <img
-															className="profile_upload_form img-cicle"
-															src={
-																image && (typeof image !== 'string')
-																	? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users.jpg"
-															}
-															// crop={{ ratio: "1/1", position: "center" }}
-															alt=""
-															onClick={() => uploadimage()}
-															onMouseEnter={(e) => hoverinimage(e.currentTarget)}
-															onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
-														/>}
+														<div className="user-img1  ">
+															{userData.pic ? (
+																<img
+																	src={
+																		image && (typeof image !== 'string')
+																			? URL.createObjectURL(image)
+																			: (userData.pic ? process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic : '')
+																	}
+
+																	alt=""
+																/>
+															) : (
+																<img
+																	src={
+																		image && (typeof image !== 'string')
+																			? URL.createObjectURL(image)
+																			: process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'
+																	}
+																	// crop={{ ratio: "1/1", position: "center" }}
+																	alt=""
+																/>
+															)}
+
+															<label> <input
+																type="file"
+																name="image"
+																id="uploadfile"
+																className="d-none"
+																onChange={imageChange}
+															/><i className="fa-solid fa-camera"></i>
+
+															</label>
+														</div>
 
 													</div>
 													<div className="col-lg-8 col-md-7 col-8">
@@ -901,35 +926,39 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 												<div className="picture-profile">
 													<div className="row">
 														<div className="col-lg-4 col-md-5 col-4 pr-0">
-															<input
-																type="file"
-																name="image"
-																id="uploadfile"
-																className="d-none"
-																onChange={imageChange}
-															/>
-															{userData.pic ? <img
-																className="profile_upload_form img-cicle"
-																src={
-																	image && (typeof image !== 'string')
-																		? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic
-																}
-																alt=""
-																onClick={() => uploadimage()}
-																onMouseEnter={(e) => hoverinimage(e.currentTarget)}
-																onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
-															/> : <img
-																className="profile_upload_form img-cicle"
-																src={
-																	image && (typeof image !== 'string')
-																		? URL.createObjectURL(image) : process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users.jpg"
-																}
-																// crop={{ ratio: "1/1", position: "center" }}
-																alt=""
-																onClick={() => uploadimage()}
-																onMouseEnter={(e) => hoverinimage(e.currentTarget)}
-																onMouseLeave={(e) => hoveroutimage(e.currentTarget)}
-															/>}
+															<div className="user-img1">
+																{userData.pic ? (
+																	<img
+																		src={
+																			image && (typeof image !== 'string')
+																				? URL.createObjectURL(image)
+																				: (userData.pic ? process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic : '')
+																		}
+
+																		alt=""
+																	/>
+																) : (
+																	<img
+																		src={
+																			image && (typeof image !== 'string')
+																				? URL.createObjectURL(image)
+																				: process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'
+																		}
+																		// crop={{ ratio: "1/1", position: "center" }}
+																		alt=""
+																	/>
+																)}
+
+																<label> <input
+																	type="file"
+																	name="image"
+																	id="uploadfile"
+																	className="d-none"
+																	onChange={imageChange}
+																/><i className="fa-solid fa-camera"></i>
+
+																</label>
+															</div>
 														</div>
 														<div className="col-lg-8 col-md-7 col-8">
 															<div className="user-profile-collapsed mt-3">
@@ -1050,57 +1079,57 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 							</form>
 						</div>
 						<div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-								<div className="row">
-									<div className="col-lg-5 col-md-12 position-r">
-										{Array.isArray(chefLocation) && chefLocation.map((location, index) => (
-											<div className="location-name" key={index}>
-												<div className="row" >
-													<div className="col-7">
-														<a  onClick={() => getLocation(location.id)}><p className="f-16" style={{cursor: "pointer"}}>{location.address}</p></a>
-														</div>
-													<div className="col-2">
-														<label className="switch">
-															<input
-																type="checkbox"
-																name="location_status"
-																// key={location.id}
-																value={location_status}
-																checked={location.location_status === "visible" ? true : false}
-																onChange={(e) => {
-																	setLocationStatus(e.target.checked ? "visible" : "unvisible");
-																	updateLocationStatus(location.id, e.target.checked ? "visible" : "unvisible");
-																  }}
-															/>
-															<span className="slider round"></span>
-														</label>
-													</div>
-													<div className="col-3 social">
-														<a onClick={() => GetSingleLocation(location.id)} id={`myCheckbox_${location.id}`}><i className="fa fa-edit" aria-hidden="true"></i></a>
-														<a onClick={() =>
-															deleteReceiptData(location.id)
-														}><i className="fa fa-times" aria-hidden="true"></i></a>
-													</div>
+							<div className="row">
+								<div className="col-lg-5 col-md-12 position-r">
+									{Array.isArray(chefLocation) && chefLocation.map((location, index) => (
+										<div className="location-name" key={index}>
+											<div className="row" >
+												<div className="col-7">
+													<a onClick={() => getLocation(location.id)}><p className="f-16" style={{ cursor: "pointer" }}>{location.address}</p></a>
 												</div>
-											</div>
-										))}
-										<div className='row'>
-											<div className='col-md-6'>
-												<div className="banner-btn position-top">
-													<a  onClick={() =>  {modalConfirmOpen();resetFields();}} style = {{cursor : "pointer",color: "white"}}>Add New Location</a>
+												<div className="col-2">
+													<label className="switch">
+														<input
+															type="checkbox"
+															name="location_status"
+															// key={location.id}
+															value={location_status}
+															checked={location.location_status === "visible" ? true : false}
+															onChange={(e) => {
+																setLocationStatus(e.target.checked ? "visible" : "unvisible");
+																updateLocationStatus(location.id, e.target.checked ? "visible" : "unvisible");
+															}}
+														/>
+														<span className="slider round"></span>
+													</label>
 												</div>
-											</div>
-											<div className='col-md-6'>
-												<div className="banner-btn position-bottom">
-													<a href="/startjourney">Start your journey</a>
+												<div className="col-3 social">
+													<a onClick={() => GetSingleLocation(location.id)} id={`myCheckbox_${location.id}`}><i className="fa fa-edit" aria-hidden="true"></i></a>
+													<a onClick={() =>
+														deleteReceiptData(location.id)
+													}><i className="fa fa-times" aria-hidden="true"></i></a>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div className="col-lg-7 col-md-12">
-										<div ref={mapRef} style={{ height: "400px" }}></div>
-										{/* <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/map-3.png'} alt="map-3" className="w-100" /> */}
+									))}
+									<div className='row'>
+										<div className='col-md-6'>
+											<div className="banner-btn position-top">
+												<a onClick={() => { modalConfirmOpen(); resetFields(); }} style={{ cursor: "pointer", color: "white" }}>Add New Location</a>
+											</div>
+										</div>
+										<div className='col-md-6'>
+											<div className="banner-btn position-bottom">
+												<a href="/startjourney">Start your journey</a>
+											</div>
+										</div>
 									</div>
 								</div>
+								<div className="col-lg-7 col-md-12">
+									<div ref={mapRef} style={{ height: "400px" }}></div>
+									{/* <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/map-3.png'} alt="map-3" className="w-100" /> */}
+								</div>
+							</div>
 							<PopupModal
 								show={modalConfirm}
 								handleClose={modalConfirmClose}
@@ -1146,12 +1175,12 @@ const updateLocationStatus = async (id: number, location_status: string) => {
 							</PopupModal>
 						</div>
 					</div>
-					<Pagination
-				items={totalMenu.length}
-				currentPage={currentPage}
-				pageSize={pageSize}
-				onPageChange={onPageChange}
-			/>
+					{/* <Pagination
+						items={totalMenu.length}
+						currentPage={currentPage}
+						pageSize={pageSize}
+						onPageChange={onPageChange}
+					/> */}
 				</div>
 				<ToastContainer />
 			</div>

@@ -169,7 +169,13 @@ export default function Header({ }) {
 
               setTimeout(() => {
                 if (res.user.role == "user") {
-                  window.location.href = "/user/userprofile";
+                  if (
+                    res.user.profile_status == "completed"
+                  ) {
+                    window.location.href = "/bookings/step1";
+                  } else {
+                    window.location.href = "/user/userprofile";
+                  }
                 }
               }, 1000);
 
@@ -179,7 +185,7 @@ export default function Header({ }) {
                     res.user.approved_by_admin == "yes" &&
                     res.user.profile_status == "completed"
                   ) {
-                    window.location.href = "/chef/dashboard";
+                    window.location.href = "/bookings/step1";
                   } else {
                     window.location.href = "/chef/myprofile";
                   }
@@ -516,6 +522,13 @@ export default function Header({ }) {
                     </a>
                   </li>
                 )}
+                 {isAuthenticated && role === "user" && (
+              <li className="nav-item">
+                <a className="nav-link" href="/user/dashboard">
+                  Dashboard
+                </a>
+              </li>
+            )}
                 <li className="user">
                   {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
 
@@ -587,6 +600,7 @@ export default function Header({ }) {
             <div className='login_div mb-2'>
               <label htmlFor="email">Role:</label>
               <select className="" onChange={(e) => setRole(e.target.value)} name="role">
+                <option value="">Select role</option>
                 <option value="user">User</option>
                 <option value="chef">Chef</option>
                 <option value="concierge">Conciergehief</option>

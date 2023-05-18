@@ -16,6 +16,7 @@ export default function Footer() {
                             <li><a href="/whoweare">Who we are</a></li>
                             <li><a href="/ourchefs">Our Chefs</a></li>
                             <li><a href="/ourservices">Our Services</a></li>
+                            <li><a href="/location">Location</a></li>
                             <li><a href="/privacypolicy">Privacy Policy</a></li>
                             <li><a href="/termsconditions">Terms & Conditions</a></li>
                         </ul>

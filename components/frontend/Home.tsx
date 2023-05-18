@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback} from 'react';
 import Slider from "react-slick";
 import { useRouter } from "next/router";
 import {/*CheckUserEmailVerification,*/CheckUserResetPasswordVerification, UpdateResetPassword, getInstagramImages } from '../../lib/frontendapi';
@@ -9,8 +9,6 @@ import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeBookingData } from "../../lib/session";
-import Link from 'next/link';
-import ReactReadMoreReadLess from "react-read-more-read-less";
 
 
 export default function Home() {
@@ -20,13 +18,17 @@ export default function Home() {
         confirmPassword?: string;
     }
     interface Insta {
+        id: number;
         media_url: string;
     }
     interface Testimonial {
+        id: number;
+        stars: number;
         name: string;
         description: string;
         image: string;
     }
+
 
     const router = useRouter();
     const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
@@ -36,35 +38,45 @@ export default function Home() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState<Errors>({});
-    const [stars, setStar] = useState(0);
+    const [stars, setStar] = useState([]);
+
 
     useEffect(() => {
-        getInstaImages();
-        fetchTestimonialDetails();
-        removeBookingData();
-        if (router.query.id && router.query.hash) {
-            // CheckEmailVerification();
-        }
-
-        if (router.query.userid && router.query.resettoken) {
-            CheckResetPasswordVerification();
-        }
-    }, [router]);
-
+        const fetchData = async () => {
+          try {
+            fetchTestimonialDetails();
+            getInstaImages();
+            removeBookingData();
+      
+            if (router.query.id && router.query.hash) {
+              // CheckEmailVerification();
+            }
+      
+            if (router.query.userid && router.query.resettoken) {
+              CheckResetPasswordVerification();
+            }
+          } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+          }
+        };
+      
+        fetchData();
+      }, [router]);
+      
     const getInstaImages = async () => {
         getInstagramImages()
             .then(res => {
                 if (res.status == true) {
                     setInstaFeed(res.data);
-                    console.log(res.data);
+                    //console.log(res.data);
                 } else {
                     console.log("error");
                 }
             })
             .catch(err => {
-                console.log(err);
+               
             });
-    }
+        };
 
     const fetchTestimonialDetails = async () => {
         try {
@@ -72,18 +84,18 @@ export default function Home() {
             if (res.status) {
                 setTestimonials(res.data);
                 setStar(res.data.stars)
-                console.log(res.data);
+                //console.log(res.data);
             } else {
                 toast.error(res.message, {
                     position: toast.POSITION.TOP_RIGHT,
                 });
             }
         } catch (err: any) {
-            toast.error(err.message, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            
         }
     };
+
+
 
     const CheckResetPasswordVerification = async () => {
         const data = {
@@ -459,7 +471,7 @@ export default function Home() {
                     <div className="row mt-5">
                         <Slider {...settings}>
                             {getinstafeed.map((instagram) => (
-                                <div className="col-lg-2 col-md-6">
+                                <div className="col-lg-2 col-md-6" key={instagram.id}>
                                     {/* <a href="https://www.instagram.com/privatechefsworld/" target="_blank" rel="noopener noreferrer"> */}
                                     <div className="slider-img-plase add-img-class">
                                         <img src={instagram.media_url} alt="f-1" />
@@ -480,29 +492,29 @@ export default function Home() {
                     <h2 className="text-center">What they say about us...</h2>
                     <h4 className="text-center">So proud to create such beautiful memories!</h4>
                     <div className="row mt-5">
-                    {testimonials.slice(0, 3).map((instagram) => (
-                            <div className="col-lg-4 col-md-12">
+                        {testimonials.slice(0, 3).map((testimonial) => (
+                            <div className="col-lg-4 col-md-12" key={testimonial.id}>
                                 <div className="test-box">
-                                <p>{instagram.description.slice(0, 200)}.</p>
+                                    <p>{testimonial.description.slice(0, 200)}.</p>
                                     <div className="row">
                                         <div className="col-3" id="test-img">
-                                            {instagram.image ? (
-                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/testimonial/' + instagram.image} alt="ava4" />
+                                            {testimonial.image ? (
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/testimonial/' + testimonial.image} alt="ava4" />
                                             ) : (
-                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/ava4.png'} alt="ava4" />
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="ava4" />
                                             )}
                                         </div>
                                         <div className="col-9">
                                             <div className="say">
-                                                <h5 className="mt-2">{instagram.name}</h5>
+                                                <h5 className="mt-2">{testimonial.name}</h5>
                                                 {/* <p className="font-12"> */}
                                                 <p className="star-list blue-star" id="star-color">
                                                     {[1, 2, 3, 4, 5].map((num) => (
                                                         <i
                                                             key={num}
-                                                            className={`fa${num <= stars ? 's' : 'r'} fa-star`}
+                                                            className={`fa${num <= testimonial.stars ? 's' : 'r'} fa-star`}
                                                             onMouseEnter={() => handleStarHover(num)}
-                                                            onClick={() => setStar(num)}
+                                                            onClick={() => setStar(stars)}
                                                         />
                                                     ))}
                                                 </p>
