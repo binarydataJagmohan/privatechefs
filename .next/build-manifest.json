@@ -15,11 +15,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/index.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -35,15 +30,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/admin/bookings.js"
     ],
-    "/admin/edit-booking/step1": [
+    "/chef/bookings": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/edit-booking/step1.js"
+      "static/chunks/pages/chef/bookings.js"
+    ],
+    "/chef/hired-booking": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/hired-booking.js"
     ],
     "/user/booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/user/booking.js"
+    ],
+    "/user/edit-booking/step1": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/edit-booking/step1.js"
     ]
   },
   "ampFirstPages": []

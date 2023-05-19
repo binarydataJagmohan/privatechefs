@@ -2,9 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/bookings": "pages/admin/bookings.js",
   "/user/booking": "pages/user/booking.js",
-  "/": "pages/index.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/admin/edit-booking/step1": "pages/admin/edit-booking/step1.js"
+  "/chef/bookings": "pages/chef/bookings.js",
+  "/chef/hired-booking": "pages/chef/hired-booking.js",
+  "/admin/bookings": "pages/admin/bookings.js",
+  "/user/edit-booking/step1": "pages/user/edit-booking/step1.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
 }
