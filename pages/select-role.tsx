@@ -15,6 +15,7 @@ export default function Custom() {
   interface User {
     id: number;
     role:string;
+    email:string;
     approved_by_admin:string;
     profile_status:string;
   }
@@ -24,43 +25,45 @@ export default function Custom() {
   const [role, setRole] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [buttonStatus, setButtonState] = useState(false);
+  const [data, setdata] = useState({});
   const [current_user_data, setCurrentUserData] = useState<User>({
         id: 0,
         role: "",
+        email:"",
         approved_by_admin: "",
         profile_status: "",
   });
   const { data: session } = useSession();
 
   useEffect(() => {
-    const fetchDataByEmail = async (email: string) => {
-      try {
-        const response = await getEmail(email);
-        const userdata = response.data; // Modify as per your API response structure
-        setCurrentUserData(userdata);
-        console.log(userdata);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+    // const fetchDataByEmail = async (email: string) => {
+    //   try {
+    //     const response = await getEmail(email);
+    //     const userdata = response.data; // Modify as per your API response structure
+    //     setCurrentUserData(userdata);
+    //     console.log(userdata);
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // };
   
     if (session && session.user && session.user.email) {
       const sessionEmail = session.user.email;
-      fetchDataByEmail(sessionEmail);
+      getDataByEmail(sessionEmail);
     }
 
   }, [session]);
   
 
-  // const getDataByEmail = async (email: string) => {
-  //   try {
-  //     const response = await getEmail(email);
-  //     const data = response.data; // Assuming the response contains the ID
-  //     setdata(data);// Modify as per your API response structure
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
+  const getDataByEmail = async (email: string) => {
+    try {
+      const response = await getEmail(email);
+      const data = response.data; // Assuming the response contains the ID
+      setCurrentUserData(data);// Modify as per your API response structure
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const handleSelectSubmit = (e: any) => {
     e.preventDefault();
@@ -75,7 +78,7 @@ export default function Custom() {
     // Submit form data if there are no errors
     if (Object.keys(newErrors).length === 0) {
       // setButtonState(true);
-      // Call an API or perform some other action to register the user
+      const email = current_user_data.email;
       const id = current_user_data.id;
       //console.log(id);
       const data = {
@@ -84,6 +87,7 @@ export default function Custom() {
       selectRole(id,data)
         .then((res) => {
           if (res.status == true) {
+           
               toast.success(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
               });
@@ -96,8 +100,7 @@ export default function Custom() {
 
               setTimeout(() => {
                 //alert(132);
-                if (current_user_data.role === "user") {
-                  alert(132);
+                if (current_user_data.role == "user") {
                   router.push("/user/userprofile");
                 }
               }, 1000);

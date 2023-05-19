@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic'
 import { useRouter } from "next/router";
+// import { useSession, signIn, signOut } from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { login, register, forgetPassword } from '../../../lib/frontendapi';
+import { login, register, forgetPassword, socialDataSave,selectRole,getEmail} from '../../../lib/frontendapi';
 import { removeToken, removeStorageData, getCurrentUserData, removeBookingData } from "../../../lib/session";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
+
+
 export default function Header({ }) {
 
   interface Errors {
@@ -19,6 +22,14 @@ export default function Header({ }) {
   interface User {
     id: string;
     // Other properties of the user data object
+  }
+
+
+  interface User1 {
+    id: number;
+    role:string;
+    approved_by_admin:string;
+    profile_status:string;
   }
 
   const router = useRouter();
@@ -37,13 +48,27 @@ export default function Header({ }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const userrole = 'admin';
   const [activeTab, setActiveTab] = useState("");
-
-
-
+  const [logoutButtonVisible, setLogoutButtonVisible] = useState(true);
+  const [current_user_data, setCurrentUserData] = useState<User1>({
+    id: 0,
+    role: "",
+    approved_by_admin: "",
+    profile_status: "",
+});
+  // const { data: session } = useSession();
 
   useEffect(() => {
     checkuser();
+    removeToken();
+    removeStorageData();
 
+    // if (session && session.user && session.user.image) {
+    //   if (session.user.image.indexOf('googleusercontent') >= 0) {
+    //     SocialData(session.user, 'google');
+    //   }else{
+    //     SocialData(session.user, 'facebook');
+    //   }
+    // }
   }, []);
 
   useEffect(() => {
@@ -54,7 +79,74 @@ export default function Header({ }) {
       setIsAuthenticated(true);
       setRole(role);
     }
+
   }, []);
+
+  //   const data = {
+  //     name: user.name,
+  //     email: user.email,
+  //     password: '123456'
+  //   };
+  //   socialDataSave(data)
+  //     .then((res) => {
+  //       if (res.status == true) {
+  //         if (res.authorisation.token) {
+  //           window.localStorage.setItem("token", res.authorisation.token);
+  //           window.localStorage.setItem("id", res.user.id);
+  //           window.localStorage.setItem("name", res.user.name);
+  //           window.localStorage.setItem("email", res.user.email);
+  //           window.localStorage.setItem("role", res.user.role);
+  //           window.localStorage.setItem("pic", res.user.pic);
+  //           window.localStorage.setItem("surname", res.user.surname);
+  //           window.localStorage.setItem("phone", res.user.phone);
+  //           window.localStorage.setItem("address", res.user.address);
+  //           window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
+  //           window.localStorage.setItem("profile_status", res.user.profile_status);
+  //           setTimeout(() => {
+  //             if (res.user.role === null) {
+  //               router.push("/select-role");
+  //             }
+  //           }, 1000);
+
+  //           setTimeout(() => {
+  //             if (current_user_data.role == "admin") {
+  //               router.push("/admin/dashboard");
+  //             }
+  //           }, 1000);
+
+  //           setTimeout(() => {
+  //             //alert(132);
+  //             if (current_user_data.role === "user") {
+  //               //alert(132);
+  //               router.push("/user/userprofile");
+  //             }
+  //           }, 1000);
+
+  //           setTimeout(() => {
+  //             if (current_user_data.role == "chef") {
+  //                 router.push("/chef/myprofile")
+  //             }
+  //           }, 1000);
+
+  //         } else {
+  //           toast.success(res.message, {
+  //             position: toast.POSITION.TOP_RIGHT,
+  //             toastId: 'success',
+  //           });
+  //           //setErrorMessage(data.message);
+  //         }
+  //       } else {
+  //         toast.error(res.message, {
+  //           position: toast.POSITION.TOP_RIGHT,
+  //           toastId: 'error',
+  //         });
+  //         //setErrorMessage(res.message);
+  //       }
+  //     })
+  //     .catch((err: any) => {
+
+  //     });
+  // };
 
   const checkuser = async () => {
     const user: User = getCurrentUserData() as User;
@@ -169,13 +261,7 @@ export default function Header({ }) {
 
               setTimeout(() => {
                 if (res.user.role == "user") {
-                  if (
-                    res.user.profile_status == "completed"
-                  ) {
-                    window.location.href = "/bookings/step1";
-                  } else {
-                    window.location.href = "/user/userprofile";
-                  }
+                  router.push("/user/userprofile");
                 }
               }, 1000);
 
@@ -185,7 +271,7 @@ export default function Header({ }) {
                     res.user.approved_by_admin == "yes" &&
                     res.user.profile_status == "completed"
                   ) {
-                    window.location.href = "/bookings/step1";
+                    window.location.href = "/chef/dashboard";
                   } else {
                     window.location.href = "/chef/myprofile";
                   }
@@ -317,7 +403,7 @@ export default function Header({ }) {
 
               setTimeout(() => {
                 if (res.data.user.role == "user") {
-                  window.location.href = "/user/userprofile";
+                  router.push("/user/userprofile");
                 }
               }, 1000);
             } else {
@@ -490,7 +576,7 @@ export default function Header({ }) {
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li> */}
 
-                <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
+                <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active  bg-color' : ''}`}>
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li>
                 {/* {isAuthenticated && role === "user" && (
@@ -501,36 +587,34 @@ export default function Header({ }) {
               </li>
             )} */}
 
-                <li className={`nav-item ${router.pathname === '/whoweare' ? 'active' : ''}`}>
+                <li className={`nav-item ${router.pathname === '/whoweare' ? 'active bg-color' : ''}`}>
                   <a className="nav-link" href="/whoweare">Who we are</a>
                 </li>
-                <li className={`nav-item ${router.pathname === '/ourchefs' ? 'active' : ''}`}>
+                <li className={`nav-item ${router.pathname === '/ourchefs' ? 'active bg-color' : ''}`}>
                   <a className="nav-link" href="/ourchefs">Our Chefs</a>
                 </li>
 
                 {isAuthenticated && role === "admin" && (
-                  <li className={`nav-item ${router.pathname === '/admin/dashboard' ? 'active' : ''}`}>
+                  <li className={`nav-item ${router.pathname === '/admin/dashboard bg-color' ? 'active' : ''}`}>
                     <a className="nav-link" href="/admin/dashboard">
                       Dashboard
                     </a>
                   </li>
                 )}
                 {isAuthenticated && role === "chef" && (
-                  <li className={`nav-item ${router.pathname === '/chef/dashboard' ? 'active' : ''}`}>
+                  <li className={`nav-item ${router.pathname === '/chef/dashboard' ? 'active bg-color' : ''}`}>
                     <a className="nav-link" href="/chef/dashboard">
                       Dashboard
                     </a>
                   </li>
                 )}
-                 {isAuthenticated && role === "user" && (
-              <li className="nav-item">
-                <a className="nav-link" href="/user/dashboard">
-                  Dashboard
-                </a>
-              </li>
-            )}
                 <li className="user">
-                  {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
+
+                  {!current_user_id ? (
+                    <a className="nav-link" href="#" onClick={() => signinpopup()}>Sign In/Sign Up</a>
+                  ) : (
+                    <a className="nav-link" href="#" onClick={handleLogout}>Logout</a>
+                  )}
 
                 </li>
               </ul>
@@ -568,10 +652,10 @@ export default function Header({ }) {
             <p className="text-link text-left my-2"><a href="#" onClick={() => forgotpopup()}><span>Forgot password? </span></a></p>
 
           </div>
+          {/* <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button> */}
 
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
+          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
+          <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button> */}
         </div>
 
       </PopupModal>
@@ -600,6 +684,7 @@ export default function Header({ }) {
             <div className='login_div mb-2'>
               <label htmlFor="email">Role:</label>
               <select className="" onChange={(e) => setRole(e.target.value)} name="role">
+                <option value="">Select role</option>
                 <option value="user">User</option>
                 <option value="chef">Chef</option>
                 <option value="concierge">Conciergehief</option>
@@ -621,9 +706,12 @@ export default function Header({ }) {
           </form>
           <p className="text-link text-left my-2"><a href="#" onClick={() => signinpopup()}>Already have account? <span>Sign in</span></a></p>
 
-          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/g-logo.png'} alt="g-logo"/> Continue with Google</button>
-                    <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/a-logo.jpg'} alt="a-logo"/> Continue with Apple</button>
-                    <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-logo.png'} alt="f-logo"/> Continue with Facebook</button> */}
+          {/* <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button> */}
+
+
+          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/g-logo.png'} alt="g-logo"/> Continue with Google</button> */}
+                    {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/a-logo.jpg'} alt="a-logo"/> Continue with Apple</button>
+                    <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-logo.png'} alt="f-logo"/> Continue with Facebook</button> */}
         </div>
 
       </PopupModal>

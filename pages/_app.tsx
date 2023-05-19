@@ -7,9 +7,9 @@ import ConciergeLayout from '../components/concierge/layouts/layout';
 import BookingLayout from '../components/frontend/layouts/layout';
 import { useRouter } from "next/router";
 import Head from 'next/head';
-import { SessionProvider } from 'next-auth/react';
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+
+export default function App({ Component, pageProps}: AppProps) {
   const router = useRouter();
   if (router.pathname.startsWith("/admin")) {
     return (
@@ -72,11 +72,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <SessionProvider session={session}>
           <FrontendLayout>
             <Component {...pageProps} />
           </FrontendLayout>
-        </SessionProvider>
       </>
     )
   }

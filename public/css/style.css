@@ -859,6 +859,8 @@ color: var(--color_5);
   box-shadow: var(--admin_base-shadow);
   border-radius: var(--booking_img_border_radius);
   padding: 20px;
+  width: 387px;
+    height: 300px;
 }
 .step-box  h4 {
   font-weight: var(--font_wt_name);
@@ -1437,6 +1439,7 @@ span.log-out {
   text-align: center; 
   max-width: 195px;
   margin: 0 auto;
+  cursor: pointer; 
 }
 .user-img input[type="file"] {
   width: 16px;
@@ -2512,11 +2515,11 @@ input:checked + .slider:before {
 .position-bottom {
   position: absolute;
   right: 15px;
-  bottom: 20px;
+  bottom: 4px;
 }
 .position-top {
   position: absolute; 
-  bottom: 20px;
+  bottom: 4px;
 }
 .p-r{position: relative;}
 .border-radius{border-radius: 68px;}
@@ -3339,4 +3342,48 @@ a {
 }
 .edit_booking_tick_css :checked + .step_label_css:before {
   padding: 12px 10px;
+}
+div#location_popup {
+  z-index: 1;
+}
+.slider-img-plase.add-img-class::before {
+  content: "";
+  background: #08070745;
+  width: 96%;
+  height: 101%;
+  position: absolute;
+  border-radius: 25px;
+}
+.slider-img-plase.add-img-class {
+  width: 270px;
+  height: 100%;
+}
+#none-class a.dropdown-toggle {
+  cursor: pointer;
+}
+p#star-color {
+  text-align: inherit;
+  color: #ff4e00 !important;
+}
+div#test-img img {
+  height: 60px;
+  width: 60px;
+  border-radius: 40px;
+}
+.user-img1 img {
+  width: 80px;
+  height: 80px;
+  border-radius: 200px;
+  cursor: pointer;  
+}
+.user-img1 label i {
+  background: var(--background_5);
+  border-radius: 36px;
+  width: 25.71px;
+  height: 25px;
+  padding: 5px 5px;
+  color: #fff;
+  position: absolute;
+  right: 72%;
+  cursor: pointer;
 }

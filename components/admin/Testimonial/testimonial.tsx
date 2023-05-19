@@ -154,7 +154,7 @@ export default function Allergy() {
         getSingleTestimonial(id).then((res) => {
             settestimonialList(res.testimonial);
             setStar(res.testimonial.stars)
-            //   console.log(res)
+            console.log(res.testimonial.stars)
         });
     };
 
@@ -290,7 +290,7 @@ export default function Allergy() {
         const starColor = num > 0 ? "orange" : "blue";
         const stars = document.querySelectorAll(".fa-star");
         stars.forEach((star, index) => {
-            (star as HTMLElement).style.color = index < num ? starColor : "blue";
+            (star as HTMLElement).style.color = index < num ? starColor : "#ff4e00";
         });
     };
 

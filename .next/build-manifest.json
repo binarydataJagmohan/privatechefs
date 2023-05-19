@@ -15,10 +15,19 @@
   ],
   "rootMainFiles": [],
   "pages": {
+<<<<<<< HEAD
+=======
+    "/404": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/404.js"
+    ],
+>>>>>>> e40d732a689bd3ecd076ee74a1a723691db06851
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_app.js"
+<<<<<<< HEAD
     ],
     "/_error": [
       "static/chunks/webpack.js",
@@ -34,10 +43,23 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/chef/bookings.js"
+=======
+    ],
+    "/_error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
+    ],
+    "/chef/myprofile": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/myprofile.js"
+>>>>>>> e40d732a689bd3ecd076ee74a1a723691db06851
     ],
     "/chef/hired-booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
+<<<<<<< HEAD
       "static/chunks/pages/chef/hired-booking.js"
     ],
     "/user/booking": [
@@ -49,6 +71,9 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/user/edit-booking/step1.js"
+=======
+      "static/chunks/pages/user/userprofile.js"
+>>>>>>> e40d732a689bd3ecd076ee74a1a723691db06851
     ]
   },
   "ampFirstPages": []

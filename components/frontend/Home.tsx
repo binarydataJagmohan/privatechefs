@@ -1,41 +1,101 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback} from 'react';
 import Slider from "react-slick";
 import { useRouter } from "next/router";
-import {/*CheckUserEmailVerification,*/CheckUserResetPasswordVerification, UpdateResetPassword } from '../../lib/frontendapi';
+import {/*CheckUserEmailVerification,*/CheckUserResetPasswordVerification, UpdateResetPassword, getInstagramImages } from '../../lib/frontendapi';
+import { getTestimonials } from '../../lib/adminapi';
+
 import PopupModal from '../../components/commoncomponents/PopupModal';
 import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeBookingData } from "../../lib/session";
-import Link from 'next/link';
+
+
 export default function Home() {
 
     interface Errors {
         password?: string;
         confirmPassword?: string;
     }
+    interface Insta {
+        id: number;
+        media_url: string;
+    }
+    interface Testimonial {
+        id: number;
+        stars: number;
+        name: string;
+        description: string;
+        image: string;
+    }
+
 
     const router = useRouter();
     const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
     const [buttonStatus, setButtonState] = useState(false);
     const [password, setPassword] = useState("");
+    const [getinstafeed, setInstaFeed] = useState<Insta[]>([]);
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState<Errors>({});
+    const [stars, setStar] = useState([]);
 
 
     useEffect(() => {
+        const fetchData = async () => {
+          try {
+            fetchTestimonialDetails();
+            getInstaImages();
+            removeBookingData();
+      
+            if (router.query.id && router.query.hash) {
+              // CheckEmailVerification();
+            }
+      
+            if (router.query.userid && router.query.resettoken) {
+              CheckResetPasswordVerification();
+            }
+          } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+          }
+        };
+      
+        fetchData();
+      }, [router]);
+      
+    const getInstaImages = async () => {
+        getInstagramImages()
+            .then(res => {
+                if (res.status == true) {
+                    setInstaFeed(res.data);
+                    //console.log(res.data);
+                } else {
+                    console.log("error");
+                }
+            })
+            .catch(err => {
+               
+            });
+        };
 
-        removeBookingData();
-
-        if (router.query.id && router.query.hash) {
-            // CheckEmailVerification();
+    const fetchTestimonialDetails = async () => {
+        try {
+            const res = await getTestimonials();
+            if (res.status) {
+                setTestimonials(res.data);
+                setStar(res.data.stars)
+                //console.log(res.data);
+            } else {
+                toast.error(res.message, {
+                    position: toast.POSITION.TOP_RIGHT,
+                });
+            }
+        } catch (err: any) {
+            
         }
+    };
 
-        if (router.query.userid && router.query.resettoken) {
-            CheckResetPasswordVerification();
-        }
 
-    }, [router]);
 
     const CheckResetPasswordVerification = async () => {
         const data = {
@@ -151,7 +211,6 @@ export default function Home() {
                                 });
                             });
                         }
-
                     }
                 })
                 .catch(err => {
@@ -234,7 +293,13 @@ export default function Home() {
             }
         ]
     }
-
+    const handleStarHover = (num: number) => {
+        const starColor = num > 0 ? "#ff4e00" : "#ff4e00";
+        const stars = document.querySelectorAll(".fa-star");
+        stars.forEach((star, index) => {
+            (star as HTMLElement).style.color = index < num ? starColor : '#ff4e00';
+        });
+    };
     return (
         <>
             <section className="banner-part">
@@ -405,49 +470,18 @@ export default function Home() {
                     <h2>Instagram feeds</h2>
                     <div className="row mt-5">
                         <Slider {...settings}>
-                            <div className="col-lg-2 col-md-6">
-                                <a href="https://www.instagram.com/privatechefsworld/" target="_blank" rel="noopener noreferrer">
-                                    <div className="slider-img-plase">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-1.webp'} alt="f-1" />
+                            {getinstafeed.map((instagram) => (
+                                <div className="col-lg-2 col-md-6" key={instagram.id}>
+                                    {/* <a href="https://www.instagram.com/privatechefsworld/" target="_blank" rel="noopener noreferrer"> */}
+                                    <div className="slider-img-plase add-img-class">
+                                        <img src={instagram.media_url} alt="f-1" />
                                     </div>
-                                </a>
-                            </div>
-
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-2.webp'} alt="f-2" />
+                                    {/* <div className="slider-img-plase">
+                                        <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-1.webp'} alt="f-1" />
+                                    </div> */}
+                                    {/* </a> */}
                                 </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-3.webp'} alt="f-3" />
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-4.webp'} alt="f-4" />
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-5.webp'} alt="f-5" />
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-1.webp'} alt="f-1" />
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-5.webp'} alt="f-5" />
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-3.webp'} alt="f-3" />
-                                </div>
-                            </div>
+                            ))}
                         </Slider>
                     </div>
                 </div>
@@ -458,56 +492,39 @@ export default function Home() {
                     <h2 className="text-center">What they say about us...</h2>
                     <h4 className="text-center">So proud to create such beautiful memories!</h4>
                     <div className="row mt-5">
-                        <div className="col-lg-4 col-md-12">
-                            <div className="test-box">
-                                <p>The best culinary week of my life was with Chef Andreas in Mykonos. The tallent this Chef has is amazing. He took care of me and my family as we were his own. Highly recomended.</p>
-                                <div className="row">
-                                    <div className="col-3">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/ava4.png'} alt="ava4" />
-                                    </div>
-                                    <div className="col-9">
-                                        <div className="say">
-                                            <h5 className="mt-2">Christopher Adams</h5>
-                                            <p className="font-12">Basebassl player</p>
+                        {testimonials.slice(0, 3).map((testimonial) => (
+                            <div className="col-lg-4 col-md-12" key={testimonial.id}>
+                                <div className="test-box">
+                                    <p>{testimonial.description.slice(0, 200)}.</p>
+                                    <div className="row">
+                                        <div className="col-3" id="test-img">
+                                            {testimonial.image ? (
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/testimonial/' + testimonial.image} alt="ava4" />
+                                            ) : (
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="ava4" />
+                                            )}
+                                        </div>
+                                        <div className="col-9">
+                                            <div className="say">
+                                                <h5 className="mt-2">{testimonial.name}</h5>
+                                                {/* <p className="font-12"> */}
+                                                <p className="star-list blue-star" id="star-color">
+                                                    {[1, 2, 3, 4, 5].map((num) => (
+                                                        <i
+                                                            key={num}
+                                                            className={`fa${num <= testimonial.stars ? 's' : 'r'} fa-star`}
+                                                            onMouseEnter={() => handleStarHover(num)}
+                                                            onClick={() => setStar(stars)}
+                                                        />
+                                                    ))}
+                                                </p>
+                                                {/* </p> */}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="col-lg-4 col-md-12">
-                            <div className="test-box">
-                                <p>I had my weeding thid year in Greece and we were recomended to contracts Private Chefs Worldwide for our ceremony event. This was the best choice i have made for a high end catering. Everything was spectacular.</p>
-                                <div className="row">
-                                    <div className="col-3">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/ava3.png'} alt="ava3" />
-                                    </div>
-                                    <div className="col-9">
-                                        <div className="say">
-                                            <h5 className="mt-2">Mila Kunis</h5>
-                                            <p className="font-12">Make-up artist</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-4 col-md-12">
-                            <div className="test-box">
-                                <p>I travelled in Spain with my friends and heard about this amazing company. They provided us a Chef and assistant for a week and the food was out of this world. Everythid super fresh and made at the spot.</p>
-                                <div className="row">
-                                    <div className="col-3">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/ava2.png'} alt="ava2" />
-                                    </div>
-                                    <div className="col-9">
-                                        <div className="say">
-                                            <h5 className="mt-2">Mike Stuart</h5>
-                                            <p className="font-12">IT Tech</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
