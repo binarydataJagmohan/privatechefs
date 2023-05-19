@@ -88,7 +88,6 @@ export default function MyProfile(props: any) {
          <h5 style={{color:"#ff4e00"}}>Chefs Detail</h5>
             <div className="user-class pt-5">
                 <div style={{ flex: "1" }}>
-
                     {getUsers.pic ? (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users/' +getUsers.pic} alt="" width={100} height={100} />
                     ) : (

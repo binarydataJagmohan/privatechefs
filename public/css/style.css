@@ -3384,3 +3384,9 @@ div#test-img img {
   right: 72%;
   cursor: pointer;
 }
+.user-class.pt-5 {
+  display: flex;
+}
+span#book-user {
+  color: #ff4e00;
+}

@@ -202,7 +202,7 @@ export default function Chefs() {
                 {/* <th scope="col">Location</th> */}
                 {/* <th scope="col">Dietary restrictios</th>
 								<th scope="col">Rating</th> */}
-                <th scope="col"></th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -261,11 +261,10 @@ export default function Chefs() {
                     {/* <td>Ut pulvinar.</td> */}
                     {/* <td>Arcu nibh non.</td>
 										<td>Eu nibh.</td> */}
-                    <td>
-                      <a href="#">
-                        <i className="fa-solid fa-ellipsis"></i>
-                      </a>
-                    </td>
+                    <td style={{paddingLeft : "25px"}}>
+                                    <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
+                                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                                    </td>
                   </tr>
                 ))
               ) : chefs.length > 0 ? (
@@ -372,11 +371,10 @@ export default function Chefs() {
                     {/* <td>Ut pulvinar.</td> */}
                     {/* <td>Arcu nibh non.</td>
 					<td>Eu nibh.</td> */}
-                    <td>
-                      <a href="#">
-                        <i className="fa-solid fa-ellipsis"></i>
-                      </a>
-                    </td>
+                    <td style={{paddingLeft : "25px"}}>
+                                    <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + chef.id}>
+                                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                                    </td>
                   </tr>
                 ))
               ) : (
