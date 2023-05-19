@@ -35,6 +35,8 @@ export function isPageVisibleToRole(pageName: string): number {
       "chef-hired-bookings": ['chef'],
       "user-bookings": ['user'],
       "receipt": ["chef"],
+      "admin": ['admin'],
+      "user": ['user'],
     };
 
     if (pageName in pageRoles) {

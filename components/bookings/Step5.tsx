@@ -177,8 +177,8 @@ export default function Step5() {
                           />
                           <label htmlFor={`myCheckbox2_${allergies.id}`} className="step_label_css">
                           {allergies.image ? 
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/'+allergies.image} alt="step-img-1" /> 
-                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={245} height={190}/> 
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/'+allergies.image} alt="step-img-1" width={250} height={250}/> 
+                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"width={250} height={250}/> 
                           }
                             
                             <p className="plase-btn"><a href="#">{allergies.allergy_name}</a></p>

@@ -600,7 +600,6 @@ export default function Header({ }) {
             <div className='login_div mb-2'>
               <label htmlFor="email">Role:</label>
               <select className="" onChange={(e) => setRole(e.target.value)} name="role">
-                <option value="">Select role</option>
                 <option value="user">User</option>
                 <option value="chef">Chef</option>
                 <option value="concierge">Conciergehief</option>

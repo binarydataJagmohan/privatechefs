@@ -1,9 +1,9 @@
 import React from 'react';
-import BookingStep7 from '../../components/bookings/Step7';
-export default function Step7() {
+import BookingStep6 from '../../components/bookings/Step7';
+export default function Step6() {
   return (
         <>
-            <BookingStep7/>
+            <BookingStep6/>
         </>
   )
 }

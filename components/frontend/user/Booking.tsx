@@ -333,7 +333,17 @@ export default function Booking() {
       });
       };
       
-
+      const editbooking = (id:any) => {
+        window.localStorage.removeItem("time");
+        window.localStorage.removeItem("servicetype");
+        window.localStorage.removeItem("servicestyle");
+        window.localStorage.removeItem("selectedMeals");
+        window.localStorage.removeItem("selectedcuisine");
+        window.localStorage.removeItem("selectedallergies");
+        window.localStorage.removeItem("additionalnotes");
+        window.localStorage.setItem("bookingid", id);
+        window.location.href = '/user/edit-booking/step1';
+        }
     return(
         <>
             <section className="userprofile-part">
@@ -478,11 +488,11 @@ export default function Booking() {
                                                       <a
                                                         className="dropdown-item"
                                                         href="#"
-                                                        onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields()}}
+                                                        onClick={(e) => editbooking(user.booking_id)}
                                                       >
                                                         Edit
                                                       </a>
-                                                    </li>
+								                                  	</li>
                                                     <li>
                                                         <a
                                                           className="dropdown-item"

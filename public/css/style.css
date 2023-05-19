@@ -3340,6 +3340,9 @@ button.remove-btn {
 a {
   text-decoration-line: none;
 }
+.edit_booking_tick_css :checked + .step_label_css:before {
+  padding: 12px 10px;
+}
 div#location_popup {
   z-index: 1;
 }
@@ -3384,9 +3387,12 @@ div#test-img img {
   right: 72%;
   cursor: pointer;
 }
+<<<<<<< HEAD
 .user-class.pt-5 {
   display: flex;
 }
 span#book-user {
   color: #ff4e00;
 }
+=======
+>>>>>>> refs/remotes/origin/main
