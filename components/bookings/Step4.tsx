@@ -39,7 +39,7 @@ export default function Step4() {
                 getAllCuisineData();
                 if (storedCuisine) {
                   const selectedCuisineArray = JSON.parse(storedCuisine);
-              
+                  console.log(selectedCuisineArray);
                   setSelectedCuisine(selectedCuisineArray);
                 }
 

@@ -28,7 +28,7 @@ export default function Step6() {
   const [adults, setAdults] = useState("");
   const [teens, setTeens] = useState("");
   const [childrens, setChildren] = useState("");
-  const [address, setLocation] = useState("");
+  const [address, setLocation] = useState(" ");
   const [lat,setLat ] = useState("");
   const [lng, setLng] = useState("");
 
@@ -52,6 +52,7 @@ export default function Step6() {
     });
 
     loader.load().then(() => {
+     
       const input: HTMLInputElement | null = document.getElementById('address-input') as HTMLInputElement | null;
       if (input) {
         const autocomplete = new google.maps.places.Autocomplete(input);
@@ -68,6 +69,7 @@ export default function Step6() {
 
           console.log(lat);
           console.log(lng);
+          
   
           setLocation(address)
           setLat(lat.toString());
@@ -91,17 +93,14 @@ export default function Step6() {
     const storedCuisine = window.localStorage.getItem("selectedcuisine");
     const storeallergies = window.localStorage.getItem("selectedallergies");
     const getadditionalnotes = window.localStorage.getItem("additionalnotes");
-
-
-    setServiceType(serviceType ?? '');
-    setTime(time ?? '');
-    setServiceStyle(servicestyle ?? '');
-    setSelectedMeals(JSON.parse(mealsSelected ?? ''));
-    setSelectedCuisine(JSON.parse(storedCuisine ?? ''));
-    setSelectedAllergies(JSON.parse(storeallergies ?? ''));
-    setSelectedAllergies(JSON.parse(storeallergies ?? ''));
-    setAdditionalNotes(getadditionalnotes ?? '');
-
+  
+    setServiceType(serviceType ?? "");
+    setTime(time ?? "");
+    setServiceStyle(servicestyle ?? "");
+    setSelectedMeals(JSON.parse(mealsSelected ?? ""));
+    setSelectedCuisine(JSON.parse(storedCuisine ?? ""));
+    setSelectedAllergies(JSON.parse(storeallergies ?? ""));
+    setAdditionalNotes(getadditionalnotes ?? "");
   
     if (serviceType && time) {
       if (servicestyle) {
@@ -117,10 +116,39 @@ export default function Step6() {
               setName(user.name);
               setSurname(user.surname);
               setEmail(user.email);
-              setLocation(user.address || '');
+
+              console.log(user.address)
+  
+              if (user.address != 'null') {
               
+                setLocation(user.address);
+  
+                const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '';
+                const loader = new Loader({
+                  apiKey,
+                  version: 'weekly',
+                  libraries: ['places'],
+                });
+  
+                loader.load().then(() => {
+                  const geocoder = new google.maps.Geocoder();
+                  geocoder.geocode({ address: user.address }, (results, status) => {
+                    if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+                      const lat = results[0].geometry.location.lat();
+                      const lng = results[0].geometry.location.lng();
+  
+                      setLat(lat.toString());
+                      setLng(lng.toString());
+                    }
+                  });
+                }).catch((error) => {
+                  console.error('Failed to load Google Maps API', error);
+                });
+              }else {
+                setLocation("");
+  
+              }
             }
-            
           }
         }
       } else {
@@ -130,6 +158,7 @@ export default function Step6() {
       window.location.href = "/bookings/step1";
     }
   };
+  
 
   async function handleSubmit(e:any){
     e.preventDefault();
@@ -182,6 +211,8 @@ export default function Step6() {
                   toastId: 'error'
               });
           });
+
+        
       }else {
 
         swal({
@@ -224,9 +255,8 @@ export default function Step6() {
             </div>
           </div>
           <div className="row mb-5">
-            <div className="col-lg-12 col-md-12">
-              <div className="row">
-                <div className="col-sm-3">
+           
+                <div className="col-sm-4">
                   <div className="slider-img-plase">
                     <img
                       src={
@@ -244,7 +274,7 @@ export default function Step6() {
                     placeholder="Adults"
                   ></input>
                 </div>
-                <div className="col-sm-3">
+                <div className="col-sm-4">
                   <div className="slider-img-plase">
                     <img
                       src={
@@ -262,7 +292,7 @@ export default function Step6() {
                     placeholder="Teen"
                   ></input>
                 </div>
-                <div className="col-sm-3">
+                <div className="col-sm-4">
                   <div className="slider-img-plase">
                     <img
                       src={
@@ -280,8 +310,8 @@ export default function Step6() {
                     placeholder="Children"
                   ></input>
                 </div>
-              </div>
-            </div>
+              
+            
           </div>
           <div className="row mb-2">
             <div className="col-lg-12 col-md-12">

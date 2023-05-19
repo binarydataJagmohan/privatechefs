@@ -48,7 +48,7 @@ export default function Step3() {
         const end = new Date(endTimestamp);
         const dateArray = [];
 
-        console.log(startTimestamp)
+        
 
         for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
           dateArray.push(new Date(date).toLocaleDateString());

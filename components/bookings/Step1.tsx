@@ -19,6 +19,7 @@ export default function Step1() {
       const fromDate = selectedDates[0];
       const toDate = selectedDates[1];
       setMutipleTimeDate(selectedDates);
+      // console.log(selectedDates);
     }
   };
   
@@ -43,7 +44,6 @@ export default function Step1() {
         }
       }
       
-
       if (serviceType === 'multipletimes') {
         const onetimedateString = time || ''; // This string can be retrieved from the session
         const onetimedateArray = onetimedateString.split(",");
