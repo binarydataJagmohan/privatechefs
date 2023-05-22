@@ -471,7 +471,7 @@ export default function MyProfile() {
 					};
 
 					// Ensure google is defined before creating the map
-					if (typeof google !== 'undefined') {
+					if (typeof google !== 'undefined' && mapRef.current !== null) {
 						const map = new google.maps.Map(mapRef.current, mapOptions);
 						const marker = new google.maps.Marker({
 							position: { lat: parsedLat, lng: parsedLng },
@@ -768,8 +768,8 @@ export default function MyProfile() {
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Email</label>
-													<input type="email" name="email" value={currentUserData.email} readOnly/>
-													
+													<input type="email" name="email" value={currentUserData.email} readOnly />
+
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Phone Number</label>
