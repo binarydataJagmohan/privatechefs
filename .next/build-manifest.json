@@ -40,10 +40,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/admin/users/[id].js"
     ],
-    "/chef/applied-booking": [
+    "/chef/myprofile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/applied-booking.js"
+      "static/chunks/pages/chef/myprofile.js"
     ],
     "/user/userprofile": [
       "static/chunks/webpack.js",

@@ -2,9 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/users/[id]": "pages/admin/users/[id].js",
-  "/chef/applied-booking": "pages/chef/applied-booking.js",
   "/user/userprofile": "pages/user/userprofile.js",
-  "/404": "pages/404.js",
-  "/admin/users": "pages/admin/users.js"
+  "/chef/myprofile": "pages/chef/myprofile.js",
+  "/admin/users": "pages/admin/users.js",
+  "/admin/users/[id]": "pages/admin/users/[id].js",
+  "/404": "pages/404.js"
 }

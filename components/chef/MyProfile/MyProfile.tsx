@@ -830,9 +830,9 @@ export default function MyProfile() {
 												<div className="col-lg-8 col-md-7">
 													<label>Bank Holder Name</label>
 													<input type="text" name="holder_name" value={holder_name || ''} onChange={(e) => setHolderName(e.target.value)} />
-													{errors.description && (
+													{errors.holder_name && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
-															{errors.description}
+															{errors.holder_name}
 														</span>
 													)}
 												</div>
