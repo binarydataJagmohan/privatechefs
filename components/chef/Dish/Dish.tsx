@@ -9,7 +9,7 @@ import {
 } from "../../../lib/chefapi";
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { ToastContainer,toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import Pagination from "../../commoncomponents/Pagination";
@@ -32,21 +32,21 @@ export default function Dish() {
     surname: string;
     role: string;
     approved_by_admin: string;
-    profile_status:string;
+    profile_status: string;
   }
 
-  
+
   type Dish = {
     id: number;
     item_name: string;
-    dish_category_id:string;
+    dish_category_id: string;
   };
-  
+
   type DishCategpory = {
-    dish_category:string;
-    id:number
+    dish_category: string;
+    id: number
   };
-  
+
 
   const [errors, setErrors] = useState<Errors>({});
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -61,12 +61,12 @@ export default function Dish() {
     surname: '',
     role: '',
     approved_by_admin: '',
-    profile_status:''
+    profile_status: ''
   });
-  
+
   const [dishName, setDishName] = useState("");
   const [dishCategory, setDishcategory] = useState("");
-  const [dishList, setDishLists] =useState<Dish[]>([]);
+  const [dishList, setDishLists] = useState<Dish[]>([]);
 
   const [dishmethod, setDishMethod] = useState('');
   const [dishid, setDishId] = useState('');
@@ -77,6 +77,8 @@ export default function Dish() {
   const [currentPage, setCurrentPage] = useState(1);
   const [alphabetletter, setAlphabetLetter] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedLetter, setSelectedLetter] = useState('');
+
 
 
   const pageSize = 25;
@@ -88,7 +90,7 @@ export default function Dish() {
   const modalConfirmClose = () => {
     setModalConfirm(false);
   };
- 
+
 
   useEffect(() => {
     const data = isPageVisibleToRole("chef-dish");
@@ -99,7 +101,7 @@ export default function Dish() {
     }
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
-      if(userData.approved_by_admin == 'yes' && userData.profile_status == 'completed'){
+      if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
         fetchdishes(userData.id);
         setCurrentUserData({
           ...userData,
@@ -109,12 +111,12 @@ export default function Dish() {
           surname: userData.surname,
           role: userData.role,
           approved_by_admin: userData.approved_by_admin,
-  
+
         });
-      }else {
+      } else {
         window.location.href = '/404';
       }
-      
+
     }
     // Fetch the list of dish categories from the API
     getDishecategory()
@@ -125,15 +127,15 @@ export default function Dish() {
       .catch((error) => {
         console.error(error);
       });
-     
+
   }, []);
 
-  const fetchdishes = async (user_id:any) => {
-    
+  const fetchdishes = async (user_id: any) => {
+
     try {
       const res = await getDishes(user_id);
       if (res.status) {
-     
+
         setTotalDishLists(res.data);
         const paginatedPosts = paginate(res.data, currentPage, pageSize);
         setDishLists(paginatedPosts);
@@ -151,26 +153,26 @@ export default function Dish() {
     }
   };
 
-  const onPageChange = (page:any) => {
+  const onPageChange = (page: any) => {
     setCurrentPage(page);
     fetchdishes(currentUserData.id)
-    .then((res: any) => {
-      if (res.status == true) {
-        setTotalDishLists(res.data);
-        const paginatedPosts = paginate(res.data, page, pageSize);
-        setDishLists(paginatedPosts);
-      } else {
-        setErrorMessage(res.message);
-      }
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
+      .then((res: any) => {
+        if (res.status == true) {
+          setTotalDishLists(res.data);
+          const paginatedPosts = paginate(res.data, page, pageSize);
+          setDishLists(paginatedPosts);
+        } else {
+          setErrorMessage(res.message);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
   };
-  
-  
 
-  const handlMenuSubmit = (event:any) => {
+
+
+  const handlMenuSubmit = (event: any) => {
     event.preventDefault();
 
     // Validate form data
@@ -194,7 +196,7 @@ export default function Dish() {
 
       // Call an API or perform some other action to register the user
       const data = {
-        id:dishid,
+        id: dishid,
         item_name: dishName,
         dish_category_id: dishCategory,
         userId: currentUserData.id,
@@ -227,7 +229,7 @@ export default function Dish() {
   };
 
 
-  const handleEdit = (e:any, id:any) => {
+  const handleEdit = (e: any, id: any) => {
     e.preventDefault();
     setDishId(id);
     const dish = dishTotalList.find(d => d.id === id);
@@ -238,7 +240,7 @@ export default function Dish() {
     }
   };
 
-  const handleDelete = (e:any, id:any) => {
+  const handleDelete = (e: any, id: any) => {
     e.preventDefault();
     swal({
       title: "Are you sure?",
@@ -246,7 +248,7 @@ export default function Dish() {
       icon: "warning",
       dangerMode: true,
       buttons: ["Cancel", "Yes, I am sure!"],
-    
+
     }).then((willDelete) => {
       if (willDelete) {
         deleteSingleDish(id)
@@ -275,7 +277,7 @@ export default function Dish() {
     });
   };
 
-  const handleMenuBlur = (event:any) => {
+  const handleMenuBlur = (event: any) => {
     const { name, value } = event.target;
     const newErrors = { ...errors };
 
@@ -303,10 +305,11 @@ export default function Dish() {
     setErrors(newErrors);
   };
 
-  const fetchDishCategoryDataById = (id:any,alphabetletter='') => {
-    
+  const fetchDishCategoryDataById = (id: any, alphabetletter = '') => {
+    setSelectedLetter(alphabetletter);
+
     setDishCategoryId(id);
-   
+
     const data = {
       letter: alphabetletter,
       dish_category_id: id,
@@ -316,25 +319,25 @@ export default function Dish() {
     fetchDishCategoryById(data)
       .then((res) => {
         if (res.status == true) {
-          
+
           setTotalDishLists(res.data);
           const paginatedPosts = paginate(res.data, currentPage, pageSize);
           setDishLists(paginatedPosts);
 
         } else {
-      
+
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
           });
         }
       })
       .catch((err) => {
-       
+
         toast.error(err.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
       });
-    
+
   };
 
 
@@ -348,86 +351,106 @@ export default function Dish() {
     <>
       <div className="table-part">
         <h2>Dishes </h2> {alphabetletter}
-          <div className="row sfsd">
-            <div className="col-lg-8">
-            <button key='' className={`${dishcategoryid == 'all' ? 'table-btn btn-2' : 'table-btn'}`} onClick={() => {fetchDishCategoryDataById('all');}}>
-                 All
+        <div className="row sfsd">
+          <div className="col-lg-8">
+            <button key='' className={`${dishcategoryid == 'all' ? 'table-btn btn-2' : 'table-btn'}`} onClick={() => { fetchDishCategoryDataById('all'); }}>
+              All
             </button>
-              {Array.isArray(dishCategories) &&
-                dishCategories.map((category) => (
-                  <button
-                    key={category.id}
-                    className={`${dishcategoryid == category.id.toString() ? 'table-btn btn-2 mx-1' : 'table-btn mx-1'}`}
-                    onClick={() => fetchDishCategoryDataById(category.id)}
-                  >
-                    {category.dish_category}
-                  </button>
-                ))}
-            </div>
-
-            {/* <button className="table-btn">Starter</button> */}
-            <div className="col-lg-4 text-end">
-            <button className="table-btn" onClick={() => {
-                setDishId('');
-                setModalConfirm(true);
-                  }}>
-                Add Dish
-            </button>
-            </div>
+            {Array.isArray(dishCategories) &&
+              dishCategories.map((category) => (
+                <button
+                  key={category.id}
+                  className={`${dishcategoryid == category.id.toString() ? 'table-btn btn-2 mx-1' : 'table-btn mx-1'}`}
+                  onClick={() => fetchDishCategoryDataById(category.id)}
+                >
+                  {category.dish_category}
+                </button>
+              ))}
           </div>
+
+          {/* <button className="table-btn">Starter</button> */}
+          <div className="col-lg-4 text-end">
+            <button className="table-btn" onClick={() => {
+              setDishId('');
+              setModalConfirm(true);
+            }}>
+              Add Dish
+            </button>
+          </div>
+        </div>
         <div className="row mt-4">
           <div className="col-auto">
             <table className="table" id="alpabet_table">
-            <tbody>
+              {/* <tbody>
               {Array.from(Array(26), (e, i) => String.fromCharCode(65 + i)).map((letter, index) => (
                 <tr key={index}>
                   <th scope="row" onClick={() => fetchDishCategoryDataById(dishcategoryid,letter)} style={{border:'none',padding:'0px'} } role='button'>{letter}</th>
 
                 </tr>
               ))}
-            </tbody>
-          </table>
+            </tbody> */}
+              <tbody>
+                {Array.from(Array(26), (e, i) => String.fromCharCode(65 + i)).map((letter, index) => (
+                  <tr key={index}>
+                    <th
+                      scope="row"
+                      onClick={() => fetchDishCategoryDataById(dishcategoryid, letter)}
+                      style={{
+                        border: 'none',
+                        padding: '0px',
+                        color: selectedLetter === letter ? '#ff4e00' : 'initial',
+                      }}
+                      role="button"
+                    >
+                      {letter}
+                    </th>
+                  </tr>
+                ))}
+              </tbody>
+
+
+            </table>
           </div>
           <div className="col">
-          <table className="table">
-            <thead>
-            </thead>
-            <tbody>
-              
-              {dishList
-                .sort((a, b) => a.item_name.localeCompare(b.item_name))
-                .map((dish, index) => {
-                  return (
-                    <tr key={index} style={{border:'none'}} id={`singledish_${dish.id}`}>
-                      
-                      <td>{dish.item_name}</td>
-                      <td className="text-end add-icon-class">
-                        <i
-                          className="fa-solid fa-pencil"
-                          role='button'
-                          onClick={(e) => handleEdit(e, dish.id)}
-                        ></i>
-                        <i
-                          className="fa-sharp fa-solid fa-trash"
-                          
-                          onClick={(e) => handleDelete(e, dish.id)}
+            <table className="table">
+              <thead>
+              </thead>
+              <tbody>
 
-                        ></i>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                {dishList
+                  .sort((a, b) => a.item_name.localeCompare(b.item_name))
+                  .map((dish, index) => {
+                    return (
+                      <tr key={index} style={{ border: 'none' }} id={`singledish_${dish.id}`}>
 
-          <Pagination
-              items={dishTotalList.length} 
+                        <td>{dish.item_name}</td>
+                        <td className="text-end add-icon-class">
+                          <i
+                            className="fa-solid fa-pencil"
+                            role='button'
+                            onClick={(e) => handleEdit(e, dish.id)}
+                          ></i>
+                          <i
+                            className="fa-sharp fa-solid fa-trash"
+
+                            onClick={(e) => handleDelete(e, dish.id)}
+
+                          ></i>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+
+            <Pagination
+              items={dishTotalList.length}
               currentPage={currentPage}
               pageSize={pageSize}
               onPageChange={onPageChange}
-          /> 
-           
-          
+            />
+
+
           </div>
         </div>
       </div>

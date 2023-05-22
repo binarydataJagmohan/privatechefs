@@ -169,9 +169,7 @@ export default function Header({ }) {
 
               setTimeout(() => {
                 if (res.user.role == "user") {
-                  if (
-                    res.user.profile_status == "completed"
-                  ) {
+                  if (res.user.profile_status == "completed") {
                     window.location.href = "/bookings/step1";
                   } else {
                     window.location.href = "/user/userprofile";
@@ -181,11 +179,9 @@ export default function Header({ }) {
 
               setTimeout(() => {
                 if (res.user.role == "chef") {
-                  if (
-                    res.user.approved_by_admin == "yes" &&
-                    res.user.profile_status == "completed"
+                  if (res.user.approved_by_admin == "yes" && res.user.profile_status == "completed"
                   ) {
-                    window.location.href = "/bookings/step1";
+                    window.location.href = "/chef/dashboard";
                   } else {
                     window.location.href = "/chef/myprofile";
                   }
@@ -524,7 +520,7 @@ export default function Header({ }) {
                 )}
                  {isAuthenticated && role === "user" && (
               <li className="nav-item">
-                <a className="nav-link" href="/user/dashboard">
+                <a className="nav-link" href="/user/userprofile">
                   Dashboard
                 </a>
               </li>

@@ -133,7 +133,7 @@ export default function Notification() {
                                 <div className="d-flex">
                                     <div className="circle1">
                                         {notification.pic ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/users/' + notification.pic} alt="user-menu" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + notification.pic} alt="user-menu" />
                                         ) : (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/users.jpg'} alt="user-menu" />
                                         )}

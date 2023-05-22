@@ -433,7 +433,7 @@ export default function UserProfile() {
                       src={
                         image && (typeof image !== 'string')
                           ? URL.createObjectURL(image)
-                          : (userData.pic ? process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users/' + userData.pic : '')
+                          : (userData.pic ? process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic : '')
                       }
 
                       alt=""

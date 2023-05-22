@@ -3393,3 +3393,11 @@ div#test-img img {
 span#book-user {
   color: #ff4e00;
 }
+th.active {
+    color: black;
+}
+.userImg img {
+  width: 60%;
+  height: 100%;
+  border-radius: 100%;
+}
