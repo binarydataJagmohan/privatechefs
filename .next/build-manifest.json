@@ -15,86 +15,50 @@
   ],
   "rootMainFiles": [],
   "pages": {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
     "/404": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/404.js"
     ],
->>>>>>> e40d732a689bd3ecd076ee74a1a723691db06851
->>>>>>> refs/remotes/origin/main
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_app.js"
-<<<<<<< HEAD
     ],
     "/_error": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/bookings": [
+    "/admin/chefs": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/bookings.js"
+      "static/chunks/pages/admin/chefs.js"
     ],
-    "/chef/bookings": [
+    "/admin/chefs/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/bookings.js"
-=======
+      "static/chunks/pages/admin/chefs/[id].js"
     ],
-    "/_error": [
+    "/admin/users": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/_error.js"
+      "static/chunks/pages/admin/users.js"
     ],
-    "/admin/dashboard": [
+    "/admin/users/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/dashboard.js"
-    ],
-    "/chef/bookings": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/chef/bookings.js"
-    ],
-    "/chef/dashboard": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/chef/dashboard.js"
-    ],
-    "/chef/myprofile": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/chef/myprofile.js"
-<<<<<<< HEAD
-=======
->>>>>>> e40d732a689bd3ecd076ee74a1a723691db06851
+      "static/chunks/pages/admin/users/[id].js"
     ],
     "/chef/hired-booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-<<<<<<< HEAD
       "static/chunks/pages/chef/hired-booking.js"
     ],
     "/user/booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/user/booking.js"
-    ],
-    "/user/edit-booking/step1": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step1.js"
-=======
-      "static/chunks/pages/user/userprofile.js"
->>>>>>> e40d732a689bd3ecd076ee74a1a723691db06851
->>>>>>> refs/remotes/origin/main
     ]
   },
   "ampFirstPages": []

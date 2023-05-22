@@ -768,12 +768,8 @@ export default function MyProfile() {
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Email</label>
-													<input type="text" name="email" value={email || ''} onChange={(e) => setEmail(e.target.value)} />
-													{errors.email && (
-														<span className="small error text-danger mb-2 d-inline-block error_login">
-															{errors.email}
-														</span>
-													)}
+													<input type="email" name="email" value={currentUserData.email} readOnly/>
+													
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Phone Number</label>

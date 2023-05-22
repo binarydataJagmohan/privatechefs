@@ -2,23 +2,11 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/admin/dashboard": "pages/admin/dashboard.js",
-  "/chef/bookings": "pages/chef/bookings.js",
-  "/chef/dashboard": "pages/chef/dashboard.js",
-  "/chef/myprofile": "pages/chef/myprofile.js"
-=======
-<<<<<<< HEAD
   "/user/booking": "pages/user/booking.js",
-  "/chef/bookings": "pages/chef/bookings.js",
   "/chef/hired-booking": "pages/chef/hired-booking.js",
-  "/admin/bookings": "pages/admin/bookings.js",
-  "/user/edit-booking/step1": "pages/user/edit-booking/step1.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
-=======
-  "/chef/myprofile": "pages/chef/myprofile.js",
-  "/user/userprofile": "pages/user/userprofile.js",
-  "/404": "pages/404.js"
->>>>>>> e40d732a689bd3ecd076ee74a1a723691db06851
->>>>>>> refs/remotes/origin/main
+  "/admin/chefs/[id]": "pages/admin/chefs/[id].js",
+  "/404": "pages/404.js",
+  "/admin/users": "pages/admin/users.js",
+  "/admin/chefs": "pages/admin/chefs.js",
+  "/admin/users/[id]": "pages/admin/users/[id].js"
 }

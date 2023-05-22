@@ -153,6 +153,7 @@ export default function MyProfile(props: any) {
                                 <th scope="col">Address</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">User</th>
+                                <th scope="col">Applied Jobs Status</th>
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
@@ -191,6 +192,7 @@ export default function MyProfile(props: any) {
                                                 alt=""
                                             />}
                                         </td>
+                                        <td>{user.applied_jobs_status}</td>
                                         <td>{user.booking_status}</td>
                                     </tr>
                                 );
