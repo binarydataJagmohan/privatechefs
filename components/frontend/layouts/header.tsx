@@ -39,8 +39,6 @@ export default function Header({ }) {
   const [activeTab, setActiveTab] = useState("");
 
 
-
-
   useEffect(() => {
     checkuser();
 
@@ -157,6 +155,7 @@ export default function Header({ }) {
               window.localStorage.setItem("address", res.user.address);
               window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
               window.localStorage.setItem("profile_status", res.user.profile_status);
+            
               toast.success(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
               });
@@ -485,10 +484,11 @@ export default function Header({ }) {
                 {/* <li className="nav-item">
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li> */}
-
-                <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
-                  <a className="nav-link" href="/bookings/step1">Start your journey</a>
-                </li>
+                {role !== "chef" &&(
+                  <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
+                    <a className="nav-link" href="/bookings/step1">Start your journey</a>
+                  </li>
+                )}
                 {/* {isAuthenticated && role === "user" && (
               <li className="nav-item">
                 <a className="nav-link" href="/user/dashboard">
@@ -518,13 +518,13 @@ export default function Header({ }) {
                     </a>
                   </li>
                 )}
-                 {isAuthenticated && role === "user" && (
-              <li className="nav-item">
-                <a className="nav-link" href="/user/userprofile">
-                  Dashboard
-                </a>
-              </li>
-            )}
+                {isAuthenticated && role === "user" && (
+                  <li className="nav-item">
+                    <a className="nav-link" href="/user/userprofile">
+                      Dashboard
+                    </a>
+                  </li>
+                )}
                 <li className="user">
                   {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
 
@@ -589,13 +589,14 @@ export default function Header({ }) {
             </div>
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} autoComplete="username" />
+              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} autoComplinvoicesete="username" />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
 
             <div className='login_div mb-2'>
               <label htmlFor="email">Role:</label>
               <select className="" onChange={(e) => setRole(e.target.value)} name="role">
+              <option value="">Select Role</option>
                 <option value="user">User</option>
                 <option value="chef">Chef</option>
                 <option value="concierge">Conciergehief</option>
@@ -648,9 +649,6 @@ export default function Header({ }) {
       </PopupModal>
 
       {/* // login popup code end  */}
-
-
-
 
     </>
   )

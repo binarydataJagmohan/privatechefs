@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getAllChefDetails, getChefByFilter, getCuisine } from '../../../lib/adminapi';
-import { toast } from 'react-toastify';
+import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile } from '../../../lib/adminapi';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
@@ -9,157 +10,189 @@ import { paginate } from "../../../helpers/paginate";
 
 export default function Chefs() {
 
-	interface FilterData {
-		id: number;
-		name: string;
-		surname: string;
-		address: string;
-		pic: string;
-		cuisine_name: string;
-	}
-	interface chefData {
-		id: number;
-		name: string;
-		surname: string;
-		address: string;
-		pic: string;
-		cuisine_name: string;
-	}
-	interface GetCuisine {
-		name: string;
-	}
+  interface FilterData {
+    id: number;
+    name: string;
+    surname: string;
+    address: string;
+    pic: string;
+    cuisine_name: string;
+  }
+  interface chefData {
+    id: number;
+    name: string;
+    surname: string;
+    address: string;
+    pic: string;
+    approved_by_admin: string;
+    cuisine_name: string;
+  }
+  interface GetCuisine {
+    name: string;
+  }
 
-	const [modalConfirm, setModalConfirm] = useState(false);
-	const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
-	const [filteredChefs, setFilteredChefs] = useState<FilterData[]>([]);
-	const [chefs, setChefs] = useState<chefData[]>([]);
-	const [getcuisine, setGetCuisine] = useState<GetCuisine[]>([]);
-	const [showAllCuisines, setShowAllCuisines] = useState(false);
-	const [activeIndex, setActiveIndex] = useState(null);
-	const [totalMenu, setTotalMenu]: any = useState({});
-	const [currentPage, setCurrentPage] = useState(1);
-	const pageSize = 10;
+  const [modalConfirm, setModalConfirm] = useState(false);
+  const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
+  const [filteredChefs, setFilteredChefs] = useState<FilterData[]>([]);
+  const [chefs, setChefs] = useState<chefData[]>([]);
+  const [getcuisine, setGetCuisine] = useState<GetCuisine[]>([]);
+  const [showAllCuisines, setShowAllCuisines] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [totalMenu, setTotalMenu]: any = useState({});
+  const [approvestatus, setApproveStatus]: any = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
-	const modalConfirmOpen = () => {
-		setModalConfirm(true);
-	}
-	const modalConfirmClose = () => {
-		setModalConfirm(false);
-	}
+  const modalConfirmOpen = () => {
+    setModalConfirm(true);
+  }
+  const modalConfirmClose = () => {
+    setModalConfirm(false);
+  }
 
-	useEffect(() => {
+  useEffect(() => {
 
-		const data = isPageVisibleToRole('admin-chefs');
-		if (data == 2) {
-			window.location.href = '/login'; // redirect to login if not logged in
-		}
-		if (data == 0) {
-			window.location.href = '/404'; // redirect to 404 if not authorized
-		}
-		if (data == 1) {
-			getAllChef();
-			getAllCuisine();
-			const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
-			getChefByFilter({ cuisines: cuisinesArray.join(',') })
-				.then(res => {
-					if (res.status) {
-						console.log(res.data);
-						setFilteredChefs(res.data);
-					}
-				})
-				.catch(error => {
-					console.error(error);
-				});
-		}
+    const data = isPageVisibleToRole('admin-chefs');
+    if (data == 2) {
+      window.location.href = '/login'; // redirect to login if not logged in
+    }
+    if (data == 0) {
+      window.location.href = '/404'; // redirect to 404 if not authorized
+    }
+    if (data == 1) {
+      getAllChef();
+      getAllCuisine();
+      const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
+      getChefByFilter({ cuisines: cuisinesArray.join(',') })
+        .then(res => {
+          if (res.status) {
+            console.log(res.data);
+            setFilteredChefs(res.data);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
 
-	}, [selectedCuisines]);
+  }, [selectedCuisines]);
 
-	const getAllChef = () => {
-		getAllChefDetails()
-			.then((res) => {
-				if (res.status) {
-					setTotalMenu(res.data);
-					const paginatedPosts = paginate(res.data, currentPage, pageSize);
-					setChefs(paginatedPosts);
+  const getAllChef = () => {
+    getAllChefDetails()
+      .then((res) => {
+        if (res.status) {
+          setTotalMenu(res.data);
+          const paginatedPosts = paginate(res.data, currentPage, pageSize);
+          setChefs(paginatedPosts);
 
-				} else {
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-					});
-				}
-			})
-			.catch((err) => {
-				toast.error(err.message, {
-					position: toast.POSITION.BOTTOM_RIGHT,
-				});
-			});
-	}
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
+  }
 
-	const getAllCuisine = () => {
-		getCuisine()
-			.then((res) => {
-				if (res.status) {
-					console.log(res);
-					setGetCuisine(res.data);
+  const ApproveChefProfile = async (e: any, id: any) => {
+    e.preventDefault();
+    const selectedValue = e.target.value;
+    const data = {
+      approved_by_admin: selectedValue
+    }
+    approveChefProfile(id, data)
+      .then((res) => {
+        if (res.status == true) {
+          getAllChef();
+          window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
+          setApproveStatus(res.data.approved_by_admin);
+          // setApproveStatusValue(res.data.approved_by_admin);
+          //console.log(res.data.approved_by_admin);
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
+  }
 
-				} else {
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-					});
-				}
-			})
-			.catch((err) => {
-				toast.error(err.message, {
-					position: toast.POSITION.BOTTOM_RIGHT,
-				});
-			});
-	}
+  const getAllCuisine = () => {
+    getCuisine()
+      .then((res) => {
+        if (res.status) {
+          console.log(res);
+          setGetCuisine(res.data);
 
-	const handleCheckboxChange = (e: any) => {
-		const value = e.target.value;
-		if (e.target.checked) {
-			setSelectedCuisines((prevCuisines) => [...prevCuisines, value]);
-		} else {
-			setSelectedCuisines((prevCuisines) =>
-				prevCuisines.filter((c) => c !== value)
-			);
-		}
-	};
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      });
+  }
 
-	const onPageChange = (page: any) => {
-		setCurrentPage(page);
-		getAllChefDetails()
-			.then(res => {
-				if (res.status == true) {
-					setTotalMenu(res.data);
-					const paginatedPosts = paginate(res.data, page, pageSize);
-					setChefs(paginatedPosts);
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
+  const handleCheckboxChange = (e: any) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setSelectedCuisines((prevCuisines) => [...prevCuisines, value]);
+    } else {
+      setSelectedCuisines((prevCuisines) =>
+        prevCuisines.filter((c) => c !== value)
+      );
+    }
+  };
 
-      const removeCuisine = (cuisine) => {
-	  setSelectedCuisines((prevSelectedCuisines) => prevSelectedCuisines.filter((c) => c !== cuisine));
-	};
+  const onPageChange = (page: any) => {
+    setCurrentPage(page);
+    getAllChefDetails()
+      .then(res => {
+        if (res.status == true) {
+          setTotalMenu(res.data);
+          const paginatedPosts = paginate(res.data, page, pageSize);
+          setChefs(paginatedPosts);
+        } else {
+          console.log(res.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
-	const handleShowAllCuisines = () => {
-		setShowAllCuisines(true);
-	  };
+  const removeCuisine = (cuisine: any) => {
+    setSelectedCuisines((prevSelectedCuisines) => prevSelectedCuisines.filter((c) => c !== cuisine));
+  };
 
-	  const handleClosePopup = () => {
-		setShowAllCuisines(false);
-	  };
+  const handleShowAllCuisines = () => {
+    setShowAllCuisines(true);
+  };
 
-	  const handleCollapse = (index) => {
-		setActiveIndex(index === activeIndex ? null : index);
-	  };
+  const handleClosePopup = () => {
+    setShowAllCuisines(false);
+  };
 
-	return (
+  const handleCollapse = (index: any) => {
+    setActiveIndex(index === activeIndex ? null : index);
+  };
+
+  return (
     <>
       <div className="table-part">
         <h2>Chefs</h2>
@@ -191,7 +224,7 @@ export default function Chefs() {
           </li>
         </ul>
 
-        <div className="table-box">
+        <div className="table-box" id="villa_table">
           <table className="table table-borderless">
             <thead>
               <tr>
@@ -200,8 +233,8 @@ export default function Chefs() {
                 <th scope="col">Current Location</th>
                 <th scope="col">Cuisines</th>
                 {/* <th scope="col">Location</th> */}
-                {/* <th scope="col">Dietary restrictios</th>
-								<th scope="col">Rating</th> */}
+                {/* <th scope="col">Dietary restrictios</th>*/}
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -261,10 +294,21 @@ export default function Chefs() {
                     {/* <td>Ut pulvinar.</td> */}
                     {/* <td>Arcu nibh non.</td>
 										<td>Eu nibh.</td> */}
-                    <td style={{paddingLeft : "25px"}}>
-                                    <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                                        <i className="fa fa-eye" aria-hidden="true"></i></a>
-                                    </td>
+
+                    <td>
+                      <select aria-label="Default select example" name="approved_by_admin"
+                        value={approvestatus} onChange={(e) => ApproveChefProfile(e, filter.id)}
+                      >
+                        <option value=''>Select option</option>
+                        <option value='yes' >Approved</option>
+                        <option value='no' >Unapproved</option>
+                      </select>
+                    </td>
+
+                    <td style={{ paddingLeft: "25px" }}>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
+                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
                   </tr>
                 ))
               ) : chefs.length > 0 ? (
@@ -327,7 +371,7 @@ export default function Chefs() {
                         )}
                       </ul>  */}
 
-                       <ul>
+                      <ul>
                         {chef.cuisine_name && (
                           <>
                             {chef.cuisine_name
@@ -352,7 +396,7 @@ export default function Chefs() {
                               })}
                           </>
                         )}
-                      </ul> 
+                      </ul>
 
                       <div
                         className={`collapse${showAllCuisines ? " show" : ""}`}
@@ -371,10 +415,22 @@ export default function Chefs() {
                     {/* <td>Ut pulvinar.</td> */}
                     {/* <td>Arcu nibh non.</td>
 					<td>Eu nibh.</td> */}
-                    <td style={{paddingLeft : "25px"}}>
-                                    <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + chef.id}>
-                                        <i className="fa fa-eye" aria-hidden="true"></i></a>
-                                    </td>
+
+                    <td>
+                      <select aria-label="Default select example" name="approved_by_admin"
+                        onChange={(e) => ApproveChefProfile(e, chef.id)}
+
+                      >
+                        <option value=''>Select option</option>
+                        <option value='yes' selected={chef.approved_by_admin === 'yes'}>Approved</option>
+                        <option value='no' selected={chef.approved_by_admin === 'no'}>Unapproved</option>
+                      </select>
+                    </td>
+
+                    <td style={{ paddingLeft: "25px" }}>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + chef.id}>
+                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
                   </tr>
                 ))
               ) : (
@@ -500,6 +556,7 @@ export default function Chefs() {
           </div>
         </div>
       </PopupModal>
+      <ToastContainer />
     </>
   );
 }

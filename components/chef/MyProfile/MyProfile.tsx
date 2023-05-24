@@ -234,6 +234,7 @@ export default function MyProfile() {
 					window.localStorage.setItem("address", res.data.address);
 					window.localStorage.setItem("phone", res.data.phone);
 					window.localStorage.setItem("profile_status", res.data.profile_status);
+					window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
 
 					toast.success(res.message, {
 						position: toast.POSITION.TOP_RIGHT,
