@@ -2,12 +2,19 @@ import React, { useState, useEffect, Component } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import swal from "sweetalert";
+import { getCurrentUserData } from "../../lib/session"
+
 export default function Step1() {
+
+  interface UserData {
+    "role": string;
+  }
 
   const [onetimedate, setOneTimeDate] = useState(new Date());
 
   const [mutipletimedate, setMutipleTimeDate] = useState<Date[]>([]);
   const [servicetype, setSeriveType] = useState('onetime');
+  const [currentrole, setCurrentRole] = useState<UserData>({ role: "" });
 
   const handleOneTimeDateChange = (selectedDates: Date[], instance: any) => {
     const date = selectedDates[0];
@@ -26,6 +33,12 @@ export default function Step1() {
   
   useEffect(() => {
     BookingStepOne();
+    const userData = getCurrentUserData() as UserData;
+    setCurrentRole({
+      ...userData,
+      role: userData.role,
+
+    });
   }, []);
   
   const BookingStepOne = async () => {
@@ -81,6 +94,14 @@ export default function Step1() {
     }
     
   
+  }
+
+  function showSwal() {
+    swal({
+      title: 'Oops!',
+      text: 'We apologize,booking feature is not available for you.',
+      icon: 'info',
+    });
   }
 
   return (
@@ -219,26 +240,38 @@ export default function Step1() {
             <div className="view-more opec-v mt-4">
               <a href="#">Back</a>
             </div>
-            
-           
-              {servicetype === "onetime" && onetimedate ? (
-                <div className="view-more bg-golden mt-4">
+            {servicetype === "onetime" && onetimedate ? (
+              <div className="view-more bg-golden mt-4">
+                {currentrole.role !== "chef" ? (
                   <a href="#" onClick={(e) => Usertype('onetime')}>
                     Next
                   </a>
-                </div>
-              ) : servicetype === "multipletimes" && mutipletimedate.length === 2 ? (
-                <div className="view-more bg-golden mt-4" >
+                ) : (
+                  <a style={{cursor:"pointer",color:"#fff"}} onClick={() => showSwal()}>Next</a>
+                )}
+              </div>
+            ) : servicetype === "multipletimes" && mutipletimedate.length === 2 ? (
+              <div className="view-more bg-golden mt-4" >
+                {currentrole.role !== "chef" ? (
                   <a href="#" onClick={(e) => Usertype('mutipletime')}>
                     Next
                   </a>
-                </div>
-              ) : (
-                <div className="view-more bg-golden mt-4 onalert">
-                  <a href="#" onClick={(e) => Usertype('service_error')}>Next</a>
-                </div>
-              )}
-          
+                ) : (
+                  <a style={{cursor:"pointer",color:"#fff"}} onClick={() => showSwal()}>Next</a>
+                )}
+
+              </div>
+            ) : (
+              <div className="view-more bg-golden mt-4 onalert">
+                {currentrole.role !== "chef" ? (
+                  <a href="#" onClick={(e) => Usertype('service_error')}>
+                    Next
+                  </a>
+                ) : (
+                  <a style={{cursor:"pointer",color:"#fff"}} onClick={() => showSwal()}>Next</a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>

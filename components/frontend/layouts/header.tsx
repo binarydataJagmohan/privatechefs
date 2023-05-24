@@ -484,12 +484,9 @@ export default function Header({ }) {
                 {/* <li className="nav-item">
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li> */}
-
-                {role !== "chef" &&(
                   <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
                     <a className="nav-link" href="/bookings/step1">Start your journey</a>
                   </li>
-                )}
                 {/* {isAuthenticated && role === "user" && (
               <li className="nav-item">
                 <a className="nav-link" href="/user/dashboard">

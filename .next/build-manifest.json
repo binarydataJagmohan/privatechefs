@@ -15,11 +15,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/index.js"
-    ],
     "/404": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -35,15 +30,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/bookings/step7": [
+    "/admin/notification/notification": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/bookings/step7.js"
+      "static/chunks/pages/admin/notification/notification.js"
     ],
-    "/user/userprofile": [
+    "/chef/myprofile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/user/userprofile.js"
+      "static/chunks/pages/chef/myprofile.js"
+    ],
+    "/chef/notification/notification": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/notification/notification.js"
     ]
   },
   "ampFirstPages": []

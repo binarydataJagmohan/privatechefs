@@ -322,6 +322,7 @@ export default function Step6() {
                                       value={adults}
                                       onChange={(e) => setAdults(e.target.value)}
                                       placeholder="Adults"
+                                      min="0"
                                     ></input>
                                   </div>
                                   <div className="col-sm-4">
@@ -340,6 +341,7 @@ export default function Step6() {
                                       value={teens}
                                       onChange={(e) => setTeens(e.target.value)}
                                       placeholder="Teen"
+                                      min="0"
                                     ></input>
                                   </div>
                                   <div className="col-sm-4">
@@ -358,6 +360,7 @@ export default function Step6() {
                                       value={childrens}
                                       onChange={(e) => setChildren(e.target.value)}
                                       placeholder="Children"
+                                      min="0"
                                     ></input>
                                   </div>
                                 
