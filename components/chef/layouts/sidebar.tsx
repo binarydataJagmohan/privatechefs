@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
 import { info } from 'console';
 import swal from "sweetalert";
+import { getSingleUserProfile } from "../../../lib/userapi"
 
 export default function Sidebar(): JSX.Element {
 
@@ -18,6 +19,11 @@ export default function Sidebar(): JSX.Element {
 
     }
 
+    interface UserData {
+        id: number;
+        approved_by_admin: string;
+    }
+
     const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
         id: '',
         name: '',
@@ -29,11 +35,34 @@ export default function Sidebar(): JSX.Element {
         profile_status: ''
     });
 
+    const [userData, setUserData] = useState<UserData>({
+        id: 0,
+        approved_by_admin: '',
+    });
+
     const router = useRouter();
 
     useEffect(() => {
+        const userid: any = getCurrentUserData();
+        getSingleData(userid.id);
         getUserData();
     }, []);
+
+    const getSingleData = async (id: any) => {
+        const userid: any = getCurrentUserData();
+        getSingleUserProfile(userid.id)
+            .then(res => {
+                if (res.status == true) {
+                    setUserData(res.data);
+                    console.log(res.data);
+                } else {
+                    console.log(res.message);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     const getUserData = async () => {
         const userData = getCurrentUserData() as CurrentUserData;
@@ -49,9 +78,7 @@ export default function Sidebar(): JSX.Element {
 
         });
 
-
     };
-
 
     function handleLogout() {
         removeToken();
@@ -106,7 +133,7 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                         if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -121,7 +148,7 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/chef/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -137,7 +164,7 @@ export default function Sidebar(): JSX.Element {
 
 
                     <a href="/chef/bookings" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/bookings' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -152,7 +179,7 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/chef/applied-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/applied-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -167,7 +194,7 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/chef/hired-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/hired-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -181,7 +208,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
 
-                    <a href="/chef/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                    {/* <a href="/chef/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
                         if (currentUserData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
@@ -194,9 +221,9 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file"></i></span>
                             <span className="menu-collapsed">Invoices</span>
                         </div>
-                    </a>
+                    </a> */}
                     <a href="/chef/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/receipts' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -218,7 +245,7 @@ export default function Sidebar(): JSX.Element {
                     </a> */}
 
                     <a href="/chef/menus" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/menus' || router.pathname == '/chef/menus2' || router.pathname == '/chef/menus3' || router.pathname == '/chef/menus4' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -232,7 +259,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                     <a href="/chef/dish" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/dish' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -246,7 +273,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                     <a href="/chef/calender" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/calender' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {
@@ -266,7 +293,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>*/}
                     <a href="/chef/chats" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
                         } else if (currentUserData.profile_status === 'pending') {

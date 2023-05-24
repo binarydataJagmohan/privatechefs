@@ -1,5 +1,27 @@
 import React, { useState ,useEffect} from 'react'
+import {getCompletedBookingData} from "../../../lib/adminapi"
+
 export default function Dashboard() {
+
+	interface Booking {
+		count : number;
+	}
+
+	const [bookingcount, setBookingCount] = useState<Booking>({ count: 0 });
+
+	useEffect(() => {
+		const fetchBookingCount = async () => {
+			try {
+			  const count = await getCompletedBookingData();
+			  setBookingCount(count);
+			  //console.log(count);
+			} catch (error) {
+			}
+		  };
+		
+		  fetchBookingCount();
+	},[])
+
     return (
         <>
 			<div className="table-part">
@@ -12,7 +34,7 @@ export default function Dashboard() {
 				   <div className="col-lg-4 col-md-4">
 						<div className="box-today border-right m-view-border-bottom">
 							<h4>Orders today</h4>
-							<h2>261</h2>
+							<h2>{bookingcount.count}</h2>
 							<p>20% more than previous week</p>
 						</div>
 					</div>

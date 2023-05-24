@@ -97,10 +97,9 @@ export default function MyProfile(props: any) {
         <>
          <h5 style={{color:"#ff4e00"}}>User Detail</h5>
             <div className="user-class pt-5">
-                <div style={{ flex: "1" }}>
-
+                <div className="userImg" style={{ flex: "1" }}>
                     {getUsers.pic ? (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users/' +getUsers.pic} alt="" width={100} height={100} />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' +getUsers.pic} alt="" width={100} height={100} />
                     ) : (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" width={100} height={100} />
                     )}
@@ -179,6 +178,7 @@ export default function MyProfile(props: any) {
             </div>
             <div className='users-boking'>
                 <div className="table-box">
+                {bookingUsers.length > 0 ?
                     <table className="table table-borderless common_booking">
                         <thead>
                             <tr>
@@ -188,7 +188,7 @@ export default function MyProfile(props: any) {
                                 <th scope="col">Booking Date</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">User</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
@@ -197,7 +197,7 @@ export default function MyProfile(props: any) {
                             {bookingUsers.map((user: any, index) => {
 
                                 const datesString = user.dates;
-                                const dates = datesString.split(',').map(dateString => formatDate(dateString));
+                                const dates: Date[] = datesString.split(',').map((dateString: string) => formatDate(dateString));
                                 const startDate = dates[0];
                                 const endDate = dates[dates.length - 1];
                                 const output = `${startDate} to ${endDate}`;
@@ -216,7 +216,7 @@ export default function MyProfile(props: any) {
                                             {user.pic ? <img
                                                 src={
                                                     process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                    "/images/users/" + user.pic
+                                                    "/images/chef/users/" + user.pic
                                                 }
                                                 alt=""
                                             /> : <img
@@ -233,6 +233,9 @@ export default function MyProfile(props: any) {
                             })}
                         </tbody>
                     </table>
+                     :
+                     <p>No Booking Records Found</p>
+                     }
                 </div>
             </div>
             <Pagination

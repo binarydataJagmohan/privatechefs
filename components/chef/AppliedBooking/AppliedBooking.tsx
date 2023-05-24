@@ -335,7 +335,7 @@ export default function Bookings() {
 							{user.pic ?  <img
 							src={
 								process.env.NEXT_PUBLIC_IMAGE_URL +
-								"/images/users/"+user.pic
+								"/images/chef/users/"+user.pic
 							}
 							alt=""
 							/> : <img

@@ -234,6 +234,7 @@ export default function MyProfile() {
 					window.localStorage.setItem("address", res.data.address);
 					window.localStorage.setItem("phone", res.data.phone);
 					window.localStorage.setItem("profile_status", res.data.profile_status);
+					window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
 
 					toast.success(res.message, {
 						position: toast.POSITION.TOP_RIGHT,
@@ -471,7 +472,7 @@ export default function MyProfile() {
 					};
 
 					// Ensure google is defined before creating the map
-					if (typeof google !== 'undefined') {
+					if (typeof google !== 'undefined' && mapRef.current !== null) {
 						const map = new google.maps.Map(mapRef.current, mapOptions);
 						const marker = new google.maps.Marker({
 							position: { lat: parsedLat, lng: parsedLng },
@@ -768,12 +769,8 @@ export default function MyProfile() {
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Email</label>
-													<input type="text" name="email" value={email || ''} onChange={(e) => setEmail(e.target.value)} />
-													{errors.email && (
-														<span className="small error text-danger mb-2 d-inline-block error_login">
-															{errors.email}
-														</span>
-													)}
+													<input type="email" name="email" value={currentUserData.email} readOnly />
+
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Phone Number</label>
@@ -834,9 +831,9 @@ export default function MyProfile() {
 												<div className="col-lg-8 col-md-7">
 													<label>Bank Holder Name</label>
 													<input type="text" name="holder_name" value={holder_name || ''} onChange={(e) => setHolderName(e.target.value)} />
-													{errors.description && (
+													{errors.holder_name && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
-															{errors.description}
+															{errors.holder_name}
 														</span>
 													)}
 												</div>

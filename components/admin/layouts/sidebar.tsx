@@ -74,12 +74,12 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
 
-                    <a href="/admin/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    {/* <a href="/admin/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file"></i></span>  
                             <span className="menu-collapsed">Invoices</span> 
                         </div>
-                    </a>
+                    </a> */}
 
                     <a href="/admin/testimonial" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/testimonial' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
@@ -87,12 +87,12 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Testimonial</span> 
                         </div>
                     </a>
-                    <a href="/admin/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/receipts' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    {/* <a href="/admin/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/receipts' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-credit-card"></i></span>  
                             <span className="menu-collapsed">Receipts</span> 
                         </div>
-                    </a>
+                    </a> */}
                     <a href="/admin/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/chefs' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>  

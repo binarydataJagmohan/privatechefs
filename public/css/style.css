@@ -3395,3 +3395,23 @@ div#test-img img {
 .chatactive {
   background: #ff4e00;
 }
+.user-class.pt-5 {
+  display: flex;
+}
+span#book-user {
+  color: #ff4e00;
+}
+th.active {
+    color: black;
+}
+.userImg img {
+  width: 60%;
+  height: 67%;
+  border-radius: 100%;
+}
+p.alert.alert-danger {
+  text-align: center;
+}
+p.alert.alert-success {
+  text-align: center;
+}
