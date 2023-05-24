@@ -3,7 +3,7 @@ import { getCurrentUserData } from '../../../lib/session'
 import { notificationForUserAdmin } from '../../../lib/notificationapi';
 import Link from 'next/link'
 import { getSingleUserProfile } from "../../../lib/userapi"
-
+import { approvalMsg } from "../../../lib/chefapi"
 
 export default function Header(): JSX.Element {
 
@@ -52,6 +52,21 @@ export default function Header(): JSX.Element {
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    const approvalMsgStatus = () => {
+        const userData: User = getCurrentUserData() as User;
+        approvalMsg()
+        .then(res => {
+            if (res.status == true) {
+                setCountData(res.count);
+            } else {
+                console.log("error");
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     const getAllNotify = async () => {
