@@ -6,8 +6,30 @@ import "react-toastify/dist/ReactToastify.css";
 import Slider from "react-slick";
 import axios from 'axios'
 import { getToken, getCurrentUserData } from "../../../lib/session";
-
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 export default function UserProfileThree() {
+
+    interface CurrentUserData {
+      id: string;
+      name: string;
+      email: string;
+      pic: string | null;
+      surname: string;
+      role: string;
+      approved_by_admin: string
+    }
+
+    const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
+      id: '',
+      name: '',
+      email: '',
+      pic: null,
+      surname: '',
+      role: '',
+      approved_by_admin: ''
+    });
+
+    const [encodde_user_id, setEncodeUserId] = useState('');
 
     const [allergiesdata, setAllergies] = useState<Allergies[]>([]);
     const [selectedallergies, setSelectedAllergies] = useState<string[]>([]);
@@ -15,9 +37,30 @@ export default function UserProfileThree() {
     const [selectedcuisine, setSelectedCuisine] = useState<string[]>([]);
 
     useEffect(() => {
-        getAllergyDetailsData();
-        getAllCuisineData();
-      }, []);
+      const data = isPageVisibleToRole("user-bookings");
+      if (data == 2) {
+        window.location.href = "/login"; // redirect to login if not logged in
+      } else if (data == 0) {
+        window.location.href = "/404"; // redirect to 404 if not authorized
+      }
+      if (data == 1) {
+        const userData = getCurrentUserData() as CurrentUserData;
+          setCurrentUserData({
+            ...userData,
+            id: userData.id,
+            name: userData.name,
+            pic: userData.pic,
+            surname: userData.surname,
+            role: userData.role,
+            approved_by_admin: userData.approved_by_admin,
+    
+          });
+
+  
+      }
+      
+    
+    }, []);
 
     const getAllergyDetailsData = async () => {
         try {
@@ -142,6 +185,12 @@ export default function UserProfileThree() {
                                     <h4>My Bookings</h4>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                 </div>
+                            </a>
+                            <a href={`/user/messages`}>
+                              <div className="profile-cols mt-4 mb-4">
+                                  <h4>My Messages</h4>
+                                  <p>Halal, Kosher, Hindu.</p>
+                               </div>
                             </a>
                             <div className="profile-cols active mt-4 mb-4">
                                 <h4>Aditional Information/Preferences</h4>

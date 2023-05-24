@@ -1,9 +1,10 @@
 import React, { useState, useEffect,useRef} from "react";
-import PopupModal from "../../../components/commoncomponents/PopupModal";
+import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import {getUserBookingId,deleteBooking } from "../../../lib/adminapi";
-import { getCurrentUserByBooking,getUserFilterByBooking } from "../../../lib/userapi";
+import { getCurrentUserByBooking,getUserFilterByBooking,getUserChefOffer,ContactChefByUser } from "../../../lib/userapi";
+
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -76,6 +77,16 @@ export default function Booking() {
       user_show?:string;
     }
   
+    interface ChefAppliedOffer {
+      amount?: string;
+      chef_id?:string;
+      location?:string;
+      menu_names?:string;
+      name?:string;
+      surname?:string;
+      booking_id?:string;
+    }
+
     const [bookingUsers, setBookingUser] = useState([]);
     const [modalConfirm, setModalConfirm] = useState(false);
     const [sidebarConfirm,setSidebarConfirm] = useState(false);
@@ -108,6 +119,7 @@ export default function Booking() {
   
     const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
   
+    const [category, setBookingCategory] = useState('');
     
     const modalConfirmOpen = () => {
       setModalConfirm(true);
@@ -121,6 +133,10 @@ export default function Booking() {
     const sidebarConfirmClose = () => {
       setModalConfirm(false);
     };
+
+    const [chefappliedoffer, setChefAppliedOffer] = useState<ChefAppliedOffer[]>([]);
+
+    const [encodde_user_id, setEncodeUserId] = useState('');
   
     const pageSize = 10;
    
@@ -133,7 +149,7 @@ export default function Booking() {
         window.location.href = "/404"; // redirect to 404 if not authorized
       }
       if (data == 1) {
-    const userData = getCurrentUserData() as CurrentUserData;
+        const userData = getCurrentUserData() as CurrentUserData;
           fetchBookingUserDetails(userData.id);
           setCurrentUserData({
             ...userData,
@@ -145,7 +161,6 @@ export default function Booking() {
             approved_by_admin: userData.approved_by_admin,
     
           });
-      
       }
       
     
@@ -194,8 +209,9 @@ export default function Booking() {
       //   console.log(res.booking[0]);
         setBooking(res.booking[0]);
        setChefOffer(res.chefoffer);
-      setDaysBooking(res.days_booking);
+        setDaysBooking(res.days_booking);
         setSidebarConfirm(true);
+        setBookingCategory(res.days_booking[0].category);
   
       if(res.days_booking.length == 1){
         setBookingDate(formatDate(res.booking[0].dates))
@@ -332,6 +348,8 @@ export default function Booking() {
         }
       });
       };
+
+      
       
       const editbooking = (id:any) => {
         window.localStorage.removeItem("time");
@@ -343,7 +361,59 @@ export default function Booking() {
         window.localStorage.removeItem("additionalnotes");
         window.localStorage.setItem("bookingid", id);
         window.location.href = '/user/edit-booking/step1';
-        }
+      }
+
+      const getuserchefofferdata  = (e:any,id:any) => {
+  
+        getUserChefOffer(id)
+          .then(res => {
+            if(res.status==true){
+         
+              console.log(res.chefoffer);
+              setChefAppliedOffer(res.chefoffer);
+              setModalConfirm(true);
+      
+            } else {
+              setErrorMessage(res.message);
+            }
+          })
+          .catch(err => {
+              console.log(err);
+          });		
+      
+      
+        };
+
+        const handleChatClick = async (user_id: any, chef_id: any, booking_id: any) => {
+          const data = {
+            sender_id: user_id,
+            receiver_id: chef_id,
+            booking_id: booking_id,
+          };
+          try {
+            const res = await ContactChefByUser(data);
+            if (res.status == true) {
+
+              // toast.success(res.message, {
+              //   position: toast.POSITION.TOP_RIGHT,
+              // });
+              setModalConfirm(false);
+              window.location.href = '/user/messages';
+
+            } else {
+              toast.error(res.message, {
+                position: toast.POSITION.TOP_RIGHT,
+              });
+            }
+          } catch (err: any) {
+            toast.error(err.message, {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
+          }
+        };
+        
+            
+
     return(
         <>
             <section className="userprofile-part">
@@ -364,12 +434,19 @@ export default function Booking() {
                             <h4>My Bookings</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                           </div>
+                          <a href={`/user/messages/}`}>
+                            <div className="profile-cols mt-4 mb-4">
+                            <h4>My Messages</h4>
+                                <p>Halal, Kosher, Hindu.</p>
+                            </div>
+                          </a>
                           <a href="/user/userprofilethree">
                             <div className="profile-cols mt-4 mb-4">
                             <h4>Aditional Information/Preferences</h4>
                                 <p>Halal, Kosher, Hindu.</p>
                             </div>
                           </a>
+                          
                         </div>
                      </div>
                     <div className="col-lg-9 col-md-12">
@@ -483,6 +560,16 @@ export default function Booking() {
                                                         View Booking
                                                       </a>
                                                     </li>
+                                                    {user.category == 'onetime' && (<li>
+                                                      <a
+                                                        className="dropdown-item"
+                                                        href="#"
+                                                        onClick={(e)=>getuserchefofferdata(e,user.booking_id)}
+                                                       
+                                                      >
+                                                        View Chef offer
+                                                      </a>
+                                                    </li>)}
                                                     
                                                     <li>
                                                       <a
@@ -520,6 +607,7 @@ export default function Booking() {
                                         onPageChange={onPageChange}
                                     />  
 
+
                                       <div className="offcanvas-part"> 
                                   <div className="offcanvas offcanvas-end"  id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                   <div className="offcanvas-header">
@@ -533,7 +621,7 @@ export default function Booking() {
                                     </div>
                                     <div className="off-can">
                                     <div className="accordion" id="accordionExample">
-
+                                    {category != 'onetime' &&
                                     <div className="accordion-item">
                                         <h2 className="accordion-header" id="headingOne">
                                           <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -559,17 +647,17 @@ export default function Booking() {
                                                   </div>
                                                 </div>
                                               ) : (
-                                                <p className="mt-2">No Chef apply for this booking</p>
+                                                <p className="mt-2">{index == 0 && 'No Chef apply for this booking' }</p>
                                               )
                                             ))
                                           ) : (
-                                            <p className="mt-2">No Chef apply for this booking</p>
+                                            <p className="mt-2"></p>
                                           )}
 
                                           </div>
                                         </div>
                                       </div>
-                                    
+                                    } 
                                     <div className="accordion-item">
                                       <h2 className="accordion-header" id="headingTwo">
                                       <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -771,6 +859,60 @@ export default function Booking() {
                 </div>    
                 </div>
             </section>
+            <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
+                <div className="popup-part new-modala">
+                  <h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
+                    <div className="offers">
+               
+                  <table className="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Chef's Name</th>
+                      <th scope="col">Location</th>
+                      <th scope="col-2">Menu</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {chefappliedoffer.length > 0 ? (
+                      chefappliedoffer.map((chef, index) => (
+                      <tr key={index}>
+                        <th scope="row">
+                          {index+1}
+                        </th>
+                        <td><p>{chef.name} {chef.surname}</p></td>
+                        <td>{chef.location}</td>
+                        <td>
+                        {chef.menu_names?.split(",").map((menu, index) => (
+                          <button className="table-btn btn-2 list-btn mb-1" key={index}>
+                          {menu.trim()}
+                          </button>
+                        ))}
+                        </td>
+                        <td>{chef.amount}</td>
+                        <td>
+                        <button id="btn_offer" className="mx-2" type="button" onClick={() => handleChatClick(currentUserData.id,chef.chef_id,chef.booking_id)}>
+							              Chat 
+					          	  </button>
+                        </td>
+                        
+                      </tr>
+                      ))
+                    ) : (
+                      <tr>
+                      <td className="">No Chef apply for this booking</td>
+                      </tr>
+                    )}
+                    </tbody>
+                  </table>
+                  
+                 
+
+                    </div>
+                </div>
+            </PopupModal>
         </>
     )
 }

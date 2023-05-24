@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "next": "13.2.4",
     "next-auth": "^4.22.1",
+    "querystring": "^0.2.1",
     "react": "18.2.0",
     "react-bootstrap-timezone-picker": "^2.0.1",
     "react-dom": "18.2.0",

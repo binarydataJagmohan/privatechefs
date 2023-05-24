@@ -162,7 +162,7 @@ a.chats-user-a {
   position: relative;
   height: 60vh;
 }
-.send-part a {
+.send-part .chat_msg_send {
   font-weight: var(--font_wt_b);
   font-size: 18px;
   line-height: 33px;
@@ -170,6 +170,9 @@ a.chats-user-a {
   margin: 0 0 0 8px;
   border-radius: 4px;
   transition: 0.6s;
+  border: none;
+  padding: 0;
+  background: none;
 }
 .send-part {
   margin-top: 5px;

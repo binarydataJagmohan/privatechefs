@@ -8,7 +8,6 @@ import { removeToken, removeStorageData } from "../../../lib/session";
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
 import { Loader } from '@googlemaps/js-api-loader';
-
 export default function UserProfile() {
 
   interface CurrentUserData {
@@ -57,6 +56,8 @@ export default function UserProfile() {
   });
 
   const [userData, setUserData] = useState<UserData>({ pic: "" });
+
+   const [encodde_user_id, setEncodeUserId] = useState('');
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
@@ -237,6 +238,8 @@ export default function UserProfile() {
 
       });
       getSingleUserData(userData.id)
+
+      
     }
   }
 
@@ -304,11 +307,12 @@ export default function UserProfile() {
                       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </div>
                   </a>
-                  <a href="/user/userprofilethree">
-                    <div className="profile-cols mt-4 mb-4">
-                      <h4>Aditional Information/Preferences</h4>
-                      <p>Halal, Kosher, Hindu.</p>
-                    </div>
+                  
+                  <a href={`/user/messages`}>
+                          <div className="profile-cols mt-4 mb-4">
+                          <h4>My Messages</h4>
+                              <p>Halal, Kosher, Hindu.</p>
+                          </div>
                   </a>
                 </div>
               </div>
