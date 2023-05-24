@@ -3,7 +3,7 @@ import { getCurrentUserData } from '../../../lib/session'
 import { notificationForUserAdmin } from '../../../lib/notificationapi';
 import Link from 'next/link'
 import { getSingleUserProfile } from "../../../lib/userapi"
-
+import { approvalMsg } from "../../../lib/chefapi"
 
 export default function Header(): JSX.Element {
 
@@ -24,6 +24,7 @@ export default function Header(): JSX.Element {
 
     const [userData, setUserData] = useState('');
     const [countdata, setCountData] = useState("");
+    const [isVisible, setIsVisible] = useState(true);
 
     const [data, setData] = useState<UserData>({
         id: 0,
@@ -54,6 +55,22 @@ export default function Header(): JSX.Element {
             });
     }
 
+    const approvalMsgStatus = () => {
+        const userData: User = getCurrentUserData() as User;
+        approvalMsg(userData.id)
+        .then(res => {
+            if (res.status == true) {
+                setCountData(res.count);
+                setIsVisible(false);
+            } else {
+                console.log("error");
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
     const getAllNotify = async () => {
         const userData: User = getCurrentUserData() as User;
         setUserData(userData.id);
@@ -82,18 +99,18 @@ export default function Header(): JSX.Element {
                         {/* <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a> */}
                         {data.profile_status === 'pending' && data.approved_by_admin === 'no' && (
                             <p className="alert alert-danger">
-                                Please complete your profile and pending approval by admin end.
+                               Complete your profile for pending admin approval.
                             </p>
                         )}
                         {data.profile_status === 'completed' && data.approved_by_admin === 'no' && (
                             <p className="alert alert-info">
-                                Your Profile is completed but pending approval by admin end.
+                                Profile completed, awaiting admin approval to unlock culinary opportunities.
                             </p>
                         )}
-                        {data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === "yes" &&(
+                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' &&(
                             <p className="alert alert-success">
-                                Your Profile is completed and approved by admin end.
-                                <button className="table-btn" type="submit">OK</button>
+                                Congratulations! Your profile has been completed and approved by the admin. 
+                                <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
                             </p>
                         )}
 
