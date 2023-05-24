@@ -11,6 +11,8 @@ import moment from 'moment';
 import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
+import PopupModalTwo from '../../commoncomponents/PopupModal';
+
 export default function Booking() {
 
   interface Booking {
@@ -64,6 +66,7 @@ export default function Booking() {
     interface Errors {
     amount?: string;
     selectedmenu?:string;
+    chatmessage?:string;
     }
     
     interface ChefOffer {
@@ -89,6 +92,7 @@ export default function Booking() {
 
     const [bookingUsers, setBookingUser] = useState([]);
     const [modalConfirm, setModalConfirm] = useState(false);
+    const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
     const [sidebarConfirm,setSidebarConfirm] = useState(false);
     const [booking, setBooking] = useState<Booking>({});
     const [totalBooking, setTotalBooking] = useState([]);
@@ -134,9 +138,16 @@ export default function Booking() {
       setModalConfirm(false);
     };
 
+    const modalConfirmCloseTwo = () => {
+      setModalConfirmTwo(false);
+    };
+
     const [chefappliedoffer, setChefAppliedOffer] = useState<ChefAppliedOffer[]>([]);
 
-    const [encodde_user_id, setEncodeUserId] = useState('');
+
+    const [chef_id, setChefID] = useState('');
+
+    const [chatmessage, setChatMessage] = useState('');
   
     const pageSize = 10;
    
@@ -161,7 +172,10 @@ export default function Booking() {
             approved_by_admin: userData.approved_by_admin,
     
           });
+
+          
       }
+      
       
     
     }, []);
@@ -384,34 +398,73 @@ export default function Booking() {
       
         };
 
-        const handleChatClick = async (user_id: any, chef_id: any, booking_id: any) => {
-          const data = {
-            sender_id: user_id,
-            receiver_id: chef_id,
-            booking_id: booking_id,
-          };
-          try {
-            const res = await ContactChefByUser(data);
-            if (res.status == true) {
 
-              // toast.success(res.message, {
-              //   position: toast.POSITION.TOP_RIGHT,
-              // });
-              setModalConfirm(false);
-              window.location.href = '/user/messages';
-
-            } else {
-              toast.error(res.message, {
-                position: toast.POSITION.TOP_RIGHT,
-              });
-            }
-          } catch (err: any) {
-            toast.error(err.message, {
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
+        const handlMessageSubmit = (event: any) => {
+          event.preventDefault();
+      
+          // Validate form data
+          const newErrors: Errors = {};
+      
+          if (!chatmessage) {
+            newErrors.chatmessage = "Message is required";
           }
-        };
+
         
+          setErrors(newErrors);
+      
+          // Submit form data if there are no errors
+          if (Object.keys(newErrors).length === 0) {
+   
+            const data = {
+              message: chatmessage,
+              sender_id: currentUserData.id,
+              receiver_id: chef_id,
+              booking_id : bookingid
+            };
+            
+          
+            ContactChefByUser(data)
+              .then(res => {
+                if (res.status == true) {
+                  
+                  setModalConfirmTwo(false);
+                  window.location.href = '/user/messages';
+                } else {
+                   
+                  toast.error(res.message, {
+                    position: toast.POSITION.TOP_RIGHT
+                  });
+                }
+              })
+                .catch(err => {
+                  console.log(err);
+                });
+          }
+          
+      
+        };
+      
+        const handleMessageBlur = (event: any) => {
+          const { name, value } = event.target;
+          const newErrors = { ...errors };
+      
+          switch (name) {
+      
+            case "chatmessage":
+              if (!value) {
+                newErrors.chatmessage = "Messge is required";
+              } else {
+                delete newErrors.chatmessage;
+              }
+              break;
+            
+            default:
+              break;
+          }
+      
+          setErrors(newErrors);
+          console.log(name);
+        };
             
 
     return(
@@ -893,9 +946,18 @@ export default function Booking() {
                         </td>
                         <td>{chef.amount}</td>
                         <td>
-                        <button id="btn_offer" className="mx-2" type="button" onClick={() => handleChatClick(currentUserData.id,chef.chef_id,chef.booking_id)}>
-							              Chat 
-					          	  </button>
+                        
+                        <button id="btn_offer" className="mx-2" type="button" onClick={() => {
+                          setModalConfirmTwo(true);
+                          setModalConfirm(false);
+                          setChefID(chef.chef_id);
+                          setBookingId(chef.booking_id);
+                          
+                        }}>
+                          Contact
+                        </button>
+
+                      
                         </td>
                         
                       </tr>
@@ -913,6 +975,25 @@ export default function Booking() {
                     </div>
                 </div>
             </PopupModal>
+
+            <PopupModalTwo show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
+        
+              <div className="all-form" >
+                <form onSubmit={handlMessageSubmit} className="common_form_error" id="menu_form">
+
+                  <div className='login_div'>
+                    <label htmlFor="name">Message:</label>
+                    <textarea name="chatmessage" value={chatmessage} onChange={(e) => setChatMessage(e.target.value)} onBlur={handleMessageBlur}></textarea>
+                   
+                    {errors.chatmessage && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.chatmessage}</span>}
+                  </div>
+
+                  <button type="submit" className="btn-send w-100 mt-3">Submit</button>
+                </form>
+
+              </div>
+
+            </PopupModalTwo>
         </>
     )
 }
