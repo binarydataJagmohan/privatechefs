@@ -30,7 +30,22 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+<<<<<<< HEAD
     "/admin/notification/notification": [
+=======
+<<<<<<< HEAD
+    "/chef/chats": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/chats.js"
+    ],
+    "/user/messages": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/messages.js"
+=======
+    "/bookings/step7": [
+>>>>>>> refs/remotes/origin/main
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/notification/notification.js"
@@ -38,12 +53,17 @@
     "/chef/myprofile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
+<<<<<<< HEAD
       "static/chunks/pages/chef/myprofile.js"
     ],
     "/chef/notification/notification": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/chef/notification/notification.js"
+=======
+      "static/chunks/pages/user/userprofile.js"
+>>>>>>> f1e4460a358adbea592df843ea18726d2dd303c9
+>>>>>>> refs/remotes/origin/main
     ]
   },
   "ampFirstPages": []
