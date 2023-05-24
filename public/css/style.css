@@ -3411,7 +3411,19 @@ th.active {
 }
 p.alert.alert-danger {
   text-align: center;
+  font-size: 14px;
+  padding: 5px 0px;
 }
 p.alert.alert-success {
+  font-size: 14px;
+  padding: 5px 0px;
   text-align: center;
+}
+button.table-btn1 {
+  padding: 2px 3px;
+  border: unset;
+  color: #fff;
+  font-size: 15px;
+  margin-left: 11px;
+  background: #ff4e00;
 }
