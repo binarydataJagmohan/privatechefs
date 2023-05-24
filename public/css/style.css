@@ -3311,13 +3311,13 @@ button.remove-btn {
 }
 
 
-.modal.modal-part.d-block.same-here .modal-dialog {
+/* .modal.modal-part.d-block.same-here .modal-dialog {
   position: absolute;
   right: 34px;
   width: 100%;
   top: 23%;
   max-width: 560px;
-}
+} */
 .same-here label{
   font-size: 12px;
 }
@@ -3386,6 +3386,14 @@ div#test-img img {
   position: absolute;
   right: 72%;
   cursor: pointer;
+}
+@media (min-width: 1200px) {
+  div#xtra_large {
+    max-width: 1200px;
+  }
+}
+.chatactive {
+  background: #ff4e00;
 }
 .user-class.pt-5 {
   display: flex;

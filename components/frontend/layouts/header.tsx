@@ -484,6 +484,7 @@ export default function Header({ }) {
                 {/* <li className="nav-item">
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li> */}
+
                 {role !== "chef" &&(
                   <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
                     <a className="nav-link" href="/bookings/step1">Start your journey</a>
@@ -503,6 +504,10 @@ export default function Header({ }) {
                 <li className={`nav-item ${router.pathname === '/ourchefs' ? 'active' : ''}`}>
                   <a className="nav-link" href="/ourchefs">Our Chefs</a>
                 </li>
+            {role == 'user' &&
+                <li className={`nav-item ${router.pathname === '/user/messages' ? 'active' : ''}`}>
+                  <a className="nav-link" href="/user/messages">Message</a>
+                </li> }
 
                 {isAuthenticated && role === "admin" && (
                   <li className={`nav-item ${router.pathname === '/admin/dashboard' ? 'active' : ''}`}>
