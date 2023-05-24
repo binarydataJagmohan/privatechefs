@@ -108,7 +108,7 @@ export default function Header(): JSX.Element {
                         {data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === "yes" &&(
                             <p className="alert alert-success">
                                 Your Profile is completed and approved by admin end.
-                                <button className="table-btn" type="submit">OK</button>
+                                <button className="table-btn" onClick={approvalMsgStatus}>OK</button>
                             </p>
                         )}
 
