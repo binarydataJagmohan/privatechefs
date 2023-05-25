@@ -7,6 +7,8 @@ import Slider from "react-slick";
 import axios from 'axios'
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import { removeToken, removeStorageData } from "../../../lib/session";
+
 export default function UserProfileThree() {
 
     interface CurrentUserData {
@@ -17,6 +19,18 @@ export default function UserProfileThree() {
       surname: string;
       role: string;
       approved_by_admin: string
+    }
+
+    interface Allergies {
+      id: string;
+      allergy_name: string;
+      image: string | null;
+    }
+
+    interface Cuisine {
+      id: string;
+      name: string;
+      image: string | null;
     }
 
     const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
@@ -55,8 +69,8 @@ export default function UserProfileThree() {
             approved_by_admin: userData.approved_by_admin,
     
           });
-
-  
+          getAllergyDetailsData();
+          getAllCuisineData();
       }
       
     
@@ -143,12 +157,12 @@ export default function UserProfileThree() {
       //     selectedcuisine:value
       //   };
 
-      const handleCheckboxClick = (allergies, cuisine) => {
+      const handleCheckboxClick = (allergies:any, cuisine:any) => {
         const data = {
           selectedallergies: allergies,
           selectedcuisine: cuisine
         };
-        const userData = getCurrentUserData();
+        const userData :any = getCurrentUserData();
          const id = userData.id;
          const url = `http://127.0.0.1:8000/api/updateAllergyCusine/${id}`;
 
@@ -163,12 +177,18 @@ export default function UserProfileThree() {
      });
 }
 
+function handleLogout() {
+  removeToken();
+  removeStorageData();
+  window.location.href = "/";
+}
+
     return(
         <>
             <section className="userprofile-part">
                 <div className="container">
                   <div className="my-profile mt-5 tab-m-0">
-                    <h2> My profile <span className="log-out"><a href="#">Log out</a></span></h2>
+                    <h2> My profile <span className="log-out"><a onClick={handleLogout} role="button" >Log out</a></span></h2>
                   </div>
                 <div className="row">
 
@@ -227,8 +247,8 @@ export default function UserProfileThree() {
                           />
                           <label htmlFor={`myCheckbox2_${allergies.id}`} className="step_label_css">
                           {allergies.image ? 
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/'+allergies.image} alt="step-img-1" /> 
-                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={245} height={190}/> 
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/'+allergies.image} alt="step-img-1" width={300} height={300}/> 
+                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={300} height={300}/> 
                           }
                             
                             <p className="plase-btn"><a href="#">{allergies.allergy_name}</a></p>

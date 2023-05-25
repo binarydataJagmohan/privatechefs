@@ -15,6 +15,11 @@
   ],
   "rootMainFiles": [],
   "pages": {
+    "/": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
     "/404": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -30,40 +35,40 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-<<<<<<< HEAD
-    "/admin/notification/notification": [
-=======
-<<<<<<< HEAD
-    "/chef/chats": [
+    "/user/booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/chats.js"
+      "static/chunks/pages/user/booking.js"
     ],
-    "/user/messages": [
+    "/user/edit-booking/step1": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/user/messages.js"
-=======
-    "/bookings/step7": [
->>>>>>> refs/remotes/origin/main
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/notification/notification.js"
+      "static/chunks/pages/user/edit-booking/step1.js"
     ],
-    "/chef/myprofile": [
+    "/user/edit-booking/step2": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-<<<<<<< HEAD
-      "static/chunks/pages/chef/myprofile.js"
+      "static/chunks/pages/user/edit-booking/step2.js"
     ],
-    "/chef/notification/notification": [
+    "/user/edit-booking/step3": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/notification/notification.js"
-=======
-      "static/chunks/pages/user/userprofile.js"
->>>>>>> f1e4460a358adbea592df843ea18726d2dd303c9
->>>>>>> refs/remotes/origin/main
+      "static/chunks/pages/user/edit-booking/step3.js"
+    ],
+    "/user/edit-booking/step4": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/edit-booking/step4.js"
+    ],
+    "/user/edit-booking/step5": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/edit-booking/step5.js"
+    ],
+    "/user/edit-booking/step6": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/edit-booking/step6.js"
     ]
   },
   "ampFirstPages": []

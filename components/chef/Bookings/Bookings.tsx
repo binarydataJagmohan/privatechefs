@@ -800,7 +800,7 @@ export default function Bookings() {
 							{errors.selectedmenu && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.selectedmenu}</span>}
 						</div>	
 						<div className="text-right">
-						<div className="banner-btn">
+						<div className="banner-btn" id="bookid">
 						
 							<button id="btn_offer" type="submit">Send Request</button>
 						</div>

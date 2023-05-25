@@ -2,13 +2,13 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/chef/notification/notification": "pages/chef/notification/notification.js",
-  "/admin/notification/notification": "pages/admin/notification/notification.js",
-  "/chef/myprofile": "pages/chef/myprofile.js",
+  "/user/edit-booking/step1": "pages/user/edit-booking/step1.js",
+  "/user/edit-booking/step2": "pages/user/edit-booking/step2.js",
+  "/user/edit-booking/step3": "pages/user/edit-booking/step3.js",
+  "/user/edit-booking/step4": "pages/user/edit-booking/step4.js",
+  "/user/edit-booking/step5": "pages/user/edit-booking/step5.js",
+  "/user/edit-booking/step6": "pages/user/edit-booking/step6.js",
+  "/user/booking": "pages/user/booking.js",
+  "/": "pages/index.js",
   "/404": "pages/404.js"
-=======
-  "/chef/chats": "pages/chef/chats.js",
-  "/user/messages": "pages/user/messages.js"
->>>>>>> refs/remotes/origin/main
 }

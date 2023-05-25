@@ -3432,3 +3432,9 @@ p.alert.alert-warning {
   font-size: 14px;
   padding: 5px 0px;
 }
+div#chef-booking {
+  width: 450px;
+}
+div#bookid {
+  margin: 20px 0 0 0;
+}

@@ -12,6 +12,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
 import PopupModalTwo from '../../commoncomponents/PopupModal';
+import { removeToken, removeStorageData } from "../../../lib/session";
 
 export default function Booking() {
 
@@ -465,6 +466,12 @@ export default function Booking() {
           setErrors(newErrors);
           console.log(name);
         };
+
+        function handleLogout() {
+          removeToken();
+          removeStorageData();
+          window.location.href = "/";
+        }
             
 
     return(
@@ -472,7 +479,7 @@ export default function Booking() {
             <section className="userprofile-part">
                 <div className="container">
                   <div className="my-profile mt-5 tab-m-0">
-                    <h2> My profile <span className="log-out"><a href="#">Log out</a></span></h2>
+                    <h2> My profile <span className="log-out"><a onClick={handleLogout} role="button" >Log out</a></span></h2>
                   </div>
                 <div className="row">
                     <div className="col-lg-3 col-md-12">
