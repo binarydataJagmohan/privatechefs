@@ -54,7 +54,9 @@ export default function Sidebar(): JSX.Element {
             .then(res => {
                 if (res.status == true) {
                     setUserData(res.data);
-                    console.log(res.data);
+                    // console.log(res.data);
+                    window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
+
                 } else {
                     console.log(res.message);
                 }

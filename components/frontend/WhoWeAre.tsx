@@ -11,7 +11,7 @@ export default function WhoWeAre() {
                     <div className="col-sm-6">
                     <div className="banner-text pages-text">
                     <h1><span className="sab-title-banner">What is</span> <br/>Private Chefs?</h1>
-                    <div className="banner-btn mb-5"><a href="#">Start your journey</a></div>
+                    <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
                     <p>Private Chefs is a unique experience that offers you from fine dining quality experience, to the very roots of the culinary culture of each region, in the comfort of your Villa, Estate or Yacht. </p>
                     </div>
                     </div>

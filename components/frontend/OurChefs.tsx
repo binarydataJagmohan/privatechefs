@@ -50,7 +50,7 @@ export default function OurChefs() {
                     <div className="col-sm-6">
                     <div className="banner-text pages-text">
                     <h1>Our chefs</h1>
-                    <div className="banner-btn mb-5"><a href="/startjourney">Start your journey</a></div>
+                    <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
                     </div>
                     </div>
