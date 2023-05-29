@@ -17,6 +17,10 @@ export default function Booking(props: any) {
 
   const [message, setMessage] = useState("");
 
+  const receiverIdRef = useRef(null);
+
+  const BookingIdRef = useRef(null);
+
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
     id: "",
     name: "",
@@ -43,6 +47,7 @@ export default function Booking(props: any) {
     receiver_id?: string;
     name?: string;
     pic?: string;
+    unreadcount?:string;
   }
 
   interface UserChatMessages {
@@ -85,7 +90,38 @@ export default function Booking(props: any) {
         approved_by_admin: userData.approved_by_admin,
       });
 
+      const fetchData = async () => {
+        const data = {
+          message: message,
+          sender_id: userData.id,
+          receiver_id: receiverIdRef.current,
+          booking_id : BookingIdRef.current
+        };
+  
       
+        getClickUserChefChatData(data)
+            .then(res => {
+              if (res.status == true) {
+              
+                setUserChatMessage(res.userchatdata);
+                setUserChatSiderBar(res.userchatsider);
+              } else {
+                 
+                toast.error(res.message, {
+                  position: toast.POSITION.TOP_RIGHT
+                });
+              }
+            })
+              .catch(err => {
+                console.log(err);
+        });
+      };
+    
+      const interval = setInterval(fetchData, 2000); // Run every 2 seconds
+    
+      return () => {
+        clearInterval(interval); // Clean up the interval when the component is unmounted
+      };
       
     }
     
@@ -103,6 +139,8 @@ export default function Booking(props: any) {
         setCurrentChatBookingId(res.booking_id);
         // setCurrentChatReceiverid(res.userchatsidebar[0].receiver_id);
         setCurrentChatReceiverid(res.userchatsider[0].receiver_id);
+        receiverIdRef.current = res.userchatsider[0].receiver_id;
+        BookingIdRef.current = res.booking_id;
       } else {
         // toast.error(res.message, {
         //   position: toast.POSITION.TOP_RIGHT,
@@ -157,6 +195,7 @@ export default function Booking(props: any) {
             setMessage("");
             setUserChatMessage(res.userchatdata);
             scrollToBottom();
+            handleButtonClick(receiver_id,booking_id)
           } else {
              
             toast.error(res.message, {
@@ -171,9 +210,11 @@ export default function Booking(props: any) {
 		
 	};
 
-  const handleButtonClick = (sender_id:any,receiver_id:any,booking_id:any) => {
+  const handleButtonClick = (receiver_id:any,booking_id:any) => {
     setCurrentChatBookingId(booking_id);
     setCurrentChatReceiverid(receiver_id);
+    receiverIdRef.current = receiver_id;
+    BookingIdRef.current = booking_id;
     const data = {
       message: message,
       sender_id: currentUserData.id,
@@ -184,7 +225,7 @@ export default function Booking(props: any) {
     getClickUserChefChatData(data)
         .then(res => {
           if (res.status == true) {
-          
+            setUserChatSiderBar(res.userchatsider);
             setUserChatMessage(res.userchatdata);
             scrollToBottom();
           } else {
@@ -209,9 +250,9 @@ export default function Booking(props: any) {
   };
  
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [userchatmesage]);
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [userchatmesage]);
 
   return (
     <>
@@ -232,10 +273,7 @@ export default function Booking(props: any) {
                             <button className="table-btn  ">All</button>
                           </li>
                           <li>
-                            <button className="table-btn btn-2 ">Open </button>
-                          </li>
-                          <li>
-                            <button className="table-btn btn-2 ">Done</button>
+                            <button className="table-btn btn-2 ">read </button>
                           </li>
                           <li>
                             <button className="table-btn btn-2 ">Unread</button>
@@ -250,7 +288,7 @@ export default function Booking(props: any) {
                          
                             {userchatsidebar.length > 0 ? (
                               userchatsidebar.map((message,index) => (
-                                <a href="#" className="chats-user-a"  onClick={() => handleButtonClick(message.sender_id,message.receiver_id,message.booking_id)}>
+                                <a href="#" className="chats-user-a"  onClick={() => handleButtonClick(message.receiver_id,message.booking_id)}>
                                 <div className={`row p-2 ${receiver_id == message.receiver_id ? 'chatactive' : ''}`} key={index}>
                                   <div className="col-lg-3 col-md-3 col-3 pr-0">
                                    
@@ -269,8 +307,12 @@ export default function Booking(props: any) {
                                   
                                   <div className="col-lg-7 col-md-7 col-7">
                                     <div className="user-profile-chats mt-1">
-                                      <h5 className={`${receiver_id == message.receiver_id ? 'text-white' : ''}`}>{message.name}</h5>
-                                      
+                                      <h5 className={`position-relative ${receiver_id == message.receiver_id ? 'text-white' : ''}`}>{message.name}{Number(message.unreadcount) > 0 && (
+                                            <span className={`badge text-danger position-absolute mx-2 ${receiver_id == message.sender_id ? 'bg-white' : 'chatactive text-white'}`}>
+                                              {message.unreadcount}
+                                            </span>
+                                          )}</h5>
+                                     
                                     </div>
                                   </div>
                                   <div className="col-lg-2 col-md-2 col-2 text-right">

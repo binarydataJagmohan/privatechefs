@@ -84,7 +84,7 @@ export default function Booking() {
     interface ChefAppliedOffer {
       amount?: string;
       chef_id?:string;
-      location?:string;
+      address?:string;
       menu_names?:string;
       name?:string;
       surname?:string;
@@ -386,6 +386,7 @@ export default function Booking() {
          
               console.log(res.chefoffer);
               setChefAppliedOffer(res.chefoffer);
+              setBookingId(res.chefoffer[0].booking_id);
               setModalConfirm(true);
       
             } else {
@@ -942,8 +943,8 @@ export default function Booking() {
                         <th scope="row">
                           {index+1}
                         </th>
-                        <td><p>{chef.name} {chef.surname}</p></td>
-                        <td>{chef.location}</td>
+                        <td><p className="text-left">{chef.name} {chef.surname}</p></td>
+                        <td>{chef.address}</td>
                         <td>
                         {chef.menu_names?.split(",").map((menu, index) => (
                           <button className="table-btn btn-2 list-btn mb-1" key={index}>
@@ -955,12 +956,12 @@ export default function Booking() {
                         <td>
                         
                         <button id="btn_offer" className="mx-2" type="button" onClick={() => {
-                          setModalConfirmTwo(true);
-                          setModalConfirm(false);
-                          setChefID(chef.chef_id);
-                          setBookingId(chef.booking_id);
-                          
-                        }}>
+                            setModalConfirmTwo(true);
+                            setModalConfirm(false);
+                            setChefID(chef.chef_id ?? ''); // Assign a default value of an empty string if chef.chef_id is undefined
+                            setBookingId(chef.booking_id ?? ''); // Assign a default value of an empty string if chef.booking_id is undefined
+                          }}>
+
                           Contact
                         </button>
 
