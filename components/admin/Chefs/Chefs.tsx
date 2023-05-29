@@ -17,6 +17,7 @@ export default function Chefs() {
     address: string;
     pic: string;
     cuisine_name: string;
+    profile_status: string;
   }
   interface chefData {
     id: number;
@@ -25,6 +26,7 @@ export default function Chefs() {
     address: string;
     pic: string;
     approved_by_admin: string;
+    profile_status: string;
     cuisine_name: string;
   }
   interface GetCuisine {
@@ -233,7 +235,7 @@ export default function Chefs() {
                 <th scope="col">Current Location</th>
                 <th scope="col">Cuisines</th>
                 {/* <th scope="col">Location</th> */}
-                {/* <th scope="col">Dietary restrictios</th>*/}
+                <th scope="col">Profile Status</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
@@ -294,12 +296,13 @@ export default function Chefs() {
                     {/* <td>Ut pulvinar.</td> */}
                     {/* <td>Arcu nibh non.</td>
 										<td>Eu nibh.</td> */}
-
+                    <td>
+                      {filter.profile_status || ""}
+                    </td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin"
                         value={approvestatus} onChange={(e) => ApproveChefProfile(e, filter.id)}
                       >
-                        <option value=''>Select option</option>
                         <option value='yes' >Approved</option>
                         <option value='no' >Unapproved</option>
                       </select>
@@ -417,11 +420,14 @@ export default function Chefs() {
 					<td>Eu nibh.</td> */}
 
                     <td>
+                      {chef.profile_status || ""}
+                    </td>
+
+                    <td>
                       <select aria-label="Default select example" name="approved_by_admin"
                         onChange={(e) => ApproveChefProfile(e, chef.id)}
 
                       >
-                        <option value=''>Select option</option>
                         <option value='yes' selected={chef.approved_by_admin === 'yes'}>Approved</option>
                         <option value='no' selected={chef.approved_by_admin === 'no'}>Unapproved</option>
                       </select>

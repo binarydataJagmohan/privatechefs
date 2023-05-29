@@ -103,7 +103,7 @@ export default function Header(): JSX.Element {
                             </p>
                         )}
                         {data.profile_status === 'completed' && data.approved_by_admin === 'no' && (
-                            <p className="alert alert-info">
+                            <p className="alert alert-warning">
                                 Profile completed, awaiting admin approval to unlock culinary opportunities.
                             </p>
                         )}

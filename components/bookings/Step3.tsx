@@ -182,7 +182,7 @@ export default function Step3() {
 
           {servicetype === 'multipletimes' && (
             <div className="row mb-5 align-items-center" >
-            <table className="table">
+            <table className="table table-striped">
               <thead>
                 <tr>
                   <th>Date</th>
