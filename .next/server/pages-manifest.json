@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chef/myprofile": "pages/chef/myprofile.js",
-  "/bookings/step6": "pages/bookings/step6.js"
+  "/chef/dish": "pages/chef/dish.js",
+  "/chef/menus": "pages/chef/menus.js",
+  "/user/booking": "pages/user/booking.js"
 }
