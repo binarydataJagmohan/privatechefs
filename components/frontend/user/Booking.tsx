@@ -64,8 +64,8 @@ export default function Booking(props: any) {
     name?: string;
     menu_name?: string;
     image?: string;
-    item_name?:string;
-    type?:string;
+    item_name?: string;
+    type?: string;
   }
 
   interface Errors {
@@ -1009,19 +1009,37 @@ export default function Booking(props: any) {
         </div>
       </PopupModal>
 
-      <PopupModalTwo show={modalConfirmThree} handleClose={modalConfirmThreeClose} staticClass="var-login">
-      <h5 style={{color:"#ff4e00"}}>Dishes</h5>
+      <PopupModal show={modalConfirmThree} handleClose={modalConfirmThreeClose} staticClass="var-login">
+        <h5 style={{ color: "#ff4e00" }}>Dishes</h5>
         <div className="all-form" >
-          <div className="row">
-            {menu.map((item, index) => (
-              <div key={index} className="col-md-6">
-                <p>{item.type} : <span>{item.item_name}</span></p>
-              </div>
-            ))}
-          </div>
-        </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">First Course</th>
+                <th scope="col">Desert</th>
+                <th scope="col">Main Course</th>
+                <th scope="col">Starter</th>
+              </tr>
+            </thead>
+            <tbody>
+              {menu.length > 0 ? (
+                <tr>
+                  <td>{menu.find(item => item.type === 'firstcourse')?.item_name || ''}</td>
+                  <td>{menu.find(item => item.type === 'desert')?.item_name || ''}</td>
+                  <td>{menu.find(item => item.type === 'maincourse')?.item_name || ''}</td>
+                  <td>{menu.find(item => item.type === 'starter')?.item_name || ''}</td>
+                </tr>
+              ) : (
+                <tr>
+                  <td className="">No menu items available</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
 
-      </PopupModalTwo>
+
+        </div>
+      </PopupModal>
 
       <PopupModalTwo show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
 

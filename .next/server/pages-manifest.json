@@ -2,7 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chef/dish": "pages/chef/dish.js",
-  "/chef/menus": "pages/chef/menus.js",
-  "/user/booking": "pages/user/booking.js"
+  "/user/booking": "pages/user/booking.js",
+  "/admin/assigned-booking": "pages/admin/assigned-booking.js",
+  "/chef/bookings": "pages/chef/bookings.js",
+  "/chef/applied-booking": "pages/chef/applied-booking.js"
 }

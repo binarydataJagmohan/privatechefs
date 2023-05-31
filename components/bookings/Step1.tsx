@@ -9,6 +9,13 @@ export default function Step1() {
   interface UserData {
     "role": string;
   }
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const formattedDate = currentDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 
   const [onetimedate, setOneTimeDate] = useState(new Date());
 
@@ -228,6 +235,7 @@ export default function Step1() {
                       mode: "range",
                       defaultDate: "today" // Set default date to today
                     }}
+                    placeholder={formattedDate}
                   />
                 </div>
               </div>

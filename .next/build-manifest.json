@@ -25,15 +25,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/chef/dish": [
+    "/admin/assigned-booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/dish.js"
+      "static/chunks/pages/admin/assigned-booking.js"
     ],
-    "/chef/menus": [
+    "/chef/applied-booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/menus.js"
+      "static/chunks/pages/chef/applied-booking.js"
+    ],
+    "/chef/bookings": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/bookings.js"
     ],
     "/user/booking": [
       "static/chunks/webpack.js",

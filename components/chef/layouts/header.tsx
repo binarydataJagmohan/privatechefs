@@ -45,6 +45,8 @@ export default function Header(): JSX.Element {
             .then(res => {
                 if (res.status == true) {
                     setData(res.data);
+                    window.localStorage.setItem("profile_status", res.data.profile_status);
+					window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
                     console.log(res.data);
                 } else {
                     console.log(res.message);
@@ -97,12 +99,12 @@ export default function Header(): JSX.Element {
                 <div className="row">
                     <div className="col-lg-7 col-md-4 col-2">
                         {/* <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a> */}
-                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && (
+                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.approval_msg === 'no' && (
                             <p className="alert alert-danger">
                                Complete your profile for pending admin approval.
                             </p>
                         )}
-                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && (
+                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.approval_msg === 'no' && (
                             <p className="alert alert-warning">
                                 Profile completed, awaiting admin approval to unlock culinary opportunities.
                             </p>
