@@ -30,15 +30,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/admin/assigned-booking.js"
     ],
+    "/admin/bookings": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/bookings.js"
+    ],
     "/chef/applied-booking": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/chef/applied-booking.js"
-    ],
-    "/chef/bookings": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/chef/bookings.js"
     ],
     "/user/booking": [
       "static/chunks/webpack.js",

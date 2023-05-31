@@ -4,6 +4,6 @@
   "/_document": "pages/_document.js",
   "/user/booking": "pages/user/booking.js",
   "/admin/assigned-booking": "pages/admin/assigned-booking.js",
-  "/chef/bookings": "pages/chef/bookings.js",
-  "/chef/applied-booking": "pages/chef/applied-booking.js"
+  "/chef/applied-booking": "pages/chef/applied-booking.js",
+  "/admin/bookings": "pages/admin/bookings.js"
 }

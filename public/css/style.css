@@ -3998,6 +3998,7 @@ td.booking-status-completed {
   background: rgba(58, 140, 18, 0.1);
   border-radius: 68px;
   color:#3A8C12;
+  font-weight: 500;
 }
 
 td.booking-status-pending {
@@ -4009,6 +4010,7 @@ td.booking-status-pending {
   color: #866213;
   background: rgba(134, 98, 19, 0.1);
   border-radius: 68px;
+  font-weight: 500;
 }
 
 td.booking-status-upcoming {
@@ -4020,6 +4022,7 @@ td.booking-status-upcoming {
   color: #CE910D;
   background: rgba(206, 145, 13, 0.1);
   border-radius: 68px;
+  font-weight: 500;
 }
 td.booking-status-cancelled {
   display: flex;
@@ -4030,4 +4033,5 @@ td.booking-status-cancelled {
   color: #222222;
   background-color: rgba(134, 98, 19, 0.1);
   border-radius: 68px;
+  font-weight: 500;
 }
