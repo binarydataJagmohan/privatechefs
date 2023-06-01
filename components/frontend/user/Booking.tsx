@@ -625,7 +625,7 @@ export default function Booking(props: any) {
                                 <td><p className="text-data-18">{formatDate(user.latest_created_at)}</p></td>
                                 <td><p className="text-data-18">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
                                 <td><p className="text-data-18">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
-                                <td><p className="text-data-18">{user.booking_status}</p></td>
+                                <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
                                 <td>
                                   <div className="dropdown" id="none-class">
                                     <a

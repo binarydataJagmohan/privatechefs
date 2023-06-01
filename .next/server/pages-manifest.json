@@ -2,8 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/user/booking": "pages/user/booking.js",
-  "/admin/assigned-booking": "pages/admin/assigned-booking.js",
-  "/chef/applied-booking": "pages/chef/applied-booking.js",
-  "/admin/bookings": "pages/admin/bookings.js"
+  "/admin/bookings": "pages/admin/bookings.js",
+  "/admin/dashboard": "pages/admin/dashboard.js"
 }

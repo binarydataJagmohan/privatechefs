@@ -25,25 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/assigned-booking": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/assigned-booking.js"
-    ],
     "/admin/bookings": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/admin/bookings.js"
     ],
-    "/chef/applied-booking": [
+    "/admin/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/applied-booking.js"
-    ],
-    "/user/booking": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/booking.js"
+      "static/chunks/pages/admin/dashboard.js"
     ]
   },
   "ampFirstPages": []
