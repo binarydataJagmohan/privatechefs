@@ -162,11 +162,7 @@ export default function UserProfile() {
 
     updateUsersImage(currentUserData.id, file)
       .then((res) => {
-        window.localStorage.setItem("name", res.data.name);
         window.localStorage.setItem("pic", res.data.pic);
-        window.localStorage.setItem("surname", res.data.surname);
-        window.localStorage.setItem("address", res.data.address);
-        window.localStorage.setItem("phone", res.data.phone);
         toast.success(res.message, {
           position: toast.POSITION.TOP_RIGHT,
         });

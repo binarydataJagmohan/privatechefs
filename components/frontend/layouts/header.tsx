@@ -605,7 +605,7 @@ export default function Header({ }) {
             </div>
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} autoComplinvoicesete="username" />
+              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur}  />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
 

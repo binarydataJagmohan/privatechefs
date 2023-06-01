@@ -1,5 +1,6 @@
 import React, { useState ,useEffect} from 'react'
 import { getAllergyDetails,getAllCuisine } from '../../../lib/adminapi';
+import {UpdateUserToOffiline } from '../../../lib/userapi'
 import { ToastContainer,toast } from 'react-toastify';
 import swal from "sweetalert";
 import "react-toastify/dist/ReactToastify.css";
@@ -178,9 +179,17 @@ export default function UserProfileThree() {
 }
 
 function handleLogout() {
-  removeToken();
-  removeStorageData();
-  window.location.href = "/";
+  UpdateUserToOffiline(currentUserData.id)
+  .then(res => {
+      if (res.status == true) {
+          removeToken();
+          removeStorageData();
+          window.location.href = '/';
+      } else {
+          console.log("error");
+      }
+  })
+ 
 }
 
     return(

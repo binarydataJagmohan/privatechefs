@@ -18,6 +18,7 @@ export default function Chefs() {
     pic: string;
     cuisine_name: string;
     profile_status: string;
+    approved_by_admin:string;
   }
   interface chefData {
     id: number;
@@ -301,10 +302,10 @@ export default function Chefs() {
                     </td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin"
-                        value={approvestatus} onChange={(e) => ApproveChefProfile(e, filter.id)}
+                        onChange={(e) => ApproveChefProfile(e, filter.id)}
                       >
-                        <option value='yes' >Approved</option>
-                        <option value='no' >Unapproved</option>
+                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
+                        <option value='no' selected={filter.approved_by_admin === 'yes'}>Unapproved</option>
                       </select>
                     </td>
 
