@@ -2,17 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/": "pages/index.js"
-=======
-  "/user/edit-booking/step1": "pages/user/edit-booking/step1.js",
-  "/user/edit-booking/step2": "pages/user/edit-booking/step2.js",
-  "/user/edit-booking/step3": "pages/user/edit-booking/step3.js",
-  "/user/edit-booking/step4": "pages/user/edit-booking/step4.js",
-  "/user/edit-booking/step5": "pages/user/edit-booking/step5.js",
-  "/user/edit-booking/step6": "pages/user/edit-booking/step6.js",
-  "/user/booking": "pages/user/booking.js",
   "/": "pages/index.js",
-  "/404": "pages/404.js"
->>>>>>> d237c1ef6e476a36b7bec57c5cc95ce4d8530fe0
+  "/404": "pages/404.js",
+  "/chef/dashboard": "pages/chef/dashboard.js"
 }

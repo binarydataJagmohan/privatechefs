@@ -1053,7 +1053,7 @@ display: none;
 /* Our chefs */
 
 ul#pills-tab {
-  justify-content: center;
+  justify-content: space-around;
 }
 ul#pills-tab .nav-link.active {
   background: var(--color_1) !important; 
@@ -3393,7 +3393,12 @@ div#test-img img {
   }
 }
 .chatactive {
-  background: #ff4e00;
+  background: rgba(186, 134, 57, 0.1);
+  display: block;
+  
+}
+.chatactive .chat_color {
+  color: var(--color_1) !important;
 }
 .user-class.pt-5 {
   display: flex;
@@ -3437,4 +3442,28 @@ div#chef-booking {
 }
 div#bookid {
   margin: 20px 0 0 0;
+}
+.chat_name {
+  position: absolute;
+  top: -30px;
+  left: 8px;
+}
+.chat_date {
+  position: absolute;
+  bottom: -28px;
+  left: 5px;
+}
+.small_font {
+    font-size: 10px;
+}
+.name_chat {
+  position: absolute;
+  bottom: 3px;
+  top: 40px;
+}
+.name_chat_two {
+  position: absolute;
+  bottom: 3px;
+  right: 10px;
+  top: 40px;
 }

@@ -3,7 +3,7 @@ import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import {getUserBookingId,deleteBooking } from "../../../lib/adminapi";
-import { getCurrentUserByBooking,getUserFilterByBooking,getUserChefOffer,ContactChefByUser } from "../../../lib/userapi";
+import { getCurrentUserByBooking,getUserFilterByBooking,getUserChefOffer,ContactChefByUser,UpdateUserToOffiline } from "../../../lib/userapi";
 
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
@@ -468,12 +468,22 @@ export default function Booking() {
           console.log(name);
         };
 
+        
+
         function handleLogout() {
-          removeToken();
-          removeStorageData();
-          window.location.href = "/";
-        }
-            
+          UpdateUserToOffiline(currentUserData.id)
+          .then(res => {
+              if (res.status == true) {
+                  removeToken();
+                  removeStorageData();
+                  window.location.href = '/';
+              } else {
+                  console.log("error");
+              }
+          })
+         
+      }
+  
 
     return(
         <>

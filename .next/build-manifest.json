@@ -20,6 +20,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
     ],
+    "/404": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/404.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -29,44 +34,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
-<<<<<<< HEAD
-=======
     ],
-    "/user/booking": [
+    "/chef/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/user/booking.js"
-    ],
-    "/user/edit-booking/step1": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step1.js"
-    ],
-    "/user/edit-booking/step2": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step2.js"
-    ],
-    "/user/edit-booking/step3": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step3.js"
-    ],
-    "/user/edit-booking/step4": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step4.js"
-    ],
-    "/user/edit-booking/step5": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step5.js"
-    ],
-    "/user/edit-booking/step6": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step6.js"
->>>>>>> d237c1ef6e476a36b7bec57c5cc95ce4d8530fe0
+      "static/chunks/pages/chef/dashboard.js"
     ]
   },
   "ampFirstPages": []

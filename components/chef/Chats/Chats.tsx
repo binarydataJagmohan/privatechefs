@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getChefMessageData,getClickChefUserChatData,ContactUserByChef } from "../../../lib/chefapi";
+import { getChefMessageData,getClickChefUserChatData,ContactUserByChef,ContactUserByChefWithShareFile } from "../../../lib/chefapi";
 import { ToastContainer, toast } from "react-toastify";
+import moment from 'moment';
+import { formatDistanceToNow } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 export default function Booking(props: any) {
   let id = props.UserId;
 
@@ -15,11 +18,21 @@ export default function Booking(props: any) {
 
   const [receiver_id, setCurrentChatReceiverid] = useState("");
 
+  const [receiver_name, setCurrentChatReceiverName] = useState("");
+
   const [message, setMessage] = useState("");
 
   const receiverIdRef = useRef(null);
 
   const BookingIdRef = useRef(null);
+
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+  const [activeChat, setActiveChat] = useState(-1);
+
+  const [activeButton, setActiveButton] = useState('desc');
+
+  const ChatSortBy = useRef('desc');
 
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
     id: "",
@@ -49,12 +62,17 @@ export default function Booking(props: any) {
     pic?: string;
     sender_name?: string;
     unreadcount?:string;
+    latest_message: string;
+    latest_created_at: string;
+     timezone: string;
+     latest_type?:string;
+     is_online?:string;
   }
 
   interface UserChatMessages {
     sender_id: number;
     receiver_id?: number;
-    sender_name?: string;
+    sender_name: string;
     receiver_name?: string;
     sender_pic?: string;
     receiver_pic?: string;
@@ -62,6 +80,8 @@ export default function Booking(props: any) {
     receiver_role?: string;
     message?: string;
     booking_id?: number;
+    chatdate?:string;
+    type?:string;
     
   }
 
@@ -97,10 +117,10 @@ export default function Booking(props: any) {
           message: message,
           sender_id: userData.id,
           receiver_id: receiverIdRef.current,
-          booking_id : BookingIdRef.current
+          booking_id : BookingIdRef.current,
+          sort :ChatSortBy.current
         };
     
-       
       
         getClickChefUserChatData(data)
             .then(res => {
@@ -108,6 +128,8 @@ export default function Booking(props: any) {
               
                 setChefChatMessage(res.userchatdata);
                 setChefChatSiderBar(res.userchatsider);
+                setCurrentChatReceiverName(res.userchatdata[0].sender_name);
+                // console.log(userchefmesage);
               } else {
                  
                 toast.error(res.message, {
@@ -129,6 +151,7 @@ export default function Booking(props: any) {
     }
 
   }, []);
+  
 
   const fetchUserMessageDetails = async (id: any) => {
     try {
@@ -140,10 +163,13 @@ export default function Booking(props: any) {
         setChefChatSiderBar(res.userchatsider);
         setChefChatMessage(res.userchatdata);
         setCurrentChatBookingId(res.booking_id);
+        setActiveChat(0);
         // setCurrentChatReceiverid(res.chefchatsidebar[0].receiver_id);
         setCurrentChatReceiverid(res.userchatsider[0].sender_id);
+        setCurrentChatReceiverName(res.userchatdata[0].sender_name);
         receiverIdRef.current = res.userchatsider[0].sender_id;
         BookingIdRef.current = res.booking_id;
+        setIsFormSubmitted(true);
       } else {
         // toast.error(res.message, {
         //   position: toast.POSITION.TOP_RIGHT,
@@ -177,12 +203,11 @@ export default function Booking(props: any) {
 		event.preventDefault();
 
     const newErrors: Errors = {};
+
     if (!message) {
-      newErrors.message = "Message cant be blank";
-    }
-
+      newErrors.message = "Message can't be blank";
+    } 
     setErrors(newErrors);
-
 
     if (Object.keys(newErrors).length === 0) {
    
@@ -199,8 +224,11 @@ export default function Booking(props: any) {
           if (res.status == true) {
             setMessage("");
             setChefChatMessage(res.userchatdata);
-            handleButtonClick(receiver_id,booking_id);
-            scrollToBottom();
+            handleButtonClick(0,receiver_id,booking_id);
+            setCurrentChatReceiverName(res.userchatdata[0].sender_name);
+            setIsFormSubmitted(true);
+            setActiveButton('desc');
+            ChatSortBy.current = 'desc';
           } else {
              
             toast.error(res.message, {
@@ -215,16 +243,20 @@ export default function Booking(props: any) {
 		
 	};
 
-  const handleButtonClick = (receiver_id:any,booking_id:any) => {
+  const handleButtonClick = (index: number,receiver_id:any,booking_id:any) => {
     setCurrentChatBookingId(booking_id);
     setCurrentChatReceiverid(receiver_id);
+    setActiveChat(index);
+    // alert(index)
     receiverIdRef.current = receiver_id;
     BookingIdRef.current = booking_id;
     const data = {
       message: message,
       sender_id: currentUserData.id,
       receiver_id: receiver_id,
-      booking_id : booking_id
+      booking_id : booking_id,
+      index:index,
+      sort :ChatSortBy.current
     };
 
 
@@ -234,7 +266,8 @@ export default function Booking(props: any) {
           
             setChefChatMessage(res.userchatdata);
             setChefChatSiderBar(res.userchatsider);
-            scrollToBottom();
+            setCurrentChatReceiverName(res.userchatdata[0].sender_name);
+            setIsFormSubmitted(true);
           } else {
              
             toast.error(res.message, {
@@ -255,11 +288,111 @@ export default function Booking(props: any) {
       userMessElement.scrollTop = userMessElement.scrollHeight - userMessElement.clientHeight;
     }
   };
- 
 
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [userchefmesage]);
+  useEffect(() => {
+    if (isFormSubmitted) {
+      scrollToBottom();
+      setIsFormSubmitted(false);
+    }
+  }, [isFormSubmitted]);
+ 
+  const formatDate = (value:any) => {
+    return moment(value).format('D/M/YYYY HH:mm');
+  }
+
+  const imageChange = async (e: any) => {
+    const file = e.target.files[0];
+  
+    console.log(file);
+  
+    // Check file type
+    const fileType = file.type;
+    let formData = new FormData();
+  
+    if (fileType.startsWith('image/')) {
+      // Image file
+      const allowedExtensions = ['jpg', 'jpeg', 'png'];
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      if (!allowedExtensions.includes(fileExtension)) {
+        // Invalid image extension
+        // console.log('Invalid image extension. Allowed extensions are: jpg, jpeg, png');
+        toast.info('Invalid image extension. Allowed extensions are: jpg, jpeg, png', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        return;
+      }
+      if (file.size > 200 * 1024) {
+        // Image size exceeds 200KB
+        console.log('Image size should be less than or equal to 200KB');
+        toast.info('Image size should be less than or equal to 200KB', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        return;
+      }
+      formData.append('type', 'image');
+    } else if (fileType === 'application/pdf') {
+      // PDF file
+      if (file.size > 1024 * 1024) {
+        // PDF size exceeds 1MB
+        // console.log('PDF size should be less than or equal to 1MB');
+        toast.info('PDF size should be less than or equal to 1MB', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        return;
+      }
+      formData.append('type', 'pdf');
+    } else if (fileType === 'video/mp4') {
+      // MP4 video file
+      if (file.size >2* 1024 * 1024) {
+        // Video size exceeds 1MB
+        console.log('Video size should be less than or equal to 1MB');
+        toast.info('Video size should be less than or equal to 2MB', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        return;
+      }
+      formData.append('type', 'video');
+    } else {
+      // Invalid file type
+      // console.log('Invalid file type');
+      toast.info('Invalid file type', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+      return;
+    }
+  
+    formData.append('data', file);
+    formData.append('sender_id', currentUserData.id);
+    formData.append('receiver_id', receiver_id);
+    formData.append('booking_id', booking_id);
+  
+    ContactUserByChefWithShareFile(formData)
+      .then(res => {
+        if (res.status === true) {
+          setMessage('');
+          setChefChatMessage(res.userchatdata);
+          handleButtonClick(0,receiver_id,booking_id);
+          setIsFormSubmitted(true);
+          setActiveButton('desc');
+          ChatSortBy.current = 'desc';
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleFilterButtonClick = (buttonName:any) => {
+    setActiveButton(buttonName);
+    ChatSortBy.current = buttonName;
+    // handleButtonClick(0,receiver_id,booking_id);
+    // Additional logic or actions you want to perform
+  };
+
 
   return (
     <>
@@ -276,67 +409,109 @@ export default function Booking(props: any) {
                     <div className="users-all">
                       <div className="chats-btns mt-4">
                      
-                      <ul className="table_header_button_section p-r ">
-                          <li>
-                            <button className="table-btn  ">All</button>
-                          </li>
-                          <li>
-                            <button className="table-btn btn-2 ">read </button>
-                          </li>
-                          <li>
-                            <button className="table-btn btn-2 ">Unread</button>
-                          </li>
-                          {/* <li className="right-li">
-                            <i className="fa-solid fa-plus"></i>
-                          </li> */}
-                        </ul> 
+                      <ul className="table_header_button_section p-r">
+                        <li>
+                          <button
+                            className={`${activeButton === 'desc' ? 'table-btn' : 'table-btn btn-2'}`}
+                            onClick={() => handleFilterButtonClick('desc')}
+                          >
+                            Recent
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className={`${activeButton === 'asc' ? 'table-btn' : 'table-btn btn-2'}`}
+                            onClick={() => handleFilterButtonClick('asc')}
+                          >
+                            Oldest
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className={`${activeButton === 'unread' ? 'table-btn' : 'table-btn btn-2'}`}
+                            onClick={() => handleFilterButtonClick('unread')}
+                          >
+                            Unread
+                          </button>
+                        </li>
+                      </ul>
                       </div>
                       <div className="chats-h">
                         <div className="chats-user-profile mt-1">
                          
-                            {chefchatsidebar.length > 0 ? (
-                              chefchatsidebar.map((message,index) => (
-                                <a href="#" className="chats-user-a"  onClick={() => handleButtonClick(message.sender_id,message.booking_id)} key={index}>
-                                <div className={`row p-2 ${receiver_id == message.sender_id ? 'chatactive' : ''}`} >
-                                  <div className="col-lg-3 col-md-3 col-3 pr-0">
-                                   
-                                      {message.pic == null ? <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                        alt="chats-user"
-                                      /> : <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.pic}
-                                      alt="chats-user"
-                                    />}
-                                      
+                        {
+                                chefchatsidebar.length > 0 ? (
+                                  chefchatsidebar.map((message, index: number) => {
+                                    // Convert the latest_created_at to the specified time zone
+                                    const formattedDate = zonedTimeToUtc(new Date(message.latest_created_at), message.timezone);
 
-                                      {/* <i className="fa-solid fa-circle chats-circle"></i> */}
-                                   
-                                  </div>
-                                  
-                                  <div className="col-lg-7 col-md-7 col-7">
-                                    <div className="user-profile-chats mt-1">
-                                     
+                                    return (
+                                      <a href="#" className={`chats-user-a ${activeChat === index ? 'chatactive' : ''}`} onClick={() => handleButtonClick(index, message.sender_id, message.booking_id)} key={index}>
+                                        <div className="row p-2">
+                                          <div className="col-lg-3 col-md-3 col-3 pr-0">
+                                            {message.pic == null ? (
+                                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="chats-user" />
+                                            ) : (
+                                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.pic} alt="chats-user" />
+                                            )}
+                                            {message.is_online == 'yes' && ( <i className="fa-solid fa-circle chats-circle"></i>)}
+                                          </div>
+                                          <div className="col-lg-9 col-md-7 col-7">
+                                            <div className="user-profile-chats mt-1">
+                                              <h5 className={`chat_color position-relative ${activeChat === index ? 'text-white' : ''}`}>
+                                              {message.sender_name && message.sender_name.length > 25 ? `${message.sender_name.slice(0, 25)}...` : message.sender_name}
+                                                {Number(message.unreadcount) > 0 && (
+                                                  <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
+                                                    {message.unreadcount}
+                                                  </span>
+                                                )}
+                                              </h5>
+                                              
 
-                                      <h5 className={`position-relative ${receiver_id == message.sender_id ? 'text-white' : ''}`}>{message.sender_name}{Number(message.unreadcount) > 0 && (
-                                            <span className={`badge text-danger position-absolute mx-2 ${receiver_id == message.sender_id ? 'bg-white' : 'chatactive text-white'}`}>
-                                              {message.unreadcount}
-                                            </span>
-                                          )}
 
-                                      </h5>
-                                      
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-2 col-md-2 col-2 text-right">
-                                   
-                                    <p className={`f-12 mt-3 ${receiver_id == message.sender_id ? 'text-white' : ''}`}>22m</p>
-                                  </div>
-                                  </div>
-                                  </a>
-                              ))
-                            ) : (
-                              <p>No messages found.</p>
-                            )}
+                                            {message.latest_type == 'image' && <div className="image_sider_bar d-flex align-items-center"> <img
+                                                src={process.env.NEXT_PUBLIC_BASE_URL + '/images/small_image.png'}
+                                                className="sidebar_chat_border rounded"
+                                                width={30} height={30}
+                                                alt="chats-user"
+                                              /><span className="small_font mx-2 text-secondary">image</span></div>}
+
+                                            {message.latest_type == 'pdf' && <div className="image_sider_bar d-flex align-items-center"> <img
+                                                src={process.env.NEXT_PUBLIC_BASE_URL + '/images/small_pdf.png'}
+                                                className="sidebar_chat_border rounded"
+                                                width={30} height={30}
+                                                alt="chats-user"
+                                              /><span className="small_font mx-2 text-secondary">Pdf</span></div>}
+
+                                            {message.latest_type == 'video' && <div className="image_sider_bar d-flex align-items-center"> <img
+                                                src={process.env.NEXT_PUBLIC_BASE_URL + '/images/small_video.png'}
+                                                className="sidebar_chat_border rounded"
+                                                width={30} height={30}
+                                                alt="chats-user"
+                                              /><span className="small_font mx-2 text-secondary">video</span></div>}
+
+                                            {message.latest_type !== 'image' && message.latest_type !== 'pdf' && message.latest_type !== 'video' && (
+                                                <p className="chat_color mb-0">
+                                                  {message.latest_message.length > 40 ? `${message.latest_message.slice(0, 40)}...` : message.latest_message}
+                                                </p>
+                                              )}
+
+
+                                            </div>
+                                            <p className={`chat_color f-12 ${activeChat === index ? 'text-white' : ''}`}>
+                                              {formatDistanceToNow(formattedDate, { addSuffix: true })}
+                                            </p>
+                                          </div>
+                                          
+                                        </div>
+                                      </a>
+                                    );
+                                  })
+                                ) : (
+                                  <p>No messages found.</p>
+                                )
+                              }
+
                          
                         </div>
                       </div>
@@ -370,23 +545,77 @@ export default function Booking(props: any) {
                                   
                                 {message.sender_role == 'user' && (
                                   <li className="reply">
-                                     {message.receiver_pic == null ? <img
+                                     {message.sender_pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
                                         alt="chats-user"
                                       /> : <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.receiver_pic}
+                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.sender_pic}
                                       alt="chats-user"
                                     />}
-                                    <span className="bg-f1">
-                                      {message.message}
-                                    </span>
+                                     <span className="bg-f1">
+                                    {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message} target="_blank" rel="noopener noreferrer">  <img
+                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message}
+                                        className="chat_shared_image"
+                                        width={128} height={128}
+                                        alt="chats-user"
+                                      /></a>}
+                                    {message.type === 'pdf' && (
+                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/pdf/'+message.message} target="_blank" rel="noopener noreferrer">  <img
+                                      src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
+                                      className="chat_shared_image"
+                                      alt="chats-user"
+                                    /></a>
+                                    )}
+                                    {message.type === 'video' && (
+                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
+                                        <video className="chat_shared_video" controls width={150} height={150}>
+                                          <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
+                                          Your browser does not support the video tag.
+                                        </video>
+                                      </a>
+                                    )}
+                                    {message.type !== 'image' && message.type !== 'pdf' && message.type !== 'video' && message.message}
+
+                                    <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
+                                    </span>{" "}
+                                    <div className="mt-2 small_font name_chat">
+                                      {message && message.sender_name && message.sender_name.length > 8 ? (
+                                        message.sender_name.substring(0, 8) + ''
+                                      ) : (
+                                        message && message.sender_name
+                                      )}
+                                    </div>
                                   </li> )}
                                   
                                   {message.sender_role == 'chef' && (
                                   <li className="reply-two">
-                                    {" "}
-                                    <span className="bg-f1">
-                                    {message.message}
+                                   <span className="bg-f1">
+                                    {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message} target="_blank" rel="noopener noreferrer">  <img
+                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message}
+                                        className="chat_shared_image"
+                                        width={150} height={150}
+                                        alt="chats-user"
+                                      /></a>}
+                                    {message.type === 'pdf' && (
+                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/pdf/'+message.message} target="_blank" rel="noopener noreferrer">  <img
+                                      src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
+                                      className="chat_shared_image"
+                                      alt="chats-user"
+                                    /></a>
+                                    )}
+                                    {message.type === 'video' && (
+                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
+                                        <video className="chat_shared_video" controls width={150} height={150}>
+                                          <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
+                                          Your browser does not support the video tag.
+                                        </video>
+                                      </a>
+                                    )}
+
+                                    
+                                    {message.type !== 'image' && message.type !== 'pdf' && message.type !== 'video' && message.message}
+
+                                    <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
                                     </span>{" "}
                                     {message.sender_pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
@@ -395,6 +624,7 @@ export default function Booking(props: any) {
                                       src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.sender_pic}
                                       alt="chats-user"
                                     />}
+                                    <div className="mt-2 small_font name_chat_two">You</div>
                                   </li>
                                   )}
                             </React.Fragment>
@@ -421,16 +651,164 @@ export default function Booking(props: any) {
                               <div className="send-part">
                                <button type="submit" className="chat_msg_send">
                                   <i className="fa-solid fa-paper-plane"></i>
+                                  
                                 </button>
-                               
+                                <label className="mx-2"> <input
+                                    type="file"
+                                    name="image"
+                                    id="uploadfile"
+                                    className="d-none"
+                                    onChange={imageChange}
+                                  /> <i className="fa-solid fa-paperclip" style={{color:'#ff4e00'}} role="button"></i>
+                                  </label>
+                                 </div>
+                                
                               </div>
-                            </div>
                           </div>
                           </form>
                         </div>
                         )}
                       </div>
                     </div>
+                    <div className="users-groups">
+                    
+                      <ul className="nav nav-pills mt-3 mb-3" id="pills-tab" role="tablist">
+                        <li className="nav-item" role="presentation">
+                          <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Chat Members</button>
+                        </li>
+                        <li className="nav-item" role="presentation">
+                          <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"> Shared file</button>
+                        </li> 
+                        </ul>
+                        <div className="tab-content" id="pills-tabContent">
+                        <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div className="sp-4">
+                        
+                        {
+                          userchefmesage.slice(0, 1).map((message, index) => (
+                            <React.Fragment key={index}>
+                              {message.sender_role == 'user' && (
+                              <p className="g-text">
+                                  {message.sender_pic == null ? <img
+                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
+                                        alt="chats-user"
+                                      /> : <img
+                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.sender_pic}
+                                      alt="chats-user"
+                                    />}
+                                <span>{message.sender_name && message.sender_name.length > 25 ? `${message.sender_name.slice(0, 25)}...` : message.sender_name}</span>
+                              </p>
+                              )}
+                            {message.receiver_role == 'chef' && (
+                              <p className="g-text">
+                                {message.receiver_pic == null ? <img
+                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
+                                        alt="chats-user"
+                                      /> : <img
+                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.receiver_pic}
+                                      alt="chats-user"
+                                    />}
+
+                                <span>{message.receiver_name && message.receiver_name.length > 25 ? `${message.receiver_name.slice(0, 25)}...` : message.receiver_name}</span>
+                              </p>
+                              )}
+                            </React.Fragment>
+                          ))
+                        }
+  
+                        </div>
+                        
+                        </div>
+                        <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div className="sp-4 tab_share_file">
+                          <ul className="user-mess" id="asd">
+                          {
+                              userchefmesage.some((message) => message.type !== null) ? (
+                                <>
+                                  {userchefmesage
+                                    .filter((message) => message.type !== null && message.chatdate)
+                                    .sort((a, b) => {
+                                      const dateA = new Date(a.chatdate as string);
+                                      const dateB = new Date(b.chatdate as string );
+                                      return dateB.getTime() - dateA.getTime();
+                                    })
+                                    .map((message, index) => (
+                                      <React.Fragment key={index}>
+                                        <li className="reply new_reply_msg d-flex align-items-center">
+                                          <span>
+                                            {message.type === 'image' && (
+                                              <a
+                                                href={
+                                                  process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                  '/images/chat/images/' +
+                                                  message.message
+                                                }
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                              >
+                                                <img
+                                                  src={
+                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                    '/images/chat/images/' +
+                                                    message.message
+                                                  }
+                                                  className="chat_shared_image"
+                                                  width={128}
+                                                  height={128}
+                                                  alt="chats-user"
+                                                />
+                                              </a>
+                                            )}
+                                            {message.type === 'pdf' && (
+                                              <a
+                                                href={
+                                                  process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                  '/images/chat/pdf/' +
+                                                  message.message
+                                                }
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                              >
+                                                <img
+                                                  src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
+                                                  className="chat_shared_image"
+                                                  alt="chats-user"
+                                                />
+                                              </a>
+                                            )}
+                                            {message.type === 'video' && (
+                                              <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
+                                                <video className="chat_shared_video" controls width={150} height={150}>
+                                                  <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
+                                                  Your browser does not support the video tag.
+                                                </video>
+                                              </a>
+                                            )}
+                                          </span>
+
+                                          <span className="mx-2 small_font">
+                                          {message.sender_role === 'user' && (message.sender_name.length <= 10 ? message.sender_name : message.sender_name.substring(0, 10) + '...')}
+                                          {message.receiver_role === 'user' && (message.sender_name.length <= 10 ? message.sender_name : message.sender_name.substring(0, 10) + '...')}
+                                            <div className="mt-2 small_font">{formatDate(new Date(message.chatdate as string))}</div>
+                                          </span>
+                                        </li>
+                                      </React.Fragment>
+                                    ))}
+                                  {userchefmesage.filter((message) => message.type !== null && message.chatdate).length === 0 && (
+                                    <p>No data found.</p>
+                                  )}
+                                </>
+                              ) : (
+                                <p>No data found.</p>
+                              )
+                            }
+
+
+                          </ul>
+                        </div>
+                        </div> 
+                        </div>							
+                      </div>
                   </div>
                 </div>
               </div>
@@ -438,6 +816,7 @@ export default function Booking(props: any) {
           </div>
         </div>
       </section>
+      <ToastContainer/>
     </>
   );
 }

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
 import { info } from 'console';
 import swal from "sweetalert";
-import { getSingleUserProfile } from "../../../lib/userapi"
+import { getSingleUserProfile,UpdateUserToOffiline } from "../../../lib/userapi"
 
 export default function Sidebar(): JSX.Element {
 
@@ -83,9 +83,17 @@ export default function Sidebar(): JSX.Element {
     };
 
     function handleLogout() {
-        removeToken();
-        removeStorageData();
-        window.location.href = '/';
+        UpdateUserToOffiline(userData.id)
+        .then(res => {
+            if (res.status == true) {
+                removeToken();
+                removeStorageData();
+                window.location.href = '/';
+            } else {
+                console.log("error");
+            }
+        })
+       
     }
 
     function AdminApprovalInfoAlert() {
@@ -308,7 +316,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Chats</span>
                         </div>
                     </a>
-                    <a onClick={handleLogout} data-toggle="collapse" aria-expanded="false" role="button" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a onClick={handleLogout} data-toggle="collapse" aria-expanded="false" role="button" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start ' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>
                             <span className="menu-collapsed">Logout</span>
