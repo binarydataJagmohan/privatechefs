@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { login, register, forgetPassword } from '../../../lib/frontendapi';
 import { removeToken, removeStorageData, getCurrentUserData, removeBookingData } from "../../../lib/session";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
+import { UpdateUserToOffiline } from "../../../lib/userapi"
 export default function Header({ }) {
 
   interface Errors {
@@ -34,6 +35,7 @@ export default function Header({ }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [current_user_id, setCurrentUserId] = useState(false);
+  const [user_id, setUserId] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const userrole = 'admin';
   const [activeTab, setActiveTab] = useState("");
@@ -58,6 +60,7 @@ export default function Header({ }) {
     const user: User = getCurrentUserData() as User;
     if (user.id != null) {
       setCurrentUserId(true);
+      setUserId(user.id);
 
     }
   };
@@ -100,14 +103,21 @@ export default function Header({ }) {
   };
 
   function handleLogout() {
-    removeToken();
-    removeStorageData();
-    removeBookingData();
-    window.location.href = '/';
-    setIsAuthenticated(false);
-    setRole("");
-
-  }
+    UpdateUserToOffiline(user_id)
+    .then(res => {
+        if (res.status == true) {
+          removeToken();
+          removeStorageData();
+          removeBookingData();
+          window.location.href = '/';
+          setIsAuthenticated(false);
+          setRole("");
+        } else {
+            console.log("error");
+        }
+    })
+   
+}
 
   //login submit start
 
@@ -595,7 +605,7 @@ export default function Header({ }) {
             </div>
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} autoComplinvoicesete="username" />
+              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur}  />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
 

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { getAllChefDetails } from '../../../lib/adminapi';
 import { toast } from 'react-toastify';
 import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
+import { UpdateUserToOffiline } from "../../../lib/userapi"
 
 export default function Sidebar(): JSX.Element {
     const router = useRouter();
@@ -17,12 +18,20 @@ export default function Sidebar(): JSX.Element {
     setCurrentUserData(userData);
   };
 
+  
   function handleLogout() {
-    removeToken();
-    removeStorageData();
-    window.location.href = '/';
-  }
+    UpdateUserToOffiline(currentUserData.id)
+    .then(res => {
+        if (res.status == true) {
+            removeToken();
+            removeStorageData();
+            window.location.href = '/';
+        } else {
+            console.log("error");
+        }
+    })
    
+    }
     return (
         <>
             <div id="sidebar-container" className="sidebar-expanded  mobile-view d-md-block">

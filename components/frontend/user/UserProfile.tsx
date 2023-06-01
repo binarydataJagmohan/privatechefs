@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateUserProfile, getSingleUserProfile, updateUsersImage } from '../../../lib/userapi'
+import { updateUserProfile, getSingleUserProfile, updateUsersImage,UpdateUserToOffiline } from '../../../lib/userapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken, removeStorageData } from "../../../lib/session";
@@ -277,11 +277,18 @@ export default function UserProfile() {
   };
 
   function handleLogout() {
-    removeToken();
-    removeStorageData();
-    window.location.href = "/";
+    UpdateUserToOffiline(currentUserData.id)
+    .then(res => {
+        if (res.status == true) {
+            removeToken();
+            removeStorageData();
+            window.location.href = '/';
+        } else {
+            console.log("error");
+        }
+    })
+   
   }
-
   return (
     <>
       <section className="userprofile-part">

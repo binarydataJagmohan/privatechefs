@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, deleteBooking } from "../../../lib/adminapi";
-import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUser } from "../../../lib/userapi";
+import { getCurrentUserByBooking,getUserFilterByBooking,getUserChefOffer,ContactChefByUser,UpdateUserToOffiline } from "../../../lib/userapi";
 import { getSingleChefMenu } from "../../../lib/chefapi";
-
+import { getUserBookingId, deleteBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -246,7 +245,7 @@ export default function Booking(props: any) {
 
   const getSingleBookingUser = (e: any, id: any) => {
     e.preventDefault();
-    getUserBookingId(id).then((res) => {
+    getUserBookingId(id).then((res:any) => {
       //   console.log(res.booking[0]);
       setBooking(res.booking[0]);
       setChefOffer(res.chefoffer);
@@ -497,11 +496,18 @@ export default function Booking(props: any) {
   };
 
   function handleLogout() {
-    removeToken();
-    removeStorageData();
-    window.location.href = "/";
+    UpdateUserToOffiline(currentUserData.id)
+    .then(res => {
+        if (res.status == true) {
+            removeToken();
+            removeStorageData();
+            window.location.href = '/';
+        } else {
+            console.log("error");
+        }
+    })
+   
   }
-
 
   return (
     <>
