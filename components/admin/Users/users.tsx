@@ -25,7 +25,7 @@ export default function Users() {
     }, [])
 
     const getUserData = () => {
-        const data = isPageVisibleToRole('users');
+        const data = isPageVisibleToRole('admin-users');
         if (data == 2) {
             window.location.href = '/';
         }

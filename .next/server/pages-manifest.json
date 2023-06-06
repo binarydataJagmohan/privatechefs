@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/bookings": "pages/admin/bookings.js"
+  "/chef/dashboard": "pages/chef/dashboard.js",
+  "/concierge/chefs": "pages/concierge/chefs.js",
+  "/concierge/assigned-booking": "pages/concierge/assigned-booking.js"
 }

@@ -87,12 +87,14 @@ export default function Booking(props: any) {
   interface ChefAppliedOffer {
     amount?: string;
     chef_id?: string;
-    address?: string;
+    location?: string;
     menu_names?: string;
     name?: string;
     surname?: string;
     booking_id?: string;
     menu_id?: string;
+    userName?:string;
+    userSurname?:string;
   }
 
   const [bookingUsers, setBookingUser] = useState([]);
@@ -612,7 +614,7 @@ export default function Booking(props: any) {
                             <th scope="col">Date Requested</th>
                             <th scope="col">Booking Date</th>
                             <th scope="col">Category</th>
-                            <th scope="col">Status</th>
+                            {/* <th scope="col">Status</th> */}
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
@@ -631,7 +633,7 @@ export default function Booking(props: any) {
                                 <td><p className="text-data-18">{formatDate(user.latest_created_at)}</p></td>
                                 <td><p className="text-data-18">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
                                 <td><p className="text-data-18">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
-                                <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
+                                {/* <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td> */}
                                 <td>
                                   <div className="dropdown" id="none-class">
                                     <a
@@ -977,8 +979,8 @@ export default function Booking(props: any) {
                       <th scope="row">
                         {index + 1}
                       </th>
-                      <td><p className="text-left">{chef.name} {chef.surname}</p></td>
-                      <td>{chef.address}</td>
+                      <td><p className="text-left">{chef.userName} {chef.userSurname}</p></td>
+                      <td>{chef.location}</td>
                       <td>
                         {chef.menu_names?.split(",").map((menu, index) => (
                           <button className="table-btn btn-2 list-btn mb-1" key={index} onClick={() => getSingleChefMenuData(chef.menu_id)}>

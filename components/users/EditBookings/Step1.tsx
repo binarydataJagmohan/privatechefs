@@ -13,6 +13,14 @@ export default function Step1() {
   const [mutipletimedate, setMutipleTimeDate] = useState<Date[]>([]);
   const [servicetype, setSeriveType] = useState('onetime');
 
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const formattedDate = currentDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
   const handleOneTimeDateChange = (selectedDates: Date[], instance: any) => {
     const date = selectedDates[0];
     setOneTimeDate(date);
@@ -390,6 +398,7 @@ export default function Step1() {
                                             mode: "range",
                                             defaultDate: "today" // Set default date to today
                                           }}
+                                          placeholder={formattedDate}
                                         />
                                       </div>
                                     </div>

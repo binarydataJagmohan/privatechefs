@@ -346,6 +346,11 @@ export default function Dish() {
   //   fetchDishCategoryDataById(dishcategoryid)
   // };
 
+  const resetFields = () => {
+		setDishName('');
+		setDishcategory('');
+	}
+
 
   return (
     <>
@@ -373,6 +378,7 @@ export default function Dish() {
             <button className="table-btn" onClick={() => {
               setDishId('');
               setModalConfirm(true);
+              resetFields();
             }}>
               Add Dish
             </button>
@@ -424,7 +430,7 @@ export default function Dish() {
                       <tr key={index} style={{ border: 'none' }} id={`singledish_${dish.id}`}>
 
                         <td>{dish.item_name}</td>
-                        <td className="text-end add-icon-class">
+                        <td className="text-end add-icon-class" id="icons">
                           <i
                             className="fa-solid fa-pencil"
                             role='button'

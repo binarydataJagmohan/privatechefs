@@ -58,7 +58,7 @@ export default function Villas() {
 	}, []);
 
 	const getUserData = async () => {
-		const data = isPageVisibleToRole('villas');
+		const data = isPageVisibleToRole('admin-villas');
 		if (data == 2) {
 			window.location.href = '/';
 		}

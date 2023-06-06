@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateLocationStatus, SaveChefLocation, getChefLocation, UpdateChefLocation, getSingleLocation, deleteSingleLocation, updateChefImage } from '../../../lib/chefapi'
+import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateLocationStatus, SaveChefLocation, getChefLocation, UpdateChefLocation, getSingleLocation, deleteSingleLocation, updateChefImage,getCurrentLocation} from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
@@ -87,6 +87,7 @@ export default function MyProfile() {
 	const [getsingledata, setGetSingleData]: any = useState([]);
 	const [totalMenu, setTotalMenu]: any = useState({});
 	const [getsinglelocation, setGetSingleLocation] = useState<Location[]>([]);
+	const [currentlocation, setCurrentLocation] = useState({});
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 5;
 
@@ -273,6 +274,7 @@ export default function MyProfile() {
 				toast.success(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
 				});
+				window.location.reload();
 			})
 			.catch(error => {
 				console.error(error);
@@ -281,7 +283,6 @@ export default function MyProfile() {
 				});
 			});
 	};
-
 
 	const saveLocation = async (e: any) => {
 		e.preventDefault();
@@ -297,7 +298,7 @@ export default function MyProfile() {
 		SaveChefLocation(data)
 			.then(res => {
 				if (res.status == true) {
-					console.log(res.status);
+					console.log(res.data);
 					getChefLocationData(user_id);
 					setModalConfirm(false);
 					setButtonState(false);
@@ -411,6 +412,7 @@ export default function MyProfile() {
 			setupAddressAutocomplete('address-input');
 			setupAddressAutocomplete('address-input1');
 			setupAddressAutocomplete('address-input2');
+			
 		}).catch((error) => {
 			console.error('Failed to load Google Maps API', error);
 		});
@@ -432,6 +434,7 @@ export default function MyProfile() {
 			getChefDetailData(userData.id);
 			getChefResumeData(userData.id);
 			getChefLocationData(userData.id);
+			getCurrentLocationData(userData.id);
 		}
 	}
 	const getLocation = async (id: any) => {
@@ -566,6 +569,52 @@ export default function MyProfile() {
 	};
 
 	// let googleMapsApiLoaded = false;
+
+	const getCurrentLocationData = async (id: any) => {
+		getCurrentLocation(id)
+			.then(res => {
+				setButtonState(false);
+				if (res.status == true) {
+					setCurrentLocation(res.data.address);
+					console.log(res.data.address);
+
+					const loader = new Loader({
+						apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
+						version: "weekly",
+						libraries: ["places"]
+					});
+					loader.load().then(() => {
+						if (res.data && res.data.length > 0) {
+							const firstData = res.data[0];
+							if (mapRef.current) {
+								const map = new google.maps.Map(mapRef.current, {
+									center: { lat: parseFloat(res.data[0].lat), lng: parseFloat(res.data[0].lng) },
+									zoom: 12,
+								});
+
+								const marker = new google.maps.Marker({
+									position: { lat: parseFloat(res.data[0].lat), lng: parseFloat(res.data[0].lng) },
+									map: map,
+									title: res.data[0].address,
+								});
+								//console.log(res.data[0].address);
+							}
+						} else {
+							// handle case where res.data is undefined or empty
+						}
+					});
+				} else {
+					setButtonState(false);
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}
+
 
 	const getChefLocationData = async (id: any) => {
 		getChefLocation(id)

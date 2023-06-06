@@ -6,7 +6,7 @@ export default function Dashboard() {
 
 	interface User {
 		id: number;
-		name:string;
+		name: string;
 	}
 
 	const [bookingcount, setBookingCount] = useState();

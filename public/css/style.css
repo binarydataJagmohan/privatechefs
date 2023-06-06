@@ -2954,7 +2954,7 @@ input:checked+.slider:before {
   box-shadow: 0px 3px 11px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
   padding: 20px;
-  height: 92%;
+  height: 300px;
 }
 
 .menu-name p {
@@ -3935,8 +3935,9 @@ div#test-img img {
 .chatactive {
   background: rgba(186, 134, 57, 0.1);
   display: block;
-  
+
 }
+
 .chatactive .chat_color {
   color: var(--color_1) !important;
 }
@@ -3993,30 +3994,36 @@ div#chef-booking {
 div#bookid {
   margin: 20px 0 0 0;
 }
+
 .chat_name {
   position: absolute;
   top: -30px;
   left: 8px;
 }
+
 .chat_date {
   position: absolute;
   bottom: -28px;
   left: 5px;
 }
+
 .small_font {
-    font-size: 10px;
+  font-size: 10px;
 }
+
 .name_chat {
   position: absolute;
   bottom: 3px;
   top: 40px;
 }
+
 .name_chat_two {
   position: absolute;
   bottom: 3px;
   right: 10px;
   top: 40px;
 }
+
 td.booking-status-completed {
   display: flex;
   flex-direction: row;
@@ -4025,7 +4032,7 @@ td.booking-status-completed {
   gap: 10px;
   background: rgba(58, 140, 18, 0.1);
   border-radius: 68px;
-  color:#3A8C12;
+  color: #3A8C12;
   font-weight: 500;
 }
 
@@ -4052,6 +4059,7 @@ td.booking-status-upcoming {
   border-radius: 68px;
   font-weight: 500;
 }
+
 td.booking-status-cancelled {
   display: flex;
   flex-direction: row;
@@ -4062,4 +4070,28 @@ td.booking-status-cancelled {
   background-color: rgba(134, 98, 19, 0.1);
   border-radius: 68px;
   font-weight: 500;
+}
+
+.form-control:focus {
+  border-color: unset;
+  color: unset;
+  background-color:unset;
+  outline: 0;
+  box-shadow:unset;
+}
+td#icons i.fa-solid.fa-pencil {
+  margin-right: 10px;
+}
+#user_booking .react-tel-input .form-control {
+  height: 40px !important;
+  width: 100% !important;
+}
+div#user_booking input{
+  height: 40px;
+  font-size: 12px;
+}
+li.right-lii {
+  position: absolute;
+  top: 0;
+  right: 97px;
 }
