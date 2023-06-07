@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getReceipt } from '../../../lib/adminapi'
+import { getReceipt, getSingleReceiptAdmin } from '../../../lib/adminapi'
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
@@ -58,30 +58,42 @@ export default function Receipts() {
 				<h2>Receipts</h2>
 				<button className="table-btn">Total</button>
 				<div className="table-box">
-					<table className="table table-borderless">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Order ID</th>
-								<th scope="col">Amount</th>
-								{/* <th scope="col">Payment Details</th>
+					{getreceipt.length > 0 ?
+						<table className="table table-borderless">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Recipient Name</th>
+									<th scope="col">Chef Name</th>
+									<th scope="col">Order Date</th>
+									<th scope="col">Order ID</th>
+									<th scope="col">Amount</th>
+									{/* <th scope="col">Payment Details</th>
 								<th scope="col">Payment Details</th> */}
-								<th scope="col">Order Date</th>
-								<th scope="col">Payment Date</th>
-							</tr>
-						</thead>
-						<tbody>
-							{Array.isArray(getreceipt) && getreceipt.map((receipt, index) => (
-								<tr key={index}>
-									<td>{index + 1}</td>
-									<td>#{receipt.booking_id}</td>
-									<td>{receipt.amount}</td>
-									<td>{receipt.order_date ? new Date(receipt.order_date).toLocaleDateString() : ''}</td>
-									<td>{new Date(receipt.booking_date).toLocaleDateString()}</td>
+									<th scope="col">Action</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{Array.isArray(getreceipt) && getreceipt.map((receipt, index) => (
+									<tr key={index}>
+										<td>{index + 1}</td>
+										<td>{receipt.username}</td>
+										<td>{receipt.chefname}</td>
+										<td>{receipt.order_date ? new Date(receipt.order_date).toLocaleDateString() : ''}</td>
+										<td>#{receipt.booking_id}</td>
+										<td>{receipt.amount}</td>
+										{/* <td>{new Date(receipt.booking_date).toLocaleDateString()}</td> */}
+										<td style={{ paddingLeft: "25px" }}>
+											<a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/receipts/' + receipt.id}>
+												<i className="fa fa-eye" aria-hidden="true"></i></a>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+						:
+						<p className='text-center'>No Records Found</p>
+					}
 				</div>
 			</div>
 		</>

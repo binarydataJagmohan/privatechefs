@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking } from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefFilterByBooking, deleteBooking } from "../../../lib/adminapi";
+import { getConciergeChefByBooking} from "../../../lib/concierge";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -136,7 +137,7 @@ export default function Bookings() {
 		}
 		if (data == 1) {
 			const userData = getCurrentUserData() as CurrentUserData;
-			fetchBookingAdminDetails();
+			fetchBookingAdminDetails(userData.id);
 			setCurrentUserData({
 				...userData,
 				id: userData.id,
@@ -152,9 +153,10 @@ export default function Bookings() {
 
 	}, []);
 
-	const fetchBookingAdminDetails = async () => {
+	const fetchBookingAdminDetails = async (id:any) => {
 		try {
-			const res = await getAdminChefByBooking();
+			const userData = getCurrentUserData() as CurrentUserData;
+			const res = await getConciergeChefByBooking(userData.id);
 			if (res.status) {
 
 				setTotalBooking(res.data);
@@ -175,7 +177,7 @@ export default function Bookings() {
 
 	const onPageChange = (page: any) => {
 		setCurrentPage(page);
-		getAdminChefByBooking()
+		getConciergeChefByBooking()
 			.then(res => {
 				if (res.status == true) {
 
@@ -271,7 +273,8 @@ export default function Bookings() {
 	const handleButtonClick = (index: any, type: string) => {
 		setActiveIndex(index);
 		if (type == 'all') {
-			fetchBookingAdminDetails();
+			const userData = getCurrentUserData() as CurrentUserData;
+			fetchBookingAdminDetails(userData.id);
 		} else {
 			getAdminChefFilterByBooking(type)
 				.then(res => {
@@ -310,7 +313,7 @@ export default function Bookings() {
 		} else {
 
 			if (client && admin && user_show == 'visible') {
-
+				const userData = getCurrentUserData() as CurrentUserData;
 				const data = {
 					id: appliedid,
 					key: 'status',
@@ -328,7 +331,7 @@ export default function Bookings() {
 							setModalConfirm(false);
 
 							getSingleUserAssignBookingData(bookingid)
-							fetchBookingAdminDetails();
+							fetchBookingAdminDetails(userData.id);
 						} else {
 
 							toast.error(res.message, {
@@ -421,6 +424,7 @@ export default function Bookings() {
 	};
 
 	const deleteBookingByAdmin = (id: any) => {
+		const userData = getCurrentUserData() as CurrentUserData;
 		swal({
 			title: "Are you sure?",
 			text: "You want to delete the booking",
@@ -435,7 +439,7 @@ export default function Bookings() {
 							swal("Booking has been deleted succesfully", {
 								icon: "success",
 							});
-							fetchBookingAdminDetails();
+							fetchBookingAdminDetails(userData.id);
 
 						} else {
 							swal(res.message, {

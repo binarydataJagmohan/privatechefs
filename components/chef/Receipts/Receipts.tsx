@@ -193,6 +193,9 @@ export default function Receipts() {
 		if (!booking_id) {
 			errors.booking_id = "Booking is required";
 		}
+		if (!amount) {
+			errors.amount = "Amount is required";
+		}
 		setErrors(errors);
 
 		if (Object.keys(errors).length === 0) {
@@ -353,80 +356,84 @@ export default function Receipts() {
 				<h2>Receipts</h2>
 				<button className="table-btn" onClick={() => { modalConfirmOpen(); resetFields(); }}>Add</button>
 				<div className="table-box" id="receipt_table">
-					<table className="table table-borderless">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Order ID</th>
-								<th scope="col">Amount</th>
-								{/* <th scope="col">Payment Details</th>
+					{getreceipt.length > 0 ?
+						<table className="table table-borderless">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Order ID</th>
+									<th scope="col">Amount</th>
+									{/* <th scope="col">Payment Details</th>
 								<th scope="col">Payment Details</th> */}
-								<th scope="col">Order Date</th>
-								<th scope="col">Payment Date</th>
-								<th scope="col">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							{Array.isArray(getreceipt) && getreceipt.map((receipt, index) => (
-								<tr key={index}>
-									<td>{index + 1}</td>
-									<td>#{receipt.booking_id}</td>
-									<td>{receipt.amount}</td>
-									<td>{receipt.order_date ? new Date(receipt.order_date).toLocaleDateString() : ''}</td>
-									<td>{new Date(receipt.booking_date).toLocaleDateString()}</td>
-									<td>
-										<div className="dropdown" id="none-class">
-											<a
-												className="dropdown-toggle"
-												data-bs-toggle="dropdown"
-												aria-expanded="false"
-											>
-												<i className="fa-solid fa-ellipsis"></i>
-											</a>
-											<ul
-												className="dropdown-menu"
-												aria-labelledby="dropdownMenuButton"
-											>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() => {
-															getSingleReceiptData(receipt.id);
-														}}
-													>
-														Edit
-													</a>
-												</li>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() =>
-															getImageData(receipt.id)
-														}
-													>
-														Image
-													</a>
-												</li>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() =>
-															deleteReceiptData(receipt.id)
-														}
-													>
-														Delete
-													</a>
-												</li>
-											</ul>
-										</div>
-									</td>
+									<th scope="col">Order Date</th>
+									{/* <th scope="col">Booking Date</th> */}
+									<th scope="col">Action</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{Array.isArray(getreceipt) && getreceipt.map((receipt, index) => (
+									<tr key={index}>
+										<td>{index + 1}</td>
+										<td>#{receipt.booking_id}</td>
+										<td>{receipt.amount}</td>
+										<td>{receipt.order_date ? new Date(receipt.order_date).toLocaleDateString() : ''}</td>
+										{/* <td>{new Date(receipt.booking_date).toLocaleDateString()}</td> */}
+										<td>
+											<div className="dropdown" id="none-class">
+												<a
+													className="dropdown-toggle"
+													data-bs-toggle="dropdown"
+													aria-expanded="false"
+												>
+													<i className="fa-solid fa-ellipsis"></i>
+												</a>
+												<ul
+													className="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+												>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() => {
+																getSingleReceiptData(receipt.id);
+															}}
+														>
+															Edit
+														</a>
+													</li>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() =>
+																getImageData(receipt.id)
+															}
+														>
+															Image
+														</a>
+													</li>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() =>
+																deleteReceiptData(receipt.id)
+															}
+														>
+															Delete
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+						:
+						<p className='text-center'>No Records Found</p>
+					}
 				</div>
 			</div>
 
@@ -485,6 +492,11 @@ export default function Receipts() {
 										value={amount}
 										onChange={(e) => setAmount(e.target.value)}
 									/>
+									{errors.amount && (
+										<span className="small error text-danger mb-2 d-inline-block error_login">
+											{errors.amount}
+										</span>
+									)}
 								</div>
 							</div>
 						</div>

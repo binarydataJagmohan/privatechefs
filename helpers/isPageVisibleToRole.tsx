@@ -39,14 +39,19 @@ export function isPageVisibleToRole(pageName: string): number {
       "user": ['user'],
       "chef": ['chef'],
       "admin-receipt": ["admin"],
+      "admin-single-receipt": ["admin"],
       "invoice": ["chef"],
       "admin-invoice": ["admin"],
+      "admin-single-invoice": ["admin"],
       "concierge-bookings": ['concierge'],
       "concierge-assigned-bookings": ['concierge'],
       "concierge-invoice": ["concierge"],
       "concierge-chefs": ["concierge"],
       "concierge-users": ['concierge'],
       "concierge-villas": ["concierge"],
+      "concierge-receipt": ["concierge"],
+      "concierge-single-receipt": ["concierge"],
+      "concierge-single-invoice": ["concierge"],
     };
 
     if (pageName in pageRoles) {

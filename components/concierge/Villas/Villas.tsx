@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from "../../../components/commoncomponents/PopupModalLarge";
 import { getCurrentUserData } from '../../../lib/session'
-import { saveVilla, updateVilla, getVillas, getSingleVillas, deleteSingleVilla } from '../../../lib/adminapi'
+import { saveVilla, updateVilla, getSingleVillas, deleteSingleVilla } from '../../../lib/adminapi'
+import { getConciergeVillas } from '../../../lib/concierge'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -35,10 +36,10 @@ export default function Villas() {
 	const [linkedin_link, setLinkedinLink] = useState("");
 	const [youtube_link, setYoutubeLink] = useState("");
 
-	const [errors, setErrors]:any = useState({});
-	const [totalMenu, setTotalMenu]:any = useState({});
-	const [villasdata, setVillasData] = useState({});
-	const [getsingledata, setGetSingleData]:any = useState([]);
+	const [errors, setErrors]: any = useState({});
+	const [totalMenu, setTotalMenu]: any = useState({});
+	const [villasdata, setVillasData] = useState('');
+	const [getsingledata, setGetSingleData]: any = useState([]);
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [buttonStatus, setButtonState] = useState(false);
@@ -66,15 +67,15 @@ export default function Villas() {
 			window.location.href = '/404';
 		}
 		if (data == 1) {
-			const userid = getCurrentUserData();
-			getAllVillasData();
+			const userid: any = getCurrentUserData();
+			getAllVillasData(userid.id);
 		}
 	}
 
 
-	const onPageChange = (page:any) => {
+	const onPageChange = (page: any) => {
 		setCurrentPage(page);
-		getVillas()
+		getConciergeVillas()
 			.then(res => {
 				if (res.status == true) {
 					setTotalMenu(res.data);
@@ -90,8 +91,9 @@ export default function Villas() {
 	};
 
 
-	const getAllVillasData = async () => {
-		getVillas()
+	const getAllVillasData = async (id: any) => {
+		const userData: any = getCurrentUserData();
+		getConciergeVillas(userData.id)
 			.then(res => {
 				if (res.status == true) {
 					setTotalMenu(res.data);
@@ -176,7 +178,7 @@ export default function Villas() {
 	const handleVillaSubmit = (e: any) => {
 		e.preventDefault();
 		// Validate form data
-		const errors:any = {};
+		const errors: any = {};
 		if (!name) {
 			errors.name = "Name is required";
 		}
@@ -206,10 +208,12 @@ export default function Villas() {
 
 		// Submit form data if there are no errors
 		if (Object.keys(errors).length === 0) {
+			const userData: any = getCurrentUserData();
 			setButtonState(true);
 			// Call an API or perform some other action to register the user
 			const data = {
 				name: name,
+				user_id: userData.id,
 				email: email,
 				phone: phone,
 				address: address,
@@ -238,7 +242,7 @@ export default function Villas() {
 				.then(res => {
 					if (res.status == true) {
 						console.log(res.status);
-						getAllVillasData();
+						getAllVillasData(userData.id);
 						setModalConfirm(false);
 						setButtonState(false);
 						toast.success(res.message, {
@@ -262,7 +266,7 @@ export default function Villas() {
 		e.preventDefault();
 		// Validate form data
 
-		const errors:any = {};
+		const errors: any = {};
 		if (!name) {
 			errors.name = "Name is required";
 		}
@@ -292,10 +296,12 @@ export default function Villas() {
 
 		if (Object.keys(errors).length === 0) {
 			setButtonState(true);
+			const userData: any = getCurrentUserData();
 			const id = getsingledata.id;
 
 			const data = {
 				name: name,
+				user_id: userData.id,
 				email: email || '',
 				phone: phone || '',
 				address: address,
@@ -324,7 +330,7 @@ export default function Villas() {
 				.then((res) => {
 					if (res.status == true) {
 						console.log(res.status);
-						getAllVillasData();
+						getAllVillasData(userData.id);
 						editsetModalConfirm(false);
 						setButtonState(false);
 						toast.success(res.message, {
@@ -345,7 +351,7 @@ export default function Villas() {
 
 	const handleImageChange = (e: any) => {
 		const files = Array.from(e.target.files);
-		const imagesArray:any = [];
+		const imagesArray: any = [];
 
 		for (let i = 0; i < files.length; i++) {
 			imagesArray.push(files[i]);
@@ -358,7 +364,7 @@ export default function Villas() {
 
 	const handleMenuBlur = (e: any) => {
 		const { name, value } = e.target;
-		const newErrors:any = { ...errors };
+		const newErrors: any = { ...errors };
 
 		switch (name) {
 
@@ -390,7 +396,8 @@ export default function Villas() {
 		setErrors(newErrors);
 	};
 
-	const deleteSinglevilla = (id:any) => {
+	const deleteSinglevilla = (id: any) => {
+		const userData: any = getCurrentUserData();
 		swal({
 			title: "Are you sure?",
 			text: "You want to delete the villa",
@@ -404,7 +411,7 @@ export default function Villas() {
 				deleteSingleVilla(id)
 					.then((res) => {
 						if (res.status == true) {
-							getAllVillasData();
+							getAllVillasData(userData.id);
 							swal("Your Villa has been deleted!", {
 								icon: "success",
 							});
@@ -433,75 +440,79 @@ export default function Villas() {
 					<li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li>
 				</ul>
 				<div className="table-box" id="villa_table">
-					<table className="table table-borderless">
-						<thead>
-							<tr>
-								<th scope="col">Sr No.</th>
-								{/* <th scope="col">Image</th> */}
-								<th scope="col">Name</th>
-								<th scope="col">Phone</th>
-								<th scope="col">Address</th>
-								<th scope="col">Partner/Owner</th>
-								<th scope="col">Bedroom</th>
-								<th scope="col">Bathrooms</th>
-								<th scope="col">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							{Array.isArray(villasdata) && villasdata.map((villa, index) => (
-								<tr key={index}>
-									<td>{index + 1}</td>
-									{/* <td id="villa_img">
+					{villasdata.length > 0 ?
+						<table className="table table-borderless">
+							<thead>
+								<tr>
+									<th scope="col">Sr No.</th>
+									{/* <th scope="col">Image</th> */}
+									<th scope="col">Name</th>
+									<th scope="col">Phone</th>
+									<th scope="col">Address</th>
+									<th scope="col">Partner/Owner</th>
+									<th scope="col">Bedroom</th>
+									<th scope="col">Bathrooms</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{Array.isArray(villasdata) && villasdata.map((villa, index) => (
+									<tr key={index}>
+										<td>{index + 1}</td>
+										{/* <td id="villa_img">
 										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
 									</td> */}
-									<td>{villa.name}</td>
-									<td>{villa.phone}</td>
-									<td>{villa.address}</td>
-									<td>{villa.partner_owner}</td>
-									<td>{villa.bedrooms}</td>
-									<td>{villa.bathrooms}</td>
-									<td>
-										<div className="dropdown" id="none-class">
-											<a
-												className="dropdown-toggle"
-												data-bs-toggle="dropdown"
-												aria-expanded="false"
-											>
-												<i className="fa-solid fa-ellipsis"></i>
-											</a>
-											<ul
-												className="dropdown-menu"
-												aria-labelledby="dropdownMenuButton"
-											>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() => {
-															getSingleData(villa.id);
-														}}
-													>
-														Edit
-													</a>
-												</li>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={(e) =>
-															deleteSinglevilla(villa.id)
-														}
-													>
-														Delete
-													</a>
-												</li>
-											</ul>
-										</div>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
+										<td>{villa.name}</td>
+										<td>{villa.phone}</td>
+										<td>{villa.address}</td>
+										<td>{villa.partner_owner}</td>
+										<td>{villa.bedrooms}</td>
+										<td>{villa.bathrooms}</td>
+										<td>
+											<div className="dropdown" id="none-class">
+												<a
+													className="dropdown-toggle"
+													data-bs-toggle="dropdown"
+													aria-expanded="false"
+												>
+													<i className="fa-solid fa-ellipsis"></i>
+												</a>
+												<ul
+													className="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+												>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() => {
+																getSingleData(villa.id);
+															}}
+														>
+															Edit
+														</a>
+													</li>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={(e) =>
+																deleteSinglevilla(villa.id)
+															}
+														>
+															Delete
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+						:
+						<p className='text-center'>No Records Found</p>
+					}
 				</div>
 			</div>
 
@@ -531,7 +542,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="name"
-										value={name }
+										value={name}
 										onChange={(e) => setFullName(e.target.value)}
 									/>
 									{errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
@@ -554,7 +565,7 @@ export default function Villas() {
 									<input
 										type="text"
 										name="phone"
-										value={phone }
+										value={phone}
 										onChange={(e) => {
 											const re = /^[0-9\b]+$/;
 											if (e.target.value === '' || re.test(e.target.value)) {
@@ -733,7 +744,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="website">Website:</label>
 									<input
-										type="text"
+										type="url"
 										name="website"
 										value={website}
 										onChange={(e) => setWebsite(e.target.value)}
@@ -744,7 +755,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="facebook_link">Facebook Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="facebook_link"
 										value={facebook_link}
 										onChange={(e) => setFacebookLink(e.target.value)}
@@ -757,7 +768,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="instagram_link">Instagram Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="instagram_link"
 										value={instagram_link}
 										onChange={(e) => setInstagramLink(e.target.value)}
@@ -768,7 +779,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="twitter_link">Twitter Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="twitter_link"
 										value={twitter_link}
 										onChange={(e) => setTwitterLink(e.target.value)}
@@ -779,7 +790,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="linkedin_link">Linkedin Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="linkedin_link"
 										value={linkedin_link}
 										onChange={(e) => setLinkedinLink(e.target.value)}
@@ -801,7 +812,7 @@ export default function Villas() {
 									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
 
 									<div className='row mt-3 g-3'>
-										{image && image.map((image:any, index) => (
+										{image && image.map((image: any, index) => (
 											image instanceof Blob || image instanceof File ? (
 												<div className='col-md-4' key={index}>
 													<div className='v-img'>
@@ -820,7 +831,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="youtube_link">Youtube Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="youtube_link"
 										value={youtube_link}
 										onChange={(e) => setYoutubeLink(e.target.value)}
@@ -939,7 +950,7 @@ export default function Villas() {
 										<option value=''>Select partner/owner</option>
 										<option value='partner' defaultValue={partner_owner === 'partner' ? 'true' : undefined}>Partner</option>
 										<option value='owner' defaultValue={partner_owner === 'owner' ? 'true' : undefined}
->Owner</option>
+										>Owner</option>
 									</select>
 									{errors.partner_owner && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.partner_owner}</span>}
 								</div>
@@ -952,7 +963,7 @@ export default function Villas() {
 										onChange={(e) => setCategory(e.target.value)}>
 										<option value=''>Select category</option>
 										<option value='basic' defaultValue={category === 'basic' ? 'true' : undefined}>Basic</option>
-										<option value='luxury'  defaultValue={category === 'luxury' ? 'true' : undefined}>Luxury</option>
+										<option value='luxury' defaultValue={category === 'luxury' ? 'true' : undefined}>Luxury</option>
 									</select>
 									{errors.category && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.category}</span>}
 								</div>
@@ -1011,7 +1022,7 @@ export default function Villas() {
 									<select aria-label="Default select example" name="type_of_stove" value={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
 										<option value=''>Select Stove</option>
 										<option value='gas' defaultValue={type_of_stove === 'gas' ? 'true' : undefined}>Gas</option>
-										<option value='electric' defaultValue={type_of_stove === 'electric' ? 'true' : undefined }>Electric</option>
+										<option value='electric' defaultValue={type_of_stove === 'electric' ? 'true' : undefined}>Electric</option>
 										<option value='induction' defaultValue={type_of_stove === 'induction' ? 'true' : undefined}>Induction</option>
 									</select>
 									{errors.type_of_stove && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.type_of_stove}</span>}
@@ -1061,7 +1072,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="website">Website:</label>
 									<input
-										type="text"
+										type="url"
 										name="website"
 										value={website || ''}
 										onChange={(e) => setWebsite(e.target.value)}
@@ -1072,7 +1083,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="facebook_link">Facebook Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="facebook_link"
 										value={facebook_link || ''}
 										onChange={(e) => setFacebookLink(e.target.value)}
@@ -1085,7 +1096,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="instagram_link">Instagram Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="instagram_link"
 										value={instagram_link || ''}
 										onChange={(e) => setInstagramLink(e.target.value)}
@@ -1096,7 +1107,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="twitter_link">Twitter Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="twitter_link"
 										value={twitter_link || ''}
 										onChange={(e) => setTwitterLink(e.target.value)}
@@ -1107,7 +1118,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="linkedin_link">Linkedin Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="linkedin_link"
 										value={linkedin_link || ''}
 										onChange={(e) => setLinkedinLink(e.target.value)}
@@ -1129,7 +1140,7 @@ export default function Villas() {
 
 
 									<div className='row mt-3 g-3'>
-										{image && image.map((images:any, index) => (
+										{image && image.map((images: any, index) => (
 											images instanceof Blob || images instanceof File ? (
 												<div className='col-md-4' key={index}>
 													<div className='v-img'>
@@ -1151,7 +1162,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="youtube_link">Youtube Link:</label>
 									<input
-										type="text"
+										type="url"
 										name="youtube_link"
 										value={youtube_link}
 										onChange={(e) => setYoutubeLink(e.target.value)}

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getAssignedChef, getChefByFilter, getCuisine, approveChefProfile } from '../../../lib/adminapi';
+import { getChefByFilter, getCuisine, approveChefProfile } from '../../../lib/adminapi';
+import { getAllConciergechef, createChef, deleteChef } from '../../../lib/concierge';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
+import { getCurrentUserData } from '../../../lib/session'
+import swal from "sweetalert";
 
 
 export default function Chefs() {
@@ -18,7 +21,7 @@ export default function Chefs() {
     pic: string;
     cuisine_name: string;
     appliedstatus: string;
-    approved_by_admin:string;
+    approved_by_admin: string;
   }
   interface chefData {
     id: number;
@@ -34,7 +37,18 @@ export default function Chefs() {
     name: string;
   }
 
+  interface Errors {
+    email?: string
+    name?: string
+    surname?: string
+  }
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [buttonStatus, setButtonState] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
   const [modalConfirm, setModalConfirm] = useState(false);
+  const [modalConfirmTwo, SetModalConfirmTwo] = useState(false);
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
   const [filteredChefs, setFilteredChefs] = useState<FilterData[]>([]);
   const [chefs, setChefs] = useState<chefData[]>([]);
@@ -52,6 +66,9 @@ export default function Chefs() {
   const modalConfirmClose = () => {
     setModalConfirm(false);
   }
+  const modalConfirmTwoClose = () => {
+    SetModalConfirmTwo(false);
+  }
 
   useEffect(() => {
 
@@ -63,7 +80,8 @@ export default function Chefs() {
       window.location.href = '/404'; // redirect to 404 if not authorized
     }
     if (data == 1) {
-      getAllChef();
+      const userData: any = getCurrentUserData();
+      getAllChef(userData.id);
       getAllCuisine();
       const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
       getChefByFilter({ cuisines: cuisinesArray.join(',') })
@@ -80,8 +98,9 @@ export default function Chefs() {
 
   }, [selectedCuisines]);
 
-  const getAllChef = () => {
-    getAssignedChef()
+  const getAllChef = (id: any) => {
+    const userData: any = getCurrentUserData();
+    getAllConciergechef(userData.id)
       .then((res) => {
         if (res.status) {
           setTotalMenu(res.data);
@@ -103,6 +122,7 @@ export default function Chefs() {
 
   const ApproveChefProfile = async (e: any, id: any) => {
     e.preventDefault();
+    const userData: any = getCurrentUserData();
     const selectedValue = e.target.value;
     const data = {
       approved_by_admin: selectedValue
@@ -110,7 +130,7 @@ export default function Chefs() {
     approveChefProfile(id, data)
       .then((res) => {
         if (res.status == true) {
-          getAllChef();
+          getAllChef(userData.id);
           // window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
           setApproveStatus(res.data.approved_by_admin);
           // setApproveStatusValue(res.data.approved_by_admin);
@@ -164,7 +184,7 @@ export default function Chefs() {
 
   const onPageChange = (page: any) => {
     setCurrentPage(page);
-    getAssignedChef()
+    getAllConciergechef()
       .then(res => {
         if (res.status == true) {
           setTotalMenu(res.data);
@@ -195,6 +215,92 @@ export default function Chefs() {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
+  const handleRegisterSubmit = (event: any) => {
+    event.preventDefault();
+
+    // Validate form data
+    const newErrors: Errors = {};
+    if (!name) {
+      newErrors.name = "Name is required";
+    }
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Invalid email address";
+    }
+
+    setErrors(newErrors);
+
+    // Submit form data if there are no errors
+    if (Object.keys(newErrors).length === 0) {
+      const userData: any = getCurrentUserData();
+      setButtonState(true);
+
+      // Call an API or perform some other action to register the user
+      const data = {
+        name: name,
+        email: email,
+        created_by: userData.id,
+      };
+      console.log(data);
+      createChef(data)
+        .then(res => {
+          if (res.status == true) {
+            SetModalConfirmTwo(false);
+            setButtonState(false);
+            toast.success(res.message, {
+              position: toast.POSITION.TOP_RIGHT
+            });
+
+          } else {
+            setButtonState(false);
+            toast.error(res.message, {
+              position: toast.POSITION.TOP_RIGHT
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
+
+  const DeleteChef = (id: any) => {
+    const userData: any = getCurrentUserData();
+    swal({
+      title: "Are you sure?",
+      text: "You want to delete the chef",
+      icon: "warning",
+      //buttons: true,
+      dangerMode: true,
+      buttons: ["Cancel", "Yes, I am sure!"],
+      //confirmButtonColor: "#062B60",
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteChef(id)
+          .then((res) => {
+            if (res.status == true) {
+              getAllChef(userData.id);
+              swal("Chef has been deleted!", {
+                icon: "success",
+              });
+            } else {
+              toast.error(res.message, {
+                position: toast.POSITION.TOP_RIGHT,
+              });
+            }
+          })
+          .catch((err) => { });
+      } else {
+      }
+    });
+  };
+
+  const resetFields = () => {
+    setName("");
+    setEmail("");
+  }
+
   return (
     <>
       <div className="table-part">
@@ -216,6 +322,11 @@ export default function Chefs() {
                 </div>
               </li>
             ))}
+          </li>
+          <li>
+            <div className='text-right'>
+              <button className="table-btn" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add</button>
+            </div>
           </li>
           <li className="right-li">
             <button
@@ -261,7 +372,7 @@ export default function Chefs() {
                         <img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/placeholder.jpg"
+                            "/images/users.jpg"
                           }
                           alt=""
                         />
@@ -309,9 +420,39 @@ export default function Chefs() {
                       </select>
                     </td> */}
 
-                    <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    <td>
+                      <div className="dropdown" id="none-class">
+                        <a
+                          className="dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>
+                        </a>
+                        <ul
+                          className="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href={process.env.NEXT_PUBLIC_BASE_URL + 'concierge/chefs/' + filter.id}>
+                              View
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              onClick={(e) =>
+                                DeleteChef(filter.id)
+                              }
+                            >
+                              Delete
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -334,7 +475,7 @@ export default function Chefs() {
                         <img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/placeholder.jpg"
+                            "/images/users.jpg"
                           }
                           alt=""
                         />
@@ -416,10 +557,6 @@ export default function Chefs() {
                         </ul>
                       </div>
                     </td>
-                    {/* <td>Ut pulvinar.</td> */}
-                    {/* <td>Arcu nibh non.</td>
-					<td>Eu nibh.</td> */}
-
                     <td>
                       {chef.appliedstatus || ""}
                     </td>
@@ -434,15 +571,45 @@ export default function Chefs() {
                       </select>
                     </td> */}
 
-                    <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'concierge/chefs/' + chef.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    <td>
+                      <div className="dropdown" id="none-class">
+                        <a
+                          className="dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>
+                        </a>
+                        <ul
+                          className="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href={process.env.NEXT_PUBLIC_BASE_URL + 'concierge/chefs/' + chef.id}>
+                              View
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              onClick={(e) =>
+                                DeleteChef(chef.id)
+                              }
+                            >
+                              Delete
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8}>No record found.</td>
+                  <td colSpan={5} className="text-center">No record found.</td>
                 </tr>
               )}
             </tbody>
@@ -563,6 +730,25 @@ export default function Chefs() {
           </div>
         </div>
       </PopupModal>
+
+      <PopupModal show={modalConfirmTwo} handleClose={modalConfirmTwoClose} staticClass="var-login">
+        <div className="all-form">
+          <form onSubmit={handleRegisterSubmit} className="common_form_error" id="register_form">
+            <div className='login_div'>
+              <label htmlFor="name">Name:</label>
+              <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.name}</span>}
+            </div>
+            <div className='login_div'>
+              <label htmlFor="email">Email:</label>
+              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+              {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
+            </div>
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
+          </form>
+        </div>
+      </PopupModal>
+
       <ToastContainer />
     </>
   );

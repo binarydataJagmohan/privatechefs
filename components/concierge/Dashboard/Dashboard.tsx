@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { getAllBookingData } from "../../../lib/adminapi"
 import { getCurrentUserData } from '../../../lib/session'
 
-
 export default function Dashboard() {
 
 	interface User {

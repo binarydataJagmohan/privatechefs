@@ -93,7 +93,7 @@ export default function Invoices() {
 									<td>{invoice.invoice_no}</td>
 									<td>{invoice.date ? new Date(invoice.date).toLocaleDateString() : ''}</td>
 									<td>{invoice.invoiceAmount}</td>
-									<td><a href="#"><i className="fa fa-eye" aria-hidden="true"></i></a></td>
+									<td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/invoice/' + invoice.id}><i className="fa fa-eye" aria-hidden="true"></i></a></td>
 								</tr>
 							))}
 						</tbody>

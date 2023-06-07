@@ -7,7 +7,7 @@ import { paginate } from "../../../helpers/paginate";
 export default function Users() {
 
     interface User {
-        id:number,
+        id: number,
         name: string,
         surname: string,
         address: string,
@@ -54,22 +54,22 @@ export default function Users() {
             });
     }
 
-    const onPageChange = (page:any) => {
-		setCurrentPage(page);
-		getAllUsers()
-			.then(res => {
-				if (res.status == true) {
-					setTotalMenu(res.data);
-					const paginatedPosts = paginate(res.data, page, pageSize);
-					setAllUsers(paginatedPosts);
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
+    const onPageChange = (page: any) => {
+        setCurrentPage(page);
+        getAllUsers()
+            .then(res => {
+                if (res.status == true) {
+                    setTotalMenu(res.data);
+                    const paginatedPosts = paginate(res.data, page, pageSize);
+                    setAllUsers(paginatedPosts);
+                } else {
+                    console.log(res.message);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
 
     return (
@@ -78,49 +78,51 @@ export default function Users() {
                 <h2>Users</h2>
                 <button className="table-btn">Total</button>
                 <div className="table-box">
-                    <table className="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th scope="col">Photo</th>
-                                <th scope="col">Name/Surname</th>
-                                <th scope="col">Current Location</th>
-                                <th scope="col">Phone no.</th>
-                                {/* <th scope="col">Column</th>
-								<th scope="col">Column</th>
-								<th scope="col">Column</th> */}
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {getallusers.map((user, index) => (
-                                <tr key={index}>
-                                    <td className='chefs_pic'>
-                                        {user.pic ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" />
-                                        ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" />
-                                        )}
-                                    </td>
-                                    <td>{user.name || ''} {user.surname || ''}</td>
-                                    <td>{user.address || ''}</td>
-                                    <td>{user.phone || ''}</td>
-                                    <td style={{paddingLeft : "25px"}}>
-                                    <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
-                                        <i className="fa fa-eye" aria-hidden="true"></i></a>
-                                    </td>
+                    {getallusers.length > 0 ?
+                        <table className="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Photo</th>
+                                    <th scope="col">Name/Surname</th>
+                                    <th scope="col">Current Location</th>
+                                    <th scope="col">Phone no.</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            ))}
-
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {getallusers.map((user, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td className='chefs_pic'>
+                                                {user.pic ? (
+                                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" />
+                                                ) : (
+                                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" />
+                                                )}
+                                            </td>
+                                            <td>{user.name || ''} {user.surname || ''}</td>
+                                            <td>{user.address || ''}</td>
+                                            <td>{user.phone || ''}</td>
+                                            <td style={{ paddingLeft: "25px" }}>
+                                                <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
+                                                    <i className="fa fa-eye" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                        :
+                        <p className='text-center'>No Records Found</p>
+                    }
                 </div>
             </div>
             <Pagination
-				items={totalMenu.length}
-				currentPage={currentPage}
-				pageSize={pageSize}
-				onPageChange={onPageChange}
-			/>
+                items={totalMenu.length}
+                currentPage={currentPage}
+                pageSize={pageSize}
+                onPageChange={onPageChange}
+            />
         </>
     )
 }
