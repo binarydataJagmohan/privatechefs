@@ -59,11 +59,11 @@ export default function Users() {
         }
         if (data == 1) {
             const userData: User = getCurrentUserData() as User;
-            getAllUsersData(userData.id);
+            getAllUsersData();
         }
     }
 
-    const getAllUsersData = async (id: any) => {
+    const getAllUsersData = async () => {
         const userData: User = getCurrentUserData() as User;
         getAllConciergeUsers(userData.id)
             .then(res => {
@@ -129,6 +129,7 @@ export default function Users() {
             createUser(data)
                 .then(res => {
                     if (res.status == true) {
+                        getAllUsersData();
                         setModalConfirm(false);
                         setButtonState(false);
                         toast.success(res.message, {
@@ -163,7 +164,7 @@ export default function Users() {
                 deleteUser(id)
                     .then((res) => {
                         if (res.status == true) {
-                            getAllUsersData(userData.id);
+                            getAllUsersData();
                             swal("User has been deleted!", {
                                 icon: "success",
                             });

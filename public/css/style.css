@@ -4095,3 +4095,63 @@ li.right-lii {
   top: 0;
   right: 97px;
 }
+
+.invoice {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.invoice-header .logo {
+  width: 150px;
+  height: 50px;
+  /* Insert your logo image here */
+}
+
+.invoice-header .company-info {
+  text-align: right;
+}
+
+.invoice-header .company-info h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.invoice-header .company-info p {
+  margin: 5px 0;
+}
+
+.invoice-body {
+  margin-bottom: 20px;
+}
+
+.invoice-body table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invoice-body table th,
+.invoice-body table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.invoice-footer {
+  text-align: right;
+}
+
+.invoice-footer p {
+  margin: 5px 0;
+}
+
+.invoice-footer .total {
+  font-weight: bold;
+}

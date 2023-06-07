@@ -388,7 +388,7 @@ export default function Bookings() {
 
 											<td>
 												<select aria-label="Default select example" name="booking_status" onChange={(e) => ChangeBookingStatus(e, user.booking_id)}>
-													<option value='' >Select status</option>
+													<option value='' disabled>Select status</option>
 													<option value='completed' id="completed" selected={user.booking_status === 'completed'}>Completed</option>
 													<option value='upcoming' selected={user.booking_status === 'upcoming'}>Upcoming</option>
 													<option value='pending' selected={user.booking_status === 'pending'}>Pending</option>

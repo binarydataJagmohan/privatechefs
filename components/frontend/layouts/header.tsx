@@ -554,6 +554,13 @@ export default function Header({ }) {
                     </a>
                   </li>
                 )}
+                 {isAuthenticated && role === "concierge" && (
+                  <li className="nav-item">
+                    <a className="nav-link" href="/concierge/dashboard">
+                      Dashboard
+                    </a>
+                  </li>
+                )}
                 <li className="user">
                   {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
 

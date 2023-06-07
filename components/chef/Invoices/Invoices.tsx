@@ -120,7 +120,7 @@ export default function Invoices() {
 			});
 	};
 
-	const getAllBookingData = async (id:any) => {
+	const getAllBookingData = async (id: any) => {
 		const userData: any = getCurrentUserData();
 		getAllChefBooking(userData.id)
 			.then(res => {
@@ -160,6 +160,7 @@ export default function Invoices() {
 				.then(res => {
 					if (res.status == true) {
 						console.log(res.status);
+						getInvoiceData(userData.id)
 						modalConfirmClose();
 						setButtonState(false);
 						toast.success(res.message, {
@@ -260,69 +261,73 @@ export default function Invoices() {
 				<h2>Invoices</h2>
 				<button className="table-btn" onClick={() => { modalConfirmOpen(); resetFields(); }}>Add</button>
 				<div className="table-box" id="receipt_table">
-					<table className="table table-borderless">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Order Id</th>
-								<th scope="col">Customer Name</th>
-								<th scope="col">Invoice No</th>
-								<th scope="col">Date</th>
-								<th scope="col">Amount</th>
-								<th scope="col">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							{Array.isArray(getinvoice) && getinvoice.map((invoice, index) => (
-								<tr key={index}>
-									<td>{index + 1}</td>
-									<td>#{invoice.booking_id}</td>
-									<td>{invoice.name} {invoice.surname}</td>
-									<td>#{invoice.invoice_no}</td>
-									<td>{invoice.date ? new Date(invoice.date).toLocaleDateString() : ''}</td>
-									<td>{invoice.invoiceAmount}</td>
-									<td>
-										<div className="dropdown" id="none-class">
-											<a
-												className="dropdown-toggle"
-												data-bs-toggle="dropdown"
-												aria-expanded="false"
-											>
-												<i className="fa-solid fa-ellipsis"></i>
-											</a>
-											<ul
-												className="dropdown-menu"
-												aria-labelledby="dropdownMenuButton"
-											>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() => {
-															getSingleInvoiceData(invoice.invoiceID);
-														}}
-													>
-														Edit
-													</a>
-												</li>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() =>
-															deleteInvoiceData(invoice.invoiceID)
-														}
-													>
-														Delete
-													</a>
-												</li>
-											</ul>
-										</div>
-									</td>
+					{getinvoice.length > 0 ?
+						<table className="table table-borderless">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Order Id</th>
+									<th scope="col">Customer Name</th>
+									<th scope="col">Invoice No</th>
+									<th scope="col">Date</th>
+									<th scope="col">Amount</th>
+									<th scope="col">Action</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{Array.isArray(getinvoice) && getinvoice.map((invoice, index) => (
+									<tr key={index}>
+										<td>{index + 1}</td>
+										<td>#{invoice.booking_id}</td>
+										<td>{invoice.name} {invoice.surname}</td>
+										<td>#{invoice.invoice_no}</td>
+										<td>{invoice.date ? new Date(invoice.date).toLocaleDateString() : ''}</td>
+										<td>{invoice.invoiceAmount}</td>
+										<td>
+											<div className="dropdown" id="none-class">
+												<a
+													className="dropdown-toggle"
+													data-bs-toggle="dropdown"
+													aria-expanded="false"
+												>
+													<i className="fa-solid fa-ellipsis"></i>
+												</a>
+												<ul
+													className="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+												>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() => {
+																getSingleInvoiceData(invoice.invoiceID);
+															}}
+														>
+															Edit
+														</a>
+													</li>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() =>
+																deleteInvoiceData(invoice.invoiceID)
+															}
+														>
+															Delete
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+						:
+						<p className='text-center'>No Records Found</p>
+					}
 				</div>
 			</div>
 

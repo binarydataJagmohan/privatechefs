@@ -81,7 +81,7 @@ export default function Chefs() {
     }
     if (data == 1) {
       const userData: any = getCurrentUserData();
-      getAllChef(userData.id);
+      getAllChef();
       getAllCuisine();
       const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
       getChefByFilter({ cuisines: cuisinesArray.join(',') })
@@ -98,7 +98,7 @@ export default function Chefs() {
 
   }, [selectedCuisines]);
 
-  const getAllChef = (id: any) => {
+  const getAllChef = () => {
     const userData: any = getCurrentUserData();
     getAllConciergechef(userData.id)
       .then((res) => {
@@ -130,7 +130,7 @@ export default function Chefs() {
     approveChefProfile(id, data)
       .then((res) => {
         if (res.status == true) {
-          getAllChef(userData.id);
+          getAllChef();
           // window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
           setApproveStatus(res.data.approved_by_admin);
           // setApproveStatusValue(res.data.approved_by_admin);
@@ -247,6 +247,7 @@ export default function Chefs() {
         .then(res => {
           if (res.status == true) {
             SetModalConfirmTwo(false);
+            getAllChef();
             setButtonState(false);
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT
@@ -280,7 +281,7 @@ export default function Chefs() {
         deleteChef(id)
           .then((res) => {
             if (res.status == true) {
-              getAllChef(userData.id);
+              getAllChef();
               swal("Chef has been deleted!", {
                 icon: "success",
               });

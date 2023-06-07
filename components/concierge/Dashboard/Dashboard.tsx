@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAllBookingData } from "../../../lib/adminapi"
+import { getAllConciergeBookings } from "../../../lib/concierge"
 import { getCurrentUserData } from '../../../lib/session'
 
 export default function Dashboard() {
@@ -27,7 +27,7 @@ export default function Dashboard() {
 			try {
 				const userData: User = getCurrentUserData() as User;
 				setCurrentUserData(userData);
-				const data = await getAllBookingData();
+				const data = await getAllConciergeBookings(userData.id);
 				setBookingCount(data.todayBookings);
 				setPendingBooking(data.pendingBooking);
 				setCompletedBooking(data.completedBooking);

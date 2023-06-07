@@ -91,7 +91,7 @@ export default function MyProfile(props: any) {
                     {getUsers.pic ? (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' +getUsers.pic} alt="" width={100} height={100} />
                     ) : (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" width={100} height={100} />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" width={100} height={100} />
                     )}
                 </div>
                 <div style={{ flex: "2" }}>

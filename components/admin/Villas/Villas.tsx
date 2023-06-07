@@ -211,7 +211,6 @@ export default function Villas() {
 			// Call an API or perform some other action to register the user
 			const data = {
 				name: name,
-				user_id: userid.id,
 				email: email,
 				phone: phone,
 				address: address,
@@ -299,7 +298,6 @@ export default function Villas() {
 
 			const data = {
 				name: name,
-				user_id: userid.id,
 				email: email || '',
 				phone: phone || '',
 				address: address,

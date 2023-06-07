@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { getSingleReceiptAdmin } from "../../../lib/adminapi"
+import { getSingleInvoice } from "../../../lib/adminapi"
 import moment from 'moment';
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 
-export default function MyProfile(props: any) {
+export default function SingleInvoice(props: any) {
 
     interface User {
         id: number,
@@ -18,6 +18,16 @@ export default function MyProfile(props: any) {
         chefpic: string,
         chefemail: string,
         useremail: string,
+        phone: number,
+        amount: number,
+        menu_name: string,
+        dish_names: string
+    }
+    interface Dish {
+        starter: string,
+        firstcourse: string,
+        maincourse: string,
+        desert: string
     }
 
     const [getUsers, setUsers] = useState<User>({
@@ -33,31 +43,46 @@ export default function MyProfile(props: any) {
         chefpic: "",
         chefemail: "",
         useremail: "",
+        phone: 0,
+        amount: 0,
+        menu_name: "",
+        dish_names: ""
 
+    });
+
+    const [getdish, setGetDish] = useState<Dish>({
+        starter: "",
+        firstcourse: "",
+        maincourse: "",
+        desert: ""
     });
 
 
     let id = props.userId;
 
     useEffect(() => {
-        const data = isPageVisibleToRole('admin-single-invoice');
-		if (data == 2) {
-			window.location.href = '/';
-		}
-		if (data == 0) {
-			window.location.href = '/404';
-		}
-		if (data == 1) {
-			GetSingleReceiptAdmin(id);
-		}
+        getUserData();
     }, []);
 
-    const GetSingleReceiptAdmin = async (id: any) => {
-        getSingleReceiptAdmin(id)
+    const getUserData = async () => {
+        const data = isPageVisibleToRole('admin-single-invoice');
+        if (data == 2) {
+            window.location.href = '/';
+        }
+        if (data == 0) {
+            window.location.href = '/404';
+        }
+        if (data == 1) {
+            getReceiptData();
+        }
+    }
+
+    const getReceiptData = async () => {
+        getSingleInvoice(id)
             .then(res => {
                 if (res.status == true) {
                     setUsers(res.data);
-
+                    setGetDish(res.dishNames);
                 } else {
                     console.log("error");
                 }
@@ -67,73 +92,52 @@ export default function MyProfile(props: any) {
             });
     }
 
-    const formatDate = (value: any) => {
-        return moment(value).format('D/M/YY');
-    }
-
-
     return (
         <>
-            <h5 style={{ color: "#ff4e00" }}>Chefs Detail</h5>
-            <div className="user-class pt-5">
-                <div className="userImg" style={{ flex: "1" }}>
-                    {getUsers.chefpic ? (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + getUsers.chefpic} alt="" width={100} height={100} />
-                    ) : (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" width={100} height={100} />
-                    )}
+            <div className="invoice mt-5">
+                <div className="invoice-header">
+                    <div className="company-info">
+                        <img
+                            src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo.png"}
+                            alt="food"
+                            width={160}
+                        />
+                    </div>
+                    <div className="company-info">
+                        <h2>Invoice</h2>
+                        <p>{getUsers.chefname}{getUsers.chefsurname}</p>
+                        <p>{getUsers.chefemail}</p>
+                        <p>{getUsers.chefaddress}</p>
+                        <p>Phone: {getUsers.chefphone}</p>
+                    </div>
                 </div>
-                <div style={{ flex: "2" }}>
-                    <p><span id="book-user">Chef Name  </span> : {getUsers.chefname}</p>
-                    {getUsers.chefsurname ? (
-                        <p><span id="book-user">Chef Surname</span> : {getUsers.chefsurname}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.chefemail ? (
-                        <p><span id="book-user">Chef Email</span> : {getUsers.chefemail}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.chefphone ? (
-                        <p><span id="book-user">Chef phone no.</span> : {getUsers.chefphone}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.chefaddress ? (
-                        <p><span id="book-user">Chef Address</span> : {getUsers.chefaddress}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.orderdate ? (
-                        <p><span id="book-user">Oder Date</span> : {getUsers.orderdate}</p>
-                    ) : (
-                        null
-                    )}
+                <div className="invoice-body">
+                    <h2 style={{ color: "#fd5100", fontSize: "17px" }}>Menu name:{getUsers.menu_name
+                    }</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Starter</th>
+                                <th>First Course</th>
+                                <th>Main Course</th>
+                                <th>Desert</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{getdish.starter}</td>
+                                <td>{getdish.firstcourse}</td>
+                                <td>{getdish.maincourse}</td>
+                                <td>{getdish.desert}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div style={{ flex: "2" }}>
-                    {getUsers.username ? (
-                        <p><span id="book-user">Recipient Name </span> : {getUsers.username} </p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.usersurname ? (
-                        <p><span id="book-user">Recipient Surname </span> : {getUsers.usersurname} </p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.useremail ? (
-                        <p><span id="book-user">Recipient Email</span> : {getUsers.useremail}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.useraddress ? (
-                        <p><span id="book-user">Recipient Address </span>: {getUsers.useraddress}</p>
-                    ) : (
-                        null
-                    )}
+                <div className="invoice-footer">
+                    <p className="total">Total: ${getUsers.amount}</p>
                 </div>
             </div>
         </>
     )
 }
+

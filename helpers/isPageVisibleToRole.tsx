@@ -43,6 +43,7 @@ export function isPageVisibleToRole(pageName: string): number {
       "invoice": ["chef"],
       "admin-invoice": ["admin"],
       "admin-single-invoice": ["admin"],
+      "concierge": ['concierge'],
       "concierge-bookings": ['concierge'],
       "concierge-assigned-bookings": ['concierge'],
       "concierge-invoice": ["concierge"],

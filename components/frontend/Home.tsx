@@ -501,7 +501,7 @@ export default function Home() {
                                             {testimonial.image ? (
                                                 <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/testimonial/' + testimonial.image} alt="ava4" />
                                             ) : (
-                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="ava4" />
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="ava4" />
                                             )}
                                         </div>
                                         <div className="col-9">

@@ -101,7 +101,7 @@ export default function MyProfile(props: any) {
                     {getUsers.pic ? (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' +getUsers.pic} alt="" width={100} height={100} />
                     ) : (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" width={100} height={100} />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" width={100} height={100} />
                     )}
                 </div>
                 <div style={{ flex: "2" }}>
@@ -189,7 +189,7 @@ export default function MyProfile(props: any) {
                                 <th scope="col">Address</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Image</th>
-                                <th scope="col">Status</th>
+                                {/* <th scope="col">Status</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -227,7 +227,7 @@ export default function MyProfile(props: any) {
                                                 alt=""
                                             />}
                                         </td>
-                                        <td>{user.booking_status}</td>
+                                        {/* <td>{user.booking_status}</td> */}
                                     </tr>
                                 );
                             })}

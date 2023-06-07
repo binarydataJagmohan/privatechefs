@@ -2,9 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/user/userprofile": "pages/user/userprofile.js",
-  "/": "pages/index.js",
-  "/concierge/dashboard": "pages/concierge/dashboard.js",
-  "/concierge/villas": "pages/concierge/villas.js",
-  "/concierge/calender": "pages/concierge/calender.js"
+  "/chef/myprofile": "pages/chef/myprofile.js",
+  "/user/booking": "pages/user/booking.js"
 }

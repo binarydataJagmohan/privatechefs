@@ -455,7 +455,7 @@ export default function Bookings() {
 		window.localStorage.removeItem("selectedallergies");
 		window.localStorage.removeItem("additionalnotes");
 		window.localStorage.setItem("bookingid", id);
-		window.location.href = '/admin/edit-booking/step1';
+		window.location.href = '/concierge/edit-booking/step1';
 	}
 
 	const ChangeBookingStatus = async (e: any, id: any) => {
