@@ -550,7 +550,7 @@ export default function Header({ }) {
                 {isAuthenticated && role === "user" && (
                   <li className="nav-item">
                     <a className="nav-link" href="/user/userprofile">
-                      Dashboard
+                    My Profile
                     </a>
                   </li>
                 )}

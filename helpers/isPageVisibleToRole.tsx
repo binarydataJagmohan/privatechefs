@@ -23,7 +23,7 @@ export function isPageVisibleToRole(pageName: string): number {
       "admin-testimonial": ["admin"],
       "admin-servicechoice": ["admin"],
       "user-edit-profile": ["user"],
-      "notification": ["admin", "chef", "user"],
+      "notification": ["admin", "chef", "concierge"],
       "admin-villas": ["admin"],
       "chef-dish": ["chef"],
       "admin-cuisine": ['admin'],

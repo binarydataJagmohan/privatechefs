@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chef/myprofile": "pages/chef/myprofile.js",
-  "/user/booking": "pages/user/booking.js"
+  "/": "pages/index.js",
+  "/concierge/dashboard": "pages/concierge/dashboard.js"
 }

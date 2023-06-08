@@ -206,11 +206,12 @@ export default function Villas() {
 
 		// Submit form data if there are no errors
 		if (Object.keys(errors).length === 0) {
-			const userid: any = getCurrentUserData();
+			const userData: any = getCurrentUserData();
 			setButtonState(true);
 			// Call an API or perform some other action to register the user
 			const data = {
 				name: name,
+				user_id: userData.id,
 				email: email,
 				phone: phone,
 				address: address,
@@ -293,7 +294,6 @@ export default function Villas() {
 
 		if (Object.keys(errors).length === 0) {
 			setButtonState(true);
-			const userid: any = getCurrentUserData();
 			const id = getsingledata.id;
 
 			const data = {

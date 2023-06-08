@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateLocationStatus, SaveChefLocation, getChefLocation, UpdateChefLocation, getSingleLocation, deleteSingleLocation, updateChefImage,getCurrentLocation} from '../../../lib/chefapi'
+import { updateChefProfile, getChefDetail, UpdateChefResume, getChefResume, UpdateLocationStatus, SaveChefLocation, getChefLocation, UpdateChefLocation, getSingleLocation, deleteSingleLocation, updateChefImage, getCurrentLocation } from '../../../lib/chefapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
@@ -21,6 +21,9 @@ export default function MyProfile() {
 	}
 	interface Location1 {
 		id: number;
+		address: string;
+		lat: number;
+		lng: number;
 	}
 	interface User {
 		id: number;
@@ -87,7 +90,12 @@ export default function MyProfile() {
 	const [getsingledata, setGetSingleData]: any = useState([]);
 	const [totalMenu, setTotalMenu]: any = useState({});
 	const [getsinglelocation, setGetSingleLocation] = useState<Location[]>([]);
-	const [currentlocation, setCurrentLocation] = useState({});
+	const [currentlocation, setCurrentLocation] = useState<Location1>({
+		id: 0,
+		address: "",
+		lat: 0,
+		lng: 0,
+	});
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 5;
 
@@ -132,6 +140,13 @@ export default function MyProfile() {
 	};
 
 	const updateLocation = async (e: any) => {
+		const errors: any = {};
+		if (!locationaddress) {
+			errors.locationaddress = "Address is required";
+		}
+		setErrors(errors);
+
+		if (Object.keys(errors).length === 0) {
 		e.preventDefault();
 		// const user_id = chefLocation.user_id;
 		// console.log(user_id);
@@ -163,6 +178,7 @@ export default function MyProfile() {
 			.catch(err => {
 				console.log(err);
 			});
+		}
 	};
 
 
@@ -222,6 +238,8 @@ export default function MyProfile() {
 				bank_name: bank_name || '',
 				holder_name: holder_name || '',
 				bank_address: bank_address || '',
+				lat: lat,
+				lng: lng
 			};
 
 			updateChefProfile(userid, data)
@@ -251,19 +269,6 @@ export default function MyProfile() {
 		}
 	};
 
-	const uploadimage = () => {
-		$("#uploadfile").trigger("click");
-	};
-
-	const hoverinimage = function (e: any) {
-		$(e.target).css("opacity", "0.3");
-		$(".fa-image").css("display", "block");
-	};
-	const hoveroutimage = function (e: any) {
-		$(e.target).css("opacity", "1");
-		$(".fa-image").css("display", "none");
-	};
-
 	const imageChange = async (e: any) => {
 		const file = e.target.files[0];
 		setImage(file);
@@ -285,12 +290,19 @@ export default function MyProfile() {
 	};
 
 	const saveLocation = async (e: any) => {
+		const errors: any = {};
+		if (!locationaddress) {
+			errors.locationaddress = "Address is required";
+		}
+		setErrors(errors);
+
+		if (Object.keys(errors).length === 0) {
 		e.preventDefault();
 		setButtonState(true);
-		const user_id = currentUserData.id;
+		const userData: User = getCurrentUserData() as User;
 		//console.log(user_id)
 		const data = {
-			user_id: user_id,
+			user_id: userData.id,
 			address: locationaddress,
 			lat: lat,
 			lng: lng,
@@ -299,7 +311,7 @@ export default function MyProfile() {
 			.then(res => {
 				if (res.status == true) {
 					console.log(res.data);
-					getChefLocationData(user_id);
+					getChefLocationData(userData.id);
 					setModalConfirm(false);
 					setButtonState(false);
 					toast.success(res.message, {
@@ -319,6 +331,7 @@ export default function MyProfile() {
 					position: toast.POSITION.TOP_RIGHT
 				});
 			});
+		}
 	};
 
 
@@ -412,7 +425,7 @@ export default function MyProfile() {
 			setupAddressAutocomplete('address-input');
 			setupAddressAutocomplete('address-input1');
 			setupAddressAutocomplete('address-input2');
-			
+
 		}).catch((error) => {
 			console.error('Failed to load Google Maps API', error);
 		});
@@ -571,48 +584,54 @@ export default function MyProfile() {
 	// let googleMapsApiLoaded = false;
 
 	const getCurrentLocationData = async (id: any) => {
-		getCurrentLocation(id)
-			.then(res => {
-				setButtonState(false);
-				if (res.status == true) {
-					setCurrentLocation(res.data.address);
-					console.log(res.data.address);
+		try {
+			const res = await getCurrentLocation(id);
+			if (res.status == true) {
+				setModalConfirm(false);
+				setCurrentLocation(res.data);
+				//console.log(res.data.address);
+				// Display the map for the selected location
+				let lat, lng;
 
-					const loader = new Loader({
-						apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
-						version: "weekly",
-						libraries: ["places"]
-					});
-					loader.load().then(() => {
-						if (res.data && res.data.length > 0) {
-							const firstData = res.data[0];
-							if (mapRef.current) {
-								const map = new google.maps.Map(mapRef.current, {
-									center: { lat: parseFloat(res.data[0].lat), lng: parseFloat(res.data[0].lng) },
-									zoom: 12,
-								});
-
-								const marker = new google.maps.Marker({
-									position: { lat: parseFloat(res.data[0].lat), lng: parseFloat(res.data[0].lng) },
-									map: map,
-									title: res.data[0].address,
-								});
-								//console.log(res.data[0].address);
-							}
-						} else {
-							// handle case where res.data is undefined or empty
-						}
-					});
+				// Update the property access based on the response structure
+				if (res.data.geometry && res.data.geometry.location) {
+					lat = res.data.geometry.location.lat;
+					lng = res.data.geometry.location.lng;
+				} else if (res.data.lat && res.data.lng) {
+					lat = res.data.lat;
+					lng = res.data.lng;
 				} else {
-					setButtonState(false);
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
+					// Handle the case when the location coordinates are not available
+					console.log("Location coordinates not found");
+					return;
 				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
+
+				const parsedLat = parseFloat(lat);
+				const parsedLng = parseFloat(lng);
+
+				// Check if the parsed lat and lng are valid numbers
+				if (!isNaN(parsedLat) && !isNaN(parsedLng)) {
+					const mapOptions = {
+						center: { lat: parsedLat, lng: parsedLng },
+						zoom: 12,
+					};
+
+					// Ensure google is defined before creating the map
+					if (typeof google !== 'undefined' && mapRef.current !== null) {
+						const map = new google.maps.Map(mapRef.current, mapOptions);
+						const marker = new google.maps.Marker({
+							position: { lat: parsedLat, lng: parsedLng },
+							map: map,
+							title: res.data.address,
+						});
+					}
+				}
+			} else {
+				console.log("error");
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	}
 
 
@@ -918,7 +937,7 @@ export default function MyProfile() {
 									</div>
 								</div>
 								<div className="text-right">
-									<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+									<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
 								</div>
 								<hr />
 								{/* <div className="row">
@@ -1115,7 +1134,7 @@ export default function MyProfile() {
 										</div>
 									</div>
 									<div className="text-right">
-										<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>									</div>
+										<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>									</div>
 									<hr></hr>
 								</>
 							</form>
@@ -1123,37 +1142,66 @@ export default function MyProfile() {
 						<div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 							<div className="row">
 								<div className="col-lg-5 col-md-12 position-r">
-									{Array.isArray(chefLocation) && chefLocation.map((location, index) => (
-										<div className="location-name" key={index}>
-											<div className="row" >
+									{Array.isArray(chefLocation) && chefLocation.length > 0 ? (
+										// Render the locations if the data is available
+										chefLocation.map((location, index) => (
+											<div className="location-name" key={index}>
+												<div className="row">
+													<div className="col-7">
+														<a onClick={() => getLocation(location.id)}>
+															<p className="f-16" style={{ cursor: "pointer" }}>{location.address}</p>
+														</a>
+													</div>
+													<div className="col-2">
+														<label className="switch">
+															<input
+																type="checkbox"
+																name="location_status"
+																value={location_status}
+																checked={location.location_status === "visible"}
+																onChange={(e) => {
+																	setLocationStatus(e.target.checked ? "visible" : "unvisible");
+																	updateLocationStatus(location.id, e.target.checked ? "visible" : "unvisible");
+																}}
+															/>
+															<span className="slider round"></span>
+														</label>
+													</div>
+													<div className="col-3 social">
+														<a onClick={() => GetSingleLocation(location.id)} id={`myCheckbox_${location.id}`}>
+															<i className="fa fa-edit" aria-hidden="true"></i>
+														</a>
+														<a onClick={() => deleteReceiptData(location.id)}>
+															<i className="fa fa-times" aria-hidden="true"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										))
+									) : (
+										// Render a single item when the data is not available
+										<div className="location-name">
+											<div className="row">
 												<div className="col-7">
-													<a onClick={() => getLocation(location.id)}><p className="f-16" style={{ cursor: "pointer" }}>{location.address}</p></a>
+													<a>
+														<p className="f-16" style={{ cursor: "pointer" }}>{currentlocation.address}</p>
+													</a>
 												</div>
 												<div className="col-2">
 													<label className="switch">
 														<input
 															type="checkbox"
 															name="location_status"
-															// key={location.id}
-															value={location_status}
-															checked={location.location_status === "visible" ? true : false}
-															onChange={(e) => {
-																setLocationStatus(e.target.checked ? "visible" : "unvisible");
-																updateLocationStatus(location.id, e.target.checked ? "visible" : "unvisible");
-															}}
 														/>
 														<span className="slider round"></span>
 													</label>
 												</div>
-												<div className="col-3 social">
-													<a onClick={() => GetSingleLocation(location.id)} id={`myCheckbox_${location.id}`}><i className="fa fa-edit" aria-hidden="true"></i></a>
-													<a onClick={() =>
-														deleteReceiptData(location.id)
-													}><i className="fa fa-times" aria-hidden="true"></i></a>
-												</div>
 											</div>
 										</div>
-									))}
+									)}
+
+
+
 									<div className='row'>
 										<div className='col-md-6'>
 											<div className="banner-btn position-top">
@@ -1183,12 +1231,17 @@ export default function MyProfile() {
 										<div className='row'>
 											<div className='col-md-12'>
 												<label>Address</label>
-												<input id="address-input1" type="text" name="address" defaultValue={address || ''} onChange={(e) => setLocationaddress(e.target.value)} />
+												<input id="address-input1" type="text" name="locationaddress" onChange={(e) => setLocationaddress(e.target.value)} />
+												{errors.locationaddress && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.locationaddress}
+														</span>
+													)}
 												{/* <iframe id="popup" style={{display:"none"}}src="about:blank"></iframe> */}
 											</div>
 										</div>
 										<div className="text-right">
-											<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+											<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
 										</div>
 									</form>
 								</div>
@@ -1206,11 +1259,16 @@ export default function MyProfile() {
 											<div className='col-md-12'>
 												<label>Address</label>
 												<input id="address-input2" type="text" name="address" defaultValue={locationaddress || ''} onChange={(e) => setLocationaddress(e.target.value)} />
+												{errors.locationaddress && (
+														<span className="small error text-danger mb-2 d-inline-block error_login">
+															{errors.locationaddress}
+														</span>
+													)}
 												{/* <iframe id="popup" style={{display:"none"}}src="about:blank"></iframe> */}
 											</div>
 										</div>
 										<div className="text-right">
-											<button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}</button>
+											<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}</button>
 										</div>
 									</form>
 								</div>

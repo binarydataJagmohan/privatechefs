@@ -390,7 +390,7 @@ export default function UserProfile() {
                         </div>
                         <div className='col-md-4'>
                           <label>Country</label>
-                          <input type="text" defaultValue="country" value={country || ''} placeholder="TAX ID" onChange={(e) => setCountry(e.target.value)} />
+                          <input type="text" defaultValue="country" value={country || ''} placeholder="Country" onChange={(e) => setCountry(e.target.value)} />
                           {errors.country && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.country}</span>}
                         </div>
                       </div>

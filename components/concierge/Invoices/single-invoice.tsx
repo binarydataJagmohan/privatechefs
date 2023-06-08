@@ -23,11 +23,14 @@ export default function SingleInvoice(props: any) {
         menu_name: string,
         dish_names: string
     }
-    interface Dish {
-        starter: string,
-        firstcourse: string,
-        maincourse: string,
-        desert: string
+
+    interface MenuData {
+        id: number;
+        name?: string;
+        menu_name?: string;
+        image?: string;
+        item_name?: string;
+        type?: string;
     }
 
     const [getUsers, setUsers] = useState<User>({
@@ -50,12 +53,7 @@ export default function SingleInvoice(props: any) {
 
     });
 
-    const [getdish, setGetDish] = useState<Dish>({
-        starter: "",
-        firstcourse: "",
-        maincourse: "",
-        desert: ""
-    });
+    const [menu, setMenu] = useState<MenuData[]>([]);
 
 
     let id = props.userId;
@@ -82,7 +80,7 @@ export default function SingleInvoice(props: any) {
             .then(res => {
                 if (res.status == true) {
                     setUsers(res.data);
-                    setGetDish(res.dishNames);
+                    setMenu(res.dishNames);
                 } else {
                     console.log("error");
                 }
@@ -124,12 +122,18 @@ export default function SingleInvoice(props: any) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>{getdish.starter}</td>
-                                <td>{getdish.firstcourse}</td>
-                                <td>{getdish.maincourse}</td>
-                                <td>{getdish.desert}</td>
-                            </tr>
+                            {menu.length > 0 ? (
+                                <tr>
+                                    <td>{menu.find(item => item.type === 'firstcourse')?.item_name || ''}</td>
+                                    <td>{menu.find(item => item.type === 'desert')?.item_name || ''}</td>
+                                    <td>{menu.find(item => item.type === 'maincourse')?.item_name || ''}</td>
+                                    <td>{menu.find(item => item.type === 'starter')?.item_name || ''}</td>
+                                </tr>
+                            ) : (
+                                <tr>
+                                    <td className="">No menu items available</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
