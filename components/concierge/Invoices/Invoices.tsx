@@ -89,8 +89,8 @@ export default function Invoices() {
 									<tr key={index}>
 										<td>{index + 1}</td>
 										<td>#{invoice.booking_id}</td>
-										<td>{invoice.username}{invoice.usersurname}</td>
-										<td>{invoice.chefname}{invoice.chefsurname}</td>
+										<td>{invoice.username} {invoice.usersurname}</td>
+										<td>{invoice.chefname} {invoice.chefsurname}</td>
 										<td>{invoice.invoice_no}</td>
 										<td>{invoice.date ? new Date(invoice.date).toLocaleDateString() : ''}</td>
 										<td>{invoice.invoiceAmount}</td>
