@@ -2,7 +2,16 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
   "/user/messages": "pages/user/messages.js",
   "/chef/chats": "pages/chef/chats.js",
   "/admin/chats": "pages/admin/chats.js"
+=======
+  "/": "pages/index.js",
+  "/user/userprofile": "pages/user/userprofile.js",
+  "/admin/notification/notification": "pages/admin/notification/notification.js",
+  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/concierge/invoices": "pages/concierge/invoices.js",
+  "/404": "pages/404.js"
+>>>>>>> 0a539a6587b7a5d63dd1a5ac6bd1dd56c32b1e5d
 }

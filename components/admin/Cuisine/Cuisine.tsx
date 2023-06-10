@@ -155,12 +155,12 @@ export default function Cuisine() {
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
 
-
+      const userData :any = getCurrentUserData();
       // Call an API or perform some other action to register the user
       const data = {
         name: name,
         description: description,
-        user_id: current_UserData.id,
+        user_id: userData.id,
 
       };
 

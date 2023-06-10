@@ -292,7 +292,7 @@ export default function Bookings() {
 		<>
 
 			<div className="table-part">
-				<h2 className="mb-4">Applied Bookings</h2>
+				<h2 className="mb-4">Applied Jobs</h2>
 
 				<ul className="table_header_button_section">
 					<li>
@@ -340,8 +340,8 @@ export default function Bookings() {
 									<th scope="col">Category</th>
 									<th scope="col">Menu</th>
 									<th scope="col">Amount</th>
-									<th scope="col">Booking Status</th>
 									<th scope="col">Applied Status</th>
+									<th scope="col">Booking Status</th>
 									<th scope="col">Action</th>
 
 								</tr>
@@ -382,13 +382,13 @@ export default function Bookings() {
 											<td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
 											<td>{user.menu_names}</td>
 											<td>{user.amount}</td>
-											<td>{user.booking_status}</td>
+											{/* <td>{user.booking_status}</td> */}
 
 											<td>{user.applied_jobs_status}</td>
 
 											<td>
 												<select aria-label="Default select example" name="booking_status" onChange={(e) => ChangeBookingStatus(e, user.booking_id)}>
-													<option value='' >Select status</option>
+													<option value='' disabled>Select status</option>
 													<option value='completed' id="completed" selected={user.booking_status === 'completed'}>Completed</option>
 													<option value='upcoming' selected={user.booking_status === 'upcoming'}>Upcoming</option>
 													<option value='pending' selected={user.booking_status === 'pending'}>Pending</option>

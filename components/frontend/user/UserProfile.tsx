@@ -390,19 +390,19 @@ export default function UserProfile() {
                         </div>
                         <div className='col-md-4'>
                           <label>Country</label>
-                          <input type="text" defaultValue="country" value={country || ''} placeholder="TAX ID" onChange={(e) => setCountry(e.target.value)} />
+                          <input type="text" defaultValue="country" value={country || ''} placeholder="Country" onChange={(e) => setCountry(e.target.value)} />
                           {errors.country && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.country}</span>}
                         </div>
                       </div>
                       <div className='row'>
                         <div className='col-md-4'>
                           <label>Post Code</label>
-                          <input type="number" defaultValue="post_code" value={post_code || ''} placeholder="Post Code" onChange={(e) => setPostCode(e.target.value)} />
+                          <input type="text" defaultValue="post_code" value={post_code || ''} placeholder="Post Code" onChange={(e) => setPostCode(e.target.value)} />
                           {errors.post_code && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.post_code}</span>}
                         </div>
                         <div className='col-md-4'>
                           <label>Business Email</label>
-                          <input type="text" defaultValue="business_email" value={business_email || ''} placeholder="Business Email" onChange={(e) => setBusinessEmail(e.target.value)} />
+                          <input type="email" defaultValue="business_email" value={business_email || ''} placeholder="Business Email" onChange={(e) => setBusinessEmail(e.target.value)} />
                           {errors.business_email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.business_email}</span>}
                         </div>
                         <div className='col-md-4'>

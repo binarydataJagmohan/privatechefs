@@ -468,7 +468,7 @@ export default function Bookings() {
 	return (
 		<>
 			<div className="table-part">
-				<h2 className="mb-4">Available Bookings</h2>
+				<h2 className="mb-4">Available Jobs</h2>
 
 				<ul className="table_header_button_section">
 					<li>
@@ -530,11 +530,12 @@ export default function Bookings() {
 									const startDate = dates[0];
 									const endDate = dates[dates.length - 1];
 									const output = `${startDate} to ${endDate}`;
+									const surname = user && user.surname ? user.surname : '';
 
 									return (
 										<tr key={index}>
 											<td>{index + 1}</td>
-											<td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+											<td>{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 											<td className="chefs_pic">
 												{user.pic ? <img
 													src={

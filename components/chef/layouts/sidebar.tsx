@@ -218,7 +218,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
 
-                    {/* <a href="/chef/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                    <a href="/chef/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
                         if (currentUserData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
@@ -231,7 +231,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file"></i></span>
                             <span className="menu-collapsed">Invoices</span>
                         </div>
-                    </a> */}
+                    </a>
                     <a href="/chef/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/receipts' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
                         if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
@@ -254,7 +254,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a> */}
 
-                    <a href="/chef/menus" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/menus' || router.pathname == '/chef/menus2' || router.pathname == '/chef/menus3' || router.pathname == '/chef/menus4' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                    <a href="/chef/menus" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/menus' || router.pathname == '/chef/menu/[id]' || router.pathname == '/chef/menus2' || router.pathname == '/chef/menus3' || router.pathname == '/chef/menus4' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
                         if (userData.approved_by_admin === 'no') {
                             e.preventDefault();
                             AdminApprovalInfoAlert();

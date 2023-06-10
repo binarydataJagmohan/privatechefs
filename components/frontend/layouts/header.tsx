@@ -196,6 +196,13 @@ export default function Header({ }) {
                   }
                 }
               }, 1000);
+
+              setTimeout(() => {
+                if (res.user.role == "concierge") {
+                  window.location.href = "/concierge/dashboard";
+                }
+              }, 1000);
+
             } else {
               setButtonState(false);
               toast.info(res.message, {
@@ -318,6 +325,12 @@ export default function Header({ }) {
               setTimeout(() => {
                 if (res.data.user.role == "chef") {
                   window.location.href = "/chef/myprofile";
+                }
+              }, 1000);
+
+              setTimeout(() => {
+                if (res.data.user.role == "concierge") {
+                  window.location.href = "/concierge/dashboard";
                 }
               }, 1000);
 
@@ -537,6 +550,13 @@ export default function Header({ }) {
                 {isAuthenticated && role === "user" && (
                   <li className="nav-item">
                     <a className="nav-link" href="/user/userprofile">
+                    My Profile
+                    </a>
+                  </li>
+                )}
+                 {isAuthenticated && role === "concierge" && (
+                  <li className="nav-item">
+                    <a className="nav-link" href="/concierge/dashboard">
                       Dashboard
                     </a>
                   </li>

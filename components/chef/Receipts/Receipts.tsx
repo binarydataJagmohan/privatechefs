@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getAllBooking, saveReceipt, getReceipt, getSingleReceipt, updateReceipt, deleteReceipt, updateReceiptImages } from '../../../lib/chefapi'
+import { getAllBooking, saveReceipt, getChefReceipt, getSingleReceipt, updateReceipt, deleteReceipt, updateReceiptImages } from '../../../lib/chefapi'
 import { getCurrentUserData } from '../../../lib/session'
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
@@ -18,8 +18,8 @@ export default function Receipts() {
 		surname: string;
 		email: string;
 		approved_by_admin: string;
-		profile_status:string;
-	  }
+		profile_status: string;
+	}
 
 	interface CurrentUserData {
 		id: number;
@@ -28,12 +28,12 @@ export default function Receipts() {
 
 	interface SingleReceipt {
 		id: number;
-		receipt_id:number;
+		receipt_id: number;
 	}
 
 	interface ImageObject {
 		image: string;
-	  }
+	}
 
 	const [amount, setAmount] = useState("");
 	const [description, setDescription] = useState("");
@@ -42,14 +42,15 @@ export default function Receipts() {
 	const [image, setImage] = useState<Array<Blob | ImageObject>>([]);
 	const [currentuserdata, setCurrentUserData] = useState<CurrentUserData>({ id: 0, name: "" });
 
+	const [errors, setErrors]: any = useState({});
 	const [getbooking, setGetBooking] = useState('');
 	const [getreceipt, setGetReceipt] = useState('');
-	const [getsinglereceipt, setGetSingleReceipt] = useState<SingleReceipt>({ id: 0,receipt_id:0});
+	const [getsinglereceipt, setGetSingleReceipt] = useState<SingleReceipt>({ id: 0, receipt_id: 0 });
 	const [getreceiptimageid, setGetReceiptImageId] = useState('');
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [editimagemodalConfirm, editimagesetModalConfirm] = useState(false);
-	const [totalMenu, setTotalMenu]:any = useState({});
+	const [totalMenu, setTotalMenu]: any = useState({});
 	const [buttonStatus, setButtonState] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 10;
@@ -72,7 +73,7 @@ export default function Receipts() {
 	const editimagemodalConfirmClose = () => {
 		editimagesetModalConfirm(false);
 	}
-	
+
 	useEffect(() => {
 		getUserData();
 	}, []);
@@ -87,12 +88,12 @@ export default function Receipts() {
 		}
 		if (data == 1) {
 			const userData: User = getCurrentUserData() as User;
-            if(userData.approved_by_admin == 'yes' && userData.profile_status == 'completed'){
-			getAllBookingData();
-			getReceiptData();
-		}else {
-			window.location.href = '/404';
-		  }
+			if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
+				getAllBookingData();
+				getReceiptData();
+			} else {
+				window.location.href = '/404';
+			}
 		}
 	}
 
@@ -111,7 +112,8 @@ export default function Receipts() {
 	}
 
 	const getReceiptData = async () => {
-		getReceipt()
+		const userData: User = getCurrentUserData() as User;
+		getChefReceipt(userData.id)
 			.then(res => {
 				if (res.status == true) {
 					setTotalMenu(res.data);
@@ -166,9 +168,10 @@ export default function Receipts() {
 			});
 	}
 
-	const onPageChange = (page:any) => {
+	const onPageChange = (page: any) => {
 		setCurrentPage(page);
-		getReceipt()
+		const userData: User = getCurrentUserData() as User;
+		getChefReceipt(userData.id)
 			.then(res => {
 				if (res.status == true) {
 					setTotalMenu(res.data);
@@ -185,38 +188,50 @@ export default function Receipts() {
 
 	const handleReceiptSubmit = (e: any) => {
 		e.preventDefault();
-		setButtonState(true);
-		
-		const data = {
-			user_id: currentuserdata.id,
-			booking_id: booking_id,
-			amount: amount,
-			description: description,
-			order_date: order_date
-		};
+		const errors: any = {};
 
-		saveReceipt(data)
-			.then(res => {
-				if (res.status == true) {
-					console.log(res.status);
-					getReceiptData();
-					modalConfirmClose();
-					editmodalConfirmClose();
-					setButtonState(false);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
+		if (!booking_id) {
+			errors.booking_id = "Booking is required";
+		}
+		if (!amount) {
+			errors.amount = "Amount is required";
+		}
+		setErrors(errors);
 
-				} else {
-					setButtonState(false);
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		if (Object.keys(errors).length === 0) {
+			setButtonState(true);
+			const userData: User = getCurrentUserData() as User;
+			const data = {
+				user_id: userData.id,
+				booking_id: booking_id,
+				amount: amount,
+				description: description,
+				order_date: order_date
+			};
+
+			saveReceipt(data)
+				.then(res => {
+					if (res.status == true) {
+						console.log(res.status);
+						getReceiptData();
+						modalConfirmClose();
+						editmodalConfirmClose();
+						setButtonState(false);
+						toast.success(res.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+
+					} else {
+						setButtonState(false);
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		}
 	};
 
 
@@ -321,10 +336,10 @@ export default function Receipts() {
 	};
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = Array.from(e.target.files || []);
-	  
+
 		setImage(files);
 		console.log(files);
-	  };
+	};
 
 	const resetFields = () => {
 		setAmount("");
@@ -335,87 +350,90 @@ export default function Receipts() {
 	}
 
 
-
 	return (
 		<>
 			<div className="table-part">
 				<h2>Receipts</h2>
 				<button className="table-btn" onClick={() => { modalConfirmOpen(); resetFields(); }}>Add</button>
 				<div className="table-box" id="receipt_table">
-					<table className="table table-borderless">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Order ID</th>
-								<th scope="col">Amount</th>
-								{/* <th scope="col">Payment Details</th>
+					{getreceipt.length > 0 ?
+						<table className="table table-borderless">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Order ID</th>
+									<th scope="col">Amount</th>
+									{/* <th scope="col">Payment Details</th>
 								<th scope="col">Payment Details</th> */}
-								<th scope="col">Order Date</th>
-								<th scope="col">Payment Date</th>
-								<th scope="col"></th>
-							</tr>
-						</thead>
-						<tbody>
-							{Array.isArray(getreceipt) && getreceipt.map((receipt, index) => (
-								<tr key={index}>
-									<td>{index + 1}</td>
-									<td>#{receipt.booking_id}</td>
-									<td>{receipt.amount}</td>
-									<td>{receipt.order_date ? new Date(receipt.order_date).toLocaleDateString() : ''}</td>
-									<td>{new Date(receipt.booking_date).toLocaleDateString()}</td>
-									<td>
-										<div className="dropdown" id="none-class">
-											<a
-												className="dropdown-toggle"
-												data-bs-toggle="dropdown"
-												aria-expanded="false"
-											>
-												<i className="fa-solid fa-ellipsis"></i>
-											</a>
-											<ul
-												className="dropdown-menu"
-												aria-labelledby="dropdownMenuButton"
-											>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() => {
-															getSingleReceiptData(receipt.id);
-														}}
-													>
-														Edit
-													</a>
-												</li>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() =>
-															getImageData(receipt.id)
-														}
-													>
-														Image
-													</a>
-												</li>
-												<li>
-													<a
-														className="dropdown-item"
-														href="#"
-														onClick={() =>
-															deleteReceiptData(receipt.id)
-														}
-													>
-														Delete
-													</a>
-												</li>
-											</ul>
-										</div>
-									</td>
+									<th scope="col">Order Date</th>
+									{/* <th scope="col">Booking Date</th> */}
+									<th scope="col">Action</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{Array.isArray(getreceipt) && getreceipt.map((receipt, index) => (
+									<tr key={index}>
+										<td>{index + 1}</td>
+										<td>#{receipt.booking_id}</td>
+										<td>{receipt.amount}</td>
+										<td>{receipt.order_date ? new Date(receipt.order_date).toLocaleDateString() : ''}</td>
+										{/* <td>{new Date(receipt.booking_date).toLocaleDateString()}</td> */}
+										<td>
+											<div className="dropdown" id="none-class">
+												<a
+													className="dropdown-toggle"
+													data-bs-toggle="dropdown"
+													aria-expanded="false"
+												>
+													<i className="fa-solid fa-ellipsis"></i>
+												</a>
+												<ul
+													className="dropdown-menu"
+													aria-labelledby="dropdownMenuButton"
+												>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() => {
+																getSingleReceiptData(receipt.id);
+															}}
+														>
+															Edit
+														</a>
+													</li>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() =>
+																getImageData(receipt.id)
+															}
+														>
+															Image
+														</a>
+													</li>
+													<li>
+														<a
+															className="dropdown-item"
+															href="#"
+															onClick={() =>
+																deleteReceiptData(receipt.id)
+															}
+														>
+															Delete
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+						:
+						<p className='text-center'>No Records Found</p>
+					}
 				</div>
 			</div>
 
@@ -447,6 +465,11 @@ export default function Receipts() {
 									</option>
 								))}
 							</select>
+							{errors.booking_id && (
+								<span className="small error text-danger mb-2 d-inline-block error_login">
+									{errors.booking_id}
+								</span>
+							)}
 						</div>
 						<div className='row'>
 							<div className='col-md-6'>
@@ -469,6 +492,11 @@ export default function Receipts() {
 										value={amount}
 										onChange={(e) => setAmount(e.target.value)}
 									/>
+									{errors.amount && (
+										<span className="small error text-danger mb-2 d-inline-block error_login">
+											{errors.amount}
+										</span>
+									)}
 								</div>
 							</div>
 						</div>

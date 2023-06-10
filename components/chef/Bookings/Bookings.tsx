@@ -389,7 +389,7 @@ export default function Bookings() {
 	return (
 		<>
 			<div className="table-part">
-				<h2 className="mb-4">Available Bookings</h2>
+				<h2 className="mb-4">Available Jobs</h2>
 
 				<ul className="table_header_button_section">
 					<li>
@@ -757,7 +757,7 @@ export default function Bookings() {
 											<label className="f-w-4">Chef’s Offer:</label>
 
 											<input type="number" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} onBlur={handleBookingApplyAmount} placeholder="Enter Amount" />
-											{errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.amount}</span>}
+											{errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login1 ">{errors.amount}</span>}
 										</div>
 									</div>
 								</div>
@@ -795,7 +795,7 @@ export default function Bookings() {
 											)}
 
 										</div>
-										{errors.selectedmenu && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.selectedmenu}</span>}
+										{errors.selectedmenu && <span className="small error text-danger mb-2 d-inline-block error_login1 ">{errors.selectedmenu}</span>}
 									</div>
 									<div className="text-right">
 										<div className="banner-btn" id="bookid">

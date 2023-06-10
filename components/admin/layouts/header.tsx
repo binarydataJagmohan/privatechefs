@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Header() {
 
-    const [currentUserData, setCurrentUserData]:any = useState({});
+    const [currentUserData, setCurrentUserData]: any = useState({});
     const [countdata, setCountData] = useState("");
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export default function Header() {
     }, []);
 
     const getAllNotify = async () => {
-        const userData:any = getCurrentUserData();
+        const userData: any = getCurrentUserData();
         setCurrentUserData(userData);
         getNotification(userData.id);
     }
@@ -22,7 +22,9 @@ export default function Header() {
         notificationForUserAdmin(id)
             .then(res => {
                 if (res.status == true) {
-                    setCountData(res.count);
+                    setTimeout(() => {
+                        setCountData(res.count);
+                      }, 100);
                 } else {
                     console.log("error");
                 }

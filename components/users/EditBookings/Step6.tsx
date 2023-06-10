@@ -298,7 +298,7 @@ export default function Step6() {
                               </div>
                             </div>
 
-                            <div className="row mb-2">
+                            <div className="row mb-2" >
                               <div className="col-lg-11 col-md-12">
                                 <h4 className="title-20">Number of people</h4>
                               </div>
@@ -366,7 +366,7 @@ export default function Step6() {
                                 
                               
                             </div>
-                            <div className="row mb-2">
+                            <div className="row mb-2" id="user_booking">
                               <div className="col-lg-12 col-md-12">
                                 <div className="row">
                                   <div className="col-lg-12 col-md-12">

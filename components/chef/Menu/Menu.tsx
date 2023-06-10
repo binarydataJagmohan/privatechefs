@@ -1259,7 +1259,7 @@ export default function Menus2(props: any) {
               )}
               {image && (
                 <div className="image_actual mb-4 d-block">
-                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/public/images/chef/menu/' + image} width={100} height={100} />
+                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/menu/' + image} width={100} height={100} />
                 </div>
               )}
             </div>

@@ -15,6 +15,19 @@
   ],
   "rootMainFiles": [],
   "pages": {
+<<<<<<< HEAD
+=======
+    "/": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
+    "/404": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/404.js"
+    ],
+>>>>>>> 0a539a6587b7a5d63dd1a5ac6bd1dd56c32b1e5d
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -25,6 +38,7 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+<<<<<<< HEAD
     "/admin/chats": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -39,6 +53,27 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/user/messages.js"
+=======
+    "/admin/dashboard": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/dashboard.js"
+    ],
+    "/admin/notification/notification": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/notification/notification.js"
+    ],
+    "/concierge/invoices": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/concierge/invoices.js"
+    ],
+    "/user/userprofile": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/userprofile.js"
+>>>>>>> 0a539a6587b7a5d63dd1a5ac6bd1dd56c32b1e5d
     ]
   },
   "ampFirstPages": []
