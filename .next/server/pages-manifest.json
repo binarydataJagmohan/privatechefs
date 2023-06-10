@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/user/messages": "pages/user/messages.js",
-  "/": "pages/index.js"
+  "/admin/chats": "pages/admin/chats.js",
+  "/user/booking": "pages/user/booking.js",
+  "/user/messages": "pages/user/messages.js"
 }
