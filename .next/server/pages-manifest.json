@@ -2,14 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/": "pages/index.js",
-  "/404": "pages/404.js",
-  "/chef/dashboard": "pages/chef/dashboard.js"
-=======
-  "/user/booking": "pages/user/booking.js",
-  "/admin/assigned-booking": "pages/admin/assigned-booking.js",
-  "/chef/applied-booking": "pages/chef/applied-booking.js",
-  "/admin/bookings": "pages/admin/bookings.js"
->>>>>>> 59103d9d6f57d8652497c1c30518635b3e706968
+  "/user/messages": "pages/user/messages.js",
+  "/chef/chats": "pages/chef/chats.js",
+  "/admin/chats": "pages/admin/chats.js"
 }

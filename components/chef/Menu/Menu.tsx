@@ -106,9 +106,6 @@ export default function Menus2(props: any) {
   const [showActualImage, setShowActualImage] = useState(false);
 
 
-
-
-
   useEffect(() => {
     getUserData();
   }, []);

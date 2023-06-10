@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getCurrentUserByBooking,getUserFilterByBooking,getUserChefOffer,ContactChefByUser,UpdateUserToOffiline } from "../../../lib/userapi";
+import { getCurrentUserByBooking,getUserFilterByBooking,getUserChefOffer,ContactChefByUserWithSingleBooking,UpdateUserToOffiline } from "../../../lib/userapi";
 import { getSingleChefMenu } from "../../../lib/chefapi";
 import { getUserBookingId, deleteBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
@@ -448,11 +448,12 @@ export default function Booking(props: any) {
         message: chatmessage,
         sender_id: currentUserData.id,
         receiver_id: chef_id,
-        booking_id: bookingid
+        booking_id: bookingid,
+        unique_booking_id:currentUserData.id+chef_id,
+        chat_type:'booking'
       };
 
-
-      ContactChefByUser(data)
+      ContactChefByUserWithSingleBooking(data)
         .then(res => {
           if (res.status == true) {
 

@@ -2709,6 +2709,7 @@ ul.user-mess li span.bg-f1 {
 li.right-li {
   position: absolute;
   right: 0;
+  top: 35px;
 }
 
 .text-left h5 {
@@ -3195,13 +3196,6 @@ select {
 .slick-arrow.slick-next {
   right: 25px;
   z-index: 9999;
-}
-
-.chats-circle {
-  color: #ff4e00;
-  position: absolute;
-  left: 0;
-  bottom: 0;
 }
 
 
@@ -3935,6 +3929,7 @@ div#test-img img {
 .chatactive {
   background: rgba(186, 134, 57, 0.1);
   display: block;
+  border-radius: 20px;
   
 }
 .chatactive .chat_color {
@@ -4063,3 +4058,62 @@ td.booking-status-cancelled {
   border-radius: 68px;
   font-weight: 500;
 }
+
+
+div#new_search-results {
+  height: 70vh;
+  overflow-y: scroll;
+  background-color: #fff;
+  position: absolute;
+  padding: 12px;
+  border-radius: 10px;
+  padding: 0;
+  z-index: 9;
+  top: -23px;
+  width: 100%;
+}
+
+div#new_search-results ul li {
+  border: 1px solid #dee2e6;
+  padding: 6px;
+}
+
+img.sender_booking_pic {
+  position: absolute !important;
+  top: 4px;
+  width: 40px !important;
+  height: 40px !important;
+  left: 20px;
+}
+div#booking_images {
+  position: relative;
+}
+img.receive_booking_pic {
+  position: absolute !important;
+  width: 40px !important;
+  height: 40px !important;
+  right: 16px;
+  bottom: 3px;
+}
+
+img.user_sider_sender_booking_pic {
+  position: absolute !important;
+  top: 0px;
+  width: 50px !important;
+  height: 50px !important;
+  left: -8px;
+}
+img.user_sider_receive_booking_pic {
+  position: absolute !important;
+  width: 50px !important;
+  height: 50px !important;
+  right: 5px;
+  bottom: 5px;
+}
+/* .user_chat_online_circle {
+  bottom: 21px !;
+  position: absolute;
+  display: block;
+  left: 50px;
+  top: 55px;
+} */

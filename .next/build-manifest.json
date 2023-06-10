@@ -15,19 +15,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-<<<<<<< HEAD
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/index.js"
-    ],
-    "/404": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/404.js"
-    ],
-=======
->>>>>>> 59103d9d6f57d8652497c1c30518635b3e706968
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -38,32 +25,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-<<<<<<< HEAD
-    "/chef/dashboard": [
+    "/admin/chats": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/dashboard.js"
-=======
-    "/admin/assigned-booking": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admin/assigned-booking.js"
+      "static/chunks/pages/admin/chats.js"
     ],
-    "/admin/bookings": [
+    "/chef/chats": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/bookings.js"
+      "static/chunks/pages/chef/chats.js"
     ],
-    "/chef/applied-booking": [
+    "/user/messages": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/applied-booking.js"
-    ],
-    "/user/booking": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/user/booking.js"
->>>>>>> 59103d9d6f57d8652497c1c30518635b3e706968
+      "static/chunks/pages/user/messages.js"
     ]
   },
   "ampFirstPages": []
