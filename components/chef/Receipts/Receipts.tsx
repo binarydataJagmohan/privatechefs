@@ -511,7 +511,6 @@ export default function Receipts() {
 						</div>
 						<div className='mt-4'>
 							<button
-								type="submit"
 								className="btn-send w-100"
 								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
 							</button>
@@ -579,7 +578,6 @@ export default function Receipts() {
 						</div>
 						<div className='mt-4'>
 							<button
-								type="submit"
 								className="btn-send w-100"
 								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}
 							</button>
@@ -632,7 +630,6 @@ export default function Receipts() {
 						</div>
 						<div className='mt-4'>
 							<button
-								type="submit"
 								className="btn-send w-100"
 								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}
 							</button>

@@ -4155,3 +4155,6 @@ li.right-lii {
 .invoice-footer .total {
   font-weight: bold;
 }
+.custom-toast-icon-color .toastify-icon {
+  color: #ff4e00; /* Set the desired icon color */
+}

@@ -14,30 +14,30 @@ export default function Notification() {
         surname: string;
         email: string;
         approved_by_admin: string;
-      }
+    }
 
-      interface CurrentUserData {
+    interface CurrentUserData {
         id: string;
         name: string;
         email: string;
         pic: string | null;
-        surname:string;
-        role:string;
-        approved_by_admin:string
-        
+        surname: string;
+        role: string;
+        approved_by_admin: string
+
     }
-      
+
     const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
         id: '',
         name: '',
         email: '',
         pic: null,
-        surname:'',
-        role:'',
-        approved_by_admin:''
+        surname: '',
+        role: '',
+        approved_by_admin: ''
     })
 
-    
+
     const [totalNotify, setTotalNotify] = useState([]);
     const [userData, setUserData] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -66,14 +66,14 @@ export default function Notification() {
                 surname: userData.surname,
                 role: userData.role,
                 approved_by_admin: userData.approved_by_admin,
-    
-              });
+
+            });
             getNotification(userData.id);
             notificationStaus(userData.id);
         }
     }
 
-    const onPageChange = (page:any) => {
+    const onPageChange = (page: any) => {
         setCurrentPage(page);
         notificationForUserAdmin(currentUserData.id)
             .then(res => {
@@ -91,7 +91,7 @@ export default function Notification() {
     };
 
 
-    const getNotification = async (id:any) => {
+    const getNotification = async (id: any) => {
         notificationForUserAdmin(id)
             .then(res => {
                 if (res.status == true) {
@@ -107,7 +107,7 @@ export default function Notification() {
             });
     }
 
-    const notificationStaus = async (id:any) => {
+    const notificationStaus = async (id: any) => {
         notificationStatus(id)
             .then(res => {
                 if (res.status == true) {
@@ -125,7 +125,18 @@ export default function Notification() {
     return (
         <>
             <div className="table-part">
-                <h2>Notification</h2>
+                <div className='row'>
+                    <div className='col-md-7'>
+                        <h2>Notification</h2>
+                    </div>
+                    <div className='col-md-5'>
+                        <select aria-label="Default select example" name="approved_by_admin"
+                        >
+                            <option value='yes' >Approved</option>
+                            <option value='no' >Unapproved</option>
+                        </select>
+                    </div>
+                </div>
                 <div className="notification-box">
                     {Array.isArray(userData) && userData.length > 0 ? (
                         userData.map((notification, index) => (
@@ -162,7 +173,6 @@ export default function Notification() {
                     onPageChange={onPageChange}
                 />
             </div>
-
         </>
     )
 }

@@ -2,10 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/user/userprofile": "pages/user/userprofile.js",
-  "/admin/notification/notification": "pages/admin/notification/notification.js",
-  "/admin/dashboard": "pages/admin/dashboard.js",
-  "/concierge/invoices": "pages/concierge/invoices.js",
-  "/404": "pages/404.js"
+  "/chef/menu/[id]": "pages/chef/menu/[id].js"
 }

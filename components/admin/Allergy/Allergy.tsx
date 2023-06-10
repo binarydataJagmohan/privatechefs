@@ -14,6 +14,7 @@ import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 
+
 type Employee = {
   [key: string]: any; // 👈️ variable key
 };
@@ -148,12 +149,32 @@ export default function Allergy() {
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
               });
             }
           })
           .catch((err) => {
             toast.error(err.message, {
               position: toast.POSITION.BOTTOM_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           });
       } else {
@@ -203,11 +224,30 @@ export default function Allergy() {
             setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
+              closeButton: false,
+              hideProgressBar: true,
+              style: {
+                background: '#ef530ea3',
+                borderLeft: '4px solid #ff4e00',
+              },
+              progressStyle: {
+                background: '#000',
+              },
             });
           } else {
             setButtonState(false);
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           }
         })
@@ -247,13 +287,42 @@ export default function Allergy() {
     updateAllergy(updatedData)
       .then((res) => {
         console.log(res.data);
-        editsetModalConfirm(false);
-        fetchAllergyDetails();
-        setAllergyList(updatedData);
-        toast.success("Allergy updated successfully!");
+        if (res.status == true) {
+          editsetModalConfirm(false);
+          fetchAllergyDetails();
+          setAllergyList(updatedData);
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #ff4e00',
+              color: '#454545',
+              "--toastify-icon-color-success": "#ff4e00",
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
+          });
+        } else {
+          toast.error(res.message,
+            {
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
+            });
+        }
+        // toast.success("Allergy updated successfully!");
       })
       .catch((err) => {
-        toast.error("Failed to update allergy. Please try again.");
         console.log(err);
       });
   };
@@ -298,7 +367,7 @@ export default function Allergy() {
     }
     setErrors(newErrors);
   };
-  
+
 
   const resetForm = () => {
     setName("");
@@ -461,10 +530,10 @@ export default function Allergy() {
                 autoComplete="username"
               />
               {errors.name && (
-          <span className="small error text-danger mb-2 d-inline-block error_login">
-            {errors.name}
-          </span>
-        )}
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.name}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
@@ -474,7 +543,7 @@ export default function Allergy() {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
-             
+
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
@@ -490,6 +559,11 @@ export default function Allergy() {
                 onChange={handleImageChange}
                 accept="jpg,png"
               />
+              {errors.image && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.image}
+                </span>
+              )}
               {previewImage && (
                 <img
                   src={previewImage}
