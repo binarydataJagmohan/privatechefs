@@ -617,15 +617,15 @@ export default function Menus2(props: any) {
       .then(res => {
         if (res.status == true) {
 
-          toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT
-          });
+          // toast.success(res.message, {
+          //   position: toast.POSITION.TOP_RIGHT
+          // });
 
         } else {
           setButtonState(false);
-          toast.error(res.message, {
-            position: toast.POSITION.TOP_RIGHT
-          });
+          // toast.error(res.message, {
+          //   position: toast.POSITION.TOP_RIGHT
+          // });
 
         }
       })
