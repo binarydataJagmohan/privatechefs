@@ -25,10 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/chef/menu/[id]": [
+    "/chef/invoices": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/menu/[id].js"
+      "static/chunks/pages/chef/invoices.js"
     ]
   },
   "ampFirstPages": []

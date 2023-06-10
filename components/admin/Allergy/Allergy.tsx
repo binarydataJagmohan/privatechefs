@@ -148,33 +148,13 @@ export default function Allergy() {
               setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
             } else {
               toast.error(res.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                closeButton: true,
-                hideProgressBar: false,
-                style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
-                },
-                progressStyle: {
-                  background: '#ffff',
-                },
+                position: toast.POSITION.TOP_RIGHT
               });
             }
           })
           .catch((err) => {
             toast.error(err.message, {
-              position: toast.POSITION.BOTTOM_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
+              position: toast.POSITION.BOTTOM_RIGHT
             });
           });
       } else {
@@ -223,31 +203,12 @@ export default function Allergy() {
             setAllergis(paginatedPosts);
             setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
             toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: false,
-              hideProgressBar: true,
-              style: {
-                background: '#ef530ea3',
-                borderLeft: '4px solid #ff4e00',
-              },
-              progressStyle: {
-                background: '#000',
-              },
+              position: toast.POSITION.TOP_RIGHT
             });
           } else {
             setButtonState(false);
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
             });
           }
         })
@@ -292,32 +253,12 @@ export default function Allergy() {
           fetchAllergyDetails();
           setAllergyList(updatedData);
           toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #ff4e00',
-              color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00",
-            },
-            progressStyle: {
-              background: '#ffff',
-            },
+            position: toast.POSITION.TOP_RIGHT
           });
         } else {
           toast.error(res.message,
             {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
+              position: toast.POSITION.TOP_RIGHT
             });
         }
         // toast.success("Allergy updated successfully!");
