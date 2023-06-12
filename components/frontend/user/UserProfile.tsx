@@ -463,6 +463,7 @@ export default function UserProfile() {
                     id="uploadfile"
                     className="d-none"
                     onChange={imageChange}
+                    accept=".jpg, .jpeg, .gif, .png, .webp"
                   /><i className="fa-solid fa-camera"></i>
                   </label>
                 </div>

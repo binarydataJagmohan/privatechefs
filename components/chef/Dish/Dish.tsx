@@ -174,7 +174,7 @@ export default function Dish() {
 
   const handlMenuSubmit = (event: any) => {
     event.preventDefault();
-
+    const userData = getCurrentUserData() as CurrentUserData;
     // Validate form data
     const newErrors: Errors = {};
 
@@ -206,6 +206,7 @@ export default function Dish() {
           if (res.status == true) {
             setModalConfirm(false);
             setButtonState(false);
+            fetchdishes(userData.id);
             setDishLists((prevState) => [...prevState, res.data]);
             setDishName("");
             setDishcategory("");
@@ -231,9 +232,11 @@ export default function Dish() {
 
   const handleEdit = (e: any, id: any) => {
     e.preventDefault();
+    const userData = getCurrentUserData() as CurrentUserData;
     setDishId(id);
     const dish = dishTotalList.find(d => d.id === id);
     if (dish) {
+      fetchdishes(userData.id);
       setDishName(dish.item_name);
       setDishcategory(dish.dish_category_id)
       setModalConfirm(true);
@@ -242,6 +245,7 @@ export default function Dish() {
 
   const handleDelete = (e: any, id: any) => {
     e.preventDefault();
+    const userData = getCurrentUserData() as CurrentUserData;
     swal({
       title: "Are you sure?",
       text: "You want to delete the dish",
@@ -254,6 +258,7 @@ export default function Dish() {
         deleteSingleDish(id)
           .then((res) => {
             if (res.status === true) {
+              fetchdishes(userData.id);
               swal("Your Dish  has been deleted!", {
                 icon: "success",
               });
@@ -437,7 +442,7 @@ export default function Dish() {
                             onClick={(e) => handleEdit(e, dish.id)}
                           ></i>
                           <i
-                            className="fa-sharp fa-solid fa-trash"
+                            className="fa-sharp fa-solid fa-trash" style={{cursor:"pointer"}}
 
                             onClick={(e) => handleDelete(e, dish.id)}
 

@@ -2,5 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chef/invoices": "pages/chef/invoices.js"
+  "/user/edit-booking/step2": "pages/user/edit-booking/step2.js"
 }

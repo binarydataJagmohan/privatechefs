@@ -84,6 +84,16 @@ export default function Step2() {
 		try {
 		  const res = await getServiceDetails();
 		  if (res.status) {
+        const window_servicestyle = window.localStorage.getItem('servicestyle');
+        if(window_servicestyle == '' || servicestyle == window_servicestyle){
+
+          setServieStyle(res.data[0].service_id);
+          window.localStorage.setItem("servicestyle", res.data[0].service_id);
+
+        }else {
+          setServieStyle(window_servicestyle || '');
+          window.localStorage.setItem("servicestyle", window_servicestyle || '');
+        }
 			  setService(res.data);
 		  } else {
 			toast.error(res.message, {

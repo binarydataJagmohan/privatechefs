@@ -553,7 +553,7 @@ export default function Bookings() {
 								<tr>
 									<th scope="col">ID</th>
 									<th scope="col">Customer</th>
-									<th scope="col">User</th>
+									<th scope="col">Image</th>
 									<th scope="col">Booking Date</th>
 									<th scope="col">Category</th>
 									<th scope="col">Menu</th>

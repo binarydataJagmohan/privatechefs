@@ -4215,3 +4215,8 @@ li.right-lii {
 li#right-lii {
   top: 0px;
 }
+@media (min-width: 1367px) {
+  .user-img1 label i{
+    right: 77%;
+  }
+}
