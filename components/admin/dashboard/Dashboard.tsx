@@ -3,13 +3,19 @@ import { getAllBookingData } from "../../../lib/adminapi"
 
 export default function Dashboard() {
 
-	const [bookingcount, setBookingCount] = useState();
-	const [totalchef, setTotalChef] = useState();
+	const [bookingcount, setBookingCount] = useState('');
+	const [totalchef, setTotalChef] = useState('');
 	const [pendingbooking, setPendingBooking] = useState({});
 	const [completedbooking, setCompletedBooking] = useState({});
-	const [weeklyusers, setWeeklyUsers] = useState();
-	const [weeklybooking, setweeklybooking] = useState();
-	const [totalamount, setTotalAmount] = useState();
+	const [weeklyusers, setWeeklyUsers] = useState('');
+	const [weeklybooking, setweeklybooking] = useState('');
+	const [totalamount, setTotalAmount] = useState('');
+	const [currentbookings, setCurrentbooking] = useState('');
+	const [previousbookings, setPreviousbooking] = useState('');
+	const [bookingprecentage, setBookingPrecentage] = useState('');
+	const [currentusers, setCurrentusers] = useState('');
+	const [previoususers, setPrevioususers] = useState('');
+	const [usersprecentage, setUsersPrecentage] = useState('');
 
 	useEffect(() => {
 		const fetchBookingCount = async () => {
@@ -22,6 +28,12 @@ export default function Dashboard() {
 				setweeklybooking(data.weeklyBooking);
 				setTotalChef(data.totalChef);
 				setTotalAmount(data.totalamount);
+				setCurrentbooking(data.currentbookings);
+				setPreviousbooking(data.previousbookings);
+				setBookingPrecentage(data.bookingprecentage);
+				setCurrentusers(data.currentusers);
+				setPrevioususers(data.previoususers);
+				setUsersPrecentage(data.usersprecentage);
 				//console.log(count);
 			} catch (error) {
 			}
@@ -65,7 +77,6 @@ export default function Dashboard() {
 
 						<div className="row mt-5">
 							<div className="col-lg-5 col-sm-5">
-
 								<h3 className="f-30 mb-4">Weekly Stats </h3>
 								<div className="row">
 									<div className="col-lg-6 col-md-6">
@@ -73,7 +84,18 @@ export default function Dashboard() {
 											<div className="golden-box-2 m-center"></div>
 											<h5>Bookings</h5>
 											<h2>{weeklybooking}</h2>
-											<h6>+8,3%</h6>
+											<h6 style={{
+												color: (Number(currentbookings) !== 0 || Number(previousbookings) !== 0)
+													? (Number(currentbookings) >= Number(previousbookings) ? 'green' : 'red')
+													: 'red'
+											}}>
+												{(Number(currentbookings) !== 0 || Number(previousbookings) !== 0)
+													? (Number(currentbookings) >= Number(previousbookings)
+														? '+' + bookingprecentage + '%'
+														: '-' + bookingprecentage + '%')
+													: '-0%'}
+											</h6>
+
 										</div>
 									</div>
 									<div className="col-lg-6 col-md-6">
@@ -81,7 +103,17 @@ export default function Dashboard() {
 											<div className="golden-box-2 m-center"></div>
 											<h5>Customers</h5>
 											<h2>{weeklyusers}</h2>
-											<h6>+2,5%</h6>
+											<h6 style={{
+												color: (Number(currentusers) !== 0 || Number(previoususers) !== 0)
+													? (Number(currentusers) >= Number(previoususers) ? 'green' : 'red')
+													: 'red'
+											}}>
+												{(Number(currentusers) !== 0 || Number(previoususers) !== 0)
+													? (Number(currentusers) >= Number(previoususers)
+														? '+' + usersprecentage + '%'
+														: '-' + usersprecentage + '%')
+													: '-0%'}
+											</h6>
 										</div>
 									</div>
 								</div>
@@ -127,7 +159,7 @@ export default function Dashboard() {
 						<div className="right-side">
 							<h3 className="mt-5">Today’s Schedule</h3>
 							{Array.isArray(completedbooking) && completedbooking.length > 0 ? (
-								completedbooking.slice(0,2).map((booking, index) => {
+								completedbooking.slice(0, 2).map((booking, index) => {
 									const orderTime = new Date(booking.ordertime);
 									const formattedTime = orderTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 									return (

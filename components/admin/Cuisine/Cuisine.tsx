@@ -285,7 +285,7 @@ export default function Cuisine() {
                       <img
                         src={
                           process.env.NEXT_PUBLIC_IMAGE_URL +
-                          "/images/chef/cuisine/" +
+                          "/images/admin/cuisines/" +
                           cuisine.image
                         }
                         alt=""

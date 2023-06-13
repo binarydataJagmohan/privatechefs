@@ -16,6 +16,12 @@ export default function Dashboard() {
 	const [weeklyusers, setWeeklyUsers] = useState();
 	const [weeklybooking, setweeklybooking] = useState();
 	const [totalamount, setTotalAmount] = useState();
+	const [currentbookings, setCurrentbooking] = useState('');
+	const [previousbookings, setPreviousbooking] = useState('');
+	const [bookingprecentage, setBookingPrecentage] = useState('');
+	const [currentusers, setCurrentusers] = useState('');
+	const [previoususers, setPrevioususers] = useState('');
+	const [usersprecentage, setUsersPrecentage] = useState('');
 
 	const [currentUserData, setCurrentUserData] = useState<User>({
 		id: 0,
@@ -35,6 +41,12 @@ export default function Dashboard() {
 				setweeklybooking(data.weeklyBooking);
 				setTotalChef(data.totalChef);
 				setTotalAmount(data.totalamount);
+				setCurrentbooking(data.currentbookings);
+				setPreviousbooking(data.previousbookings);
+				setBookingPrecentage(data.bookingprecentage);
+				setCurrentusers(data.currentusers);
+				setPrevioususers(data.previoususers);
+				setUsersPrecentage(data.usersprecentage);
 				//console.log(count);
 			} catch (error) {
 			}
@@ -86,7 +98,17 @@ export default function Dashboard() {
 											<div className="golden-box-2 m-center"></div>
 											<h5>Bookings</h5>
 											<h2>{weeklybooking}</h2>
-											<h6>+8,3%</h6>
+											<h6 style={{
+												color: (Number(currentbookings) !== 0 || Number(previousbookings) !== 0)
+													? (Number(currentbookings) >= Number(previousbookings) ? 'green' : 'red')
+													: 'red'
+											}}>
+												{(Number(currentbookings) !== 0 || Number(previousbookings) !== 0)
+													? (Number(currentbookings) >= Number(previousbookings)
+														? '+' + bookingprecentage + '%'
+														: '-' + bookingprecentage + '%')
+													: '-0%'}
+											</h6>
 										</div>
 									</div>
 									<div className="col-lg-6 col-md-6">
@@ -94,7 +116,17 @@ export default function Dashboard() {
 											<div className="golden-box-2 m-center"></div>
 											<h5>Customers</h5>
 											<h2>{weeklyusers}</h2>
-											<h6>+2,5%</h6>
+											<h6 style={{
+												color: (Number(currentusers) !== 0 || Number(previoususers) !== 0)
+													? (Number(currentusers) >= Number(previoususers) ? 'green' : 'red')
+													: 'red'
+											}}>
+												{(Number(currentusers) !== 0 || Number(previoususers) !== 0)
+													? (Number(currentusers) >= Number(previoususers)
+														? '+' + usersprecentage + '%'
+														: '-' + usersprecentage + '%')
+													: '-0%'}
+											</h6>
 										</div>
 									</div>
 								</div>

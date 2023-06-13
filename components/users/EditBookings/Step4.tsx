@@ -52,10 +52,9 @@ export default function Step4() {
           if(storedCuisine){
             setSelectedCuisine(JSON.parse(storedCuisine));
           }else {
-            setSelectedCuisine(cuisine_id.split(","));
+            setSelectedCuisine(cuisine_id ? cuisine_id.split(",") : []);
           }
         
-
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,

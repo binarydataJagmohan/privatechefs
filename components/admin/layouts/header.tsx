@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCurrentUserData } from '../../../lib/session'
+import { removeToken, removeStorageData,getCurrentUserData } from '../../../lib/session'
 import { notificationForUserAdmin } from '../../../lib/notificationapi';
 import Link from 'next/link'
 
@@ -11,6 +11,23 @@ export default function Header() {
     useEffect(() => {
         getAllNotify();
     }, []);
+
+    useEffect(() => {
+        const userData: any = getCurrentUserData();
+        const now = new Date();
+
+        const expirationDate = new Date(userData.expiration);
+        
+        if (expirationDate.getTime() >= now.getTime()) {
+            removeToken();
+            removeStorageData();
+            window.location.href = 'login';
+          console.log("yes");
+        } else {
+          console.log("no");
+        }
+    }, [1000]);
+
 
     const getAllNotify = async () => {
         const userData: any = getCurrentUserData();

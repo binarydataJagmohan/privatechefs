@@ -129,13 +129,13 @@ export default function Notification() {
                     <div className='col-md-7'>
                         <h2>Notification</h2>
                     </div>
-                    <div className='col-md-5'>
+                    {/* <div className='col-md-5'>
                         <select aria-label="Default select example" name="approved_by_admin"
                         >
                             <option value='yes' >Approved</option>
                             <option value='no' >Unapproved</option>
                         </select>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="notification-box">
                     {Array.isArray(userData) && userData.length > 0 ? (

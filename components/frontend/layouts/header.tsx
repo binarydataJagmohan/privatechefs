@@ -165,6 +165,7 @@ export default function Header({ }) {
               window.localStorage.setItem("address", res.user.address);
               window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
               window.localStorage.setItem("profile_status", res.user.profile_status);
+              window.localStorage.setItem("expiration", res.user.expiration);
             
               toast.success(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
