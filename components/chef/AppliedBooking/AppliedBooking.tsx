@@ -573,7 +573,9 @@ export default function Bookings() {
 														<tr>
 
 															<th scope="col">Chef Amount</th>
-															<th scope="col">Admin Amount</th>
+															{chefoffer.some(offer => offer.admin_amount) && (
+																<th scope="col">Admin Amount</th>
+															)}
 														</tr>
 													</thead>
 													<tbody>
@@ -709,8 +711,6 @@ export default function Bookings() {
 					</div>
 				</div>
 			</div>
-
-
 			<ToastContainer />
 		</>
 	);

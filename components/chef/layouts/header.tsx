@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { getCurrentUserData } from '../../../lib/session'
+import { removeToken, removeStorageData, getCurrentUserData } from '../../../lib/session'
 import { notificationForUserAdmin } from '../../../lib/notificationapi';
 import Link from 'next/link'
 import { getSingleUserProfile } from "../../../lib/userapi"
 import { approvalMsg } from "../../../lib/chefapi"
+
 
 export default function Header(): JSX.Element {
 
@@ -19,7 +20,7 @@ export default function Header(): JSX.Element {
         id: number;
         approved_by_admin: string;
         profile_status: string;
-        approval_msg:string;
+        approval_msg: string;
     }
 
     const [userData, setUserData] = useState('');
@@ -30,7 +31,7 @@ export default function Header(): JSX.Element {
         id: 0,
         approved_by_admin: '',
         profile_status: '',
-        approval_msg:'',
+        approval_msg: '',
     });
 
     useEffect(() => {
@@ -39,6 +40,21 @@ export default function Header(): JSX.Element {
         getAllNotify();
     }, []);
 
+    useEffect(() => {
+        const userData:any = getCurrentUserData();
+        const now = new Date(); 
+        const expirationDate = new Date(userData.expiration);
+        if (now > expirationDate) {
+          removeToken();
+          removeStorageData();
+          window.location.href = '/404';
+          console.log("yes");
+        } else {
+          console.log("no");
+        }
+    }, []);
+    
+
     const getSingleData = async (id: any) => {
         const userid: any = getCurrentUserData();
         getSingleUserProfile(userid.id)
@@ -46,7 +62,7 @@ export default function Header(): JSX.Element {
                 if (res.status == true) {
                     setData(res.data);
                     window.localStorage.setItem("profile_status", res.data.profile_status);
-					window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
+                    window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
                     console.log(res.data);
                 } else {
                     console.log(res.message);
@@ -60,17 +76,17 @@ export default function Header(): JSX.Element {
     const approvalMsgStatus = () => {
         const userData: User = getCurrentUserData() as User;
         approvalMsg(userData.id)
-        .then(res => {
-            if (res.status == true) {
-                setCountData(res.count);
-                setIsVisible(false);
-            } else {
-                console.log("error");
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            .then(res => {
+                if (res.status == true) {
+                    setCountData(res.count);
+                    setIsVisible(false);
+                } else {
+                    console.log("error");
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     const getAllNotify = async () => {
@@ -99,19 +115,19 @@ export default function Header(): JSX.Element {
                 <div className="row">
                     <div className="col-lg-7 col-md-4 col-2">
                         {/* <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a> */}
-                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' &&(
+                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && (
                             <p className="alert alert-danger">
-                               Complete your profile for pending admin approval.
+                                Complete your profile for pending admin approval.
                             </p>
                         )}
-                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' &&(
+                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && (
                             <p className="alert alert-warning">
                                 Profile completed, awaiting admin approval to unlock culinary opportunities.
                             </p>
                         )}
-                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' &&(
+                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' && (
                             <p className="alert alert-success">
-                                Congratulations! Your profile has been completed and approved by the admin. 
+                                Congratulations! Your profile has been completed and approved by the admin.
                                 <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
                             </p>
                         )}

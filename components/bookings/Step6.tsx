@@ -323,7 +323,7 @@ export default function Step6() {
                     <input
                       id="address-input"
                       type="text"
-                      value={address}
+                      value={address === 'undefined' ? '' : address}
                       onChange={(e) => setLocation(e.target.value)}
                       required
                     />

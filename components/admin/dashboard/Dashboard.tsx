@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getAllBookingData } from "../../../lib/adminapi"
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 
 export default function Dashboard() {
 
@@ -20,20 +21,30 @@ export default function Dashboard() {
 	useEffect(() => {
 		const fetchBookingCount = async () => {
 			try {
-				const data = await getAllBookingData();
-				setBookingCount(data.todayBookings);
-				setPendingBooking(data.pendingBooking);
-				setCompletedBooking(data.completedBooking);
-				setWeeklyUsers(data.weeklyUsers);
-				setweeklybooking(data.weeklyBooking);
-				setTotalChef(data.totalChef);
-				setTotalAmount(data.totalamount);
-				setCurrentbooking(data.currentbookings);
-				setPreviousbooking(data.previousbookings);
-				setBookingPrecentage(data.bookingprecentage);
-				setCurrentusers(data.currentusers);
-				setPrevioususers(data.previoususers);
-				setUsersPrecentage(data.usersprecentage);
+				const data = isPageVisibleToRole("admin-dashboard");
+				if (data == 2) {
+					window.location.href = "/login"; // redirect to login if not logged in
+				} else if (data == 0) {
+					window.location.href = "/404"; // redirect to 404 if not authorized
+				}
+				if (data == 1) {
+					const data = await getAllBookingData();
+					setBookingCount(data.todayBookings);
+					setPendingBooking(data.pendingBooking);
+					setCompletedBooking(data.completedBooking);
+					setWeeklyUsers(data.weeklyUsers);
+					setweeklybooking(data.weeklyBooking);
+					setTotalChef(data.totalChef);
+					setTotalAmount(data.totalamount);
+					setCurrentbooking(data.currentbookings);
+					setPreviousbooking(data.previousbookings);
+					setBookingPrecentage(data.bookingprecentage);
+					setCurrentusers(data.currentusers);
+					setPrevioususers(data.previoususers);
+					setUsersPrecentage(data.usersprecentage);
+				} else {
+					window.location.href = "/404";
+				}
 				//console.log(count);
 			} catch (error) {
 			}

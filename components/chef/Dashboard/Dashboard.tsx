@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { getChefBookingData } from "../../../lib/chefapi"
 import { getCurrentUserData } from '../../../lib/session'
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+
 
 export default function Dashboard() {
 
@@ -29,20 +31,30 @@ export default function Dashboard() {
 	useEffect(() => {
 		const fetchBookingCount = async () => {
 			try {
-				const userData: User = getCurrentUserData() as User;
-				setCurrentUserData(userData);
-				const data = await getChefBookingData(userData.id);
-				setBookingCount(data.todayBookings);
-				setPendingBooking(data.pendingBooking);
-				setCompletedBooking(data.completedBooking);
-				setWeeklyUsers(data.weeklyUsers);
-				setweeklybooking(data.weeklyBooking);
-				setTotalChef(data.totalChef);
-				setTotalAmount(data.totalamount);
-				setPendingBookingCount(data.pendingBookingCount);
-				setCurrentbooking(data.currentbookings);
-				setPreviousbooking(data.previousbookings);
-				setBookingPrecentage(data.bookingprecentage);
+				const data = isPageVisibleToRole("chef-dashboard");
+				if (data == 2) {
+					window.location.href = "/login"; // redirect to login if not logged in
+				} else if (data == 0) {
+					window.location.href = "/404"; // redirect to 404 if not authorized
+				}
+				if (data == 1) {
+					const userData: User = getCurrentUserData() as User;
+					setCurrentUserData(userData);
+					const data = await getChefBookingData(userData.id);
+					setBookingCount(data.todayBookings);
+					setPendingBooking(data.pendingBooking);
+					setCompletedBooking(data.completedBooking);
+					setWeeklyUsers(data.weeklyUsers);
+					setweeklybooking(data.weeklyBooking);
+					setTotalChef(data.totalChef);
+					setTotalAmount(data.totalamount);
+					setPendingBookingCount(data.pendingBookingCount);
+					setCurrentbooking(data.currentbookings);
+					setPreviousbooking(data.previousbookings);
+					setBookingPrecentage(data.bookingprecentage);
+				} else {
+					window.location.href = "/404";
+				}
 				//console.log(count);
 			} catch (error) {
 			}

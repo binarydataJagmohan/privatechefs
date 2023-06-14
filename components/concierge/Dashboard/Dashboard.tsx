@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getAllConciergeBookings } from "../../../lib/concierge"
 import { getCurrentUserData } from '../../../lib/session'
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 
 export default function Dashboard() {
 
@@ -31,23 +32,33 @@ export default function Dashboard() {
 	useEffect(() => {
 		const fetchBookingCount = async () => {
 			try {
-				const userData: User = getCurrentUserData() as User;
-				setCurrentUserData(userData);
-				const data = await getAllConciergeBookings(userData.id);
-				setBookingCount(data.todayBookings);
-				setPendingBooking(data.pendingBooking);
-				setCompletedBooking(data.completedBooking);
-				setWeeklyUsers(data.weeklyUsers);
-				setweeklybooking(data.weeklyBooking);
-				setTotalChef(data.totalChef);
-				setTotalAmount(data.totalamount);
-				setCurrentbooking(data.currentbookings);
-				setPreviousbooking(data.previousbookings);
-				setBookingPrecentage(data.bookingprecentage);
-				setCurrentusers(data.currentusers);
-				setPrevioususers(data.previoususers);
-				setUsersPrecentage(data.usersprecentage);
-				//console.log(count);
+				const data = isPageVisibleToRole("concierge-dashboard");
+				if (data == 2) {
+					window.location.href = "/login"; // redirect to login if not logged in
+				} else if (data == 0) {
+					window.location.href = "/404"; // redirect to 404 if not authorized
+				}
+				if (data == 1) {
+					const userData: User = getCurrentUserData() as User;
+					setCurrentUserData(userData);
+					const data = await getAllConciergeBookings(userData.id);
+					setBookingCount(data.todayBookings);
+					setPendingBooking(data.pendingBooking);
+					setCompletedBooking(data.completedBooking);
+					setWeeklyUsers(data.weeklyUsers);
+					setweeklybooking(data.weeklyBooking);
+					setTotalChef(data.totalChef);
+					setTotalAmount(data.totalamount);
+					setCurrentbooking(data.currentbookings);
+					setPreviousbooking(data.previousbookings);
+					setBookingPrecentage(data.bookingprecentage);
+					setCurrentusers(data.currentusers);
+					setPrevioususers(data.previoususers);
+					setUsersPrecentage(data.usersprecentage);
+					//console.log(count);
+				} else {
+					window.location.href = "/404";
+				}
 			} catch (error) {
 			}
 		};

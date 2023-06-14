@@ -48,6 +48,23 @@ export default function Header({ }) {
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
+    const userData: any = getCurrentUserData();
+    const now = new Date();
+    const expirationDate = new Date(userData.expiration);
+    if (token) {
+      if (now > expirationDate) {
+        removeToken();
+        removeStorageData();
+        window.location.href = '/404';
+        console.log("yes");
+      } else {
+        console.log("no");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
     const role = window.localStorage.getItem("role");
 
     if (token && role) {
@@ -104,7 +121,7 @@ export default function Header({ }) {
 
   function handleLogout() {
     UpdateUserToOffiline(user_id)
-    .then(res => {
+      .then(res => {
         if (res.status == true) {
           removeToken();
           removeStorageData();
@@ -113,11 +130,11 @@ export default function Header({ }) {
           setIsAuthenticated(false);
           setRole("");
         } else {
-            console.log("error");
+          console.log("error");
         }
-    })
-   
-}
+      })
+
+  }
 
   //login submit start
 
@@ -165,8 +182,8 @@ export default function Header({ }) {
               window.localStorage.setItem("address", res.user.address);
               window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
               window.localStorage.setItem("profile_status", res.user.profile_status);
-              window.localStorage.setItem("expiration", res.user.expiration);
-            
+              window.localStorage.setItem("expiration", res.authorisation.expiration);
+
               toast.success(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
               });
@@ -313,6 +330,7 @@ export default function Header({ }) {
               window.localStorage.setItem("surname", res.data.user.surname);
               window.localStorage.setItem("phone", res.data.user.phone);
               window.localStorage.setItem("address", res.data.user.address);
+              window.localStorage.setItem("expiration", res.data.expiration);
               window.localStorage.setItem(
                 "approved_by_admin",
                 res.data.user.approved_by_admin
@@ -510,11 +528,11 @@ export default function Header({ }) {
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li> */}
 
-               
-                  <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
-                    <a className="nav-link" href="/bookings/step1">Start your journey</a>
-                  </li>
-               
+
+                <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
+                  <a className="nav-link" href="/bookings/step1">Start your journey</a>
+                </li>
+
                 {/* {isAuthenticated && role === "user" && (
               <li className="nav-item">
                 <a className="nav-link" href="/user/dashboard">
@@ -529,10 +547,10 @@ export default function Header({ }) {
                 <li className={`nav-item ${router.pathname === '/ourchefs' ? 'active' : ''}`}>
                   <a className="nav-link" href="/ourchefs">Our Chefs</a>
                 </li>
-            {role == 'user' &&
-                <li className={`nav-item ${router.pathname === '/user/messages' ? 'active' : ''}`}>
-                  <a className="nav-link" href="/user/messages">Message</a>
-                </li> }
+                {role == 'user' &&
+                  <li className={`nav-item ${router.pathname === '/user/messages' ? 'active' : ''}`}>
+                    <a className="nav-link" href="/user/messages">Message</a>
+                  </li>}
 
                 {isAuthenticated && role === "admin" && (
                   <li className={`nav-item ${router.pathname === '/admin/dashboard' ? 'active' : ''}`}>
@@ -551,11 +569,11 @@ export default function Header({ }) {
                 {isAuthenticated && role === "user" && (
                   <li className="nav-item">
                     <a className="nav-link" href="/user/userprofile">
-                    My Profile
+                      My Profile
                     </a>
                   </li>
                 )}
-                 {isAuthenticated && role === "concierge" && (
+                {isAuthenticated && role === "concierge" && (
                   <li className="nav-item">
                     <a className="nav-link" href="/concierge/dashboard">
                       Dashboard
@@ -626,14 +644,14 @@ export default function Header({ }) {
             </div>
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur}  />
+              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
 
             <div className='login_div mb-2'>
               <label htmlFor="email">Role:</label>
               <select className="" onChange={(e) => setRole(e.target.value)} name="role">
-              <option value="">Select Role</option>
+                <option value="">Select Role</option>
                 <option value="user">User</option>
                 <option value="chef">Chef</option>
                 <option value="concierge">Conciergehief</option>

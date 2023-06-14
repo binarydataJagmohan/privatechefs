@@ -53,6 +53,9 @@ export function isPageVisibleToRole(pageName: string): number {
       "concierge-receipt": ["concierge"],
       "concierge-single-receipt": ["concierge"],
       "concierge-single-invoice": ["concierge"],
+      "concierge-dashboard": ["concierge"],
+      "admin-dashboard": ["admin"],
+      "chef-dashboard": ["chef"],
     };
 
     if (pageName in pageRoles) {

@@ -480,9 +480,10 @@ export default function Dish() {
                 name="name"
                 value={dishName}
                 onBlur={handleMenuBlur}
-                autoComplete="username"
+                // autoComplete="username"
                 onChange={(e) => setDishName(e.target.value)}
                 placeholder="Enter dish name"
+                required
               />
               {errors.name && (
                 <span className="small error text-danger mb-2 d-inline-block error_login">
@@ -498,6 +499,7 @@ export default function Dish() {
                 onBlur={handleMenuBlur}
                 onChange={(e) => setDishcategory(e.target.value)}
                 value={dishCategory}
+                required
               >
                 <option value="">Select a dish category</option>
 

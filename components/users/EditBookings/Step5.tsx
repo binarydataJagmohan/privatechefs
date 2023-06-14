@@ -55,7 +55,9 @@ export default function Step5() {
           setSelectedAllergies(JSON.parse(storeallergies));
           setAdditionalNotes(getadditionalnotes || '');
         }else {
-          setSelectedAllergies(allergies_id.split(","));
+          if (allergies_id !== null) {
+            setSelectedAllergies(allergies_id.split(","));
+          }          
           setAdditionalNotes(allergies_notes);
         }
       

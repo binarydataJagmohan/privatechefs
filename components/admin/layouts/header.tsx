@@ -13,20 +13,18 @@ export default function Header() {
     }, []);
 
     useEffect(() => {
-        const userData: any = getCurrentUserData();
-        const now = new Date();
-
+        const userData:any = getCurrentUserData();
+        const now = new Date(); 
         const expirationDate = new Date(userData.expiration);
-        
-        if (expirationDate.getTime() >= now.getTime()) {
-            removeToken();
-            removeStorageData();
-            window.location.href = 'login';
+        if (now > expirationDate) {
+          removeToken();
+          removeStorageData();
+          window.location.href = '/404';
           console.log("yes");
         } else {
           console.log("no");
         }
-    }, [1000]);
+    }, []);
 
 
     const getAllNotify = async () => {

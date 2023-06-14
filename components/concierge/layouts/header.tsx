@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCurrentUserData } from '../../../lib/session';
+import { removeToken,removeStorageData,getCurrentUserData } from '../../../lib/session';
 import { getNotificationConcierge } from '../../../lib/notificationapi';
 import Link from 'next/link'
 
@@ -10,6 +10,20 @@ export default function Header(): JSX.Element {
 
     useEffect(() => {
         getAllNotify();
+    }, []);
+
+    useEffect(() => {
+        const userData:any = getCurrentUserData();
+        const now = new Date(); 
+        const expirationDate = new Date(userData.expiration);
+        if (now > expirationDate) {
+          removeToken();
+          removeStorageData();
+          window.location.href = '/404';
+          console.log("yes");
+        } else {
+          console.log("no");
+        }
     }, []);
 
     const getAllNotify = async () => {

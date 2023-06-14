@@ -984,7 +984,7 @@ export default function Booking(props: any) {
                       <td>{chef.location}</td>
                       <td>
                         {chef.menu_names?.split(",").map((menu, index) => (
-                          <button className="table-btn btn-2 list-btn mb-1" key={index} onClick={() => getSingleChefMenuData(chef.menu_id)}>
+                          <button className="table-btn btn-2 list-btn m-1" key={index} onClick={() => getSingleChefMenuData(chef.menu_id)}>
                             {menu.trim()}
                           </button>
                         ))}
