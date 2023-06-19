@@ -169,7 +169,7 @@ export default function UserProfile() {
       })
       .catch(error => {
         console.error(error);
-        toast.error('Error occurred', {
+        toast.error('Invalid file format', {
           position: toast.POSITION.TOP_RIGHT,
         });
       });

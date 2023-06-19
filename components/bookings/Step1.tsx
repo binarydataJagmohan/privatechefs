@@ -205,7 +205,8 @@ export default function Step1() {
                         altInput: true,
                         altFormat: "F j, Y",
                         dateFormat: "Y-m-d",
-                        defaultDate: "today" // Set default date to today
+                        defaultDate: "today",// Set default date to today
+                        minDate: "today"
                       }}
                     />
                     
@@ -233,7 +234,8 @@ export default function Step1() {
                       altFormat: "F j, Y",
                       dateFormat: "Y-m-d",
                       mode: "range",
-                      defaultDate: "today" // Set default date to today
+                      defaultDate: "today", // Set default date to today
+                      minDate: "today"
                     }}
                     placeholder={formattedDate}
                   />

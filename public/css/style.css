@@ -2089,6 +2089,7 @@ a.popup {
   color: var(--color_1);
   padding: 12px 17px;
   font-size: var(--font_size);
+  cursor: pointer;
 }
 
 input {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getCurrentUserByBooking,getUserFilterByBooking,getUserChefOffer,ContactChefByUserWithSingleBooking,UpdateUserToOffiline } from "../../../lib/userapi";
+import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline } from "../../../lib/userapi";
 import { getSingleChefMenu } from "../../../lib/chefapi";
 import { getUserBookingId, deleteBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
@@ -93,8 +93,8 @@ export default function Booking(props: any) {
     surname?: string;
     booking_id?: string;
     menu_id?: string;
-    userName?:string;
-    userSurname?:string;
+    userName?: string;
+    userSurname?: string;
   }
 
   const [bookingUsers, setBookingUser] = useState([]);
@@ -247,7 +247,7 @@ export default function Booking(props: any) {
 
   const getSingleBookingUser = (e: any, id: any) => {
     e.preventDefault();
-    getUserBookingId(id).then((res:any) => {
+    getUserBookingId(id).then((res: any) => {
       //   console.log(res.booking[0]);
       setBooking(res.booking[0]);
       setChefOffer(res.chefoffer);
@@ -451,8 +451,8 @@ export default function Booking(props: any) {
         sender_id: currentUserData.id,
         receiver_id: chef_id,
         booking_id: bookingid,
-        unique_booking_id:currentUserData.id+chef_id,
-        chat_type:'booking'
+        unique_booking_id: currentUserData.id + chef_id,
+        chat_type: 'booking'
       };
 
       ContactChefByUserWithSingleBooking(data)
@@ -500,16 +500,16 @@ export default function Booking(props: any) {
 
   function handleLogout() {
     UpdateUserToOffiline(currentUserData.id)
-    .then(res => {
+      .then(res => {
         if (res.status == true) {
-            removeToken();
-            removeStorageData();
-            window.location.href = '/';
+          removeToken();
+          removeStorageData();
+          window.location.href = '/';
         } else {
-            console.log("error");
+          console.log("error");
         }
-    })
-   
+      })
+
   }
 
   return (
@@ -658,7 +658,7 @@ export default function Booking(props: any) {
                                           View Booking
                                         </a>
                                       </li>
-                                      {user.category == 'onetime' && (<li>
+                                      {user.booking_id === user.appliedId && user.category == 'onetime' && (<li>
                                         <a
                                           className="dropdown-item"
                                           href="#"
@@ -668,16 +668,17 @@ export default function Booking(props: any) {
                                           View Chef offer
                                         </a>
                                       </li>)}
-
-                                      <li>
-                                        <a
-                                          className="dropdown-item"
-                                          href="#"
-                                          onClick={(e) => editbooking(user.booking_id)}
-                                        >
-                                          Edit
-                                        </a>
-                                      </li>
+                                      {user.appliedId === null && (
+                                        <li>
+                                          <a
+                                            className="dropdown-item"
+                                            href="#"
+                                            onClick={(e) => editbooking(user.booking_id)}
+                                          >
+                                            Edit
+                                          </a>
+                                        </li>
+                                      )}
                                       <li>
                                         <a
                                           className="dropdown-item"
