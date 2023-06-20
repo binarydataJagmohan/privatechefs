@@ -20,7 +20,7 @@ export default function Menus() {
     surname: string;
     role: string;
     approved_by_admin: string;
-    profile_status:string;
+    profile_status: string;
   }
 
   interface Errors {
@@ -59,7 +59,7 @@ export default function Menus() {
     surname: '',
     role: '',
     approved_by_admin: '',
-    profile_status:''
+    profile_status: ''
   });
 
   const [totalMenu, setTotalMenu] = useState([]);
@@ -200,7 +200,18 @@ export default function Menus() {
             setMenu(paginatedPosts);
 
             toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #ff4e00',
+                color: '#454545',
+                "--toastify-icon-color-success": "#ff4e00",
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
 
             setTimeout(() => {
@@ -210,7 +221,17 @@ export default function Menus() {
           } else {
             setButtonState(false);
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
 
           }
@@ -383,7 +404,7 @@ export default function Menus() {
       </PopupModal>
 
       {/* // Menu popup end  */}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
     </>
   )

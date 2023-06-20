@@ -331,7 +331,17 @@ export default function Booking(props: any) {
               } else {
                  
                 toast.error(res.message, {
-                  position: toast.POSITION.TOP_RIGHT
+                  position: toast.POSITION.TOP_RIGHT,
+                  closeButton: true,
+                  hideProgressBar: false,
+                  style: {
+                    background: '#ffff',
+                    borderLeft: '4px solid #e74c3c',
+                    color: '#454545',
+                  },
+                  progressStyle: {
+                    background: '#ffff',
+                  },
                 });
               }
             })
@@ -436,11 +446,31 @@ export default function Booking(props: any) {
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       }
     } catch (err) {
       toast.error((err as Error).message, {
         position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
       });
     }
   };
@@ -456,11 +486,31 @@ export default function Booking(props: any) {
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       }
     } catch (err) {
       toast.error((err as Error).message, {
         position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
       });
     }
   };
@@ -520,7 +570,17 @@ export default function Booking(props: any) {
           } else {
              
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           }
         })
@@ -602,7 +662,17 @@ export default function Booking(props: any) {
           } else {
              
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           }
         })
@@ -648,7 +718,17 @@ export default function Booking(props: any) {
         // Invalid image extension
         // console.log('Invalid image extension. Allowed extensions are: jpg, jpeg, png');
         toast.info('Invalid image extension. Allowed extensions are: jpg, jpeg, png', {
-          position: toast.POSITION.TOP_RIGHT
+          position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
         return;
       }
@@ -656,7 +736,17 @@ export default function Booking(props: any) {
         // Image size exceeds 200KB
         console.log('Image size should be less than or equal to 200KB');
         toast.info('Image size should be less than or equal to 200KB', {
-          position: toast.POSITION.TOP_RIGHT
+          position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
         return;
       }
@@ -667,7 +757,17 @@ export default function Booking(props: any) {
         // PDF size exceeds 1MB
         // console.log('PDF size should be less than or equal to 1MB');
         toast.info('PDF size should be less than or equal to 1MB', {
-          position: toast.POSITION.TOP_RIGHT
+          position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
         return;
       }
@@ -678,7 +778,17 @@ export default function Booking(props: any) {
         // Video size exceeds 1MB
         console.log('Video size should be less than or equal to 1MB');
         toast.info('Video size should be less than or equal to 2MB', {
-          position: toast.POSITION.TOP_RIGHT
+          position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
         return;
       }
@@ -687,7 +797,17 @@ export default function Booking(props: any) {
       // Invalid file type
       // console.log('Invalid file type');
       toast.info('Invalid file type', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
       });
       return;
     }
@@ -715,6 +835,16 @@ export default function Booking(props: any) {
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
         }
       })
@@ -812,7 +942,17 @@ export default function Booking(props: any) {
           } else {
 
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           }
         })
@@ -895,13 +1035,34 @@ export default function Booking(props: any) {
             setModalConfirm(false);
             fetchUserMessageDetails(currentUserData.id);
             toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #ff4e00',
+            color: '#454545',
+            "--toastify-icon-color-success": "#ff4e00",
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
             });
 
           } else {
           
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
 
           }
@@ -1818,7 +1979,7 @@ export default function Booking(props: any) {
 
       </PopupModalLarge>
 
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }

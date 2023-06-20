@@ -140,18 +140,37 @@ export default function Bookings() {
 				if (res.status == true) {
 					setBookingStatus(res.data.booking_status);
 					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #ff4e00',
+							color: '#454545',
+							"--toastify-icon-color-success": "#ff4e00",
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 				} else {
 					toast.error(res.message, {
 						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 				}
 			})
 			.catch((err) => {
-				toast.error(err.message, {
-					position: toast.POSITION.BOTTOM_RIGHT,
-				});
+				console.log(err);
 			});
 	}
 
@@ -174,11 +193,31 @@ export default function Bookings() {
 			} else {
 				toast.error(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
+					closeButton: true,
+					hideProgressBar: false,
+					style: {
+						background: '#ffff',
+						borderLeft: '4px solid #e74c3c',
+						color: '#454545',
+					},
+					progressStyle: {
+						background: '#ffff',
+					},
 				});
 			}
 		} catch (err: any) {
 			toast.error(err.message, {
 				position: toast.POSITION.BOTTOM_RIGHT,
+				closeButton: true,
+				hideProgressBar: false,
+				style: {
+					background: '#ffff',
+					borderLeft: '4px solid #e74c3c',
+					color: '#454545',
+				},
+				progressStyle: {
+					background: '#ffff',
+				},
 			});
 		}
 	};

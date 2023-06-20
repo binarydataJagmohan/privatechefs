@@ -86,11 +86,31 @@ export default function Step2() {
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       }
     } catch (err) {
       toast.error((err as Error).message, {
         position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
       });
     }
   };

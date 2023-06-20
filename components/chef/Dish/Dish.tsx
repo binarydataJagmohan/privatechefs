@@ -144,11 +144,31 @@ export default function Dish() {
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       }
     } catch (err) {
       toast.error((err as Error).message, {
         position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
       });
     }
   };
@@ -212,19 +232,41 @@ export default function Dish() {
             setDishcategory("");
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #ff4e00',
+                color: '#454545',
+                "--toastify-icon-color-success": "#ff4e00",
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           } else {
             setButtonState(false);
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           }
         })
         .catch((err) => {
           setButtonState(false);
-          toast.error(err.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+          console.log(err);
+          // toast.error(err.message, {
+          //   position: toast.POSITION.TOP_RIGHT,
+          // });
         });
     }
   };
@@ -268,12 +310,32 @@ export default function Dish() {
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
               });
             }
           })
           .catch((err) => {
             toast.error(err.message, {
               position: toast.POSITION.BOTTOM_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           });
       } else {
@@ -333,6 +395,16 @@ export default function Dish() {
 
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
         }
       })
@@ -340,6 +412,16 @@ export default function Dish() {
 
         toast.error(err.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       });
 
@@ -352,9 +434,9 @@ export default function Dish() {
   // };
 
   const resetFields = () => {
-		setDishName('');
-		setDishcategory('');
-	}
+    setDishName('');
+    setDishcategory('');
+  }
 
 
   return (
@@ -442,7 +524,7 @@ export default function Dish() {
                             onClick={(e) => handleEdit(e, dish.id)}
                           ></i>
                           <i
-                            className="fa-sharp fa-solid fa-trash" style={{cursor:"pointer"}}
+                            className="fa-sharp fa-solid fa-trash" style={{ cursor: "pointer" }}
 
                             onClick={(e) => handleDelete(e, dish.id)}
 

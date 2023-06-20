@@ -16,7 +16,7 @@ import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 
 export default function Cuisine() {
-  const [errors, setErrors]:any = useState({});
+  const [errors, setErrors]: any = useState({});
   const [buttonStatus, setButtonState] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [editmodalConfirm, editsetModalConfirm] = useState(false);
@@ -27,20 +27,20 @@ export default function Cuisine() {
   const [cuisines, setCuisines] = useState([]);
   const [cuisines2, setCuisines2] = useState([]);
   const [showFullDescription, setShowFullDescription] = useState(new Array(cuisines.length).fill(false));
-  const [cuisinesList, setCuisinesList]:any = useState([]);
+  const [cuisinesList, setCuisinesList]: any = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
-  const current_UserData:any = {currentUserData};
-  const errors_name:any = {currentUserData}
+  const current_UserData: any = { currentUserData };
+  const errors_name: any = { currentUserData }
 
-  const toggleDescription = (index:any) => {
+  const toggleDescription = (index: any) => {
     const newShowFullDescription = [...showFullDescription];
     newShowFullDescription[index] = !newShowFullDescription[index];
     setShowFullDescription(newShowFullDescription);
   };
 
-  
+
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -80,20 +80,40 @@ export default function Cuisine() {
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       }
-    } catch (err:any) {
+    } catch (err: any) {
       toast.error(err.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
       });
     }
   };
 
-  const onPageChange = (page:any) => {
+  const onPageChange = (page: any) => {
     setCurrentPage(page);
   };
 
-  const handleDelete = (e:any, id:any) => {
+  const handleDelete = (e: any, id: any) => {
     e.preventDefault();
     swal({
       title: "Are you sure?",
@@ -116,12 +136,32 @@ export default function Cuisine() {
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
               });
             }
           })
           .catch((err) => {
             toast.error(err.message, {
               position: toast.POSITION.BOTTOM_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           });
       } else {
@@ -132,11 +172,11 @@ export default function Cuisine() {
 
   //login submit start
 
-  const handlMenuSubmit = (event:any) => {
+  const handlMenuSubmit = (event: any) => {
     event.preventDefault();
 
     // Validate form data
-    const errors:any = {};
+    const errors: any = {};
 
     if (!name) {
       errors.name = "Name is required";
@@ -155,7 +195,7 @@ export default function Cuisine() {
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
 
-      const userData :any = getCurrentUserData();
+      const userData: any = getCurrentUserData();
       // Call an API or perform some other action to register the user
       const data = {
         name: name,
@@ -181,11 +221,32 @@ export default function Cuisine() {
             setCuisinesList([]);
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #ff4e00',
+                color: '#454545',
+                "--toastify-icon-color-success": "#ff4e00",
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           } else {
             setButtonState(false);
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
           }
         })
@@ -196,7 +257,7 @@ export default function Cuisine() {
   };
   //login submit close
 
-  const editCuisine = (e:any, id:any) => {
+  const editCuisine = (e: any, id: any) => {
     e.preventDefault();
     editsetModalConfirm(true);
     getSingleCisine(id).then((res) => {
@@ -204,9 +265,9 @@ export default function Cuisine() {
     });
   };
 
-  const handleUpdateCuisine = (e:any) => {
+  const handleUpdateCuisine = (e: any) => {
     e.preventDefault();
-    const updatedData:any = {
+    const updatedData: any = {
       id: cuisinesList.id,
       name: cuisinesList.name,
       description: cuisinesList.description,
@@ -220,18 +281,43 @@ export default function Cuisine() {
         console.log(res.data);
         editsetModalConfirm(false);
         fetchCuisneDetails();
-        toast.success("Cuisine updated successfully!");
+        toast.success("Cuisine updated successfully!", {
+          position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #ff4e00',
+            color: '#454545',
+            "--toastify-icon-color-success": "#ff4e00",
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
+        });
       })
 
       .catch((err) => {
-        toast.error("Failed to update cuisine. Please try again.");
+        toast.error("Failed to update cuisine. Please try again.", {
+          position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
+        });
         console.log(err);
       });
   };
 
-  const handleMenuBlur = (event:any) => {
+  const handleMenuBlur = (event: any) => {
     const { name, value } = event.target;
-    const newErrors:any = { ...errors };
+    const newErrors: any = { ...errors };
 
     switch (name) {
       case "name":
@@ -277,7 +363,7 @@ export default function Cuisine() {
               </tr>
             </thead>
             <tbody>
-              {cuisines.map((cuisine:any, index) => (
+              {cuisines.map((cuisine: any, index) => (
                 <tr key={cuisine.id}>
                   <td>{index + 1}</td>
                   <td className="chefs_pic">
@@ -409,7 +495,7 @@ export default function Cuisine() {
               <input
                 type="file"
                 name="image"
-                onChange={(e:any) => setImage(e.target.files)}
+                onChange={(e: any) => setImage(e.target.files)}
                 accept="jpg,png"
               />
               {errors.image && (

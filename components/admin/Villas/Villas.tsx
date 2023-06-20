@@ -244,13 +244,34 @@ export default function Villas() {
 						setModalConfirm(false);
 						setButtonState(false);
 						toast.success(res.message, {
-							position: toast.POSITION.TOP_RIGHT
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #ff4e00',
+								color: '#454545',
+								"--toastify-icon-color-success": "#ff4e00",
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
 						});
 
 					} else {
 						setButtonState(false);
 						toast.error(res.message, {
-							position: toast.POSITION.TOP_RIGHT
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
 						});
 					}
 				})
@@ -331,11 +352,32 @@ export default function Villas() {
 						setButtonState(false);
 						toast.success(res.message, {
 							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #ff4e00',
+								color: '#454545',
+								"--toastify-icon-color-success": "#ff4e00",
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
 						});
 					} else {
 						setButtonState(false);
 						toast.error(res.message, {
 							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
 						});
 					}
 				})
@@ -416,6 +458,16 @@ export default function Villas() {
 						} else {
 							toast.error(res.message, {
 								position: toast.POSITION.TOP_RIGHT,
+								closeButton: true,
+								hideProgressBar: false,
+								style: {
+									background: '#ffff',
+									borderLeft: '4px solid #e74c3c',
+									color: '#454545',
+								},
+								progressStyle: {
+									background: '#ffff',
+								},
 							});
 						}
 					})

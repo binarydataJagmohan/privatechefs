@@ -3,7 +3,7 @@ import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefFilterByBooking, deleteBooking } from "../../../lib/adminapi";
-import { getConciergeChefByBooking} from "../../../lib/concierge";
+import { getConciergeChefByBooking } from "../../../lib/concierge";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -153,7 +153,7 @@ export default function Bookings() {
 
 	}, []);
 
-	const fetchBookingAdminDetails = async (id:any) => {
+	const fetchBookingAdminDetails = async (id: any) => {
 		try {
 			const userData = getCurrentUserData() as CurrentUserData;
 			const res = await getConciergeChefByBooking(userData.id);
@@ -166,11 +166,31 @@ export default function Bookings() {
 			} else {
 				toast.error(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
+					closeButton: true,
+					hideProgressBar: false,
+					style: {
+						background: '#ffff',
+						borderLeft: '4px solid #e74c3c',
+						color: '#454545',
+					},
+					progressStyle: {
+						background: '#ffff',
+					},
 				});
 			}
 		} catch (err: any) {
 			toast.error(err.message, {
 				position: toast.POSITION.BOTTOM_RIGHT,
+				closeButton: true,
+				hideProgressBar: false,
+				style: {
+					background: '#ffff',
+					borderLeft: '4px solid #e74c3c',
+					color: '#454545',
+				},
+				progressStyle: {
+					background: '#ffff',
+				},
 			});
 		}
 	};
@@ -325,7 +345,18 @@ export default function Bookings() {
 						if (res.status == true) {
 
 							toast.success(res.message, {
-								position: toast.POSITION.TOP_RIGHT
+								position: toast.POSITION.TOP_RIGHT,
+								closeButton: true,
+								hideProgressBar: false,
+								style: {
+									background: '#ffff',
+									borderLeft: '4px solid #ff4e00',
+									color: '#454545',
+									"--toastify-icon-color-success": "#ff4e00",
+								},
+								progressStyle: {
+									background: '#ffff',
+								},
 							});
 
 							setModalConfirm(false);
@@ -335,7 +366,17 @@ export default function Bookings() {
 						} else {
 
 							toast.error(res.message, {
-								position: toast.POSITION.TOP_RIGHT
+								position: toast.POSITION.TOP_RIGHT,
+								closeButton: true,
+								hideProgressBar: false,
+								style: {
+									background: '#ffff',
+									borderLeft: '4px solid #e74c3c',
+									color: '#454545',
+								},
+								progressStyle: {
+									background: '#ffff',
+								},
 							});
 
 						}
@@ -397,7 +438,17 @@ export default function Bookings() {
 					} else {
 
 						toast.error(res.message, {
-							position: toast.POSITION.TOP_RIGHT
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
 						});
 
 					}

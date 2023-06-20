@@ -125,12 +125,33 @@ export default function MyProfile() {
 					setModalConfirm(false);
 					setButtonState(false);
 					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #ff4e00',
+							color: '#454545',
+							"--toastify-icon-color-success": "#ff4e00",
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 				} else {
 					setButtonState(false);
 					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 				}
 			})
@@ -147,37 +168,58 @@ export default function MyProfile() {
 		setErrors(errors);
 
 		if (Object.keys(errors).length === 0) {
-		e.preventDefault();
-		// const user_id = chefLocation.user_id;
-		// console.log(user_id);
-		const id = getsingledata.id;
-		setButtonState(true);
-		const data = {
-			user_id: currentUserData.id,
-			address: locationaddress,
-			lat: lat,
-			lng: lng,
-		};
-		UpdateChefLocation(id, data)
-			.then(res => {
-				if (res.status == true) {
-					setModalConfirm(false);
-					editmodalConfirmClose();
-					setButtonState(false);
-					getChefLocationData(currentUserData.id);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
-				} else {
-					setButtonState(false);
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
+			e.preventDefault();
+			// const user_id = chefLocation.user_id;
+			// console.log(user_id);
+			const id = getsingledata.id;
+			setButtonState(true);
+			const data = {
+				user_id: currentUserData.id,
+				address: locationaddress,
+				lat: lat,
+				lng: lng,
+			};
+			UpdateChefLocation(id, data)
+				.then(res => {
+					if (res.status == true) {
+						setModalConfirm(false);
+						editmodalConfirmClose();
+						setButtonState(false);
+						getChefLocationData(currentUserData.id);
+						toast.success(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #ff4e00',
+								color: '#454545',
+								"--toastify-icon-color-success": "#ff4e00",
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
+						});
+					} else {
+						setButtonState(false);
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		}
 	};
 
@@ -257,6 +299,17 @@ export default function MyProfile() {
 
 					toast.success(res.message, {
 						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #ff4e00',
+							color: '#454545',
+							"--toastify-icon-color-success": "#ff4e00",
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 					window.location.reload();
 				})
@@ -264,6 +317,16 @@ export default function MyProfile() {
 					setButtonState(false);
 					toast.error("Error occurred", {
 						position: toast.POSITION.BOTTOM_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 				});
 		}
@@ -278,6 +341,17 @@ export default function MyProfile() {
 				window.localStorage.setItem("pic", res.data.pic);
 				toast.success(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
+					closeButton: true,
+					hideProgressBar: false,
+					style: {
+						background: '#ffff',
+						borderLeft: '4px solid #ff4e00',
+						color: '#454545',
+						"--toastify-icon-color-success": "#ff4e00",
+					},
+					progressStyle: {
+						background: '#ffff',
+					},
 				});
 				window.location.reload();
 			})
@@ -285,6 +359,16 @@ export default function MyProfile() {
 				console.error(error);
 				toast.error('Invalid file format', {
 					position: toast.POSITION.TOP_RIGHT,
+					closeButton: true,
+					hideProgressBar: false,
+					style: {
+						background: '#ffff',
+						borderLeft: '4px solid #e74c3c',
+						color: '#454545',
+					},
+					progressStyle: {
+						background: '#ffff',
+					},
 				});
 			});
 	};
@@ -297,40 +381,71 @@ export default function MyProfile() {
 		setErrors(errors);
 
 		if (Object.keys(errors).length === 0) {
-		e.preventDefault();
-		setButtonState(true);
-		const userData: User = getCurrentUserData() as User;
-		//console.log(user_id)
-		const data = {
-			user_id: userData.id,
-			address: locationaddress,
-			lat: lat,
-			lng: lng,
-		};
-		SaveChefLocation(data)
-			.then(res => {
-				if (res.status == true) {
-					console.log(res.data);
-					getChefLocationData(userData.id);
-					setModalConfirm(false);
-					setButtonState(false);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT
-					});
+			e.preventDefault();
+			setButtonState(true);
+			const userData: User = getCurrentUserData() as User;
+			//console.log(user_id)
+			const data = {
+				user_id: userData.id,
+				address: locationaddress,
+				lat: lat,
+				lng: lng,
+			};
+			SaveChefLocation(data)
+				.then(res => {
+					if (res.status == true) {
+						console.log(res.data);
+						getChefLocationData(userData.id);
+						setModalConfirm(false);
+						setButtonState(false);
+						toast.success(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #ff4e00',
+								color: '#454545',
+								"--toastify-icon-color-success": "#ff4e00",
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
+						});
 
-				} else {
+					} else {
+						setButtonState(false);
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
+						});
+					}
+				})
+				.catch(err => {
 					setButtonState(false);
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
+					toast.error('Maximum limit of locations reached', {
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
-				}
-			})
-			.catch(err => {
-				setButtonState(false);
-				toast.error('Maximum limit of locations reached', {
-					position: toast.POSITION.TOP_RIGHT
 				});
-			});
 		}
 	};
 
@@ -369,13 +484,34 @@ export default function MyProfile() {
 				window.localStorage.setItem("pic", res.data.pic);
 				window.localStorage.setItem("surname", res.data.surname);
 				toast.success(res.message, {
-					position: toast.POSITION.TOP_RIGHT
+					position: toast.POSITION.TOP_RIGHT,
+					closeButton: true,
+					hideProgressBar: false,
+					style: {
+						background: '#ffff',
+						borderLeft: '4px solid #ff4e00',
+						color: '#454545',
+						"--toastify-icon-color-success": "#ff4e00",
+					},
+					progressStyle: {
+						background: '#ffff',
+					},
 				});
 
 			}).catch(err => {
 				setButtonState(false);
-				toast.error('Error occured', {
-					position: toast.POSITION.BOTTOM_RIGHT
+				toast.error(err, {
+					position: toast.POSITION.BOTTOM_RIGHT,
+					closeButton: true,
+					hideProgressBar: false,
+					style: {
+						background: '#ffff',
+						borderLeft: '4px solid #e74c3c',
+						color: '#454545',
+					},
+					progressStyle: {
+						background: '#ffff',
+					},
 				});
 			});
 	};
@@ -522,7 +658,17 @@ export default function MyProfile() {
 				} else {
 					setButtonState(false);
 					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 				}
 			})
@@ -555,7 +701,17 @@ export default function MyProfile() {
 					setChefResume(res.data);
 				} else {
 					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
 					});
 				}
 			})
@@ -1235,10 +1391,10 @@ export default function MyProfile() {
 												<label>Address</label>
 												<input id="address-input1" type="text" name="locationaddress" onChange={(e) => setLocationaddress(e.target.value)} />
 												{errors.locationaddress && (
-														<span className="small error text-danger mb-2 d-inline-block error_login">
-															{errors.locationaddress}
-														</span>
-													)}
+													<span className="small error text-danger mb-2 d-inline-block error_login">
+														{errors.locationaddress}
+													</span>
+												)}
 												{/* <iframe id="popup" style={{display:"none"}}src="about:blank"></iframe> */}
 											</div>
 										</div>
@@ -1262,10 +1418,10 @@ export default function MyProfile() {
 												<label>Address</label>
 												<input id="address-input2" type="text" name="address" defaultValue={locationaddress || ''} onChange={(e) => setLocationaddress(e.target.value)} />
 												{errors.locationaddress && (
-														<span className="small error text-danger mb-2 d-inline-block error_login">
-															{errors.locationaddress}
-														</span>
-													)}
+													<span className="small error text-danger mb-2 d-inline-block error_login">
+														{errors.locationaddress}
+													</span>
+												)}
 												{/* <iframe id="popup" style={{display:"none"}}src="about:blank"></iframe> */}
 											</div>
 										</div>

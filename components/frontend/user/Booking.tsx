@@ -623,16 +623,16 @@ export default function Booking(props: any) {
                           {bookingUsers.map((user: any, index) => {
 
                             const datesString = user.dates;
-                            const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
-                            const startDate = dates[0];
-                            const endDate = dates[dates.length - 1];
+                            const datesw = datesString.split(',').map((dateString: string) => formatDate(dateString));
+                            const startDate = datesw[0];
+                            const endDate = datesw[datesw.length - 1];
                             const output = `${startDate} to ${endDate}`;
 
                             return (
                               <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td><p className="text-data-18">{formatDate(user.latest_created_at)}</p></td>
-                                <td><p className="text-data-18">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
+                                <td><p className="text-data-18">{user.category == 'onetime' ? formatDate(user.datesw) : output}</p></td>
                                 <td><p className="text-data-18">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
                                 {/* <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td> */}
                                 <td>
@@ -658,7 +658,7 @@ export default function Booking(props: any) {
                                           View Booking
                                         </a>
                                       </li>
-                                      {user.booking_id === user.appliedId && user.category == 'onetime' && (<li>
+                                      {user.booking_id === user.appliedId && user.userId === user.chefId && user.category == 'onetime' && (<li>
                                         <a
                                           className="dropdown-item"
                                           href="#"
@@ -1069,6 +1069,7 @@ export default function Booking(props: any) {
         </div>
 
       </PopupModalTwo>
+      <ToastContainer/>
     </>
   )
 }

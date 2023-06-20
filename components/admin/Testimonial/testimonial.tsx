@@ -116,11 +116,32 @@ export default function Allergy() {
                         settestimonialList({ id: 0, name: '', description: '', image: '', stars: 0 });
                         toast.success(res.message, {
                             position: toast.POSITION.TOP_RIGHT,
+                            closeButton: true,
+                            hideProgressBar: false,
+                            style: {
+                                background: '#ffff',
+                                borderLeft: '4px solid #ff4e00',
+                                color: '#454545',
+                                "--toastify-icon-color-success": "#ff4e00",
+                            },
+                            progressStyle: {
+                                background: '#ffff',
+                            },
                         });
                     } else {
                         setButtonState(false);
                         toast.error(res.message, {
                             position: toast.POSITION.TOP_RIGHT,
+                            closeButton: true,
+                            hideProgressBar: false,
+                            style: {
+                                background: '#ffff',
+                                borderLeft: '4px solid #e74c3c',
+                                color: '#454545',
+                            },
+                            progressStyle: {
+                                background: '#ffff',
+                            },
                         });
                     }
                 })
@@ -174,10 +195,35 @@ export default function Allergy() {
                 editsetModalConfirm(false);
                 fetchTestimonialDetails();
                 settestimonialList(updatedData);
-                toast.success("Testimonial updated successfully!");
+                toast.success("Testimonial updated successfully!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    closeButton: true,
+                    hideProgressBar: false,
+                    style: {
+                        background: '#ffff',
+                        borderLeft: '4px solid #ff4e00',
+                        color: '#454545',
+                        "--toastify-icon-color-success": "#ff4e00",
+                    },
+                    progressStyle: {
+                        background: '#ffff',
+                    },
+                });
             })
             .catch((err) => {
-                toast.error("Failed to update testimonial. Please try again.");
+                toast.error("Failed to update testimonial. Please try again.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    closeButton: true,
+                    hideProgressBar: false,
+                    style: {
+                        background: '#ffff',
+                        borderLeft: '4px solid #e74c3c',
+                        color: '#454545',
+                    },
+                    progressStyle: {
+                        background: '#ffff',
+                    },
+                });
                 console.log(err);
             });
     };
@@ -230,12 +276,32 @@ export default function Allergy() {
                         } else {
                             toast.error(res.message, {
                                 position: toast.POSITION.TOP_RIGHT,
+                                closeButton: true,
+                                hideProgressBar: false,
+                                style: {
+                                    background: '#ffff',
+                                    borderLeft: '4px solid #e74c3c',
+                                    color: '#454545',
+                                },
+                                progressStyle: {
+                                    background: '#ffff',
+                                },
                             });
                         }
                     })
                     .catch((err) => {
                         toast.error(err.message, {
                             position: toast.POSITION.BOTTOM_RIGHT,
+                            closeButton: true,
+                            hideProgressBar: false,
+                            style: {
+                                background: '#ffff',
+                                borderLeft: '4px solid #e74c3c',
+                                color: '#454545',
+                            },
+                            progressStyle: {
+                                background: '#ffff',
+                            },
                         });
                     });
             } else {
@@ -270,11 +336,31 @@ export default function Allergy() {
             } else {
                 toast.error(res.message, {
                     position: toast.POSITION.TOP_RIGHT,
+                    closeButton: true,
+                    hideProgressBar: false,
+                    style: {
+                        background: '#ffff',
+                        borderLeft: '4px solid #e74c3c',
+                        color: '#454545',
+                    },
+                    progressStyle: {
+                        background: '#ffff',
+                    },
                 });
             }
         } catch (err: any) {
             toast.error(err.message, {
                 position: toast.POSITION.BOTTOM_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                    background: '#ffff',
+                    borderLeft: '4px solid #e74c3c',
+                    color: '#454545',
+                },
+                progressStyle: {
+                    background: '#ffff',
+                },
             });
         }
     };
@@ -606,7 +692,7 @@ export default function Allergy() {
                 </div>
             </PopupModal>
             {/* // Menu popup end  */}
-            <ToastContainer />
+            <ToastContainer />  
         </>
     );
 }

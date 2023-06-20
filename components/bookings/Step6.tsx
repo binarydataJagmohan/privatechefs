@@ -97,9 +97,9 @@ export default function Step6() {
     setServiceType(serviceType ?? "");
     setTime(time ?? "");
     setServiceStyle(servicestyle ?? "");
-    setSelectedMeals(JSON.parse(mealsSelected ?? ""));
-    setSelectedCuisine(JSON.parse(storedCuisine ?? ""));
-    setSelectedAllergies(JSON.parse(storeallergies ?? ""));
+    setSelectedMeals(JSON.parse(mealsSelected ?? '{}'));
+    setSelectedCuisine(JSON.parse(storedCuisine ?? '{}'));
+    setSelectedAllergies(JSON.parse(storeallergies ?? '{}'));
     setAdditionalNotes(getadditionalnotes ?? "");
   
     if (serviceType && time) {
@@ -200,7 +200,17 @@ export default function Step6() {
             if(res.status==false){
               toast.error(res.message, {
                   position: toast.POSITION.TOP_RIGHT,
-                  toastId: 'error'
+                  toastId: 'error',
+                  closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
               });
 
             }
@@ -208,7 +218,17 @@ export default function Step6() {
           .catch(err => {
               toast.error(err, {
                   position: toast.POSITION.TOP_RIGHT,
-                  toastId: 'error'
+                  toastId: 'error',
+                  closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
               });
           });
 
@@ -388,7 +408,7 @@ export default function Step6() {
         </div>
         </form>
       </section>
-      
+      <ToastContainer />
     </>
   );
 }

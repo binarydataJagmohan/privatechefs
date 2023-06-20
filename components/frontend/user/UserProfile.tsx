@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { updateUserProfile, getSingleUserProfile, updateUsersImage,UpdateUserToOffiline } from '../../../lib/userapi'
+import { updateUserProfile, getSingleUserProfile, updateUsersImage, UpdateUserToOffiline } from '../../../lib/userapi'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeToken, removeStorageData } from "../../../lib/session";
@@ -57,7 +57,7 @@ export default function UserProfile() {
 
   const [userData, setUserData] = useState<UserData>({ pic: "" });
 
-   const [encodde_user_id, setEncodeUserId] = useState('');
+  const [encodde_user_id, setEncodeUserId] = useState('');
 
   const handleUpdateProfile = async (e: any) => {
     e.preventDefault();
@@ -145,12 +145,33 @@ export default function UserProfile() {
           window.localStorage.setItem("phone", res.data.phone);
           toast.success(res.message, {
             position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #ff4e00',
+              color: '#454545',
+              "--toastify-icon-color-success": "#ff4e00",
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
         })
         .catch((err) => {
           setButtonState(false);
           toast.error("Error occurred", {
             position: toast.POSITION.BOTTOM_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
         });
     }
@@ -165,12 +186,33 @@ export default function UserProfile() {
         window.localStorage.setItem("pic", res.data.pic);
         toast.success(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #ff4e00',
+            color: '#454545',
+            "--toastify-icon-color-success": "#ff4e00",
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       })
       .catch(error => {
         console.error(error);
         toast.error('Invalid file format', {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       });
   };
@@ -235,7 +277,7 @@ export default function UserProfile() {
       });
       getSingleUserData(userData.id)
 
-      
+
     }
   }
 
@@ -263,7 +305,17 @@ export default function UserProfile() {
         } else {
           setButtonState(false);
           toast.error(res.message, {
-            position: toast.POSITION.TOP_RIGHT
+            position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
         }
       })
@@ -278,16 +330,16 @@ export default function UserProfile() {
 
   function handleLogout() {
     UpdateUserToOffiline(currentUserData.id)
-    .then(res => {
+      .then(res => {
         if (res.status == true) {
-            removeToken();
-            removeStorageData();
-            window.location.href = '/';
+          removeToken();
+          removeStorageData();
+          window.location.href = '/';
         } else {
-            console.log("error");
+          console.log("error");
         }
-    })
-   
+      })
+
   }
   return (
     <>
@@ -310,12 +362,12 @@ export default function UserProfile() {
                       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </div>
                   </a>
-                  
+
                   <a href={`/user/messages`}>
-                          <div className="profile-cols mt-4 mb-4">
-                          <h4>My Messages</h4>
-                              <p>Halal, Kosher, Hindu.</p>
-                          </div>
+                    <div className="profile-cols mt-4 mb-4">
+                      <h4>My Messages</h4>
+                      <p>Halal, Kosher, Hindu.</p>
+                    </div>
                   </a>
                 </div>
               </div>
@@ -470,7 +522,7 @@ export default function UserProfile() {
               </div>
             </div>
           </form>
-          <ToastContainer />
+          <ToastContainer/>
         </div>
       </section>
     </>

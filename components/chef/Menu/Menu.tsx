@@ -29,7 +29,7 @@ export default function Menus2(props: any) {
     surname: string;
     role: string;
     approved_by_admin: string;
-    profile_status:string;
+    profile_status: string;
   }
 
 
@@ -72,7 +72,7 @@ export default function Menus2(props: any) {
     surname: '',
     role: '',
     approved_by_admin: '',
-    profile_status:''
+    profile_status: ''
   });
 
   const [errors, setErrors] = useState<Errors>({});
@@ -157,11 +157,31 @@ export default function Menus2(props: any) {
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       }
     } catch (err) {
       toast.error((err as Error).message, {
         position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
       });
     }
   };
@@ -262,12 +282,33 @@ export default function Menus2(props: any) {
           setSearchResultsVisible(false);
           toast.success(res.message, {
             position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #ff4e00',
+              color: '#454545',
+              "--toastify-icon-color-success": "#ff4e00",
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
 
           setName('');
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
         }
       })
@@ -298,6 +339,16 @@ export default function Menus2(props: any) {
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
               });
             }
           })
@@ -348,13 +399,34 @@ export default function Menus2(props: any) {
             setCuisineDataId(res.menudata.cuisine_id);
             setImage(res.menudata.image);
             toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #ff4e00',
+                color: '#454545',
+                "--toastify-icon-color-success": "#ff4e00",
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
 
           } else {
             setButtonState(false);
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
 
           }
@@ -419,6 +491,16 @@ export default function Menus2(props: any) {
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
               });
             }
           })
@@ -479,13 +561,34 @@ export default function Menus2(props: any) {
             setMaxPice(res.menudata.max_price);
             setcomments(res.menudata.comments);
             toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #ff4e00',
+                color: '#454545',
+                "--toastify-icon-color-success": "#ff4e00",
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
 
           } else {
             setButtonState(false);
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
             });
 
           }

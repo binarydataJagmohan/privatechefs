@@ -379,11 +379,31 @@ export default function Step3() {
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
         });
       }
     } catch (err:any) {
       toast.error(err.message, {
         position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
       });
     }
   };
@@ -722,7 +742,7 @@ export default function Step3() {
                 </div>    
                 </div>
             </section>
-            <ToastContainer/>
+            <ToastContainer />
         </>
     )
 }
