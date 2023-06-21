@@ -72,14 +72,14 @@ export default function Sidebar(): JSX.Element {
                         <a href="/admin/bookings" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/bookings' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
-                                <span className="menu-collapsed">Available Jobs</span>
+                                <span className="menu-collapsed">Available Bookings</span>
                             </div>
                         </a>
 
                         <a href="/admin/assigned-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/assigned-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
-                                <span className="menu-collapsed">Assigned Jobs</span>
+                                <span className="menu-collapsed">Assigned Bookings</span>
                             </div>
                         </a>
 

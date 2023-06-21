@@ -183,6 +183,7 @@ export default function Header({ }) {
               window.localStorage.setItem("approved_by_admin", res.user.approved_by_admin);
               window.localStorage.setItem("profile_status", res.user.profile_status);
               window.localStorage.setItem("expiration", res.authorisation.expiration);
+              window.localStorage.setItem("created_by", res.user.created_by);
 
               toast.success(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -242,6 +243,7 @@ export default function Header({ }) {
                   background: '#ffff',
                   borderLeft: '4px solid #e74c3c',
                   color: '#454545',
+                  "--toastify-icon-color-info": "#e74c3c",
                 },
                 progressStyle: {
                   background: '#ffff',
@@ -258,6 +260,7 @@ export default function Header({ }) {
                 background: '#ffff',
                 borderLeft: '4px solid #e74c3c',
                 color: '#454545',
+                "--toastify-icon-color-info": "#e74c3c",
               },
               progressStyle: {
                 background: '#ffff',
@@ -361,12 +364,13 @@ export default function Header({ }) {
               window.localStorage.setItem("surname", res.data.user.surname);
               window.localStorage.setItem("phone", res.data.user.phone);
               window.localStorage.setItem("address", res.data.user.address);
-              window.localStorage.setItem("expiration", res.data.expiration);
+              window.localStorage.setItem("expiration", res.data.user.expiration);
               window.localStorage.setItem(
                 "approved_by_admin",
                 res.data.user.approved_by_admin
               );
               window.localStorage.setItem("profile_status", res.data.profile_status);
+              window.localStorage.setItem("created_by", res.data.user.created_by);
 
               toast.success(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -410,6 +414,7 @@ export default function Header({ }) {
                   background: '#ffff',
                   borderLeft: '4px solid #e74c3c',
                   color: '#454545',
+                  "--toastify-icon-color-success": "#ff4e00",
                 },
                 progressStyle: {
                   background: '#ffff',
@@ -543,6 +548,7 @@ export default function Header({ }) {
                 background: '#ffff',
                 borderLeft: '4px solid #e74c3c',
                 color: '#454545',
+                "--toastify-icon-color-info": "#ff4e00",
               },
               progressStyle: {
                 background: '#ffff',
@@ -662,7 +668,7 @@ export default function Header({ }) {
           </nav>
         </div>
       </header>
-      <ToastContainer />
+     
 
       {/* // login popup code start  */}
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
@@ -777,7 +783,7 @@ export default function Header({ }) {
       </PopupModal>
 
       {/* // login popup code end  */}
-
+ {/* <ToastContainer /> */}
     </>
   )
 }

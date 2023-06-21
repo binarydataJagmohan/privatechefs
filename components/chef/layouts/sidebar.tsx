@@ -28,7 +28,7 @@ export default function Sidebar(): JSX.Element {
         id: '',
         name: '',
         email: '',
-        pic: null,
+        pic: '',
         surname: '',
         role: '',
         approved_by_admin: '',
@@ -123,7 +123,7 @@ export default function Sidebar(): JSX.Element {
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0">
                             <a href="/chef/myprofile">
-                                {currentUserData.pic ? 
+                                {currentUserData.pic != 'null' ? 
                                 <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" />
                                 :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
 

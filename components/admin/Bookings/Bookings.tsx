@@ -519,7 +519,7 @@ export default function Bookings() {
 	return (
 		<>
 			<div className="table-part">
-				<h2 className="mb-4">Available Jobs</h2>
+				<h2 className="mb-4">Available Bookings</h2>
 
 				<ul className="table_header_button_section">
 					<li>

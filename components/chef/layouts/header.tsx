@@ -21,6 +21,7 @@ export default function Header(): JSX.Element {
         approved_by_admin: string;
         profile_status: string;
         approval_msg: string;
+        created_by: string;
     }
 
     const [userData, setUserData] = useState('');
@@ -32,6 +33,7 @@ export default function Header(): JSX.Element {
         approved_by_admin: '',
         profile_status: '',
         approval_msg: '',
+        created_by:'',
     });
 
     useEffect(() => {
@@ -115,17 +117,17 @@ export default function Header(): JSX.Element {
                 <div className="row">
                     <div className="col-lg-7 col-md-4 col-2">
                         {/* <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a> */}
-                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && (
+                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
                             <p className="alert alert-danger">
                                 Complete your profile for pending admin approval.
                             </p>
                         )}
-                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && (
+                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.created_by === null && (
                             <p className="alert alert-warning">
                                 Profile completed, awaiting admin approval to unlock culinary opportunities.
                             </p>
                         )}
-                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' && (
+                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes'  && data.created_by === null && (
                             <p className="alert alert-success">
                                 Congratulations! Your profile has been completed and approved by the admin.
                                 <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
