@@ -88,12 +88,11 @@ export default function Receipts() {
 		}
 		if (data == 1) {
 			const userData: User = getCurrentUserData() as User;
-			if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
 				getAllBookingData();
 				getReceiptData();
-			} else {
-				window.location.href = '/404';
-			}
+		}
+		else {
+			window.location.href = "/404";
 		}
 	}
 

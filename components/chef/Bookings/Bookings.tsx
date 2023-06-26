@@ -50,6 +50,7 @@ export default function Bookings() {
 		role: string;
 		approved_by_admin: string;
 		profile_status: string;
+		created_by: string;
 	}
 
 
@@ -87,7 +88,8 @@ export default function Bookings() {
 		surname: '',
 		role: '',
 		approved_by_admin: '',
-		profile_status: ''
+		profile_status: '',
+		created_by: ''
 	});
 
 	const [menu, setMenu] = useState<MenuData[]>([]);
@@ -124,22 +126,21 @@ export default function Bookings() {
 			}
 			if (data == 1) {
 				const userData = getCurrentUserData() as CurrentUserData;
-				if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
-					fetchBookingUserDetails(userData.id)
-					getAllChefMenuData(userData.id)
-					setCurrentUserData({
-						...userData,
-						id: userData.id,
-						name: userData.name,
-						pic: userData.pic,
-						surname: userData.surname,
-						role: userData.role,
-						approved_by_admin: userData.approved_by_admin,
+				fetchBookingUserDetails(userData.id)
+				getAllChefMenuData(userData.id)
+				setCurrentUserData({
+					...userData,
+					id: userData.id,
+					name: userData.name,
+					pic: userData.pic,
+					surname: userData.surname,
+					role: userData.role,
+					approved_by_admin: userData.approved_by_admin,
 
-					});
-				} else {
-					window.location.href = "/404";
-				}
+				});
+			}
+			else {
+				window.location.href = "/404";
 			}
 		};
 
@@ -170,12 +171,12 @@ export default function Bookings() {
 					closeButton: true,
 					hideProgressBar: false,
 					style: {
-					  background: '#ffff',
-					  borderLeft: '4px solid #e74c3c',
-					  color: '#454545',
+						background: '#ffff',
+						borderLeft: '4px solid #e74c3c',
+						color: '#454545',
 					},
 					progressStyle: {
-					  background: '#ffff',
+						background: '#ffff',
 					},
 				});
 			}
@@ -185,12 +186,12 @@ export default function Bookings() {
 				closeButton: true,
 				hideProgressBar: false,
 				style: {
-				  background: '#ffff',
-				  borderLeft: '4px solid #e74c3c',
-				  color: '#454545',
+					background: '#ffff',
+					borderLeft: '4px solid #e74c3c',
+					color: '#454545',
 				},
 				progressStyle: {
-				  background: '#ffff',
+					background: '#ffff',
 				},
 			});
 		}
@@ -384,16 +385,16 @@ export default function Bookings() {
 						toast.success(res.message, {
 							position: toast.POSITION.TOP_RIGHT,
 							closeButton: true,
-          hideProgressBar: false,
-          style: {
-            background: '#ffff',
-            borderLeft: '4px solid #ff4e00',
-            color: '#454545',
-            "--toastify-icon-color-success": "#ff4e00",
-          },
-          progressStyle: {
-            background: '#ffff',
-          },
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #ff4e00',
+								color: '#454545',
+								"--toastify-icon-color-success": "#ff4e00",
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
 						});
 
 					} else {
@@ -401,15 +402,15 @@ export default function Bookings() {
 						toast.error(res.message, {
 							position: toast.POSITION.TOP_RIGHT,
 							closeButton: true,
-					hideProgressBar: false,
-					style: {
-					  background: '#ffff',
-					  borderLeft: '4px solid #e74c3c',
-					  color: '#454545',
-					},
-					progressStyle: {
-					  background: '#ffff',
-					},
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
 						});
 
 					}
@@ -492,11 +493,10 @@ export default function Bookings() {
 									const startDate = dates[0];
 									const endDate = dates[dates.length - 1];
 									const output = `${startDate} to ${endDate}`;
-
 									return (
 										<tr key={index}>
 											<td>{index + 1}</td>
-											<td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+											<td>{`${user.name} ${user.surname !== null ? user.surname : 'null'}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 											<td className="chefs_pic">
 												{user.pic ? <img
 													src={

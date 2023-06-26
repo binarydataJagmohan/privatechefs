@@ -339,6 +339,7 @@ export default function Bookings() {
 					key: 'status',
 					value: 'hired',
 					message: 'assign',
+					created_by : userData.id
 				}
 				UpdatedAppliedBookingByKeyValue(data)
 					.then(res => {
@@ -419,12 +420,13 @@ export default function Bookings() {
 	function handleBlur(event: any) {
 
 		if (appliedkey != 'id') {
-
+			const userData = getCurrentUserData() as CurrentUserData;
 			const data = {
 				id: appliedid,
 				key: appliedkey,
 				value: appliedValue,
 				message: 'data',
+				created_by : userData.id
 			}
 			UpdatedAppliedBookingByKeyValue(data)
 				.then(res => {

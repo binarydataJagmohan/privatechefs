@@ -4,10 +4,13 @@ import { getAllChefDetails } from '../../../lib/adminapi';
 import { toast } from 'react-toastify';
 import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
 import { UpdateUserToOffiline } from "../../../lib/userapi"
+import { getBookingsCount } from "../../../lib/chefapi"
 
 export default function Sidebar(): JSX.Element {
     const router = useRouter();
     const [currentUserData, setCurrentUserData]: any = useState({});
+    const [appliedbookingcount, setAppliedBookingCount] = useState();
+    const [hiredbookingcount, setHiredBookingCount] = useState();
 
     useEffect(() => {
         getUserData();
@@ -16,7 +19,24 @@ export default function Sidebar(): JSX.Element {
     const getUserData = async () => {
         const userData = getCurrentUserData();
         setCurrentUserData(userData);
+        getBookingsCountData();
     };
+
+    const getBookingsCountData = async () => {
+        const userid: any = getCurrentUserData();
+        getBookingsCount(userid.id)
+            .then(res => {
+                if (res.status == true) {
+                    setAppliedBookingCount(res.allbooking);
+                    setHiredBookingCount(res.hired_booking);
+                } else {
+                    console.log(res.message);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
 
     function handleLogout() {
@@ -73,6 +93,9 @@ export default function Sidebar(): JSX.Element {
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                                 <span className="menu-collapsed">Available Bookings</span>
+                                {appliedbookingcount ? (
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{appliedbookingcount}</span>
+                            ) : null}
                             </div>
                         </a>
 
@@ -80,6 +103,9 @@ export default function Sidebar(): JSX.Element {
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                                 <span className="menu-collapsed">Assigned Bookings</span>
+                                {hiredbookingcount ? (
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{hiredbookingcount}</span>
+                            ) : null}
                             </div>
                         </a>
 

@@ -125,7 +125,6 @@ export default function Menus2(props: any) {
     }
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
-      if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
         getSingleChefMenuData(id);
         getAllCrusineData();
         fetchdishes(userData.id);
@@ -139,9 +138,9 @@ export default function Menus2(props: any) {
           approved_by_admin: userData.approved_by_admin,
 
         });
-      } else {
-        window.location.href = "/404";
-      }
+    }
+    else {
+      window.location.href = "/404";
     }
   };
 

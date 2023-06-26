@@ -209,6 +209,7 @@ export default function Step6() {
           .then(res => {
             if (res.status == true) {
               removeBookingData();
+              console.log(res.data);
               toast.success(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
                 closeButton: true,
@@ -223,9 +224,9 @@ export default function Step6() {
                   background: '#ffff',
                 },
               });
-              setTimeout(() => {
-                window.location.href = "/user/booking";
-              }, 2000);
+              // setTimeout(() => {
+              //   window.location.href = "/user/booking";
+              // }, 2000);
             }
             if (res.status == false) {
               toast.error(res.message, {

@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
 import { info } from 'console';
 import swal from "sweetalert";
-import { getSingleUserProfile,UpdateUserToOffiline } from "../../../lib/userapi"
+import { getSingleUserProfile, UpdateUserToOffiline } from "../../../lib/userapi"
+import { getBookingsCount, getAppliedBookingsCount } from "../../../lib/chefapi"
 
 export default function Sidebar(): JSX.Element {
 
@@ -16,12 +17,12 @@ export default function Sidebar(): JSX.Element {
         role: string;
         approved_by_admin: string;
         profile_status: string;
-
     }
 
     interface UserData {
         id: number;
         approved_by_admin: string;
+        created_by:string;
     }
 
     const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
@@ -32,13 +33,18 @@ export default function Sidebar(): JSX.Element {
         surname: '',
         role: '',
         approved_by_admin: '',
-        profile_status: ''
+        profile_status: '',
     });
 
     const [userData, setUserData] = useState<UserData>({
         id: 0,
         approved_by_admin: '',
+        created_by:'',
     });
+
+    const [bookingcount, setBookingCount] = useState();
+    const [appliedbookingcount, setAppliedBookingCount] = useState();
+    const [hiredbookingcount, setHiredBookingCount] = useState();
 
     const router = useRouter();
 
@@ -46,7 +52,40 @@ export default function Sidebar(): JSX.Element {
         const userid: any = getCurrentUserData();
         getSingleData(userid.id);
         getUserData();
+        // getBookingsCountData();
+        getAppliedBookingsCountData();
     }, []);
+
+    // const getBookingsCountData = async () => {
+    //     getBookingsCount()
+    //         .then(res => {
+    //             if (res.status == true) {
+    //                 setBookingCount(res.available_booking);
+    //             } else {
+    //                 console.log(res.message);
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //         });
+    // }
+
+    const getAppliedBookingsCountData = async () => {
+        const userid: any = getCurrentUserData();
+        getAppliedBookingsCount(userid.id)
+            .then(res => {
+                if (res.status == true) {
+                    setBookingCount(res.available_booking);
+                    setAppliedBookingCount(res.applied_booking);
+                    setHiredBookingCount(res.hired_booking);
+                } else {
+                    console.log(res.message);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     const getSingleData = async (id: any) => {
         const userid: any = getCurrentUserData();
@@ -54,7 +93,7 @@ export default function Sidebar(): JSX.Element {
             .then(res => {
                 if (res.status == true) {
                     setUserData(res.data);
-                    // console.log(res.data);
+                    console.log(res.data);
                     window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
 
                 } else {
@@ -76,24 +115,23 @@ export default function Sidebar(): JSX.Element {
             surname: userData.surname,
             role: userData.role,
             approved_by_admin: userData.approved_by_admin,
-            profile_status: userData.profile_status,
-
+            profile_status: userData.profile_status
         });
 
     };
 
     function handleLogout() {
         UpdateUserToOffiline(userData.id)
-        .then(res => {
-            if (res.status == true) {
-                removeToken();
-                removeStorageData();
-                window.location.href = '/';
-            } else {
-                console.log("error");
-            }
-        })
-       
+            .then(res => {
+                if (res.status == true) {
+                    removeToken();
+                    removeStorageData();
+                    window.location.href = '/';
+                } else {
+                    console.log("error");
+                }
+            })
+
     }
 
     function AdminApprovalInfoAlert() {
@@ -123,9 +161,9 @@ export default function Sidebar(): JSX.Element {
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0">
                             <a href="/chef/myprofile">
-                                {currentUserData.pic != 'null' ? 
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" />
-                                :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
+                                {currentUserData.pic != 'null' ?
+                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" />
+                                    : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
 
                             </a>
                         </div>
@@ -145,13 +183,13 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
-                            e.preventDefault();
-                            AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
-                            e.preventDefault();
-                            CompleteProfile();
-                        }
+                            if (userData.approved_by_admin === 'no' && userData.created_by === null) {
+                                e.preventDefault();
+                                AdminApprovalInfoAlert();
+                            } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
+                                e.preventDefault();
+                                CompleteProfile();
+                            }                   
                     }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
@@ -160,10 +198,10 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/chef/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -176,10 +214,10 @@ export default function Sidebar(): JSX.Element {
 
 
                     <a href="/chef/bookings" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/bookings' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -187,14 +225,17 @@ export default function Sidebar(): JSX.Element {
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Available Jobs</span>
+                            {bookingcount ? (
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{bookingcount}</span>
+                            ) : null}
                         </div>
                     </a>
 
                     <a href="/chef/applied-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/applied-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -202,14 +243,17 @@ export default function Sidebar(): JSX.Element {
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Applied Jobs</span>
+                            {appliedbookingcount ? (
+                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{appliedbookingcount}</span>
+                            ) : null}
                         </div>
                     </a>
 
                     <a href="/chef/hired-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/hired-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -217,14 +261,17 @@ export default function Sidebar(): JSX.Element {
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">My Jobs</span>
+                            {hiredbookingcount ? (
+                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{hiredbookingcount}</span>
+                            ) : null}
                         </div>
                     </a>
 
                     <a href="/chef/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/invoices' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (currentUserData.approved_by_admin === 'no') {
+                        if (currentUserData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -235,10 +282,10 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                     <a href="/chef/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/receipts' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -257,10 +304,10 @@ export default function Sidebar(): JSX.Element {
                     </a> */}
 
                     <a href="/chef/menus" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/menus' || router.pathname == '/chef/menu/[id]' || router.pathname == '/chef/menus2' || router.pathname == '/chef/menus3' || router.pathname == '/chef/menus4' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -271,10 +318,10 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                     <a href="/chef/dish" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/dish' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -285,10 +332,10 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                     <a href="/chef/calender" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/calender' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending'  && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -305,10 +352,10 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>*/}
                     <a href="/chef/chats" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                        if (userData.approved_by_admin === 'no') {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending') {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }

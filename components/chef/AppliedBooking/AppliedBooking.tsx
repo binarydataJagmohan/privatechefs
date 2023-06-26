@@ -52,6 +52,7 @@ export default function Bookings() {
 		role: string;
 		approved_by_admin: string;
 		profile_status: string;
+		created_by: string;
 	}
 
 	interface Errors {
@@ -90,7 +91,8 @@ export default function Bookings() {
 		surname: '',
 		role: '',
 		approved_by_admin: '',
-		profile_status: ''
+		profile_status: '',
+		created_by: '',
 	});
 
 	const [chefoffer, setChefOffer] = useState<ChefOffer[]>([]);
@@ -108,25 +110,20 @@ export default function Bookings() {
 		}
 		if (data == 1) {
 			const userData = getCurrentUserData() as CurrentUserData;
-			if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
-				fetchChefAppliedBooking(userData.id,);
-				setCurrentUserData({
-					...userData,
-					id: userData.id,
-					name: userData.name,
-					pic: userData.pic,
-					surname: userData.surname,
-					role: userData.role,
-					approved_by_admin: userData.approved_by_admin,
+			fetchChefAppliedBooking(userData.id,);
+			setCurrentUserData({
+				...userData,
+				id: userData.id,
+				name: userData.name,
+				pic: userData.pic,
+				surname: userData.surname,
+				role: userData.role,
+				approved_by_admin: userData.approved_by_admin,
 
-				});
-			} else {
-				window.location.href = "/404";
-			}
-
+			});
+		} else {
+			window.location.href = "/404";
 		}
-
-
 	}, []);
 
 	const ChangeBookingStatus = async (e: any, id: any) => {
@@ -430,7 +427,7 @@ export default function Bookings() {
 													<option value='' disabled>Select status</option>
 													<option value='completed' id="completed" selected={user.booking_status === 'completed'}>Completed</option>
 													<option value='upcoming' selected={user.booking_status === 'upcoming'}>Upcoming</option>
-													<option value='pending' selected={user.booking_status === 'pending'}>Pending</option>
+													{/* <option value='pending' selected={user.booking_status === 'pending'}>Pending</option> */}
 													<option value='cancelled' selected={user.booking_status === 'cancelled'}>Cancelled</option>
 												</select>
 											</td>

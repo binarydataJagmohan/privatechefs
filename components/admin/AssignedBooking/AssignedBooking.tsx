@@ -662,7 +662,7 @@ export default function Bookings() {
 													<option value='' >Select status</option>
 													<option value='completed' id="completed" selected={user.booking_status === 'completed'}>Completed</option>
 													<option value='upcoming' selected={user.booking_status === 'upcoming'}>Upcoming</option>
-													<option value='pending' selected={user.booking_status === 'pending'}>Pending</option>
+													{/* <option value='pending' selected={user.booking_status === 'pending'}>Pending</option> */}
 													<option value='cancelled' selected={user.booking_status === 'cancelled'}>Cancelled</option>
 												</select>
 											</td>

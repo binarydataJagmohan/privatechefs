@@ -106,7 +106,6 @@ export default function Bookings() {
 		}
 		if (data == 1) {
 			const userData = getCurrentUserData() as CurrentUserData;
-			if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
 				fetchChefAppliedBooking(userData.id,);
 				setCurrentUserData({
 					...userData,
@@ -118,10 +117,9 @@ export default function Bookings() {
 					approved_by_admin: userData.approved_by_admin,
 
 				});
-			} else {
-				window.location.href = "/404";
-			}
-
+		}
+		else {
+			window.location.href = "/404";
 		}
 
 

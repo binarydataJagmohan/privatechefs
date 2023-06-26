@@ -101,7 +101,6 @@ export default function Dish() {
     }
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
-      if (userData.approved_by_admin == 'yes' && userData.profile_status == 'completed') {
         fetchdishes(userData.id);
         setCurrentUserData({
           ...userData,
@@ -113,10 +112,9 @@ export default function Dish() {
           approved_by_admin: userData.approved_by_admin,
 
         });
-      } else {
-        window.location.href = '/404';
-      }
-
+    }
+    else {
+      window.location.href = "/404";
     }
     // Fetch the list of dish categories from the API
     getDishecategory()

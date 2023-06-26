@@ -388,7 +388,7 @@ export default function Step1() {
                             altInput: true,
                             altFormat: "F j, Y",
                             dateFormat: "Y-m-d",
-                            defaultDate: "today" // Set default date to today
+                          
                           }}
                         />
 
