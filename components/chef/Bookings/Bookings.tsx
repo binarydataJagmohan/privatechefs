@@ -496,7 +496,7 @@ export default function Bookings() {
 									return (
 										<tr key={index}>
 											<td>{index + 1}</td>
-											<td>{`${user.name} ${user.surname !== null ? user.surname : 'null'}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+											<td>{`${user.name} ${user.surname ? user.surname : ''}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 											<td className="chefs_pic">
 												{user.pic ? <img
 													src={
@@ -685,16 +685,20 @@ export default function Bookings() {
 														</div>
 														<div className="col-8">
 															<p className="mony f-w-4">
-																{daybooking.breakfast === 'yes' &&
+																{daybooking.breakfast === 'yes' ? (
 																	<button className="table-btn btn-2 list-btn">Breakfast</button>
-
-																}
-																{daybooking.lunch === 'yes' &&
+																) : null}
+																{daybooking.lunch === 'yes' ? (
 																	<button className="table-btn btn-2 list-btn">Lunch</button>
-																}
-																{daybooking.dinner === 'yes' &&
+																) : null}
+																{daybooking.dinner === 'yes' ? (
 																	<button className="table-btn btn-2 list-btn">Dinner</button>
-																}
+																) : null}
+																{daybooking.breakfast !== 'yes' &&
+																	daybooking.lunch !== 'yes' &&
+																	daybooking.dinner !== 'yes' && (
+																		<span>No meal selected</span>
+																	)}
 															</p>
 														</div>
 													</div>

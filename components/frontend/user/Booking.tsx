@@ -215,6 +215,7 @@ export default function Booking(props: any) {
         setTotalBooking(res.data);
         const paginatedPosts = paginate(res.data, currentPage, pageSize);
         setBookingUser(paginatedPosts);
+        console.log(paginatedPosts);
 
       } else {
         toast.error(res.message, {
@@ -623,16 +624,16 @@ export default function Booking(props: any) {
                           {bookingUsers.map((user: any, index) => {
 
                             const datesString = user.dates;
-                            const datesw = datesString.split(',').map((dateString: string) => formatDate(dateString));
-                            const startDate = datesw[0];
-                            const endDate = datesw[datesw.length - 1];
+                            const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
+                            const startDate = dates[0];
+                            const endDate = dates[dates.length - 1];
                             const output = `${startDate} to ${endDate}`;
 
                             return (
                               <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td><p className="text-data-18">{formatDate(user.latest_created_at)}</p></td>
-                                <td><p className="text-data-18">{user.category == 'onetime' ? formatDate(user.datesw) : output}</p></td>
+                                <td><p className="text-data-18">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
                                 <td><p className="text-data-18">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
                                 {/* <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td> */}
                                 <td>
@@ -852,16 +853,20 @@ export default function Booking(props: any) {
                                           </div>
                                           <div className="col-8">
                                             <p className="mony f-w-4">
-                                              {daybooking.breakfast === 'yes' &&
+                                              {daybooking.breakfast === 'yes' ? (
                                                 <button className="table-btn btn-2 list-btn">Breakfast</button>
-
-                                              }
-                                              {daybooking.lunch === 'yes' &&
+                                              ) : null}
+                                              {daybooking.lunch === 'yes' ? (
                                                 <button className="table-btn btn-2 list-btn">Lunch</button>
-                                              }
-                                              {daybooking.dinner === 'yes' &&
+                                              ) : null}
+                                              {daybooking.dinner === 'yes' ? (
                                                 <button className="table-btn btn-2 list-btn">Dinner</button>
-                                              }
+                                              ) : null}
+                                              {daybooking.breakfast !== 'yes' &&
+                                                daybooking.lunch !== 'yes' &&
+                                                daybooking.dinner !== 'yes' && (
+                                                  <span>No meal selected</span>
+                                                )}
                                             </p>
                                           </div>
                                         </div>
@@ -1069,7 +1074,7 @@ export default function Booking(props: any) {
         </div>
 
       </PopupModalTwo>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   )
 }

@@ -336,7 +336,7 @@ export default function Bookings() {
 					key: 'status',
 					value: 'hired',
 					message: 'assign',
-					created_by : userData.id
+					created_by: userData.id
 				}
 				UpdatedAppliedBookingByKeyValue(data)
 					.then(res => {
@@ -423,7 +423,7 @@ export default function Bookings() {
 				key: appliedkey,
 				value: appliedValue,
 				message: 'data',
-				created_by : userData.id
+				created_by: userData.id
 			}
 			UpdatedAppliedBookingByKeyValue(data)
 				.then(res => {
@@ -828,18 +828,23 @@ export default function Bookings() {
 														</div>
 														<div className="col-8">
 															<p className="mony f-w-4">
-																{daybooking.breakfast === 'yes' &&
+																{daybooking.breakfast === 'yes' ? (
 																	<button className="table-btn btn-2 list-btn">Breakfast</button>
-
-																}
-																{daybooking.lunch === 'yes' &&
+																) : null}
+																{daybooking.lunch === 'yes' ? (
 																	<button className="table-btn btn-2 list-btn">Lunch</button>
-																}
-																{daybooking.dinner === 'yes' &&
+																) : null}
+																{daybooking.dinner === 'yes' ? (
 																	<button className="table-btn btn-2 list-btn">Dinner</button>
-																}
+																) : null}
+																{daybooking.breakfast !== 'yes' &&
+																	daybooking.lunch !== 'yes' &&
+																	daybooking.dinner !== 'yes' && (
+																		<span>No meal selected</span>
+																	)}
 															</p>
 														</div>
+
 													</div>
 												))}
 

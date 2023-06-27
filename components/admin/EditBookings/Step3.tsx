@@ -78,7 +78,7 @@ export default function Step3() {
           const windowselectedmeal = window.localStorage.getItem("selectedMeals");
           const windowcategory=  window.localStorage.getItem("servicetype");
         
-          if(category == windowcategory){
+          if (category == windowcategory || windowcategory == null) {
             
 
             setSeriveType(category);

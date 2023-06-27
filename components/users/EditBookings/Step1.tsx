@@ -228,7 +228,7 @@ export default function Step1() {
 
     if (type == 'onetime') {
 
-      if (window.localStorage.getItem("time") != onetimedate?.toISOString()) {
+      if (window.localStorage.getItem("time")) {
         window.localStorage.removeItem("selectedMeals");
         window.localStorage.setItem("servicetype", servicetype);
         window.localStorage.setItem("time", onetimedate?.toISOString() || "");
@@ -388,7 +388,7 @@ export default function Step1() {
                             altInput: true,
                             altFormat: "F j, Y",
                             dateFormat: "Y-m-d",
-                          
+                            defaultDate: "today" // Set default date to today
                           }}
                         />
 

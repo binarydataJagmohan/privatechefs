@@ -71,16 +71,14 @@ export default function Step3() {
     try {
       const res = await getEditBookingData(id);
       if (res.status) {
-        // console.log(res.data);
-
+      
         const category = res.data[0].category;
         const windowtime = window.localStorage.getItem("time");
         const windowselectedmeal = window.localStorage.getItem("selectedMeals");
         const windowcategory = window.localStorage.getItem("servicetype");
 
-        if (category == windowcategory) {
-
-
+        if (category == windowcategory || windowcategory == null) {
+         
           setSeriveType(category);
           if (category == 'multipletimes') {
 
@@ -224,6 +222,7 @@ export default function Step3() {
 
         } else {
 
+         
 
           setSeriveType(windowcategory || '');
 

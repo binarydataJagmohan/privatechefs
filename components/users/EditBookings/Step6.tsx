@@ -120,8 +120,8 @@ export default function Step6() {
         setSelectedMeals(JSON.parse(mealsSelected ?? '{}'));
         setSelectedCuisine(JSON.parse(storedCuisine ?? '{}'));
         setSelectedAllergies(JSON.parse(storeallergies ?? '{}'));
-        setAdditionalNotes(getadditionalnotes ?? '');
-        setBookingId(getbookingid ?? '')
+        setAdditionalNotes(getadditionalnotes ? getadditionalnotes:res.data[0].getadditionalnotes);
+        setBookingId(getbookingid ? getbookingid : res.data[0].getbookingid)
 
         setUserid(res.data[0].user_id);
         setName(res.data[0].name);
@@ -224,9 +224,9 @@ export default function Step6() {
                   background: '#ffff',
                 },
               });
-              // setTimeout(() => {
-              //   window.location.href = "/user/booking";
-              // }, 2000);
+              setTimeout(() => {
+                window.location.href = "/user/booking";
+              }, 2000);
             }
             if (res.status == false) {
               toast.error(res.message, {

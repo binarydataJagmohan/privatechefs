@@ -30,15 +30,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/bookings": [
+    "/admin/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/bookings.js"
+      "static/chunks/pages/admin/dashboard.js"
     ],
-    "/chef/bookings": [
+    "/chef/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/bookings.js"
+      "static/chunks/pages/chef/dashboard.js"
+    ],
+    "/concierge/dashboard": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/concierge/dashboard.js"
     ]
   },
   "ampFirstPages": []
