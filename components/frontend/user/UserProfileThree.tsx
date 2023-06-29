@@ -206,13 +206,13 @@ function handleLogout() {
                             <a href="/user/userprofile">
                                 <div className="profile-cols mt-5">
                                     <h4>Account Settings</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
                                 </div>
                             </a>
                             <a href="/user/booking">
                                 <div className="profile-cols mt-4 ">
                                     <h4>My Bookings</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
                                 </div>
                             </a>
                             <a href={`/user/messages`}>

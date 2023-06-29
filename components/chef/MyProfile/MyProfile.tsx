@@ -232,9 +232,6 @@ export default function MyProfile() {
 		if (!name) {
 			errors.name = "Name is required";
 		}
-		if (!surname) {
-			errors.surname = "Surname is required";
-		}
 		if (!email) {
 			errors.email = "Email is required";
 		}
@@ -982,11 +979,6 @@ export default function MyProfile() {
 												<div className="col-lg-4 col-md-6">
 													<label>Surname</label>
 													<input type="text" name="surname" value={surname || ''} onChange={(e) => setSurName(e.target.value)} />
-													{errors.description && (
-														<span className="small error text-danger mb-2 d-inline-block error_login">
-															{errors.description}
-														</span>
-													)}
 												</div>
 												<div className="col-lg-4 col-md-6">
 													<label>Email</label>

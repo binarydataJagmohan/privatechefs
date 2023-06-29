@@ -219,12 +219,12 @@ export default function Step5() {
                   <h4>Step 5</h4>
                   <p>Edit Special Request</p>
                 </div>
-                <a href="/user/edit-booking/step6">
+                {/* <a href="/user/edit-booking/step6"> */}
                   <div className="profile-cols mt-4 mb-4">
                     <h4>Step 6</h4>
                     <p>Edit Booking Details</p>
                   </div>
-                </a>
+                {/* </a> */}
 
 
               </div>

@@ -264,36 +264,36 @@ export default function Step1() {
                             <h4>Step 1</h4>
                             <p>Edit Service Type</p>
                           </div>
-                          <a href="/admin/edit-booking/step2">
+                          {/* <a href="/admin/edit-booking/step2"> */}
                             <div className="profile-cols mt-4 mb-4">
                               <h4>Step 2</h4>
                               <p>Edit Service</p>
                             </div>
-                          </a>
-                          <a href="/admin/edit-booking/step3">
+                          {/* </a>
+                          <a href="/admin/edit-booking/step3"> */}
                             <div className="profile-cols mt-4 mb-4">
                               <h4>Step 3</h4>
                               <p>Edit Type Of Meal</p>
                             </div>
-                          </a>
-                          <a href="/admin/edit-booking/step4">
+                          {/* </a>
+                          <a href="/admin/edit-booking/step4"> */}
                             <div className="profile-cols mt-4 mb-4">
                               <h4>Step 4</h4>
                               <p>Edit Type Of Cuisine</p>
                             </div>
-                          </a>
-                          <a href="/admin/edit-booking/step5">
+                          {/* </a>
+                          <a href="/admin/edit-booking/step5"> */}
                             <div className="profile-cols mt-4 mb-4">
                               <h4>Step 5</h4>
                               <p>Edit Special Request</p>
                             </div>
-                          </a>
-                          <a href="/admin/edit-booking/step6">
+                          {/* </a>
+                          <a href="/admin/edit-booking/step6"> */}
                             <div className="profile-cols mt-4 mb-4">
                               <h4>Step 6</h4>
                               <p>Edit Booking Details</p>
                             </div>
-                          </a>
+                          {/* </a> */}
                           
                           
                         </div>

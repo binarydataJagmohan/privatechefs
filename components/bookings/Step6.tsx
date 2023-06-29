@@ -289,6 +289,7 @@ export default function Step6() {
                   <input
                     type="number"
                     className="form-control mt-4"
+                    id="updQtyLoose47"
                     value={adults}
                     onChange={(e) => setAdults(e.target.value)}
                     placeholder="Adults"

@@ -738,15 +738,15 @@ table tr:hover {
     color: var(--color_1);
   }
 
-  .table>tbody td {
+  /* .table>tbody td {
     padding-left: 48%;
-  }
+  } */
 
-  td:nth-of-type(1):before {
+  /* td:nth-of-type(1):before {
     content: "ID";
-  }
+  } */
 
-  td:nth-of-type(2):before {
+  /* td:nth-of-type(2):before {
     content: "Order ID";
   }
 
@@ -772,7 +772,7 @@ table tr:hover {
 
   td:nth-of-type(8):before {
     content: "";
-  }
+  } */
 
 }
 
@@ -2158,7 +2158,7 @@ input {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   position: absolute;
-  left: 0px;
+  left: -85px;
   bottom: 40px;
   transform: rotate(180deg);
 }
@@ -4304,4 +4304,13 @@ button.table-btn.btn-2.btn-class {
 button.table-btn.btn-2.btn-class1 {
   background-color: #ff4e00 !important;
   color: #ffff;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1 !important;
+}
+input[type="number"]:not([step="any"])::-webkit-inner-spin-button,
+input[type="number"]:not([step="any"])::-webkit-outer-spin-button {
+  opacity: 1 !important;
 }
