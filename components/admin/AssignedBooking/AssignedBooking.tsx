@@ -628,7 +628,7 @@ export default function Bookings() {
 									return (
 										<tr key={index}>
 											<td>{index + 1}</td>
-											<td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+											<td>{`${user.name} ${user.surname != 'null' ? user.surname : ''}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 											<td className="chefs_pic">
 												{user.pic ? <img
 													src={

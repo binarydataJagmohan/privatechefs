@@ -536,13 +536,13 @@ export default function Booking(props: any) {
                 <a href={`/user/messages/}`}>
                   <div className="profile-cols mt-4 mb-4">
                     <h4>My Messages</h4>
-                    <p>Halal, Kosher, Hindu.</p>
+                    {/* <p>Halal, Kosher, Hindu.</p> */}
                   </div>
                 </a>
                 <a href="/user/userprofilethree">
                   <div className="profile-cols mt-4 mb-4">
                     <h4>Aditional Information/Preferences</h4>
-                    <p>Halal, Kosher, Hindu.</p>
+                    {/* <p>Halal, Kosher, Hindu.</p> */}
                   </div>
                 </a>
 
@@ -551,7 +551,7 @@ export default function Booking(props: any) {
             <div className="col-lg-9 col-md-12">
               <div className="all-form mt-4 tab-m-0  right-left-spacing">
                 <div className="table-part mt-2">
-                  <ul className="table_header_button_section text-right">
+                  <ul className="table_header_button_section text-lg-right">
                     <li>
                       <button
                         className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`}
@@ -609,7 +609,7 @@ export default function Booking(props: any) {
                   </div>
                   <div className="table-box">
                     {bookingUsers.length > 0 ?
-                      <table className="table table-borderless common_booking">
+                      <table className="table table-borderless common_booking" id="user-table">
                         <thead>
                           <tr>
                             <th scope="col">ID</th>
@@ -631,10 +631,10 @@ export default function Booking(props: any) {
 
                             return (
                               <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td><p className="text-data-18">{formatDate(user.latest_created_at)}</p></td>
-                                <td><p className="text-data-18">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
-                                <td><p className="text-data-18">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
+                                <td><p className="text-data-18" id="table-p">{index + 1}</p></td>
+                                <td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
+                                <td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
+                                <td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
                                 {/* <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td> */}
                                 <td>
                                   <div className="dropdown" id="none-class">

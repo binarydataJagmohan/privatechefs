@@ -582,7 +582,7 @@ export default function Bookings() {
 									const startDate = dates[0];
 									const endDate = dates[dates.length - 1];
 									const output = `${startDate} to ${endDate}`;
-									const surname = user && user.surname ? user.surname : '';
+									const surname = user.surname != 'null' ? user.surname : '';
 
 									return (
 										<tr key={index}>

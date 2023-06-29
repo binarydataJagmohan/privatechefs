@@ -30,20 +30,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/dashboard": [
+    "/bookings/step1": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/dashboard.js"
+      "static/chunks/pages/bookings/step1.js"
+    ],
+    "/bookings/step2": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/bookings/step2.js"
+    ],
+    "/bookings/step3": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/bookings/step3.js"
     ],
     "/chef/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/chef/dashboard.js"
-    ],
-    "/concierge/dashboard": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/concierge/dashboard.js"
     ]
   },
   "ampFirstPages": []

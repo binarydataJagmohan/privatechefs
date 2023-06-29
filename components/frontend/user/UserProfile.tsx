@@ -366,7 +366,7 @@ export default function UserProfile() {
                   <a href={`/user/messages`}>
                     <div className="profile-cols mt-4 mb-4">
                       <h4>My Messages</h4>
-                      <p>Halal, Kosher, Hindu.</p>
+                      {/* <p>Halal, Kosher, Hindu.</p> */}
                     </div>
                   </a>
                 </div>

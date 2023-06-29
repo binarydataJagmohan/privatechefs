@@ -2,8 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/bookings/step1": "pages/bookings/step1.js",
+  "/bookings/step2": "pages/bookings/step2.js",
   "/chef/dashboard": "pages/chef/dashboard.js",
-  "/admin/dashboard": "pages/admin/dashboard.js",
-  "/concierge/dashboard": "pages/concierge/dashboard.js",
+  "/bookings/step3": "pages/bookings/step3.js",
   "/404": "pages/404.js"
 }

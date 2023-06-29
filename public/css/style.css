@@ -552,6 +552,10 @@ a.bars-icon {
 }
 
 @media (max-width: 767px) {
+  .table_header_button_section li {
+    margin-right: 2px !important;
+  }
+
   .list-group-item+.list-group-item {
     padding: 9px 12px;
   }
@@ -1692,6 +1696,7 @@ span.log-out {
   width: 195px;
   height: 195px;
   border-radius: 200px;
+  object-fit: cover;
 }
 
 .month h3 {
@@ -3502,9 +3507,9 @@ select {
 }
 
 @media (max-width:350px) {
-  .table>tbody tr td ul li {
+  /* .table>tbody tr td ul li {
     font-size: 9px;
-  }
+  } */
 
   button.table-btn {
     font-size: 8px !important;
@@ -3931,7 +3936,7 @@ div#test-img img {
   background: rgba(186, 134, 57, 0.1);
   display: block;
   border-radius: 20px;
-  
+
 
 }
 
@@ -4095,9 +4100,11 @@ img.sender_booking_pic {
   height: 40px !important;
   left: 20px;
 }
+
 div#booking_images {
   position: relative;
 }
+
 img.receive_booking_pic {
   position: absolute !important;
   width: 40px !important;
@@ -4113,6 +4120,7 @@ img.user_sider_sender_booking_pic {
   height: 50px !important;
   left: -8px;
 }
+
 img.user_sider_receive_booking_pic {
   position: absolute !important;
   width: 50px !important;
@@ -4120,6 +4128,7 @@ img.user_sider_receive_booking_pic {
   right: 5px;
   bottom: 5px;
 }
+
 /* .user_chat_online_circle {
   bottom: 21px !;
   position: absolute;
@@ -4130,21 +4139,25 @@ img.user_sider_receive_booking_pic {
 .form-control:focus {
   border-color: unset;
   color: unset;
-  background-color:unset;
+  background-color: unset;
   outline: 0;
-  box-shadow:unset;
+  box-shadow: unset;
 }
+
 td#icons i.fa-solid.fa-pencil {
   margin-right: 10px;
 }
+
 #user_booking .react-tel-input .form-control {
   height: 40px !important;
   width: 100% !important;
 }
-div#user_booking input{
+
+div#user_booking input {
   height: 40px;
   font-size: 12px;
 }
+
 li.right-lii {
   position: absolute;
   top: 0;
@@ -4210,14 +4223,85 @@ li.right-lii {
 .invoice-footer .total {
   font-weight: bold;
 }
+
 .custom-toast-icon-color .toastify-icon {
-  color: #ff4e00; /* Set the desired icon color */
+  color: #ff4e00;
+  /* Set the desired icon color */
 }
+
 li#right-lii {
   top: 0px;
 }
+
 @media (min-width: 1367px) {
-  .user-img1 label i{
+  .user-img1 label i {
     right: 77%;
   }
+}
+
+/* 28June2023 */
+@media only screen and (max-width: 400px) {
+  #user-table>tbody td {
+    padding-left: 0;
+  }
+
+  #table-p {
+    font-size: 8px;
+  }
+
+  #user-table td:before {
+    position: unset;
+  }
+}
+
+@media only screen and (min-device-width: 400px) and (max-device-width: 1024px) {
+  #user-table>tbody td {
+    padding-left: 0;
+  }
+
+  #table-p {
+    font-size: 8px;
+  }
+
+  #user-table td:before {
+    position: unset;
+  }
+}
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+  #user-table td:nth-of-type(1)::before {
+    content: "ID";
+    font-size: 8px;
+  }
+
+  #user-table td:nth-of-type(2)::before {
+    content: "Date Requested";
+    font-size: 8px;
+  }
+
+  #user-table td:nth-of-type(3)::before {
+    content: "Booking Date";
+    font-size: 8px;
+  }
+
+  #user-table td:nth-of-type(4)::before {
+    content: "Category";
+    font-size: 8px;
+  }
+
+  #user-table td:nth-of-type(5)::before {
+    content: "Action";
+    font-size: 8px;
+  }
+}
+
+button.table-btn.btn-2.btn-class {
+  background-color: #ff4e00 !important;
+  color: #ffff;
+}
+
+button.table-btn.btn-2.btn-class1 {
+  background-color: #ff4e00 !important;
+  color: #ffff;
 }
