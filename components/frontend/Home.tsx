@@ -444,7 +444,7 @@ export default function Home() {
                 <div className="container">
                     <h2>How it works?  </h2>
                     <p className="dis-max-width mb-4">We know chefs. We know the materials. W deliver results.</p>
-                    <p className="dis-max-width mb-4">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chef (at the place & time you want them) as quick & easy as possible for you.</p>
+                    <p className="dis-max-width mb-4">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row mt-5">
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list">

@@ -161,7 +161,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +173,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +197,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse4" className="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse5" className="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -221,7 +221,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse6" className="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -233,7 +233,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse7" className="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse8" className="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -263,7 +263,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -275,7 +275,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +287,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +299,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse4" className="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -311,7 +311,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse5" className="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -323,7 +323,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse6" className="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -335,7 +335,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse7" className="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
@@ -347,7 +347,7 @@ export default function Contact() {
                                     </h2>
                                     <div id="collapse8" className="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chef anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div>
