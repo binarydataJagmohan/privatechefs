@@ -314,14 +314,14 @@ export default function Step6() {
                     <h4>Step 3</h4>
                     <p>Edit Type Of Meal</p>
                   </div>
-                {/* </a> */}
-                {/* <a href="/user/edit-booking/step4"> */}
+                {/* </a>
+                <a href="/user/edit-booking/step4"> */}
                   <div className="profile-cols mt-4 mb-4">
                     <h4>Step 4</h4>
                     <p>Edit Type Of Cuisine</p>
                   </div>
-                {/* </a> */}
-                {/* <a href="/user/edit-booking/step5"> */}
+                {/* </a>
+                <a href="/user/edit-booking/step5"> */}
                   <div className="profile-cols mt-4 mb-4">
                     <h4>Step 5</h4>
                     <p>Edit Special Request</p>

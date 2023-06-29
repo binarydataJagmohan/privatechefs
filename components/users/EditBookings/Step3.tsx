@@ -483,18 +483,18 @@ export default function Step3() {
           <div className="row">
             <div className="col-lg-3 col-md-12">
               <div className="my-profile">
-                <a href="/user/edit-booking/step1">
+                {/* <a href="/user/edit-booking/step1"> */}
                   <div className="profile-cols mt-4 mb-4">
                     <h4>Step 1</h4>
                     <p>Edit Service Type</p>
                   </div>
-                </a>
-                <a href="/user/edit-booking/step2">
+                {/* </a>
+                <a href="/user/edit-booking/step2"> */}
                   <div className="profile-cols mt-4 mb-4">
                     <h4>Step 2</h4>
                     <p>Edit Service</p>
                   </div>
-                </a>
+                {/* </a> */}
                 <div className="profile-cols mt-4 active">
                   <h4>Step 3</h4>
                   <p>Edit Type Of Meal</p>
