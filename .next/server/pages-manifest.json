@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chef/chats": "pages/chef/chats.js",
-  "/admin/chats": "pages/admin/chats.js"
+  "/": "pages/index.js",
+  "/bookings/step6": "pages/bookings/step6.js",
+  "/404": "pages/404.js"
 }
