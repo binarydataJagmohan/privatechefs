@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/user/edit-booking/step1": "pages/user/edit-booking/step1.js",
-  "/chef/bookings": "pages/chef/bookings.js"
+  "/chef/chats": "pages/chef/chats.js",
+  "/admin/chats": "pages/admin/chats.js"
 }

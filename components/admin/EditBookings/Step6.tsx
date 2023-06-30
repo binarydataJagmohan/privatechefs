@@ -368,7 +368,7 @@ export default function Step6() {
                         </div>
                         <input
                           type="number"
-                          className="form-control mt-4"
+                          className="form-control mt-4 mb-4 mb-md-0"
                           value={adults}
                           onChange={(e) => setAdults(e.target.value)}
                           placeholder="Adults"
@@ -376,7 +376,7 @@ export default function Step6() {
                         ></input>
                       </div>
                       <div className="col-sm-4">
-                        <div className="slider-img-plase">
+                        <div className="slider-img-plase mb-4 mb-md-0">
                           <img
                             src={
                               process.env.NEXT_PUBLIC_BASE_URL +
@@ -387,7 +387,7 @@ export default function Step6() {
                         </div>
                         <input
                           type="number"
-                          className="form-control mt-4"
+                          className="form-control mt-4 mb-4 mb-md-0"
                           value={teens}
                           onChange={(e) => setTeens(e.target.value)}
                           placeholder="Teen"

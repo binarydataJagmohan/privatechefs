@@ -25,15 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/chef/bookings": [
+    "/admin/chats": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/bookings.js"
+      "static/chunks/pages/admin/chats.js"
     ],
-    "/user/edit-booking/step1": [
+    "/chef/chats": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/user/edit-booking/step1.js"
+      "static/chunks/pages/chef/chats.js"
     ]
   },
   "ampFirstPages": []
