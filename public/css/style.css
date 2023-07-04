@@ -3504,6 +3504,10 @@ select {
     margin: 8px 0;
   }
 
+  div#chef-booking{
+    width: 95% !important;
+  }
+
 }
 
 @media (max-width:350px) {
