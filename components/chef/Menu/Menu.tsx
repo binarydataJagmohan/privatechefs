@@ -859,7 +859,7 @@ export default function Menus2(props: any) {
                                   />
 
 
-                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="starter_items" value={starter_items} style={{ height: '46px' }}>
+                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} id="dishes_id" name="starter_items" value={starter_items} style={{ height: '46px' }}>
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -975,7 +975,7 @@ export default function Menus2(props: any) {
                                     </span>
                                   )}
 
-                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="firstcourse_items" value={firstcourse_items} style={{ height: '46px' }}>
+                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} id="dishes_id" name="firstcourse_items" value={firstcourse_items} style={{ height: '46px' }}>
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -1085,7 +1085,7 @@ export default function Menus2(props: any) {
                                     required
                                   />
 
-                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} name="maincourse_items" value={maincourse_items} style={{ height: '46px' }}>
+                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} id="dishes_id" name="maincourse_items" value={maincourse_items} style={{ height: '46px' }}>
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -1196,7 +1196,7 @@ export default function Menus2(props: any) {
                                     required
                                   />
 
-                                  <select className="w-25 mx-2" onChange={handleDishCount} name="desert_items" value={desert_items} style={{ height: '48px' }}>
+                                  <select className="w-25 mx-2" onChange={handleDishCount} name="desert_items" id="dishes_id" value={desert_items} style={{ height: '48px' }}>
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>

@@ -1,6 +1,23 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
+import { getAllChef } from "../../lib/chefapi"
+
 export default function OurChefs() {
+
+    const [allchef, setAllChef] = useState([]);
+
+    useEffect(() => {
+        fetchBookingAdminDetails();
+    }, []);
+
+    const fetchBookingAdminDetails = async () => {
+        const res = await getAllChef();
+        if (res.status) {
+            setAllChef(res.data);
+        }
+    };
+
+
     const settings = {
         rows: 1,
         dots: false,
@@ -10,7 +27,7 @@ export default function OurChefs() {
         //slidesToScroll: 1,
         centerMode: false,
         variableWidth: true,
-        autoplay:true,
+        autoplay: true,
         responsive: [
             {
                 breakpoint: 1024,
@@ -36,83 +53,59 @@ export default function OurChefs() {
                     slidesToScroll: 1,
                     variableWidth: false,
                 }
-            } 
+            }
         ]
     }
-    return(
+    return (
         <>
             <section className="banner-part p-0">
                 <div className="container-fluid">
-                <div className="row">
-                    <div className="col-sm-6">
-                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/banner-4.jpg'} alt="banner-4" className="w-100 border-0 banner-left"/>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/banner-4.jpg'} alt="banner-4" className="w-100 border-0 banner-left" />
+                        </div>
+                        <div className="col-sm-6">
+                            <div className="banner-text pages-text">
+                                <h1>Our chefs</h1>
+                                <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="col-sm-6">
-                    <div className="banner-text pages-text">
-                    <h1>Our chefs</h1>
-                    <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
-                    </div>
-                    </div>
-                </div>    
                 </div>
             </section>
 
             <section className="services-part location-how mt-5 mobile-m-0">
                 <div className="container">
-                    <h2>Top rated chefs</h2> 
+                    <h2>Top rated chefs</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
                 </div>
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
-                                    <p className="plase-btn"><a href="/frontchefs">Greece</a></p>
-                                </div> 
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
-                                    <p className="plase-btn"><a href="/frontchefs">Greece</a></p>
-                                </div> 
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
-                                    <p className="plase-btn"><a href="/frontchefs">Greece</a></p>
-                                </div> 
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
-                                    <p className="plase-btn"><a href="/frontchefs">Greece</a></p>
-                                </div> 
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/2.jpg'} alt="2"/>
-                                    <p className="plase-btn"><a href="/frontchefs">Greece</a></p>
-                                </div> 
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/3.jpg'} alt="3"/>
-                                    <p className="plase-btn"><a href="/frontchefs">Greece</a></p>
-                                </div> 
-                            </div>
+                            {allchef.map((data) => (
+                                <div className="col-lg-2 col-md-6">
+                                    <div className="slider-img-plase">
+                                        {data.pic ? (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic} alt="2" id="chef_id" />
+                                        ) : (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" id="chef_id" />
+                                        )}
+                                        <p className="plase-btn"><a href="/frontchefs">{data.name}</a></p>
+                                    </div>
+                                </div>
+                            ))}
                         </Slider>
-                    </div>  
-                </div> 
+                    </div>
+                </div>
             </section>
 
             <section className="services-part location-how  mobile-m-0 mobile-p-0">
                 <div className="container">
-                    <h2>Chefs based on location</h2> 
+                    <h2>Chefs based on location</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
-                    </div>
-                <div className="container-fluid ">  
+                </div>
+                <div className="container-fluid ">
                     <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li className="nav-item" role="presentation">
                             <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Location 1</button>
@@ -143,44 +136,44 @@ export default function OurChefs() {
                         </li>
                     </ul>
                     <div className="tab-content" id="pills-tabContent">
-                        <div className="tab-pane fade show active" id="pills-home" role="tabpanel"  aria-labelledby="pills-home-tab">
+                        <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <div className="row mt-4">
                                 <Slider {...settings}>
                                     <div className="col-lg-2 col-md-6">
                                         <div className="slider-img-plase">
-                                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/28.jpg'} alt="22"/>
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/28.jpg'} alt="22" />
                                             <p className="plase-btn"><a href="/frontchefs">Name</a></p>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div className="col-lg-2 col-md-6">
                                         <div className="slider-img-plase">
-                                            <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/23.jpg'} alt="23"/>
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/23.jpg'} alt="23" />
                                             <p className="plase-btn"><a href="/frontchefs">Name</a></p>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div className="col-lg-2 col-md-6">
                                         <div className="slider-img-plase">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/24.jpg'} alt="24"/>
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/24.jpg'} alt="24" />
                                             <p className="plase-btn"><a href="/frontchefs">Name</a></p>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div className="col-lg-2 col-md-6">
                                         <div className="slider-img-plase">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/25.jpg'} alt="25"/>
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/25.jpg'} alt="25" />
                                             <p className="plase-btn"><a href="/frontchefs">Name</a></p>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div className="col-lg-2 col-md-6">
                                         <div className="slider-img-plase">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/26.jpg'} alt="26"/>
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/26.jpg'} alt="26" />
                                             <p className="plase-btn"><a href="/frontchefs">Name</a></p>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div className="col-lg-2 col-md-6">
                                         <div className="slider-img-plase">
-                                        <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/27.jpg'} alt="3"/>
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/27.jpg'} alt="3" />
                                             <p className="plase-btn"><a href="/frontchefs">Name</a></p>
-                                        </div> 
+                                        </div>
                                     </div>
                                 </Slider>
                             </div>
@@ -300,11 +293,6 @@ export default function OurChefs() {
                     <div className="text-center view-more mt-4"><a href="#">View More</a></div>
                 </div> 
             </section> */}
-
-            
-
-           
- 
 
         </>
     )

@@ -135,3 +135,11 @@ div#search-results ul li {
 div#search-results ul {
   list-style: none;
 }
+@media (max-width:767px) {
+  .accordion-body {
+    padding: 20px 5px !important;
+}
+.comments-bell  span.badge.badge-danger.rounded-circle.noti-icon-badge{
+right: 5px;
+}
+}

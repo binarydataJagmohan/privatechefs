@@ -581,6 +581,10 @@ a.bars-icon {
     position: fixed;
     width: 250px;
     z-index: 99;
+    top: 0;
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   div#sidebar-container {
@@ -632,6 +636,7 @@ main {
   border: 1px solid #DDDDDD;
   border-radius: 20px;
   margin-top: 2%;
+  overflow-x: auto;
   padding: 2%;
 }
 
@@ -710,11 +715,11 @@ table tr:hover {
     display: block; 
   }
     */
-  thead tr {
+  /* thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
-  }
+  } */
 
   tr {
     border-bottom: 1px solid #ccc;
@@ -3112,7 +3117,7 @@ select {
   background: #F1F1F1;
   border-radius: 7px;
   border: none;
-  width: 100%;
+  /* width: 100%; */
   padding: 10px 10px;
   outline: none;
   font-weight: var(--font_weight);
@@ -3500,14 +3505,25 @@ select {
   }
 
   button.table-btn {
-    padding: 6px 10px;
+    padding: 6px 8px;
     margin: 8px 0;
   }
 
-  div#chef-booking{
+  div#chef-booking {
     width: 95% !important;
   }
 
+  .all-form {
+    padding: 0 !important;
+  }
+
+  select#dishes_id {
+    width: 197% !important;
+  }
+
+  .slider-img-plase img {
+    width: 96%;
+  }
 }
 
 @media (max-width:350px) {
@@ -3815,6 +3831,7 @@ div#villa_header {
 
 div#villa_modal {
   padding-top: 0;
+  overflow-x: auto;
 }
 
 .common_booking>tbody tr td ul li {
@@ -4250,7 +4267,7 @@ li#right-lii {
   }
 
   #table-p {
-    font-size: 8px;
+    font-size: 12px;
   }
 
   #user-table td:before {
@@ -4263,42 +4280,24 @@ li#right-lii {
     padding-left: 0;
   }
 
-  #table-p {
-    font-size: 8px;
+  .table-box select {
+    width: auto !important;
   }
 
-  #user-table td:before {
+  /* #table-p {
+    font-size: 8px;
+  } */
+  /* #admin-booking>tbody td {
+    padding-left: 0;
+  } */
+  /* #user-table td:before {
     position: unset;
-  }
+  } */
+  /* #admin-booking td:before {
+    position: unset;
+  } */
 }
 
-@media only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px) {
-  #user-table td:nth-of-type(1)::before {
-    content: "ID";
-    font-size: 8px;
-  }
-
-  #user-table td:nth-of-type(2)::before {
-    content: "Date Requested";
-    font-size: 8px;
-  }
-
-  #user-table td:nth-of-type(3)::before {
-    content: "Booking Date";
-    font-size: 8px;
-  }
-
-  #user-table td:nth-of-type(4)::before {
-    content: "Category";
-    font-size: 8px;
-  }
-
-  #user-table td:nth-of-type(5)::before {
-    content: "Action";
-    font-size: 8px;
-  }
-}
 
 button.table-btn.btn-2.btn-class {
   background-color: #ff4e00 !important;
@@ -4309,12 +4308,9 @@ button.table-btn.btn-2.btn-class1 {
   background-color: #ff4e00 !important;
   color: #ffff;
 }
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  opacity: 1 !important;
+.rbc-event {
+  background-color: #ed6a31 !important;
 }
-input[type="number"]:not([step="any"])::-webkit-inner-spin-button,
-input[type="number"]:not([step="any"])::-webkit-outer-spin-button {
-  opacity: 1 !important;
+img#chef_id {
+  height: 200px;
 }

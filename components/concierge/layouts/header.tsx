@@ -57,9 +57,9 @@ export default function Header(): JSX.Element {
                         <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
                     </div>
                     <div className="col-lg-3 col-md-6 col-6">
-                        <form className="form-Search">
+                        {/* <form className="form-Search">
                             <input type="text" placeholder="Search" />
-                        </form>
+                        </form> */}
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
                         <p className="mb-0 comments-bell"><a href="/concierge/chats"><i className="fa-solid fa-comments"></i></a></p>

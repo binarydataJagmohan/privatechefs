@@ -557,7 +557,7 @@ export default function Bookings() {
 						</button>
 					</li>
 				</ul>
-				<div className="table-box">
+				<div className="table-box" id="admin-booking">
 					{bookingUsers.length > 0 ?
 						<table className="table table-borderless common_booking">
 							<thead>
@@ -586,9 +586,9 @@ export default function Bookings() {
 
 									return (
 										<tr key={index}>
-											<td>{index + 1}</td>
-											<td>{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
-											<td className="chefs_pic">
+											<td><p className="text-data-18" id="table-p">{index + 1}</p></td>
+											<td><p className="text-data-18" id="table-p">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p></td>
+											<td className="chefs_pic"><p className="text-data-18" id="table-p">
 												{user.pic ? <img
 													src={
 														process.env.NEXT_PUBLIC_IMAGE_URL +
@@ -602,13 +602,13 @@ export default function Bookings() {
 													}
 													alt=""
 												/>}
-
+                                            </p>
 											</td>
-											<td>{formatDate(user.latest_created_at)}</td>
+											<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
 
-											<td>{user.category == 'onetime' ? formatDate(user.dates) : output}</td>
-											<td>{user.location}</td>
-											<td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
+											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
+											<td><p className="text-data-18" id="table-p">{user.location}</p></td>
+											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
 
 											<td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
 

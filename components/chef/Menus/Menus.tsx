@@ -306,7 +306,7 @@ export default function Menus() {
         </ul>
         <div className="row mt-4 add_menu_items">
           <div className="col-sm-3" onClick={() => { setModalConfirm(true); resetFields(); }} role="button">
-            <div className="menu-name">
+            <div className="menu-name mb-4 mb-sm-0">
               <p>Add Menu Name </p>
             </div>
           </div>

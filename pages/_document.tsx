@@ -22,8 +22,6 @@ export default function Document() {
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script type="text/javascript" src="https://kenwheeler.github.io/slick/slick/slick.js"></script>
         <script src={process.env.NEXT_PUBLIC_BASE_URL+'js/custom.js'}> </script> 
-         
-        
       </body>
     </Html>
   )

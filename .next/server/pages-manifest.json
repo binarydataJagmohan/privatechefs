@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/404": "pages/404.js",
-  "/admin/bookings": "pages/admin/bookings.js",
-  "/chef/chats": "pages/chef/chats.js"
+  "/concierge/dashboard": "pages/concierge/dashboard.js",
+  "/chef/dashboard": "pages/chef/dashboard.js",
+  "/ourchefs": "pages/ourchefs.js"
 }
