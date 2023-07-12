@@ -444,7 +444,7 @@ export default function Invoices() {
 						<div className="login_div">
 							<label htmlFor="Description">Invoice No:</label>
 							<input
-								type="type"
+								type="number"
 								name="invoice_no"
 								value={invoice_no}
 								onChange={(e) => setInvoiceNo(e.target.value)}
@@ -487,7 +487,7 @@ export default function Invoices() {
 								<option value=''>Select Booking</option>
 								{Array.isArray(getbooking) && getbooking.map((booking, index) => (
 									<option key={booking.id} value={booking.id}>
-										{`bookingid#${booking.id} - location#${booking.location} - booking_status#${booking.booking_status} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
+										{`bookingid#${booking.id} - location#${booking.address} -booking_date#${new Date(booking.applydate).toLocaleDateString()}`}
 									</option>
 								))}
 							</select>

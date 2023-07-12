@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/concierge/dashboard": "pages/concierge/dashboard.js",
-  "/chef/dashboard": "pages/chef/dashboard.js",
+  "/": "pages/index.js",
   "/ourchefs": "pages/ourchefs.js"
 }

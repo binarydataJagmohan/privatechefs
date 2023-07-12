@@ -101,6 +101,7 @@ export default function Receipts() {
 			.then(res => {
 				if (res.status == true) {
 					setGetBooking(res.data);
+					console.log(res.data);
 				} else {
 					console.log("error");
 				}
@@ -260,7 +261,7 @@ export default function Receipts() {
 		setButtonState(true);
 		const id = getsinglereceipt.id;
 		const data = {
-			user_id: currentuserdata.id,
+			// user_id: currentuserdata.id,
 			booking_id: booking_id,
 			amount: amount,
 			description: description,
@@ -533,7 +534,7 @@ export default function Receipts() {
 								<option value=''>Select Booking</option>
 								{Array.isArray(getbooking) && getbooking.map((booking, index) => (
 									<option key={booking.id} value={booking.id}>
-										{`bookingid#${booking.id} - location#${booking.location} - booking_status#${booking.booking_status} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
+										{`bookingid#${booking.id} - location#${booking.location}-booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
 									</option>
 								))}
 							</select>
@@ -608,7 +609,7 @@ export default function Receipts() {
 								<option value=''>Select Booking</option>
 								{Array.isArray(getbooking) && getbooking.map((booking) => (
 									<option key={booking.id} value={booking.id} defaultValue={booking.id === booking_id ? 'true' : undefined}>
-										{`bookingid#${booking.id} - location#${booking.location} - booking_status#${booking.booking_status} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
+										{`bookingid#${booking.id} - location#${booking.location} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
 									</option>
 								))}
 							</select>

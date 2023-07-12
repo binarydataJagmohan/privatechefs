@@ -636,7 +636,7 @@ main {
   border: 1px solid #DDDDDD;
   border-radius: 20px;
   margin-top: 2%;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   padding: 2%;
 }
 
@@ -1372,7 +1372,7 @@ textarea {
 .btn-send {
   background: var(--color_1);
   border-radius: 12px;
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-weight: var(--font_wt_b);
   font-size: var(--font_size);
   line-height: 24px;
@@ -3505,7 +3505,7 @@ select {
   }
 
   button.table-btn {
-    padding: 6px 8px;
+    padding: 6px 6px;
     margin: 8px 0;
   }
 
@@ -3524,6 +3524,44 @@ select {
   .slider-img-plase img {
     width: 96%;
   }
+  img#chef_id {
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  .rbc-toolbar {
+    display: unset !important;
+    width: 100% !important;
+    text-align: center;
+  }
+  .rbc-btn-group {
+    display: block;
+    text-align: center;
+  }
+  .rbc-toolbar .rbc-toolbar-label {
+    flex-grow: unset;
+    display: block;
+  }
+  .table-box{
+    overflow-x:auto;
+  }
+
+  .input-container {
+  display: flex;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 8px;
+}
+
+.button-container button {
+  margin-bottom: 4px;
+}
+
+
 }
 
 @media (max-width:350px) {
@@ -4081,6 +4119,7 @@ td.booking-status-upcoming {
   background: rgba(206, 145, 13, 0.1);
   border-radius: 68px;
   font-weight: 500;
+  margin-top: 5px;
 }
 
 td.booking-status-cancelled {
@@ -4313,4 +4352,58 @@ button.table-btn.btn-2.btn-class1 {
 }
 img#chef_id {
   height: 200px;
+  width: 200px;
+}
+
+.input-container {
+  display: flex;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 8px;
+}
+
+.button-container button {
+  margin-bottom: 4px;
+}
+button.btn.btn-outline-secondary {
+  border: none;
+}
+.flex.postion-ab {
+  position: absolute;
+  right: 0;
+}
+button.btn.btn-outline-secondary {
+  border: none;
+  padding: 0px 6px;
+  height: 28px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+.input-group-append {
+  height: 18px;
+}
+.btn-outline-secondary:hover {
+  color: #000;
+  background-color: #fff0;
+}
+@media(min-width:768px){
+  .flex.postion-ab {
+    display: none;
+}
+.input-group .btn {
+  border: none;
+}
+a#btn_booking {
+  padding: 0;
+  padding-right: 6px;
+}
+}
+select.login-select{
+  width: 100%;
 }

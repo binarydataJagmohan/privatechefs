@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getAdminAssignedBooking, getAdminAppliedFilterByBooking, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking, changeBookingStatus } from "../../../lib/adminapi";
+import { getUserBookingId, getAdminAppliedFilterByBooking, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking, changeBookingStatus } from "../../../lib/adminapi";
+import {getConciergeAssignedBooking} from "../../../lib/concierge"
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -152,7 +153,8 @@ export default function Bookings() {
 
 	const fetchAdminAssignedBooking = async () => {
 		try {
-			const res = await getAdminAssignedBooking();
+			const userData:any = getCurrentUserData()
+			const res = await getConciergeAssignedBooking(userData.id);
 			if (res.status) {
 				setTotalBooking(res.data);
 				const paginatedPosts = paginate(res.data, currentPage, pageSize);
@@ -192,7 +194,8 @@ export default function Bookings() {
 
 	const onPageChange = (page: any) => {
 		setCurrentPage(page);
-		getAdminAssignedBooking()
+		const userData:any = getCurrentUserData()
+		getConciergeAssignedBooking(userData.id)
 			.then(res => {
 				if (res.status == true) {
 

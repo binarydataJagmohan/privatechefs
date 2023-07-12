@@ -291,7 +291,6 @@ export default function Bookings() {
 								record.applied_jobs_status != 'rejected'
 							);
 						});
-
 						setTotalBooking(filteredData);
 						const paginatedPosts = paginate(filteredData, currentPage, pageSize);
 						setBookingUser(paginatedPosts);

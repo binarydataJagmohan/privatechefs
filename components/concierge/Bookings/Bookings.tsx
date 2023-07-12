@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefFilterByBooking, deleteBooking } from "../../../lib/adminapi";
-import { getConciergeChefByBooking } from "../../../lib/concierge";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking } from "../../../lib/adminapi";
+import { getConciergeChefByBooking,getConciergeFilterByBooking} from "../../../lib/concierge";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -159,8 +159,17 @@ export default function Bookings() {
 			const res = await getConciergeChefByBooking(userData.id);
 			if (res.status) {
 
-				setTotalBooking(res.data);
-				const paginatedPosts = paginate(res.data, currentPage, pageSize);
+				const filteredData = res.data.filter((record: any) => {
+					return (
+						record.chef_id != id &&
+						record.applied_jobs_status != 'hired' &&
+						record.applied_jobs_status != 'discussion' &&
+						record.applied_jobs_status != 'rejected'
+					);
+				});
+
+				setTotalBooking(filteredData);
+				const paginatedPosts = paginate(filteredData, currentPage, pageSize);
 				setBookingUser(paginatedPosts);
 
 			} else {
@@ -290,18 +299,27 @@ export default function Bookings() {
 		return moment(value).format('D/M/YY');
 	}
 
-	const handleButtonClick = (index: any, type: string) => {
+	const handleButtonClick = (index: any, type: string,id: string) => {
 		setActiveIndex(index);
+		const userData = getCurrentUserData() as CurrentUserData;
 		if (type == 'all') {
-			const userData = getCurrentUserData() as CurrentUserData;
 			fetchBookingAdminDetails(userData.id);
 		} else {
-			getAdminChefFilterByBooking(type)
+			getConciergeFilterByBooking(userData.id,type)
 				.then(res => {
 					if (res.status == true) {
 
-						setTotalBooking(res.data);
-						const paginatedPosts = paginate(res.data, currentPage, pageSize);
+						const filteredData = res.data.filter((record: any) => {
+							return (
+								record.chef_id != id &&
+								record.applied_jobs_status != 'hired' &&
+								record.applied_jobs_status != 'discussion' &&
+								record.applied_jobs_status != 'rejected'
+							);
+						});
+
+						setTotalBooking(filteredData);
+						const paginatedPosts = paginate(filteredData, currentPage, pageSize);
 						setBookingUser(paginatedPosts);
 					} else {
 						setErrorMessage(res.message);
@@ -531,7 +549,7 @@ export default function Bookings() {
 					<li>
 						<button
 							className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`}
-							onClick={() => handleButtonClick(0, 'all')}
+							onClick={() => handleButtonClick(0, 'all', currentUserData.id)}
 						>
 							Total
 						</button>
@@ -539,7 +557,7 @@ export default function Bookings() {
 					<li>
 						<button
 							className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`}
-							onClick={() => handleButtonClick(1, 'upcoming')}
+							onClick={() => handleButtonClick(1, 'upcoming', currentUserData.id)}
 						>
 							Upcoming
 						</button>
@@ -547,7 +565,7 @@ export default function Bookings() {
 					<li>
 						<button
 							className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`}
-							onClick={() => handleButtonClick(2, 'cancelled')}
+							onClick={() => handleButtonClick(2, 'cancelled', currentUserData.id)}
 						>
 							Cancelled
 						</button>
@@ -555,7 +573,7 @@ export default function Bookings() {
 					<li>
 						<button
 							className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`}
-							onClick={() => handleButtonClick(3, 'completed')}
+							onClick={() => handleButtonClick(3, 'completed', currentUserData.id)}
 						>
 							Completed
 						</button>

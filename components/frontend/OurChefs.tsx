@@ -85,7 +85,7 @@ export default function OurChefs() {
                         <Slider {...settings}>
                             {allchef.map((data) => (
                                 <div className="col-lg-2 col-md-6">
-                                    <div className="slider-img-plase">
+                                    <div className="slider-img-plase" id="chef-img">
                                         {data.pic ? (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic} alt="2" id="chef_id" />
                                         ) : (

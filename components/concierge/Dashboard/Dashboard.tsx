@@ -187,21 +187,21 @@ export default function Dashboard() {
 									<div className="box-today border-right m-view-border-bottom">
 										<h4>Orders today</h4>
 										<h2>{bookingcount}</h2>
-										<p>20% more than previous week</p>
+										{/* <p>20% more than previous week</p> */}
 									</div>
 								</div>
 								<div className="col-lg-4 col-md-4">
 									<div className="box-today border-right m-view-border-bottom">
 										<h4>Total Payments</h4>
 										<h2>{totalamount}$</h2>
-										<p>30% were pre-payed</p>
+										{/* <p>30% were pre-payed</p> */}
 									</div>
 								</div>
 								<div className="col-lg-3 col-md-4">
 									<div className="box-today">
 										<h4>Chefs</h4>
 										<h2>{totalchef}</h2>
-										<p>10% were high-rated</p>
+										{/* <p>10% were high-rated</p> */}
 									</div>
 								</div>
 							</div>
