@@ -19,9 +19,9 @@ export default function Step6() {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [adults, setAdults] = useState("");
-  const [teens, setTeens] = useState("");
-  const [childrens, setChildren] = useState("");
+  const [adults, setAdults] = useState(0);
+  const [teens, setTeens] = useState(0);
+  const [childrens, setChildren] = useState(0);
   const [address, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -35,6 +35,35 @@ export default function Step6() {
   const [allergies, setSelectedAllergies] = useState(['']);
   const [additionalnotes, setAdditionalNotes] = useState('');
   const [bookingid, setBookingId] = useState('');
+
+  const handleAddition = (e: any) => {
+    setAdults(prevAdults => prevAdults + 1);
+  };
+
+  const handleSubtraction = (e: any) => {
+    if (adults > 0) {
+      setAdults(prevAdults => prevAdults - 1);
+    }
+  };
+
+  const handleTeensAddition = (e: any) => {
+    setTeens(prevTeens => prevTeens + 1);
+  };
+
+  const handleTeensSubtraction = (e: any) => {
+    if (teens > 0) {
+      setTeens(prevTeens => prevTeens - 1);
+    }
+  };
+  const handleChildrenAddition = (e: any) => {
+    setChildren(prevchildrens => prevchildrens + 1);
+  };
+
+  const handleChildrenSubtraction = (e: any) => {
+    if (childrens > 0) {
+      setChildren(prevchildrens => prevchildrens - 1);
+    }
+  };
 
 
 
@@ -297,34 +326,34 @@ export default function Step6() {
             <div className="col-lg-3 col-md-12">
               <div className="my-profile">
                 {/* <a href="/admin/edit-booking/step1"> */}
-                  <div className="profile-cols mt-4 mb-4">
-                    <h4>Step 1</h4>
-                    <p>Edit Service Type</p>
-                  </div>
+                <div className="profile-cols mt-4 mb-4">
+                  <h4>Step 1</h4>
+                  <p>Edit Service Type</p>
+                </div>
                 {/* </a>
                 <a href="/admin/edit-booking/step2"> */}
-                  <div className="profile-cols mt-4 mb-4">
-                    <h4>Step 2</h4>
-                    <p>Edit Service</p>
-                  </div>
+                <div className="profile-cols mt-4 mb-4">
+                  <h4>Step 2</h4>
+                  <p>Edit Service</p>
+                </div>
                 {/* </a>
                 <a href="/admin/edit-booking/step3"> */}
-                  <div className="profile-cols mt-4 mb-4">
-                    <h4>Step 3</h4>
-                    <p>Edit Type Of Meal</p>
-                  </div>
+                <div className="profile-cols mt-4 mb-4">
+                  <h4>Step 3</h4>
+                  <p>Edit Type Of Meal</p>
+                </div>
                 {/* </a>
                 <a href="/admin/edit-booking/step4"> */}
-                  <div className="profile-cols mt-4 mb-4">
-                    <h4>Step 4</h4>
-                    <p>Edit Type Of Cuisine</p>
-                  </div>
+                <div className="profile-cols mt-4 mb-4">
+                  <h4>Step 4</h4>
+                  <p>Edit Type Of Cuisine</p>
+                </div>
                 {/* </a>
                 <a href="/admin/edit-booking/step5"> */}
-                  <div className="profile-cols mt-4 mb-4">
-                    <h4>Step 5</h4>
-                    <p>Edit Special Request</p>
-                  </div>
+                <div className="profile-cols mt-4 mb-4">
+                  <h4>Step 5</h4>
+                  <p>Edit Special Request</p>
+                </div>
                 {/* </a> */}
                 <div className="profile-cols mt-4 active">
                   <h4>Step 6</h4>
@@ -366,14 +395,26 @@ export default function Step6() {
                             alt="1"
                           />
                         </div>
-                        <input
-                          type="number"
-                          className="form-control mt-4 mb-4 mb-md-0"
-                          value={adults}
-                          onChange={(e) => setAdults(e.target.value)}
-                          placeholder="Adults"
-                          min="0"
-                        ></input>
+                        <div className="input-group mt-4 mb-4 mb-md-0">
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="updQtyLoose47"
+                            value={adults}
+                            onChange={(e) => setAdults(e.target.value)}
+                            placeholder="Adults"
+                            min="0"
+                          />
+                          <div className="flex postion-ab">
+                            <div className="input-group-append">
+                              <a className="btn btn-outline-secondary" onClick={handleAddition}>+</a>
+                            </div>
+                            <div className="input-group-append">
+                              <a className="btn btn-outline-secondary" onClick={handleSubtraction}>-
+                              </a>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div className="col-sm-4">
                         <div className="slider-img-plase mb-4 mb-md-0">
@@ -385,14 +426,25 @@ export default function Step6() {
                             alt="2"
                           />
                         </div>
-                        <input
-                          type="number"
-                          className="form-control mt-4 mb-4 mb-md-0"
-                          value={teens}
-                          onChange={(e) => setTeens(e.target.value)}
-                          placeholder="Teen"
-                          min="0"
-                        ></input>
+                        <div className="input-group mt-4 mb-4 mb-md-0">
+                          <input
+                            type="number"
+                            className="form-control"
+                            value={teens}
+                            onChange={(e) => setTeens(e.target.value)}
+                            placeholder="Teen"
+                            min="0"
+                          />
+                          <div className="flex postion-ab">
+                            <div className="input-group-append">
+                              <a className="btn btn-outline-secondary" onClick={handleTeensAddition}>+</a>
+                            </div>
+                            <div className="input-group-append">
+                              <a className="btn btn-outline-secondary" onClick={handleTeensSubtraction}>-
+                              </a>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div className="col-sm-4">
                         <div className="slider-img-plase">
@@ -404,14 +456,25 @@ export default function Step6() {
                             alt="3"
                           />
                         </div>
-                        <input
-                          type="number"
-                          className="form-control mt-4"
-                          value={childrens}
-                          onChange={(e) => setChildren(e.target.value)}
-                          placeholder="Children"
-                          min="0"
-                        ></input>
+                        <div className="input-group mt-4 mb-4 mb-md-0">
+                          <input
+                            type="number"
+                            className="form-control"
+                            value={childrens}
+                            onChange={(e) => setChildren(e.target.value)}
+                            placeholder="Children"
+                            min="0"
+                          />
+                          <div className="flex postion-ab">
+                            <div className="input-group-append">
+                              <a className="btn btn-outline-secondary" onClick={handleChildrenAddition}>+</a>
+                            </div>
+                            <div className="input-group-append">
+                              <a className="btn btn-outline-secondary" onClick={handleChildrenSubtraction}>-
+                              </a>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
 

@@ -25,9 +25,9 @@ export default function Step6() {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [adults, setAdults] = useState("");
-  const [teens, setTeens] = useState("");
-  const [childrens, setChildren] = useState("");
+  const [adults, setAdults] = useState(0);
+  const [teens, setTeens] = useState(0);
+  const [childrens, setChildren] = useState(0);
   const [address, setLocation] = useState(" ");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -39,17 +39,37 @@ export default function Step6() {
   const [cuisine, setSelectedCuisine] = useState(['']);
   const [allergies, setSelectedAllergies] = useState(['']);
   const [additionalnotes, setAdditionalNotes] = useState('');
-  const [value, setValue] = useState(0);
 
-  const handleAdd = () => {
-    setAdults(adults + 1);
+  const handleAddition = (e: any) => {
+    setAdults(prevAdults => prevAdults + 1);
   };
 
-  const handleSubtract = () => {
+  const handleSubtraction = (e: any) => {
     if (adults > 0) {
-      setAdults(adults - 1);
+      setAdults(prevAdults => prevAdults - 1);
     }
   };
+
+  const handleTeensAddition = (e: any) => {
+    setTeens(prevTeens => prevTeens + 1);
+  };
+
+  const handleTeensSubtraction = (e: any) => {
+    if (teens > 0) {
+      setTeens(prevTeens => prevTeens - 1);
+    }
+  };
+
+  const handleChildrenAddition = (e: any) => {
+    setChildren(prevchildrens => prevchildrens + 1);
+  };
+
+  const handleChildrenSubtraction = (e: any) => {
+    if (childrens > 0) {
+      setChildren(prevchildrens => prevchildrens - 1);
+    }
+  };
+
 
   useEffect(() => {
     BookingStepSix();
@@ -264,7 +284,6 @@ export default function Step6() {
   }
 
 
-
   return (
     <>
       <section className="journey-part">
@@ -308,10 +327,10 @@ export default function Step6() {
                   />
                   <div className="flex postion-ab">
                     <div className="input-group-append">
-                      <a className="btn btn-outline-secondary"  onClick={handleAdd}>+</a>
+                      <a className="btn btn-outline-secondary" onClick={handleAddition}>+</a>
                     </div>
                     <div className="input-group-append">
-                      <a className="btn btn-outline-secondary"  onClick={handleSubtract}>-
+                      <a className="btn btn-outline-secondary" onClick={handleSubtraction}>-
                       </a>
                     </div>
                   </div>
@@ -327,14 +346,27 @@ export default function Step6() {
                     alt="2"
                   />
                 </div>
-                <input
-                  type="number"
-                  className="form-control mt-4 mb-4 mb-md-0"
-                  value={teens}
-                  onChange={(e) => setTeens(e.target.value)}
-                  placeholder="Teen"
-                  min="0"
-                ></input>
+
+                <div className="input-group mt-4 mb-4 mb-md-0">
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={teens}
+                    onChange={(e) => setTeens(e.target.value)}
+                    placeholder="Teen"
+                    min="0"
+                  />
+                  <div className="flex postion-ab">
+                    <div className="input-group-append">
+                      <a className="btn btn-outline-secondary" onClick={handleTeensAddition}>+</a>
+                    </div>
+                    <div className="input-group-append">
+                      <a className="btn btn-outline-secondary" onClick={handleTeensSubtraction}>-
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
               </div>
               <div className="col-sm-4">
                 <div className="slider-img-plase">
@@ -346,14 +378,28 @@ export default function Step6() {
                     alt="3"
                   />
                 </div>
-                <input
-                  type="number"
-                  className="form-control mt-4"
-                  value={childrens}
-                  onChange={(e) => setChildren(e.target.value)}
-                  placeholder="Children"
-                  min="0"
-                ></input>
+
+
+                <div className="input-group mt-4 mb-4 mb-md-0">
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={childrens}
+                    onChange={(e) => setChildren(e.target.value)}
+                    placeholder="Children"
+                    min="0"
+                  />
+                  <div className="flex postion-ab">
+                    <div className="input-group-append">
+                      <a className="btn btn-outline-secondary" onClick={handleChildrenAddition}>+</a>
+                    </div>
+                    <div className="input-group-append">
+                      <a className="btn btn-outline-secondary" onClick={handleChildrenSubtraction}>-
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
             <div className="row mb-2">

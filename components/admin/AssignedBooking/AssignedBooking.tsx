@@ -691,7 +691,7 @@ export default function Bookings() {
 															</a>
 														</li>
 
-														{user.category == 'multipletimes' && (<li>
+														{/* {user.category == 'multipletimes' && (<li>
 															<a
 																className="dropdown-item"
 																href="#"
@@ -699,7 +699,7 @@ export default function Bookings() {
 															>
 																Assign Booking
 															</a>
-														</li>)}
+														</li>)} */}
 														<li>
 															<a
 																className="dropdown-item"

@@ -2720,7 +2720,7 @@ ul.user-mess li span.bg-f1 {
 li.right-li {
   position: absolute;
   right: 0;
-  top: 35px;
+  top: -2px;
 }
 
 .text-left h5 {
@@ -3525,7 +3525,7 @@ select {
     width: 96%;
   }
   img#chef_id {
-    height: auto !important;
+    height:300px !important;
     width: 100% !important;
   }
 
@@ -3560,8 +3560,12 @@ select {
 .button-container button {
   margin-bottom: 4px;
 }
-
-
+.slider-img-plase.add-img-class{
+  width: 100% !important;
+}
+.list-group{
+  padding-top: 15px;
+}
 }
 
 @media (max-width:350px) {
@@ -4369,14 +4373,14 @@ img#chef_id {
 .button-container button {
   margin-bottom: 4px;
 }
-button.btn.btn-outline-secondary {
+a.btn.btn-outline-secondary {
   border: none;
 }
 .flex.postion-ab {
   position: absolute;
   right: 0;
 }
-button.btn.btn-outline-secondary {
+a.btn.btn-outline-secondary {
   border: none;
   padding: 0px 6px;
   height: 28px;
@@ -4388,9 +4392,10 @@ button.btn.btn-outline-secondary {
 .input-group-append {
   height: 18px;
 }
-.btn-outline-secondary:hover {
+a.btn-outline-secondary:hover {
   color: #000;
   background-color: #fff0;
+  border: none;
 }
 @media(min-width:768px){
   .flex.postion-ab {
@@ -4406,4 +4411,16 @@ a#btn_booking {
 }
 select.login-select{
   width: 100%;
+}
+.item-class{
+  float: right;
+}
+a.a-plus {
+  color: #ff4e00;
+  font-size: 13px;
+  cursor: pointer;
+}
+a.a-minus {
+  color: #ff4e00;
+  cursor: pointer;
 }

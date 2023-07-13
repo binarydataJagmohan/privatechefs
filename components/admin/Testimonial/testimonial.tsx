@@ -420,105 +420,107 @@ export default function Allergy() {
                     </li>
                 </ul>
                 <div className="table-box" id="ffff">
-                    <table className="table table-borderless">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Photo</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Star</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {testimonials.map((allergy: any, index) => (
-                                <tr key={allergy.id}>
-                                    <td>{++index}</td>
-                                    <td className="chefs_pic">
-                                        {allergy.image ? (
-                                            <img
-                                                src={
-                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                    "/images/admin/testimonial/" +
-                                                    allergy.image
-                                                }
-                                                alt=""
-                                            />
-                                        ) : (
-                                            <img
-                                                src={
-                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                    "/images/placeholder.jpg"
-                                                }
-                                                alt=""
-                                            />
-                                        )}
-                                    </td>
-
-                                    <td>{allergy.name}</td>
-                                    {/* <td>{allergy.description}</td> */}
-                                    <td className="abc">
-                                        {showFullDescription[index] && allergy.description
-                                            ? allergy.description
-                                            : allergy.description
-                                                ? allergy.description.length > 100
-                                                    ? `${allergy.description.slice(0, 100)}...`
-                                                    : allergy.description
-                                                : ""}
-                                        {allergy.description &&
-                                            allergy.description.length > 100 && (
-                                                <a
-                                                    className="read-more-link"
-                                                    onClick={() => toggleDescription(index)}
-                                                >
-                                                    {showFullDescription[index]
-                                                        ? "Read Less"
-                                                        : "Read More"}
-                                                </a>
-                                            )}
-                                    </td>
-                                    <td>{allergy.stars}</td>
-                                    <td>
-                                        <div className="dropdown" id="none-class">
-                                            <a
-                                                className="dropdown-toggle"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                            >
-                                                <i className="fa-solid fa-ellipsis"></i>
-                                            </a>
-                                            <ul
-                                                className="dropdown-menu"
-                                                aria-labelledby="dropdownMenuButton"
-                                            >
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="#"
-                                                        onClick={(e) => editTestimonial(e, allergy.id)}
-
-                                                    >
-                                                        Edit
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="#"
-                                                        onClick={(e) => handleDelete(e, allergy.id)}
-
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                    {testimonials.length > 0 ?
+                        <table className="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Photo</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Star</th>
+                                    <th scope="col"></th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {testimonials.map((allergy: any, index) => (
+                                    <tr key={allergy.id}>
+                                        <td>{++index}</td>
+                                        <td className="chefs_pic">
+                                            {allergy.image ? (
+                                                <img
+                                                    src={
+                                                        process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                        "/images/admin/testimonial/" +
+                                                        allergy.image
+                                                    }
+                                                    alt=""
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={
+                                                        process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                        "/images/placeholder.jpg"
+                                                    }
+                                                    alt=""
+                                                />
+                                            )}
+                                        </td>
+
+                                        <td>{allergy.name}</td>
+                                        {/* <td>{allergy.description}</td> */}
+                                        <td className="abc">
+                                            {showFullDescription[index] && allergy.description
+                                                ? allergy.description
+                                                : allergy.description
+                                                    ? allergy.description.length > 100
+                                                        ? `${allergy.description.slice(0, 100)}...`
+                                                        : allergy.description
+                                                    : ""}
+                                            {allergy.description &&
+                                                allergy.description.length > 100 && (
+                                                    <a
+                                                        className="read-more-link"
+                                                        onClick={() => toggleDescription(index)}
+                                                    >
+                                                        {showFullDescription[index]
+                                                            ? "Read Less"
+                                                            : "Read More"}
+                                                    </a>
+                                                )}
+                                        </td>
+                                        <td>{allergy.stars}</td>
+                                        <td>
+                                            <div className="dropdown" id="none-class">
+                                                <a
+                                                    className="dropdown-toggle"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                >
+                                                    <i className="fa-solid fa-ellipsis"></i>
+                                                </a>
+                                                <ul
+                                                    className="dropdown-menu"
+                                                    aria-labelledby="dropdownMenuButton"
+                                                >
+                                                    <li>
+                                                        <a
+                                                            className="dropdown-item"
+                                                            href="#"
+                                                            onClick={(e) => editTestimonial(e, allergy.id)}
+                                                        >
+                                                            Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            className="dropdown-item"
+                                                            href="#"
+                                                            onClick={(e) => handleDelete(e, allergy.id)}
+                                                        >
+                                                            Delete
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        :
+                        <p className='text-center'>No Records Found</p>
+                    }
                 </div>
                 <Pagination
                     items={testimonials2.length}
@@ -692,7 +694,7 @@ export default function Allergy() {
                 </div>
             </PopupModal>
             {/* // Menu popup end  */}
-            <ToastContainer />  
+            <ToastContainer />
         </>
     );
 }

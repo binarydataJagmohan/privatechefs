@@ -81,6 +81,7 @@ export default function SingleInvoice(props: any) {
                 if (res.status == true) {
                     setUsers(res.data);
                     setMenu(res.dishNames);
+                    console.log(res.dishNames);
                 } else {
                     console.log("error");
                 }
@@ -124,10 +125,10 @@ export default function SingleInvoice(props: any) {
                         <tbody>
                             {menu.length > 0 ? (
                                 <tr>
-                                    <td>{menu.find(item => item.type === 'firstcourse')?.item_name || ''}</td>
-                                    <td>{menu.find(item => item.type === 'desert')?.item_name || ''}</td>
-                                    <td>{menu.find(item => item.type === 'maincourse')?.item_name || ''}</td>
                                     <td>{menu.find(item => item.type === 'starter')?.item_name || ''}</td>
+                                    <td>{menu.find(item => item.type === 'firstcourse')?.item_name || ''}</td>
+                                    <td>{menu.find(item => item.type === 'maincourse')?.item_name || ''}</td>
+                                    <td>{menu.find(item => item.type === 'desert')?.item_name || ''}</td>
                                 </tr>
                             ) : (
                                 <tr>
