@@ -410,7 +410,7 @@ export default function Bookings() {
 							</tbody>
 						</table>
 						:
-						<p>No Booking Records Found</p>
+						<p className="book1">No Booking Records Found</p>
 					}
 				</div>
 			</div>

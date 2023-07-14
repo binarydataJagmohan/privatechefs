@@ -698,7 +698,7 @@ export default function Booking(props: any) {
                         </tbody>
                       </table>
                       :
-                      <p>No Booking Records Found</p>
+                      <p className="book1">No Booking Records Found</p>
                     }
                     <Pagination
                       items={totalBooking.length}

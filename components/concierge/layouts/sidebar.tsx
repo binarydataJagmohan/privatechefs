@@ -131,7 +131,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Chefs</span>
                         </div>
                     </a>
-                    <a href="/concierge/customers" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/customers' || router.pathname == '/concierge/users/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/customers" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/customers' || router.pathname == '/concierge/customers/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>
                             <span className="menu-collapsed">Customers</span>

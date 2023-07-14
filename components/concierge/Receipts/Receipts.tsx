@@ -96,7 +96,7 @@ export default function Receipts() {
 							</tbody>
 						</table>
 						:
-						<p className='text-center'>No Records Found</p>
+						<p className='book1 text-center'>No Records Found</p>
 					}
 				</div>
 			</div>

@@ -991,8 +991,8 @@ section {
   box-shadow: var(--admin_base-shadow);
   border-radius: var(--booking_img_border_radius);
   padding: 20px;
-  width: 387px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
 }
 
 .step-box h4 {
@@ -3518,11 +3518,12 @@ select {
   }
 
   select#dishes_id {
-    width: 197% !important;
+    width:100% !important;
   }
 
   .slider-img-plase img {
     width: 96%;
+    object-fit: cover;
   }
   img#chef_id {
     height:300px !important;
@@ -3566,6 +3567,32 @@ select {
 .list-group{
   padding-top: 15px;
 }
+p.book1 {
+    font-size: 13px;
+    margin: 0;
+    text-align: center;
+}
+.userImg {
+  text-align: center;
+  object-fit: cover;
+  margin-bottom: 20px;
+  padding-top: 10px !important;
+}
+.user-class.pt-5{
+  display: block !important;
+}
+.text-link a {
+  font-size: 10px !important;
+}
+div#loginDiv{
+  display: block !important;
+}
+button#btn-send-id {
+  width: 100% !important;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
 }
 
 @media (max-width:350px) {
@@ -4423,4 +4450,9 @@ a.a-plus {
 a.a-minus {
   color: #ff4e00;
   cursor: pointer;
+}
+#location-img{
+    width: 150px !important;
+    height: 200px !important;
+    object-fit: cover !important;
 }

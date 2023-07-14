@@ -848,7 +848,7 @@ export default function Menus2(props: any) {
                                 onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
-                                <div className="login_div d-flex">
+                                <div className="login_div d-flex" id="loginDiv">
                                   <input
                                     type="text"
                                     name="starter"
@@ -879,6 +879,7 @@ export default function Menus2(props: any) {
                                   <button
                                     type="submit"
                                     className="btn-send w-50"
+                                    id="btn-send-id"
                                   >
                                     Add Starter Course
                                   </button>
@@ -962,7 +963,7 @@ export default function Menus2(props: any) {
                                 onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
-                                <div className="login_div d-flex">
+                                <div className="login_div d-flex" id="loginDiv">
                                   <input
                                     type="text"
                                     name="firstcourse"
@@ -994,6 +995,7 @@ export default function Menus2(props: any) {
                                   <button
                                     type="submit"
                                     className="btn-send w-50"
+                                    id="btn-send-id"
                                   >
                                     Add First Course
                                   </button>
@@ -1076,7 +1078,7 @@ export default function Menus2(props: any) {
                                 onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
-                                <div className="login_div d-flex">
+                                <div className="login_div d-flex" id="loginDiv">
                                   <input
                                     type="text"
                                     name="maincourse"
@@ -1104,6 +1106,7 @@ export default function Menus2(props: any) {
                                   <button
                                     type="submit"
                                     className="btn-send w-50"
+                                    id="btn-send-id"
                                   >
                                     Add Main Course
                                   </button>
@@ -1187,7 +1190,7 @@ export default function Menus2(props: any) {
                                 onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
                               >
-                                <div className="login_div d-flex">
+                                <div className="login_div d-flex" id="loginDiv">
                                   <input
                                     type="text"
                                     name="desert"
@@ -1215,7 +1218,7 @@ export default function Menus2(props: any) {
                                   <button
                                     type="submit"
                                     className="btn-send w-50"
-
+                                    id="btn-send-id"
                                   >
                                     Add Desert
                                   </button>
@@ -1303,7 +1306,7 @@ export default function Menus2(props: any) {
                       <textarea name="comments" value={comments || ''} onChange={(e) => setcomments(e.target.value)} onBlur={handlPersonPriceBlur} ></textarea>
                     </div>
                     <div className="col-lg-12 text-end col-md-6 mt-2">
-                      <button type="submit" className="btn-send w-20" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
+                      <button type="submit" className="btn-send w-20 mb-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
 
                     </div>
                   </div>
