@@ -129,7 +129,7 @@ export default function Location() {
                 <div className="container">
                     <h2>How it works</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
-                    <div className="row mt-5">
+                    <div className="row mt-5 g-3">
                         <div className="col-lg-3 col-md-6">
                             <div className="step-box">
                                 <h4><span className="big-48">1</span></h4>
@@ -195,7 +195,7 @@ export default function Location() {
                 <div className="container">
                     <h2>Our customers said</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris. </p>
-                    <div className="row mt-5">
+                    <div className="row mt-5 g-3">
                         {testimonials.slice(0, 3).map((testimonial) => (
                             <div className="col-lg-4 col-md-6">
                                 <div className="step-box text-center customers-review" id="test-img">

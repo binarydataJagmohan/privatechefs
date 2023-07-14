@@ -3522,7 +3522,7 @@ select {
   }
 
   .slider-img-plase img {
-    width: 96%;
+    width: 100%;
     object-fit: cover;
   }
   img#chef_id {
@@ -3592,7 +3592,16 @@ button#btn-send-id {
   margin-top: 10px;
   margin-left: 10px;
 }
-
+div#location-img img {
+  width: 100% !important;
+}
+.slider-img-plase::before {
+  height: 100% !important;
+  width: 100%;
+}
+.pages-banner h1 {
+  font-size: 28px;
+}
 }
 
 @media (max-width:350px) {
@@ -4451,7 +4460,7 @@ a.a-minus {
   color: #ff4e00;
   cursor: pointer;
 }
-#location-img{
+#location-img img{
     width: 150px !important;
     height: 200px !important;
     object-fit: cover !important;
