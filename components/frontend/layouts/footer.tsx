@@ -33,9 +33,10 @@ export default function Footer() {
               <li><a href="/termsconditions">Terms & Conditions</a></li>
             </ul>
             <ul className="ft-social mt-3">
-              <li><a href="#"><i className="fa-brands fa-facebook"></i></a></li>
-              <li><a href="#"><i className="fa-brands fa-instagram"></i></a></li>
-              <li><a href="#"><i className="fa-brands fa-linkedin"></i></a></li>
+              <li><a href="https://www.facebook.com/" target="_blank"><i className="fa-brands fa-facebook"></i></a></li>
+              <li><a href="https://www.instagram.com/" target="_blank"><i className="fa-brands fa-instagram"></i></a></li>
+              <li><a href="https://www.linkedin.com/" target="
+              "><i className="fa-brands fa-linkedin"></i></a></li>
             </ul>
             <p className="font-small color-bs8639 mt-3 mb-0">Copyright © 2023 Private Chefs All rights reserved</p>
           </div>
