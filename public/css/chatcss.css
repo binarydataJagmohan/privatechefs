@@ -26,6 +26,7 @@
   width: 51px;
   height: 51px;
   position: relative;
+  object-fit: contain;
 }
 .user-profile-chats h5 {
   font-weight: var( --font_wt_name);
@@ -207,6 +208,7 @@ a.chats-user-a {
   height: 30px;
   border-radius: 106px;
   margin-right: 7px;
+  object-fit: contain;
 }
 .sp-4 {
   padding: 15px;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
-import { removeBookingData,getCurrentUserData } from "../../../lib/session";
+import { getCurrentUserData,removeBookingData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline } from "../../../lib/userapi";
 import { getSingleChefMenu } from "../../../lib/chefapi";
@@ -187,6 +187,7 @@ export default function Booking(props: any) {
         role: userData.role,
         approved_by_admin: userData.approved_by_admin,
       });
+      removeBookingData()
     }
   }, []);
 
@@ -411,17 +412,21 @@ export default function Booking(props: any) {
 
     getUserChefOffer(id)
       .then(res => {
+      
         if (res.status == true) {
 
-          console.log(res.chefoffer);
+        
           modalConfirmThreeClose();
           setChefAppliedOffer(res.chefoffer);
-          console.log(res.chefoffer);
-          setBookingId(res.chefoffer[0].booking_id);
+          
+          setBookingId(id);
           setModalConfirm(true);
+         
 
         } else {
+         
           setErrorMessage(res.message);
+          setModalConfirm(true);
         }
       })
       .catch(err => {
@@ -534,7 +539,7 @@ export default function Booking(props: any) {
                   <h4>My Bookings</h4>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
-                <a href={`/user/messages/}`}>
+                <a href={`/user/messages`}>
                   <div className="profile-cols mt-4 mb-4">
                     <h4>My Messages</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -660,7 +665,7 @@ export default function Booking(props: any) {
                                           View Booking
                                         </a>
                                       </li>
-                                      {user.booking_id === user.appliedId && user.userId === user.chefId && user.category == 'onetime' && (<li>
+                                     <li>
                                         <a
                                           className="dropdown-item"
                                           href="#"
@@ -669,7 +674,7 @@ export default function Booking(props: any) {
                                         >
                                           View Chef offer
                                         </a>
-                                      </li>)}
+                                      </li>
                                       {user.appliedId === null && (
                                         <li>
                                           <a
