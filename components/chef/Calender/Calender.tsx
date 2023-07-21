@@ -13,6 +13,7 @@ export default function CalendarComponent() {
         dates: string;
         name: string;
         pic: string;
+        category:string;
     }
 
     const [getbooking, setGetBookings] = useState<MyBooking[]>([]);
@@ -67,6 +68,7 @@ export default function CalendarComponent() {
                         user: {
                             name: booking.name,
                             pic: booking.pic,
+                            category: booking.category,
                         },
                     };
 
@@ -101,20 +103,8 @@ export default function CalendarComponent() {
                     components={{
                         event: ({ event }: { event: Event }) => (
                             <div>
-                                {event.user.pic ? (
-                                    <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + event.user.pic}
-                                        alt="User"
-                                        style={{ maxWidth: '15px', borderRadius: '50%' }}
-                                    />
-                                ) : (
-                                    <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/users.jpg'}
-                                        alt="User"
-                                        style={{ maxWidth: '15px', borderRadius: '50%' }}
-                                    />
-                                )}
-                                <span style={{ marginLeft: '10px', fontSize: '10px' }}>{event.user.name}</span>
+                               
+                                <span style={{ marginLeft: '10px', fontSize: '10px' }}>{event.user.category}</span>
                             </div>
                         ),
                     }}
