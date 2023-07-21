@@ -132,11 +132,16 @@ export default function Booking(props: any) {
     receiver_pic?: string;
     sender_role?: string;
     receiver_role?: string;
-    message?: string;
     booking_id?: number;
+    message?: string;
     chatdate?:string;
     type?:string;
     bookig_send_by?:string
+    created_by?: string;
+    created_by_id?:number;
+    created_by_pic?:string;
+    created_by_role?:string
+    
     
   }
 
@@ -321,10 +326,10 @@ export default function Booking(props: any) {
         });
       };
     
-      const interval = setInterval(fetchData, 2000); // Run every 2 seconds
+      const interval = setInterval(fetchData, 2000);
     
       return () => {
-        clearInterval(interval); // Clean up the interval when the component is unmounted
+        clearInterval(interval); 
       };
       
     }
@@ -706,7 +711,7 @@ export default function Booking(props: any) {
     const query = searchInputValue.toLowerCase();
     const matchingData = Object.values(userdata)
       .filter((user) => {
-        const fullName = `${user.name} ${user.surname || ''}`.toLowerCase();
+        const fullName = `${user.name || ''} ${user.surname || ''}`.toLowerCase();
         return fullName.includes(query);
       });
   
@@ -715,8 +720,8 @@ export default function Booking(props: any) {
         <ul>
           {matchingData.length > 0 ? (
             matchingData.map((user) => (
-              <li key={user.id} onClick={() => addItem(user.id, `${user.name} ${user.surname}`)} role="button">
-                {`${user.name} ${user.surname || ''}`}
+              <li key={user.id} onClick={() => addItem(user.id, `${user.name || ''} ${user.surname || ''}`)} role="button">
+                {`${user.name || ''} ${user.surname || ''}`}
               </li>
             ))
           ) : (
@@ -1170,7 +1175,7 @@ export default function Booking(props: any) {
                               adminuserchefmesage.map((message,index) => (
                                 <React.Fragment key={index}>
                                   
-                                {message.sender_role == 'user' && message.bookig_send_by == null  && (
+                                { ( message.sender_role == 'user' || message.sender_role == 'chef' || message.sender_role == 'concierge'  ) && message.bookig_send_by == null  && (
                                   <li className="reply">
                                      {message.sender_pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
@@ -1214,13 +1219,15 @@ export default function Booking(props: any) {
                                     </div>
                                   </li> )}
 
-                                  {message.sender_role == 'chef' && message.bookig_send_by == null && (
+                                  
+
+                                  {message.bookig_send_by == 'concierge' && (
                                   <li className="reply">
-                                     {message.sender_pic == null ? <img
+                                     {message.created_by_pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
                                         alt="chats-user"
                                       /> : <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.sender_pic}
+                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.created_by_pic}
                                       alt="chats-user"
                                     />}
                                      <span className="bg-f1">
@@ -1250,15 +1257,15 @@ export default function Booking(props: any) {
                                     <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
                                     </span>{" "}
                                     <div className="mt-2 small_font name_chat">
-                                      {message && message.sender_name && message.sender_name.length > 8 ? (
-                                        message.sender_name.substring(0, 8) + ''
+                                      {message && message.created_by && message.created_by.length > 8 ? (
+                                        message.created_by.substring(0, 8) + ''
                                       ) : (
-                                        message && message.sender_name
+                                        message && message.created_by
                                       )}
                                     </div>
                                   </li> )}
                                   
-                                  {message.sender_role == 'admin'  && (
+                                  { (message.bookig_send_by == 'admin' || message.sender_role == 'admin') && (
                                   <li className="reply-two">
                                    <span className="bg-f1">
                                     {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message} target="_blank" rel="noopener noreferrer">  <img
@@ -1289,61 +1296,16 @@ export default function Booking(props: any) {
 
                                     <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
                                     </span>{" "}
-                                    {message.sender_pic == null ? <img
+                                    {currentUserData.pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
                                         alt="chats-user"
                                       /> : <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.sender_pic}
+                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+currentUserData.pic}
                                       alt="chats-user"
                                     />}
                                     <div className="mt-2 small_font name_chat_two">You</div>
                                   </li>
                                   )}
-
-
-                                  {message.bookig_send_by == 'admin'  && (
-                                  <li className="reply-two">
-                                   <span className="bg-f1">
-                                    {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message} target="_blank" rel="noopener noreferrer">  <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message}
-                                        className="chat_shared_image"
-                                        width={150} height={150}
-                                        alt="chats-user"
-                                      /></a>}
-                                    {message.type === 'pdf' && (
-                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/pdf/'+message.message} target="_blank" rel="noopener noreferrer">  <img
-                                      src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
-                                      className="chat_shared_image"
-                                      alt="chats-user"
-                                    /></a>
-                                    )}
-
-                                    
-                                    {message.type === 'video' && (
-                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
-                                        <video className="chat_shared_video" controls width={150} height={150}>
-                                          <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
-                                          Your browser does not support the video tag.
-                                        </video>
-                                      </a>
-                                    )}
-                                    
-                                    {message.type !== 'image' && message.type !== 'pdf' && message.type !== 'video' && message.message}
-
-                                    <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
-                                    </span>{" "}
-                                    {message.sender_pic == null ? <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                        alt="chats-user"
-                                      /> : <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.sender_pic}
-                                      alt="chats-user"
-                                    />}
-                                    <div className="mt-2 small_font name_chat_two">You</div>
-                                  </li>
-                                  )}
-
-                                  
 
                             </React.Fragment>
                               ))
@@ -1421,7 +1383,7 @@ export default function Booking(props: any) {
                                       <span>
                                         {message.sender_name && message.sender_name.length > 25
                                           ? `${message.sender_name.slice(0, 25)}...`
-                                          : message.sender_name}
+                                          : message.sender_name} ({message.sender_role})
                                       </span>
                                     </p>
                                   )}
@@ -1442,7 +1404,7 @@ export default function Booking(props: any) {
                                       <span>
                                         {message.receiver_name && message.receiver_name.length > 25
                                           ? `${message.receiver_name.slice(0, 25)}...`
-                                          : message.receiver_name}
+                                          : message.receiver_name} ({message.receiver_role})
                                       </span>
                                     </p>
                                   )}
@@ -1468,12 +1430,37 @@ export default function Booking(props: any) {
                                   <span>
                                       {currentUserData.name && currentUserData.name.length > 25
                                         ? `${currentUserData.name.slice(0, 25)}...`
-                                        : currentUserData.name}
+                                        : currentUserData.name} ({currentUserData.role})
                                   </span>
                                  
                                 </p>
                               )
                             }
+
+                              {adminuserchefmesage?.find((message) => message.bookig_send_by == 'concierge') && (
+                                
+                                <p className="g-text">
+                                  {adminuserchefmesage?.find((message) => message.bookig_send_by == 'concierge')?.created_by_pic == null ? (
+                                    <img
+                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
+                                      alt="chats-user"
+                                    />
+                                  ) : (
+                                    <img
+                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by_pic}
+                                      alt="chats-user"
+                                    />
+                                  )}
+                                  <span>
+                                  {adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by &&
+                                    adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by.length > 25
+                                    ? `${adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by.slice(0, 25)}...`
+                                    : adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by} ({adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by_role})
+                                </span>
+
+                                </p>
+                              )}
+
                             </>
                           )}
 
@@ -1499,11 +1486,11 @@ export default function Booking(props: any) {
                                   <span>
                                       {currentUserData.name && currentUserData.name.length > 25
                                         ? `${currentUserData.name.slice(0, 25)}...`
-                                        : currentUserData.name}
+                                        : currentUserData.name} ({currentUserData.role})
                                   </span>
                                  
                                 </p>
-                                  {message.sender_role != 'admin'|| message.receiver_role != 'admin' && (
+                                  {(message.receiver_role == 'concierge' || message.receiver_role == 'user' ||  message.receiver_role == 'chef') && (
                                     <p className="g-text">
                                       {message.receiver_pic == null ? (
                                         <img
@@ -1519,7 +1506,7 @@ export default function Booking(props: any) {
                                       <span>
                                         {message.receiver_name && message.receiver_name.length > 25
                                           ? `${message.receiver_name.slice(0, 25)}...`
-                                          : message.receiver_name}
+                                          : message.receiver_name} ({message.receiver_role})
                                       </span>
                                       
                                     </p>
@@ -1547,10 +1534,19 @@ export default function Booking(props: any) {
                                   )}
                                  
                                   
-                                  <span>
+                                 <span>
                                       {message.name && message.name.length > 25
                                         ? `${message.name.slice(0, 25)}...`
-                                        : message.name} 
+                                        : message.name} {(message.group_admin_id !== message.user_id) && (
+                                          <>
+                                            {message.role && (
+                                              <> 
+                                                {'('}{message.role}{')'}
+                                              </>
+                                            )}
+                                          </>
+                                        )}
+                                        
                                       {message.group_admin_id == message.user_id && (' (Group admin)')}
                                   </span>
                                  
@@ -1634,22 +1630,16 @@ export default function Booking(props: any) {
 
                                           <span className="mx-2 small_font">
 
-                                          {message.bookig_send_by === 'admin'
-                                            ? currentUserData.name
-                                            : (message.sender_role === 'chef'
-                                              ? (message.sender_name.length <= 10 ? message.sender_name : message.sender_name.substring(0, 10) + '...')
-                                              : (message.sender_role === 'admin'
-                                                ? (message.sender_name.length <= 10 ? message.sender_name : message.sender_name.substring(0, 10) + '...')
-                                                : (message.sender_role === 'user'
-                                                  ? (message.sender_name.length <= 10 ? message.sender_name : message.sender_name.substring(0, 10) + '...')
-                                                  : (message.receiver_role === 'user'
+                                          {
+                                              message.bookig_send_by === 'admin'
+                                                ? currentUserData.name 
+                                                : (message.bookig_send_by === 'concierge'
+                                                  ? (message.created_by.length <= 10 ? message.created_by : message.created_by.substring(0, 10) + '...')
+                                                  : (message.sender_role == 'user' || message.sender_role == 'chef' || message.sender_role == 'admin' || message.sender_role == 'concierge'
                                                     ? (message.sender_name.length <= 10 ? message.sender_name : message.sender_name.substring(0, 10) + '...')
-                                                    : null
+                                                    : '')
                                                   )
-                                                )
-                                              )
-                                            )
-                                          }
+                                            }
 
                                             <div className="mt-2 small_font">{formatDate(new Date(message.chatdate as string))}</div>
                                           </span>
@@ -1721,7 +1711,7 @@ export default function Booking(props: any) {
 
             <div className="container p-0 login_div">
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-4">
                     <label className="mb-3 mt-1" htmlFor="Image">Select User:</label>
                     {Array.isArray(userdata) && userdata.filter(user => user.role === 'user').length > 0 ? (
                           userdata.filter(user => user.role === 'user').map((user, index) => (
@@ -1744,11 +1734,37 @@ export default function Booking(props: any) {
                         )}
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-4">
                     <label className="mb-3 mt-1" htmlFor="Image">Select chef:</label>
                   
                       {Array.isArray(userdata) && userdata.filter(user => user.role === 'user').length > 0 ? (
                           userdata.filter(user => user.role === 'chef').map((user, index) => (
+                            <div className="checkbox d-flex" key={index}>
+                              <input
+                                id={`flexCheckDefault${index}`}
+                                value="4"
+                                name="member_ids[]"
+                                type="checkbox"
+                                onChange={(e) => handleCheckboxChange(e, user.id)}
+                                checked={selectedMembers.includes(user.id)} // Set checked state based on selectedMembers array
+                              />
+                              <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
+                                <span className="mx-2">{user.name}</span>
+                              </label>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="mt-2">No data found</p>
+                        )}
+
+                    {errors.groupmember && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.groupmember}</span>}
+                  </div>
+
+                  <div className="col-4">
+                    <label className="mb-3 mt-1" htmlFor="Image">Select Concierge:</label>
+                  
+                      {Array.isArray(userdata) && userdata.filter(user => user.role === 'user').length > 0 ? (
+                          userdata.filter(user => user.role === 'concierge').map((user, index) => (
                             <div className="checkbox d-flex" key={index}>
                               <input
                                 id={`flexCheckDefault${index}`}
