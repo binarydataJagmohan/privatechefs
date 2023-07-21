@@ -307,7 +307,7 @@ ul.ft-social li a {
 #sidebar-container {
   min-height: 100vh;
   background-color: var(--background-color_1);
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   position: relative;
   border-right: 1px solid #DADADA;
 }
@@ -670,8 +670,14 @@ table tr:hover {
   box-shadow: 0px 3px 11px rgb(0 0 0 / 11%);
 }
 
+table thead tr:hover {
+  box-shadow: unset !important;
+}
 
-
+.navbar-light .navbar-toggler {
+  color: transparent;
+  border-color: transparent;
+}
 
 @media (max-width:1150px) {
   .table-part h2 {
@@ -2720,7 +2726,7 @@ ul.user-mess li span.bg-f1 {
 li.right-li {
   position: absolute;
   right: 0;
-  top: -2px;
+  top: 37px;
 }
 
 .text-left h5 {
@@ -3394,7 +3400,7 @@ select {
   width: 96%;
   height: 100%;
   position: absolute;
-  border-radius: 25px;
+  border-radius: 12px;
 }
 
 .offcanvas-part ::-webkit-scrollbar {
@@ -3506,7 +3512,7 @@ select {
 
   button.table-btn {
     padding: 6px 6px;
-    margin: 8px 0;
+    margin: 8px 4px;
   }
 
   div#chef-booking {
@@ -3597,10 +3603,25 @@ div#location-img img {
 }
 .slider-img-plase::before {
   height: 100% !important;
-  width: 100%;
+  width: 97%;
+  border-radius: 12px;
 }
 .pages-banner h1 {
   font-size: 28px;
+}
+.slick-slide img{
+  padding-right: 7px;
+}
+/* #slider-img-id::before {
+  width: 97%;
+} */
+#contact-fromid button.table-btn{
+  text-align: center;
+  width: 100% !important;
+  font-size: 12px !important;
+}
+div#formid {
+  margin-top: 20px;
 }
 }
 
@@ -4152,6 +4173,7 @@ td.booking-status-pending {
 td.booking-status-upcoming {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   padding: 8px 18px;
   gap: 10px;

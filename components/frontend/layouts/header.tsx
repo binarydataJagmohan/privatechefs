@@ -3,10 +3,12 @@ import dynamic from 'next/dynamic'
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { login, register, forgetPassword } from '../../../lib/frontendapi';
+import { login, register, forgetPassword, socialDataSave } from '../../../lib/frontendapi';
 import { removeToken, removeStorageData, getCurrentUserData, removeBookingData } from "../../../lib/session";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { UpdateUserToOffiline } from "../../../lib/userapi"
+import { useSession, signIn, signOut } from 'next-auth/react'
+
 export default function Header({ }) {
 
   interface Errors {
@@ -72,6 +74,111 @@ export default function Header({ }) {
       setRole(role);
     }
   }, []);
+
+  const { data: session } = useSession() || {};
+
+  useEffect(() => {
+    // if(session){
+    // 	window.location.href = '/user/dashboard';
+    // }
+    
+    if (session) {
+      console.log(session);
+      if (session.user.image.indexOf('googleusercontent') >= 0) {
+        SocialData(session.user, 'google');
+      } else{
+            SocialData(session.user, 'facebook');
+          }
+
+    }
+
+  }, [session]);
+
+  const SocialData = (user: any, type: any) => {
+
+    const data = {
+      name: user.name,
+      email: user.email,
+      login_type: type,
+      password: '12345678'
+    };
+
+   // console.log(data);
+
+    socialDataSave(data)
+      .then(res => {
+        if (res.status == true) {
+          if (res.data.token) {
+            window.localStorage.setItem("token", res.data.token);
+            window.localStorage.setItem("id", res.data.user.id);
+            window.localStorage.setItem("name", res.data.user.name);
+            window.localStorage.setItem("email", res.data.user.email);
+            window.localStorage.setItem("role", res.data.user.role);
+            window.localStorage.setItem("pic", res.data.user.pic);
+            window.localStorage.setItem("surname", res.data.user.surname);
+            window.localStorage.setItem("phone", res.data.user.phone);
+            window.localStorage.setItem("address", res.data.user.address);
+            window.localStorage.setItem("expiration", res.data.expiration);
+            window.localStorage.setItem(
+              "approved_by_admin",
+              res.data.user.approved_by_admin
+            );
+            window.localStorage.setItem("profile_status", res.data.user.profile_status);
+            window.localStorage.setItem("created_by", res.data.user.created_by);
+
+            toast.success(res.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #ff4e00',
+                color: '#454545',
+                "--toastify-icon-color-success": "#ff4e00",
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
+            });
+
+            setTimeout(() => {
+              if (res.data.user.role == "user") {
+                window.location.href = "/user/userprofile";
+              }
+            }, 1000);
+          } else {
+            setButtonState(false);
+            toast.info(res.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+                "--toastify-icon-color-success": "#ff4e00",
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
+            });
+          }
+        }else {
+          setButtonState(false);
+          if (res.status === false && res.errors) {
+            Object.keys(res.errors).forEach(function (key) {
+              res.errors[key].forEach(function (errorMessage: any) {
+                toast.error(errorMessage);
+              });
+            });
+          }
+        }
+      })
+      .catch((err) => {
+
+      });
+
+  };
 
   const checkuser = async () => {
     const user: User = getCurrentUserData() as User;
@@ -170,7 +277,6 @@ export default function Header({ }) {
           if (res.status == true) {
             if (res.authorisation.token) {
               setIsAuthenticated(true);
-
               window.localStorage.setItem("token", res.authorisation.token);
               window.localStorage.setItem("id", res.user.id);
               window.localStorage.setItem("name", res.user.name);
@@ -668,7 +774,7 @@ export default function Header({ }) {
           </nav>
         </div>
       </header>
-     
+
 
       {/* // login popup code start  */}
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
@@ -699,9 +805,9 @@ export default function Header({ }) {
 
           </div>
 
-          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
+          <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
           <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button> */}
+          <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
 
       </PopupModal>
@@ -752,9 +858,9 @@ export default function Header({ }) {
           </form>
           <p className="text-link text-left my-2"><a href="#" onClick={() => signinpopup()}>Already have account? <span>Sign in</span></a></p>
 
-          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/g-logo.png'} alt="g-logo"/> Continue with Google</button>
-                    <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/a-logo.jpg'} alt="a-logo"/> Continue with Apple</button>
-                    <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL+'images/f-logo.png'} alt="f-logo"/> Continue with Facebook</button> */}
+          <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
+          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
+          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
 
       </PopupModal>
@@ -783,7 +889,7 @@ export default function Header({ }) {
       </PopupModal>
 
       {/* // login popup code end  */}
- {/* <ToastContainer /> */}
+      {/* <ToastContainer /> */}
     </>
   )
 }

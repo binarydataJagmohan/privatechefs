@@ -102,13 +102,14 @@ export default function Contact() {
                         </div>
                         <div className="col-lg-4 col-md-12">
                             <form onSubmit={handleContactSubmit}>
-                                <div className="all-form">
+                                <div className="all-form" id="formid">
                                     <h2>Contact us</h2>
                                     <label>Name Surname</label>
                                     <input
                                         type="text"
                                         name="name"
                                         value={name}
+                                        placeholder="Name Surname"
                                         onChange={(e) => setFullName(e.target.value)}
                                     />
                                     {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
@@ -117,6 +118,7 @@ export default function Contact() {
                                         type="text"
                                         name="email"
                                         value={email}
+                                        placeholder="Email"
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                     {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
@@ -124,14 +126,15 @@ export default function Contact() {
                                     <PhoneInput
                                         country={"us"}
                                         value={phone_no}
+                                        placeholder="Phone Number"
                                         onChange={(phone_no) => setPhoneno(phone_no)}
                                     // add the required attribute here
                                     />
                                     {errors.phone_no && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.phone_no}</span>}
                                     <label>Your message</label>
-                                    <textarea name="message" value={message || ''} onChange={(e) => setMessage(e.target.value)}></textarea>
+                                    <textarea name="message" value={message || ''} onChange={(e) => setMessage(e.target.value)}  placeholder="Type your message"></textarea>
                                     {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.message}</span>}
-                                    <div className="text-right">
+                                    <div className="text-right" id="contact-fromid">
                                         <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
                                     </div>
                                 </div>
@@ -356,6 +359,7 @@ export default function Contact() {
                     )}
                 </div>
             </section>
+            <ToastContainer />
         </>
     )
 }

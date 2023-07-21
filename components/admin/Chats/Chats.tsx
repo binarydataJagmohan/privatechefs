@@ -832,7 +832,7 @@ export default function Booking(props: any) {
     setErrors(newErrors);
 
     // Submit form data if there are no errors
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(newErrors).length === 0) {
 
       const data = {
         group_name: groupname,

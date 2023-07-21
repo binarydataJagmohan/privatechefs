@@ -531,7 +531,7 @@ export default function Receipts() {
 						<div className="login_div">
 							<label htmlFor="booking">BookingId:</label>
 							<select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
-								<option value=''>Select Booking</option>
+								<option value='' disabled>Select Booking</option>
 								{Array.isArray(getbooking) && getbooking.map((booking, index) => (
 									<option key={booking.id} value={booking.id}>
 										{`bookingid#${booking.id} - location#${booking.location}-booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
@@ -606,7 +606,7 @@ export default function Receipts() {
 						<div className="login_div">
 							<label htmlFor="booking">BookingId:</label>
 							<select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
-								<option value=''>Select Booking</option>
+								<option value='' disabled>Select Booking</option>
 								{Array.isArray(getbooking) && getbooking.map((booking) => (
 									<option key={booking.id} value={booking.id} defaultValue={booking.id === booking_id ? 'true' : undefined}>
 										{`bookingid#${booking.id} - location#${booking.location} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}

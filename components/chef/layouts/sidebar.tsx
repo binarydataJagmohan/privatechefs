@@ -260,7 +260,7 @@ export default function Sidebar(): JSX.Element {
                     }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
-                            <span className="menu-collapsed">My Jobs</span>
+                            <span className="menu-collapsed">Assigned Jobs</span>
                             {hiredbookingcount ? (
                                  <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{hiredbookingcount}</span>
                             ) : null}

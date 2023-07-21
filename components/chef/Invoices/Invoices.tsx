@@ -404,7 +404,7 @@ export default function Invoices() {
 						<div className="login_div">
 							<label htmlFor="booking">BookingId:</label>
 							<select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
-								<option value=''>Select Booking</option>
+								<option value='' disabled>Select Booking</option>
 								{Array.isArray(getbooking) && getbooking.map((booking, index) => (
 									<option key={booking.id} value={booking.id}>
 										{`bookingid#${booking.booking_id} - booking_status#${booking.applystatus} -booking_date#${new Date(booking.applydate).toLocaleDateString()}`}
@@ -484,7 +484,7 @@ export default function Invoices() {
 						<div className="login_div">
 							<label htmlFor="booking">BookingId:</label>
 							<select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
-								<option value=''>Select Booking</option>
+								<option value='' disabled>Select Booking</option>
 								{Array.isArray(getbooking) && getbooking.map((booking, index) => (
 									<option key={booking.id} value={booking.id}>
 										{`bookingid#${booking.id} - location#${booking.address} -booking_date#${new Date(booking.applydate).toLocaleDateString()}`}

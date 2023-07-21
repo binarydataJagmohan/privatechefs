@@ -125,7 +125,7 @@ export default function Location() {
                 </div>
             </section>
 
-            <section className="services-part location-how mt-5">
+            <section className="services-part location-how mt-lg-5">
                 <div className="container">
                     <h2>How it works</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
@@ -224,7 +224,7 @@ export default function Location() {
             </section>
 
 
-            <section className="experience-slider mt-5">
+            <section className="experience-slider mt-lg-5">
                 <div className="container">
                     <h3> Things to explore</h3>
                 </div>

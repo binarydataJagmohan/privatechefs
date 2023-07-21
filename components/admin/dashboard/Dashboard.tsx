@@ -252,7 +252,7 @@ export default function Dashboard() {
 							</div>
 							<div className="col-lg-7 col-sm-12">
 								<div className="table-box">
-									<h4>Pending requests</h4>
+									<h4>Upcoming Requests</h4>
 									<table className="table table-borderless">
 										<thead>
 											<tr>
@@ -263,7 +263,7 @@ export default function Dashboard() {
 											</tr>
 										</thead>
 										<tbody>
-											{Array.isArray(pendingbooking) ? (
+											{Array.isArray(pendingbooking) && pendingbooking.length > 0 ? (
 												pendingbooking.slice(0, 5).map((booking, index) => {
 													const orderDate = new Date(booking.orderDate);
 													return (
@@ -277,7 +277,7 @@ export default function Dashboard() {
 												})
 											) : (
 												<tr>
-													<td>No pending bookings</td>
+													<td colSpan={4} style={{textAlign:"center"}}>No upcoming bookings</td>
 												</tr>
 											)}
 										</tbody>
