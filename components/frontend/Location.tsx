@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import { getTestimonials } from '../../lib/adminapi';
 import { ToastContainer, toast } from "react-toastify";
-
+import {getAllLocation} from "../../lib/frontendapi"
 
 export default function Location() {
 
@@ -13,13 +13,33 @@ export default function Location() {
         description: string;
         image: string;
     }
+    interface Location {
+        pic: string;
+        address: string;
+    }
 
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [locations, setLocations] = useState<Location[]>([]);
     const [stars, setStar] = useState([]);
 
     useEffect(() => {
         fetchTestimonialDetails();
-    }, [testimonials]);
+        fetchLocationDetails();
+    }, []);
+
+    const fetchLocationDetails = async () => {
+        try {
+            const res = await getAllLocation();
+            if (res.status) {
+                setLocations(res.data);
+                //console.log(res.data);
+            } else {
+                console.log('error');
+            }
+        } catch (err: any) {
+           console.log('error');
+        }
+    };
 
     const fetchTestimonialDetails = async () => {
         try {
@@ -105,11 +125,11 @@ export default function Location() {
                 </div>
             </section>
 
-            <section className="services-part location-how mt-5">
+            <section className="services-part location-how mt-lg-5">
                 <div className="container">
                     <h2>How it works</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
-                    <div className="row mt-5">
+                    <div className="row mt-5 g-3">
                         <div className="col-lg-3 col-md-6">
                             <div className="step-box">
                                 <h4><span className="big-48">1</span></h4>
@@ -152,42 +172,19 @@ export default function Location() {
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
+                            {locations.map((location)=>
                             <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/2.jpg'} alt="2" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                                <div className="slider-img-plase" id="location-img">
+                                    {location.pic ? (
+                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + location.pic} alt="2" />
+                                    ):(
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="2" />
+                                    )
+                                    }
+                                    <p className="plase-btn"><a href="#">{location.address.slice(0,13)}</a></p>
                                 </div>
                             </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/3.jpg'} alt="3" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/2.jpg'} alt="2" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/3.jpg'} alt="3" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/2.jpg'} alt="2" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/3.jpg'} alt="3" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
+                            )}
                         </Slider>
                     </div>
                     <div className="text-center view-more mt-4"><a href="#">View More</a></div>
@@ -198,7 +195,7 @@ export default function Location() {
                 <div className="container">
                     <h2>Our customers said</h2>
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris. </p>
-                    <div className="row mt-5">
+                    <div className="row mt-5 g-3">
                         {testimonials.slice(0, 3).map((testimonial) => (
                             <div className="col-lg-4 col-md-6">
                                 <div className="step-box text-center customers-review" id="test-img">
@@ -227,7 +224,7 @@ export default function Location() {
             </section>
 
 
-            <section className="experience-slider mt-5">
+            <section className="experience-slider mt-lg-5">
                 <div className="container">
                     <h3> Things to explore</h3>
                 </div>

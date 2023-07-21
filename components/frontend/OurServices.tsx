@@ -21,7 +21,7 @@ export default function OurServices() {
 
             <section className="services-part location-how mt-5 tab-m-0">
                 <div className="container">                    
-                    <div className="row mt-5 tab-m-0">
+                    <div className="row mt-5 tab-m-0 g-3">
                       <div className="col-lg-2 col-md-12 "></div>
                         <div className="col-lg-4 col-md-12 text-right tab-center">
                          <h2 className="mt-4">Private Dinner</h2> 
@@ -43,7 +43,7 @@ export default function OurServices() {
                         </div> 
                     </div>
 
-                    <div className="row mt-4 tab-m-0">
+                    <div className="row mt-4 tab-m-0 g-3">
                     <div className="col-lg-3 col-md-6">
                          <div className="step-box">
                           <h4><span className="big-48">3</span></h4>

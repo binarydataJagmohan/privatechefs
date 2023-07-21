@@ -15,10 +15,10 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
+    "/404": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/index.js"
+      "static/chunks/pages/404.js"
     ],
     "/404": [
       "static/chunks/webpack.js",
@@ -35,6 +35,7 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+<<<<<<< HEAD
     "/admin/chats": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -54,6 +55,12 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/user/userprofile.js"
+=======
+    "/contact": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/contact.js"
+>>>>>>> aa37c9ce914b7be184efaf2e8fb9bb675fa99794
     ]
   },
   "ampFirstPages": []

@@ -87,7 +87,7 @@ export default function Booking(props: any) {
   interface ChefAppliedOffer {
     amount?: string;
     chef_id?: string;
-    location?: string;
+    address?: string;
     menu_names?: string;
     name?: string;
     surname?: string;
@@ -177,6 +177,7 @@ export default function Booking(props: any) {
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
       fetchBookingUserDetails(userData.id);
+      removeBookingData();
       setCurrentUserData({
         ...userData,
         id: userData.id,
@@ -620,7 +621,7 @@ export default function Booking(props: any) {
                             <th scope="col">ID</th>
                             <th scope="col">Date Requested</th>
                             <th scope="col">Booking Date</th>
-                            <th scope="col">Category</th>
+                            <th scope="col">Category</th> 
                             {/* <th scope="col">Status</th> */}
                             <th scope="col">Action</th>
                           </tr>
@@ -703,7 +704,7 @@ export default function Booking(props: any) {
                         </tbody>
                       </table>
                       :
-                      <p>No Booking Records Found</p>
+                      <p className="book1">No Booking Records Found</p>
                     }
                     <Pagination
                       items={totalBooking.length}
@@ -924,7 +925,7 @@ export default function Booking(props: any) {
                                         <p className="chefs-name name-12">Full Name:</p>
                                       </div>
                                       <div className="col-7">
-                                        <p className="mony">{booking.name} {booking.surname}</p>
+                                      <p className="mony">{booking.name} {booking.surname !== null && booking.surname !== 'null' ? booking.surname : ''}</p>
                                       </div>
                                     </div>
                                     <div className="row mt-1">
@@ -992,7 +993,7 @@ export default function Booking(props: any) {
                         {index + 1}
                       </th>
                       <td><p className="text-left">{chef.userName} {chef.userSurname}</p></td>
-                      <td>{chef.location}</td>
+                      <td>{chef.address}</td>
                       <td>
                         {chef.menu_names?.split(",").map((menu, index) => (
                           <button className="table-btn btn-2 list-btn m-1" key={index} onClick={() => getSingleChefMenuData(chef.menu_id)}>

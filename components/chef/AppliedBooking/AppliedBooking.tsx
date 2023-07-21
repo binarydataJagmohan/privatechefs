@@ -376,7 +376,7 @@ export default function Bookings() {
 									<th scope="col">Category</th>
 									<th scope="col">Menu</th>
 									<th scope="col">Amount</th>
-									<th scope="col">Applied Status</th>
+									{/* <th scope="col">Applied Status</th> */}
 									<th scope="col">Booking Status</th>
 									<th scope="col">Action</th>
 
@@ -420,7 +420,7 @@ export default function Bookings() {
 											<td>{user.amount}</td>
 											{/* <td>{user.booking_status}</td> */}
 
-											<td>{user.applied_jobs_status}</td>
+											{/* <td>{user.applied_jobs_status}</td> */}
 
 											<td>
 												<select aria-label="Default select example" name="booking_status" onChange={(e) => ChangeBookingStatus(e, user.booking_id)}>
@@ -466,7 +466,7 @@ export default function Bookings() {
 							</tbody>
 						</table>
 						:
-						<p>No Booking Records Found</p>
+						<p className="book1">No Booking Records Found</p>
 					}
 				</div>
 			</div>
@@ -715,7 +715,7 @@ export default function Bookings() {
 													<p className="chefs-name name-12">Full Name:</p>
 												</div>
 												<div className="col-7">
-													<p className="mony">{booking.name} {booking.surname}</p>
+												<p className="mony">{booking.name} {booking.surname !== null && booking.surname !== 'null' ? booking.surname : ''}</p>
 												</div>
 											</div>
 											<div className="row mt-1">

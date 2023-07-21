@@ -282,7 +282,7 @@ export default function Bookings() {
 		<>
 
 			<div className="table-part">
-				<h2 className="mb-4">My Bookings</h2>
+				<h2 className="mb-4">Assigned Jobs</h2>
 
 				<ul className="table_header_button_section">
 					<li>
@@ -410,7 +410,7 @@ export default function Bookings() {
 							</tbody>
 						</table>
 						:
-						<p>No Booking Records Found</p>
+						<p className="book1">No Booking Records Found</p>
 					}
 				</div>
 			</div>
@@ -653,7 +653,7 @@ export default function Bookings() {
 													<p className="chefs-name name-12">Full Name:</p>
 												</div>
 												<div className="col-7">
-													<p className="mony">{booking.name} {booking.surname}</p>
+												<p className="mony">{booking.name} {booking.surname !== null && booking.surname !== 'null' ? booking.surname : ''}</p>
 												</div>
 											</div>
 											<div className="row mt-1">

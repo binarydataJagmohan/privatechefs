@@ -120,7 +120,7 @@ export default function Dish() {
     getDishecategory()
       .then((data) => {
         setDishCategories(data.data);
-        //console.log(data)
+       // console.log(data.data)
       })
       .catch((error) => {
         console.error(error);
@@ -219,6 +219,7 @@ export default function Dish() {
         dish_category_id: dishCategory,
         userId: currentUserData.id,
       };
+      console.log(data);
       dishAddUpdate(data)
         .then((res) => {
           if (res.status == true) {
@@ -262,9 +263,9 @@ export default function Dish() {
         .catch((err) => {
           setButtonState(false);
           console.log(err);
-          // toast.error(err.message, {
-          //   position: toast.POSITION.TOP_RIGHT,
-          // });
+          toast.error(err.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
         });
     }
   };

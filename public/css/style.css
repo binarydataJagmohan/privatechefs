@@ -307,7 +307,7 @@ ul.ft-social li a {
 #sidebar-container {
   min-height: 100vh;
   background-color: var(--background-color_1);
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
   position: relative;
   border-right: 1px solid #DADADA;
 }
@@ -672,8 +672,14 @@ table tr:hover {
   box-shadow: 0px 3px 11px rgb(0 0 0 / 11%);
 }
 
+table thead tr:hover {
+  box-shadow: unset !important;
+}
 
-
+.navbar-light .navbar-toggler {
+  color: transparent;
+  border-color: transparent;
+}
 
 @media (max-width:1150px) {
   .table-part h2 {
@@ -993,8 +999,8 @@ section {
   box-shadow: var(--admin_base-shadow);
   border-radius: var(--booking_img_border_radius);
   padding: 20px;
-  width: 387px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
 }
 
 .step-box h4 {
@@ -2723,7 +2729,7 @@ ul.user-mess li span.bg-f1 {
 li.right-li {
   position: absolute;
   right: 0;
-  top: 35px;
+  top: 37px;
 }
 
 .text-left h5 {
@@ -3397,7 +3403,7 @@ select {
   width: 96%;
   height: 100%;
   position: absolute;
-  border-radius: 25px;
+  border-radius: 12px;
 }
 
 .offcanvas-part ::-webkit-scrollbar {
@@ -3509,7 +3515,7 @@ select {
 
   button.table-btn {
     padding: 6px 6px;
-    margin: 8px 0;
+    margin: 8px 4px;
   }
 
   div#chef-booking {
@@ -3521,14 +3527,15 @@ select {
   }
 
   select#dishes_id {
-    width: 197% !important;
+    width:100% !important;
   }
 
   .slider-img-plase img {
-    width: 96%;
+    width: 100%;
+    object-fit: cover;
   }
   img#chef_id {
-    height: auto !important;
+    height:300px !important;
     width: 100% !important;
   }
 
@@ -3563,8 +3570,62 @@ select {
 .button-container button {
   margin-bottom: 4px;
 }
-
-
+.slider-img-plase.add-img-class{
+  width: 100% !important;
+}
+.list-group{
+  padding-top: 15px;
+}
+p.book1 {
+    font-size: 13px;
+    margin: 0;
+    text-align: center;
+}
+.userImg {
+  text-align: center;
+  object-fit: cover;
+  margin-bottom: 20px;
+  padding-top: 10px !important;
+}
+.user-class.pt-5{
+  display: block !important;
+}
+.text-link a {
+  font-size: 10px !important;
+}
+div#loginDiv{
+  display: block !important;
+}
+button#btn-send-id {
+  width: 100% !important;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+div#location-img img {
+  width: 100% !important;
+}
+.slider-img-plase::before {
+  height: 100% !important;
+  width: 97%;
+  border-radius: 12px;
+}
+.pages-banner h1 {
+  font-size: 28px;
+}
+.slick-slide img{
+  padding-right: 7px;
+}
+/* #slider-img-id::before {
+  width: 97%;
+} */
+#contact-fromid button.table-btn{
+  text-align: center;
+  width: 100% !important;
+  font-size: 12px !important;
+}
+div#formid {
+  margin-top: 20px;
+}
 }
 
 @media (max-width:350px) {
@@ -4115,6 +4176,7 @@ td.booking-status-pending {
 td.booking-status-upcoming {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   padding: 8px 18px;
   gap: 10px;
@@ -4373,14 +4435,14 @@ img#chef_id {
 .button-container button {
   margin-bottom: 4px;
 }
-button.btn.btn-outline-secondary {
+a.btn.btn-outline-secondary {
   border: none;
 }
 .flex.postion-ab {
   position: absolute;
   right: 0;
 }
-button.btn.btn-outline-secondary {
+a.btn.btn-outline-secondary {
   border: none;
   padding: 0px 6px;
   height: 28px;
@@ -4392,9 +4454,10 @@ button.btn.btn-outline-secondary {
 .input-group-append {
   height: 18px;
 }
-.btn-outline-secondary:hover {
+a.btn-outline-secondary:hover {
   color: #000;
   background-color: #fff0;
+  border: none;
 }
 @media(min-width:768px){
   .flex.postion-ab {
@@ -4410,4 +4473,21 @@ a#btn_booking {
 }
 select.login-select{
   width: 100%;
+}
+.item-class{
+  float: right;
+}
+a.a-plus {
+  color: #ff4e00;
+  font-size: 13px;
+  cursor: pointer;
+}
+a.a-minus {
+  color: #ff4e00;
+  cursor: pointer;
+}
+#location-img img{
+    width: 150px !important;
+    height: 200px !important;
+    object-fit: cover !important;
 }

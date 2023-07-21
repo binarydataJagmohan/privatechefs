@@ -79,7 +79,7 @@ export default function Step1() {
     if(type == 'service_error'){
       swal({
           title: 'Oops!',
-          text: 'You need to select aleast one service and time for further proceduce',
+          text: 'You need to select valid booking date!',
           icon: 'info',
           
       });
@@ -245,7 +245,7 @@ export default function Step1() {
           </div>
         </div>
         <div className="container-fluid mt-5">
-          <h4 className="rotate-text">selecy service type</h4>
+          <h4 className="rotate-text">select service type</h4>
           <div className="d-flx-step">
             <div className="view-more opec-v mt-4">
               <a href="#">Back</a>

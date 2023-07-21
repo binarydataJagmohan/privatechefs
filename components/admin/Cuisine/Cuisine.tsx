@@ -545,9 +545,17 @@ export default function Cuisine() {
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
               <input type="file" name="image" accept="jpg,png" />
+              {cuisinesList.image ? (
+                <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/cuisines/${cuisinesList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
+              ) : (
+                <img src={
+                  process.env.NEXT_PUBLIC_IMAGE_URL +
+                  "/images/placeholder.jpg"
+                } style={{ width: "20%", height: "100px" }} />
+              )}
             </div>
 
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
+            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
               Update
             </button>
           </form>

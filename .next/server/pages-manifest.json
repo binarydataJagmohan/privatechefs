@@ -2,10 +2,15 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
   "/chef/chats": "pages/chef/chats.js",
   "/user/userprofile": "pages/user/userprofile.js",
   "/admin/chats": "pages/admin/chats.js",
   "/admin/notification/notification": "pages/admin/notification/notification.js",
   "/": "pages/index.js",
+=======
+  "/contact": "pages/contact.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
+>>>>>>> aa37c9ce914b7be184efaf2e8fb9bb675fa99794
   "/404": "pages/404.js"
 }

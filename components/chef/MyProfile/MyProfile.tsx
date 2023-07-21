@@ -429,6 +429,7 @@ export default function MyProfile() {
 				})
 				.catch(err => {
 					setButtonState(false);
+					console.log('error');
 					toast.error('Maximum limit of locations reached', {
 						position: toast.POSITION.TOP_RIGHT,
 						closeButton: true,

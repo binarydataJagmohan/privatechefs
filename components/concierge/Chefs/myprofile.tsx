@@ -201,7 +201,7 @@ export default function MyProfile(props: any) {
                         </tbody>
                     </table>
                      :
-                     <p>No Booking Records Found</p>
+                     <p className="book1">No Booking Records Found</p>
                      }
                 </div>
             </div>
