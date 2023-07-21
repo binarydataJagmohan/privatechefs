@@ -2,6 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/chef/chats": "pages/chef/chats.js",
+  "/user/userprofile": "pages/user/userprofile.js",
+  "/admin/chats": "pages/admin/chats.js",
+  "/admin/notification/notification": "pages/admin/notification/notification.js",
   "/": "pages/index.js",
-  "/ourchefs": "pages/ourchefs.js"
+  "/404": "pages/404.js"
 }

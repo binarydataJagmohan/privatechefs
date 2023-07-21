@@ -20,6 +20,11 @@
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
     ],
+    "/404": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/404.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -30,10 +35,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/ourchefs": [
+    "/admin/chats": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/ourchefs.js"
+      "static/chunks/pages/admin/chats.js"
+    ],
+    "/admin/notification/notification": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/notification/notification.js"
+    ],
+    "/chef/chats": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/chef/chats.js"
+    ],
+    "/user/userprofile": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/user/userprofile.js"
     ]
   },
   "ampFirstPages": []
