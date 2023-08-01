@@ -235,9 +235,9 @@ export default function Dish() {
               hideProgressBar: false,
               style: {
                 background: '#ffff',
-                borderLeft: '4px solid #ff4e00',
+                borderLeft: '4px solid #ff4e00d1',
                 color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00",
+                "--toastify-icon-color-success": "#ff4e00d1",
               },
               progressStyle: {
                 background: '#ffff',
@@ -490,7 +490,7 @@ export default function Dish() {
                       style={{
                         border: 'none',
                         padding: '0px',
-                        color: selectedLetter === letter ? '#ff4e00' : 'initial',
+                        color: selectedLetter === letter ? '#ff4e00d1' : 'initial',
                       }}
                       role="button"
                     >

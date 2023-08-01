@@ -226,7 +226,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Available Jobs</span>
                             {bookingcount ? (
-                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{bookingcount}</span>
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{bookingcount}</span>
                             ) : null}
                         </div>
                     </a>
@@ -244,7 +244,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Applied Jobs</span>
                             {appliedbookingcount ? (
-                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{appliedbookingcount}</span>
+                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{appliedbookingcount}</span>
                             ) : null}
                         </div>
                     </a>
@@ -262,7 +262,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Assigned Jobs</span>
                             {hiredbookingcount ? (
-                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{hiredbookingcount}</span>
+                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{hiredbookingcount}</span>
                             ) : null}
                         </div>
                     </a>

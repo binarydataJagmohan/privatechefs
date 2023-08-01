@@ -61,10 +61,10 @@ export default function Location() {
     };
 
     const handleStarHover = (num: number) => {
-        const starColor = num > 0 ? "#ff4e00" : "#ff4e00";
+        const starColor = num > 0 ? "#ff4e00d1" : "#ff4e00d1";
         const stars = document.querySelectorAll(".fa-star");
         stars.forEach((star, index) => {
-            (star as HTMLElement).style.color = index < num ? starColor : '#ff4e00';
+            (star as HTMLElement).style.color = index < num ? starColor : '#ff4e00d1';
         });
     };
 

@@ -194,7 +194,7 @@ export default function Step3() {
               <tbody>
                 {servicetype === 'multipletimes' && mutipledate.map((date, index) => (
                   <tr key={index} className="py-5">
-                    <td><h6 style={{color:'#ff4e00'}} className="pt-3">{date}</h6></td>
+                    <td><h6 style={{color:'#ff4e00d1'}} className="pt-3">{date}</h6></td>
                     <td>
                       <div className="slider-img-plased pb-2 pt-3">
                         <input

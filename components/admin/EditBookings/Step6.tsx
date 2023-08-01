@@ -19,9 +19,9 @@ export default function Step6() {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [adults, setAdults] = useState(0);
-  const [teens, setTeens] = useState(0);
-  const [childrens, setChildren] = useState(0);
+  const [adults, setAdults] = useState("");
+  const [teens, setTeens] = useState("");
+  const [childrens, setChildren] = useState("");
   const [address, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -244,9 +244,9 @@ export default function Step6() {
                 hideProgressBar: false,
                 style: {
                   background: '#ffff',
-                  borderLeft: '4px solid #ff4e00',
+                  borderLeft: '4px solid #ff4e00d1',
                   color: '#454545',
-                  "--toastify-icon-color-success": "#ff4e00",
+                  "--toastify-icon-color-success": "#ff4e00d1",
                 },
                 progressStyle: {
                   background: '#ffff',

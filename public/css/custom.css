@@ -1,5 +1,5 @@
 .confirm-button-class {
-    background: #ff4e00 !important;
+    background: #ff4e00d1 !important;
     border: 1px solid red !important;
 }
 .common_form_error .login_div {
@@ -64,7 +64,7 @@ div#all_menu_dishes_form .btn-send {
     content: "";
     height: 4px;
     width: 75px;
-    background-color: #ff4e00;
+    background-color: #ff4e00d1;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -89,7 +89,7 @@ div#all_menu_dishes_form .btn-send {
   }
   
   .notification-list--unread {
-    border-left: 2px solid #ff4e00;
+    border-left: 2px solid #ff4e00d1;
   }
   
   .notification-list .notification-list_content {

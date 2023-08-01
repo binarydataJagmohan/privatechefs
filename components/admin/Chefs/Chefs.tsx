@@ -141,9 +141,9 @@ export default function Chefs() {
             hideProgressBar: false,
             style: {
               background: '#ffff',
-              borderLeft: '4px solid #ff4e00',
+              borderLeft: '4px solid #ff4e00d1',
               color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00",
+              "--toastify-icon-color-success": "#ff4e00d1",
             },
             progressStyle: {
               background: '#ffff',  
@@ -291,8 +291,8 @@ export default function Chefs() {
             <thead>
               <tr>
                 <th scope="col">Photo</th>
-                <th scope="col">Name/Surname</th>
-                <th scope="col">Current Location</th>
+                <th scope="col">Name</th>
+                {/* <th scope="col">Location</th> */}
                 <th scope="col">Cuisines</th>
                 {/* <th scope="col">Location</th> */}
                 <th scope="col">Profile Status</th>
@@ -329,7 +329,7 @@ export default function Chefs() {
                     <td>
                       {filter.name || ""} {filter.surname || ""}
                     </td>
-                    <td>{filter.address || ""}</td>
+                    {/* <td>{filter.address || ""}</td> */}
                     <td>
                       <ul>
                         <ul>
@@ -402,7 +402,7 @@ export default function Chefs() {
                     <td>
                       {chef.name || ""} {chef.surname || ""}
                     </td>
-                    <td>{chef.address || ""}</td>
+                    {/* <td>{chef.address || ""}</td> */}
                     <td>
                       {/* <ul>
                         <li>{chef.cuisine_name || ""}</li>
@@ -441,7 +441,7 @@ export default function Chefs() {
                               .split(",")
                               .map((cuisine, index) => {
                                 if (index < 2) {
-                                  return <li key={index}>{cuisine}</li>;
+                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
                                 } else if (index === 2) {
                                   return (
                                     <li

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking } from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus,AssignedBookingByAdmin} from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -60,6 +60,7 @@ export default function Bookings() {
 
 	const [bookingUsers, setBookingUser] = useState([]);
 	const [modalConfirm, setModalConfirm] = useState(false);
+	const [modalConfirm1, setModalConfirm1] = useState(false);
 	const [sidebarConfirm, setSidebarConfirm] = useState(false);
 	const [booking, setBooking] = useState<Booking>({});
 	const [totalBooking, setTotalBooking] = useState([]);
@@ -95,6 +96,14 @@ export default function Bookings() {
 
 	}
 
+	interface Menu {
+		id: number;
+		menu_name: string;
+		chefid: number;
+		menuid:number;
+	}
+
+
 
 	const [errors, setErrors] = useState<Errors>({});
 
@@ -111,6 +120,15 @@ export default function Bookings() {
 	const [appliedkey, setAppliedKey] = useState('');
 	const [appliedValue, setAppliedValue] = useState('');
 
+	const [amount1, setamount1] = useState('');
+	const [clientamount, setClientAmount] = useState('');
+	const [adminamount, setAdminAmount] = useState('');
+	const [usershow, setUserShow] = useState('');
+	const [getallchef, setgetAllChef] = useState([]);
+	const [getchefmenu, setgetChefMenu] = useState<Menu[]>([]);
+	const [selectedChef, setSelectedChef] = useState('');
+	const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
+
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
 	};
@@ -122,6 +140,13 @@ export default function Bookings() {
 	};
 	const sidebarConfirmClose = () => {
 		setModalConfirm(false);
+	};
+
+	const modalConfirmOpen1 = () => {
+		setModalConfirm1(true);
+	};
+	const modalConfirmClose1 = () => {
+		setModalConfirm1(false);
 	};
 
 	const pageSize = 10;
@@ -137,6 +162,8 @@ export default function Bookings() {
 		if (data == 1) {
 			const userData = getCurrentUserData() as CurrentUserData;
 			fetchBookingAdminDetails();
+			getAllChefData();
+			getChefMenuData();
 			setCurrentUserData({
 				...userData,
 				id: userData.id,
@@ -148,7 +175,6 @@ export default function Bookings() {
 
 			});
 		}
-
 
 	}, []);
 
@@ -283,6 +309,34 @@ export default function Bookings() {
 
 	};
 
+	const getAllChefData = () => {
+		getAllChefDetails()
+			.then(res => {
+				if (res.status == true) {
+					setgetAllChef(res.data);
+				} else {
+					console.log('error');
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	const getChefMenuData = () => {
+		getChefMenus()
+			.then(res => {
+				if (res.status == true) {
+					setgetChefMenu(res.data);
+					console.log(res.data);
+				} else {
+					console.log('error');
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
 
 	const formatDate = (value: any) => {
 		return moment(value).format('D/M/YY');
@@ -348,9 +402,9 @@ export default function Bookings() {
 								hideProgressBar: false,
 								style: {
 									background: '#ffff',
-									borderLeft: '4px solid #ff4e00',
+									borderLeft: '4px solid #ff4e00d1',
 									color: '#454545',
-									"--toastify-icon-color-success": "#ff4e00",
+									"--toastify-icon-color-success": "#ff4e00d1",
 								},
 								progressStyle: {
 									background: '#ffff',
@@ -517,6 +571,75 @@ export default function Bookings() {
 		window.location.href = '/admin/edit-booking/step1';
 	}
 
+	const handleChefSelection = (event: any) => {
+		const selectedChefId = event.target.value;
+		setSelectedChef(selectedChefId);
+
+		const filteredMenuOptions = getchefmenu.filter((data) => data.chefid == selectedChefId);
+		setMenuOptions(filteredMenuOptions);
+	};
+
+	const handleBookingApplyJobSubmit = (event: any) => {
+		event.preventDefault();
+
+		// Submit form data if there are no errors
+		// if ((amount && selectedmenu.length >= 1)) {
+
+			const data = {
+				amount: amount1,
+				menu: menuOptions[0].menuid,
+				booking_id: bookingid,
+				chef_id: selectedChef,
+				client_amount:clientamount,
+				admin_amount:adminamount,
+
+			};
+			AssignedBookingByAdmin(data)
+				.then(res => {
+					if (res.status == true) {
+						setModalConfirm(false);
+						setModalConfirm1(false);
+						toast.success(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #ff4e00d1',
+								color: '#454545',
+								"--toastify-icon-color-success": "#ff4e00d1",
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
+						});
+
+					} else {
+
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
+						});
+
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		// }
+
+	};
+
+
 
 	return (
 		<>
@@ -602,7 +725,7 @@ export default function Bookings() {
 													}
 													alt=""
 												/>}
-                                            </p>
+											</p>
 											</td>
 											<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
 
@@ -1028,20 +1151,160 @@ export default function Bookings() {
 									)}
 								</tbody>
 							</table>
-							<div className="text-right">
-								<div className="banner-btn">
-									<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
-										Clear
-									</button>
-									<button id="btn_offer" type="submit">
-										Assign Booking
-									</button>
+							<div className="row">
+								<div className="col-md-6">
+									<div className="banner-btn">
+										<button id="btn_offer" className="mx-2" type="button" onClick={(e) => { setModalConfirm1(true); setModalConfirm(false); }}>
+											Assign From Database
+										</button>
+									</div>
+								</div>
+								{/* <div className="text-right"> */}
+								<div className="col-md-6">
+									<div className="text-right">
+										<div className="banner-btn">
+											<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
+												Clear
+											</button>
+											<button id="btn_offer" type="submit">
+												Assign Booking
+											</button>
+										</div>
+									</div>
+									{/* </div> */}
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
 			</PopupModal>
+
+			<PopupModal show={modalConfirm1} handleClose={modalConfirmClose1}>
+				<div className="popup-part new-modala">
+				<h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
+					<div className="offers">
+						<form onSubmit={handleBookingApplyJobSubmit} className="common_form_error" id="">
+							<table className="table">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Chef's Name</th>
+										<th scope="col-2">Menu</th>
+										<th scope="col">Amount</th>
+										<th scope="col">Client Amount</th>
+										<th scope="col">Admin Amount</th>
+										<th scope="col">Show to user</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr >
+										<th scope="row">
+											<div className="form-check">
+												<input
+													className="form-check-input"
+													type="radio"
+													name="id"
+												/>
+											</div>
+										</th>
+										<td>
+											<div className="login_div">
+												<select name="chef_id" value={selectedChef} onChange={handleChefSelection}
+												>
+													<option value="">Choose Option</option>
+													{getallchef.map((data: any) => (
+														<option key={data.id} value={data.id}>{data.name}</option>
+													))}
+												</select>
+											</div>
+										</td>
+										<td>
+											<div className="login_div">
+												<select name="menu1" value={menuOptions}
+												>
+													{menuOptions.map((data: any) => (
+														<option key={data.menuid} value={data.menuid}>{data.menu_name}</option>
+													))}
+												</select>
+											</div>
+										</td>
+										<td>
+										<div className="all-form p-0">
+												<div className="login_div">
+													<input
+														type="number"
+														name="amount1"
+														onChange={(e) => setamount1(e.target.value)}
+													/>
+												</div>
+											</div>
+										</td>
+										<td>
+											<div className="all-form p-0">
+												<div className="login_div">
+													<input
+														type="number"
+														name="clientamount"
+														onChange={(e) => setClientAmount(e.target.value)}
+													/>
+												</div>
+											</div>
+										</td>
+										<td>
+											<div className="all-form p-0">
+												<div className="login_div">
+													<input
+														type="number"
+														name="adminamount"
+														onChange={(e) => setAdminAmount(e.target.value)}
+													/>
+												</div>
+											</div>
+										</td>
+										<td>
+											<div className="all-form p-0">
+												<div className="login_div">
+													<select name="user_show" onChange={handleChange}
+													>
+														<option value="" disabled>Choose Option</option>
+														<option value="visible">Visible</option>
+														<option value="invisible">Invisible</option>
+													</select>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div className="row">
+								<div className="col-md-6">
+									<div className="banner-btn">
+										<button id="btn_offer" type="submit">
+											Assign From Database
+										</button>
+									</div>
+								</div>
+								{/* <div className="text-right"> */}
+								<div className="col-md-6">
+									<div className="text-right">
+										<div className="banner-btn">
+											<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
+												Clear
+											</button>
+											<button id="btn_offer">
+												Assign Booking
+											</button>
+										</div>
+									</div>
+									{/* </div> */}
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</PopupModal>
+
 			<ToastContainer />
 		</>
 	);

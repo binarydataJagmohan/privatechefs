@@ -1031,7 +1031,7 @@ export default function Booking(props: any) {
       </PopupModal>
 
       <PopupModal show={modalConfirmThree} handleClose={modalConfirmThreeClose} staticClass="var-login">
-        <h5 style={{ color: "#ff4e00" }}>Dishes</h5>
+        <h5 style={{ color: "#ff4e00d1" }}>Dishes</h5>
         <div className="all-form" >
           <table className="table">
             <thead>

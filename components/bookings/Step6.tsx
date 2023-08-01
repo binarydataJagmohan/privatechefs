@@ -25,9 +25,9 @@ export default function Step6() {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [adults, setAdults] = useState(0);
-  const [teens, setTeens] = useState(0);
-  const [childrens, setChildren] = useState(0);
+  const [adults, setAdults] = useState("");
+  const [teens, setTeens] = useState("");
+  const [childrens, setChildren] = useState("");
   const [address, setLocation] = useState(" ");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");

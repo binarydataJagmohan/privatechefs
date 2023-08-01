@@ -213,9 +213,9 @@ export default function Home() {
             hideProgressBar: false,
             style: {
               background: '#ffff',
-              borderLeft: '4px solid #ff4e00',
+              borderLeft: '4px solid #ff4e00d1',
               color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00",
+              "--toastify-icon-color-success": "#ff4e00d1",
             },
             progressStyle: {
               background: '#ffff',  
@@ -315,10 +315,10 @@ export default function Home() {
         ]
     }
     const handleStarHover = (num: number) => {
-        const starColor = num > 0 ? "#ff4e00" : "#ff4e00";
+        const starColor = num > 0 ? "#ff4e00d1" : "#ff4e00d1";
         const stars = document.querySelectorAll(".fa-star");
         stars.forEach((star, index) => {
-            (star as HTMLElement).style.color = index < num ? starColor : '#ff4e00';
+            (star as HTMLElement).style.color = index < num ? starColor : '#ff4e00d1';
         });
     };
     return (
@@ -395,21 +395,21 @@ export default function Home() {
                     <div className="row mt-5">
                         <div className="col-lg-4 col-md-6">
                             <div className="card-box">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/11.webp'} alt="11" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_01.jpg'} alt="11" />
                                 <h3>Chefs</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="card-box">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/12.webp'} alt="11" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_002.jpg'} alt="11" />
                                 <h3>Butlers</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="card-box">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/13.webp'} alt="11" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_3.jpg'} alt="11" />
                                 <h3>Bartenders</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                             </div>
@@ -440,28 +440,33 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="services-part mt-5">
+            <section className="services-part mt-5" id='boxes-id'>
                 <div className="container">
-                    <h2>How it works?  </h2>
-                    <p className="dis-max-width mb-4">We know chefs. We know the materials. W deliver results.</p>
-                    <p className="dis-max-width mb-4">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
+                    <h2 className='text-uppercase'>How it works?  </h2>
+                    <div className='services-id'>
+                    <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. W deliver results.</p>
+                    </div>
+                    <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row mt-5">
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list">
-                                <h4><span className="big-48">1</span> You choose the menu</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet vel. Diam tellus laoreet dolor lorem facilisis eleifend odio suspendisse. Mauris sodales quis odio nulla.</p>
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48" id="big-id"><i className="fa-solid fa-spoon"></i></span> </h4>
+                                <h4>You choose the menu</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list">
-                                <h4><span className="big-48">2</span> We buy the ingredients </h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet vel. Diam tellus laoreet dolor lorem facilisis eleifend odio suspendisse. Mauris sodales quis odio nulla.</p>
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fas fa-bacon"></i></span>  </h4>
+                                <h4>We buy the ingredients</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list">
-                                <h4><span className="big-48">3</span> We cook in your kitchen</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet vel. Diam tellus laoreet dolor lorem facilisis eleifend odio suspendisse. Mauris sodales quis odio nulla.</p>
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fa-solid fa-kitchen-set"></i></span> </h4>
+                                <h4>We cook in your kitchen</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
                     </div>
@@ -469,15 +474,17 @@ export default function Home() {
                     <div className="row mt-4">
                         <div className="col-lg-2 col-md-12"> </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list">
-                                <h4><span className="big-48">4</span> We serve each dish </h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet vel. Diam tellus laoreet dolor lorem facilisis eleifend odio suspendisse. Mauris sodales quis odio nulla.</p>
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fa-solid fa-cutlery"></i></span>  </h4>
+                                <h4>We serve each dish</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list">
-                                <h4><span className="big-48">5</span> We clean up</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet vel. Diam tellus laoreet dolor lorem facilisis eleifend odio suspendisse. Mauris sodales quis odio nulla.</p>
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fa-solid fa-brush"></i></span></h4>
+                                <h4> We clean up</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-12"> </div>

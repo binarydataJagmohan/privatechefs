@@ -1,6 +1,6 @@
 :root {
   /*Website*/
-  --color_1: #ff4e00;
+  --color_1: #ff4e00d1;
   --color_2: #1E1E1E;
   --color_3: #BEBEBE;
   --color_4: #fff;
@@ -13,7 +13,7 @@
   --background-color_2: #fff0;
   --background-color_3: #ffffff;
   --background-color_4: #f1f1f1;
-  --background_5: #ff4e00;
+  --background_5: #ff4e00d1;
 
   /*All menu*/
   --font_menu_top: 14px;
@@ -109,7 +109,7 @@
   /*admin*/
 
   --admincolor_1: #8C8C8C;
-  --admincolor_2: #ff4e00;
+  --admincolor_2: #ff4e00d1;
   --admincolor_3: #555555;
 
   --dashboard_button_border_radius: 68px;
@@ -2582,7 +2582,7 @@ table input.placeholder-goldan-text {
 }
 
 .booking-text {
-  border-left: solid 6px #ff4e00;
+  border-left: solid 6px #ff4e00d1;
   padding-left: 6px;
 }
 
@@ -2911,7 +2911,7 @@ input:checked+.slider {
 }
 
 input:focus+.slider {
-  box-shadow: 0 0 1px #ff4e00;
+  box-shadow: 0 0 1px #ff4e00d1;
 }
 
 input:checked+.slider:before {
@@ -3907,11 +3907,11 @@ table#alpabet_table th::after {
 }
 
 span.react-read-more-read-less.react-read-more-read-less-more {
-  color: #ff4e00;
+  color: #ff4e00d1;
 }
 
 span.react-read-more-read-less.react-read-more-read-less-less {
-  color: #ff4e00;
+  color: #ff4e00d1;
 }
 
 div#receipt_table .table>tbody tr td ul li {
@@ -4021,7 +4021,7 @@ div#location_popup {
 
 p#star-color {
   text-align: inherit;
-  color: #ff4e00 !important;
+  color: #ff4e00d1 !important;
 }
 
 div#test-img img {
@@ -4072,7 +4072,7 @@ div#test-img img {
 }
 
 span#book-user {
-  color: #ff4e00;
+  color: #ff4e00d1;
 }
 
 th.active {
@@ -4103,7 +4103,7 @@ button.table-btn1 {
   color: #fff;
   font-size: 15px;
   margin-left: 11px;
-  background: #ff4e00;
+  background: #ff4e00d1;
 }
 
 p.alert.alert-warning {
@@ -4351,7 +4351,7 @@ li.right-lii {
 }
 
 .custom-toast-icon-color .toastify-icon {
-  color: #ff4e00;
+  color: #ff4e00d1;
   /* Set the desired icon color */
 }
 
@@ -4405,12 +4405,12 @@ li#right-lii {
 
 
 button.table-btn.btn-2.btn-class {
-  background-color: #ff4e00 !important;
+  background-color: #ff4e00d1 !important;
   color: #ffff;
 }
 
 button.table-btn.btn-2.btn-class1 {
-  background-color: #ff4e00 !important;
+  background-color: #ff4e00d1 !important;
   color: #ffff;
 }
 .rbc-event {
@@ -4478,16 +4478,65 @@ select.login-select{
   float: right;
 }
 a.a-plus {
-  color: #ff4e00;
+  color: #ff4e00d1;
   font-size: 13px;
   cursor: pointer;
 }
 a.a-minus {
-  color: #ff4e00;
+  color: #ff4e00d1;
   cursor: pointer;
 }
 #location-img img{
     width: 150px !important;
     height: 200px !important;
     object-fit: cover !important;
+}
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: #ff4e00d1 !important;
+}
+.flatpickr-months .flatpickr-month {
+  background: #ff4e00d1 !important;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  background: #ff4e00d1 !important;
+}
+span.flatpickr-weekday{
+  background: #ff4e00d1 !important;
+}
+.flatpickr-weekdays{
+  background: #ff4e00d1 !important;
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+  background: #ff4e00d1 !important;
+  border-color: #ff4e00d1 !important;
+}
+table.table.table-striped tr th:nth-child(1) {
+  width: 30%;
+}
+table.table.table-striped tr th:nth-child(2) {
+  width: 30%;
+}
+table.table.table-striped tr th:nth-child(3) {
+  width: 30%;
+}
+#boxes-id div#num-list-id {
+  background: var(--background-color_3);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+#boxes-id.services-part.mt-5 .container {
+  max-width: 880px;
+}
+.dis-max-width.text-uppercase {
+  max-width: 807px;
+  margin: 0 auto;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+p.dis-max-width.mb-4.text-capital {
+  font-weight: 400;
+  max-width: 540px;
 }

@@ -2,9 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/chef/chats": "pages/chef/chats.js",
-  "/chef/calender": "pages/chef/calender.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/user/messages": "pages/user/messages.js",
-  "/404": "pages/404.js"
+  "/contact": "pages/contact.js",
+  "/admin/chefs": "pages/admin/chefs.js"
 }

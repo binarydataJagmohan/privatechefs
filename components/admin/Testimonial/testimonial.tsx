@@ -120,9 +120,9 @@ export default function Allergy() {
                             hideProgressBar: false,
                             style: {
                                 background: '#ffff',
-                                borderLeft: '4px solid #ff4e00',
+                                borderLeft: '4px solid #ff4e00d1',
                                 color: '#454545',
-                                "--toastify-icon-color-success": "#ff4e00",
+                                "--toastify-icon-color-success": "#ff4e00d1",
                             },
                             progressStyle: {
                                 background: '#ffff',
@@ -201,9 +201,9 @@ export default function Allergy() {
                     hideProgressBar: false,
                     style: {
                         background: '#ffff',
-                        borderLeft: '4px solid #ff4e00',
+                        borderLeft: '4px solid #ff4e00d1',
                         color: '#454545',
-                        "--toastify-icon-color-success": "#ff4e00",
+                        "--toastify-icon-color-success": "#ff4e00d1",
                     },
                     progressStyle: {
                         background: '#ffff',
@@ -376,7 +376,7 @@ export default function Allergy() {
         const starColor = num > 0 ? "orange" : "blue";
         const stars = document.querySelectorAll(".fa-star");
         stars.forEach((star, index) => {
-            (star as HTMLElement).style.color = index < num ? starColor : "#ff4e00";
+            (star as HTMLElement).style.color = index < num ? starColor : "#ff4e00d1";
         });
     };
 

@@ -1450,7 +1450,7 @@ export default function Booking(props: any) {
                                     id="uploadfile"
                                     className="d-none"
                                     onChange={imageChange}
-                                  /> <i className="fa-solid fa-paperclip" style={{color:'#ff4e00'}} role="button"></i>
+                                  /> <i className="fa-solid fa-paperclip" style={{color:'#ff4e00d1'}} role="button"></i>
                                   </label>
                                  </div>
                                 

@@ -1048,9 +1048,9 @@ export default function Booking(props: any) {
               hideProgressBar: false,
               style: {
                 background: '#ffff',
-                borderLeft: '4px solid #ff4e00',
+                borderLeft: '4px solid #ff4e00d1',
                 color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00",
+                "--toastify-icon-color-success": "#ff4e00d1",
               },
               progressStyle: {
                 background: '#ffff',
@@ -1585,7 +1585,7 @@ export default function Booking(props: any) {
                                       id="uploadfile"
                                       className="d-none"
                                       onChange={imageChange}
-                                    /> <i className="fa-solid fa-paperclip" style={{ color: '#ff4e00' }} role="button"></i>
+                                    /> <i className="fa-solid fa-paperclip" style={{ color: '#ff4e00d1' }} role="button"></i>
                                     </label>
                                   </div>
 

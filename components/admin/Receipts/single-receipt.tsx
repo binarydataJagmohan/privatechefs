@@ -74,7 +74,7 @@ export default function MyProfile(props: any) {
 
     return (
         <>
-            <h5 style={{ color: "#ff4e00" }}>Chefs Detail</h5>
+            <h5 style={{ color: "#ff4e00d1" }}>Chefs Detail</h5>
             <div className="user-class pt-5">
                 <div className="userImg" style={{ flex: "1" }}>
                     {getUsers.chefpic ? (
