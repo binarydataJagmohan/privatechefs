@@ -4,13 +4,24 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Location.module.css'
 import React from 'react';
 import FrontendLocation from '../components/frontend/Location';
+import { slugSingleSetting } from '../lib/frontendapi';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Location() {
+export default function Location({pages}: any) {
   return (
     <>
-      <FrontendLocation/>
+      <FrontendLocation pages={pages} />
     </>
   )
 }
+
+export async function getServerSideProps() {
+  const pagesdata = await slugSingleSetting('location');
+  return {
+    props: {
+      pages: pagesdata
+    },
+  };
+}
+

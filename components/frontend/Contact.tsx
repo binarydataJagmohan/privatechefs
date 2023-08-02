@@ -4,8 +4,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import Head from 'next/head';
 
-export default function Contact() {
+export default function Contact(props: any) {
+
+    interface PageSlug {
+        name: string;
+        slug: string;
+        meta_desc: string;
+        meta_tag: string;
+    }
 
     const [name, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -14,6 +22,15 @@ export default function Contact() {
     const [errors, setErrors]: any = useState({});
     const [buttonStatus, setButtonState] = useState(false);
     const [activeButton, setActiveButton] = useState('button1');
+
+    const [pageslug, setSlug] = useState<PageSlug | null>(null);
+
+    useEffect(() => {
+        if (props) {
+            setSlug(props.pages.data);
+        }
+
+    }, []);
 
     const handleButtonClick = (button: any) => {
         setActiveButton(button);
@@ -94,6 +111,10 @@ export default function Contact() {
 
     return (
         <>
+            <Head>
+                <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
+                <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
+            </Head>
             <section className="banner-part ">
                 <div className="container">
                     <div className="row">
@@ -132,7 +153,7 @@ export default function Contact() {
                                     />
                                     {errors.phone_no && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.phone_no}</span>}
                                     <label>Your message</label>
-                                    <textarea name="message" value={message || ''} onChange={(e) => setMessage(e.target.value)}  placeholder="Type your message"></textarea>
+                                    <textarea name="message" value={message || ''} onChange={(e) => setMessage(e.target.value)} placeholder="Type your message"></textarea>
                                     {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.message}</span>}
                                     <div className="text-right" id="contact-fromid">
                                         <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>

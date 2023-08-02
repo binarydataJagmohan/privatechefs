@@ -4498,10 +4498,10 @@ a.a-minus {
   background: #ff4e00d1 !important;
 }
 .flatpickr-current-month .flatpickr-monthDropdown-months {
-  background: #ff4e00d1 !important;
+  background: #ff4e0000 !important;
 }
 span.flatpickr-weekday{
-  background: #ff4e00d1 !important;
+  background: #ff4e0000 !important;
 }
 .flatpickr-weekdays{
   background: #ff4e00d1 !important;
@@ -4539,4 +4539,8 @@ table.table.table-striped tr th:nth-child(3) {
 p.dis-max-width.mb-4.text-capital {
   font-weight: 400;
   max-width: 540px;
+}
+li#cuisine_id {
+  margin: 0;
+  padding: 0;
 }

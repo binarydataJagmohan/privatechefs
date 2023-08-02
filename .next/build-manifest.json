@@ -25,15 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/chefs": [
+    "/admin/top-rated-chef": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admin/chefs.js"
+      "static/chunks/pages/admin/top-rated-chef.js"
     ],
-    "/contact": [
+    "/ourchefs": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/contact.js"
+      "static/chunks/pages/ourchefs.js"
     ]
   },
   "ampFirstPages": []

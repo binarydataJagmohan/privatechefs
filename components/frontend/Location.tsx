@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import { getTestimonials } from '../../lib/adminapi';
 import { ToastContainer, toast } from "react-toastify";
-import {getAllLocation} from "../../lib/frontendapi"
+import { getAllLocation } from "../../lib/frontendapi"
+import Head from 'next/head';
 
-export default function Location() {
+export default function Location(props: any) {
 
     interface Testimonial {
         id: number;
@@ -17,10 +18,25 @@ export default function Location() {
         pic: string;
         address: string;
     }
+    interface PageSlug {
+        name: string;
+        slug: string;
+        meta_desc: string;
+        meta_tag: string;
+    }
+
 
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [locations, setLocations] = useState<Location[]>([]);
     const [stars, setStar] = useState([]);
+    const [pageslug, setSlug] = useState<PageSlug | null>(null);
+
+    useEffect(() => {
+        if (props) {
+            setSlug(props.pages.data);
+        }
+
+    }, []);
 
     useEffect(() => {
         fetchTestimonialDetails();
@@ -37,7 +53,7 @@ export default function Location() {
                 console.log('error');
             }
         } catch (err: any) {
-           console.log('error');
+            console.log('error');
         }
     };
 
@@ -108,6 +124,10 @@ export default function Location() {
     }
     return (
         <>
+            <Head>
+                <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
+                <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
+            </Head>
             <section className="banner-part p-0">
                 <div className="container-fluid">
                     <div className="row">
@@ -172,18 +192,18 @@ export default function Location() {
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
-                            {locations.map((location)=>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase" id="location-img">
-                                    {location.pic ? (
-                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + location.pic} alt="2" />
-                                    ):(
-                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="2" />
-                                    )
-                                    }
-                                    <p className="plase-btn"><a href="#">{location.address.slice(0,13)}</a></p>
+                            {locations.map((location) =>
+                                <div className="col-lg-2 col-md-6">
+                                    <div className="slider-img-plase" id="location-img">
+                                        {location.pic ? (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + location.pic} alt="2" />
+                                        ) : (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="2" />
+                                        )
+                                        }
+                                        <p className="plase-btn"><a href="#">{location.address.slice(0, 13)}</a></p>
+                                    </div>
                                 </div>
-                            </div>
                             )}
                         </Slider>
                     </div>

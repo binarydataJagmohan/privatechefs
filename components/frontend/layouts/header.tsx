@@ -75,24 +75,24 @@ export default function Header({ }) {
     }
   }, []);
 
-  const { data: session } = useSession() || {};
+  // const { data: session } = useSession() || {};
 
-  useEffect(() => {
-    // if(session){
-    // 	window.location.href = '/user/dashboard';
-    // }
+  // useEffect(() => {
+  //   // if(session){
+  //   // 	window.location.href = '/user/dashboard';
+  //   // }
     
-    if (session) {
-      console.log(session);
-      if (session.user.image.indexOf('googleusercontent') >= 0) {
-        SocialData(session.user, 'google');
-      } else{
-            SocialData(session.user, 'facebook');
-          }
+  //   if (session) {
+  //     console.log(session);
+  //     if (session.user.image.indexOf('googleusercontent') >= 0) {
+  //       SocialData(session.user, 'google');
+  //     } else{
+  //           SocialData(session.user, 'facebook');
+  //         }
 
-    }
+  //   }
 
-  }, [session]);
+  // }, [session]);
 
   const SocialData = (user: any, type: any) => {
 

@@ -1,22 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import Slider from "react-slick";
-import { getAllChef } from "../../lib/chefapi"
+import { getAllTopRatedChef } from "../../lib/frontendapi"
+import Head from 'next/head';
 
-export default function OurChefs() {
+export default function OurChefs(props:any) {
+
+    interface PageSlug {
+        name: string;
+        slug: string;
+        meta_desc: string;
+        meta_tag: string;
+      }
+    
 
     const [allchef, setAllChef] = useState([]);
+
+    const [pageslug, setSlug] = useState<PageSlug | null>(null);
+
+    useEffect(() => {
+        if (props) {
+            setSlug(props.pages.data);
+            //console.log(props.pages.data);
+        }
+        
+    }, []);
 
     useEffect(() => {
         fetchBookingAdminDetails();
     }, []);
 
     const fetchBookingAdminDetails = async () => {
-        const res = await getAllChef();
+        const res = await getAllTopRatedChef();
         if (res.status) {
             setAllChef(res.data);
         }
     };
-
 
     const settings = {
         rows: 1,
@@ -58,6 +76,10 @@ export default function OurChefs() {
     }
     return (
         <>
+         <Head>
+        <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
+        <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
+      </Head>
             <section className="banner-part p-0">
                 <div className="container-fluid">
                     <div className="row">

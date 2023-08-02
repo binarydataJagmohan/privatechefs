@@ -1,9 +1,9 @@
-import React, { useState, useEffect,useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Slider from "react-slick";
 import { useRouter } from "next/router";
 import {/*CheckUserEmailVerification,*/CheckUserResetPasswordVerification, UpdateResetPassword, getInstagramImages } from '../../lib/frontendapi';
 import { getTestimonials } from '../../lib/adminapi';
-
+import Head from 'next/head';
 import PopupModal from '../../components/commoncomponents/PopupModal';
 import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { removeBookingData } from "../../lib/session";
 
 
-export default function Home() {
+export default function Home(props: any) {
 
     interface Errors {
         password?: string;
@@ -29,6 +29,13 @@ export default function Home() {
         image: string;
     }
 
+    interface PageSlug {
+        name: string;
+        slug: string;
+        meta_desc: string;
+        meta_tag: string;
+    }
+
 
     const router = useRouter();
     const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
@@ -39,30 +46,39 @@ export default function Home() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState<Errors>({});
     const [stars, setStar] = useState([]);
+    const [pageslug, setSlug] = useState<PageSlug | null>(null);
+
+    useEffect(() => {
+        if (props) {
+            setSlug(props.pages.data);
+            //console.log(props.pages.data);
+        }
+
+    }, []);
 
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            fetchTestimonialDetails();
-            getInstaImages();
-            removeBookingData();
-      
-            if (router.query.id && router.query.hash) {
-              // CheckEmailVerification();
+            try {
+                fetchTestimonialDetails();
+                getInstaImages();
+                removeBookingData();
+
+                if (router.query.id && router.query.hash) {
+                    // CheckEmailVerification();
+                }
+
+                if (router.query.userid && router.query.resettoken) {
+                    CheckResetPasswordVerification();
+                }
+            } catch (error) {
+                console.error('An error occurred while fetching data:', error);
             }
-      
-            if (router.query.userid && router.query.resettoken) {
-              CheckResetPasswordVerification();
-            }
-          } catch (error) {
-            console.error('An error occurred while fetching data:', error);
-          }
         };
-      
+
         fetchData();
-      }, [router]);
-      
+    }, [router]);
+
     const getInstaImages = async () => {
         getInstagramImages()
             .then(res => {
@@ -74,9 +90,9 @@ export default function Home() {
                 }
             })
             .catch(err => {
-               
+
             });
-        };
+    };
 
     const fetchTestimonialDetails = async () => {
         try {
@@ -101,7 +117,7 @@ export default function Home() {
                 });
             }
         } catch (err: any) {
-            
+
         }
     };
 
@@ -210,16 +226,16 @@ export default function Home() {
                         toast.success(res.message, {
                             position: toast.POSITION.TOP_RIGHT,
                             closeButton: true,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #ff4e00d1',
-              color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00d1",
-            },
-            progressStyle: {
-              background: '#ffff',  
-            },
+                            hideProgressBar: false,
+                            style: {
+                                background: '#ffff',
+                                borderLeft: '4px solid #ff4e00d1',
+                                color: '#454545',
+                                "--toastify-icon-color-success": "#ff4e00d1",
+                            },
+                            progressStyle: {
+                                background: '#ffff',
+                            },
                         });
 
 
@@ -323,6 +339,10 @@ export default function Home() {
     };
     return (
         <>
+            <Head>
+                <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
+                <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
+            </Head>
             <section className="banner-part">
                 <div className="container-fluid">
                     <div className="row">
@@ -444,7 +464,7 @@ export default function Home() {
                 <div className="container">
                     <h2 className='text-uppercase'>How it works?  </h2>
                     <div className='services-id'>
-                    <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. W deliver results.</p>
+                        <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. W deliver results.</p>
                     </div>
                     <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row mt-5">
@@ -634,7 +654,7 @@ export default function Home() {
             </PopupModal>
 
             {/* // register popup code end  */}
-            <ToastContainer/>
+            <ToastContainer />
 
         </>
     )

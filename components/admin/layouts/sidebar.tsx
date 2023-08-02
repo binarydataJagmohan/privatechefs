@@ -186,6 +186,18 @@ export default function Sidebar(): JSX.Element {
                                 <span className="menu-collapsed">Service choice</span>
                             </div>
                         </a>
+                        <a href="/admin/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                            <div className="d-flex ">
+                                <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                                <span className="menu-collapsed">Setting</span>
+                            </div>
+                        </a>
+                        <a href="/admin/top-rated-chef" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/top-rated-chef' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                            <div className="d-flex ">
+                                <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                                <span className="menu-collapsed">Top Rated Chef</span>
+                            </div>
+                        </a>
                         <a onClick={handleLogout} data-toggle="collapse" aria-expanded="false" role="button" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>

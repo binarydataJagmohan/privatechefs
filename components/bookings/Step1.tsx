@@ -3,12 +3,22 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import swal from "sweetalert";
 import { getCurrentUserData } from "../../lib/session"
+import Head from 'next/head';
 
-export default function Step1() {
+
+export default function Step1(props: any) {
 
   interface UserData {
     "role": string;
   }
+
+  interface PageSlug {
+    name: string;
+    slug: string;
+    meta_desc: string;
+    meta_tag: string;
+  }
+
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const formattedDate = currentDate.toLocaleDateString("en-US", {
@@ -23,11 +33,20 @@ export default function Step1() {
   const [servicetype, setSeriveType] = useState('onetime');
   const [currentrole, setCurrentRole] = useState<UserData>({ role: "" });
 
+  const [pageslug, setSlug] = useState<PageSlug | null>(null);
+
+  useEffect(() => {
+    if (props) {
+      setSlug(props.pages.data);
+    }
+
+  }, []);
+
   const handleOneTimeDateChange = (selectedDates: Date[], instance: any) => {
     const date = selectedDates[0];
     setOneTimeDate(date);
   };
-  
+
   const handleMutipleTimeDateChange = (selectedDates: Date[], dateStr: string, instance: any) => {
     if (selectedDates.length === 2) {
       const fromDate = selectedDates[0];
@@ -36,8 +55,8 @@ export default function Step1() {
       // console.log(selectedDates);
     }
   };
-  
-  
+
+
   useEffect(() => {
     BookingStepOne();
     const userData = getCurrentUserData() as UserData;
@@ -47,51 +66,51 @@ export default function Step1() {
 
     });
   }, []);
-  
-  const BookingStepOne = async () => {
-      const serviceType = window.localStorage.getItem('servicetype');
-      const time = window.localStorage.getItem('time');
-      if(serviceType){
-        setSeriveType(serviceType);
-      }
-      if (serviceType === "onetime") {
-        const onetimedateString = time; // This string can be retrieved from the session
-        if (onetimedateString) {
-          const onetimedateArray = onetimedateString.split(",");
-          const mutu = onetimedateArray.map((dateString) => new Date(dateString));
-          setOneTimeDate(mutu[0]);
 
-        }
-      }
-      
-      if (serviceType === 'multipletimes') {
-        const onetimedateString = time || ''; // This string can be retrieved from the session
+  const BookingStepOne = async () => {
+    const serviceType = window.localStorage.getItem('servicetype');
+    const time = window.localStorage.getItem('time');
+    if (serviceType) {
+      setSeriveType(serviceType);
+    }
+    if (serviceType === "onetime") {
+      const onetimedateString = time; // This string can be retrieved from the session
+      if (onetimedateString) {
         const onetimedateArray = onetimedateString.split(",");
-        const mutu = onetimedateArray.map(dateString => new Date(dateString));
-        console.log(mutu);
-        setMutipleTimeDate(mutu);
+        const mutu = onetimedateArray.map((dateString) => new Date(dateString));
+        setOneTimeDate(mutu[0]);
+
       }
-      
+    }
+
+    if (serviceType === 'multipletimes') {
+      const onetimedateString = time || ''; // This string can be retrieved from the session
+      const onetimedateArray = onetimedateString.split(",");
+      const mutu = onetimedateArray.map(dateString => new Date(dateString));
+      console.log(mutu);
+      setMutipleTimeDate(mutu);
+    }
+
   }
 
-  const Usertype = (type:any) => {
+  const Usertype = (type: any) => {
 
-    if(type == 'service_error'){
+    if (type == 'service_error') {
       swal({
-          title: 'Oops!',
-          text: 'You need to select valid booking date!',
-          icon: 'info',
-          
+        title: 'Oops!',
+        text: 'You need to select valid booking date!',
+        icon: 'info',
+
       });
     }
 
 
-    if(type == 'onetime'){
+    if (type == 'onetime') {
       window.localStorage.setItem("servicetype", servicetype);
       window.localStorage.setItem("time", onetimedate?.toISOString() || "");
       window.location.href = '/bookings/step2';
     }
-    
+
 
     if (type === 'mutipletime') {
       window.localStorage.setItem('servicetype', servicetype);
@@ -99,8 +118,8 @@ export default function Step1() {
       window.localStorage.setItem('time', mutipletimedateString);
       window.location.href = '/bookings/step2';
     }
-    
-  
+
+
   }
 
   function showSwal() {
@@ -113,6 +132,10 @@ export default function Step1() {
 
   return (
     <>
+      <Head>
+        <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
+        <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
+      </Head>
       <section className="journey-part">
         <div className="container size-real">
           <div className="row">
@@ -139,8 +162,8 @@ export default function Step1() {
                         value={"onetime"}
                         className="step_radio_css"
                         checked={servicetype === 'onetime'}
-                        onChange={(e) => setSeriveType('onetime')}  
-                        
+                        onChange={(e) => setSeriveType('onetime')}
+
                       />
                       <label htmlFor="myCheckbox1" className="step_label_css">
                         <img
@@ -186,34 +209,34 @@ export default function Step1() {
               </form>
             </div>
             {servicetype === "onetime" && (
-                <div className="col-lg-6 col-md-12" id="one_time_service">
-                  <div className="text-areya-srep">
-                    <p className="golden-mini-title">One time service</p>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac
-                      egestas et enim porttitor urna amet, amet. Turpis aenean dolor
-                      risus vel mattis enim, scelerisque egestas fermentum. Quis
-                      senectus dictum vitae pretium commodo. Nunc congue sed sed
-                      penatibus. Accumsan, sit sit id enim sed sed ullamcorper.
-                      Ultrices scelerisque ac fermentum enim.
-                    </p>
-                    <p className="fild-text">Date</p>
-                    <Flatpickr
-                      value={onetimedate}
-                      onChange={(selectedDates, dateStr, instance) => handleOneTimeDateChange(selectedDates, instance)}
-                      options={{
-                        altInput: true,
-                        altFormat: "F j, Y",
-                        dateFormat: "Y-m-d",
-                        defaultDate: "today",// Set default date to today
-                        minDate: "today"
-                      }}
-                    />
-                    
-                  </div>
+              <div className="col-lg-6 col-md-12" id="one_time_service">
+                <div className="text-areya-srep">
+                  <p className="golden-mini-title">One time service</p>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac
+                    egestas et enim porttitor urna amet, amet. Turpis aenean dolor
+                    risus vel mattis enim, scelerisque egestas fermentum. Quis
+                    senectus dictum vitae pretium commodo. Nunc congue sed sed
+                    penatibus. Accumsan, sit sit id enim sed sed ullamcorper.
+                    Ultrices scelerisque ac fermentum enim.
+                  </p>
+                  <p className="fild-text">Date</p>
+                  <Flatpickr
+                    value={onetimedate}
+                    onChange={(selectedDates, dateStr, instance) => handleOneTimeDateChange(selectedDates, instance)}
+                    options={{
+                      altInput: true,
+                      altFormat: "F j, Y",
+                      dateFormat: "Y-m-d",
+                      defaultDate: "today",// Set default date to today
+                      minDate: "today"
+                    }}
+                  />
+
                 </div>
+              </div>
             )}
-             {servicetype === "multipletimes" && (
+            {servicetype === "multipletimes" && (
               <div className="col-lg-6 col-md-12" id="mutiple_time_service">
                 <div className="text-areya-srep">
                   <p className="golden-mini-title">Mutiple time service</p>
@@ -241,7 +264,7 @@ export default function Step1() {
                   />
                 </div>
               </div>
-             )}
+            )}
           </div>
         </div>
         <div className="container-fluid mt-5">
@@ -257,7 +280,7 @@ export default function Step1() {
                     Next
                   </a>
                 ) : (
-                  <a style={{cursor:"pointer",color:"#fff"}} onClick={() => showSwal()}>Next</a>
+                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Next</a>
                 )}
               </div>
             ) : servicetype === "multipletimes" && mutipletimedate.length === 2 ? (
@@ -267,7 +290,7 @@ export default function Step1() {
                     Next
                   </a>
                 ) : (
-                  <a style={{cursor:"pointer",color:"#fff"}} onClick={() => showSwal()}>Next</a>
+                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Next</a>
                 )}
 
               </div>
@@ -278,7 +301,7 @@ export default function Step1() {
                     Next
                   </a>
                 ) : (
-                  <a style={{cursor:"pointer",color:"#fff"}} onClick={() => showSwal()}>Next</a>
+                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Next</a>
                 )}
               </div>
             )}
