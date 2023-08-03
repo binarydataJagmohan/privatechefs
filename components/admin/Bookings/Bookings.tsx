@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus,AssignedBookingByAdmin} from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -100,7 +100,7 @@ export default function Bookings() {
 		id: number;
 		menu_name: string;
 		chefid: number;
-		menuid:number;
+		menuid: number;
 	}
 
 
@@ -582,60 +582,77 @@ export default function Bookings() {
 	const handleBookingApplyJobSubmit = (event: any) => {
 		event.preventDefault();
 
-		// Submit form data if there are no errors
-		// if ((amount && selectedmenu.length >= 1)) {
+		if (!selectedChef) {
+			// Chef not selected from dropdown
+			swal({
+				title: 'Oops!',
+				text: 'Please choose one user to assign this booking',
+				icon: 'info',
+			});
+			return;
+		}
 
-			const data = {
-				amount: amount1,
-				menu: menuOptions[0].menuid,
-				booking_id: bookingid,
-				chef_id: selectedChef,
-				client_amount:clientamount,
-				admin_amount:adminamount,
+		if (!adminamount || !clientamount) {
+			// Required fields not entered
+			swal({
+				title: 'Oops!',
+				text: 'Please enter admin amount, client amount, and select user status visibility',
+				icon: 'info',
+			});
+			return;
+		}
 
-			};
-			AssignedBookingByAdmin(data)
-				.then(res => {
-					if (res.status == true) {
-						setModalConfirm(false);
-						setModalConfirm1(false);
-						toast.success(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #ff4e00d1',
-								color: '#454545',
-								"--toastify-icon-color-success": "#ff4e00d1",
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
+		const data = {
+			amount: amount1,
+			menu: menuOptions[0].menuid,
+			booking_id: bookingid,
+			chef_id: selectedChef,
+			client_amount: clientamount,
+			admin_amount: adminamount,
 
-					} else {
+		};
+		AssignedBookingByAdmin(data)
+			.then(res => {
+				if (res.status == true) {
+					setModalConfirm(false);
+					setModalConfirm1(false);
+					toast.success(res.message, {
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #ff4e00d1',
+							color: '#454545',
+							"--toastify-icon-color-success": "#ff4e00d1",
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
+					});
 
-						toast.error(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #e74c3c',
-								color: '#454545',
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
+				} else {
 
-					}
-				})
-				.catch(err => {
-					console.log(err);
-				});
-		// }
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
+					});
+
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+
 
 	};
 
@@ -1181,7 +1198,7 @@ export default function Bookings() {
 
 			<PopupModal show={modalConfirm1} handleClose={modalConfirmClose1}>
 				<div className="popup-part new-modala">
-				<h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
+					<h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
 					<div className="offers">
 						<form onSubmit={handleBookingApplyJobSubmit} className="common_form_error" id="">
 							<table className="table">
@@ -1230,7 +1247,7 @@ export default function Bookings() {
 											</div>
 										</td>
 										<td>
-										<div className="all-form p-0">
+											<div className="all-form p-0">
 												<div className="login_div">
 													<input
 														type="number"

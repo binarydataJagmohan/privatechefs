@@ -58,12 +58,9 @@ export default function Sidebar(): JSX.Element {
                 <div className="fixed-left">
                     <div className="user-profile">
                         <div className="row">
-                            <div className="col-lg-3 col-md-4 col-4 pr-0">
+                             <div className="col-lg-3 col-md-4 col-4 pr-0">
                                 <a href="/">
-                                    {currentUserData.pic == null ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+currentUserData.pic}
-                                      alt="chats-user"
-                                    />}
+                                    {currentUserData.pic == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/users/' + currentUserData.pic} alt="user-menu" />}
                                 </a>
                             </div>
                             <div className="col-lg-9 col-md-8 col-8">

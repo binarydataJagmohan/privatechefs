@@ -63,12 +63,9 @@ export default function Sidebar(): JSX.Element {
                 <div className="user-profile">
                     <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0">
-                        <a href="/">
-                            {currentUserData.pic == null ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img
-                                src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+currentUserData.pic}
-                                alt="chats-user"
-                            />}
-                        </a>
+                            <a href="/">
+                                {currentUserData.pic == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/users/' + currentUserData.pic} alt="user-menu" />}
+                            </a>
                         </div>
                         <div className="col-lg-9 col-md-8 col-8">
                             <div className="user-profile-collapsed">
@@ -85,11 +82,11 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                     <a href="/" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
-                            <div className="d-flex ">
-                                <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
-                                <span className="menu-collapsed">Home</span>
-                            </div>
-                        </a>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
+                            <span className="menu-collapsed">Home</span>
+                        </div>
+                    </a>
                     <a href="/concierge/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-boxes-stacked"></i></span>
@@ -101,7 +98,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Available Bookings</span>
                             {appliedbookingcount ? (
-                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{appliedbookingcount}</span>
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px', height: '25px', width: '25px', maxHeight: '25px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>{appliedbookingcount}</span>
                             ) : null}
                         </div>
                     </a>
@@ -111,7 +108,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Assigned Bookings</span>
                             {hiredbookingcount ? (
-                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{hiredbookingcount}</span>
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px', height: '25px', width: '25px', maxHeight: '25px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>{hiredbookingcount}</span>
                             ) : null}
                         </div>
                     </a>
@@ -124,8 +121,8 @@ export default function Sidebar(): JSX.Element {
                     </a>
                     <a href="/concierge/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/receipts' || router.pathname == '/concierge/receipts/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
-                            <span className="icon-dash"><i className="fa-solid fa-credit-card"></i></span>  
-                            <span className="menu-collapsed">Receipts</span> 
+                            <span className="icon-dash"><i className="fa-solid fa-credit-card"></i></span>
+                            <span className="menu-collapsed">Receipts</span>
                         </div>
                     </a>
                     <a href="/concierge/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/chefs' || router.pathname == '/concierge/chefs/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
