@@ -631,7 +631,7 @@ export default function Home(props: any) {
 
             <PopupModal show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
                 <div className="text-center popup-img">
-                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'public/images/logo.png'} alt="logo" />
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo.png'} alt="logo" />
                 </div>
                 <div className="all-form">
                     <form onSubmit={handleResetSubmit} id="reset_register_form">

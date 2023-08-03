@@ -4544,3 +4544,17 @@ li#cuisine_id {
   margin: 0;
   padding: 0;
 }
+#allergy-id{
+  top: -6px;
+}
+#location-filter {
+  padding: 20px;
+  border: 1px solid #f2f2f2;
+  margin: 0px 20px;
+  height: 80px;
+  overflow-y: scroll;
+}
+#location-filter::-webkit-scrollbar {
+  background: transparent !important;
+  width: 6px;
+}

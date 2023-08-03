@@ -70,6 +70,9 @@ export default function Setting() {
                 if (res.status == true) {
                     modalConfirmOpen();
                     setSingleSetting(res.data);
+                    setMetaTag(res.data.meta_tag);
+                    console.log(res.data.meta_tag);
+                    setMetaDesc(res.data.meta_desc);
                 } else {
                     console.log("error");
                 }
@@ -183,7 +186,7 @@ export default function Setting() {
                             <label htmlFor="meta_tag">Meta Tag:</label>
                             <textarea
                                 name="meta_tag"
-                                defaultValue={SingleSetting.meta_tag}
+                                value={metatag}
                                 onChange={(e) => setMetaTag(e.target.value)}
                             ></textarea>
                         </div>
@@ -191,7 +194,7 @@ export default function Setting() {
                             <label htmlFor="meta_desc">Meta Desc:</label>
                             <textarea
                                 name="meta_desc"
-                                defaultValue={SingleSetting.meta_desc}
+                                value={metadesc}
                                 onChange={(e) => setMetaDesc(e.target.value)}
                             ></textarea>
                         </div>

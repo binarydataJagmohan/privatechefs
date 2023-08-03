@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile } from '../../../lib/adminapi';
+import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile, getChefAllLocation, getChefLocationByFilter } from '../../../lib/adminapi';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
@@ -18,7 +18,7 @@ export default function Chefs() {
     pic: string;
     cuisine_name: string;
     profile_status: string;
-    approved_by_admin:string;
+    approved_by_admin: string;
   }
   interface chefData {
     id: number;
@@ -33,6 +33,17 @@ export default function Chefs() {
   interface GetCuisine {
     name: string;
   }
+  interface Location {
+    lat: number,
+    name: string;
+    surname: string;
+    address: string;
+    pic: string;
+    approved_by_admin: string;
+    profile_status: string;
+    cuisine_name: string;
+  }
+
 
   const [modalConfirm, setModalConfirm] = useState(false);
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
@@ -45,6 +56,10 @@ export default function Chefs() {
   const [approvestatus, setApproveStatus]: any = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+
+  const [getlocation, setGetLocation] = useState<Location[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<Location[]>([]);
+  const [filterLocation, setFilterLocation] = useState<Location[]>([]);
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -65,6 +80,7 @@ export default function Chefs() {
     if (data == 1) {
       getAllChef();
       getAllCuisine();
+      getAllChefLocation();
       const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
       getChefByFilter({ cuisines: cuisinesArray.join(',') })
         .then(res => {
@@ -79,6 +95,37 @@ export default function Chefs() {
     }
 
   }, [selectedCuisines]);
+
+  useEffect(() => {
+    const locationsArray = Array.isArray(selectedLocation) ? selectedLocation : [selectedLocation];
+    console.log(locationsArray);
+    getChefLocationByFilter({ locations: locationsArray.join(',') })
+      .then((res) => {
+        if (res.status) {
+          setFilterLocation(res.data);
+        } else {
+          console.log(res.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [selectedLocation]);
+
+  const getAllChefLocation = () => {
+    getChefAllLocation()
+      .then((res) => {
+        if (res.status) {
+          setGetLocation(res.data);
+          console.log(res.data);
+        } else {
+          console.log(res.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   const getAllChef = () => {
     getAllChefDetails()
@@ -108,15 +155,15 @@ export default function Chefs() {
         toast.error(err.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
           closeButton: true,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
-            },
-            progressStyle: {
-              background: '#ffff',
-            },
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       });
   }
@@ -146,7 +193,7 @@ export default function Chefs() {
               "--toastify-icon-color-success": "#ff4e00d1",
             },
             progressStyle: {
-              background: '#ffff',  
+              background: '#ffff',
             },
           });
         } else {
@@ -197,15 +244,15 @@ export default function Chefs() {
         toast.error(err.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
           closeButton: true,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
-            },
-            progressStyle: {
-              background: '#ffff',
-            },
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
         });
       });
   }
@@ -220,6 +267,18 @@ export default function Chefs() {
       );
     }
   };
+
+  const handleCheckboxLocationChange = (e: any) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setSelectedLocation((prevLocations) => [...prevLocations, value]);
+    } else {
+      setSelectedLocation((prevLocations) =>
+        prevLocations.filter((c) => c !== value)
+      );
+    }
+  };
+
 
   const onPageChange = (page: any) => {
     setCurrentPage(page);
@@ -292,16 +351,85 @@ export default function Chefs() {
               <tr>
                 <th scope="col">Photo</th>
                 <th scope="col">Name</th>
-                {/* <th scope="col">Location</th> */}
+                <th scope="col">Location</th>
                 <th scope="col">Cuisines</th>
-                {/* <th scope="col">Location</th> */}
                 <th scope="col">Profile Status</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredChefs.length > 0 ? (
+              {filterLocation.length > 0 ? (
+                filterLocation.map((filter,index) => (
+                  <tr key={index}>
+                    {filter.pic ? (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/chef/users/" +
+                            filter.pic
+                          }
+                          alt=""
+                        />
+                      </td>
+                    ) : (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/placeholder.jpg"
+                          }
+                          alt=""
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {filter.name || ""} {filter.surname || ""}
+                    </td>
+                    <td>{filter.address || ""}</td>
+                    <td>
+                      <ul>
+                        <ul>
+                          {filter.cuisine_name
+                            .split(",")
+                            .map((cuisine, index) => {
+                              if (index < 2) {
+                                return <li key={index} id="cuisine_id">{cuisine}</li>;
+                              } else if (index === 2) {
+                                return (
+                                  <li
+                                    key={index}
+                                    onClick={() => setShowAllCuisines(true)}
+                                  >
+                                    +{filter.cuisine_name.split(",").length - 2}
+                                  </li>
+                                );
+                              }
+                              return null;
+                            })}
+                        </ul>
+                      </ul>
+                    </td>
+                    <td>
+                      {filter.profile_status || ""}
+                    </td>
+                    <td>
+                      <select aria-label="Default select example" name="approved_by_admin"
+                        onChange={(e) => ApproveChefProfile(e, filter.id)}
+                      >
+                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
+                        <option value='no' selected={filter.approved_by_admin === 'yes'}>Unapproved</option>
+                      </select>
+                    </td>
+
+                    <td style={{ paddingLeft: "25px" }}>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
+                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                ))
+              ) : filteredChefs.length > 0 ? (
                 filteredChefs.map((filter) => (
                   <tr key={filter.id}>
                     {filter.pic ? (
@@ -329,7 +457,7 @@ export default function Chefs() {
                     <td>
                       {filter.name || ""} {filter.surname || ""}
                     </td>
-                    {/* <td>{filter.address || ""}</td> */}
+                    <td>{filter.address || ""}</td>
                     <td>
                       <ul>
                         <ul>
@@ -337,7 +465,7 @@ export default function Chefs() {
                             .split(",")
                             .map((cuisine, index) => {
                               if (index < 2) {
-                                return <li key={index}>{cuisine}</li>;
+                                return <li key={index} id="cuisine_id">{cuisine}</li>;
                               } else if (index === 2) {
                                 return (
                                   <li
@@ -353,9 +481,6 @@ export default function Chefs() {
                         </ul>
                       </ul>
                     </td>
-                    {/* <td>Ut pulvinar.</td> */}
-                    {/* <td>Arcu nibh non.</td>
-										<td>Eu nibh.</td> */}
                     <td>
                       {filter.profile_status || ""}
                     </td>
@@ -402,38 +527,8 @@ export default function Chefs() {
                     <td>
                       {chef.name || ""} {chef.surname || ""}
                     </td>
-                    {/* <td>{chef.address || ""}</td> */}
+                    <td>{chef.address || ""}</td>
                     <td>
-                      {/* <ul>
-                        <li>{chef.cuisine_name || ""}</li>
-                        <li>Italian</li>
-                        <li>+4</li>
-                      </ul> */}
-
-                      {/* <ul>
-                        {chef.cuisine_name && (
-                          <>
-                            {chef.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index}>{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={() => setShowAllCuisines(true)}
-                                    >
-                                      +{chef.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })}
-                          </>
-                        )}
-                      </ul>  */}
-
                       <ul>
                         {chef.cuisine_name && (
                           <>
@@ -475,10 +570,6 @@ export default function Chefs() {
                         </ul>
                       </div>
                     </td>
-                    {/* <td>Ut pulvinar.</td> */}
-                    {/* <td>Arcu nibh non.</td>
-					<td>Eu nibh.</td> */}
-
                     <td>
                       {chef.profile_status || ""}
                     </td>
@@ -505,6 +596,7 @@ export default function Chefs() {
                 </tr>
               )}
             </tbody>
+
           </table>
         </div>
       </div>
@@ -575,16 +667,20 @@ export default function Chefs() {
               aria-labelledby="headingTwo"
               data-bs-parent="#accordionExample"
             >
-              <div className="accordion-body">
-                <strong>This is the second item's accordion body.</strong> It is
-                hidden by default, until the collapse plugin adds the
-                appropriate classNamees that we use to style each element. These
-                classNamees control the overall appearance, as well as the
-                showing and hiding via CSS transitions. You can modify any of
-                this with custom CSS or overriding our default variables. It's
-                also worth noting that just about any HTML can go within the{" "}
-                <code>.accordion-body</code>, though the transition does limit
-                overflow.
+              <div className="accordion-body" id="location-filter">
+                {getlocation.map((location, index) => (
+                  <div className="col-sm-12" key={index}>
+                    <input
+                      type="checkbox"
+                      value={location.lat}
+                      onChange={handleCheckboxLocationChange}
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      {location.address}
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
