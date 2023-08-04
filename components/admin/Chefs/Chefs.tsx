@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile, getChefAllLocation, getChefLocationByFilter } from '../../../lib/adminapi';
+import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile, getChefAllLocation, getChefLocationByFilter, chefPriceFilter } from '../../../lib/adminapi';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
@@ -19,6 +19,7 @@ export default function Chefs() {
     cuisine_name: string;
     profile_status: string;
     approved_by_admin: string;
+    amount:string;
   }
   interface chefData {
     id: number;
@@ -29,6 +30,7 @@ export default function Chefs() {
     approved_by_admin: string;
     profile_status: string;
     cuisine_name: string;
+    amount:string;
   }
   interface GetCuisine {
     name: string;
@@ -42,6 +44,7 @@ export default function Chefs() {
     approved_by_admin: string;
     profile_status: string;
     cuisine_name: string;
+    amount:string;
   }
 
 
@@ -60,6 +63,12 @@ export default function Chefs() {
   const [getlocation, setGetLocation] = useState<Location[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Location[]>([]);
   const [filterLocation, setFilterLocation] = useState<Location[]>([]);
+
+  const [selectedPrice, setSelectedPrice] = useState<Location[]>([]);
+  const [filterPrice, setFilterPrice] = useState<Location[]>([]);
+
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -98,7 +107,7 @@ export default function Chefs() {
 
   useEffect(() => {
     const locationsArray = Array.isArray(selectedLocation) ? selectedLocation : [selectedLocation];
-    console.log(locationsArray);
+    //console.log(locationsArray);
     getChefLocationByFilter({ locations: locationsArray.join(',') })
       .then((res) => {
         if (res.status) {
@@ -112,12 +121,26 @@ export default function Chefs() {
       });
   }, [selectedLocation]);
 
+  useEffect(() => {
+    const priceArray = Array.isArray(selectedPrice) ? selectedPrice : [selectedPrice];
+    chefPriceFilter({ price: priceArray.join(',') })
+      .then((res) => {
+        if (res.status) {
+          setFilterPrice(res.data);
+        } else {
+          console.log(res.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [selectedPrice]);
+
   const getAllChefLocation = () => {
     getChefAllLocation()
       .then((res) => {
         if (res.status) {
           setGetLocation(res.data);
-          console.log(res.data);
         } else {
           console.log(res.message);
         }
@@ -279,6 +302,11 @@ export default function Chefs() {
     }
   };
 
+  const handleCheckboxPriceChange = (e:any) => {
+    const value = e.target.value;
+    setSelectedPrice((prevPrice) => (prevPrice === value ? '' : value));
+  };
+
 
   const onPageChange = (page: any) => {
     setCurrentPage(page);
@@ -352,6 +380,7 @@ export default function Chefs() {
                 <th scope="col">Photo</th>
                 <th scope="col">Name</th>
                 <th scope="col">Location</th>
+                <th scope="col">Amount</th>
                 <th scope="col">Cuisines</th>
                 <th scope="col">Profile Status</th>
                 <th scope="col">Status</th>
@@ -359,8 +388,8 @@ export default function Chefs() {
               </tr>
             </thead>
             <tbody>
-              {filterLocation.length > 0 ? (
-                filterLocation.map((filter,index) => (
+              {filterPrice.length > 0 ? (
+                filterPrice.map((filter, index) => (
                   <tr key={index}>
                     {filter.pic ? (
                       <td className="chefs_pic">
@@ -388,6 +417,78 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
+                    <td>{filter.amount || ""}</td>
+                    <td>
+                      <ul>
+                        <ul>
+                          {filter.cuisine_name
+                            .split(",")
+                            .map((cuisine, index) => {
+                              if (index < 2) {
+                                return <li key={index} id="cuisine_id">{cuisine}</li>;
+                              } else if (index === 2) {
+                                return (
+                                  <li
+                                    key={index}
+                                    onClick={() => setShowAllCuisines(true)}
+                                  >
+                                    +{filter.cuisine_name.split(",").length - 2}
+                                  </li>
+                                );
+                              }
+                              return null;
+                            })}
+                        </ul>
+                      </ul>
+                    </td>
+                    <td>
+                      {filter.profile_status || ""}
+                    </td>
+                    <td>
+                      <select aria-label="Default select example" name="approved_by_admin"
+                        onChange={(e) => ApproveChefProfile(e, filter.id)}
+                      >
+                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
+                        <option value='no' selected={filter.approved_by_admin === 'yes'}>Unapproved</option>
+                      </select>
+                    </td>
+
+                    <td style={{ paddingLeft: "25px" }}>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
+                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                ))
+              ) : filterLocation.length > 0 ? (
+                filterLocation.map((filter, index) => (
+                  <tr key={index}>
+                    {filter.pic ? (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/chef/users/" +
+                            filter.pic
+                          }
+                          alt=""
+                        />
+                      </td>
+                    ) : (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/placeholder.jpg"
+                          }
+                          alt=""
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {filter.name || ""} {filter.surname || ""}
+                    </td>
+                    <td>{filter.address || ""}</td>
+                    <td>{filter.amount || ""}</td>
                     <td>
                       <ul>
                         <ul>
@@ -458,6 +559,7 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
+                    <td>{filter.amount || ""}</td>
                     <td>
                       <ul>
                         <ul>
@@ -528,6 +630,7 @@ export default function Chefs() {
                       {chef.name || ""} {chef.surname || ""}
                     </td>
                     <td>{chef.address || ""}</td>
+                    <td>{chef.amount || ""}</td>
                     <td>
                       <ul>
                         {chef.cuisine_name && (
@@ -628,23 +731,23 @@ export default function Chefs() {
               data-bs-parent="#accordionExample"
             >
               <div className="accordion-body">
-                <div className="container chkbox">
-                  <div className="row">
-                    {getcuisine.map((cuisines, index) => (
-                      <div className="col-sm-4" key={index}>
-                        <input
-                          type="checkbox"
-                          value={cuisines.name}
-                          onChange={handleCheckboxChange}
-                          style={{ marginRight: "5px" }}
-                        />
-                        <label style={{ marginLeft: "5px" }}>
-                          {cuisines.name}
-                        </label>{" "}
-                      </div>
-                    ))}
-                  </div>
+                {/* <div className="container chkbox"> */}
+                <div className="row">
+                  {getcuisine.map((cuisines, index) => (
+                    <div className="col-sm-4" key={index}>
+                      <input
+                        type="checkbox"
+                        value={cuisines.name}
+                        onChange={handleCheckboxChange}
+                        style={{ marginRight: "5px" }}
+                      />
+                      <label style={{ marginLeft: "5px" }}>
+                        {cuisines.name}
+                      </label>{" "}
+                    </div>
+                  ))}
                 </div>
+                {/* </div> */}
               </div>
             </div>
           </div>
@@ -694,7 +797,7 @@ export default function Chefs() {
                 aria-expanded="false"
                 aria-controls="collapseThree"
               >
-                Dietaty Restrictions
+              Pricing
               </button>
             </h2>
             <div
@@ -704,15 +807,68 @@ export default function Chefs() {
               data-bs-parent="#accordionExample"
             >
               <div className="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is
-                hidden by default, until the collapse plugin adds the
-                appropriate classNamees that we use to style each element. These
-                classNamees control the overall appearance, as well as the
-                showing and hiding via CSS transitions. You can modify any of
-                this with custom CSS or overriding our default variables. It's
-                also worth noting that just about any HTML can go within the{" "}
-                <code>.accordion-body</code>, though the transition does limit
-                overflow.
+                <div className="row">
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="249"
+                      checked={selectedPrice === '249'}
+                      onChange={handleCheckboxPriceChange}
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      Under ₹250
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="250"
+                      checked={selectedPrice === '250'}
+                      onChange={handleCheckboxPriceChange}
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      ₹250-₹500
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="900"
+                      checked={selectedPrice === '900'}
+                      onChange={handleCheckboxPriceChange}
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      ₹500-₹1,000
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="1000"
+                      checked={selectedPrice === '1000'}
+                      onChange={handleCheckboxPriceChange}
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      ₹1,000-₹2,000
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="2000"
+                      checked={selectedPrice === '2000'}
+                      onChange={handleCheckboxPriceChange}
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      Over ₹2000
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
