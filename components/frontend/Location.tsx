@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import { getTestimonials } from '../../lib/adminapi';
-import { ToastContainer, toast } from "react-toastify";
-import { getAllLocation } from "../../lib/frontendapi"
 import Head from 'next/head';
 
 export default function Location(props: any) {
@@ -17,6 +15,7 @@ export default function Location(props: any) {
     interface Location {
         pic: string;
         address: string;
+        name:string;
     }
     interface PageSlug {
         name: string;
@@ -34,28 +33,15 @@ export default function Location(props: any) {
     useEffect(() => {
         if (props) {
             setSlug(props.pages.data);
+            setLocations(props.locations.data);
         }
 
     }, []);
 
     useEffect(() => {
         fetchTestimonialDetails();
-        fetchLocationDetails();
     }, []);
 
-    const fetchLocationDetails = async () => {
-        try {
-            const res = await getAllLocation();
-            if (res.status) {
-                setLocations(res.data);
-                //console.log(res.data);
-            } else {
-                console.log('error');
-            }
-        } catch (err: any) {
-            console.log('error');
-        }
-    };
 
     const fetchTestimonialDetails = async () => {
         try {
@@ -65,14 +51,10 @@ export default function Location(props: any) {
                 setStar(res.data.stars)
                 //console.log(res.data);
             } else {
-                toast.error(res.message, {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
+                console.log(res.message);
             }
         } catch (err: any) {
-            toast.error(err.message, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+           console.log(err);
         }
     };
 
@@ -136,7 +118,7 @@ export default function Location(props: any) {
                         </div>
                         <div className="col-sm-6">
                             <div className="banner-text pages-text">
-                                <h1>Athens, Greece</h1>
+                            <h1>{locations && locations.length > 0 ? locations[0].address : ''}</h1>
                                 <div className="banner-btn mb-5"><a href="#">Start your journey</a></div>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
                             </div>
@@ -201,7 +183,14 @@ export default function Location(props: any) {
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="2" />
                                         )
                                         }
-                                        <p className="plase-btn"><a href="#">{location.address.slice(0, 13)}</a></p>
+                                        <p className="plase-btn">
+                                            {location.address ? (
+                                                <a href="#">{location.name}</a>
+                                            ) : (
+                                                <span></span>
+                                            )}
+                                        </p>
+
                                     </div>
                                 </div>
                             )}
@@ -292,7 +281,6 @@ export default function Location(props: any) {
                     <div className="text-center view-more mt-4"><a href="#">View More</a></div>
                 </div>
             </section>
-
         </>
     )
 }

@@ -9,6 +9,7 @@ import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeBookingData } from "../../lib/session";
+import { getAllLocation } from "../../lib/frontendapi"
 
 
 export default function Home(props: any) {
@@ -35,9 +36,14 @@ export default function Home(props: any) {
         meta_desc: string;
         meta_tag: string;
     }
-
+    interface Location {
+        id: number;
+        pic: string;
+        address: string;
+    }
 
     const router = useRouter();
+    const [locations, setLocations] = useState<Location[]>([]);
     const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
     const [buttonStatus, setButtonState] = useState(false);
     const [password, setPassword] = useState("");
@@ -63,6 +69,7 @@ export default function Home(props: any) {
                 fetchTestimonialDetails();
                 getInstaImages();
                 removeBookingData();
+                fetchLocationDetails();
 
                 if (router.query.id && router.query.hash) {
                     // CheckEmailVerification();
@@ -78,6 +85,21 @@ export default function Home(props: any) {
 
         fetchData();
     }, [router]);
+
+    const fetchLocationDetails = async () => {
+        try {
+            const res = await getAllLocation();
+            if (res.status) {
+                setLocations(res.data);
+                //console.log(res.data);
+            } else {
+                console.log('error');
+            }
+        } catch (err: any) {
+            console.log('error');
+        }
+    };
+
 
     const getInstaImages = async () => {
         getInstagramImages()
@@ -366,43 +388,38 @@ export default function Home(props: any) {
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-1.webp'} alt="slider-1" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-2.webp'} alt="slider-2" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-3.webp'} alt="slider-3" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-4.webp'} alt="slider-4" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-2.webp'} alt="slider-2" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-4.webp'} alt="slider-4" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
+                            {locations.map((location,index) => {
+                                const locationName = location.address;
+                                const encodedLocationName = encodeURIComponent(locationName.replace(/,/g, '-'));
+
+                                return (
+                                    <div className="col-lg-2 col-md-6" key={index}>
+                                        <div className="slider-img-plase">
+                                            <img
+                                                src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-1.webp'}
+                                                alt="slider-1"
+                                            />
+                                            <p className="plase-btn">
+                                                {location.address ? (
+                                                    <a
+                                                        href={
+                                                            process.env.NEXT_PUBLIC_BASE_URL +
+                                                            'location/' +
+                                                            location.address
+                                                        }
+                                                    >
+                                                        {location.address.slice(0, 35)}
+                                                    </a>
+                                                ) : (
+                                                    <span></span>
+                                                )}
+                                            </p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </Slider>
+
                     </div>
                     <div className="text-center view-more mt-4"><a href="#">View More</a></div>
                 </div>
