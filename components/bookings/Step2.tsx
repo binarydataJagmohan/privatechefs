@@ -171,7 +171,7 @@ export default function Step2() {
                           : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1" width={204} height={283} />
                         }
 
-                        <p className="plase-btn"><a href="#">{service.service_name}</a></p>
+                        <p className="plase-btn"><a href="#" onClick={(e) => setServieStyle(service.id.toString())}>{service.service_name}</a></p>
                       </label>
                     </div>
                   </div>

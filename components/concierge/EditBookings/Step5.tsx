@@ -277,7 +277,7 @@ export default function Step5() {
 
                   <div className="col-lg-12 col-md-12">
                     <h4 className="title-20">Any special requests?</h4>
-                    <textarea className="textarea-part mt-3" value={additionalnotes} onChange={(e) => setAdditionalNotes(e.target.value)} placeholder="Let us know more about your prefferences.."></textarea>
+                    <textarea className="textarea-part mt-3" value={additionalnotes !== null && additionalnotes !== 'null' ? additionalnotes : ''} onChange={(e) => setAdditionalNotes(e.target.value)} placeholder="Let us know more about your prefferences.."></textarea>
 
                   </div>
                 </div>

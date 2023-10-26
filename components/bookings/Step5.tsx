@@ -173,39 +173,50 @@ export default function Step5() {
                 <div className="col-lg-1 col-md-12"></div>
                 <div className="col-lg-11 col-md-12">
                     <div className="row"> 
-                    <Slider {...settings} className="mt-2">
-                    {allergiesdata.map((allergies,index) => (
-                      <div className="col-sm-3" key={index}>
-                        <div className="slider-img-plase">
-                          <input
-                            type="checkbox"
-                            id={`myCheckbox2_${allergies.id}`}
-                            name="cuisine_type"
-                            value={allergies.id}
-                            className="step_radio_css"
-                            onChange={(e) => {
-                              const { value } = e.target;
-                              setSelectedAllergies((prevSelectedCuisine) => {
-                                if (prevSelectedCuisine.includes(String(value))) {
-                                  return prevSelectedCuisine.filter((c) => c !== String(value));
-                                } else {
-                                  return [...prevSelectedCuisine, String(value)];
-                                }
-                              });
-                            }}
-                            checked={selectedallergies.includes(String(allergies.id))}
-                          />
-                          <label htmlFor={`myCheckbox2_${allergies.id}`} className="step_label_css">
-                          {allergies.image ? 
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/'+allergies.image} alt="step-img-1" width={250} height={250}/> 
-                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"width={250} height={250}/> 
+                   <Slider {...settings} className="mt-2">
+                  {allergiesdata.map((allergies, index) => (
+                    <div className="col-sm-3" key={index}>
+                      <div className="slider-img-plase">
+                        <input
+                          type="checkbox"
+                          id={`myCheckbox2_${allergies.id}`}
+                          name="cuisine_type"
+                          value={allergies.id}
+                          className="step_radio_css"
+                          onChange={(e) => {
+                            const { value } = e.target;
+                            setSelectedAllergies((prevSelectedCuisine) => {
+                              if (prevSelectedCuisine.includes(String(value))) {
+                                return prevSelectedCuisine.filter((c) => c !== String(value));
+                              } else {
+                                return [...prevSelectedCuisine, String(value)];
+                              }
+                            });
+                          }}
+                          checked={selectedallergies.includes(String(allergies.id))}
+                        />
+                        <label htmlFor={`myCheckbox2_${allergies.id}`} className="step_label_css">
+                          {allergies.image ?
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/allergy/' + allergies.image} alt="step-img-1" width={250} height={250} />
+                            : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1" width={250} height={250} />
                           }
-                            <p className="plase-btn"><a href="#">{allergies.allergy_name.charAt(0).toUpperCase() + allergies.allergy_name.slice(1)}</a></p>
-                          </label>
-                        </div>
+                          {/* <p className="plase-btn"><a href="#">{allergies.allergy_name.charAt(0).toUpperCase() + allergies.allergy_name.slice(1)}</a></p> */}
+                          <p className="plase-btn"><a href="#" data-value={allergies.id} onClick={(e) => {
+                            e.preventDefault();
+                            const value = e.currentTarget.getAttribute('data-value');
+                            setSelectedAllergies((prevSelectedCuisine) => {
+                              if (prevSelectedCuisine.includes(String(value))) {
+                                return prevSelectedCuisine.filter((c) => c !== String(value));
+                              } else {
+                                return [...prevSelectedCuisine, String(value)];
+                              }
+                            });
+                          }}>{allergies.allergy_name.charAt(0).toUpperCase() + allergies.allergy_name.slice(1)}</a></p>
+                        </label>
                       </div>
-                    ))}
-                  </Slider>
+                    </div>
+                  ))}
+                </Slider>
                     </div> 
                 </div>  
                 </div> 

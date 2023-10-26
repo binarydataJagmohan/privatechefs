@@ -60,7 +60,7 @@ export default function  Chefs() {
                         <span>201 reviews</span>
                         </p> 
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
-                    <div className="banner-btn mb-5"><a href="#">Start your journey</a></div>
+                    <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
                     </div>
                     </div>
                 </div>    

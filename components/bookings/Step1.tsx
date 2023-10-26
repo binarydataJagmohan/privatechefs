@@ -175,7 +175,7 @@ export default function Step1(props: any) {
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="#">One Time Service</a>
+                        <a href="#" onClick={(e) => setSeriveType('onetime')}>One Time Service</a>
                       </p>
                     </div>
                   </div>
@@ -200,7 +200,7 @@ export default function Step1(props: any) {
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="#">Multiple Time Services</a>
+                        <a href="#" onClick={(e) => setSeriveType('multipletimes')}>Multiple Time Services</a>
                       </p>
                     </div>
                   </div>

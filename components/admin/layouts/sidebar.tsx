@@ -27,7 +27,7 @@ export default function Sidebar(): JSX.Element {
         getBookingsCount(userid.id)
             .then(res => {
                 if (res.status == true) {
-                    setAppliedBookingCount(res.allbooking);
+                    setAppliedBookingCount(res.available_booking);
                     setHiredBookingCount(res.hired_booking);
                 } else {
                     console.log(res.message);
@@ -60,7 +60,9 @@ export default function Sidebar(): JSX.Element {
                         <div className="row">
                              <div className="col-lg-3 col-md-4 col-4 pr-0">
                                 <a href="/">
-                                    {currentUserData.pic == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/users/' + currentUserData.pic} alt="user-menu" />}
+                                   {currentUserData.pic != 'null' ?
+                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" />
+                                    : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
                                 </a>
                             </div>
                             <div className="col-lg-9 col-md-8 col-8">
@@ -183,15 +185,21 @@ export default function Sidebar(): JSX.Element {
                                 <span className="menu-collapsed">Service choice</span>
                             </div>
                         </a>
-                        <a href="/admin/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                       <a href="/admin/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
                                 <span className="menu-collapsed">Setting</span>
                             </div>
                         </a>
+                        <a href="/admin/pages" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/pages' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                            <div className="d-flex ">
+                                <span className="icon-dash"><i className="fa-solid fa-file"></i></span>
+                                <span className="menu-collapsed">Pages</span>
+                            </div>
+                        </a>
                         <a href="/admin/top-rated-chef" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/top-rated-chef' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
-                                <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                                <span className="icon-dash"><i className="fa-solid fa-star"></i></span>
                                 <span className="menu-collapsed">Top Rated Chef</span>
                             </div>
                         </a>

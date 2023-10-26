@@ -392,7 +392,7 @@ export default function Chefs() {
           </li>
           <li>
             <div className='text-right'>
-              <button className="table-btn" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add</button>
+              <button className="table-btn border-radius round-white" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add</button>
             </div>
           </li>
           <li className="right-li">

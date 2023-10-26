@@ -1361,7 +1361,7 @@ export default function MyProfile() {
 										</div>
 										<div className='col-md-6'>
 											<div className="banner-btn position-bottom">
-												<a href="/startjourney">Start your journey</a>
+												<a href="/bookings/step1">Start your journey</a>
 											</div>
 										</div>
 									</div>

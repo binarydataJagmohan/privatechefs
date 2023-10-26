@@ -817,7 +817,7 @@ table thead tr:hover {
 }
 
 .banner-btn {
-  margin: 30px 0 0 0;
+  margin: 10% 0 0 0;
 }
 
 .banner-btn a {
@@ -3341,7 +3341,7 @@ select {
 .logos {
   padding: 25px;
   text-align: center;
-  background: #f7f7f7;
+  /*background: #f7f7f7;*/
   margin-bottom: 22px;
   overflow: hidden;
 }
@@ -3605,9 +3605,9 @@ div#location-img img {
   width: 100% !important;
 }
 .slider-img-plase::before {
-  height: 100% !important;
-  width: 97%;
-  border-radius: 12px;
+    height: 100% !important;
+    width: 98%;
+    border-radius: 15px;
 }
 .pages-banner h1 {
   font-size: 28px;
@@ -3626,6 +3626,9 @@ div#location-img img {
 div#formid {
   margin-top: 20px;
 }
+ div#location_idd {
+    max-width: 100% !important;
+  }
 }
 
 @media (max-width:350px) {
@@ -3871,8 +3874,9 @@ div#villa_table .table>tbody tr td ul li {
 }
 
 .react-tel-input .form-control {
-  height: 54px !important;
+  height: 57px !important;
   width: 100% !important;
+  background: #f1f1f1 !important;
 }
 
 .booking_submit_btn {
@@ -4543,4 +4547,160 @@ p.dis-max-width.mb-4.text-capital {
 li#cuisine_id {
   margin: 0;
   padding: 0;
+}
+#allergy-id{
+  top: -6px;
+}
+#location-filter {
+  padding: 20px;
+  border: 1px solid #f2f2f2;
+  margin: 0px 20px;
+  height: 120px;
+  overflow-y: scroll;
+}
+#location-filter::-webkit-scrollbar {
+  background: transparent !important;
+  width: 6px;
+}
+img#dummy-img {
+  min-height: 437px;
+  width: 357px;
+}
+img#single-img1 {
+  min-height: 600px;
+}
+img#loc_id {
+    height: 400px;
+    object-fit: cover;
+}
+div#location_idd{
+  max-width: 300px;
+}
+input#top-rated {
+  margin-left: 34px;
+}
+.top-class-btn {
+  margin-left: 87%;
+}
+#all-form-id {
+  background: var(--color_4);
+  border: 1px solid rgba(39, 71, 110, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+}
+.setting.text-left{
+  background: var(--color_4);
+  border: 1px solid rgba(39, 71, 110, 0.12);
+  border-radius: 8px;
+  padding: 16px;
+}
+#all-form-id input{
+  margin-bottom:25px;
+}
+div#admin-profile img {
+  width: 140px;
+  height: 140px;
+}
+div#admin-profile label i {
+  right: 22%;
+}
+.right-part {
+    height: 100vh !important;
+    overflow-x: hidden;
+}
+div#sidebar-container {
+    height: 100vh;
+    overflow-x: hidden;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+::-webkit-scrollbar-thumb {
+  background: #00000080;
+  border-radius: 30px;
+}
+ul#cuision_id li.right-li {
+    position: absolute;
+    top: -12px;
+}
+.logos img {
+    height: 100px;
+    width: 100%;
+    object-fit: cover;
+}
+.customers p {
+  font-size: 60px;
+  color: #ff6e2e;
+  font-weight: 600;
+  margin: 0;
+}
+.customers span {
+  font-weight: 500;
+}
+
+
+
+p.mb-0.comments-bell.set-bell {
+  position: relative;
+}
+
+p.mb-0.comments-bell.set-bell-admin {
+  position: relative;
+}
+
+.input-group.set-width-number {
+  width: 40%;
+  margin: 0 auto;
+}
+
+td.booking-status-Expired {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 18px;
+  gap: 10px;
+  color: #ce0d0d;
+  background: rgb(206 13 13 / 10%);
+  border-radius: 68px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+td.booking-status-Upcoming {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 18px;
+  gap: 10px;
+  color: #CE910D;
+  background: rgba(206, 145, 13, 0.1);
+  border-radius: 68px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+td.booking-status-Today {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 18px;
+  gap: 10px;
+  color: #0dce2d;
+  background: rgb(64 205 81 / 24%);
+  border-radius: 68px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.set-location-chef{
+  display: flex;
+  justify-content: center;
+}
+.input-group.set-width-number input {
+  text-align: center;
 }

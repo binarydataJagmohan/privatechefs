@@ -59,8 +59,9 @@ export function isPageVisibleToRole(pageName: string): number {
       "concierge-calender": ["concierge"],
       "admin-calender": ["admin"],
       "chef-calender": ["chef"],
-      "admin-setting": ["admin"],
+      "admin-pages": ["admin"],
       "admin-top-rated-chef": ["admin"],
+      "admin-setting": ["admin"],
     };
 
     if (pageName in pageRoles) {

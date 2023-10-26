@@ -4,6 +4,8 @@ import { getUserBookingById } from "../../../lib/adminapi";
 import moment from 'moment';
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
+import Link from 'next/link';
+
 
 export default function MyProfile(props: any) {
 
@@ -95,6 +97,12 @@ export default function MyProfile(props: any) {
 
     return (
         <>
+         <Link href="/admin/users">
+                    <button
+                        className="table-btn mb-4"
+                    >
+                        Back
+                    </button></Link>
          <h5 style={{color:"#ff4e00d1"}}>User Detail</h5>
             <div className="user-class pt-5">
                 <div className="userImg" style={{ flex: "1" }}>

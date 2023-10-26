@@ -407,7 +407,7 @@ export default function Allergy() {
         <h2>Allergy</h2>
         <ul className="table_header_button_section p-r">
           {/* <li><button className="table-btn">Total</button></li> */}
-          <li className="right-li">
+          <li className="right-li" id="allergy-id">
             {/* <button
               className="table-btn border-radius round-white"
               onClick={() => setModalConfirm(true)}

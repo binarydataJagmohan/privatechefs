@@ -66,7 +66,7 @@ export default function Header(): JSX.Element {
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
                         <p className="mb-0 comments-bell">
-                        <Link href={`/admin/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i></Link>
+                        <Link href={`/concierge/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i></Link>
                             {countdata ? (
                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: 'red', marginLeft: '5px' }}>{countdata}</span>
                             ) : null}

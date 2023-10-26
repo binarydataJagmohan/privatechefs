@@ -147,6 +147,7 @@ export default function TopRatedChef() {
                                             <input
                                                 type="checkbox"
                                                 name="top_rated"
+                                                 id="top-rated"
                                                 onChange={(e) => handleCheckboxChange(e, data.id)}
                                                 checked={topratedchef.includes(data.id)}
                                             />
@@ -155,7 +156,7 @@ export default function TopRatedChef() {
                                 ))}
                             </tbody>
                         </table>
-                        <div className="text-right"><button className="table-btn">Update</button></div>
+                         <div className="top-class-btn"><button className="table-btn">Update</button></div>
                     </form>
                 </div>
             </div>

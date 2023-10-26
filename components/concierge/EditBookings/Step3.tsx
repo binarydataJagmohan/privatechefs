@@ -16,9 +16,9 @@ export default function Step3() {
   };
 
   const [mealValues, setMealValues] = useState<{ breakfast: boolean; lunch: boolean; dinner: boolean; }>({
-    breakfast: true,
-    lunch: true,
-    dinner: true
+ breakfast: false,
+    lunch: false,
+    dinner: false
   });
 
 
@@ -617,10 +617,11 @@ export default function Step3() {
                               value={"yes"}
                               className="step_radio_css"
                               checked={mealValues.breakfast}
-                              onChange={(e) =>
+                               onChange={() =>
                                 setMealValues({
-                                  ...mealValues,
-                                  breakfast: e.target.checked,
+                                  breakfast: true,
+                                  lunch: false, // Deselect lunch
+                                  dinner: false, // Deselect dinner
                                 })
                               }
                             />
@@ -648,10 +649,11 @@ export default function Step3() {
                               value={"yes"}
                               className="step_radio_css"
                               checked={mealValues.lunch}
-                              onChange={(e) =>
+                             onChange={() =>
                                 setMealValues({
-                                  ...mealValues,
-                                  lunch: e.target.checked,
+                                  breakfast: false, // Deselect breakfast
+                                  lunch: true,
+                                  dinner: false, // Deselect dinner
                                 })
                               }
                             />
@@ -679,10 +681,11 @@ export default function Step3() {
                               value={"yes"}
                               className="step_radio_css"
                               checked={mealValues.dinner}
-                              onChange={(e) =>
+                             onChange={() =>
                                 setMealValues({
-                                  ...mealValues,
-                                  dinner: e.target.checked,
+                                  breakfast: false, // Deselect breakfast
+                                  lunch: false, // Deselect lunch
+                                  dinner: true,
                                 })
                               }
                             />

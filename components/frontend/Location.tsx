@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import { getTestimonials } from '../../lib/adminapi';
-import { ToastContainer, toast } from "react-toastify";
-import { getAllLocation } from "../../lib/frontendapi"
 import Head from 'next/head';
 
 export default function Location(props: any) {
@@ -17,6 +15,8 @@ export default function Location(props: any) {
     interface Location {
         pic: string;
         address: string;
+        name: string;
+        location_pic: string;
     }
     interface PageSlug {
         name: string;
@@ -34,28 +34,15 @@ export default function Location(props: any) {
     useEffect(() => {
         if (props) {
             setSlug(props.pages.data);
+            setLocations(props.locations.data);
         }
 
     }, []);
 
     useEffect(() => {
         fetchTestimonialDetails();
-        fetchLocationDetails();
     }, []);
 
-    const fetchLocationDetails = async () => {
-        try {
-            const res = await getAllLocation();
-            if (res.status) {
-                setLocations(res.data);
-                //console.log(res.data);
-            } else {
-                console.log('error');
-            }
-        } catch (err: any) {
-            console.log('error');
-        }
-    };
 
     const fetchTestimonialDetails = async () => {
         try {
@@ -65,14 +52,10 @@ export default function Location(props: any) {
                 setStar(res.data.stars)
                 //console.log(res.data);
             } else {
-                toast.error(res.message, {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
+                console.log(res.message);
             }
         } catch (err: any) {
-            toast.error(err.message, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            console.log(err);
         }
     };
 
@@ -132,12 +115,26 @@ export default function Location(props: any) {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-6">
-                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/banner-2.jpg'} alt="banner-2" className="w-100 border-0 banner-left" />
+                            {locations && locations.length > 0 && locations[0].location_pic ? (
+                                <img
+                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + locations[0].location_pic}
+                                    alt="slider-1"
+                                    id="single-img1"
+                                    className="w-100 border-0 banner-left"
+                                />
+                            ) : (
+                                <img
+                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
+                                    id="dummy-img"
+                                    alt="slider-1"
+                                    className="w-100 border-0 banner-left"
+                                />
+                            )}
                         </div>
                         <div className="col-sm-6">
                             <div className="banner-text pages-text">
-                                <h1>Athens, Greece</h1>
-                                <div className="banner-btn mb-5"><a href="#">Start your journey</a></div>
+                                <h1>{locations && locations.length > 0 ? locations[0].address : ''}</h1>
+                                <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
                             </div>
                         </div>
@@ -145,41 +142,55 @@ export default function Location(props: any) {
                 </div>
             </section>
 
-            <section className="services-part location-how mt-lg-5">
+            <section className="services-part mt-5" id='boxes-id'>
                 <div className="container">
-                    <h2>How it works</h2>
-                    <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
-                    <div className="row mt-5 g-3">
-                        <div className="col-lg-3 col-md-6">
-                            <div className="step-box">
-                                <h4><span className="big-48">1</span></h4>
-                                <h4>Step 1</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                    <h2 className='text-uppercase'>How it works?  </h2>
+                    <div className='services-id'>
+                        <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. W deliver results.</p>
+                    </div>
+                    <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
+                    <div className="row mt-5">
+                        <div className="col-lg-4 col-md-6">
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48" id="big-id"><i className="fa-solid fa-spoon"></i></span> </h4>
+                                <h4>You choose the menu</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-6">
-                            <div className="step-box">
-                                <h4><span className="big-48">2</span></h4>
-                                <h4>Step 2</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                        <div className="col-lg-4 col-md-6">
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fas fa-bacon"></i></span>  </h4>
+                                <h4>We buy the ingredients</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-6">
-                            <div className="step-box">
-                                <h4><span className="big-48">3</span></h4>
-                                <h4>Step 3</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6">
-                            <div className="step-box">
-                                <h4><span className="big-48">4</span></h4>
-                                <h4>Step 4</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                        <div className="col-lg-4 col-md-6">
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fa-solid fa-kitchen-set"></i></span> </h4>
+                                <h4>We cook in your kitchen</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
                             </div>
                         </div>
                     </div>
 
+                    <div className="row mt-4">
+                        <div className="col-lg-2 col-md-12"> </div>
+                        <div className="col-lg-4 col-md-6">
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fa-solid fa-cutlery"></i></span>  </h4>
+                                <h4>We serve each dish</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                            </div>
+                        </div>
+                        <div className="col-lg-4 col-md-6">
+                            <div className="num-list" id="num-list-id">
+                                <h4><span className="big-48"><i className="fa-solid fa-brush"></i></span></h4>
+                                <h4> We clean up</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-12"> </div>
+                    </div>
 
                 </div>
             </section>
@@ -198,10 +209,17 @@ export default function Location(props: any) {
                                         {location.pic ? (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + location.pic} alt="2" />
                                         ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="2" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" />
                                         )
                                         }
-                                        <p className="plase-btn"><a href="#">{location.address.slice(0, 13)}</a></p>
+                                        <p className="plase-btn">
+                                            {location.address ? (
+                                                <a href="#">{location.name}</a>
+                                            ) : (
+                                                <span></span>
+                                            )}
+                                        </p>
+
                                     </div>
                                 </div>
                             )}
@@ -222,7 +240,7 @@ export default function Location(props: any) {
                                     {testimonial.image ? (
                                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/testimonial/' + testimonial.image} alt="ava4" />
                                     ) : (
-                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="ava4" />
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="ava4" />
                                     )}
                                     <h4>{testimonial.name}</h4>
                                     <p className="star-list blue-star" id="star-color">
@@ -292,7 +310,6 @@ export default function Location(props: any) {
                     <div className="text-center view-more mt-4"><a href="#">View More</a></div>
                 </div>
             </section>
-
         </>
     )
 }

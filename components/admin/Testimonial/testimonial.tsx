@@ -406,7 +406,7 @@ export default function Allergy() {
             <div className="table-part">
                 <h2>Testimonial</h2>
                 <ul className="table_header_button_section p-r">
-                    <li className="right-li">
+                    <li className="right-li" id="allergy-id">
 
                         <button
                             className="table-btn border-radius round-white"
