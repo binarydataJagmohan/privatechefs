@@ -68,6 +68,17 @@ export default function MyProfile() {
 	const [linkedin_link, setLinkedinLink] = useState("");
 	const [youtube_link, setYoutubeLink] = useState("");
 
+	const [servicetitleone, setServiceTitleOne] = useState("");
+	const [servicedescriptionone, setServiceDescriptionOne] = useState("");
+	const [servicetitletwo, setServiceTitleTwo] = useState("");
+	const [servicedescriptiontwo, setServiceDescriptionTwo] = useState("");
+	const [servicetitlethree, setServiceTitleThree] = useState("");
+	const [servicedescriptionthree, setServiceDescriptionThree] = useState("");
+	const [servicetitlefour, setServiceTitleFour] = useState("");
+	const [servicedescriptionfour, setServiceDescriptionFour] = useState("");
+
+
+
 	const [locationaddress, setLocationaddress] = useState("");
 	const [lat, setLat] = useState("");
 	const [lng, setLng] = useState("");
@@ -468,7 +479,15 @@ export default function MyProfile() {
 			instagram_link: instagram_link || '',
 			twitter_link: twitter_link || '',
 			linkedin_link: linkedin_link || '',
-			youtube_link: youtube_link || ''
+			youtube_link: youtube_link || '',
+			service_title_1: servicetitleone || '',
+			service_description_1: servicedescriptionone || '',
+			service_title_2: servicetitletwo || '',
+			service_description_2: servicedescriptiontwo || '',
+			service_title_3: servicetitlethree || '',
+			service_description_3: servicedescriptionthree || '',
+			service_title_4: servicetitlefour || '',
+			service_description_4: servicedescriptionfour || '',
 		};
 		UpdateChefResume(id, data)
 			.then(res => {
@@ -696,6 +715,16 @@ export default function MyProfile() {
 					setTwitterLink(res.data.twitter_link);
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
+
+					setServiceTitleOne(res.data.service_title_1);
+					setServiceDescriptionOne(res.data.service_description_1);
+					setServiceTitleTwo(res.data.service_title_2);
+					setServiceDescriptionTwo(res.data.service_description_2);
+					setServiceTitleThree(res.data.service_title_3);
+					setServiceDescriptionThree(res.data.service_description_3);
+					setServiceTitleFour(res.data.service_title_4);
+					setServiceDescriptionFour(res.data.service_description_4);
+
 					setChefResume(res.data);
 				} else {
 					toast.error(res.message, {
@@ -919,7 +948,7 @@ export default function MyProfile() {
 											<div className="picture-profile">
 												<div className="row">
 													<div className="col-lg-4 col-md-5 col-4 pr-0">
-														<div className="user-img1  ">
+														<div className="user-img1 set-change-img">
 															{userData.pic ? (
 																<img
 																	src={
@@ -937,7 +966,6 @@ export default function MyProfile() {
 																			? URL.createObjectURL(image)
 																			: process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'
 																	}
-																	// crop={{ ratio: "1/1", position: "center" }}
 																	alt=""
 																/>
 															)}
@@ -1078,10 +1106,6 @@ export default function MyProfile() {
 														</span>
 													)}
 												</div>
-												{/* <div className="col-lg-4 col-md-5">
-													<label>ID/Passport Number</label>
-													<input type="text" name="BIC"/>
-												</div> */}
 											</div>
 										</div>
 									</div>
@@ -1090,40 +1114,6 @@ export default function MyProfile() {
 									<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
 								</div>
 								<hr />
-								{/* <div className="row">
-									<div className="col-lg-4 col-md-12">
-										<div className="text-left">
-											<h5>Services</h5>
-											<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
-										</div>
-									</div>
-									<div className="col-lg-8 col-md-12">
-										<div className="all-form">
-											<div className="row">
-												<div className="col-lg-12 col-md-12">
-													<label>Type of cusines</label>
-													<input type="text" />
-												</div>
-												<div className="col-lg-8 col-md-6">
-													<label>Bank Adress</label>
-													<input type="text" />
-												</div>
-												<div className="col-lg-4 col-md-7">
-													<label>Bank Name</label>
-													<input type="text" />
-												</div>
-												<div className="col-lg-8 col-md-5">
-													<label>Bank Account Holder Name</label>
-													<input type="text" />
-												</div>
-												<div className="col-lg-4 col-md-7">
-													<label>Currency</label>
-													<input type="text" />
-												</div>
-											</div>
-										</div>
-									</div>
-								</div> */}
 							</form>
 						</div>
 						<div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -1249,6 +1239,59 @@ export default function MyProfile() {
 										</div>
 									</div>
 
+
+									<hr />
+									<div className="row">
+										<div className="col-lg-4 col-md-12">
+											<div className="text-left">
+												<h5>Chef Services</h5>
+												<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+											</div>
+										</div>
+										<div className="col-lg-8 col-md-12">
+											<div className="all-form">
+												<div className="row">
+													<div className="col-lg-6 col-md-6">
+														<label>Service One</label>
+														<textarea name="servicetitleone" value={servicetitleone || ''} onChange={(e) => setServiceTitleOne(e.target.value)} maxLength={50}></textarea>
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Service Description One</label>
+														<textarea name="servicedescriptionone" value={servicedescriptionone || ''} onChange={(e) => setServiceDescriptionOne(e.target.value)}></textarea>
+													</div>
+													
+													<div className="col-lg-6 col-md-6">
+														<label>Service Two</label>
+														<textarea name="servicetitletwo" value={servicetitletwo || ''} onChange={(e) => setServiceTitleTwo(e.target.value)} maxLength={50}></textarea>
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Service Description Two</label>
+														<textarea name="servicedescriptiontwo" value={servicedescriptiontwo || ''} onChange={(e) => setServiceDescriptionTwo(e.target.value)}></textarea>
+													</div>
+
+													<div className="col-lg-6 col-md-6">
+														<label>Service Three</label>
+														<textarea name="favorite_chef" value={servicetitlethree || ''} onChange={(e) => setServiceTitleThree(e.target.value)} maxLength={50}></textarea>
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Service Description Three</label>
+														<textarea name="favorite_chef" value={servicedescriptionthree || ''} onChange={(e) => setServiceDescriptionThree(e.target.value)}></textarea>
+													</div>
+
+
+													<div className="col-lg-6 col-md-6">
+														<label>Service Four</label>
+														<textarea name="favorite_dishes" value={servicetitlefour || ''} onChange={(e) => setServiceTitleFour(e.target.value)} maxLength={50}></textarea>
+													</div>
+													<div className="col-lg-6 col-md-6">
+														<label>Service Description Four</label>
+														<textarea name="favorite_dishes" value={servicedescriptionfour || ''} onChange={(e) => setServiceDescriptionFour(e.target.value)}></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
 									<hr />
 									<div className="row">
 										<div className="col-lg-4 col-md-12">
@@ -1361,7 +1404,7 @@ export default function MyProfile() {
 										</div>
 										<div className='col-md-6'>
 											<div className="banner-btn position-bottom">
-												<a href="/startjourney">Start your journey</a>
+												<a href="/bookings/step1">Start your journey</a>
 											</div>
 										</div>
 									</div>

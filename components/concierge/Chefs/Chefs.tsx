@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getChefByFilter, getCuisine, approveChefProfile } from '../../../lib/adminapi';
-import { getAllConciergechef, createChef, deleteChef } from '../../../lib/concierge';
+// import { getChefByFilter, getCuisine, approveChefProfile } from '../../../lib/adminapi';
+
+import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile, getChefLocationByFilter, chefPriceFilter } from '../../../lib/adminapi';
+
+import { getAllConciergechef, createChef, deleteChef, getChefAllLocationByConcierge } from '../../../lib/concierge';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
@@ -43,6 +46,18 @@ export default function Chefs() {
     surname?: string
   }
 
+  interface Location {
+    lat: number,
+    name: string;
+    surname: string;
+    address: string;
+    pic: string;
+    approved_by_admin: string;
+    profile_status: string;
+    cuisine_name: string;
+    amount: string;
+  }
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [buttonStatus, setButtonState] = useState(false);
@@ -52,6 +67,10 @@ export default function Chefs() {
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
   const [filteredChefs, setFilteredChefs] = useState<FilterData[]>([]);
   const [chefs, setChefs] = useState<chefData[]>([]);
+  const [getlocation, setGetLocation] = useState<Location[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<Location[]>([]);
+  const [filterLocation, setFilterLocation] = useState<Location[]>([]);
+
   const [getcuisine, setGetCuisine] = useState<GetCuisine[]>([]);
   const [showAllCuisines, setShowAllCuisines] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -83,6 +102,7 @@ export default function Chefs() {
       const userData: any = getCurrentUserData();
       getAllChef();
       getAllCuisine();
+      getAllChefLocation();
       const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
       getChefByFilter({ cuisines: cuisinesArray.join(',') })
         .then(res => {
@@ -97,6 +117,8 @@ export default function Chefs() {
     }
 
   }, [selectedCuisines]);
+
+
 
   const getAllChef = () => {
     const userData: any = getCurrentUserData();
@@ -127,6 +149,22 @@ export default function Chefs() {
         console.log(err);
       });
   }
+
+  const getAllChefLocation = () => {
+    const userData: any = getCurrentUserData();
+    getChefAllLocationByConcierge(userData.id)
+      .then((res) => {
+        if (res.status) {
+          setGetLocation(res.data);
+        } else {
+          console.log(res.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
 
   const ApproveChefProfile = async (e: any, id: any) => {
     e.preventDefault();
@@ -213,6 +251,17 @@ export default function Chefs() {
     } else {
       setSelectedCuisines((prevCuisines) =>
         prevCuisines.filter((c) => c !== value)
+      );
+    }
+  };
+
+  const handleCheckboxLocationChange = (e: any) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setSelectedLocation((prevLocations) => [...prevLocations, value]);
+    } else {
+      setSelectedLocation((prevLocations) =>
+        prevLocations.filter((c) => c !== value)
       );
     }
   };
@@ -392,7 +441,7 @@ export default function Chefs() {
           </li>
           <li>
             <div className='text-right'>
-              <button className="table-btn" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add</button>
+              <button className="table-btn border-radius round-white" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add</button>
             </div>
           </li>
           <li className="right-li">
@@ -750,16 +799,22 @@ export default function Chefs() {
               aria-labelledby="headingTwo"
               data-bs-parent="#accordionExample"
             >
-              <div className="accordion-body">
-                <strong>This is the second item's accordion body.</strong> It is
-                hidden by default, until the collapse plugin adds the
-                appropriate classNamees that we use to style each element. These
-                classNamees control the overall appearance, as well as the
-                showing and hiding via CSS transitions. You can modify any of
-                this with custom CSS or overriding our default variables. It's
-                also worth noting that just about any HTML can go within the{" "}
-                <code>.accordion-body</code>, though the transition does limit
-                overflow.
+              <div className="accordion-body" id="location-filter">
+
+                {getlocation.map((location, index) => (
+                  <div className="col-sm-12" key={index}>
+                    <input
+                      type="checkbox"
+                      value={location.lat}
+                      onChange={handleCheckboxLocationChange}
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      {location.address}
+                    </label>
+                  </div>
+                ))}
+
               </div>
             </div>
           </div>
@@ -773,7 +828,7 @@ export default function Chefs() {
                 aria-expanded="false"
                 aria-controls="collapseThree"
               >
-                Dietaty Restrictions
+                Pricing
               </button>
             </h2>
             <div
@@ -783,15 +838,114 @@ export default function Chefs() {
               data-bs-parent="#accordionExample"
             >
               <div className="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is
-                hidden by default, until the collapse plugin adds the
-                appropriate classNamees that we use to style each element. These
-                classNamees control the overall appearance, as well as the
-                showing and hiding via CSS transitions. You can modify any of
-                this with custom CSS or overriding our default variables. It's
-                also worth noting that just about any HTML can go within the{" "}
-                <code>.accordion-body</code>, though the transition does limit
-                overflow.
+                <div className="row">
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="249"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      Under ₹250
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="250"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      ₹250-₹500
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="900"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      ₹500-₹1,000
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="1000"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      ₹1,000-₹2,000
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="2000"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      Over ₹2000
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingFour">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseFour"
+                aria-expanded="false"
+                aria-controls="collapseFour"
+              >
+                Approved
+              </button>
+            </h2>
+            <div
+              id="collapseFour"
+              className="accordion-collapse collapse show"
+              aria-labelledby="headingFour"
+              data-bs-parent="#accordionExample"
+            >
+              <div className="accordion-body">
+                <div className="row">
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="yes"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      Approved Chefs
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="no"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      Unapproved Chefs
+                    </label>
+                  </div>
+                  <div className="col-sm-12">
+                    <input
+                      type="checkbox"
+                      value="all"
+                      style={{ marginRight: "5px" }}
+                    />
+                    <label style={{ marginLeft: "5px" }}>
+                      All chefs
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

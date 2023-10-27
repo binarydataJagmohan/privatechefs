@@ -147,7 +147,8 @@ export default function Step1(props: any) {
           </div>
 
 
-          <div className="row mb-5">
+          {/* <div className="row mb-5"> */}
+          <div className="row mb-0 set-scroll-down">
             <div className="col-lg-6 col-md-12">
               <form action="">
                 <div className="row">
@@ -175,8 +176,9 @@ export default function Step1(props: any) {
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="#">One Time Service</a>
+                        <a href="#" onClick={(e) => setSeriveType('onetime')}>One Time Service</a>
                       </p>
+                      
                     </div>
                   </div>
                   <div className="col-sm-5">
@@ -200,7 +202,7 @@ export default function Step1(props: any) {
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="#">Multiple Time Services</a>
+                        <a href="#" onClick={(e) => setSeriveType('multipletimes')}>Multiple Time Services</a>
                       </p>
                     </div>
                   </div>

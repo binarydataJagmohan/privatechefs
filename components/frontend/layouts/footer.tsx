@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import ChefLocation from '../../../components/frontend/FooterLocation/ChefLocation'
+import { getAllLocation } from "../../../lib/frontendapi"
+
 
 export default function Footer() {
+
+  interface Location {
+    id: number;
+    pic: string;
+    address: string;
+    location_pic: string;
+}
+
   const router = useRouter();
   const excludeFooterRoutes = ['/user/messages'];
+  const [locations, setLocations] = useState<Location[]>([]);
 
   // Check if the current route should exclude the footer
   const shouldExcludeFooter = excludeFooterRoutes.includes(router.pathname);
@@ -22,13 +34,15 @@ export default function Footer() {
             <form className="email-part mt-2">
               <input type="text" placeholder="Enter your email" />
             </form>
+          
+            < ChefLocation />
             <ul className="ft-nav mt-3">
               <li><a href="/contact/#faq">FAQ</a></li>
               <li><a href="/contact">Contact Us</a></li>
               <li><a href="/whoweare">Who we are</a></li>
               <li><a href="/ourchefs">Our Chefs</a></li>
               <li><a href="/ourservices">Our Services</a></li>
-              <li><a href="/location">Location</a></li>
+              <li><a href="/ourlocations">Location</a></li>
               <li><a href="/privacypolicy">Privacy Policy</a></li>
               <li><a href="/termsconditions">Terms & Conditions</a></li>
             </ul>

@@ -25,9 +25,9 @@ export default function Step6() {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [adults, setAdults] = useState("");
-  const [teens, setTeens] = useState("");
-  const [childrens, setChildren] = useState("");
+  const [adults, setAdults] = useState(0);
+  const [teens, setTeens] = useState(0);
+  const [childrens, setChildren] = useState(0);
   const [address, setLocation] = useState(" ");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -39,36 +39,10 @@ export default function Step6() {
   const [cuisine, setSelectedCuisine] = useState(['']);
   const [allergies, setSelectedAllergies] = useState(['']);
   const [additionalnotes, setAdditionalNotes] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false); // Add this state variable
 
-  const handleAddition = (e: any) => {
-    setAdults(prevAdults => prevAdults + 1);
-  };
 
-  const handleSubtraction = (e: any) => {
-    if (adults > 0) {
-      setAdults(prevAdults => prevAdults - 1);
-    }
-  };
 
-  const handleTeensAddition = (e: any) => {
-    setTeens(prevTeens => prevTeens + 1);
-  };
-
-  const handleTeensSubtraction = (e: any) => {
-    if (teens > 0) {
-      setTeens(prevTeens => prevTeens - 1);
-    }
-  };
-
-  const handleChildrenAddition = (e: any) => {
-    setChildren(prevchildrens => prevchildrens + 1);
-  };
-
-  const handleChildrenSubtraction = (e: any) => {
-    if (childrens > 0) {
-      setChildren(prevchildrens => prevchildrens - 1);
-    }
-  };
 
 
   useEffect(() => {
@@ -189,14 +163,118 @@ export default function Step6() {
   };
 
 
+  // async function handleSubmit(e: any) {
+  //   e.preventDefault();
+
+  //   if (isSubmitting) {
+  //     return; 
+  //   }
+
+  //   if (adults || teens || childrens) {
+
+  //     if (name && email && phone) {
+
+  //       setIsSubmitting(true)
+
+  //       const data = {
+  //         user_id: userid,
+  //         category: serviceype,
+  //         date: time,
+  //         meals: mealsselected,
+  //         service_id: servicestyle,
+  //         cuisine_id: cuisine,
+  //         allergies_id: allergies,
+  //         notes: additionalnotes,
+  //         name: name,
+  //         surname: surname,
+  //         email: email,
+  //         phone: phone,
+  //         adults: adults,
+  //         childrens: childrens,
+  //         teens: teens,
+  //         address: address,
+  //         lat: lat,
+  //         lng: lng,
+  //       }
+
+  //       console.log(data);
+
+  //       SaveBooking(data)
+  //         .then(res => {
+  //           if (res.status == true) {
+  //             window.location.href = "/bookings/step7";
+  //             window.localStorage.setItem("bookingid", res.bookingid);
+  //           }
+  //           if (res.status == false) {
+  //             toast.error(res.message, {
+  //               position: toast.POSITION.TOP_RIGHT,
+  //               toastId: 'error',
+  //               closeButton: true,
+  //               hideProgressBar: false,
+  //               style: {
+  //                 background: '#ffff',
+  //                 borderLeft: '4px solid #e74c3c',
+  //                 color: '#454545',
+  //               },
+  //               progressStyle: {
+  //                 background: '#ffff',
+  //               },
+  //             });
+
+  //           }
+  //         })
+  //         .catch(err => {
+  //           toast.error(err, {
+  //             position: toast.POSITION.TOP_RIGHT,
+  //             toastId: 'error',
+  //             closeButton: true,
+  //             hideProgressBar: false,
+  //             style: {
+  //               background: '#ffff',
+  //               borderLeft: '4px solid #e74c3c',
+  //               color: '#454545',
+  //             },
+  //             progressStyle: {
+  //               background: '#ffff',
+  //             },
+
+  //           });
+  //         });
+  //       setIsSubmitting(false);
+
+
+  //     } else {
+
+  //       swal({
+  //         title: 'Oops!',
+  //         text: 'Name,Email,Phone number are required field',
+  //         icon: 'info',
+  //       });
+  //     }
+
+
+  //   } else {
+
+  //     swal({
+  //       title: 'Oops!',
+  //       text: 'You need to enter number of people of any category',
+  //       icon: 'info',
+  //     });
+  //   }
+
+  // }
   async function handleSubmit(e: any) {
     e.preventDefault();
-
-
+  
+    if (isSubmitting) {
+      return; // If already submitting, return early to prevent multiple submissions
+    }
+  
+    // Set isSubmitting to true to disable the button
+    setIsSubmitting(true);
+  
     if (adults || teens || childrens) {
-
       if (name && email && phone) {
-
         const data = {
           user_id: userid,
           category: serviceype,
@@ -216,36 +294,16 @@ export default function Step6() {
           address: address,
           lat: lat,
           lng: lng,
-        }
-
-        console.log(data);
-
-        SaveBooking(data)
-          .then(res => {
-            if (res.status == true) {
-              window.location.href = "/bookings/step7";
-              window.localStorage.setItem("bookingid", res.bookingid);
-            }
-            if (res.status == false) {
-              toast.error(res.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                toastId: 'error',
-                closeButton: true,
-                hideProgressBar: false,
-                style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
-                },
-                progressStyle: {
-                  background: '#ffff',
-                },
-              });
-
-            }
-          })
-          .catch(err => {
-            toast.error(err, {
+        };
+  
+        try {
+          const res = await SaveBooking(data);
+  
+          if (res.status === true) {
+            window.location.href = "/bookings/step7";
+            window.localStorage.setItem("bookingid", res.bookingid);
+          } else {
+            toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
               toastId: 'error',
               closeButton: true,
@@ -259,31 +317,43 @@ export default function Step6() {
                 background: '#ffff',
               },
             });
+          }
+        } 
+        catch (err) {
+          toast.error(err, {
+            position: toast.POSITION.TOP_RIGHT,
+            toastId: 'error',
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: '#ffff',
+              borderLeft: '4px solid #e74c3c',
+              color: '#454545',
+            },
+            progressStyle: {
+              background: '#ffff',
+            },
           });
-
-
+        }
       } else {
-
         swal({
           title: 'Oops!',
-          text: 'Name,Email,Phone number are required field',
+          text: 'Name, Email, Phone number are required fields',
           icon: 'info',
         });
       }
-
-
     } else {
-
       swal({
         title: 'Oops!',
-        text: 'You need to enter number of people of any category',
+        text: 'You need to enter the number of people in any category',
         icon: 'info',
       });
     }
-
+  
+    // Reset isSubmitting to false after the submission process is complete
+    setIsSubmitting(false);
   }
-
-
+  
   return (
     <>
       <section className="journey-part">
@@ -315,26 +385,45 @@ export default function Step6() {
                   />
                 </div>
 
-                <div className="input-group mt-4 mb-4 mb-md-0">
+                <div className="input-group mt-4 mb-4 mb-md-0 set-width-number">
+                  <div className="input-group-prepend">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={() => {
+                        if (adults > 0) {
+                          setAdults(adults - 1);
+                        }
+                      }}
+                      style={{border: '1px lightgrey solid'}}>
+                      -
+                    </button>
+                  </div>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="updQtyLoose47"
                     value={adults}
-                    onChange={(e) => setAdults(e.target.value)}
+                    onChange={(e) => {
+                      const newValue = Number(e.target.value);
+                      if (!isNaN(newValue)) {
+                        setAdults(newValue);
+                      }
+                    }}
                     placeholder="Adults"
                     min="0"
                   />
-                  <div className="flex postion-ab">
-                    <div className="input-group-append">
-                      <a className="btn btn-outline-secondary" onClick={handleAddition}>+</a>
-                    </div>
-                    <div className="input-group-append">
-                      <a className="btn btn-outline-secondary" onClick={handleSubtraction}>-
-                      </a>
-                    </div>
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={() => setAdults(adults + 1)}
+                      style={{border: '1px lightgrey solid'}}>
+                      +
+                    </button>
                   </div>
                 </div>
+
               </div>
               <div className="col-sm-4">
                 <div className="slider-img-plase">
@@ -347,23 +436,41 @@ export default function Step6() {
                   />
                 </div>
 
-                <div className="input-group mt-4 mb-4 mb-md-0">
+                <div className="input-group mt-4 mb-4 mb-md-0 set-width-number">
+                  <div className="input-group-prepend">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={() => {
+                        if (teens > 0) {
+                          setTeens(teens - 1);
+                        }
+                      }}
+                      style={{border: '1px lightgrey solid'}}>
+                      -
+                    </button>
+                  </div>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     value={teens}
-                    onChange={(e) => setTeens(e.target.value)}
+                    onChange={(e) => {
+                      const newValue = Number(e.target.value);
+                      if (!isNaN(newValue)) {
+                        setTeens(newValue);
+                      }
+                    }}
                     placeholder="Teen"
                     min="0"
                   />
-                  <div className="flex postion-ab">
-                    <div className="input-group-append">
-                      <a className="btn btn-outline-secondary" onClick={handleTeensAddition}>+</a>
-                    </div>
-                    <div className="input-group-append">
-                      <a className="btn btn-outline-secondary" onClick={handleTeensSubtraction}>-
-                      </a>
-                    </div>
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={() => setTeens(teens + 1)}
+                      style={{border: '1px lightgrey solid'}}>
+                      +
+                    </button>
                   </div>
                 </div>
 
@@ -380,23 +487,43 @@ export default function Step6() {
                 </div>
 
 
-                <div className="input-group mt-4 mb-4 mb-md-0">
+                <div className="input-group mt-4 mb-4 mb-md-0 set-width-number">
+                  <div className="input-group-prepend">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={() => {
+                        if (childrens > 0) {
+                          setChildren(childrens - 1);
+                        }
+                      }}
+                      style={{border: '1px lightgrey solid'}}
+                    >
+                      -
+                    </button>
+                  </div>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     value={childrens}
-                    onChange={(e) => setChildren(e.target.value)}
+                    onChange={(e) => {
+                      const newValue = Number(e.target.value);
+                      if (!isNaN(newValue)) {
+                        setChildren(newValue);
+                      }
+                    }}
                     placeholder="Children"
                     min="0"
                   />
-                  <div className="flex postion-ab">
-                    <div className="input-group-append">
-                      <a className="btn btn-outline-secondary" onClick={handleChildrenAddition}>+</a>
-                    </div>
-                    <div className="input-group-append">
-                      <a className="btn btn-outline-secondary" onClick={handleChildrenSubtraction}>-
-                      </a>
-                    </div>
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={() => setChildren(childrens + 1)}
+                      style={{border: '1px lightgrey solid'}}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
 
@@ -470,7 +597,13 @@ export default function Step6() {
                 <a href="/bookings/step5">Back</a>
               </div>
               <div className="view-more bg-golden mt-3">
-                <button className="booking_submit_btn" type="submit">Submit</button>
+                 <button
+                  className="booking_submit_btn"
+                  type="submit"
+                  disabled={isSubmitting} // Disable the button while submitting
+                >
+                  {isSubmitting ? "Submitting..." : "Submit"}
+                </button>
               </div>
             </div>
           </div>

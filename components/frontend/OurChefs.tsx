@@ -113,7 +113,7 @@ export default function OurChefs(props:any) {
                                         ) : (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" id="chef_id" />
                                         )}
-                                        <p className="plase-btn"><a href="/frontchefs">{data.name}</a></p>
+                                        <p className="plase-btn"><a href={process.env.NEXT_PUBLIC_BASE_URL + 'frontchefs/' + data.id}>{data.name}</a></p>
                                     </div>
                                 </div>
                             ))}

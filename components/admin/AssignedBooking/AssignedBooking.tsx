@@ -602,6 +602,7 @@ export default function Bookings() {
 							<thead>
 								<tr>
 									<th scope="col">ID</th>
+                                    <th scope="col">Chef</th>
 									<th scope="col">Customer</th>
 									<th scope="col">Image</th>
 									<th scope="col">Booking Date</th>
@@ -628,6 +629,7 @@ export default function Bookings() {
 									return (
 										<tr key={index}>
 											<td>{index + 1}</td>
+                                            <td>{user.chef_name}</td>
 											<td>{`${user.name} ${user.surname !== null && user.surname !== 'null' ? user.surname : ''}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 											<td className="chefs_pic">
 												{user.pic ? <img
@@ -861,7 +863,7 @@ export default function Bookings() {
 													<p className="chefs-name name-12">Special Requests:</p>
 												</div>
 												<div className="col-8">
-												{booking.notes !== null && booking.notes !== 'null' ? (
+													{booking.notes !== null && booking.notes !== 'null' ? (
                                                   <p className="mony f-w-4">{booking.notes}</p>
                                                 ) : ''}
 												</div>

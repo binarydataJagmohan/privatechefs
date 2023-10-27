@@ -4,6 +4,7 @@ import { getUserBookingById } from "../../../lib/adminapi";
 import moment from 'moment';
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
+import Link from 'next/link';
 
 export default function MyProfile(props: any) {
 
@@ -49,9 +50,9 @@ export default function MyProfile(props: any) {
         tax_id: "",
     });
     const [bookingUsers, setBookingUser] = useState([]);
-    const [totalMenu, setTotalMenu]:any = useState({});
+    const [totalMenu, setTotalMenu]: any = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-	const pageSize = 10;
+    const pageSize = 10;
 
     let id = props.userId;
 
@@ -71,35 +72,41 @@ export default function MyProfile(props: any) {
         });
     };
 
-    	const onPageChange = (page:any) => {
-		setCurrentPage(page);
-		getUserBookingById(id)
-			.then(res => {
-				if (res.status == true) {
-					setTotalMenu(res.data);
-					const paginatedPosts = paginate(res.data, page, pageSize);
-					setBookingUser(paginatedPosts);
-				} else {
-					console.log(res.message);
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
+    const onPageChange = (page: any) => {
+        setCurrentPage(page);
+        getUserBookingById(id)
+            .then(res => {
+                if (res.status == true) {
+                    setTotalMenu(res.data);
+                    const paginatedPosts = paginate(res.data, page, pageSize);
+                    setBookingUser(paginatedPosts);
+                } else {
+                    console.log(res.message);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
-    const formatDate = (value:any) => {
-	return moment(value).format('D/M/YY');
-  }
-  
+    const formatDate = (value: any) => {
+        return moment(value).format('D/M/YY');
+    }
+
 
     return (
         <>
-         <h5 style={{color:"#ff4e00d1"}}>User Detail</h5>
+            <Link href="/concierge/customers">
+                <button
+                    className="table-btn mb-4"
+                >
+                    Back
+                </button></Link>
+            <h5 style={{ color: "#ff4e00d1" }}>User Detail</h5>
             <div className="user-class pt-5">
-                <div className="userImg" style={{ flex: "1" }}>
+                <div className="userImg chef-img-set" style={{ flex: "1" }}>
                     {getUsers.pic ? (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' +getUsers.pic} alt="" width={100} height={100} />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + getUsers.pic} alt="" width={100} height={100} />
                     ) : (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" width={100} height={100} />
                     )}
@@ -108,142 +115,142 @@ export default function MyProfile(props: any) {
                     <p><span id="book-user">Name</span> : {getUsers.name} {getUsers.surname}</p>
                     <p><span id="book-user">Email</span> : {getUsers.email}</p>
                     {getUsers.phone ? (
-                    <p><span id="book-user">Phone</span> : {getUsers.phone}</p>
-                    ):(
+                        <p><span id="book-user">Phone</span> : {getUsers.phone}</p>
+                    ) : (
                         null
                     )}
-                     {getUsers.birthday ? (
-                    <p><span id="book-user">Birthday</span> : {getUsers.birthday}</p>
-                    ):(
+                    {getUsers.birthday ? (
+                        <p><span id="book-user">Birthday</span> : {getUsers.birthday}</p>
+                    ) : (
                         null
                     )}
-                     {getUsers.timezone ? (
-                    <p><span id="book-user">Timezone </span>: {getUsers.timezone}</p>
-                    ):(
+                    {getUsers.timezone ? (
+                        <p><span id="book-user">Timezone </span>: {getUsers.timezone}</p>
+                    ) : (
                         null
                     )}
-                     {getUsers.currency ? (
-                    <p><span id="book-user">Currency</span> : {getUsers.currency}</p>
-                    ):(
+                    {getUsers.currency ? (
+                        <p><span id="book-user">Currency</span> : {getUsers.currency}</p>
+                    ) : (
                         null
                     )}
-                     {getUsers.address ? (
-                    <p><span id="book-user">Address</span> : {getUsers.address}</p>
-                    ):(
+                    {getUsers.address ? (
+                        <p><span id="book-user">Address</span> : {getUsers.address}</p>
+                    ) : (
                         null
                     )}
                 </div>
                 <div style={{ flex: "2" }}>
-                {getUsers.city ? (
-                    <p><span id="book-user">City</span> : {getUsers.city}</p>
-                    ):(
+                    {getUsers.city ? (
+                        <p><span id="book-user">City</span> : {getUsers.city}</p>
+                    ) : (
                         null
                     )}
                     {getUsers.country ? (
-                    <p><span id="book-user">Country </span>: {getUsers.country}</p>
-                    ):(
+                        <p><span id="book-user">Country </span>: {getUsers.country}</p>
+                    ) : (
                         null
                     )}
                     {getUsers.post_code ? (
-                    <p><span id="book-user">Post Code </span>: {getUsers.post_code}</p>
-                    ):(
+                        <p><span id="book-user">Post Code </span>: {getUsers.post_code}</p>
+                    ) : (
                         null
                     )}
                     {getUsers.business_email ? (
-                    <p><span id="book-user">Business Email </span>: {getUsers.business_email}</p>
-                    ):(
+                        <p><span id="book-user">Business Email </span>: {getUsers.business_email}</p>
+                    ) : (
                         null
                     )}
                     {getUsers.business_phoneno ? (
-                    <p><span id="book-user">Business Phone No. </span>: {getUsers.business_phoneno}</p>
-                    ):(
+                        <p><span id="book-user">Business Phone No. </span>: {getUsers.business_phoneno}</p>
+                    ) : (
                         null
                     )}
                     {getUsers.company_name ? (
-                    <p><span id="book-user">Company Name</span> : {getUsers.company_name}</p>
-                    ):(
+                        <p><span id="book-user">Company Name</span> : {getUsers.company_name}</p>
+                    ) : (
                         null
                     )}
                     {getUsers.vat_no ? (
-                    <p><span id="book-user">VAT Number </span>: {getUsers.vat_no}</p>
-                    ):(
+                        <p><span id="book-user">VAT Number </span>: {getUsers.vat_no}</p>
+                    ) : (
                         null
                     )}
                     {getUsers.tax_id ? (
-                    <p><span id="book-user">TAX ID</span> : {getUsers.tax_id}</p>
-                    ):(
+                        <p><span id="book-user">TAX ID</span> : {getUsers.tax_id}</p>
+                    ) : (
                         null
                     )}
                 </div>
             </div>
             <div className='users-boking'>
                 <div className="table-box">
-                {bookingUsers.length > 0 ?
-                    <table className="table table-borderless common_booking">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Date Requested</th>
-                                <th scope="col">Booking Date</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Image</th>
-                                {/* <th scope="col">Status</th> */}
-                            </tr>
-                        </thead>
-                        <tbody>
+                    {bookingUsers.length > 0 ?
+                        <table className="table table-borderless common_booking">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Date Requested</th>
+                                    <th scope="col">Booking Date</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Image</th>
+                                    {/* <th scope="col">Status</th> */}
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                            {bookingUsers.map((user: any, index) => {
+                                {bookingUsers.map((user: any, index) => {
 
-                                const datesString = user.dates;
-                                const dates: Date[] = datesString.split(',').map((dateString: string) => formatDate(dateString));
-                                const startDate = dates[0];
-                                const endDate = dates[dates.length - 1];
-                                const output = `${startDate} to ${endDate}`;
+                                    const datesString = user.dates;
+                                    const dates: Date[] = datesString.split(',').map((dateString: string) => formatDate(dateString));
+                                    const startDate = dates[0];
+                                    const endDate = dates[dates.length - 1];
+                                    const output = `${startDate} to ${endDate}`;
 
-                                return (
-                                    <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 
-                                        <td>{formatDate(user.latest_created_at)}</td>
+                                            <td>{formatDate(user.latest_created_at)}</td>
 
-                                        <td>{user.category == 'onetime' ? formatDate(user.dates) : output}</td>
-                                        <td>{user.location}</td>
-                                        <td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
-                                        <td className="chefs_pic">
-                                            {user.pic ? <img
-                                                src={
-                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                    "/images/chef/users/" + user.pic
-                                                }
-                                                alt=""
-                                            /> : <img
-                                                src={
-                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                    "/images/users.jpg"
-                                                }
-                                                alt=""
-                                            />}
-                                        </td>
-                                        {/* <td>{user.booking_status}</td> */}
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                     :
-                     <p className="book1">No Booking Records Found</p>
-                     }
+                                            <td>{user.category == 'onetime' ? formatDate(user.dates) : output}</td>
+                                            <td>{user.location}</td>
+                                            <td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
+                                            <td className="chefs_pic">
+                                                {user.pic ? <img
+                                                    src={
+                                                        process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                        "/images/chef/users/" + user.pic
+                                                    }
+                                                    alt=""
+                                                /> : <img
+                                                    src={
+                                                        process.env.NEXT_PUBLIC_IMAGE_URL +
+                                                        "/images/users.jpg"
+                                                    }
+                                                    alt=""
+                                                />}
+                                            </td>
+                                            {/* <td>{user.booking_status}</td> */}
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                        :
+                        <p className="book1">No Booking Records Found</p>
+                    }
                 </div>
             </div>
             <Pagination
-				items={totalMenu.length}
-				currentPage={currentPage}
-				pageSize={pageSize}
-				onPageChange={onPageChange}
-			/>
+                items={totalMenu.length}
+                currentPage={currentPage}
+                pageSize={pageSize}
+                onPageChange={onPageChange}
+            />
         </>
     )
 }

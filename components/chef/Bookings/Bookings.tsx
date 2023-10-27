@@ -661,7 +661,7 @@ export default function Bookings() {
 													<p className="chefs-name name-12">Special Requests:</p>
 												</div>
 												<div className="col-8">
-												{booking.notes !== null && booking.notes !== 'null' ? (
+													{booking.notes !== null && booking.notes !== 'null' ? (
                                                   <p className="mony f-w-4">{booking.notes}</p>
                                                 ) : ''}
 

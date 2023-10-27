@@ -65,7 +65,7 @@ export default function Header() {
                         <p className="mb-0 comments-bell"><a href="/admin/chats"><i className="fa-solid fa-comments"></i></a></p>
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
-                        <p className="mb-0 comments-bell">
+                        <p className="mb-0 comments-bell set-bell-admin">
                             <Link href={`/admin/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i></Link>
                             {countdata ? (
                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: 'red', marginLeft: '5px' }}>{countdata}</span>

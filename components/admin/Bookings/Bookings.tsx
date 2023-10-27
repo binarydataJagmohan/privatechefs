@@ -10,6 +10,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
 
+
 export default function Bookings() {
 
 	interface Booking {
@@ -128,6 +129,7 @@ export default function Bookings() {
 	const [getchefmenu, setgetChefMenu] = useState<Menu[]>([]);
 	const [selectedChef, setSelectedChef] = useState('');
 	const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
@@ -228,8 +230,6 @@ export default function Bookings() {
 					setTotalBooking(res.data);
 					const paginatedPosts = paginate(res.data, page, pageSize);
 					setBookingUser(paginatedPosts);
-
-
 				} else {
 					setErrorMessage(res.message);
 				}
@@ -368,10 +368,10 @@ export default function Bookings() {
 
 	const handleBookingAssignJobSubmit = (event: any) => {
 		event.preventDefault();
-
 		var client = $('#client_amount_' + appliedid).val();
 		var admin = $('#admin_amount_' + appliedid).val();
 		var user_show = $('#user_show_' + appliedid).val();
+
 
 		if (!appliedid) {
 
@@ -579,82 +579,96 @@ export default function Bookings() {
 		setMenuOptions(filteredMenuOptions);
 	};
 
-	const handleBookingApplyJobSubmit = (event: any) => {
+const handleBookingApplyJobSubmit = (event: any) => {
 		event.preventDefault();
-
+	  
+		if (isSubmitting) {
+		  return; // If already submitting, return early to prevent multiple submissions
+		}
+	  
 		if (!selectedChef) {
-			// Chef not selected from dropdown
-			swal({
-				title: 'Oops!',
-				text: 'Please choose one user to assign this booking',
-				icon: 'info',
-			});
-			return;
+		  // Chef not selected from dropdown
+		  swal({
+			title: 'Oops!',
+			text: 'Please choose one user to assign this booking',
+			icon: 'info',
+		  });
+		  return;
 		}
-
 		if (!adminamount || !clientamount) {
-			// Required fields not entered
-			swal({
-				title: 'Oops!',
-				text: 'Please enter admin amount, client amount, and select user status visibility',
-				icon: 'info',
-			});
-			return;
+		  // Required fields not entered
+		  swal({
+			title: 'Oops!',
+			text: 'Please enter admin amount, client amount, and select user status visibility',
+			icon: 'info',
+		  });
+		  return;
 		}
-
+	  
+		if (!menuOptions || !menuOptions[0] || !menuOptions[0].menuid) {
+		  // Menu not selected or not available
+		  swal({
+			title: 'Oops!',
+			text: 'Please select a user with menus',
+			icon: 'info',
+		  });
+		  return;
+		}
+	  
+		setIsSubmitting(true); // Set isSubmitting to true when the form submission begins
+	  
 		const data = {
-			amount: amount1,
-			menu: menuOptions[0].menuid,
-			booking_id: bookingid,
-			chef_id: selectedChef,
-			client_amount: clientamount,
-			admin_amount: adminamount,
-
+		  amount: amount1,
+		  menu: menuOptions[0].menuid,
+		  booking_id: bookingid,
+		  chef_id: selectedChef,
+		  client_amount: clientamount,
+		  admin_amount: adminamount,
 		};
+	  
 		AssignedBookingByAdmin(data)
-			.then(res => {
-				if (res.status == true) {
-					setModalConfirm(false);
-					setModalConfirm1(false);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-						closeButton: true,
-						hideProgressBar: false,
-						style: {
-							background: '#ffff',
-							borderLeft: '4px solid #ff4e00d1',
-							color: '#454545',
-							"--toastify-icon-color-success": "#ff4e00d1",
-						},
-						progressStyle: {
-							background: '#ffff',
-						},
-					});
-
-				} else {
-
-					toast.error(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-						closeButton: true,
-						hideProgressBar: false,
-						style: {
-							background: '#ffff',
-							borderLeft: '4px solid #e74c3c',
-							color: '#454545',
-						},
-						progressStyle: {
-							background: '#ffff',
-						},
-					});
-
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-
-
-	};
+		  .then(res => {
+			if (res.status === true) {
+			  setModalConfirm(false);
+			  setModalConfirm1(false);
+	  
+			  toast.success(res.message, {
+				position: toast.POSITION.TOP_RIGHT,
+				closeButton: true,
+				hideProgressBar: false,
+				style: {
+				  background: '#ffff',
+				  borderLeft: '4px solid #ff4e00d1',
+				  color: '#454545',
+				  "--toastify-icon-color-success": "#ff4e00d1",
+				},
+				progressStyle: {
+				  background: '#ffff',
+				},
+			  });
+			} else {
+			  toast.error(res.message, {
+				position: toast.POSITION.TOP_RIGHT,
+				closeButton: true,
+				hideProgressBar: false,
+				style: {
+				  background: '#ffff',
+				  borderLeft: '4px solid #e74c3c',
+				  color: '#454545',
+				},
+				progressStyle: {
+				  background: '#ffff',
+				},
+			  });
+			}
+		  })
+		  .catch(err => {
+			console.log(err);
+		  })
+		  .finally(() => {
+			setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
+		  });
+	  };
 
 
 
@@ -747,10 +761,15 @@ export default function Bookings() {
 											<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
 
 											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
+
 											<td><p className="text-data-18" id="table-p">{user.location}</p></td>
 											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
 
 											<td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
+
+											{/* <td className={`booking-status-${user.booking_status}`}>
+												{isBookingUpcoming(user.dates)}
+											</td> */}
 
 											<td>
 												<div className="dropdown" id="none-class">
@@ -814,7 +833,7 @@ export default function Bookings() {
 							</tbody>
 						</table>
 						:
-						<p className="book1">No Booking Records Found</p>
+						<p className="book1" style={{textAlign:"center"}}>No Booking Records Found.</p>
 					}
 				</div>
 			</div>
@@ -866,7 +885,7 @@ export default function Bookings() {
 													</div>
 												))
 											) : (
-												<p className="mt-2">No Chef apply for this booking</p>
+												<p className="mt-2" style={{textAlign:"center"}}>No Chef apply for this booking</p>
 											)}
 										</div>
 									</div>
@@ -1078,7 +1097,7 @@ export default function Bookings() {
 
 			<PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
 				<div className="popup-part new-modala">
-					<h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
+					<h2 className="title-pop up-move mt-2">Booking id tg #{bookingid}</h2>
 					<div className="offers">
 						<form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
 							<table className="table">
@@ -1166,7 +1185,7 @@ export default function Bookings() {
 										))
 									) : (
 										<tr>
-											<td className="">No Chef apply for this booking</td>
+											<td className="" colSpan={7} style={{textAlign:"center" ,paddingTop: "5%",border:"unset",fontSize:"16px"}}><p style={{fontSize:"16px"}}>No Chef apply for this booking</p></td>
 										</tr>
 									)}
 								</tbody>
@@ -1312,8 +1331,12 @@ export default function Bookings() {
 											<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
 												Clear
 											</button>
-											<button id="btn_offer">
-												Assign Booking
+										<button
+												id="btn_offer"
+												type="submit"
+												disabled={isSubmitting}
+											>
+												{isSubmitting ? "Submitting..." : "Assign Booking"}
 											</button>
 										</div>
 									</div>

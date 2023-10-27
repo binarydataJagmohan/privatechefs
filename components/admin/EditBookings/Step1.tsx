@@ -255,7 +255,7 @@ export default function Step1() {
             <section className="userprofile-part">
                 <div className="container-fluid">
                   <div className="my-profile mt-5 tab-m-0">
-                    <h2> Edit Booking <span className="log-out"><a href="/admin/booking">Back</a></span></h2>
+                    <h2> Edit Booking <span className="log-out"><a href="/admin/assigned-booking">Back</a></span></h2>
                   </div>
                 <div className="row">
                     <div className="col-lg-3 col-md-12">

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { getAllUsers } from '../../../lib/adminapi'
+import { getAllUsers, getUserLocationByFilter, getUserAllLocation } from '../../../lib/adminapi'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
+import PopupModal from '../../../components/commoncomponents/PopupModal';
 
 export default function Users() {
 
@@ -14,7 +15,23 @@ export default function Users() {
         phone: number,
         pic: string,
     }
-
+    interface Location {
+        lat: number,
+        name: string;
+        surname: string;
+        address: string;
+        pic: string;
+        approved_by_admin: string;
+        profile_status: string;
+        cuisine_name: string;
+        amount: string;
+        id: number,
+        phone: number,
+    }
+    const [modalConfirm, setModalConfirm] = useState(false);
+    const [getlocation, setGetLocation] = useState<Location[]>([]);
+    const [filterLocation, setFilterLocation] = useState<Location[]>([]);
+    const [selectedLocation, setSelectedLocation] = useState<Location[]>([]);
     const [getallusers, setAllUsers] = useState<User[]>([]);
     const [totalMenu, setTotalMenu]: any = useState({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +39,7 @@ export default function Users() {
 
     useEffect(() => {
         getUserData();
+        getAllUserLocation();
     }, [])
 
     const getUserData = () => {
@@ -37,6 +55,21 @@ export default function Users() {
         }
     }
 
+    useEffect(() => {
+        const locationsArray = Array.isArray(selectedLocation) ? selectedLocation : [selectedLocation];
+        //console.log(locationsArray);
+        getUserLocationByFilter({ locations: locationsArray.join(',') })
+            .then((res) => {
+                if (res.status) {
+                    setFilterLocation(res.data);
+                } else {
+                    console.log(res.message);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [selectedLocation]);
     const getAllUsersData = async () => {
         getAllUsers()
             .then(res => {
@@ -53,6 +86,17 @@ export default function Users() {
                 console.log(err);
             });
     }
+
+    const handleCheckboxLocationChange = (e: any) => {
+        const value = e.target.value;
+        if (e.target.checked) {
+            setSelectedLocation((prevLocations) => [...prevLocations, value]);
+        } else {
+            setSelectedLocation((prevLocations) =>
+                prevLocations.filter((c) => c !== value)
+            );
+        }
+    };
 
     const onPageChange = (page: any) => {
         setCurrentPage(page);
@@ -71,12 +115,32 @@ export default function Users() {
             });
     };
 
+    const modalConfirmClose = () => {
+        setModalConfirm(false);
+    }
+
+    const getAllUserLocation = () => {
+        getUserAllLocation()
+            .then((res) => {
+                if (res.status) {
+                    setGetLocation(res.data);
+                } else {
+                    console.log(res.message);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     return (
         <>
             <div className="table-part">
                 <h2>Users</h2>
-                <button className="table-btn">Total</button>
+                <button className="table-btn">Total</button>{" "}
+                <button className="table-btn" onClick={() => setModalConfirm(true)}>
+                    Filter{" "}
+                </button>
                 <div className="table-box">
                     {getallusers.length > 0 ?
                         <table className="table table-borderless">
@@ -90,10 +154,10 @@ export default function Users() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {getallusers.map((user, index) => {
-                                    return (
+                                {filterLocation.length > 0 ? (
+                                    filterLocation.map((user, index) => (
                                         <tr key={index}>
-                                            <td className='chefs_pic'>
+                                            <td className="chefs_pic">
                                                 {user.pic ? (
                                                     <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" />
                                                 ) : (
@@ -105,11 +169,32 @@ export default function Users() {
                                             <td>{user.phone || ''}</td>
                                             <td style={{ paddingLeft: "25px" }}>
                                                 <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
-                                                    <i className="fa fa-eye" aria-hidden="true"></i></a>
+                                                    <i className="fa fa-eye" aria-hidden="true"></i>
+                                                </a>
                                             </td>
                                         </tr>
-                                    );
-                                })}
+                                    ))
+                                ) : (
+                                    getallusers.map((user, index) => (
+                                        <tr key={index}>
+                                            <td className="chefs_pic">
+                                                {user.pic ? (
+                                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" />
+                                                ) : (
+                                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" />
+                                                )}
+                                            </td>
+                                            <td>{user.name || ''} {user.surname || ''}</td>
+                                            <td>{user.address || ''}</td>
+                                            <td>{user.phone || ''}</td>
+                                            <td style={{ paddingLeft: "25px" }}>
+                                                <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
+                                                    <i className="fa fa-eye" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                         :
@@ -117,6 +202,48 @@ export default function Users() {
                     }
                 </div>
             </div>
+            <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
+                <div className="accordion" id="accordionExample">
+
+                    <div className="accordion-item">
+                        <h2 className="accordion-header" id="headingTwo">
+                            <button
+                                className="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo"
+                                aria-expanded="false"
+                                aria-controls="collapseTwo"
+                            >
+                                Locations
+                            </button>
+                        </h2>
+                        <div
+                            id="collapseTwo"
+                            className="accordion-collapse collapse show"
+                            aria-labelledby="headingTwo"
+                            data-bs-parent="#accordionExample"
+                        >
+                            <div className="accordion-body" id="location-filter">
+                                {getlocation.map((location, index) => (
+                                    <div className="col-sm-12" key={index}>
+                                        <input
+                                            type="checkbox"
+                                            value={location.address}
+                                            onChange={handleCheckboxLocationChange}
+                                            style={{ marginRight: "5px" }}
+                                        />
+                                        <label style={{ marginLeft: "5px" }}>
+                                            {location.address}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </PopupModal>
             <Pagination
                 items={totalMenu.length}
                 currentPage={currentPage}

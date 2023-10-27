@@ -218,7 +218,7 @@ export default function Step2() {
                                         <label htmlFor={`myCheckbox2_${service.id}`} className="step_label_css">
                                           {service.image ? 
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/service/'+service.image} alt="step-img-1" /> 
-                                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={204} height={315}/> 
+                                          :  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1"  width={204} height={200}/> 
                                           }
                                           
                                           <p className="plase-btn"><a href="#">{service.service_name}</a></p>

@@ -340,7 +340,7 @@ export default function Cuisine() {
     <>
       <div className="table-part">
         <h2>Cuisine</h2>
-        <ul className="table_header_button_section p-r">
+        <ul className="table_header_button_section p-r" id="cuision_id">
           {/* <li><button className="table-btn">Total</button></li> */}
           <li className="right-li">
             <button

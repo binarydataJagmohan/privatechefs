@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 interface User {
   id: string;
   role: string;
-  // Other properties of the user data object
 }
 
 export function isPageVisibleToRole(pageName: string): number {
@@ -17,6 +16,7 @@ export function isPageVisibleToRole(pageName: string): number {
       "admin-page": ["admin"],
       "chef-menu": ["chef"],
       "chef-edit-profile": ["chef"],
+      "admin-chef-edit-profile": ["admin"],
       "chef-single-menu": ["chef"],
       "admin-chefs": ["admin"],
       "admin-allergy": ["admin"],
@@ -59,8 +59,9 @@ export function isPageVisibleToRole(pageName: string): number {
       "concierge-calender": ["concierge"],
       "admin-calender": ["admin"],
       "chef-calender": ["chef"],
-      "admin-setting": ["admin"],
+      "admin-pages": ["admin"],
       "admin-top-rated-chef": ["admin"],
+      "admin-setting": ["admin"],
     };
 
     if (pageName in pageRoles) {

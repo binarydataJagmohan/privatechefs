@@ -102,8 +102,10 @@ export default function Dashboard() {
 					const data = await getAllBookingData();
 					setBookingCount(data.todayBookings);
 					setPendingBooking(data.pendingBooking);
+					
 					setCompletedBooking(data.completedBooking);
 					console.log(data.completedBooking);
+
 					setWeeklyUsers(data.weeklyUsers);
 					setweeklybooking(data.weeklyBooking);
 					setTotalChef(data.totalChef);

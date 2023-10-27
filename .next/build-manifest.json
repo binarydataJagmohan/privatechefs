@@ -30,15 +30,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/chef/myprofile": [
+    "/chef/menus": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chef/myprofile.js"
+      "static/chunks/pages/chef/menus.js"
     ],
-    "/location/[slug]": [
+    "/concierge/chefs": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/location/[slug].js"
+      "static/chunks/pages/concierge/chefs.js"
     ]
   },
   "ampFirstPages": []

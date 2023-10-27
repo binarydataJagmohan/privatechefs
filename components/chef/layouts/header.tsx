@@ -144,7 +144,7 @@ export default function Header(): JSX.Element {
                         <p className="mb-0 comments-bell"><a href="/chef/chats"><i className="fa-solid fa-comments"></i></a></p>
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
-                        <p className="mb-0 comments-bell">
+                        <p className="mb-0 comments-bell set-bell">
                             <Link href={`/chef/notification/notification?id=${userData}`}><i className="fa-solid fa-bell"></i></Link>
                             {countdata ? (
                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: 'red', marginLeft: '5px' }}>{countdata}</span>

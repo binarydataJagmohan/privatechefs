@@ -346,7 +346,7 @@ export default function UserProfile() {
       <section className="userprofile-part">
         <div className="container">
           <div className="my-profile mt-5 mb-5 tab-m-0">
-            <h2> My profile <span className="log-out"><a onClick={handleLogout} role="button" >Log out</a></span></h2>
+            <h2> My Profile <span className="log-out"><a onClick={handleLogout} role="button" >Log out</a></span></h2>
           </div>
           <form onSubmit={handleUpdateProfile}>
             <div className="row">

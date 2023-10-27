@@ -4,6 +4,7 @@ import { getChefAppliedBooking } from "../../../lib/chefapi";
 import moment from 'moment';
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
+import Link from 'next/link';
 
 export default function MyProfile(props: any) {
 
@@ -85,9 +86,15 @@ export default function MyProfile(props: any) {
 
     return (
         <>
+         <Link href="/admin/chefs">
+                    <button
+                        className="table-btn mb-4"
+                    >
+                        Back
+                    </button></Link>
          <h5 style={{color:"#ff4e00d1"}}>Chefs Detail</h5>
             <div className="user-class pt-5">
-                <div className="userImg" style={{ flex: "1" }}>
+                <div className="userImg chef-img-set" style={{ flex: "1" }}>
                     {getUsers.pic ? (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' +getUsers.pic} alt="" width={100} height={100} />
                     ) : (
@@ -205,6 +212,7 @@ export default function MyProfile(props: any) {
                      }
                 </div>
             </div>
+            {/* // pagination */}
             <Pagination
 				items={totalMenu.length}
 				currentPage={currentPage}

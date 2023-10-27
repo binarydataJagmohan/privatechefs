@@ -1,10 +1,9 @@
 import React from 'react';
-import AdminSettings from '../../../components/admin/Setting/Setting';
-
-export default function Settings() {
+import ChefMyProfile from '../../../components/admin/Setting/Setting';
+export default function MyProfile() {
   return (
         <>
-            <AdminSettings/>
+            <ChefMyProfile/>
         </>
   )
 }

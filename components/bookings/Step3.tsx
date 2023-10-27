@@ -9,13 +9,13 @@ export default function Step3() {
     dinner: boolean;
     [key: string]: boolean | string; // add an index signature that allows for any string key
   };
-  
+
   const [mealValues, setMealValues] = useState<{ breakfast: boolean; lunch: boolean; dinner: boolean; }>({
-    breakfast: true,
-    lunch: true,
-    dinner: true
+    breakfast: false,
+    lunch: false,
+    dinner: false
   });
-  
+
 
   const [newtime, setTime] = useState({});
 
@@ -48,7 +48,7 @@ export default function Step3() {
         const end = new Date(endTimestamp);
         const dateArray = [];
 
-        
+
 
         for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
           dateArray.push(new Date(date).toLocaleDateString());
@@ -78,12 +78,12 @@ export default function Step3() {
         if (mealsSelected) {
           const selectedMeals = JSON.parse(mealsSelected);
 
-          if(serviceType == 'multipletimes'){
+          if (serviceType == 'multipletimes') {
             setMultipleDateMealValues(selectedMeals);
-          }else {
+          } else {
             setMealValues(selectedMeals);
           }
-         
+
         }
       } else {
         window.location.href = "/bookings/step2";
@@ -97,10 +97,10 @@ export default function Step3() {
     // function body here  
     // create a copy of the state array
     const updatedValues = [...multipleDateMealValues];
-  
+
     // find the index of the object that represents the selected date
     const index = updatedValues.findIndex((obj) => obj.date === date);
-  
+
     if (index !== -1) {
       // if the object for the selected date already exists in the array, update the meal value
       updatedValues[index][mealType] = isChecked;
@@ -113,35 +113,35 @@ export default function Step3() {
         dinner: mealType === 'dinner' ? isChecked : false,
       });
     }
-  
+
     // set the updated array back to the state
     setMultipleDateMealValues(updatedValues);
   };
 
   const CheckStepThree = () => {
 
-    if(multipleDateMealValues.length || Object.values(mealValues).some(val => val)){
-  
-      if(servicetype == 'multipletimes'){
+    if (multipleDateMealValues.length || Object.values(mealValues).some(val => val)) {
+
+      if (servicetype == 'multipletimes') {
         window.localStorage.setItem("selectedMeals", JSON.stringify(multipleDateMealValues));
         window.location.href = '/bookings/step4';
-      }else {
+      } else {
         window.localStorage.setItem("selectedMeals", JSON.stringify(mealValues));
         window.location.href = '/bookings/step4';
       }
-  
+
     } else {
-  
+
       swal({
         title: 'Oops!',
         text: 'You need to select at least one meal for further procedure',
         icon: 'info',
       });
-  
+
     }
-   
+
   };
-  
+
   const ClearSelectedMealsData = () => {
     setMealValues({
       breakfast: false,
@@ -154,9 +154,9 @@ export default function Step3() {
     });
     window.localStorage.removeItem("selectedMeals");
   };
-  
 
- 
+
+
 
   return (
     <>
@@ -182,113 +182,116 @@ export default function Step3() {
 
           {servicetype === 'multipletimes' && (
             <div className="row mb-5 align-items-center" >
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Breakfast</th>
-                  <th>Lunch</th>
-                  <th>Dinner</th>
-                </tr>
-              </thead>
-              <tbody>
-                {servicetype === 'multipletimes' && mutipledate.map((date, index) => (
-                  <tr key={index} className="py-5">
-                    <td><h6 style={{color:'#ff4e00d1'}} className="pt-3">{date}</h6></td>
-                    <td>
-                      <div className="slider-img-plased pb-2 pt-3">
-                        <input
-                          type="checkbox"
-                          id={`myCheckbox1-${index}`}
-                          name="service_type"
-                          value="yes"
-                          className="step_radio_css_mutiple"
-                          checked={multipleDateMealValues.some((obj) => obj.date === date && obj.breakfast)}
-                          onChange={(e) => handleMealChange(date, 'breakfast', e.target.checked)}
-                        />
-                        <label htmlFor={`myCheckbox1-${index}`} className="step_label_css_mutiple">
-                         
-                        </label>
-                        
-                      </div>
-                    </td>
-                    <td>
-                      <div className="slider-img-plased pb-2 pt-3">
-                        <input
-                          type="checkbox"
-                          id={`myCheckbox2-${index}`}
-                          name="service_type"
-                          value="yes"
-                          className="step_radio_css_mutiple"
-                          checked={multipleDateMealValues.some((obj) => obj.date === date && obj.lunch)}
-                          onChange={(e) => handleMealChange(date, 'lunch', e.target.checked)}
-                        />
-                        <label htmlFor={`myCheckbox2-${index}`} className="step_label_css_mutiple">
-                         
-                        </label>
-                        
-                      </div>
-                    </td>
-                    <td>
-                      <div className="slider-img-plased pb-2 pt-3">
-                        <input
-                          type="checkbox"
-                          id={`myCheckbox3-${index}`}
-                          name="service_type"
-                          value="yes"
-                          className="step_radio_css_mutiple"
-                          checked={multipleDateMealValues.some((obj) => obj.date === date && obj.dinner)}
-                          onChange={(e) => handleMealChange(date, 'dinner', e.target.checked)}
-                        />
-                        <label htmlFor={`myCheckbox3-${index}`} className="step_label_css_mutiple">
-                         
-                        </label>
-                        
-                      </div>
-                    </td>
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Breakfast</th>
+                    <th>Lunch</th>
+                    <th>Dinner</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {servicetype === 'multipletimes' && mutipledate.map((date, index) => (
+                    <tr key={index} className="py-5">
+                      <td><h6 style={{ color: '#ff4e00d1' }} className="pt-3">{date}</h6></td>
+                      <td>
+                        <div className="slider-img-plased pb-2 pt-3">
+                          <input
+                            type="checkbox"
+                            id={`myCheckbox1-${index}`}
+                            name="service_type"
+                            value="yes"
+                            className="step_radio_css_mutiple"
+                            checked={multipleDateMealValues.some((obj) => obj.date === date && obj.breakfast)}
+                            onChange={(e) => handleMealChange(date, 'breakfast', e.target.checked)}
+                          />
+                          <label htmlFor={`myCheckbox1-${index}`} className="step_label_css_mutiple">
 
-              </div>
-          )}            
-   
+                          </label>
 
-          {servicetype == 'onetime' && (
+                        </div>
+                      </td>
+                      <td>
+                        <div className="slider-img-plased pb-2 pt-3">
+                          <input
+                            type="checkbox"
+                            id={`myCheckbox2-${index}`}
+                            name="service_type"
+                            value="yes"
+                            className="step_radio_css_mutiple"
+                            checked={multipleDateMealValues.some((obj) => obj.date === date && obj.lunch)}
+                            onChange={(e) => handleMealChange(date, 'lunch', e.target.checked)}
+                          />
+                          <label htmlFor={`myCheckbox2-${index}`} className="step_label_css_mutiple">
 
+                          </label>
+
+                        </div>
+                      </td>
+                      <td>
+                        <div className="slider-img-plased pb-2 pt-3">
+                          <input
+                            type="checkbox"
+                            id={`myCheckbox3-${index}`}
+                            name="service_type"
+                            value="yes"
+                            className="step_radio_css_mutiple"
+                            checked={multipleDateMealValues.some((obj) => obj.date === date && obj.dinner)}
+                            onChange={(e) => handleMealChange(date, 'dinner', e.target.checked)}
+                          />
+                          <label htmlFor={`myCheckbox3-${index}`} className="step_label_css_mutiple">
+
+                          </label>
+
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+            </div>
+          )}
+
+
+          {servicetype === 'onetime' && (
             <div className="row mb-5">
-              
               <div className="col-lg-1 col-md-12"></div>
               <div className="col-lg-7 col-md-12">
                 <div className="row">
                   <div className="col-sm-4">
                     <div className="slider-img-plase">
                       <input
-                        type="checkbox"
+                        type="radio"
                         id="myCheckbox1"
                         name="service_type"
                         value={"yes"}
                         className="step_radio_css"
                         checked={mealValues.breakfast}
-                        onChange={(e) =>
+                        onChange={() =>
                           setMealValues({
-                            ...mealValues,
-                            breakfast: e.target.checked,
+                            breakfast: true,
+                            lunch: false, // Deselect lunch
+                            dinner: false, // Deselect dinner
                           })
                         }
                       />
                       <label htmlFor="myCheckbox1" className="step_label_css">
                         <img
                           src={
-                            process.env.NEXT_PUBLIC_BASE_URL +
-                            "images/step-img-3.jpg"
+                            process.env.NEXT_PUBLIC_BASE_URL + "images/step-img-3.jpg"
                           }
                           alt="step-img-1"
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="#">Breakfast</a>
+                        <a href="#" onClick={() =>
+                          setMealValues({
+                            breakfast: true,
+                            lunch: false, 
+                            dinner: false,
+                          })}>Breakfast</a>
                       </p>
                     </div>
                   </div>
@@ -296,30 +299,35 @@ export default function Step3() {
                   <div className="col-sm-4">
                     <div className="slider-img-plase">
                       <input
-                        type="checkbox"
+                        type="radio"
                         id="myCheckbox2"
                         name="service_type"
                         value={"yes"}
                         className="step_radio_css"
                         checked={mealValues.lunch}
-                        onChange={(e) =>
+                         onChange={() =>
                           setMealValues({
-                            ...mealValues,
-                            lunch: e.target.checked,
+                            breakfast: false, // Deselect breakfast
+                            lunch: true,
+                            dinner: false, // Deselect dinner
                           })
                         }
                       />
                       <label htmlFor="myCheckbox2" className="step_label_css">
                         <img
                           src={
-                            process.env.NEXT_PUBLIC_BASE_URL +
-                            "images/step-img-4.jpg"
+                            process.env.NEXT_PUBLIC_BASE_URL + "images/step-img-4.jpg"
                           }
                           alt="step-img-1"
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="#">Lunch</a>
+                        <a href="#" onClick={() =>
+                          setMealValues({
+                            breakfast: false,
+                            lunch: true, 
+                            dinner: false,
+                          })}>Lunch</a>
                       </p>
                     </div>
                   </div>
@@ -327,30 +335,35 @@ export default function Step3() {
                   <div className="col-sm-4">
                     <div className="slider-img-plase">
                       <input
-                        type="checkbox"
+                        type="radio"
                         id="myCheckbox3"
                         name="service_type"
                         value={"yes"}
                         className="step_radio_css"
                         checked={mealValues.dinner}
-                        onChange={(e) =>
+                       onChange={() =>
                           setMealValues({
-                            ...mealValues,
-                            dinner: e.target.checked,
+                            breakfast: false, // Deselect breakfast
+                            lunch: false, // Deselect lunch
+                            dinner: true,
                           })
                         }
                       />
                       <label htmlFor="myCheckbox3" className="step_label_css">
                         <img
                           src={
-                            process.env.NEXT_PUBLIC_BASE_URL +
-                            "images/step-img-5.jpg"
+                            process.env.NEXT_PUBLIC_BASE_URL + "images/step-img-5.jpg"
                           }
                           alt="step-img-1"
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="#">Dinner</a>
+                        <a href="#" onClick={() =>
+                          setMealValues({
+                            breakfast: false,
+                            lunch: false, 
+                            dinner: true,
+                          })}>Dinner</a>
                       </p>
                     </div>
                   </div>
@@ -362,21 +375,22 @@ export default function Step3() {
                     Please select your meal on {newtime.toLocaleString()}
                   </p>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Scelerisque ante a turpis facilisis mi, diam. Elit quis congue
-                    nunc, risus sem morbi imperdiet ut. Justo, arcu ultricies
-                    tristique auctor ipsum, ut elementum augue{" "}
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque
+                    ante a turpis facilisis mi, diam. Elit quis congue nunc, risus sem
+                    morbi imperdiet ut. Justo, arcu ultricies tristique auctor ipsum, ut
+                    elementum augue{" "}
                   </p>
-                  <div className="view-more  mt-4">
+                  <div className="view-more mt-4">
                     <a href="#" onClick={(e) => ClearSelectedMealsData()}>
                       Clear All
                     </a>
                   </div>
                 </div>
               </div>
-              </div>
+            </div>
           )}
-          
+
+
         </div>
         <div className="container-fluid mt-5">
           <div className="d-flx-step">

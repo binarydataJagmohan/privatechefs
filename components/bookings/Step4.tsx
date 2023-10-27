@@ -167,7 +167,8 @@ export default function Step4() {
             <div className="col-lg-1 col-md-12"></div>
             <div className="col-lg-11 col-md-12">
               <div className="row">
-                <Slider {...settings} className="mt-2">
+                
+                  <Slider {...settings} className="mt-2">
                   {cuisinedata.map((cuisine) => (
                     <div className="col-sm-3" key={cuisine.id}>
                       <div className="slider-img-plase">
@@ -196,12 +197,34 @@ export default function Step4() {
                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/cuisines/' + cuisine.image} alt="step-img-1" />
                             : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1" width={245} height={245} />
                           }
-                          <p className="plase-btn"><a href="#">{cuisine.name}</a></p>
+                          {/* <p className="plase-btn"><a href="#" >{cuisine.name} </a></p> */}
+                          <p className="plase-btn">
+                            <a
+                              href="#"
+                              data-value={cuisine.id}  // Set the custom data attribute
+                              onClick={(e) => {
+                                e.preventDefault();  // Prevent the default link behavior
+                                const value = e.currentTarget.getAttribute('data-value'); // Access the custom data attribute
+                                setSelectedCuisine((prevSelectedCuisine) => {
+                                  if (prevSelectedCuisine.includes(String(value))) {
+                                    return prevSelectedCuisine.filter((c) => c !== String(value));
+                                  } else {
+                                    return [...prevSelectedCuisine, String(value)];
+                                  }
+                                });
+                              }}
+                            >
+                              {cuisine.name}
+                            </a>
+                          </p>
+
                         </label>
                       </div>
                     </div>
                   ))}
                 </Slider>
+                
+                
               </div>
 
             </div>

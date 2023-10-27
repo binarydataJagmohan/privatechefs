@@ -142,7 +142,7 @@ export default function Step2() {
                 <h1>One Time service</h1>
               )}
 
-              <h1 className="awaits mb-0">a great experience awaits</h1>
+              <h1 className="awaits mb-0 ">a great experience awaits</h1>
               <div className="text-areya-srep dummy-up text-center">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac egestas et enim porttitor urna amet, amet. Turpis aenean dolor risus vel mattis enim, scelerisque egestas fermentum. Quis senectus dictum vitae pretium commodo. Nunc congue sed sed penatibus. Accumsan, sit sit id enim sed sed ullamcorper. Ultrices scelerisque ac fermentum enim.</p>
               </div>
@@ -171,7 +171,7 @@ export default function Step2() {
                           : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="step-img-1" width={204} height={283} />
                         }
 
-                        <p className="plase-btn"><a href="#">{service.service_name}</a></p>
+                        <p className="plase-btn"><a href="#" onClick={(e) => setServieStyle(service.id.toString())}>{service.service_name}</a></p>
                       </label>
                     </div>
                   </div>

@@ -75,24 +75,24 @@ export default function Header({ }) {
     }
   }, []);
 
-  // const { data: session } = useSession() || {};
+//   const { data: session } = useSession() || {};
 
-  // useEffect(() => {
-  //   // if(session){
-  //   // 	window.location.href = '/user/dashboard';
-  //   // }
+//   useEffect(() => {
+//      // if(session){
+//      // 	window.location.href = '/user/dashboard';
+//      // }
     
-  //   if (session) {
-  //     console.log(session);
-  //     if (session.user.image.indexOf('googleusercontent') >= 0) {
-  //       SocialData(session.user, 'google');
-  //     } else{
-  //           SocialData(session.user, 'facebook');
-  //         }
+//      if (session) {
+//       console.log(session);
+//       if (session.user.image.indexOf('googleusercontent') >= 0) {
+//          SocialData(session.user, 'google');
+//       } else{
+//              SocialData(session.user, 'facebook');
+//           }
 
-  //   }
+//      }
 
-  // }, [session]);
+//   }, [session]);
 
   const SocialData = (user: any, type: any) => {
 
@@ -266,7 +266,7 @@ export default function Header({ }) {
 
     // Submit form data if there are no errors
     if (Object.keys(newErrors).length === 0) {
-      // setButtonState(true);
+       setButtonState(true);
       // Call an API or perform some other action to register the user
       const data = {
         email: email,
@@ -276,6 +276,7 @@ export default function Header({ }) {
         .then((res) => {
           if (res.status == true) {
             if (res.authorisation.token) {
+              setButtonState(false);
               setIsAuthenticated(true);
               window.localStorage.setItem("token", res.authorisation.token);
               window.localStorage.setItem("id", res.user.id);
@@ -839,7 +840,7 @@ export default function Header({ }) {
                 <option value="">Select Role</option>
                 <option value="user">User</option>
                 <option value="chef">Chef</option>
-                <option value="concierge">Conciergehief</option>
+                <option value="concierge">Concierge</option>
               </select>
               {errors.role && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.role}</span>}
             </div>
@@ -889,7 +890,7 @@ export default function Header({ }) {
       </PopupModal>
 
       {/* // login popup code end  */}
-      {/* <ToastContainer /> */}
+      <ToastContainer />
     </>
   )
 }
