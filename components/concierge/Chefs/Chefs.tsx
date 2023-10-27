@@ -151,6 +151,7 @@ export default function Chefs() {
   }
 
   const getAllChefLocation = () => {
+    
     const userData: any = getCurrentUserData();
     getChefAllLocationByConcierge(userData.id)
       .then((res) => {
