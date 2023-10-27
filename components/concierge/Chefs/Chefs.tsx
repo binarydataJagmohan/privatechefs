@@ -56,6 +56,8 @@ export default function Chefs() {
     profile_status: string;
     cuisine_name: string;
     amount: string;
+    appliedstatus: string;
+    id: number;
   }
 
   const [name, setName] = useState("");
@@ -68,8 +70,12 @@ export default function Chefs() {
   const [filteredChefs, setFilteredChefs] = useState<FilterData[]>([]);
   const [chefs, setChefs] = useState<chefData[]>([]);
   const [getlocation, setGetLocation] = useState<Location[]>([]);
+
   const [selectedLocation, setSelectedLocation] = useState<Location[]>([]);
   const [filterLocation, setFilterLocation] = useState<Location[]>([]);
+
+  const [selectedPrice, setSelectedPrice] = useState<Location[]>([]);
+  const [filterPrice, setFilterPrice] = useState<Location[]>([]);
 
   const [getcuisine, setGetCuisine] = useState<GetCuisine[]>([]);
   const [showAllCuisines, setShowAllCuisines] = useState(false);
@@ -120,6 +126,27 @@ export default function Chefs() {
 
 
 
+  useEffect(() => {
+    const locationsArray = Array.isArray(selectedLocation)
+      ? selectedLocation
+      : [selectedLocation];
+
+    // Assuming getChefLocationByFilter is an asynchronous function
+    getChefLocationByFilter({ locations: locationsArray.join(',') })
+      .then((res) => {
+        if (res.status) {
+          setFilterLocation(res.data);
+        } else {
+          console.log(res.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [selectedLocation]);
+
+
+
   const getAllChef = () => {
     const userData: any = getCurrentUserData();
     getAllConciergechef(userData.id)
@@ -151,7 +178,6 @@ export default function Chefs() {
   }
 
   const getAllChefLocation = () => {
-    
     const userData: any = getCurrentUserData();
     getChefAllLocationByConcierge(userData.id)
       .then((res) => {
@@ -166,6 +192,25 @@ export default function Chefs() {
       });
   }
 
+  useEffect(() => {
+    const priceArray = Array.isArray(selectedPrice) ? selectedPrice : [selectedPrice];
+    chefPriceFilter({ price: priceArray.join(',') })
+      .then((res) => {
+        if (res.status) {
+          setFilterPrice(res.data);
+        } else {
+          console.log(res.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [selectedPrice]);
+
+  const handleCheckboxPriceChange = (e: any) => {
+    const value = e.target.value;
+    setSelectedPrice((prevPrice) => (prevPrice === value ? '' : value));
+  };
 
   const ApproveChefProfile = async (e: any, id: any) => {
     e.preventDefault();
@@ -463,14 +508,164 @@ export default function Chefs() {
                 <th scope="col">Name/Surname</th>
                 <th scope="col">Current Location</th>
                 <th scope="col">Cuisines</th>
-                {/* <th scope="col">Location</th> */}
-                {/* <th scope="col">Profile Status</th> */}
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredChefs.length > 0 ? (
+              {filterPrice.length > 0 ? (
+                filterPrice.map((filter, index) => (
+                  <tr key={index}>
+                    {filter.pic ? (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/chef/users/" +
+                            filter.pic
+                          }
+                          alt=""
+                        />
+                      </td>
+                    ) : (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/placeholder.jpg"
+                          }
+                          alt=""
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {filter.name || ""} {filter.surname || ""}
+                    </td>
+                    <td>{filter.address || ""}</td>
+                    <td>{filter.amount || ""}</td>
+                    <td>
+                      <ul>
+                        <ul>
+                          {filter.cuisine_name && typeof filter.cuisine_name === 'string' ? (
+                            filter.cuisine_name
+                              .split(",")
+                              .map((cuisine, index) => {
+                                if (index < 2) {
+                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
+                                } else if (index === 2) {
+                                  return (
+                                    <li
+                                      key={index}
+                                      onClick={() => setShowAllCuisines(true)}
+                                    >
+                                      +{filter.cuisine_name.split(",").length - 2}
+                                    </li>
+                                  );
+                                }
+                                return null;
+                              })
+                          ) : (
+                            <li>No cuisines available</li>
+                          )}
+                        </ul>
+
+                      </ul>
+                    </td>
+                    <td>
+                      {filter.profile_status || ""}
+                    </td>
+                    <td>
+                      <select aria-label="Default select example" name="approved_by_admin"
+                        onChange={(e) => ApproveChefProfile(e, filter.id)}
+                      >
+                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
+                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
+                      </select>
+                    </td>
+
+                    <td style={{ paddingLeft: "25px" }}>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
+                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                ))
+              ) : filterLocation.length > 0 ? (
+                filterLocation.map((filter, index) => (
+                  <tr key={index}>
+                    {filter.pic ? (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/chef/users/" +
+                            filter.pic
+                          }
+                          alt=""
+                        />
+                      </td>
+                    ) : (
+                      <td className="chefs_pic">
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/placeholder.jpg"
+                          }
+                          alt=""
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {filter.name || ""} {filter.surname || ""}
+                    </td>
+                    <td>{filter.address || ""}</td>
+                    <td>{filter.amount || ""}</td>
+                    <td>
+                      <ul>
+                        {filter.cuisine_name ? (
+                          <ul>
+                            {filter.cuisine_name
+                              .split(",")
+                              .map((cuisine, index) => {
+                                if (index < 2) {
+                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
+                                } else if (index === 2) {
+                                  return (
+                                    <li
+                                      key={index}
+                                      onClick={() => setShowAllCuisines(true)}
+                                    >
+                                      +{filter.cuisine_name.split(",").length - 2}
+                                    </li>
+                                  );
+                                }
+                                return null;
+                              })}
+                          </ul>
+                        ) : (
+                          <li>No cuisines available</li>
+                        )}
+                      </ul>
+
+                    </td>
+                    <td>
+                      {filter.profile_status || ""}
+                    </td>
+                    <td>
+                      <select aria-label="Default select example" name="approved_by_admin"
+                        onChange={(e) => ApproveChefProfile(e, filter.id)}
+                      >
+                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
+                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
+                      </select>
+                    </td>
+
+                    <td style={{ paddingLeft: "25px" }}>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
+                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                  </tr>
+                ))
+              ) : filteredChefs.length > 0 ? (
                 filteredChefs.map((filter) => (
                   <tr key={filter.id}>
                     {filter.pic ? (
@@ -489,7 +684,7 @@ export default function Chefs() {
                         <img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/users.jpg"
+                            "/images/placeholder.jpg"
                           }
                           alt=""
                         />
@@ -499,77 +694,50 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
+                    <td>{filter.amount || ""}</td>
                     <td>
                       <ul>
                         <ul>
-                          {filter.cuisine_name
-                            .split(",")
-                            .map((cuisine, index) => {
-                              if (index < 2) {
-                                return <li key={index}>{cuisine}</li>;
-                              } else if (index === 2) {
-                                return (
-                                  <li
-                                    key={index}
-                                    onClick={() => setShowAllCuisines(true)}
-                                  >
-                                    +{filter.cuisine_name.split(",").length - 2}
-                                  </li>
-                                );
-                              }
-                              return null;
-                            })}
+                          {filter.cuisine_name ? (
+                            filter.cuisine_name
+                              .split(",")
+                              .map((cuisine, index) => {
+                                if (index < 2) {
+                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
+                                } else if (index === 2) {
+                                  return (
+                                    <li
+                                      key={index}
+                                      onClick={() => setShowAllCuisines(true)}
+                                    >
+                                      +{filter.cuisine_name.split(",").length - 2}
+                                    </li>
+                                  );
+                                }
+                                return null;
+                              })
+                          ) : (
+                            <li>No cuisines available</li>
+                          )}
                         </ul>
+
                       </ul>
                     </td>
-                    {/* <td>Ut pulvinar.</td> */}
-                    {/* <td>Arcu nibh non.</td>
-										<td>Eu nibh.</td> */}
                     <td>
-                      {filter.appliedstatus || ""}
+                      {filter.profile_status || ""}
                     </td>
-                    {/* <td>
+                    <td>
                       <select aria-label="Default select example" name="approved_by_admin"
                         onChange={(e) => ApproveChefProfile(e, filter.id)}
                       >
                         <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={filter.approved_by_admin === 'yes'}>Unapproved</option>
+                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
                       </select>
-                    </td> */}
+                    </td>
 
-                    <td>
-                      <div className="dropdown" id="none-class">
-                        <a
-                          className="dropdown-toggle"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <i className="fa-solid fa-ellipsis"></i>
-                        </a>
-                        <ul
-                          className="dropdown-menu"
-                          aria-labelledby="dropdownMenuButton"
-                        >
-                          <li>
-                            <a
-                              className="dropdown-item"
-                              href={process.env.NEXT_PUBLIC_BASE_URL + 'concierge/chefs/' + filter.id}>
-                              View
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              className="dropdown-item"
-                              href="#"
-                              onClick={(e) =>
-                                DeleteChef(filter.id)
-                              }
-                            >
-                              Delete
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                    <td style={{ paddingLeft: "25px" }}>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
+                        <i className="fa fa-eye" aria-hidden="true"></i></a>
                     </td>
                   </tr>
                 ))
@@ -592,7 +760,7 @@ export default function Chefs() {
                         <img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/users.jpg"
+                            "/images/placeholder.jpg"
                           }
                           alt=""
                         />
@@ -602,37 +770,8 @@ export default function Chefs() {
                       {chef.name || ""} {chef.surname || ""}
                     </td>
                     <td>{chef.address || ""}</td>
+                    <td>{chef.amount || ""}</td>
                     <td>
-                      {/* <ul>
-                        <li>{chef.cuisine_name || ""}</li>
-                        <li>Italian</li>
-                        <li>+4</li>
-                      </ul> */}
-
-                      {/* <ul>
-                        {chef.cuisine_name && (
-                          <>
-                            {chef.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index}>{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={() => setShowAllCuisines(true)}
-                                    >
-                                      +{chef.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })}
-                          </>
-                        )}
-                      </ul>  */}
-
                       <ul>
                         {chef.cuisine_name && (
                           <>
@@ -640,7 +779,7 @@ export default function Chefs() {
                               .split(",")
                               .map((cuisine, index) => {
                                 if (index < 2) {
-                                  return <li key={index}>{cuisine}</li>;
+                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
                                 } else if (index === 2) {
                                   return (
                                     <li
@@ -674,19 +813,6 @@ export default function Chefs() {
                         </ul>
                       </div>
                     </td>
-                    <td>
-                      {chef.appliedstatus || ""}
-                    </td>
-
-                    {/* <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, chef.id)}
-
-                      >
-                        <option value='yes' selected={chef.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={chef.approved_by_admin === 'no'}>Unapproved</option>
-                      </select>
-                    </td> */}
 
                     <td>
                       <div className="dropdown" id="none-class">
@@ -726,7 +852,7 @@ export default function Chefs() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="text-center">No record found.</td>
+                  <td colSpan={8}>No record found.</td>
                 </tr>
               )}
             </tbody>
@@ -844,6 +970,8 @@ export default function Chefs() {
                     <input
                       type="checkbox"
                       value="249"
+                      checked={selectedPrice === '249'}
+                      onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
                     <label style={{ marginLeft: "5px" }}>
@@ -854,6 +982,8 @@ export default function Chefs() {
                     <input
                       type="checkbox"
                       value="250"
+                      checked={selectedPrice === '250'}
+                      onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
                     <label style={{ marginLeft: "5px" }}>
@@ -864,6 +994,8 @@ export default function Chefs() {
                     <input
                       type="checkbox"
                       value="900"
+                      checked={selectedPrice === '900'}
+                      onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
                     <label style={{ marginLeft: "5px" }}>
@@ -874,6 +1006,8 @@ export default function Chefs() {
                     <input
                       type="checkbox"
                       value="1000"
+                      checked={selectedPrice === '1000'}
+                      onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
                     <label style={{ marginLeft: "5px" }}>
@@ -884,66 +1018,12 @@ export default function Chefs() {
                     <input
                       type="checkbox"
                       value="2000"
+                      checked={selectedPrice === '2000'}
+                      onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
                     <label style={{ marginLeft: "5px" }}>
                       Over ₹2000
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="headingFour">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseFour"
-                aria-expanded="false"
-                aria-controls="collapseFour"
-              >
-                Approved
-              </button>
-            </h2>
-            <div
-              id="collapseFour"
-              className="accordion-collapse collapse show"
-              aria-labelledby="headingFour"
-              data-bs-parent="#accordionExample"
-            >
-              <div className="accordion-body">
-                <div className="row">
-                  <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="yes"
-                      style={{ marginRight: "5px" }}
-                    />
-                    <label style={{ marginLeft: "5px" }}>
-                      Approved Chefs
-                    </label>
-                  </div>
-                  <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="no"
-                      style={{ marginRight: "5px" }}
-                    />
-                    <label style={{ marginLeft: "5px" }}>
-                      Unapproved Chefs
-                    </label>
-                  </div>
-                  <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="all"
-                      style={{ marginRight: "5px" }}
-                    />
-                    <label style={{ marginLeft: "5px" }}>
-                      All chefs
                     </label>
                   </div>
                 </div>

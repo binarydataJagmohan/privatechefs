@@ -91,6 +91,7 @@ export default function Bookings() {
 		profile_status: '',
 		created_by: ''
 	});
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const [menu, setMenu] = useState<MenuData[]>([]);
 
@@ -352,74 +353,76 @@ export default function Bookings() {
 
 	const handleBookingApplyJobSubmit = (event: any) => {
 		event.preventDefault();
-
+	  
+		if (isSubmitting) {
+		  return; // If already submitting, return early to prevent multiple submissions
+		}
+	  
 		// Validate form data
 		const newErrors: Errors = {};
-
+	  
 		if (!amount) {
-			newErrors.amount = "Amount is required";
+		  newErrors.amount = "Amount is required";
 		}
-
+	  
 		if (!selectedmenu || selectedmenu.length === 0) {
-			newErrors.selectedmenu = "Please select at least one menu item";
+		  newErrors.selectedmenu = "Please select at least one menu item";
 		}
 		setErrors(newErrors);
-
-
+	  
 		// Submit form data if there are no errors
-		if ((amount && selectedmenu.length >= 1)) {
-
-			const data = {
-				amount: amount,
-				menu: selectedmenu.join(','),
-				booking_id: bookingid,
-				chef_id: currentUserData.id
-
-			};
-			saveChefAppliedBookingJob(data)
-				.then(res => {
-					if (res.status == true) {
-						setModalConfirm(false);
-						fetchBookingUserDetails(currentUserData.id);
-						toast.success(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #ff4e00d1',
-								color: '#454545',
-								"--toastify-icon-color-success": "#ff4e00d1",
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
-
-					} else {
-
-						toast.error(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #e74c3c',
-								color: '#454545',
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
-
-					}
-				})
-				.catch(err => {
-					console.log(err);
+		if (amount && selectedmenu.length >= 1) {
+		  setIsSubmitting(true);
+		  const data = {
+			amount: amount,
+			menu: selectedmenu.join(","),
+			booking_id: bookingid,
+			chef_id: currentUserData.id,
+		  };
+		  saveChefAppliedBookingJob(data)
+			.then((res) => {
+			  setIsSubmitting(false); // Move it here
+	  
+			  if (res.status == true) {
+				setModalConfirm(false);
+				fetchBookingUserDetails(currentUserData.id);
+				toast.success(res.message, {
+				  position: toast.POSITION.TOP_RIGHT,
+				  closeButton: true,
+				  hideProgressBar: false,
+				  style: {
+					background: "#ffff",
+					borderLeft: "4px solid #ff4e00d1",
+					color: "#454545",
+					"--toastify-icon-color-success": "#ff4e00d1",
+				  },
+				  progressStyle: {
+					background: "#ffff",
+				  },
 				});
+			  } else {
+				toast.error(res.message, {
+				  position: toast.POSITION.TOP_RIGHT,
+				  closeButton: true,
+				  hideProgressBar: false,
+				  style: {
+					background: "#ffff",
+					borderLeft: "4px solid #e74c3c",
+					color: "#454545",
+				  },
+				  progressStyle: {
+					background: "#ffff",
+				  },
+				});
+			  }
+			})
+			.catch((err) => {
+			  console.log(err);
+			  setIsSubmitting(false);
+			});
 		}
-
-	};
+	  };
+	  
 
 	const resetFields = () => {
 		setAmount('');
@@ -662,8 +665,8 @@ export default function Bookings() {
 												</div>
 												<div className="col-8">
 													{booking.notes !== null && booking.notes !== 'null' ? (
-                                                  <p className="mony f-w-4">{booking.notes}</p>
-                                                ) : ''}
+														<p className="mony f-w-4">{booking.notes}</p>
+													) : ''}
 
 												</div>
 											</div>
@@ -753,7 +756,7 @@ export default function Bookings() {
 													<p className="chefs-name name-12">Full Name:</p>
 												</div>
 												<div className="col-7">
-												<p className="mony">{booking.name} {booking.surname !== null && booking.surname !== 'null' ? booking.surname : ''}</p>
+													<p className="mony">{booking.name} {booking.surname !== null && booking.surname !== 'null' ? booking.surname : ''}</p>
 												</div>
 											</div>
 											<div className="row mt-1">
@@ -847,7 +850,16 @@ export default function Bookings() {
 									<div className="text-right">
 										<div className="banner-btn" id="bookid">
 
-											<button id="btn_offer" type="submit">Send Request</button>
+											{/* <button id="btn_offer" type="submit">Send Request</button>
+											 */}
+
+											<button
+												id="btn_offer"
+												type="submit"
+												disabled={isSubmitting}
+											>
+												{isSubmitting ? "Submitting..." : "Send Request"}
+											</button>
 										</div>
 									</div>
 								</div>
