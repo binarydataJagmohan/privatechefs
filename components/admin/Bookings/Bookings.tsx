@@ -130,6 +130,8 @@ export default function Bookings() {
 	const [selectedChef, setSelectedChef] = useState('');
 	const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isApplied, setApplied] = useState(false);
+
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);

@@ -128,6 +128,7 @@ export default function Chefs() {
 
   useEffect(() => {
     const locationsArray = Array.isArray(selectedLocation) ? selectedLocation : [selectedLocation];
+    //console.log(locationsArray);
     getChefLocationByFilter({ locations: locationsArray.join(',') })
       .then((res) => {
         if (res.status) {
