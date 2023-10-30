@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import PopupModal from '../../../components/commoncomponents/PopupModal';
-// import { getChefByFilter, getCuisine, approveChefProfile } from '../../../lib/adminapi';
-
 import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile, getChefLocationByFilter, chefPriceFilter } from '../../../lib/adminapi';
 
 import { getAllConciergechef, createChef, deleteChef, getChefAllLocationByConcierge } from '../../../lib/concierge';
