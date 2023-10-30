@@ -2,10 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/admin/bookings": "pages/admin/bookings.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/chef/dashboard": "pages/chef/dashboard.js",
-  "/chef/bookings": "pages/chef/bookings.js",
-  "/chef/applied-booking": "pages/chef/applied-booking.js"
+  "/concierge/chefs": "pages/concierge/chefs.js"
 }
