@@ -542,7 +542,7 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
-                    <td>{filter.amount || ""}</td>
+                    {/* <td>{filter.amount || ""}</td> */}
                     <td>
                       <ul>
                         <ul>
@@ -575,17 +575,38 @@ export default function Chefs() {
                       {filter.profile_status || ""}
                     </td>
                     <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, filter.id)}
-                      >
-                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
-                      </select>
-                    </td>
-
-                    <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                      <div className="dropdown" id="none-class">
+                        <a
+                          className="dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>
+                        </a>
+                        <ul
+                          className="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href={process.env.NEXT_PUBLIC_BASE_URL + 'concierge/chefs/' + filter.id}>
+                              View
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              onClick={(e) =>
+                                DeleteChef(filter.id)
+                              }
+                            >
+                              Delete
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -618,7 +639,7 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
-                    <td>{filter.amount || ""}</td>
+                    {/* <td>{filter.amount || ""}</td> */}
                     <td>
                       <ul>
                         {filter.cuisine_name ? (
@@ -651,17 +672,38 @@ export default function Chefs() {
                       {filter.profile_status || ""}
                     </td>
                     <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, filter.id)}
-                      >
-                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
-                      </select>
-                    </td>
-
-                    <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                      <div className="dropdown" id="none-class">
+                        <a
+                          className="dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>
+                        </a>
+                        <ul
+                          className="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href={process.env.NEXT_PUBLIC_BASE_URL + 'concierge/chefs/' + filter.id}>
+                              View
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              onClick={(e) =>
+                                DeleteChef(filter.id)
+                              }
+                            >
+                              Delete
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -694,7 +736,7 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
-                    <td>{filter.amount || ""}</td>
+                    {/* <td>{filter.amount || ""}</td> */}
                     <td>
                       <ul>
                         <ul>
@@ -727,17 +769,38 @@ export default function Chefs() {
                       {filter.profile_status || ""}
                     </td>
                     <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, filter.id)}
-                      >
-                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
-                      </select>
-                    </td>
-
-                    <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                      <div className="dropdown" id="none-class">
+                        <a
+                          className="dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="fa-solid fa-ellipsis"></i>
+                        </a>
+                        <ul
+                          className="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href={process.env.NEXT_PUBLIC_BASE_URL + 'concierge/chefs/' + filter.id}>
+                              View
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              onClick={(e) =>
+                                DeleteChef(filter.id)
+                              }
+                            >
+                              Delete
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
