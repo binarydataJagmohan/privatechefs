@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin } from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin,getChefDetailByLocation } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -130,8 +130,7 @@ export default function Bookings() {
 	const [selectedChef, setSelectedChef] = useState('');
 	const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [isApplied, setApplied] = useState(false);
-
+	const [address, setAddress] = useState("");
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
@@ -180,7 +179,97 @@ export default function Bookings() {
 			});
 		}
 
+		const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
+		const loader = new Loader({
+			apiKey,
+			version: 'weekly',
+			libraries: ['places']
+		});
+
+
+		function setupAddressAutocomplete(inputId: string) {
+			const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null;
+			if (input) {
+				const autocomplete = new google.maps.places.Autocomplete(input);
+				autocomplete.addListener('place_changed', () => {
+					const place = autocomplete.getPlace();
+
+					if (place && place.formatted_address && place.geometry && place.geometry.location) {
+						
+						
+
+						// Set the values for the corresponding input field
+						if (inputId === 'address-input') {
+							const lat = place.geometry.location.lat();
+							const lng = place.geometry.location.lng();
+
+							const data  = {
+								lat :lat,
+								lng: lng
+							}
+							getAllChefDetails()
+							.then(res => {
+								if (res.status == true) {
+
+									fetchBookingChefDetailbylocation(data,res.data);
+
+								} else {
+									console.log('error');
+								}
+							})
+							.catch(err => {
+								console.log(err);
+							});
+							
+							
+						}
+					}
+				});
+			}
+		}
+
+		loader.load().then(() => {
+			setupAddressAutocomplete('address-input');
+			
+		}).catch((error) => {
+			console.error('Failed to load Google Maps API', error);
+		});
+
 	}, []);
+
+	const fetchBookingChefDetailbylocation = async (data:any,chef_data:any) => {
+		try {
+
+			const res = await getChefDetailByLocation(data);
+
+			const filteredChefLocation = chef_data.filter((location:any) =>
+					res.data.some((chef:any) => chef.user_id == location.id)
+				);
+
+			setgetAllChef(filteredChefLocation);
+
+			if (res.status == false) {
+				
+				toast.info(res.message, {
+					position: toast.POSITION.TOP_RIGHT,
+					closeButton: true,
+					hideProgressBar: false,
+					style: {
+					  background: '#ffff',
+					  borderLeft: '4px solid #e74c3c',
+					  color: '#454545',
+					  "--toastify-icon-color-info": "#e74c3c",
+					},
+					progressStyle: {
+					  background: '#ffff',
+					},
+				  });
+
+			}
+		} catch (err: any) {
+			
+		}
+	};
 
 	const fetchBookingAdminDetails = async () => {
 		try {
@@ -260,29 +349,19 @@ export default function Bookings() {
 				setBookingDate(output)
 
 			}
+			// create a new map instance
+			if (typeof google !== 'undefined' && mapRef.current !== null) {
+				const map = new google.maps.Map(mapRef.current, {
+					center: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+					zoom: 12,
+				});
 
-			const loader = new Loader({
-				apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
-				version: "weekly",
-			});
-
-			loader.load().then(() => {
-				// create a new map instance
-				if (mapRef.current) {
-					const map = new google.maps.Map(mapRef.current, {
-						center: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
-						zoom: 12,
-					});
-
-					const marker = new google.maps.Marker({
-						position: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
-						map: map,
-						title: res.booking[0].location,
-					});
-				}
-			});
-
-
+				const marker = new google.maps.Marker({
+					position: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+					map: map,
+					title: res.booking[0].location,
+				});
+			}
 		});
 	};
 
@@ -572,6 +651,28 @@ export default function Bookings() {
 		window.localStorage.setItem("bookingid", id);
 		window.location.href = '/admin/edit-booking/step1';
 	}
+
+	const handleChefaddress = (event: any) => {
+
+		setAddress(event.target.val)
+
+		if(event.target.val == undefined){
+			getAllChefDetails()
+			.then(res => {
+				if (res.status == true) {
+					setgetAllChef(res.data);
+				} else {
+					console.log('error');
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+		}
+		
+	
+	};
+
 
 	const handleChefSelection = (event: any) => {
 		const selectedChefId = event.target.value;
@@ -1195,7 +1296,7 @@ const handleBookingApplyJobSubmit = (event: any) => {
 							<div className="row">
 								<div className="col-md-6">
 									<div className="banner-btn">
-										<button id="btn_offer" className="mx-2" type="button" onClick={(e) => { setModalConfirm1(true); setModalConfirm(false); }}>
+										<button type="button" id="btn_offer" className="mx-2" type="button" onClick={(e) => { setModalConfirm1(true); setModalConfirm(false); }}>
 											Assign From Database
 										</button>
 									</div>
@@ -1229,6 +1330,7 @@ const handleBookingApplyJobSubmit = (event: any) => {
 								<thead>
 									<tr>
 										<th scope="col">#</th>
+										<th scope="col">Chef's Location</th>
 										<th scope="col">Chef's Name</th>
 										<th scope="col-2">Menu</th>
 										<th scope="col">Amount</th>
@@ -1240,7 +1342,7 @@ const handleBookingApplyJobSubmit = (event: any) => {
 								<tbody>
 
 									<tr >
-										<th scope="row">
+										<td scope="row">
 											<div className="form-check">
 												<input
 													className="form-check-input"
@@ -1248,7 +1350,18 @@ const handleBookingApplyJobSubmit = (event: any) => {
 													name="id"
 												/>
 											</div>
-										</th>
+										</td>
+										<td>
+
+										<div className="all-form p-0">
+												<div className="login_div">
+												<input id="address-input" type="text" name="address" value={address} onChange={handleChefaddress} />
+										
+												</div>
+											</div>
+
+										</td>
+										
 										<td>
 											<div className="login_div">
 												<select name="chef_id" value={selectedChef} onChange={handleChefSelection}
@@ -1263,7 +1376,7 @@ const handleBookingApplyJobSubmit = (event: any) => {
 										<td>
 											<div className="login_div">
 												<select name="menu1" value={menuOptions}
-												>
+												>	<option value="">Choose menu</option>
 													{menuOptions.map((data: any) => (
 														<option key={data.menuid} value={data.menuid}>{data.menu_name}</option>
 													))}
