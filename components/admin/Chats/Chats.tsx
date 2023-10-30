@@ -258,15 +258,16 @@ export default function Booking(props: any) {
                   }
           
                   if(res.userchatsider[0].latest_chat_type == 'single'){
-          
-                      if(res.userchatsider[0].sender_id != currentUserData.id){
-                        setChatSingleChatName(res.userchatsider[0].sender_name);
-                      }
-          
-                      if(res.userchatsider[0].receiver_id != currentUserData.id){
+                      
+                      if(res.userchatsider[0].sender_id == currentUserData.id){
+                       
                         setChatSingleChatName(res.userchatsider[0].receiver_name);
+                      }else {
+                        if(res.userchatsider[0].sender_id != currentUserData.id){
+                          setChatSingleChatName(res.userchatsider[0].sender_name);
+                        }
                       }
-                    
+         
                   
                   }else {
                     setChatSingleChatName("");
@@ -372,12 +373,13 @@ export default function Booking(props: any) {
 
         if(res.userchatsider[0].latest_chat_type == 'single'){
 
-            if(res.userchatsider[0].sender_id != id){
-              setChatSingleChatName(res.userchatsider[0].sender_name);
-            }
-
-            if(res.userchatsider[0].receiver_id != id){
+            if(res.userchatsider[0].sender_id == id){
+                       
               setChatSingleChatName(res.userchatsider[0].receiver_name);
+            }else {
+              if(res.userchatsider[0].sender_id != id){
+                setChatSingleChatName(res.userchatsider[0].sender_name);
+              }
             }
           
          
@@ -1507,6 +1509,27 @@ export default function Booking(props: any) {
                                         {message.receiver_name && message.receiver_name.length > 25
                                           ? `${message.receiver_name.slice(0, 25)}...`
                                           : message.receiver_name} ({message.receiver_role})
+                                      </span>
+                                      
+                                    </p>
+                                  )}
+                                   {(message.sender_role == 'user') && (
+                                    <p className="g-text">
+                                      {message.sender_pic == null ? (
+                                        <img
+                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
+                                          alt="chats-user"
+                                        />
+                                      ) : (
+                                        <img
+                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.sender_pic}
+                                          alt="chats-user"
+                                        />
+                                      )}
+                                      <span>
+                                        {message.sender_name && message.sender_name.length > 25
+                                          ? `${message.sender_name.slice(0, 25)}...`
+                                          : message.sender_name} ({message.receiver_role})
                                       </span>
                                       
                                     </p>
