@@ -2542,6 +2542,7 @@ table input.placeholder-goldan-text {
 
 .modal.modal-part.d-block {
   background: #00000070;
+  z-index: 1;
 }
 
 .slider-img-plase {
