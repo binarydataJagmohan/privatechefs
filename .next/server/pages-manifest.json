@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/bookings/step3": "pages/bookings/step3.js",
-  "/concierge/assigned-booking": "pages/concierge/assigned-booking.js"
+  "/admin/bookings": "pages/admin/bookings.js",
+  "/user/booking": "pages/user/booking.js",
+  "/user/userprofilethree": "pages/user/userprofilethree.js"
 }
