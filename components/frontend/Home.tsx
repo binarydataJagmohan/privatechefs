@@ -442,7 +442,7 @@ export default function Home(props: any) {
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="card-box">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_002.jpg'} alt="11" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/imgpsh_fullsiaze_an22im.jpg'} alt="11" />
                                 <h3>Butlers</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                             </div>
@@ -782,42 +782,42 @@ export default function Home(props: any) {
 
                     <div className="row   mt-5">
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-1" />
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-2.png'} alt="logo-2" />
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-3.png'} alt="logo-3" />
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-4.png'} alt="logo-4" />
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-5.png'} alt="logo-5" />
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-6.png'} alt="logo-6" />
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-7.png'} alt="logo-7" />
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-8.png'} alt="logo-8" />
                             </div>
                         </div>
