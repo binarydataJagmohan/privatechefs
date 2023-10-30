@@ -534,7 +534,7 @@ export default function Step3() {
                           <th>Date</th>
                           <th>Breakfast</th>
                           <th>Lunch</th>
-                          <th>Dinner</th>
+                          <th className="text-center">Dinner</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -558,7 +558,7 @@ export default function Step3() {
 
                               </div>
                             </td>
-                            <td>
+                            <td  className="text-center">
                               <div className="slider-img-plased pb-2 pt-3">
                                 <input
                                   type="checkbox"
