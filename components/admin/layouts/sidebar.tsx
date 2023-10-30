@@ -27,7 +27,9 @@ export default function Sidebar(): JSX.Element {
         getBookingsCount(userid.id)
             .then(res => {
                 if (res.status == true) {
-                    setAppliedBookingCount(res.available_booking);
+                    // setAppliedBookingCount(res.available_booking);
+                    setAppliedBookingCount(res.admin_available_booking);
+
                     setHiredBookingCount(res.hired_booking);
                 } else {
                     console.log(res.message);

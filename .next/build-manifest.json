@@ -24,6 +24,16 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
+    ],
+    "/bookings/step3": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/bookings/step3.js"
+    ],
+    "/concierge/assigned-booking": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/concierge/assigned-booking.js"
     ]
   },
   "ampFirstPages": []
