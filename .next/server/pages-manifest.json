@@ -2,7 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/bookings": "pages/admin/bookings.js",
+  "/": "pages/index.js",
   "/user/booking": "pages/user/booking.js",
-  "/user/userprofilethree": "pages/user/userprofilethree.js"
+  "/404": "pages/404.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
 }
