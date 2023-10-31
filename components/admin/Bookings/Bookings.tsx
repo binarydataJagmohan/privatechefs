@@ -110,7 +110,7 @@ export default function Bookings() {
 
 	const [amount, setAmount] = useState('');
 
-	const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
+	const [selectedmenu, setSelectedMenu] = useState('');
 
 	const [chefoffer, setChefOffer] = useState<ChefOffer[]>([]);
 
@@ -129,6 +129,7 @@ export default function Bookings() {
 	const [getchefmenu, setgetChefMenu] = useState<Menu[]>([]);
 	const [selectedChef, setSelectedChef] = useState('');
 	const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
+	
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [address, setAddress] = useState("");
 
@@ -598,7 +599,7 @@ export default function Bookings() {
 
 	const resetFields = () => {
 		setAmount('');
-		setSelectedMenu([]);
+		setSelectedMenu('');
 		console.log(selectedmenu);
 	}
 
@@ -682,6 +683,11 @@ export default function Bookings() {
 		setMenuOptions(filteredMenuOptions);
 	};
 
+	const handleChefMenu = (event: any) => {
+		const selectedChefId = event.target.value;
+		setSelectedMenu(selectedChefId);
+	};
+
 const handleBookingApplyJobSubmit = (event: any) => {
 		event.preventDefault();
 	  
@@ -749,6 +755,8 @@ const handleBookingApplyJobSubmit = (event: any) => {
 				  background: '#ffff',
 				},
 			  });
+
+			  window.location.reload()
 			} else {
 			  toast.error(res.message, {
 				position: toast.POSITION.TOP_RIGHT,
@@ -1375,7 +1383,7 @@ const handleBookingApplyJobSubmit = (event: any) => {
 										</td>
 										<td>
 											<div className="login_div">
-												<select name="menu1" value={menuOptions}
+												<select name="menu1" value={selectedmenu} onChange={handleChefMenu}
 												>	<option value="">Choose menu</option>
 													{menuOptions.map((data: any) => (
 														<option key={data.menuid} value={data.menuid}>{data.menu_name}</option>
