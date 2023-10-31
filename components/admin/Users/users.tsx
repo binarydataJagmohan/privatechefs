@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { getAllUsers, getUserLocationByFilter, getUserAllLocation } from '../../../lib/adminapi'
+import { getAllUsers, getUserLocationByFilter, getUserAllLocation,sendMessageToUserByAdmin } from '../../../lib/adminapi'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
+import { ToastContainer, toast } from 'react-toastify';
+import { send } from 'process';
 
 export default function Users() {
 
@@ -133,19 +135,148 @@ export default function Users() {
             });
     }
 
+    const removeLocation = (location: any) => {
+        setSelectedLocation((prevLocations) => prevLocations.filter((c) => c !== location));
+      };
+
+    const [selectedFilters, setSelectedFilters] = useState<any[]>([]);
+
+    const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
+
+    const [buttonStatus, setButtonState] = useState(false);
+
+    const [message, setMessage] = useState('');
+
+
+    const handleFilterSelection = (filter: any) => {
+        if (selectedFilters.includes(filter)) {
+          // Deselect the filter if it was previously selected
+          setSelectedFilters(selectedFilters.filter((selected: any) => selected !== filter));
+        } else {
+          // Select the filter
+          setSelectedFilters([...selectedFilters, filter]);
+        }
+      };
+    
+    const isFilterSelected = (filter:any) => selectedFilters.includes(filter);
+
+    const modalConfirmCloseTwo = () => {
+        setModalConfirmTwo(false);
+    }
+
+    const handleRegisterSubmit = (event:any) => {
+        event.preventDefault();
+        setButtonState(true);
+        const data = {
+          message: message,
+          user_id: selectedFilters,
+        };
+
+        // console.log(data)
+   
+        sendMessageToUserByAdmin(data)
+          .then((res) => {
+            if (res.status == true) {
+              setModalConfirmTwo(false);
+              setButtonState(false);
+              setMessage("");  
+              toast.success(res.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #ff4e00d1',
+                  color: '#454545',
+                  '--toastify-icon-color-success': '#ff4e00d1',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
+              });
+            } else {
+              setButtonState(false);
+              setModalConfirmTwo(false);
+              setMessage("");  
+              toast.error(res.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
+              });
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+    };
+      
+    
+
     return (
         <>
             <div className="table-part">
                 <h2>Users</h2>
-                <button className="table-btn">Total</button>{" "}
-                <button className="table-btn" onClick={() => setModalConfirm(true)}>
+              
+                <ul className="table_header_button_section p-r">
+                <li>
+                    {/* <button className="table-btn">Total</button> */}
+                    {selectedLocation.map((location:any, index:any) => (
+                    <li>
+                        {" "}
+                        <div key={index} className="table-btn">
+                        <span>{location}</span>
+                        <button
+                            className="remove-btn"
+                            onClick={() => removeLocation(location)}
+                        >
+                            x
+                        </button>
+                        </div>  
+                    </li>
+                    ))}
+                </li>
+                
+                
+                <li className="right-li">
+                    <button
+                    className="table-btn border-radius round-white"
+                    onClick={() => setModalConfirm(true)}
+                    >
                     Filter{" "}
-                </button>
+                    </button>{" "}
+                    <button
+                    className="table-btn border-radius round-white"
+                    onClick={() => window.location.reload()}
+                    >
+                    Clear All{" "}
+                    </button>
+                    {(selectedFilters.length > 0) && (
+                    <button
+                        className="table-btn border-radius round-white mx-2"
+                        onClick={() => setModalConfirmTwo(true)}
+                    >
+                        Send message 
+                    </button>
+                    )}
+                </li>
+                </ul>
+
                 <div className="table-box">
                     {getallusers.length > 0 ?
                         <table className="table table-borderless">
                             <thead>
                                 <tr>
+                                   {filterLocation.length > 0 && (
+                                       <th scope="col">Select</th>
+                                   )} 
                                     <th scope="col">Photo</th>
                                     <th scope="col">Name/Surname</th>
                                     <th scope="col">Current Location</th>
@@ -155,8 +286,15 @@ export default function Users() {
                             </thead>
                             <tbody>
                                 {filterLocation.length > 0 ? (
-                                    filterLocation.map((user, index) => (
+                                    filterLocation.map((user:any, index:any) => (
                                         <tr key={index}>
+                                            <td className="chefs_pic">
+                                            <input
+                                            type="checkbox"
+                                            checked={isFilterSelected(user.id)} // You can customize this based on your data
+                                            onChange={() => handleFilterSelection(user.id)} // You can use a unique identifier for each user
+                                            />
+                                            </td>
                                             <td className="chefs_pic">
                                                 {user.pic ? (
                                                     <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" />
@@ -172,6 +310,7 @@ export default function Users() {
                                                     <i className="fa fa-eye" aria-hidden="true"></i>
                                                 </a>
                                             </td>
+                                            <td></td>
                                         </tr>
                                     ))
                                 ) : (
@@ -202,6 +341,21 @@ export default function Users() {
                     }
                 </div>
             </div>
+
+            <PopupModal show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
+                <h4 style={{ color: "#ff4e00d1", textAlign: "center" }}>Send Message</h4>
+                <div className="all-form">
+                <form onSubmit={handleRegisterSubmit} className="common_form_error" id="register_form">
+                    <div className='login_div'>
+                    <label htmlFor="name">Enter Message:</label>
+                    <textarea  id="message" name="message" value={message} onChange={(e) => setMessage(e.target.value)}  required/>
+                    </div>
+                  
+                    <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
+                </form>
+                </div>
+            </PopupModal>
+
             <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
                 <div className="accordion" id="accordionExample">
 
@@ -225,13 +379,14 @@ export default function Users() {
                             data-bs-parent="#accordionExample"
                         >
                             <div className="accordion-body" id="location-filter">
-                                {getlocation.map((location, index) => (
+                                {getlocation.map((location:any, index:any) => (
                                     <div className="col-sm-12" key={index}>
                                         <input
                                             type="checkbox"
                                             value={location.address}
                                             onChange={handleCheckboxLocationChange}
                                             style={{ marginRight: "5px" }}
+                                            checked={selectedLocation.includes(location.address)}
                                         />
                                         <label style={{ marginLeft: "5px" }}>
                                             {location.address}
@@ -250,6 +405,7 @@ export default function Users() {
                 pageSize={pageSize}
                 onPageChange={onPageChange}
             />
+            <ToastContainer/>
         </>
     )
 }
