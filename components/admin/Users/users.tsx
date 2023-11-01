@@ -37,6 +37,8 @@ export default function Users() {
     const [getallusers, setAllUsers] = useState<User[]>([]);
     const [totalMenu, setTotalMenu]: any = useState({});
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedLatitudes, setSelectedLatitudes] = useState<number[]>([]);
+
     const pageSize = 10;
 
     useEffect(() => {
@@ -59,11 +61,12 @@ export default function Users() {
 
     useEffect(() => {
         const locationsArray = Array.isArray(selectedLocation) ? selectedLocation : [selectedLocation];
-        //console.log(locationsArray);
         getUserLocationByFilter({ locations: locationsArray.join(',') })
             .then((res) => {
                 if (res.status) {
                     setFilterLocation(res.data);
+                    // console.log(res.data);
+                    
                 } else {
                     console.log(res.message);
                 }
@@ -91,6 +94,8 @@ export default function Users() {
 
     const handleCheckboxLocationChange = (e: any) => {
         const value = e.target.value;
+        console.log('Checkbox value:', value);
+
         if (e.target.checked) {
             setSelectedLocation((prevLocations) => [...prevLocations, value]);
         } else {
@@ -224,15 +229,13 @@ export default function Users() {
         <>
             <div className="table-part">
                 <h2>Users</h2>
-              
                 <ul className="table_header_button_section p-r">
                 <li>
-                    {/* <button className="table-btn">Total</button> */}
                     {selectedLocation.map((location:any, index:any) => (
                     <li>
                         {" "}
                         <div key={index} className="table-btn">
-                        <span>{location}</span>
+                        <span>{getlocation.find(item => item.lat === location)?.address}</span>
                         <button
                             className="remove-btn"
                             onClick={() => removeLocation(location)}
@@ -383,10 +386,10 @@ export default function Users() {
                                     <div className="col-sm-12" key={index}>
                                         <input
                                             type="checkbox"
-                                            value={location.address}
+                                            value={location.lat}
                                             onChange={handleCheckboxLocationChange}
                                             style={{ marginRight: "5px" }}
-                                            checked={selectedLocation.includes(location.address)}
+                                            checked={selectedLocation.includes(location.lat)}
                                         />
                                         <label style={{ marginLeft: "5px" }}>
                                             {location.address}
