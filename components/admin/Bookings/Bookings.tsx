@@ -133,6 +133,8 @@ export default function Bookings() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [address, setAddress] = useState("");
 
+	const [booking_id, setAppliedBookingId] = useState('');
+
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
 	};
@@ -372,11 +374,13 @@ export default function Bookings() {
 			.then(res => {
 				if (res.status == true) {
 					setChefOffer(res.data);
+					
 					// console.log(res.data);
 					res.data.forEach((item: any) => {
 						// 
 						if (item.applied_jobs_status == "hired") {
 							setAppliedId(item.applied_jobs_id);
+							
 						}
 					});
 
@@ -468,6 +472,7 @@ export default function Bookings() {
 			if (client && admin && user_show == 'visible') {
 				const userData = getCurrentUserData() as CurrentUserData;
 				const data = {
+					booking_id :bookingid,
 					id: appliedid,
 					key: 'status',
 					value: 'hired',
@@ -688,7 +693,7 @@ export default function Bookings() {
 		setSelectedMenu(selectedChefId);
 	};
 
-const handleBookingApplyJobSubmit = (event: any) => {
+    const handleBookingApplyJobSubmit = (event: any) => {
 		event.preventDefault();
 	  
 		if (isSubmitting) {
@@ -834,6 +839,7 @@ const handleBookingApplyJobSubmit = (event: any) => {
 									<th scope="col">Booking Date</th>
 									<th scope="col">Address</th>
 									<th scope="col">Category</th>
+									<th scope="col">Payment Status</th>
 									<th scope="col">Status</th>
 									<th scope="col">Action</th>
 								</tr>
@@ -872,9 +878,12 @@ const handleBookingApplyJobSubmit = (event: any) => {
 											<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
 
 											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
+													
 
 											<td><p className="text-data-18" id="table-p">{user.location}</p></td>
 											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
+
+											<td><p className="text-data-18" id="table-p">{user.payment_status}</p></td>		
 
 											<td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
 
@@ -1215,6 +1224,7 @@ const handleBookingApplyJobSubmit = (event: any) => {
 								<thead>
 									<tr>
 										<th scope="col">#</th>
+										
 										<th scope="col">Chef's Name</th>
 										<th scope="col-2">Menu</th>
 										<th scope="col">Amount</th>
