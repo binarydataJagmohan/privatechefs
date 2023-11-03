@@ -82,6 +82,7 @@ export default function Booking(props: any) {
     client_amount?: string;
     pic?: string;
     user_show?: string;
+    
   }
 
   interface ChefAppliedOffer {
@@ -95,6 +96,7 @@ export default function Booking(props: any) {
     menu_id?: string;
     userName?: string;
     userSurname?: string;
+    applied_jobs_id?:string
   }
 
   const [bookingUsers, setBookingUser] = useState([]);
@@ -408,7 +410,7 @@ export default function Booking(props: any) {
     window.location.href = '/user/edit-booking/step1';
   }
 
-  const getuserchefofferdata = (e: any, id: any) => {
+  const getuserchefofferdata = (e: any, id: any,category:any) => {
 
     getUserChefOffer(id)
       .then(res => {
@@ -418,10 +420,9 @@ export default function Booking(props: any) {
         
           modalConfirmThreeClose();
           setChefAppliedOffer(res.chefoffer);
-          
+          setBookingCategory(category);
           setBookingId(id);
-          setModalConfirm(true);
-         
+          setModalConfirm(true);  
 
         } else {
          
@@ -665,17 +666,21 @@ export default function Booking(props: any) {
                                           View Booking
                                         </a>
                                       </li>
-                                     <li>
-                                        <a
-                                          className="dropdown-item"
-                                          href="#"
-                                          onClick={(e) => getuserchefofferdata(e, user.booking_id)}
-
-                                        >
-                                          View Chef offer
-                                        </a>
-                                      </li>
-                                      {user.appliedId === null && (
+                                      
+                                      {user.payment_status == 'pending' && (
+                                         <li>
+                                         <a
+                                           className="dropdown-item"
+                                           href="#"
+                                           onClick={(e) => getuserchefofferdata(e, user.booking_id,user.category)}
+ 
+                                         >
+                                           View Chef offer
+                                         </a>
+                                       </li>
+                                      )}
+                                    
+                                      {(user.payment_status == 'pending' && user.appliedId === null) && (
                                         <li>
                                           <a
                                             className="dropdown-item"
@@ -686,15 +691,24 @@ export default function Booking(props: any) {
                                           </a>
                                         </li>
                                       )}
-                                      <li>
-                                        <a
-                                          className="dropdown-item"
-                                          href="#"
-                                          onClick={() => { deleteBookingByAdmin(user.booking_id); }}
-                                        >
-                                          Delete
-                                        </a>
-                                      </li>
+                                      {user.payment_status == 'pending' && (
+                                          <li>
+                                          <a
+                                            className="dropdown-item"
+                                            href="#"
+                                            onClick={() => { deleteBookingByAdmin(user.booking_id); }}
+                                          >
+                                            Delete
+                                          </a>
+                                        </li>
+                                      )}
+
+                                      {user.payment_status == 'completed' && (
+                                     <li>
+                                        <button className="btn btn-sm btn-success">Payment successfull</button>
+                                        </li>
+                                      )}
+                                      
                                     </ul>
                                   </div>
                                 </td>
@@ -1002,17 +1016,18 @@ export default function Booking(props: any) {
                         ))}
                       </td>
                       <td>{chef.amount}</td>
+                      
                       <td>
 
-                        <button id="btn_offer" className="mx-2" type="button" onClick={() => {
-                          setModalConfirmTwo(true);
-                          setModalConfirm(false);
-                          setChefID(chef.chef_id ?? ''); // Assign a default value of an empty string if chef.chef_id is undefined
-                          setBookingId(chef.booking_id ?? ''); // Assign a default value of an empty string if chef.booking_id is undefined
-                        }}>
-
-                          Contact
-                        </button>
+                         
+                        <td>
+                          <a target="_blank"
+                            className="btn btn-sm btn-success"
+                            href={`/user/payment?booking_id=${chef.booking_id}&amount=${chef.amount}&chef_id=${chef.chef_id}&client_id=${currentUserData.id}&applied_id=${chef.applied_jobs_id}`}
+                          >
+                            Book
+                          </a>
+                        </td>
 
 
                       </td>
