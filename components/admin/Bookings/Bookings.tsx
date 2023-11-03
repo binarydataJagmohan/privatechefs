@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin,getChefDetailByLocation } from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin,getChefDetailByLocation,AssignedBookingByAdminWithoutDatabse } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -134,6 +134,14 @@ export default function Bookings() {
 	const [address, setAddress] = useState("");
 
 	const [booking_id, setAppliedBookingId] = useState('');
+
+	const [assignselectedchef, setAsssignSelectedChef] = useState<Number>(null);
+
+	const [checkassignselectedchef, setCheckAsssignSelectedChef] = useState<Number>(null);
+
+	const [payment_status, setPaymentStatus] = useState('pending');
+
+	
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
@@ -376,13 +384,13 @@ export default function Bookings() {
 					setChefOffer(res.data);
 					
 					// console.log(res.data);
-					res.data.forEach((item: any) => {
-						// 
-						if (item.applied_jobs_status == "hired") {
-							setAppliedId(item.applied_jobs_id);
+					// res.data.forEach((item: any) => {
+					// 	// 
+					// 	if (item.applied_jobs_status == "hired") {
+					// 		setAppliedId(item.applied_jobs_id);
 							
-						}
-					});
+					// 	}
+					// });
 
 				} else {
 					setErrorMessage(res.message);
@@ -450,16 +458,22 @@ export default function Bookings() {
 		}
 	};
 
+	const handleRadioChange = (chef:number,appliedid:any) => {
+		
+		setAsssignSelectedChef(Number(chef));
+		setAppliedId(appliedid);
+	};
+
 
 
 	const handleBookingAssignJobSubmit = (event: any) => {
 		event.preventDefault();
+
 		var client = $('#client_amount_' + appliedid).val();
 		var admin = $('#admin_amount_' + appliedid).val();
 		var user_show = $('#user_show_' + appliedid).val();
 
-
-		if (!appliedid) {
+		if (!assignselectedchef) {
 
 			swal({
 				title: 'Oops!',
@@ -468,18 +482,18 @@ export default function Bookings() {
 
 			});
 		} else {
-
+			
 			if (client && admin && user_show == 'visible') {
-				const userData = getCurrentUserData() as CurrentUserData;
+				setIsSubmitting(true)
 				const data = {
 					booking_id :bookingid,
 					id: appliedid,
-					key: 'status',
-					value: 'hired',
-					message: 'assign',
-					created_by: userData.id
+					chef_id:assignselectedchef,
+					client_amount:client,
+					payment_status:payment_status
 				}
-				UpdatedAppliedBookingByKeyValue(data)
+
+				AssignedBookingByAdminWithoutDatabse(data)
 					.then(res => {
 						if (res.status == true) {
 
@@ -522,6 +536,9 @@ export default function Bookings() {
 					})
 					.catch(err => {
 						console.log(err);
+					})
+					.finally(() => {
+						setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
 					});
 
 			} else {
@@ -595,7 +612,8 @@ export default function Bookings() {
 				})
 				.catch(err => {
 					console.log(err);
-				});
+				})
+				
 
 		}
 
@@ -605,7 +623,8 @@ export default function Bookings() {
 	const resetFields = () => {
 		setAmount('');
 		setSelectedMenu('');
-		console.log(selectedmenu);
+		// setAsssignSelectedChef('');
+		// console.log(selectedmenu);
 	}
 
 	const handleClear = () => {
@@ -738,6 +757,7 @@ export default function Bookings() {
 		  chef_id: selectedChef,
 		  client_amount: clientamount,
 		  admin_amount: adminamount,
+		  payment_status:payment_status
 		};
 	  
 		AssignedBookingByAdmin(data)
@@ -915,11 +935,13 @@ export default function Bookings() {
 															</a>
 														</li>
 
-														{user.category == 'multipletimes' && (<li>
+														{/* {user.payment_status} */}
+
+														{user.category == 'multipletimes'  && (<li>
 															<a
 																className="dropdown-item"
 																href="#"
-																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields() }}
+																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields();setCheckAsssignSelectedChef(user.assigned_to_user_id);setPaymentStatus(user.payment_status)}}
 															>
 																Assign Booking
 															</a>
@@ -1217,7 +1239,7 @@ export default function Bookings() {
 
 			<PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
 				<div className="popup-part new-modala">
-					<h2 className="title-pop up-move mt-2">Booking id tg #{bookingid}</h2>
+					<h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
 					<div className="offers">
 						<form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
 							<table className="table">
@@ -1227,7 +1249,7 @@ export default function Bookings() {
 										
 										<th scope="col">Chef's Name</th>
 										<th scope="col-2">Menu</th>
-										<th scope="col">Amount</th>
+										<th scope="col">Chef's Amount</th>
 										<th scope="col">Client Amount</th>
 										<th scope="col">Admin Amount</th>
 										<th scope="col">Show to user</th>
@@ -1242,14 +1264,13 @@ export default function Bookings() {
 														<input
 															className="form-check-input"
 															type="radio"
-															name="id"
-															defaultValue={chef.applied_jobs_id}
-															onChange={handleChange}
-															onBlur={handleBlur}
-															ref={radioRef}
-															defaultChecked={chef.applied_jobs_status == 'hired'}
+															id={`chef_id_${chef.chef_id}`}
+															name={`chef_id_${chef.chef_id}`}
+															onChange={() => handleRadioChange(Number(chef.chef_id),chef.applied_jobs_id)} // Add this line
+        													checked={assignselectedchef == chef.chef_id} 
 														/>
 													</div>
+													
 												</th>
 												<td>{chef.name} {chef.surname}</td>
 												<td>
@@ -1258,6 +1279,9 @@ export default function Bookings() {
 															{menu.trim()}
 														</button>
 													))}
+													{payment_status === 'completed' && checkassignselectedchef == chef.chef_id && (
+														<button type="button" className="btn btn-sm btn-success">Paid</button>
+													)}
 												</td>
 												<td>{chef.amount}</td>
 												<td>
@@ -1270,7 +1294,7 @@ export default function Bookings() {
 																placeholder="Client Amount"
 																onChange={handleChange}
 																onBlur={handleBlur}
-																defaultValue={chef.client_amount}
+																value={chef.client_amount}
 															/>
 														</div>
 													</div>
@@ -1285,7 +1309,7 @@ export default function Bookings() {
 																placeholder="Admin Amount"
 																onChange={handleChange}
 																onBlur={handleBlur}
-																defaultValue={chef.admin_amount}
+																value={chef.admin_amount}
 															/>
 														</div>
 													</div>
@@ -1314,7 +1338,7 @@ export default function Bookings() {
 							<div className="row">
 								<div className="col-md-6">
 									<div className="banner-btn">
-										<button type="button" id="btn_offer" className="mx-2" type="button" onClick={(e) => { setModalConfirm1(true); setModalConfirm(false); }}>
+										<button type="button" id="btn_offer" className="mx-2"  onClick={(e) => { setModalConfirm1(true); setModalConfirm(false); }}>
 											Assign From Database
 										</button>
 									</div>
@@ -1326,8 +1350,12 @@ export default function Bookings() {
 											<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
 												Clear
 											</button>
-											<button id="btn_offer" type="submit">
-												Assign Booking
+											<button
+												id="btn_offer"
+												type="submit"
+												disabled={isSubmitting}
+											>
+												{isSubmitting ? "Submitting..." : "Assign Booking"}
 											</button>
 										</div>
 									</div>
