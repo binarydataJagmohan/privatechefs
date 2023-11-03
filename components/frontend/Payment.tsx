@@ -125,6 +125,7 @@ export default function stepTwo() {
         booking_id: router.query.booking_id,
         amount:router.query.amount,
         chef_id:router.query.chef_id,
+        applied_id:router.query.applied_id ? router.query.applied_id : null ,
         card_number:formData.CardNumber,
         exp_month:formData.CardExpiredMonth,
         exp_year:formData.CardExpiredYear,
@@ -138,7 +139,7 @@ export default function stepTwo() {
 
             swal({
             icon: 'success',
-            title: '<strong>Thank You</strong>',
+            title: 'Thank You',
             text: 'Your payment has been successfully done',
             }).then(function () {
             
@@ -270,7 +271,7 @@ export default function stepTwo() {
                     </div>
                     <div className="col-lg-12 col-md-12">
                      <label htmlFor="">Amount</label>
-                      <input type="text" className="form-control"  placeholder='pice' value={router.query.amount}
+                      <input type="text" className="form-control"  placeholder='price' value={router.query.amount}
                         disabled/>
                          
                     </div>
