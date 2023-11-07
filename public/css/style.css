@@ -788,7 +788,8 @@ table thead tr:hover {
 
 .home-page-banner-text {
   position: relative;
-  right: 20%;
+  right: 12%;
+  /* right: 20%; */
   width: 485px;
 }
 
@@ -4343,6 +4344,11 @@ button.table-btn.btn-2.btn-class {
 }
 
 button.table-btn.btn-2.btn-class1 {
+  background-color: #ff4e00d1 !important;
+  color: #ffff;
+}
+
+button.table-btn.btn-2.btn-class2 {
   background-color: #ff4e00d1 !important;
   color: #ffff;
 }

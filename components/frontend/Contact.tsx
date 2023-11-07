@@ -173,6 +173,9 @@ export default function Contact(props: any) {
                         >Guest area</button></li>
                         <li><button onClick={() => handleButtonClick('button2')}
                             className={`table-btn btn-2 ${activeButton === 'button2' ? 'btn-class1' : ''}`}>Chefs’ area</button></li>
+
+                        <li><button onClick={() => handleButtonClick('button3')}
+                            className={`table-btn btn-2 ${activeButton === 'button3' ? 'btn-class2' : ''}`}>Cancelation policy</button></li>
                     </ul>
                     {activeButton === 'button1' && (
                         <div className="accordion-part mt-5">
@@ -397,12 +400,12 @@ export default function Contact(props: any) {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading10">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
-                                        What happens if I don't show up to my experience?
+                                            What happens if I don't show up to my experience?
                                         </button>
                                     </h2>
                                     <div id="collapse10" className="accordion-collapse collapse" aria-labelledby="heading10" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                        Punctuality is crucial. We understand that there are unexpected situations that can occur and for you not be able to attend a scheduled experience. If you can't make it to an experience, please inform the client and our support team as soon as possible. Failure to show up without prior notice may result in penalties and without a cause of force majeure, will result in a permanent deactivation of your account..
+                                            Punctuality is crucial. We understand that there are unexpected situations that can occur and for you not be able to attend a scheduled experience. If you can't make it to an experience, please inform the client and our support team as soon as possible. Failure to show up without prior notice may result in penalties and without a cause of force majeure, will result in a permanent deactivation of your account..
                                         </div>
                                     </div>
                                 </div>
@@ -410,12 +413,12 @@ export default function Contact(props: any) {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading11">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
-                                        Do I need to pay in order to use Private Chefs platform?
+                                            Do I need to pay in order to use Private Chefs platform?
                                         </button>
                                     </h2>
                                     <div id="collapse11" className="accordion-collapse collapse" aria-labelledby="heading11" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                        No, you don't! At Private Chefs you can sign up and offer your services as a private chef completely free of charge. We only earn a commission on each confirmed booking.
+                                            No, you don't! At Private Chefs you can sign up and offer your services as a private chef completely free of charge. We only earn a commission on each confirmed booking.
                                         </div>
                                     </div>
                                 </div>
@@ -424,12 +427,12 @@ export default function Contact(props: any) {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading12">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
-                                        How much is your commission on each confirmed booking?
+                                            How much is your commission on each confirmed booking?
                                         </button>
                                     </h2>
                                     <div id="collapse12" className="accordion-collapse collapse" aria-labelledby="heading12" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                        Our commission for each confirmed booking is only 10%. This fee is essential for the operation of Private Chefs and allows us to provide our services. Additionally, we offer a rewarding star rating system for chefs. The more stars you earn, the greater the possibility of reducing the commission we charge you. This creates an incentive for chefs to excel and deliver outstanding culinary experiences.
+                                            Our commission for each confirmed booking is only 10%. This fee is essential for the operation of Private Chefs and allows us to provide our services. Additionally, we offer a rewarding star rating system for chefs. The more stars you earn, the greater the possibility of reducing the commission we charge you. This creates an incentive for chefs to excel and deliver outstanding culinary experiences.
                                         </div>
                                     </div>
                                 </div>
@@ -438,12 +441,94 @@ export default function Contact(props: any) {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading13">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
-                                        How does the star rating system work?
+                                            How does the star rating system work?
                                         </button>
                                     </h2>
                                     <div id="collapse13" className="accordion-collapse collapse" aria-labelledby="heading13" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                        Our star rating system is comprehensive and objective. It encompasses an internal rating based on various factors, including the chef's performance, creativity, feedback from our customers, consistency, communication, and their overall appearance. In addition, we send post-experience surveys to customers to gather their valuable feedback and insights. All these components are meticulously considered and combined to create a star rating system that ranges from 1 to 5, reflecting the chef's overall excellence and the quality of the culinary experience they provide.
+                                            Our star rating system is comprehensive and objective. It encompasses an internal rating based on various factors, including the chef's performance, creativity, feedback from our customers, consistency, communication, and their overall appearance. In addition, we send post-experience surveys to customers to gather their valuable feedback and insights. All these components are meticulously considered and combined to create a star rating system that ranges from 1 to 5, reflecting the chef's overall excellence and the quality of the culinary experience they provide.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeButton === 'button3' && (
+                        <div className="accordion-part mt-5">
+                            <div className="accordion" id="accordionExample">
+
+                                <div  className="accordion-body">All cancellations (no matter on whose behalf) should be communicated in written to the Private Chefs team at info@privatechefsworld.com</div>
+
+                                <div className="accordion-item mt-5">
+                                    <h2 className="accordion-header" id="headingOne">
+                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Cancellation policy for guests
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                            <p>When a guest cancels a reservation they are eligible for a refund under the following conditions:</p>
+                                            
+                                            <p>Cancelling up to 45 days before the reservation date: The entire value of the experience will be reimbursed.</p>
+                                            <p>Cancelling between 30 and 44 days prior to the reservation: 50% of the experience value will be reimbursed.</p>
+                                            <p>Cancelling less than 30 days prior to the reservation: No refund applies.
+                                                Refunds may take between 3 to 5 business days to process! But do not worry, it will be on its way. If you have any questions or want additional information, please contact us info@privatechwfsworld.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headingTwo">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            When a guest cancels a reservation they are eligible for a refund under the following conditions:
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                            Cancelling up to 45 days before the reservation date: The entire value of the experience will be reimbursed.
+                                            Cancelling between 30 and 44 days prior to the reservation: 50% of the experience value will be reimbursed.
+                                            Cancelling less than 30 days prior to the reservation: No refund applies.
+                                            Refunds may take between 3 to 5 business days to process! But do not worry, it will be on its way. If you have any questions or want additional information, please contact us info@privatechwfsworld.com
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headingThree">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Cancellation policy for chefs
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                            As a Private Chefs Worldwide member, it is incredibly important to fulfill your commitments with each guest who decided to reserve your menu. We strongly advise against cancelling any reservations you previously accepted since these can cause a great inconvenience to the guests, you would have disqualified other chefs for no reason, and ultimately, affected the credibility of our website.
+
+                                            <p>If you have no choice but to cancel a reservation, and not due to a reason of force majeure, you should be aware that you may incur on the following penalties:</p>
+                                            <p>In any case, please contact the guest as soon as possible to inform them of the cancellation, as well as the Take a Chef team info@privatechefsworld.com</p>
+                                            <p>Your ranking in search results when receiving service requests will be negatively affected.</p>
+                                            <p>There will be a 20% penalty on the next reservation.</p>
+                                            <p>Your calendar will not be available for the dates of the canceled reservation.</p>
+                                            <p>You are subject to expulsion from Private Chefs Worldwide if you cancel more than 2 reservations in a six-month period.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headingFour">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                            What happens if my client cancels the reservation?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFour" className="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                            <p> If a guest cancels a confirmed reservation, you will be informed and, as a chef, you will be entitled to receive one of the following compensations:</p>
+                                            <p>If your guest cancels up to 45 days before the experience: they will be entirely reimbursed.</p>
+                                            <p>If your guest cancels between 30 and 44 days prior to the experience: you are entitled to 50% of the reservations’ value.</p>
+                                            <p>If your guest cancels with less than 30 days in advance: you are entitled to the entire coverage of the experience.</p>
+                                            <p>What happens if the chef cancels my reservation?</p>
+                                            <p>It is very unlikely for this to happen, but in case it does, don’t worry! We will refund you fully, or help you find a new chef and menu similar to the one you originally requested if you prefer. You can also request a coupon with no expiration date, to enjoy another event from Private Chefs World at any given destination. *Please keep in mind that a reimbursement can take between 3-5 working days to process</p>
                                         </div>
                                     </div>
                                 </div>
