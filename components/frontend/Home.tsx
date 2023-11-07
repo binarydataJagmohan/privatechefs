@@ -437,21 +437,21 @@ export default function Home(props: any) {
                             <div className="card-box">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_01.jpg'} alt="11" />
                                 <h3>Chefs</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                                <p>Our world-class chefs are artists of the kitchen, elevating every meal into a masterpiece. With a global culinary repertoire and a passion for creativity, they turn dining into a remarkable experience. </p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="card-box">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/imgpsh_fullsiaze_an22im.jpg'} alt="11" />
                                 <h3>Butlers</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                                <p>Our butlers are the epitome of grace and service, ensuring your every need is met with seamless sophistication. From tableside service to event coordination, they add a touch of class to every moment. </p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="card-box">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_3.jpg'} alt="11" />
                                 <h3>Bartenders</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
+                                <p>Our bartenders are skilled mixologists who turn every drink into a work of art. From classic cocktails to custom concoctions, they bring an element of liquid elegance to your event, leaving your guests in awe of their craft. </p>
                             </div>
                         </div>
                         {/*<div className="col-lg-3 col-md-6">
@@ -473,7 +473,7 @@ export default function Home(props: any) {
                         <div className="col-lg-6 col-md-12">
                             <div className="contant-box mt-5 mt-0-1024">
                                 <h2>Design your next experience</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nec feugiat odio elit varius et feugiat in mattis. Convallis pellentesque suspendisse adipiscing lectus ultrices tristique eget. Dignissim elit in habitasse urna. Euismod commodo eget quis arcu neque. Suspendisse scelerisque vitae fringilla felis, a in. Nec facilisis rhoncus sit interdum amet massa eu erat in. Cursus sapien nulla tellus eu tellus quis ante a id. Nisi, sodales velit in malesuada porttitor in aliquet elit tellus. Arcu penatibus ornare id tortor, leo nulla aenean. Fusce.</p>
+                                <p>At Private Chefs Worldwide, we believe that every moment deserves a touch of extraordinary. Our feature empowers you to create a culinary journey as unique as you are. Whether it's an intimate dinner for two, a lavish celebration, or a themed event, we offer a canvas for your imagination. Select from our team of world-class chefs, butlers, waiters, and bartenders to craft a one-of-a-kind experience that reflects your tastes and aspirations. Together, we'll bring your vision to life, ensuring that every detail is tailored to perfection, from the menu to the ambiance. Your next memorable experience awaits – let's design it together.</p>
                                 <div className="banner-btn"><a href="/bookings/step1">Start your journey</a></div>
                             </div>
                         </div>
@@ -484,29 +484,29 @@ export default function Home(props: any) {
                 <div className="container">
                     <h2 className='text-uppercase'>How it works?  </h2>
                     <div className='services-id'>
-                        <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. W deliver results.</p>
+                        <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. We deliver results.</p>
                     </div>
                     <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row mt-5">
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list" id="num-list-id">
                                 <h4><span className="big-48" id="big-id"><i className="fa-solid fa-spoon"></i></span> </h4>
-                                <h4>You choose the menu</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <h4>We tailor your menu</h4>
+                                <p>Every menu is tailored specifically for you and your guests.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list" id="num-list-id">
                                 <h4><span className="big-48"><i className="fas fa-bacon"></i></span>  </h4>
                                 <h4>We buy the ingredients</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>All shopping is taken care by our Chefs prior their arrival.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-kitchen-set"></i></span> </h4>
                                 <h4>We cook in your kitchen</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>All the magic is prepared before your eyes in your own house.</p>
                             </div>
                         </div>
                     </div>
@@ -517,14 +517,14 @@ export default function Home(props: any) {
                             <div className="num-list" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-cutlery"></i></span>  </h4>
                                 <h4>We serve each dish</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>All dishes are served by our Chefs so you can relax and enjoy.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-brush"></i></span></h4>
                                 <h4> We clean up</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>Don't worry about cleaning. Just sit and enjoy your experience.</p>
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-12"> </div>
@@ -536,7 +536,7 @@ export default function Home(props: any) {
             <section className="services-part location-how mt-5 mobile-m-0 testimonial-part p-0">
                 <div className="container">
                     <h2>Top rated chefs</h2>
-                    <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
+                    <p className="dis-max-width mb-4">Explore a selection of our top-rated chefs who have consistently dazzled clients with their culinary expertise. These culinary all-stars are masters of their craft, each bringing a unique blend of creativity and skill to the table. Whether you're craving the rich flavors of Italian cuisine, the delicate art of sushi, or a fusion of global tastes, our top-rated chefs are ready to turn your dining dreams into reality.</p>
                 </div>
                 <div className="container-fluid mt-5">
                     <div className="row">
@@ -633,142 +633,142 @@ export default function Home(props: any) {
                     <h2>Instagram Feed</h2>
                     <div className="row  mt-5">
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/1.jpg'} alt="logo-1" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst ">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/2.jpg'} alt="logo-2" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/3.jpg'} alt="logo-3" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/4.jpg'} alt="logo-4" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/5.jpg'} alt="logo-5" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/6.jpg'} alt="logo-6" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/7.jpg'} alt="logo-7" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/8.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/9.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/10.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/11.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/12.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/13.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/14.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/15.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/16.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/17.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/18.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/19.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/20.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/21.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/22.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/23.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/24.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/25.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/26.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/27.jpg'} alt="logo-8" />
                             </div>
                         </div>
                         <div className="col-lg-2 col-md-6 col-6">
-                            <div className="logos">
+                            <div className="logos width-set-inst">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/28.jpg'} alt="logo-8" />
                             </div>
                         </div>

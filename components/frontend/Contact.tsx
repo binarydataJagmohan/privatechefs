@@ -170,9 +170,9 @@ export default function Contact(props: any) {
                     <ul className="table_header_button_section mt-3" >
                         <li><button onClick={() => handleButtonClick('button1')}
                             className={`table-btn btn-2 ${activeButton === 'button1' ? 'btn-class' : ''}`}
-                        >I am a Chef</button></li>
+                        >Guest area</button></li>
                         <li><button onClick={() => handleButtonClick('button2')}
-                            className={`table-btn btn-2 ${activeButton === 'button2' ? 'btn-class1' : ''}`}>I am customer</button></li>
+                            className={`table-btn btn-2 ${activeButton === 'button2' ? 'btn-class1' : ''}`}>Chefs’ area</button></li>
                     </ul>
                     {activeButton === 'button1' && (
                         <div className="accordion-part mt-5">
@@ -180,88 +180,89 @@ export default function Contact(props: any) {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="headingOne">
                                         <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            How does Private Chef Work?
+                                            What is Private Chefs?
                                         </button>
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs Worldwide, is more than just a culinary service. We are a global culinary movement, operating in 30 countries and powered by a passionate team of over 2500 talented chefs.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="headingTwo">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Who is the team behind Private Chefs?
-                                        </button>
+                                            How Can I Hire a Chef Through Private Chefs?                                        </button>
                                     </h2>
                                     <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Hiring a chef through Private Chefs is a straightforward process. Simply go through our booking process and request the type of experience that you wish. One of our destination specialists will communicate with you to discuss further details regarding your enquiry and your preferences. When we will have all the necessary information, we will introduce to you Chefs that match your preferences and type of cuisine you wish to explore. Its up to you then to choose the Chef that best matches your style, and you are ready to begin your culinary journey.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="headingThree">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            How can I contact Private Chefs?
-                                        </button>
+                                            Who Are Our Chefs?                                         </button>
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Our Chefs are culinary artists from around the world, each with their unique style and expertise. They are carefully selected based on their culinary talents, creativity, and passion for delivering extraordinary dining experiences.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading4">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                                            Do I need to pay in order to use Take a Chef?
+                                            Why Choose to Book a Private Chef?
                                         </button>
                                     </h2>
                                     <div id="collapse4" className="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Booking a private chef means you can enjoy a dining experience customized just for you in the comfort of your own space. You get to relax, focus on your guests, and relish a menu that perfectly matches your tastes, dietary needs, and cultural preferences.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading5">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-                                            Who can be a Chef?
+
+                                            Can I communicate with the Chef Prior to Completing My Reservation?
                                         </button>
                                     </h2>
                                     <div id="collapse5" className="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            At Private Chefs Worldwide, we understand the importance of seamless communication throughout the booking process. While we value open dialogue, we encourage clients to go through our dedicated team to discuss their needs and preferences. Our team is experienced in ensuring that your booking process is smooth and successful, allowing you to focus on the delightful culinary experience that awaits. Our approach helps maintain a secure and hassle-free booking process while allowing our talented chefs to do what they do best – creating exceptional dining experiences for you.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading6">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-                                            How can I receive requests through Take a Chef?
+                                            What does the Multiple experiences include?
                                         </button>
                                     </h2>
                                     <div id="collapse6" className="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Our multiple services cater to those looking for extended culinary experiences, such as vacation villa or chalet rentals. These services can encompass multiple meals throughout the day, offering you the convenience of having a private chef at your disposal for the duration of your stay.
+
+
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading7">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
-                                            How can I receive requests through Take a Chef?
+                                            What Happens If the Chef Cancels My Booking?
                                         </button>
                                     </h2>
                                     <div id="collapse7" className="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            While it's rare, if a chef cancels your booking, we will assist you in finding a suitable replacement. Your satisfaction is our top priority, and we are dedicated to ensuring that your culinary experience goes as smoothly as possible.
                                         </div>
                                     </div>
                                 </div>
-                                <div className="accordion-item">
+                                {/* <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading8">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
                                             How can I receive requests through Take a Chef?
@@ -272,7 +273,7 @@ export default function Contact(props: any) {
                                             Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     )}
@@ -282,96 +283,167 @@ export default function Contact(props: any) {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="headingOne">
                                         <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            How does Customer Work?
+                                            Who can be a Chef?
                                         </button>
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs Worldwide exclusively accepts chefs with a culinary degree and those with high-end training in fine dining restaurants and 5-star hotels. This rigorous standard ensures our platform maintains a commitment to excellence and delivers exceptional culinary experiences to our discerning clientele
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="headingTwo">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Who is the team behind Private Chefs?
+                                            How can I communicate with my guests?
                                         </button>
                                     </h2>
                                     <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            You can communicate with your guests through our messaging platform on the Private Chefs website. This ensures a secure and organized channel for discussing their needs and preferences and keeps us in a loop so we can help you when needed.
+
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="headingThree">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            How can I contact Private Chefs?
+                                            How can I receive requests through Private Chefs?
                                         </button>
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            You can receive requests by creating a chef profile on our platform. Once your profile is live, potential clients can browse your skills and expertise, and they have the option to request you for their unique dining experiences. Our advanced system also matches clients' preferences with your skills, the type of cuisine you specialize in, and other criteria, increasing the likelihood of receiving requests that align with your culinary expertise.
+
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading4">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                                            Do I need to pay in order to use Take a Chef?
+                                            How much does a service cost?
                                         </button>
                                     </h2>
                                     <div id="collapse4" className="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            The pricing of a service is based on your culinary expertise and the services you offer. The pricing can vary depending on factors such as the complexity of the menu, the number of guests, and the location of the experience.
+
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading5">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-                                            Who can be a Chef?
+                                            What is included in the price of a One-Time-Experience menu?
                                         </button>
                                     </h2>
                                     <div id="collapse5" className="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            The price of the menu should include all expenses related to the food, preparation, and service. This encompasses the cost of ingredients, your time, your assistant if needed and any necessary equipment.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading6">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-                                            How can I receive requests through Take a Chef?
+                                            What is included in the price for multiple services?
                                         </button>
                                     </h2>
                                     <div id="collapse6" className="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            When offering multiple services, such as a full-day or a half board culinary experience, your pricing should cover the labor for the meals requested, preparation of the food, shopping, serving and cleanup and any additional services that our guests have requested during the day.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading7">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
-                                            How can I receive requests through Take a Chef?
+                                            Why can't I communicate with the client before the reservation is made?
                                         </button>
                                     </h2>
                                     <div id="collapse7" className="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            To maintain the integrity of our platform and ensure a secure booking process, direct communication between chefs and guests is restricted before a reservation is confirmed. This helps prevent any unauthorized sharing of contact information.
                                         </div>
                                     </div>
                                 </div>
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading8">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
-                                            How can I receive requests through Take a Chef?
+                                            Do I have to pay tax on my income from Private Chefs?
                                         </button>
                                     </h2>
                                     <div id="collapse8" className="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Tax regulations may vary by location and individual circumstances. It's important to understand and comply with tax requirements in your area. We recommend seeking advice from a tax professional to ensure you meet your obligations.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="heading9">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                            How much time do I have to answer or reject a request?
+                                        </button>
+                                    </h2>
+                                    <div id="collapse9" className="accordion-collapse collapse" aria-labelledby="heading9" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                            It's highly advisable to respond as swiftly as you can! Time plays a crucial role here, especially since we give priority to incoming chef confirmations. Additionally, please bear in mind that the platform values chefs with superior response rates and quicker response times.
+                                            If you are unable to confirm a booking due to other bookings you might have, rejecting it makes it easier to know your availability calendar and send you bookings for the dates you will be available.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="heading10">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                                        What happens if I don't show up to my experience?
+                                        </button>
+                                    </h2>
+                                    <div id="collapse10" className="accordion-collapse collapse" aria-labelledby="heading10" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                        Punctuality is crucial. We understand that there are unexpected situations that can occur and for you not be able to attend a scheduled experience. If you can't make it to an experience, please inform the client and our support team as soon as possible. Failure to show up without prior notice may result in penalties and without a cause of force majeure, will result in a permanent deactivation of your account..
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="heading11">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
+                                        Do I need to pay in order to use Private Chefs platform?
+                                        </button>
+                                    </h2>
+                                    <div id="collapse11" className="accordion-collapse collapse" aria-labelledby="heading11" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                        No, you don't! At Private Chefs you can sign up and offer your services as a private chef completely free of charge. We only earn a commission on each confirmed booking.
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="heading12">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
+                                        How much is your commission on each confirmed booking?
+                                        </button>
+                                    </h2>
+                                    <div id="collapse12" className="accordion-collapse collapse" aria-labelledby="heading12" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                        Our commission for each confirmed booking is only 10%. This fee is essential for the operation of Private Chefs and allows us to provide our services. Additionally, we offer a rewarding star rating system for chefs. The more stars you earn, the greater the possibility of reducing the commission we charge you. This creates an incentive for chefs to excel and deliver outstanding culinary experiences.
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="heading13">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
+                                        How does the star rating system work?
+                                        </button>
+                                    </h2>
+                                    <div id="collapse13" className="accordion-collapse collapse" aria-labelledby="heading13" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                        Our star rating system is comprehensive and objective. It encompasses an internal rating based on various factors, including the chef's performance, creativity, feedback from our customers, consistency, communication, and their overall appearance. In addition, we send post-experience surveys to customers to gather their valuable feedback and insights. All these components are meticulously considered and combined to create a star rating system that ranges from 1 to 5, reflecting the chef's overall excellence and the quality of the culinary experience they provide.
                                         </div>
                                     </div>
                                 </div>

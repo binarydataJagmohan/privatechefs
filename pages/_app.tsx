@@ -4,7 +4,9 @@ import FrontendLayout from '../components/frontend/layouts/layout';
 import AdminLayout from '../components/admin/layouts/layout';
 import ChefLayout from '../components/chef/layouts/layout';
 import ConciergeLayout from '../components/concierge/layouts/layout';
-import BookingLayout from '../components/frontend/layouts/layout';
+// import BookingLayout from '../components/frontend/layouts/layout';
+import BookingLayout from '../components/bookings/layouts/layout';
+
 import { useRouter } from "next/router";
 import Head from 'next/head';
 import { SessionProvider } from "next-auth/react";

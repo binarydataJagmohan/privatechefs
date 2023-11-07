@@ -176,7 +176,7 @@ export default function Step1(props: any) {
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="javascript:void(0);" onClick={(e) => setSeriveType('onetime')}>One Time Service</a>
+                        <a href="javascript:void(0);" onClick={(e) => setSeriveType('onetime')}>One time experience</a>
                       </p>
                       
                     </div>
@@ -202,7 +202,7 @@ export default function Step1(props: any) {
                         />
                       </label>
                       <p className="plase-btn">
-                        <a href="javascript:void(0);" onClick={(e) => setSeriveType('multipletimes')}>Multiple Time Services</a>
+                        <a href="javascript:void(0);" onClick={(e) => setSeriveType('multipletimes')}>Multiple experiences</a>
                       </p>
                     </div>
                   </div>
@@ -213,14 +213,9 @@ export default function Step1(props: any) {
             {servicetype === "onetime" && (
               <div className="col-lg-6 col-md-12" id="one_time_service">
                 <div className="text-areya-srep">
-                  <p className="golden-mini-title">One time service</p>
+                  <p className="golden-mini-title">One time experience</p>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac
-                    egestas et enim porttitor urna amet, amet. Turpis aenean dolor
-                    risus vel mattis enim, scelerisque egestas fermentum. Quis
-                    senectus dictum vitae pretium commodo. Nunc congue sed sed
-                    penatibus. Accumsan, sit sit id enim sed sed ullamcorper.
-                    Ultrices scelerisque ac fermentum enim.
+                  For that special occasion or a unique dining experience, our chefs are here to transform your event into a memorable journey. We focus on every detail, from creating the perfect menu to setting the ideal ambiance. Your exceptional dining experience begins with a simple choice. Let us craft moments that will linger in your memory long after the last bite.
                   </p>
                   <p className="fild-text">Date</p>
                   <Flatpickr
@@ -241,14 +236,9 @@ export default function Step1(props: any) {
             {servicetype === "multipletimes" && (
               <div className="col-lg-6 col-md-12" id="mutiple_time_service">
                 <div className="text-areya-srep">
-                  <p className="golden-mini-title">Mutiple time service</p>
+                  <p className="golden-mini-title">Mutiple experiences</p>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac
-                    egestas et enim porttitor urna amet, amet. Turpis aenean dolor
-                    risus vel mattis enim, scelerisque egestas fermentum. Quis
-                    senectus dictum vitae pretium commodo. Nunc congue sed sed
-                    penatibus. Accumsan, sit sit id enim sed sed ullamcorper.
-                    Ultrices scelerisque ac fermentum enim.
+                  Get ready for a culinary experience that's beyond the ordinary. Our talented chefs are your passport to a world of exciting flavors. From sunrise to sunset, they craft exquisite dishes that will leave you craving more. Whether it's breakfast, lunch, or dinner, our chefs are dedicated to making each moment exciting for your palate. So, sit back, relax, and let us take you on a culinary adventure that transforms every meal into a delicious celebration.
                   </p>
                   <p className="fild-text">Date</p>
                   <Flatpickr

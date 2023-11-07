@@ -88,9 +88,9 @@ export default function OurChefs(props:any) {
                         </div>
                         <div className="col-sm-6">
                             <div className="banner-text pages-text">
-                                <h1>Our chefs</h1>
+                                <h1>Our Culinary Artists</h1>
                                 <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
+                                <p>Prepare to be introduced to a world of culinary excellence as we proudly present our top-rated Chefs from across the globe. At Private Chefs Worldwide, our team of talented culinary artists have not only perfected their craft but also elevated it to new heights..</p>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ export default function OurChefs(props:any) {
             <section className="services-part location-how mt-5 mobile-m-0">
                 <div className="container">
                     <h2>Top rated chefs</h2>
-                    <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
+                    <p className="dis-max-width mb-4">These exceptional Chefs have been curated for their culinary expertise, creativity, and dedication to delighting your taste buds. Each one brings their unique flair to the table, delivering extraordinary dining experiences that resonate with the flavors of the world.</p>
                 </div>
                 <div className="container-fluid mt-5">
                     <div className="row">
@@ -124,8 +124,8 @@ export default function OurChefs(props:any) {
 
             <section className="services-part location-how  mobile-m-0 mobile-p-0">
                 <div className="container">
-                    <h2>Chefs based on location</h2>
-                    <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
+                    <h2>Chefs by location</h2>
+                    <p className="dis-max-width mb-4">These exceptional Chefs have been curated for their culinary expertise, creativity, and dedication to delighting your taste buds. Each one brings their unique flair to the table, delivering extraordinary dining experiences that resonate with the flavors of the world.</p>
                 </div>
                 <div className="container-fluid ">
                     <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">

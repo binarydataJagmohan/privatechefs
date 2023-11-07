@@ -156,10 +156,10 @@ export default function Step4() {
           <div className="row">
             <div className="col-sm-1"></div>
             <div className="col-sm-10">
-              <h1>Type of cuisine</h1>
+              <h1>Taste the World</h1>
               <h1 className="awaits mb-0">a great experience awaits</h1>
               <div className="text-areya-srep dummy-up text-center">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac egestas et enim porttitor urna amet, amet. Turpis aenean dolor risus vel mattis enim, scelerisque egestas fermentum. Quis senectus dictum vitae pretium commodo. Nunc congue sed sed penatibus. Accumsan, sit sit id enim sed sed ullamcorper. Ultrices scelerisque ac fermentum enim.</p>
+                <p>Get ready to ignite your taste buds and allow us to take you on a global culinary journey, where every dish is a flavorful adventure. From the fiery zest of Mexican cuisine to the comforting embrace of Italian classics, the world's flavors are at your fingertips. It's not just a meal; it's a cultural exploration. So, get set to savor your way around the world – choose your preferred cuisine, and let the taste-filled adventure begin</p>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function Step4() {
             <div className="col-lg-11 col-md-12">
               <div className="row">
                 
-                  <Slider {...settings} className="mt-2">
+                  <Slider {...settings} className="mt-2 custom-slider-te">
                   {cuisinedata.map((cuisine) => (
                     <div className="col-sm-3" key={cuisine.id}>
                       <div className="slider-img-plase">
@@ -237,6 +237,7 @@ export default function Step4() {
           </div>
           <div className="rotate-box"> <h4 className="rotate-text">select type of cuisine</h4></div>
         </div>
+      
       </section>
       <ToastContainer />
     </>

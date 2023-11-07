@@ -137,14 +137,14 @@ export default function Step2() {
             <div className="col-sm-1"></div>
             <div className="col-sm-10">
               {servicetype === 'multipletimes' ? (
-                <h1>Multiple Time service</h1>
+                <h1>Multiple experiences</h1>
               ) : (
-                <h1>One Time service</h1>
+                <h1>One time experience</h1>
               )}
 
               <h1 className="awaits mb-0 ">a great experience awaits</h1>
               <div className="text-areya-srep dummy-up text-center">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac egestas et enim porttitor urna amet, amet. Turpis aenean dolor risus vel mattis enim, scelerisque egestas fermentum. Quis senectus dictum vitae pretium commodo. Nunc congue sed sed penatibus. Accumsan, sit sit id enim sed sed ullamcorper. Ultrices scelerisque ac fermentum enim.</p>
+                <p>Explore the world of culinary possibilities with our three distinctive options – Basic, Deluxe, or Elite. Embrace the Basic for a straightforward and satisfying experience, step up to Deluxe for added indulgence, or savor the epitome of luxury with our Elite offering. Whichever level you select, we're committed to making your extended stay a delicious and memorable journey.</p>
               </div>
             </div>
           </div>

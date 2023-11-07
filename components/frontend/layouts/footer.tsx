@@ -42,9 +42,11 @@ export default function Footer() {
               <li><a href="/whoweare">Who we are</a></li>
               <li><a href="/ourchefs">Our Chefs</a></li>
               <li><a href="/ourservices">Our Services</a></li>
-              <li><a href="/ourlocations">Location</a></li>
+              <li><a href="/ourlocations">Locations</a></li>
               <li><a href="/privacypolicy">Privacy Policy</a></li>
               <li><a href="/termsconditions">Terms & Conditions</a></li>
+              <li><a href="/cookies">Cookies</a></li>
+
             </ul>
             <ul className="ft-social mt-3">
               <li><a href="https://www.facebook.com/" target="_blank"><i className="fa-brands fa-facebook"></i></a></li>

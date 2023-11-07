@@ -3140,13 +3140,15 @@ select {
 }
 
 .slick-arrow.slick-prev {
-  left: 20px;
+  /* left: 20px; */
   z-index: 9999;
+  color: #ff7050 !important;
 }
 
 .slick-arrow.slick-next {
-  right: 25px;
+  /* right: 25px; */
   z-index: 9999;
+  color: #ff7050 !important;
 }
 
 /*  */
@@ -4682,7 +4684,6 @@ td.booking-status-Today {
   border-radius: 100%;
 }
 
-
 /* 30oct */
 @media (max-width: 991px) {
   .logos.img-set-log img {
@@ -4705,4 +4706,46 @@ td.booking-status-Today {
     line-height: var(--font_size_line_height);
     color: var(--color_1);
   }
+}
+
+.logos.width-set-inst {
+  padding: 0 !important;
+}
+.logos.width-set-inst img {
+  height: 130px !important;
+}
+
+.max-80.f-r.text-cen {
+  max-width: 100% !important;
+  text-align: center;
+}
+
+button.slick-arrow.slick-prev {
+  /* background: #ff7050; */
+  width: 40px;
+  height: 35px;
+}
+button.slick-arrow.slick-next {
+  /* background: #ff7050; */
+  width: 40px;
+  height: 35px;
+}
+
+button.slick-arrow.slick-prev::before {
+  color: #ff7050 !important;
+  
+}
+button.slick-arrow.slick-next::before {
+  color: #ff7050 !important;
+}
+
+@media (max-width: 767px) {
+.slick-arrow.slick-prev {
+  left: -14px;
+  z-index: 9999;
+}
+.slick-arrow.slick-next {
+  right: 7px;
+  z-index: 9999;
+}
 }

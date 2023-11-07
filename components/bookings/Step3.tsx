@@ -165,16 +165,11 @@ export default function Step3() {
           <div className="row">
             <div className="col-sm-1"></div>
             <div className="col-sm-10">
-              <h1>Type of meal</h1>
+              <h1>Taylor your meals, Your way</h1>
               <h1 className="awaits mb-0">a great experience awaits</h1>
               <div className="text-areya-srep dummy-up text-center">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ac
-                  egestas et enim porttitor urna amet, amet. Turpis aenean dolor
-                  risus vel mattis enim, scelerisque egestas fermentum. Quis
-                  senectus dictum vitae pretium commodo. Nunc congue sed sed
-                  penatibus. Accumsan, sit sit id enim sed sed ullamcorper.
-                  Ultrices scelerisque ac fermentum enim.
+                Take control of your dining adventure. Uncheck any meals you don't want, and design a culinary experience that's all about your preferences and excitement.
                 </p>
               </div>
             </div>

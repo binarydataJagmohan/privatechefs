@@ -146,7 +146,7 @@ export default function Location(props: any) {
                 <div className="container">
                     <h2 className='text-uppercase'>How it works?  </h2>
                     <div className='services-id'>
-                        <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. W deliver results.</p>
+                        <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. We deliver results.</p>
                     </div>
                     <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row mt-5">
