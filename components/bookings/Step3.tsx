@@ -367,13 +367,11 @@ export default function Step3() {
               <div className="col-lg-4 col-md-12">
                 <div className="text-areya-srep">
                   <p className="golden-mini-title">
-                    Please select your meal on {newtime.toLocaleString()}
+                    {/* Please select your meal on {newtime.toLocaleString()} */}
+                    Choose Your One-Time Experience
                   </p>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque
-                    ante a turpis facilisis mi, diam. Elit quis congue nunc, risus sem
-                    morbi imperdiet ut. Justo, arcu ultricies tristique auctor ipsum, ut
-                    elementum augue{" "}
+                  Your one-time culinary experience with Private Chefs is all about you. Select your preferred mealtime – breakfast, lunch, or dinner – and let us curate an unforgettable dining experience tailored to your tastes and preferences.{" "}
                   </p>
                   <div className="view-more mt-4">
                     <a href="#" onClick={(e) => ClearSelectedMealsData()}>

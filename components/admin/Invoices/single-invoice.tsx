@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getSingleInvoice } from "../../../lib/adminapi"
 import moment from 'moment';
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import Link from 'next/link';
 
 export default function SingleInvoice(props: any) {
 
@@ -93,6 +94,12 @@ export default function SingleInvoice(props: any) {
 
     return (
         <>
+           <Link href="/admin/invoices">
+                    <button
+                        className="table-btn mb-4"
+                    >
+                        Back
+                    </button></Link>
             <div className="invoice mt-5">
                 <div className="invoice-header">
                     <div className="company-info">

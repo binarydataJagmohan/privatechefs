@@ -119,7 +119,8 @@ export default function Contact(props: any) {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-8 col-md-12">
-                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/banner-6.jpg'} alt="banner-6" className="w-100   img-b" />
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/contact.jpg'} alt="banner-6" className="w-100   img-b" />
+                            {/* <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/banner-6.jpg'} alt="banner-6" className="w-100   img-b" /> */}
                         </div>
                         <div className="col-lg-4 col-md-12">
                             <form onSubmit={handleContactSubmit}>
@@ -167,12 +168,12 @@ export default function Contact(props: any) {
             <section className="faq-part" id="faq">
                 <div className="container">
                     <h3>Frequently Asked Questions (FAQ)</h3>
-                    <ul className="table_header_button_section mt-3" >
+                    <ul className="table_header_button_section mt-5" >
                         <li><button onClick={() => handleButtonClick('button1')}
                             className={`table-btn btn-2 ${activeButton === 'button1' ? 'btn-class' : ''}`}
                         >Guest area</button></li>
                         <li><button onClick={() => handleButtonClick('button2')}
-                            className={`table-btn btn-2 ${activeButton === 'button2' ? 'btn-class1' : ''}`}>Chefs’ area</button></li>
+                            className={`table-btn btn-2 ${activeButton === 'button2' ? 'btn-class1' : ''}`}>Chefs area</button></li>
 
                         <li><button onClick={() => handleButtonClick('button3')}
                             className={`table-btn btn-2 ${activeButton === 'button3' ? 'btn-class2' : ''}`}>Cancelation policy</button></li>
@@ -239,13 +240,27 @@ export default function Contact(props: any) {
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading6">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
-                                            What does the Multiple experiences include?
+                                        What does a One-Time-Experience include?
                                         </button>
                                     </h2>
                                     <div id="collapse6" className="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionExample">
+                                        <div className="accordion-body">
+                                        Our single service includes a one-time dining experience where you can choose the cuisine, menu, and style of your meal. Your private chef will prepare, serve, and clean up, ensuring a seamless and memorable culinary experience.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="heading7">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                            What does the Multiple experiences include?
+                                        </button>
+                                    </h2>
+                                    <div id="collapse7" className="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
                                             Our multiple services cater to those looking for extended culinary experiences, such as vacation villa or chalet rentals. These services can encompass multiple meals throughout the day, offering you the convenience of having a private chef at your disposal for the duration of your stay.
 
@@ -254,12 +269,12 @@ export default function Contact(props: any) {
                                     </div>
                                 </div>
                                 <div className="accordion-item">
-                                    <h2 className="accordion-header" id="heading7">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                    <h2 className="accordion-header" id="heading8">
+                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
                                             What Happens If the Chef Cancels My Booking?
                                         </button>
                                     </h2>
-                                    <div id="collapse7" className="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionExample">
+                                    <div id="collapse8" className="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
                                             While it's rare, if a chef cancels your booking, we will assist you in finding a suitable replacement. Your satisfaction is our top priority, and we are dedicated to ensuring that your culinary experience goes as smoothly as possible.
                                         </div>

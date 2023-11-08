@@ -176,7 +176,7 @@ export default function Step5() {
                    <Slider {...settings} className="mt-2">
                   {allergiesdata.map((allergies, index) => (
                     <div className="col-sm-3" key={index}>
-                      <div className="slider-img-plase">
+                      <div className="slider-img-plase set-border">
                         <input
                           type="checkbox"
                           id={`myCheckbox2_${allergies.id}`}

@@ -19,9 +19,14 @@ export default function Step6() {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [adults, setAdults] = useState("");
-  const [teens, setTeens] = useState("");
-  const [childrens, setChildren] = useState("");
+  // const [adults, setAdults] = useState("");
+  const [adults, setAdults] = useState(0);
+
+  // const [teens, setTeens] = useState("");
+  const [teens, setTeens] = useState(0);
+  const [childrens, setChildren] = useState(0);
+
+  // const [childrens, setChildren] = useState("");
   const [address, setLocation] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -113,7 +118,7 @@ export default function Step6() {
   const BookingStepSix = async () => {
     const data = isPageVisibleToRole("admin");
     if (data == 2) {
-      window.location.href = "/login"; // redirect to login if not logged in
+      window.location.href = "/"; // redirect to login if not logged in
     } else if (data == 0) {
       window.location.href = "/404"; // redirect to 404 if not authorized
     }
@@ -383,8 +388,6 @@ export default function Step6() {
                       </div>
                     </div>
                     <div className="row mb-5">
-
-
                       <div className="col-sm-4">
                         <div className="slider-img-plase">
                           <img
@@ -395,24 +398,42 @@ export default function Step6() {
                             alt="1"
                           />
                         </div>
-                        <div className="input-group mt-4 mb-4 mb-md-0">
+                        <div className="input-group mt-4 mb-4 mb-md-0 set-wid">
+                          <div className="input-group-prepend">
+                            <button
+                              className="btn btn-outline-secondary set-height"
+                              type="button"
+                              onClick={() => {
+                                if (adults > 0) {
+                                  setAdults(adults - 1);
+                                }
+                              }}
+                              style={{ border: '1px lightgrey solid' }}>
+                              -
+                            </button>
+                          </div>
                           <input
-                            type="number"
-                            className="form-control"
+                            type="text"
+                            className="form-control text-center"
                             id="updQtyLoose47"
                             value={adults}
-                            onChange={(e) => setAdults(e.target.value)}
+                            onChange={(e) => {
+                              const newValue = Number(e.target.value);
+                              if (!isNaN(newValue)) {
+                                setAdults(newValue);
+                              }
+                            }}
                             placeholder="Adults"
                             min="0"
                           />
-                          <div className="flex postion-ab">
-                            <div className="input-group-append">
-                              <a className="btn btn-outline-secondary" onClick={handleAddition}>+</a>
-                            </div>
-                            <div className="input-group-append">
-                              <a className="btn btn-outline-secondary" onClick={handleSubtraction}>-
-                              </a>
-                            </div>
+                          <div className="input-group-append">
+                            <button
+                              className="btn btn-outline-secondary set-height"
+                              type="button"
+                              onClick={() => setAdults(adults + 1)}
+                              style={{ border: '1px lightgrey solid' }}>
+                              +
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -426,23 +447,51 @@ export default function Step6() {
                             alt="2"
                           />
                         </div>
-                        <div className="input-group mt-4 mb-4 mb-md-0">
-                          <input
+                        <div className="input-group mt-4 mb-4 mb-md-0 set-wid">
+
+                          <div className="input-group-prepend">
+                            <button
+                              className="btn btn-outline-secondary set-height"
+                              type="button"
+                              onClick={() => {
+                                if (teens > 0) {
+                                  setTeens(teens - 1);
+                                }
+                              }}
+                              style={{ border: '1px lightgrey solid' }}>
+                              -
+                            </button>
+                          </div>
+
+                          {/* <input
                             type="number"
                             className="form-control"
                             value={teens}
                             onChange={(e) => setTeens(e.target.value)}
                             placeholder="Teen"
                             min="0"
+                          /> */}
+                          <input
+                            type="text"
+                            className="form-control text-center"
+                            value={teens}
+                            onChange={(e) => {
+                              const newValue = Number(e.target.value);
+                              if (!isNaN(newValue)) {
+                                setTeens(newValue);
+                              }
+                            }}
+                            placeholder="Teen"
+                            min="0"
                           />
-                          <div className="flex postion-ab">
-                            <div className="input-group-append">
-                              <a className="btn btn-outline-secondary" onClick={handleTeensAddition}>+</a>
-                            </div>
-                            <div className="input-group-append">
-                              <a className="btn btn-outline-secondary" onClick={handleTeensSubtraction}>-
-                              </a>
-                            </div>
+                          <div className="input-group-append">
+                            <button
+                              className="btn btn-outline-secondary set-height"
+                              type="button"
+                              onClick={() => setTeens(teens + 1)}
+                              style={{ border: '1px lightgrey solid' }}>
+                              +
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -456,23 +505,51 @@ export default function Step6() {
                             alt="3"
                           />
                         </div>
-                        <div className="input-group mt-4 mb-4 mb-md-0">
-                          <input
+                        <div className="input-group mt-4 mb-4 mb-md-0 set-wid">
+                          <div className="input-group-prepend">
+                            <button
+                              className="btn btn-outline-secondary set-height"
+                              type="button"
+                              onClick={() => {
+                                if (childrens > 0) {
+                                  setChildren(childrens - 1);
+                                }
+                              }}
+                              style={{ border: '1px lightgrey solid' }}
+                            >
+                              -
+                            </button>
+                          </div>
+                          {/* <input
                             type="number"
                             className="form-control"
                             value={childrens}
                             onChange={(e) => setChildren(e.target.value)}
                             placeholder="Children"
                             min="0"
+                          /> */}
+                          <input
+                            type="text"
+                            className="form-control text-center"
+                            value={childrens}
+                            onChange={(e) => {
+                              const newValue = Number(e.target.value);
+                              if (!isNaN(newValue)) {
+                                setChildren(newValue);
+                              }
+                            }}
+                            placeholder="Children"
+                            min="0"
                           />
-                          <div className="flex postion-ab">
-                            <div className="input-group-append">
-                              <a className="btn btn-outline-secondary" onClick={handleChildrenAddition}>+</a>
-                            </div>
-                            <div className="input-group-append">
-                              <a className="btn btn-outline-secondary" onClick={handleChildrenSubtraction}>-
-                              </a>
-                            </div>
+                          <div className="input-group-append">
+                            <button
+                              className="btn btn-outline-secondary set-height"
+                              type="button"
+                              onClick={() => setChildren(childrens + 1)}
+                              style={{ border: '1px lightgrey solid' }}
+                            >
+                              +
+                            </button>
                           </div>
                         </div>
                       </div>

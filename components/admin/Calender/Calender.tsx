@@ -19,7 +19,7 @@ export default function CalendarComponent() {
 	useEffect(() => {
 		const data = isPageVisibleToRole("admin-calender");
 		if (data == 2) {
-			window.location.href = "/login";
+			window.location.href = "/";
 		} else if (data == 0) {
 			window.location.href = "/404";
 		}

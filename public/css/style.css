@@ -3060,7 +3060,7 @@ select {
   background: #f1f1f1;
   border-radius: 7px;
   border: none;
-  /* width: 100%; */
+  width: 100%;
   padding: 10px 10px;
   outline: none;
   font-weight: var(--font_weight);
@@ -4754,4 +4754,16 @@ button.slick-arrow.slick-next::before {
   right: 7px;
   z-index: 9999;
 }
+}
+
+.set-height {
+  height: 35px;
+}
+.input-group.set-wid {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.slider-img-plase.set-border img{
+border-radius: unset;
 }

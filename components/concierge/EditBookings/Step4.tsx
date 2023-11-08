@@ -26,7 +26,7 @@ export default function Step4() {
 
     const data = isPageVisibleToRole("concierge");
     if (data == 2) {
-      window.location.href = "/login"; // redirect to login if not logged in
+      window.location.href = "/"; // redirect to login if not logged in
     } else if (data == 0) {
       window.location.href = "/404"; // redirect to 404 if not authorized
     }
