@@ -84,7 +84,7 @@ export default function OurChefs(props:any) {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-6">
-                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/banner-4.jpg'} alt="banner-4" className="w-100 border-0 banner-left" />
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/banner-7.jpg'} alt="banner-4" className="w-100 border-0 banner-left" />
                         </div>
                         <div className="col-sm-6">
                             <div className="banner-text pages-text">
@@ -104,20 +104,20 @@ export default function OurChefs(props:any) {
                 </div>
                 <div className="container-fluid mt-5">
                     <div className="row">
-                        <Slider {...settings}>
-                            {allchef.map((data) => (
-                                <div className="col-lg-2 col-md-6">
-                                    <div className="slider-img-plase" id="chef-img">
-                                        {data.pic ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic} alt="2" id="chef_id" />
-                                        ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" id="chef_id" />
-                                        )}
-                                        <p className="plase-btn"><a href={process.env.NEXT_PUBLIC_BASE_URL + 'frontchefs/' + data.id}>{data.name}</a></p>
+                            <Slider {...settings}>
+                                {allchef.map((data) => (
+                                    <div className="col-lg-2 col-md-6">
+                                        <div className="slider-img-plase" id="chef-img">
+                                            {data.pic ? (
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic} alt="2" id="chef_id" />
+                                            ) : (
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" id="chef_id" />
+                                            )}
+                                            <p className="plase-btn"><a href={process.env.NEXT_PUBLIC_BASE_URL + 'frontchefs/' + data.id}>{data.name}</a></p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </Slider>
+                                ))}
+                            </Slider>
                     </div>
                 </div>
             </section>

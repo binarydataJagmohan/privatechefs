@@ -59,7 +59,7 @@ export default function WhoWeAre(props: any) {
                         <div className="col-sm-6">
                             <div className="text-same-formatting top-pad text-right mobile-left tab-m-0 left-areya">
                                 {/* <h2>Mission</h2> */}
-                                <h2>Alex Samoilis -<br />  The Man Behind the Scenes</h2>
+                                <h2>Alex Samoilis -<br/>  The Man Behind the Scenes</h2>
                                 <p className="mt-3 mb-3 max-80 tab-m-0 f-r ">Meet Alex Samoilis, the culinary visionary behind Private Chefs Worldwide. With a Michelin star and the prestigious title of Ambassador of Taste for Global Gastronomy, his culinary journey is nothing short of exceptional.</p>
                                 <p className="mt-3 mb-3 max-80 tab-m-0 f-r ">A blend of Greek and Mexican heritage has enhanced his palate from a young age, and his passion for celebrating diverse flavors has taken him around the world. His experiences range from renowned establishments like The Fat Duck UK to Gordon Ramsay's three Michelin-starred restaurant in London.</p>
                                 <p className="mt-3 mb-3 max-80 tab-m-0 f-r ">As the owner of Private Chefs Worldwide, Alex has delighted the palates of dignitaries and celebrities from all corners of the globe, including the likes of the Prince of Qatar, Princes of Morocco, Bruce Willis, Tom Hanks, Dr. Oz, Grant and Elena Cardone, Will Smith, and Giannis Antetokounmpo, as well as government high-ranked officials from various countries.</p>
