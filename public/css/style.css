@@ -3868,6 +3868,10 @@ div#villa_modal {
   overflow-x: auto;
 }
 
+div#chat_group_form {
+  height: 500px;
+  overflow-y: auto;
+}
 .common_booking > tbody tr td ul li {
   background: none !important;
 }
