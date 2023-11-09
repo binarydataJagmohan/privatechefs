@@ -468,7 +468,7 @@ export default function Home(props: any) {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 col-md-12">
-                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/7.webp'} alt="7" className="border-radius" />
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/Secondphoto.jpg'} alt="7" className="border-radius" />
                         </div>
                         <div className="col-lg-6 col-md-12">
                             <div className="contant-box mt-5 mt-0-1024">
