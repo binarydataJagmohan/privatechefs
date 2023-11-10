@@ -1716,7 +1716,7 @@ export default function Booking(props: any) {
         {/* <div className="text-center popup-img">
                   <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
               </div> */}
-        <div className="all-form" >
+         <div className="all-form " id="chat_group_form" >
           <form onSubmit={handlGroupSubmit} className="common_form_error" id="menu_form">
 
             <div className='login_div'>
