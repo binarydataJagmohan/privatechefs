@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { login, register, forgetPassword, socialDataSave } from '../../../lib/frontendapi';
 import { removeToken, removeStorageData, getCurrentUserData, removeBookingData } from "../../../lib/session";
-import PopupModal from '../../commoncomponents/PopupModal';
+import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { UpdateUserToOffiline } from "../../../lib/userapi"
 import { useSession, signIn, signOut } from 'next-auth/react'
 
@@ -701,7 +701,7 @@ export default function Header({ }) {
       <header className="header-part">
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg navbar-light bottom-border">
-            <a className="navbar-brand header-logo" href="/" ><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo.png'} alt="logo" /></a>
+            <a className="navbar-brand header-logo" href="/" ><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo333.png'} alt="logo" /></a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>

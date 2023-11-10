@@ -154,7 +154,9 @@ img {
 }
 
 .header-logo img {
-  width: 154px;
+  width: 100px;
+  height: 95px;
+  /* width: 154px; */
 }
 
 ul.navbar-nav li a {
