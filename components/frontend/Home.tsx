@@ -367,7 +367,7 @@ export default function Home(props: any) {
                         </div>
                         <div className="col-sm-4">
                             <div className="banner-text home-page-banner-text">
-                                <h1>Creating memoriess hello with food blog</h1>
+                                <h1>Creating memoriess with food blog</h1>
                                 <div className="banner-btn"><a href="/bookings/step1">Start your journey</a></div>
                             </div>
                         </div>
