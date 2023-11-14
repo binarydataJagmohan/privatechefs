@@ -359,7 +359,7 @@ export default function Home(props: any) {
                 <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
                 <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
             </Head>
-                    {<section className="banner-part">
+                    <section className="banner-part">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-8">
