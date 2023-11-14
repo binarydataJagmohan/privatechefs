@@ -13,6 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Build code
+        run: |
+          cd /home/privatechefsworl
+          # Add your build commands here
+          npm install
+          npm run build
+
+      - name: Check build status
+        run: exit $?
+
       - name: SSH to VPS and deploy
         uses: appleboy/ssh-action@master
         with:
@@ -21,4 +31,9 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/privatechefsworl
-            bash deploy.sh
+            if bash deploy.sh; then
+              echo "Deployment successful"
+            else
+              echo "Error: Deployment failed"
+              exit 1  # Exit with an error status
+            fi
