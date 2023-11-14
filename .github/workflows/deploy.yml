@@ -18,7 +18,7 @@ jobs:
         with:
           host: 89.116.52.59
           username: root
-          password: djbrfe98^&*%78iujeb234986ASDjbo886
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd /home/privatechefsworl  
+            cd /home/privatechefsworl
             bash deploy.sh
