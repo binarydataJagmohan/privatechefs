@@ -18,7 +18,7 @@ jobs:
         with:
           host: 89.116.52.59
           username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.gt }}
           script: |
             cd /home/privatechefsworl  
             bash deploy.sh
