@@ -367,7 +367,7 @@ export default function Home(props: any) {
                         </div>
                         <div className="col-sm-4">
                             <div className="banner-text home-page-banner-text">
-                                <h1>Creating memoriess with food blog</h1>
+                                <h1>Creating memoriess with food</h1>
                                 <div className="banner-btn"><a href="/bookings/step1">Start your journey</a></div>
                             </div>
                         </div>
@@ -377,7 +377,7 @@ export default function Home(props: any) {
 
             <section className="experience-slider mt-5">
                 <div className="container">
-                    <h3> Get inspired for your next experience</h3>
+                    <h2 className='text-center'> Get inspired for your next experience</h2>
                 </div>
                 <div className="container-fluid mt-5">
                     <div className="row">
@@ -431,25 +431,25 @@ export default function Home(props: any) {
             <section className="services-part mt-4">
                 <div className="container">
                     <h2> Our services</h2>
-                    <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
-                    <div className="row mt-5">
-                        <div className="col-lg-4 col-md-6">
+                    <p className="dis-max-width mb-4">Looking for a Chef to create unforgettable culinary memories? Perhaps a Butler to pamper you all day long with any request? Or a talented Bartender that will surprise you with delicious cocktails? We have it all!</p>
+                    <div className="row mt-5 justify-content-center service_data">
+                        <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="card-box">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_01.jpg'} alt="11" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_01.jpg'} alt="11" className='service_img'/>
                                 <h3>Chefs</h3>
-                                <p>Our world-class chefs are artists of the kitchen, elevating every meal into a masterpiece. With a global culinary repertoire and a passion for creativity, they turn dining into a remarkable experience. </p>
+                                <p className='pb-3'>Our world-class chefs are artists of the kitchen, elevating every meal into a masterpiece. With a global culinary repertoire and a passion for creativity, they turn dining into a remarkable experience. </p>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="card-box">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/imgpsh_fullsiaze_an22im.jpg'} alt="11" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/imgpsh_fullsiaze_an22im.jpg'} alt="11" className='service_img'/>
                                 <h3>Butlers</h3>
                                 <p>Our butlers are the epitome of grace and service, ensuring your every need is met with seamless sophistication. From tableside service to event coordination, they add a touch of class to every moment. </p>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-3 col-md-4 col-sm-6">
                             <div className="card-box">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_3.jpg'} alt="11" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_3.jpg'} alt="11" className='service_img'/>
                                 <h3>Bartenders</h3>
                                 <p>Our bartenders are skilled mixologists who turn every drink into a work of art. From classic cocktails to custom concoctions, they bring an element of liquid elegance to your event, leaving your guests in awe of their craft. </p>
                             </div>
@@ -781,46 +781,47 @@ export default function Home(props: any) {
                     <p>Serving exelence and quality services to clients around the globe. <br /> Our paramount priority? You...</p>
 
                     <div className="row   mt-5">
-                        <div className="col-lg-3 col-md-6 col-6">
+                        <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-1" />
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-6 col-6">
+                        <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-2.png'} alt="logo-2" />
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-6 col-6">
+                        <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-3.png'} alt="logo-3" />
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-6 col-6">
+                        <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-4.png'} alt="logo-4" />
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-6 col-6">
+                        <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-5.png'} alt="logo-5" />
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-6 col-6">
+                        
+                        {/* <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-6.png'} alt="logo-6" />
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-7" />
                             </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6 col-6">
-                            <div className="logos img-set-log">
-                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-7.png'} alt="logo-7" />
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6 col-6">
+                        </div> */}
+                        <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-8.png'} alt="logo-8" />
                             </div>
                         </div>
+                        {/* <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-6.png'} alt="logo-6" style={{objectFit:'cover'}} className="w-100"/>
+                            </div>
+                        </div> */}
                     </div>
                 </div>
             </section>

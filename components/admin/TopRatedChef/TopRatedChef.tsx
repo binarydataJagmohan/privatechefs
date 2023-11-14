@@ -17,6 +17,8 @@ export default function TopRatedChef() {
     const [topratedchef, setTopRatedChef] = useState<number[]>([]);
     const [topchef, setTopchef] = useState({});
 
+    const [name, setChefName] = useState('');
+
     useEffect(() => {
         const data = isPageVisibleToRole('admin-top-rated-chef');
         if (data === 2) {
@@ -29,12 +31,15 @@ export default function TopRatedChef() {
             const userData: any = getCurrentUserData();
             getTopRatedChefData(userData.id);
             setCurrentData(userData);
-            getAllChefData();
+            getAllChefData(name);
         }
     }, []);
 
-    const getAllChefData = () => {
-        getAllChefDetails()
+    const getAllChefData = (name:any) => {
+        const data = {
+            name : name
+        }
+        getAllChefDetails(data)
             .then((res) => {
                 if (res.status) {
                     setChefData(res.data);
@@ -73,6 +78,11 @@ export default function TopRatedChef() {
             );
         }
     };
+
+    const handlechef = (e:any) => {
+        setChefName(e.target.value)
+        getAllChefData(e.target.value);
+    }
 
       
     const handleTopRatedChef = (e: any) => {
@@ -125,7 +135,16 @@ export default function TopRatedChef() {
     return (
         <>
             <div className="table-part">
-                <h2>Top Rated Chef</h2>
+                
+                <div className="row g-3 mt-3 justify-content-between">
+                    <div className="col-auto">
+                        <h2>Top Rated Chef</h2>
+                    </div>
+                    <div className="col-auto">
+                        <input type="text"  className="form-control" placeholder='Search chef here..' onChange={handlechef}/>
+                    </div>
+                
+                </div>
                 <div className="table-box" id="villa_table">
                     <form onSubmit={handleTopRatedChef}>
                         <table className="table table-borderless">

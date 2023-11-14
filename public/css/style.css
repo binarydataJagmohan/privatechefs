@@ -1828,7 +1828,7 @@ a.popup {
 }
 
 .popup-img img {
-  width: 220px;
+  width: 100px;
 }
 
 .popup-part .modal-header {
@@ -4772,4 +4772,16 @@ button.slick-arrow.slick-next::before {
 
 .slider-img-plase.set-border img{
 border-radius: unset;
+}
+
+
+@media (max-width: 575px) {
+
+  img.service_img {
+    width: 50%;
+  }
+  .service_data {
+    text-align: center;
+  }
+
 }

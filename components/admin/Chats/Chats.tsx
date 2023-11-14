@@ -31,13 +31,15 @@ export default function Booking(props: any) {
 
   const [searchResultsVisible, setSearchResultsVisible] = useState(true);
 
-  const [userdata, setUserData] = useState<UserData>({
-    id: '',
-    name: '',
-    email: '',
-    surname: '',
-    role: ''
-  });
+  
+  const [alldata, setAllData] = useState<any>([]);
+
+  const [userdata, setUserData] = useState<any>([]);
+
+  const [chefdata, setChefData] = useState<any>([]);
+
+  const [concdata, setConcData] = useState<any>([]);
+
 
   const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
 
@@ -88,13 +90,6 @@ export default function Booking(props: any) {
     approved_by_admin: string;
   }
 
-  interface UserData {
-    id: string;
-    name: string;
-    email: string;
-    surname: string;
-    role: string;
-  }
 
   interface AdminSideBarChatMessages {
     booking_id: number;
@@ -415,21 +410,25 @@ export default function Booking(props: any) {
   };
 
   const fetchAllUserData = async () => {
-
     try {
       const res = await getAllUserData();
       if (res.status) {
-        //console.log(res.data);
-        setUserData(res.data);
+        const users = res.data.filter((item:any) => item.role === 'user');
+        const chefs = res.data.filter((item:any) => item.role === 'chef');
+        const concierges = res.data.filter((item:any) => item.role === 'concierge');
+        setAllData(res.data)
+        setUserData(users);
+        setChefData(chefs);
+        setConcData(concierges);
+  
+        // console.log('Users:', users);
+        // console.log('Chefs:', chefs);
+        // console.log('Concierges:', concierges);
       } else {
-        // toast.error(res.message, {
-        //   position: toast.POSITION.TOP_RIGHT,
-        // });
+        // Handle error
       }
     } catch (err) {
-      // toast.error((err as Error).message, {
-      //   position: toast.POSITION.BOTTOM_RIGHT,
-      // });
+      // Handle error
     }
   };
 
@@ -910,6 +909,41 @@ export default function Booking(props: any) {
       }
     });
   };
+
+
+    const handleUser = (e: React.ChangeEvent<HTMLInputElement>, role: string) => {
+      const searchTerm = e.target.value.toLowerCase();
+      console.log(role);
+    
+      // Filter userData based on the search term
+      const filteredData = alldata.filter(
+        (user:any) =>
+          user.role == role &&
+          ((user.name && user.name.toLowerCase().includes(searchTerm)) ||
+            (user.surname && user.surname.toLowerCase().includes(searchTerm)))
+      );
+
+      if(searchTerm != ''){
+
+        if(role == 'user'){
+          setUserData(filteredData);
+        }
+
+        if(role == 'chef'){
+          setChefData(filteredData);
+        }
+
+        if(role == 'concierge'){
+          setConcData(filteredData);
+        }
+
+        
+      }else {
+        fetchAllUserData();
+      }
+     
+    };
+
   
   return (
     <>
@@ -1736,76 +1770,77 @@ export default function Booking(props: any) {
                 <div className="row">
                   <div className="col-4">
                     <label className="mb-3 mt-1" htmlFor="Image">Select User:</label>
-                    {Array.isArray(userdata) && userdata.filter(user => user.role === 'user').length > 0 ? (
-                          userdata.filter(user => user.role === 'user').map((user, index) => (
-                            <div className="checkbox d-flex" key={index}>
-                              <input
-                                id={`flexCheckDefault${index}`}
-                                value="4"
-                                name="member_ids[]"
-                                type="checkbox"
-                                onChange={(e) => handleCheckboxChange(e, user.id)}
-                                checked={selectedMembers.includes(user.id)} // Set checked state based on selectedMembers array
-                              />
-                              <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
-                                <span className="mx-2">{user.name}</span>
-                              </label>
-                            </div>
-                          ))
-                        ) : (
-                          <p className="mt-2">No data found</p>
-                        )}
+                    <input type="text"  className="form-control" placeholder='Search user here..' onChange={(e)=>handleUser(e,'user')}/>
+                    
+                    {userdata.length > 0 ? (
+                        userdata.map((user:any, index:any) => (
+                          <div className="checkbox d-flex" key={index}>
+                            <input
+                              id={`flexCheckDefault${index}`}
+                              value="4"
+                              name="member_ids[]"
+                              type="checkbox"
+                              onChange={(e) => handleCheckboxChange(e, user.id)}
+                              checked={selectedMembers.includes(user.id)} // Set checked state based on selectedMembers array
+                            />
+                            <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
+                              <span className="mx-2">{user.name} {user.surname}</span>
+                            </label>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="mt-2">No data found</p>
+                      )}
                   </div>
 
                   <div className="col-4">
                     <label className="mb-3 mt-1" htmlFor="Image">Select chef:</label>
-                  
-                      {Array.isArray(userdata) && userdata.filter(user => user.role === 'user').length > 0 ? (
-                          userdata.filter(user => user.role === 'chef').map((user, index) => (
-                            <div className="checkbox d-flex" key={index}>
-                              <input
-                                id={`flexCheckDefault${index}`}
-                                value="4"
-                                name="member_ids[]"
-                                type="checkbox"
-                                onChange={(e) => handleCheckboxChange(e, user.id)}
-                                checked={selectedMembers.includes(user.id)} // Set checked state based on selectedMembers array
-                              />
-                              <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
-                                <span className="mx-2">{user.name}</span>
-                              </label>
-                            </div>
-                          ))
-                        ) : (
-                          <p className="mt-2">No data found</p>
-                        )}
+                    <input type="text"  className="form-control" placeholder='Search chef here..' onChange={(e)=>handleUser(e,'chef')}/>
+                    {chefdata.length > 0 ? (
+                        chefdata.map((user:any, index:any) => (
+                          <div className="checkbox d-flex" key={index}>
+                            <input
+                              id={`flexCheckDefault${index}`}
+                              value="4"
+                              name="member_ids[]"
+                              type="checkbox"
+                              onChange={(e) => handleCheckboxChange(e, user.id)}
+                              checked={selectedMembers.includes(user.id)} // Set checked state based on selectedMembers array
+                            />
+                            <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
+                              <span className="mx-2">{user.name} {user.surname}</span>
+                            </label>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="mt-2">No data found</p>
+                      )}
 
                     {errors.groupmember && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.groupmember}</span>}
                   </div>
 
                   <div className="col-4">
                     <label className="mb-3 mt-1" htmlFor="Image">Select Concierge:</label>
-                  
-                      {Array.isArray(userdata) && userdata.filter(user => user.role === 'user').length > 0 ? (
-                          userdata.filter(user => user.role === 'concierge').map((user, index) => (
-                            <div className="checkbox d-flex" key={index}>
-                              <input
-                                id={`flexCheckDefault${index}`}
-                                value="4"
-                                name="member_ids[]"
-                                type="checkbox"
-                                onChange={(e) => handleCheckboxChange(e, user.id)}
-                                checked={selectedMembers.includes(user.id)} // Set checked state based on selectedMembers array
-                              />
-                              <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
-                                <span className="mx-2">{user.name}</span>
-                              </label>
-                            </div>
-                          ))
-                        ) : (
-                          <p className="mt-2">No data found</p>
-                        )}
-
+                    <input type="text"  className="form-control" placeholder='Search concierge here..' onChange={(e)=>handleUser(e,'concierge')}/>
+                    {concdata.length > 0 ? (
+                        concdata.map((user:any, index:any) => (
+                          <div className="checkbox d-flex" key={index}>
+                            <input
+                              id={`flexCheckDefault${index}`}
+                              value="4"
+                              name="member_ids[]"
+                              type="checkbox"
+                              onChange={(e) => handleCheckboxChange(e, user.id)}
+                              checked={selectedMembers.includes(user.id)} // Set checked state based on selectedMembers array
+                            />
+                            <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
+                              <span className="mx-2">{user.name} {user.surname}</span>
+                            </label>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="mt-2">No data found</p>
+                      )}
                     {errors.groupmember && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.groupmember}</span>}
                   </div>
                   
