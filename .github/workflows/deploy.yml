@@ -21,9 +21,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/privatechefsworl
-            if bash deploy.sh; then
-              echo "Deployment successful"
-            else
-              echo "Error: Deployment failed"
-              exit 1  # Exit with an error status
-            fi
+            bash deploy.sh
