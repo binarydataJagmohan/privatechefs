@@ -704,7 +704,7 @@ export default function Header({ }) {
       <header className="header-part">
         <div className="container-fluid">
           <nav className="navbar navbar-expand-lg navbar-light bottom-border">
-            <a className="navbar-brand header-logo" href="/" ><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo.popup-img img.png'} alt="logo" /></a>
+            <a className="navbar-brand header-logo" href="/" ><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo.png'} alt="logo" /></a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
