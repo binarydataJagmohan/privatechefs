@@ -13,16 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build code
-        run: |
-          cd /home/privatechefsworl
-          # Add your build commands here
-          npm install
-          npm run build
-
-      - name: Check build status
-        run: exit $?
-
       - name: SSH to VPS and deploy
         uses: appleboy/ssh-action@master
         with:
