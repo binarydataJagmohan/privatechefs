@@ -763,7 +763,7 @@ export default function Header({ }) {
                   </li>
                 )}
                 {isAuthenticated && role === "concierge" && (
-                  <li className="nav-item">
+                  <li className="nav-item"> .
                     <a className="nav-link" href="/concierge/dashboard">
                       Dashboard
                     </a>
@@ -810,7 +810,7 @@ export default function Header({ }) {
           </div>
 
           <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
+          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button> */}
           <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
 
@@ -863,8 +863,8 @@ export default function Header({ }) {
           <p className="text-link text-left my-2"><a href="#" onClick={() => signinpopup()}>Already have account? <span>Sign in</span></a></p>
 
           <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button>
-          <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
+          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button> */}
+          <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
 
       </PopupModal>
