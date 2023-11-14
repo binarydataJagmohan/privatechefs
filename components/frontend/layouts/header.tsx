@@ -75,24 +75,18 @@ export default function Header({ }) {
     }
   }, []);
 
-//   const { data: session } = useSession() || {};
+  const { data: session } = useSession() || {};
 
-//   useEffect(() => {
-//      // if(session){
-//      // 	window.location.href = '/user/dashboard';
-//      // }
+  useEffect(() => {
+     // if(session){
+     // 	window.location.href = '/user/dashboard';
+     // }
     
-//      if (session) {
-//       console.log(session);
-//       if (session.user.image.indexOf('googleusercontent') >= 0) {
-//          SocialData(session.user, 'google');
-//       } else{
-//              SocialData(session.user, 'facebook');
-//           }
+     if (session) {
+      SocialData(session.user, 'google');
+    }
 
-//      }
-
-//   }, [session]);
+  }, [session]);
 
   const SocialData = (user: any, type: any) => {
 
@@ -126,6 +120,11 @@ export default function Header({ }) {
             window.localStorage.setItem("profile_status", res.data.user.profile_status);
             window.localStorage.setItem("created_by", res.data.user.created_by);
 
+            setIsAuthenticated(true);
+            setRole(res.data.user.role);
+            setCurrentUserId(true);
+            setUserId(res.data.user.id);
+
             toast.success(res.message, {
               position: toast.POSITION.TOP_RIGHT,
               closeButton: true,
@@ -141,11 +140,14 @@ export default function Header({ }) {
               },
             });
 
-            setTimeout(() => {
-              if (res.data.user.role == "user") {
-                window.location.href = "/user/userprofile";
-              }
-            }, 1000);
+            // setTimeout(() => {
+            //   if (res.data.user.role == "user") {
+            //     window.location.href = "/user/userprofile";
+            //   }
+            // }, 1000);
+
+            router.push('/user/userprofile');
+
           } else {
             setButtonState(false);
             toast.info(res.message, {
@@ -233,6 +235,7 @@ export default function Header({ }) {
           removeToken();
           removeStorageData();
           removeBookingData();
+          signOut({redirect: false}).then();
           window.location.href = '/';
           setIsAuthenticated(false);
           setRole("");
