@@ -154,7 +154,9 @@ img {
 }
 
 .header-logo img {
-  width: 154px;
+  width: 100px;
+  height: 95px;
+  /* width: 154px; */
 }
 
 ul.navbar-nav li a {
@@ -3872,7 +3874,6 @@ div#chat_group_form {
   height: 500px;
   overflow-y: auto;
 }
-
 .common_booking > tbody tr td ul li {
   background: none !important;
 }
