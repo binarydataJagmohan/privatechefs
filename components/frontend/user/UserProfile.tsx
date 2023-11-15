@@ -354,21 +354,27 @@ export default function UserProfile() {
                 <div className="my-profile">
                   <div className="profile-cols  active">
                     <h4>Account Settings</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Please provide your personal information so we can issue your receipt when you book a service. If you wish an invoice please add the information of the business you with to issue the invoice.</p>
                   </div>
                   <a href="/user/booking">
                     <div className="profile-cols mt-4">
                       <h4>My Bookings</h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      <p>Your bookings history all in one place. </p>
                     </div>
                   </a>
 
                   <a href={`/user/messages`}>
                     <div className="profile-cols mt-4 mb-4">
                       <h4>My Messages</h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                      <p>We are here for you. Please feel free to contact us any time. </p>
                     </div>
                   </a>
+                  <a href="/user/userprofilethree">
+                  <div className="profile-cols mt-4 mb-4">
+                    <h4>Aditional Information/Preferences</h4>
+                    <p>Let us know your favorite cuisines any additional information and if you have allergies, dietary or religious restrictions.</p>
+                  </div>
+                </a>
                 </div>
               </div>
               <div className="col-lg-7 col-md-12">

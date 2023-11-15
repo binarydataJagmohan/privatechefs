@@ -4,6 +4,8 @@ import { getReceipt, getSingleReceiptAdmin } from '../../../lib/adminapi'
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import { useRouter } from 'next/router';
+import { es } from 'date-fns/locale';
 
 export default function Receipts() {
 	const [modalConfirm, setModalConfirm] = useState(false);
@@ -11,6 +13,7 @@ export default function Receipts() {
 	const [totalMenu, setTotalMenu]: any = useState({});
 	const [currentPage, setCurrentPage] = useState(1);
 	const pageSize = 10;
+	const router = useRouter();
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
@@ -19,11 +22,21 @@ export default function Receipts() {
 		setModalConfirm(false);
 	}
 
+	// useEffect(() => {
+	// 	getUserData();
+	// }, []);
+
 	useEffect(() => {
-		getUserData();
-	}, []);
+		const bookingId = router.query.booking_id;
+		if (bookingId !== undefined) {
+		  getUserData();
+		}else {
+			getUserData();
+		}
+	  }, [router.query]);
 
 	const getUserData = async () => {
+		
 		const data = isPageVisibleToRole('admin-receipt');
 		if (data == 2) {
 			window.location.href = '/';
@@ -37,12 +50,21 @@ export default function Receipts() {
 	}
 
 	const getReceiptData = async () => {
+		// alert(router.query.booking_id)
 		getReceipt()
 			.then(res => {
 				if (res.status == true) {
-					setTotalMenu(res.data);
-					const paginatedPosts = paginate(res.data, currentPage, pageSize);
+
+					let filteredReceipts = res.data;
+					if (router.query.booking_id) {
+						
+						filteredReceipts = res.data.filter((receipt:any) => receipt.booking_id == router.query.booking_id);
+					}
+
+					setTotalMenu(filteredReceipts);
+					const paginatedPosts = paginate(filteredReceipts, currentPage, pageSize);
 					setGetReceipt(paginatedPosts);
+
 				} else {
 					console.log("error");
 				}
@@ -66,7 +88,7 @@ export default function Receipts() {
 									<th scope="col">Recipient Name</th>
 									<th scope="col">Chef Name</th>
 									<th scope="col">Order Date</th>
-									<th scope="col">Order ID</th>
+									<th scope="col">Booking ID</th>
 									<th scope="col">Amount</th>
 									{/* <th scope="col">Payment Details</th>
 								<th scope="col">Payment Details</th> */}

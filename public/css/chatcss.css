@@ -5,9 +5,9 @@
   padding: 8px 12px;
 }
 
-.users-all {
+/* .users-all {
   width: 30%;
-}
+} */
 .chats-btns  li.right-li i {
   font-weight: 600;
   font-size: 18px;
@@ -87,7 +87,7 @@ a.chats-user-a {
 }
 
 .users-chats {
-  width: 50%; 
+  /* width: 50%;  */
   border-right: 1px solid #DDDDDD;
   padding: 15px;
 }
@@ -193,9 +193,9 @@ a.chats-user-a {
   padding: 7px 2px !important;
   background: #fff !important;
 }
-.users-groups {
+/* .users-groups {
   width: 20%;
-}
+} */
 .chats-box .users-groups #pills-tab li.nav-item button.active {
   border-bottom: solid 4px #BA8639;
   border-radius: 0 !important;

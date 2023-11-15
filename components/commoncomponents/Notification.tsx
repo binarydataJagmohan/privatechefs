@@ -151,7 +151,15 @@ export default function Notification() {
 
                                     </div>
                                     <div className="text-noti mt-2">
-                                        <p className='notify'>{notification.description}</p>
+                                        <p className='notify'> {notification.type === 'register' ? (
+                                        <>
+                                        {notification.description.split('.')[0]}.
+                                        {notification.description.split('.')[2] == 'user' ? <a target={"_blank"} href={ process.env.NEXT_PUBLIC_BASE_URL+'admin/users/'+notification.description.split('.')[1]}><small>View Profile</small></a> :<a target={"_blank"} href={ process.env.NEXT_PUBLIC_BASE_URL+'admin/chefs/'+notification.description.split('.')[1]}><small>View Profile</small></a>}
+                                         
+                                        </>
+                                    ) : (
+                                        notification.description
+                                    )} </p>
                                     </div>
 
                                     <div className="text-noti mt-2 text-right">

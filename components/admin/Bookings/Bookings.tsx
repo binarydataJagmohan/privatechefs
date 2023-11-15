@@ -852,7 +852,7 @@ export default function Bookings() {
 						<table className="table table-borderless common_booking">
 							<thead>
 								<tr>
-									<th scope="col">ID</th>
+									<th scope="col">Booking ID</th>
 									<th scope="col">Customer</th>
 									<th scope="col">Image</th>
 									<th scope="col">Date Requested</th>
@@ -877,7 +877,7 @@ export default function Bookings() {
 
 									return (
 										<tr key={index}>
-											<td><p className="text-data-18" id="table-p">{index + 1}</p></td>
+											<td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
 											<td><p className="text-data-18" id="table-p">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p></td>
 											<td className="chefs_pic"><p className="text-data-18" id="table-p">
 												{user.pic ? <img

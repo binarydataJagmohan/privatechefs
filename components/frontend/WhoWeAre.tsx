@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head';
+import { getTestimonials } from '../../lib/adminapi';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function WhoWeAre(props: any) {
 
@@ -10,14 +13,63 @@ export default function WhoWeAre(props: any) {
         meta_tag: string;
     }
 
+    interface Testimonial {
+        id: number;
+        stars: number;
+        name: string;
+        description: string;
+        image: string;
+    }
+
+
     const [pageslug, setSlug] = useState<PageSlug | null>(null);
+
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [stars, setStar] = useState([]);
 
     useEffect(() => {
         if (props) {
             setSlug(props.pages.data);
+            fetchTestimonialDetails();
         }
 
     }, []);
+
+    const fetchTestimonialDetails = async () => {
+        try {
+            const res = await getTestimonials();
+            if (res.status) {
+                setTestimonials(res.data);
+                setStar(res.data.stars)
+                //console.log(res.data);
+            } else {
+                toast.error(res.message, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    closeButton: true,
+                    hideProgressBar: false,
+                    style: {
+                        background: '#ffff',
+                        borderLeft: '4px solid #e74c3c',
+                        color: '#454545',
+                    },
+                    progressStyle: {
+                        background: '#ffff',
+                    },
+                });
+            }
+        } catch (err: any) {
+
+        }
+    };
+
+    const handleStarHover = (num: number) => {
+        const starColor = num > 0 ? "#ff4e00d1" : "#ff4e00d1";
+        const stars = document.querySelectorAll(".fa-star");
+        stars.forEach((star, index) => {
+            (star as HTMLElement).style.color = index < num ? starColor : '#ff4e00d1';
+        });
+    };
+
 
     return (
         <>
@@ -87,6 +139,297 @@ export default function WhoWeAre(props: any) {
                     
                 </div>
             </section>
+
+            <section className="text-side">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-6 col-md-12">
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/Secondphoto.jpg'} alt="7" className="border-radius" />
+                        </div>
+                        <div className="col-lg-6 col-md-12">
+                            <div className="contant-box mt-5 mt-0-1024">
+                                <h2>Design your next experience</h2>
+                                <p>At Private Chefs Worldwide, we believe that every moment deserves a touch of extraordinary. Our feature empowers you to create a culinary journey as unique as you are. Whether it's an intimate dinner for two, a lavish celebration, or a themed event, we offer a canvas for your imagination. Select from our team of world-class chefs, butlers, waiters, and bartenders to craft a one-of-a-kind experience that reflects your tastes and aspirations. Together, we'll bring your vision to life, ensuring that every detail is tailored to perfection, from the menu to the ambiance. Your next memorable experience awaits – let's design it together.</p>
+                                <div className="banner-btn"><a href="/bookings/step1">Start your journey</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="testimonial-part mt-5">
+                <div className="container">
+                    <h2 className="text-center">What they say about us...</h2>
+                    <h4 className="text-center">So proud to create such beautiful memories!</h4>
+                    <div className="row mt-5">
+                        {testimonials.slice(0, 3).map((testimonial) => (
+                            <div className="col-lg-4 col-md-12" key={testimonial.id}>
+                                <div className="test-box">
+                                    <p>{testimonial.description.slice(0, 200)}.</p>
+                                    <div className="row">
+                                        <div className="col-3" id="test-img">
+                                            {testimonial.image ? (
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/testimonial/' + testimonial.image} alt="ava4" />
+                                            ) : (
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="ava4" />
+                                            )}
+                                        </div>
+                                        <div className="col-9">
+                                            <div className="say">
+                                                <h5 className="mt-2">{testimonial.name}</h5>
+                                                {/* <p className="font-12"> */}
+                                                <p className="star-list blue-star" id="star-color">
+                                                    {[1, 2, 3, 4, 5].map((num) => (
+                                                        <i
+                                                            key={num}
+                                                            className={`fa${num <= testimonial.stars ? 's' : 'r'} fa-star`}
+                                                            onMouseEnter={() => handleStarHover(num)}
+                                                            onClick={() => setStar(stars)}
+                                                        />
+                                                    ))}
+                                                </p>
+                                                {/* </p> */}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <section className="testimonial-part text-center pt-3">
+                <div className="container">
+                    <div className="row mt-5">
+                        <div className='col-md-3'>
+                            <div className='customers'>
+                                <p>10,500</p>
+                                <span>Happy customers</span>
+                            </div>
+                        </div>
+                        <div className='col-md-3'>
+                            <div className='customers'>
+                                <p>3,800</p>
+                                <span>Bookings</span>
+                            </div>
+                        </div>
+                        <div className='col-md-3'>
+                            <div className='customers'>
+                                <p>2,500</p>
+                                <span>Chefs</span>
+                            </div>
+                        </div>
+                        <div className='col-md-3'>
+                            <div className='customers'>
+                                <p>30</p>
+                                <span>Countries operating​</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="trusted-part mt-5">
+                <div className="container">
+                    <h2>Instagram Feed</h2>
+                    <div className="row  mt-5">
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/1.jpg'} alt="logo-1" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst ">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/2.jpg'} alt="logo-2" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/3.jpg'} alt="logo-3" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/4.jpg'} alt="logo-4" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/5.jpg'} alt="logo-5" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/6.jpg'} alt="logo-6" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/7.jpg'} alt="logo-7" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/8.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/9.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/10.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/11.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/12.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/13.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/14.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/15.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/16.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/17.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/18.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/19.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/20.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/21.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/22.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/23.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/24.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/25.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/26.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/27.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-6 col-6">
+                            <div className="logos width-set-inst">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/instragram-feed/28.jpg'} alt="logo-8" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="trusted-part">
+                <div className="container">
+                    <h2>Trusted by pioneers around the world</h2>
+                    <p>Serving exelence and quality services to clients around the globe. <br /> Our paramount priority? You...</p>
+
+                    <div className="row   mt-5">
+                        <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-1" />
+                            </div>
+                        </div>
+                        <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-2.png'} alt="logo-2" />
+                            </div>
+                        </div>
+                        <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-3.png'} alt="logo-3" />
+                            </div>
+                        </div>
+                        <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-4.png'} alt="logo-4" />
+                            </div>
+                        </div>
+                        <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-5.png'} alt="logo-5" />
+                            </div>
+                        </div>
+                        
+                        {/* <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-7" />
+                            </div>
+                        </div> */}
+                        <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-8.png'} alt="logo-8" />
+                            </div>
+                        </div>
+                        {/* <div className="col-lg-4 col-md-6 col-6">
+                            <div className="logos img-set-log">
+                                <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-6.png'} alt="logo-6" style={{objectFit:'cover'}} className="w-100"/>
+                            </div>
+                        </div> */}
+                    </div>
+                </div>
+            </section>
+
+            
 
         </>
     )

@@ -1138,10 +1138,36 @@ export default function Booking(props: any) {
             <div className="col-lg-12 col-md-12">
               <div className="table-part">
                 <h2>Chats</h2>
-
-                <div className="chats-box">
-                  <div className="d-flex">
-                    <div className="users-all">
+                
+                <div className="">
+                  <div className="row">
+                  <div className="users-all col-lg-2"><div className="my-profile"> 
+                            <a href="/user/userprofile">
+                                <div className="profile-cols mt-5">
+                                    <h4>Account Settings</h4>
+                                    <p>Please provide your personal information so we can issue your receipt when you book a service. If you wish an invoice please add the information of the business you with to issue the invoice.</p>
+                                </div>
+                            </a>
+                            <a href="/user/booking">
+                                <div className="profile-cols mt-4 ">
+                                    <h4>My Bookings</h4>
+                                    <p>Your bookings history all in one place. </p>
+                                </div>
+                            </a>
+                          
+                              <div className="profile-cols active mt-4 mb-4">
+                                  <h4>My Messages</h4>
+                                  <p> We are here for you. Please feel free to contact us any time. </p>
+                               </div>
+                           
+                            <a href="/user/userprofilethree">
+                          <div className="profile-cols mt-4 mb-4">
+                            <h4>Aditional Information/Preferences</h4>
+                            <p>Let us know your favorite cuisines any additional information and if you have allergies, dietary or religious restrictions.</p>
+                          </div>
+                        </a>
+                        </div></div>
+                    <div className="chats-box users-all col-lg-3">
                       <div className="chats-btns mt-4">
                         <form className="form-Search">
                           {/* <input
@@ -1386,7 +1412,7 @@ export default function Booking(props: any) {
                         </div>
                       </div>
                     </div>
-                    <div className="users-chats">
+                    <div className="chats-box users-chats col-lg-4">
                       <div className="msg-head">
                         <div className="row">
                           <div className="col-lg-8 col-md-8 col-8">
@@ -1673,7 +1699,7 @@ export default function Booking(props: any) {
                       </div>}
                       </div>
                     </div>
-                    <div className="users-groups">
+                    <div className="chats-box users-groups col-lg-3">
 
                       <ul className="nav nav-pills mt-3 mb-3" id="pills-tab" role="tablist">
                         <li className="nav-item" role="presentation">

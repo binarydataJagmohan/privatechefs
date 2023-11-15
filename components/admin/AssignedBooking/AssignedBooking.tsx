@@ -601,7 +601,7 @@ export default function Bookings() {
 						<table className="table table-borderless common_booking">
 							<thead>
 								<tr>
-									<th scope="col">ID</th>
+									<th scope="col">Booking ID</th>
                                     <th scope="col">Chef</th>
 									<th scope="col">Customer</th>
 									<th scope="col">Image</th>
@@ -628,7 +628,7 @@ export default function Bookings() {
 
 									return (
 										<tr key={index}>
-											<td>{index + 1}</td>
+											<td>#{user.booking_id}</td>
                                             <td>{user.applied_chef_name}</td>
 											<td>{`${user.name} ${user.surname !== null && user.surname !== 'null' ? user.surname : ''}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 											<td className="chefs_pic">
@@ -705,12 +705,23 @@ export default function Bookings() {
 														<li>
 															<a
 																className="dropdown-item"
+																target="_blank"
+																href={`/admin/receipts?booking_id=${user.booking_id}`}
+																
+															>
+																View Receipts
+															</a>
+														</li>
+														<li>
+															<a
+																className="dropdown-item"
 																href="#"
 																onClick={(e) => editbooking(user.booking_id)}
 															>
 																Edit
 															</a>
 														</li>
+														
 														<li>
 															<a
 																className="dropdown-item"
