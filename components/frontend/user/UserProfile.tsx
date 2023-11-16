@@ -43,6 +43,13 @@ export default function UserProfile() {
   const [buttonStatus, setButtonState] = useState(false);
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+
+  const [user_address, setUserAddress] = useState("");
+  const [user_city, setUserCity] = useState("");
+  const [user_country, setUserCountry] = useState("");
+  const [user_post_code, setUserPostCode] = useState("");
+
+
   const [errors, setErrors]: any = useState({});
 
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
@@ -108,6 +115,21 @@ export default function UserProfile() {
     if (!tax_id) {
       errors.tax_id = "Tax Id is required";
     }
+
+    if (!user_address) {
+      errors.user_address = "Address is required";
+    }
+
+    if (!user_city) {
+      errors.user_city = "City is required";
+    }
+    if (!user_country) {
+      errors.user_country = "Country is required";
+    }
+    if (!user_post_code) {
+      errors.user_post_code = "Post code is required";
+    }
+
     setErrors(errors);
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
@@ -130,7 +152,11 @@ export default function UserProfile() {
         vat_no: vat_no || '',
         tax_id: tax_id || '',
         lat: lat,
-        lng: lng
+        lng: lng,
+        user_address: user_address || '',
+        user_city: user_city || '',
+        user_country: user_country || '',
+        user_post_code: user_post_code || ''
       };
 
       updateUserProfile(userid, data)
@@ -302,6 +328,10 @@ export default function UserProfile() {
           setVatNo(res.data.vat_no);
           setTaxId(res.data.tax_id);
           setUserData(res.data);
+          setUserAddress(res.data.user_address);
+          setUserCity(res.data.user_city);
+          setUserCountry(res.data.user_country);
+          setUserPostCode(res.data.user_post_code);
         } else {
           setButtonState(false);
           toast.error(res.message, {
@@ -422,8 +452,34 @@ export default function UserProfile() {
                       <input type="text" name="currency" defaultValue={currency || ''} placeholder="Currency" onChange={(e) => setCurrency(e.target.value)} />
                       {errors.currency && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.currency}</span>}
                     </div>
-
                   </div>
+
+                    <div className="row">
+                      <div className="col-lg-6 col-md-6">
+                            <label>Address</label>
+                            <input type="text" id="address-input" defaultValue="address" value={user_address || ''} placeholder="Address" onChange={(e) => setUserAddress(e.target.value)} />
+                            {errors.user_address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.user_address}</span>}
+                      </div>
+                      <div className="col-lg-6 col-md-6">
+                            <label>City</label>
+                            <input type="text" defaultValue="city" value={user_city || ''} placeholder="City" onChange={(e) => setUserCity(e.target.value)} />
+                            {errors.user_city && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.user_city}</span>}
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-lg-6 col-md-6">
+                          <label>Country</label>
+                          <input type="text" defaultValue="country" value={user_country || ''} placeholder="Country" onChange={(e) => setUserCountry(e.target.value)} />
+                          {errors.user_country && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.user_country}</span>}
+                      </div>
+                      <div className="col-lg-6 col-md-6">
+                          <label>Post Code</label>
+                          <input type="text" defaultValue="post_code" value={user_post_code || ''} placeholder="Post Code" onChange={(e) => setUserPostCode(e.target.value)} />
+                          {errors.user_post_code && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.user_post_code}</span>}
+                      </div>
+                    </div>
+
                   <div className="checkbox-size text-left mt-3 mb-3">
                     {/* <input type="checkbox" name="invoice_details" value="1" className="checkbox-" onChange={(e) => setInvoiceDetails(e.target.checked ? "1" : "0")} checked={invoice_details === "1"} /> */}
                     <label>Invoice details:</label>

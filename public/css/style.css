@@ -4785,3 +4785,11 @@ border-radius: unset;
   }
 
 }
+
+.timezone-picker {
+  display: block !important;
+}
+
+.timezone-picker-selected .timezone-picker-textfield input {
+  background: var(--background-color_4);
+}

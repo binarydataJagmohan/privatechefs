@@ -17,6 +17,8 @@ export default function Header({ }) {
     email?: string
     role?: string
     name?: string
+    privacy?:string
+    terms?:string
   }
 
   interface User {
@@ -41,6 +43,11 @@ export default function Header({ }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const userrole = 'admin';
   const [activeTab, setActiveTab] = useState("");
+
+  const [acceptance, setAcceptance] = useState(false);
+
+  const [privacy, setPrivacy] = useState(false);
+  const [terms, setTerms] = useState(false);
 
 
   useEffect(() => {
@@ -448,6 +455,16 @@ export default function Header({ }) {
       newErrors.role = "Role is required";
     }
 
+    if (!privacy) {
+      newErrors.privacy = "Please accept privacy policy";
+    }
+
+    if (!terms) {
+      newErrors.terms = "Please accept terms and condition";
+    }
+
+    
+
     setErrors(newErrors);
 
     // Submit form data if there are no errors
@@ -697,6 +714,20 @@ export default function Header({ }) {
     setErrors(newErrors);
   };
 
+
+  const handleAccept = ()=> {
+
+    if(acceptance == true){
+      setAcceptance(false)
+    }else {
+      setAcceptance(true)
+    }
+    
+  }
+
+  
+  
+
   //Forgout submit close
 
   return (
@@ -761,9 +792,20 @@ export default function Header({ }) {
                       My Profile
                     </a>
                   </li>
+                  
                 )}
+
+              {isAuthenticated && role === "user" && (
+                  <li className="nav-item">
+                    <a className="nav-link" href="/user/setting">
+                      Settings
+                    </a>
+                  </li>
+                  
+                )}
+
                 {isAuthenticated && role === "concierge" && (
-                  <li className="nav-item"> .concierge/dashboard
+                  <li className="nav-item">
                     <a className="nav-link" href="/concierge/dashboard">
                       Dashboard
                     </a>
@@ -858,6 +900,33 @@ export default function Header({ }) {
               <input type="password" id="confirmPassword text-danger mb-2 d-inline-block" name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
               {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_login" >{errors.confirmPassword}</span>}
             </div>
+              
+            <label className='text-start' role="button" onClick={()=>handleAccept()}>Acceptance Policy</label>
+
+              
+            {acceptance && (
+              <p className='text-start'>I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy</a> and  <a target="_blank" href='/termsconditions'>Terms of Use</a> of Private Chefs Worldwide. I understand and consent to the collection, processing, and use of my personal data as outlined in these documents. I acknowledge that my information will be handled in accordance with the applicable data protection laws.
+              </p>
+            )}
+
+           <div className='login_div mt-2'>
+              <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{width:'auto'}} onChange={(e)=>setPrivacy(e.target.checked)}/>
+              <label className="form-check-label" htmlFor="flexCheckIndeterminate" style={{width:'auto',marginLeft:"4px"}}>
+                I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy</a>.
+              </label>
+              {errors.privacy && <span className="small error text-danger mt-4 d-inline-block error_login" >{errors.privacy}</span>}
+            </div>
+
+              
+            <div className='login_div'>
+              <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{width:'auto'}} onChange={(e)=>setTerms(e.target.checked)}/>
+              <label className="form-check-label mb-4" htmlFor="flexCheckIndeterminate" style={{width:'auto',marginLeft:"4px"}}>
+                I have read and agree to the <a target="_blank" href='/termsconditions'>Terms of Use.</a>.
+              </label>
+              {errors.terms && <span className="small error text-danger mt-4 d-inline-block error_login" >{errors.terms}</span>}
+            </div>
+            
+          
             <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
           </form>
           <p className="text-link text-left my-2"><a href="#" onClick={() => signinpopup()}>Already have account? <span>Sign in</span></a></p>

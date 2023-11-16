@@ -134,14 +134,21 @@ export default function Sidebar(): JSX.Element {
                         </a>
                         <a href="/admin/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/chefs' || router.pathname == '/admin/chefs/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
-                                <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>
+                                <span className="icon-dash"><i className="fa fa-users"></i></span>
                                 <span className="menu-collapsed">Chefs</span>
+                            </div>
+                        </a>
+
+                        <a href="/admin/concierge" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/concierge' || router.pathname == '/admin/concierge/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                            <div className="d-flex ">
+                                <span className="icon-dash"><i className="fa fa-users"></i></span>
+                                <span className="menu-collapsed">Concierge</span>
                             </div>
                         </a>
 
                         <a href="/admin/users" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/users' || router.pathname == '/admin/users/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
-                                <span className="icon-dash"><i className="fa fa-user" aria-hidden="true"></i></span>
+                                <span className="icon-dash"><i className="fa fa-users" aria-hidden="true"></i></span>
                                 <span className="menu-collapsed">Users</span>
                             </div>
                         </a>
@@ -190,7 +197,7 @@ export default function Sidebar(): JSX.Element {
                        <a href="/admin/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
-                                <span className="menu-collapsed">Setting</span>
+                                <span className="menu-collapsed">Settings</span>
                             </div>
                         </a>
                         <a href="/admin/pages" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/pages' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>

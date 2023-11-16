@@ -70,7 +70,7 @@ export default function Receipts() {
 									<th scope="col">Recipient Name</th>
 									<th scope="col">Chef Name</th>
 									<th scope="col">Order Date</th>
-									<th scope="col">Order ID</th>
+									<th scope="col">Booking ID</th>
 									<th scope="col">Amount</th>
 									{/* <th scope="col">Payment Details</th>
 								<th scope="col">Payment Details</th> */}

@@ -365,6 +365,14 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Chats</span>
                         </div>
                     </a>
+
+                    <a href="/chef/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                            <div className="d-flex ">
+                                <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                                <span className="menu-collapsed">Settings</span>
+                            </div>
+                        </a>
+
                     <a onClick={handleLogout} data-toggle="collapse" aria-expanded="false" role="button" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start ' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>
