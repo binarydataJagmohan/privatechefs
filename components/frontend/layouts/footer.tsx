@@ -93,7 +93,7 @@ export default function Footer() {
           <div className="footer-part ft-top-border text-center">
             <h6 className="color-bs8639 ">Subscribe to our newsletter</h6>
             <form className="email-part mt-2" onSubmit={handlesubmit}>
-              <input type="email" placeholder="Enter your email" value={email} onChange={handleEmailChange} required/>
+              <input type="email" placeholder="Enter your email" value={email || ''} onChange={handleEmailChange} required/>
               <button type="submit" className="btn-send w-10 mx-3 mt-3" style={{padding:'6px 14px'}}>Submit</button>
             </form>
           

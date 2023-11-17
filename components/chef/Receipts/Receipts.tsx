@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import PopupModal from '../../../components/commoncomponents/PopupModal';
+import PopupModal from '../../../components/commoncomponents/PopupModalLarge';
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getAllBooking, saveReceipt, getChefReceipt, getSingleReceipt, updateReceipt, deleteReceipt, updateReceiptImages } from '../../../lib/chefapi'
 import { getCurrentUserData } from '../../../lib/session'

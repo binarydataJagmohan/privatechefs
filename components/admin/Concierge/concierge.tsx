@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAllConcierge } from '../../../lib/adminapi'
+import { getAllConcierge,approveConciergeProfile } from '../../../lib/adminapi'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
@@ -14,19 +14,8 @@ export default function Users() {
         address: string,
         phone: number,
         pic: string,
-    }
-    interface Location {
-        lat: number,
-        name: string;
-        surname: string;
-        address: string;
-        pic: string;
-        approved_by_admin: string;
-        profile_status: string;
-        cuisine_name: string;
-        amount: string;
-        id: number,
-        phone: number,
+        email:string,
+        approved_by_admin:string
     }
     
     const [getallusers, setAllUsers] = useState<User[]>([]);
@@ -74,7 +63,7 @@ export default function Users() {
    
     const onPageChange = (page: any) => {
         setCurrentPage(page);
-        getAllUsers()
+        getAllConcierge()
             .then(res => {
                 if (res.status == true) {
                     setTotalMenu(res.data);
@@ -89,6 +78,54 @@ export default function Users() {
             });
     };
 
+    const ApproveChefProfile = (e:any,id: any) => {
+
+        const selectedValue = e.target.value;
+        const data = {
+            approved_by_admin: selectedValue,
+          id : id
+        }
+
+        approveConciergeProfile(data)
+        .then(res => {
+          if (res.status == true) {
+            
+            toast.success(res.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #ff4e00d1',
+                  color: '#454545',
+                  "--toastify-icon-color-success": "#ff4e00d1",
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
+              });
+          } else {
+
+            toast.error(res.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
+              });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
 
     return (
         <>
@@ -101,10 +138,11 @@ export default function Users() {
                         <table className="table table-borderless">
                             <thead>
                                 <tr>
-                                   
+                                    <th scope="col">Sr no</th>
                                     <th scope="col">Photo</th>
                                     <th scope="col">Name/Surname</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Status</th>
                                 
                                 </tr>
                             </thead>
@@ -112,6 +150,7 @@ export default function Users() {
                                 {(
                                     getallusers.map((user, index) => (
                                         <tr key={index}>
+                                            <td>{index+1}</td>
                                             <td className="chefs_pic">
                                                 {user.pic ? (
                                                     <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" />
@@ -121,8 +160,15 @@ export default function Users() {
                                             </td>
                                             <td>{user.name || ''} {user.surname || ''}</td>
                                             <td>{user.email || ''}</td>
-                                           
-                                           
+                                                    
+                                            <td>
+                                            <select aria-label="Default select example" name="approved_by_admin"
+                                                onChange={(e) => ApproveChefProfile(e, user.id)}
+                                            >
+                                                <option value='yes' selected={user.approved_by_admin === 'yes'}>Approved</option>
+                                                <option value='no' selected={user.approved_by_admin === 'no'}>Unapproved</option>
+                                            </select>
+                                            </td>
                                         </tr>
                                     ))
                                 )}

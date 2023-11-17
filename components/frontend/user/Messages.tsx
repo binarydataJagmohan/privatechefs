@@ -1412,7 +1412,7 @@ export default function Booking(props: any) {
                         </div>
                       </div>
                     </div>
-                    <div className="chats-box users-chats col-lg-4">
+                    <div className="chats-box col-lg-4" style={{borderRight:"1px solid #DDDDDD"}}>
                       <div className="msg-head">
                         <div className="row">
                           <div className="col-lg-8 col-md-8 col-8">

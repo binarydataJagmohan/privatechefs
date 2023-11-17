@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { getCurrentUserData, removeToken, removeStorageData } from '../../../lib/session';
 import { UpdateUserToOffiline } from "../../../lib/userapi"
 import { getConciergeBookingsCount } from "../../../lib/concierge"
-
+import swal from "sweetalert";
 export default function Sidebar(): JSX.Element {
 
     const router = useRouter();
@@ -57,8 +57,18 @@ export default function Sidebar(): JSX.Element {
         window.location.href = '/';
     }
 
+    function AdminApprovalInfoAlert() {
+        swal({
+            title: 'Oops!',
+            text: 'Your approval is pending at admin end',
+            icon: 'info',
+
+        });
+    }
+
     return (
         <>
+        
             <div id="sidebar-container" className="sidebar-expanded  mobile-view d-md-block">
                 <div className="user-profile">
                     <div className="row">
@@ -90,13 +100,23 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Home</span>
                         </div>
                     </a>
-                    <a href="/concierge/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/dashboard" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/dashboard' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-boxes-stacked"></i></span>
                             <span className="menu-collapsed">General</span>
                         </div>
                     </a>
-                    <a href="/concierge/bookings" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/bookings' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/bookings" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/bookings' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Available Bookings</span>
@@ -106,7 +126,12 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
 
-                    <a href="/concierge/assigned-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/assigned-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/assigned-booking" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/assigned-booking' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Assigned Bookings</span>
@@ -116,25 +141,45 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
 
-                    <a href="/concierge/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/invoices' || router.pathname == '/concierge/invoices/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/invoices" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/invoices' || router.pathname == '/concierge/invoices/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-file"></i></span>
                             <span className="menu-collapsed">Invoices</span>
                         </div>
                     </a>
-                    <a href="/concierge/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/receipts' || router.pathname == '/concierge/receipts/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/receipts" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/receipts' || router.pathname == '/concierge/receipts/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-credit-card"></i></span>
                             <span className="menu-collapsed">Receipts</span>
                         </div>
                     </a>
-                    <a href="/concierge/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/chefs' || router.pathname == '/concierge/chefs/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/chefs" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/chefs' || router.pathname == '/concierge/chefs/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>
                             <span className="menu-collapsed">Chefs</span>
                         </div>
                     </a>
-                    <a href="/concierge/customers" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/customers' || router.pathname == '/concierge/customers/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/customers" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/customers' || router.pathname == '/concierge/customers/[id]' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-carrot"></i></span>
                             <span className="menu-collapsed">Customers</span>
@@ -146,26 +191,46 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Menus</span> 
                         </div>
                     </a>*/}
-                    <a href="/concierge/calender" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/calender' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/calender" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/calender' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-calendar"></i></span>
                             <span className="menu-collapsed">Calendar</span>
                         </div>
                     </a>
-                    <a href="/concierge/villas" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/villas' || router.pathname == '/concierge/villas2' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/villas" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/villas' || router.pathname == '/concierge/villas2' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
                             <span className="menu-collapsed">Villas</span>
                         </div>
                     </a>
-                    <a href="/concierge/chats" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/chats' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/chats" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/chats' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-brands fa-rocketchat"></i></span>
                             <span className="menu-collapsed">Chats</span>
                         </div>
                     </a>
 
-                    <a href="/concierge/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                    <a href="/concierge/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/concierge/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (currentUserData.approved_by_admin == 'no') {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        }
+                    }}>
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
                                 <span className="menu-collapsed">Settings</span>

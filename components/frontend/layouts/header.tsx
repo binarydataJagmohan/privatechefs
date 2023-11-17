@@ -132,20 +132,21 @@ export default function Header({ }) {
             setCurrentUserId(true);
             setUserId(res.data.user.id);
 
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
+            signOut({redirect: false}).then();
+            // toast.success(res.message, {
+            //   position: toast.POSITION.TOP_RIGHT,
+            //   closeButton: true,
+            //   hideProgressBar: false,
+            //   style: {
+            //     background: '#ffff',
+            //     borderLeft: '4px solid #ff4e00d1',
+            //     color: '#454545',
+            //     "--toastify-icon-color-success": "#ff4e00d1",
+            //   },
+            //   progressStyle: {
+            //     background: '#ffff',
+            //   },
+            // });
 
             // setTimeout(() => {
             //   if (res.data.user.role == "user") {
@@ -901,7 +902,7 @@ export default function Header({ }) {
               {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_login" >{errors.confirmPassword}</span>}
             </div>
               
-            <label className='text-start' role="button" onClick={()=>handleAccept()}>Acceptance Policy</label>
+            <label className='text-start text-decoration-underline fw-bold' role="button" onClick={()=>handleAccept()}>Acceptance Policy</label>
 
               
             {acceptance && (
@@ -912,7 +913,7 @@ export default function Header({ }) {
            <div className='login_div mt-2'>
               <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{width:'auto'}} onChange={(e)=>setPrivacy(e.target.checked)}/>
               <label className="form-check-label" htmlFor="flexCheckIndeterminate" style={{width:'auto',marginLeft:"4px"}}>
-                I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy</a>.
+                I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy.</a>
               </label>
               {errors.privacy && <span className="small error text-danger mt-4 d-inline-block error_login" >{errors.privacy}</span>}
             </div>
@@ -921,7 +922,7 @@ export default function Header({ }) {
             <div className='login_div'>
               <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{width:'auto'}} onChange={(e)=>setTerms(e.target.checked)}/>
               <label className="form-check-label mb-4" htmlFor="flexCheckIndeterminate" style={{width:'auto',marginLeft:"4px"}}>
-                I have read and agree to the <a target="_blank" href='/termsconditions'>Terms of Use.</a>.
+                I have read and agree to the <a target="_blank" href='/termsconditions'>Terms of Use.</a>
               </label>
               {errors.terms && <span className="small error text-danger mt-4 d-inline-block error_login" >{errors.terms}</span>}
             </div>

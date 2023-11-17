@@ -22,6 +22,8 @@ export default function MyProfile(props: any) {
         holder_name: string,
         passport_no:string,
         pic:string,
+        tax_id:string,
+        vat_no:string
     }
 
     const [getUsers, setUsers] = useState<User>({
@@ -38,6 +40,8 @@ export default function MyProfile(props: any) {
         holder_name: "",
         passport_no:"",
         pic:"",
+        tax_id:"",
+        vat_no:""
     });
     const [bookingUsers, setBookingUser] = useState([]);
     const [totalMenu, setTotalMenu]:any = useState({});
@@ -119,6 +123,11 @@ export default function MyProfile(props: any) {
                     ):(
                         null
                     )}
+                     {getUsers.vat_no ? (
+                    <p><span id="book-user">VAT Number. </span>: {getUsers.vat_no}</p>
+                    ):(
+                        null
+                    )}
                 </div>
                 <div style={{ flex: "2" }}>
                 {getUsers.IBAN ? (
@@ -143,6 +152,11 @@ export default function MyProfile(props: any) {
                     )}
                     {getUsers.BIC ? (
                     <p><span id="book-user">BIC </span>: {getUsers.BIC}</p>
+                    ):(
+                        null
+                    )}
+                    {getUsers.tax_id ? (
+                    <p><span id="book-user">TAX ID </span>: {getUsers.tax_id}</p>
                     ):(
                         null
                     )}

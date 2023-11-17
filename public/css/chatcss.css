@@ -87,7 +87,7 @@ a.chats-user-a {
 }
 
 .users-chats {
-  /* width: 50%;  */
+  width: 50%; 
   border-right: 1px solid #DDDDDD;
   padding: 15px;
 }

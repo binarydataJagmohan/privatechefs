@@ -3804,7 +3804,7 @@ div#villa_table .table > tbody tr td ul li {
 }
 
 .react-tel-input .form-control {
-  height: 57px !important;
+  /* height: 57px !important; */
   width: 100% !important;
   background: #f1f1f1 !important;
 }

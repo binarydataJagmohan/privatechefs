@@ -1022,12 +1022,28 @@ export default function Booking(props: any) {
                          
                         <td>
                           <a target="_blank"
-                            className="btn btn-sm btn-success"
+                            id="btn_offer"
+                            className="btn btn-success"
                             href={`/user/payment?booking_id=${chef.booking_id}&amount=${chef.amount}&chef_id=${chef.chef_id}&client_id=${currentUserData.id}&applied_id=${chef.applied_jobs_id}`}
                           >
                             Book
                           </a>
                         </td>
+
+                        <td>
+
+                          <button id="btn_offer" className="mx-2 btn-sm" type="button" onClick={() => {
+                            setModalConfirmTwo(true);
+                            setModalConfirm(false);
+                            setChefID(chef.chef_id ?? ''); // Assign a default value of an empty string if chef.chef_id is undefined
+                            setBookingId(chef.booking_id ?? ''); // Assign a default value of an empty string if chef.booking_id is undefined
+                          }}>
+
+                            Contact
+                          </button>
+
+
+                          </td>
 
 
                       </td>

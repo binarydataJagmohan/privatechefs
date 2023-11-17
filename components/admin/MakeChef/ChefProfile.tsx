@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useRouter } from "next/router";
-
+import { Loader } from '@googlemaps/js-api-loader';
 
 export default function ChefProfile() {
 
@@ -67,6 +67,9 @@ export default function ChefProfile() {
     const mapRef = useRef(null);
     const router = useRouter();
 
+    const [lat, setLat] = useState("");
+	const [lng, setLng] = useState("");
+
     const [selectedImage, setSelectedImage] = useState(null);
 
     const imageChange = (e: any) => {
@@ -76,6 +79,9 @@ export default function ChefProfile() {
         }
     };
 
+    const [vat_no, setVatNo] = useState("");
+	const [tax_id, setTaxId] = useState("");
+
     const handleRegisterSubmit = (event: any) => {
         event.preventDefault();
         // Validate form data
@@ -83,18 +89,18 @@ export default function ChefProfile() {
         if (!name) {
             newErrors.name = "Name is required";
         }
-        if (!surname) {
-            newErrors.surname = "SurName is required";
-        }
-        if (!address) {
-            newErrors.address = "Address is required";
-        }
-        if (!phone) {
-            newErrors.phone = "Phone Number is required";
-        }
-        if (!passport_no) {
-            newErrors.passport_no = "Passport No. is required";
-        }
+        // if (!surname) {
+        //     newErrors.surname = "Sur name is required";
+        // }
+        // if (!address) {
+        //     newErrors.address = "Address is required";
+        // }
+        // if (!phone) {
+        //     newErrors.phone = "Phone Number is required";
+        // }
+        // if (!passport_no) {
+        //     newErrors.passport_no = "Passport No. is required";
+        // }
         if (!email) {
             newErrors.email = "Email is required";
         } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -116,24 +122,27 @@ export default function ChefProfile() {
             const userData: any = getCurrentUserData();
             setButtonState(true);
             // Call an API or perform some other action to register the user
+           
             const data = {
-                name: name,
-                surname: surname,
-                email: email,
-                phone: phone,
-                address: address,
-                passport_no: passport_no,
-                created_by: userData.id,
-                image:selectedImage,
-                BIC:BIC,
-                IBAN:IBAN,
-                bank_name:bank_name,
-                holder_name:holder_name,
-                bank_address:bank_address,
-                password: password,
-            };
-            console.log(data);
-            
+				name: name || '',
+				surname: surname || '',
+				email: email || '',
+				phone: phone || '',
+				address: address || '',
+                password: password || '',
+				passport_no: passport_no || '',
+				BIC: BIC || '',
+				IBAN: IBAN || '',
+				bank_name: bank_name || '',
+				holder_name: holder_name || '',
+				bank_address: bank_address || '',
+				vat_no: vat_no || '',
+				tax_id: tax_id || '',
+                lat: lat || '',
+				lng: lng || '',
+                created_by:currentUserData.id
+			};
+
             admincreateChef(data)
                 .then(res => {
                     if (res.status == true) {
@@ -208,6 +217,48 @@ export default function ChefProfile() {
         }
         setChefErrors(newErrors);
       };
+
+      useEffect(() => {
+		
+		const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
+		const loader = new Loader({
+			apiKey,
+			version: 'weekly',
+			libraries: ['places']
+		});
+
+		function setupAddressAutocomplete(inputId: string) {
+			const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null;
+			if (input) {
+				const autocomplete = new google.maps.places.Autocomplete(input);
+				autocomplete.addListener('place_changed', () => {
+					const place = autocomplete.getPlace();
+
+					if (place && place.formatted_address && place.geometry && place.geometry.location) {
+						const address = place.formatted_address;
+						const lat = place.geometry.location.lat();
+						const lng = place.geometry.location.lng();
+
+						// Set the values for the corresponding input field
+						
+							setAddress(address)
+							setLat(lat.toString());
+							setLng(lng.toString());
+						
+					}
+				});
+			}
+		}
+
+		loader.load().then(() => {
+			setupAddressAutocomplete('address-input');
+
+		}).catch((error) => {
+			console.error('Failed to load Google Maps API', error);
+		});
+
+	}, []);
+
       
 
     return (
@@ -229,7 +280,7 @@ export default function ChefProfile() {
                                     <div className="col-lg-4 col-md-12">
                                         <div className="text-left">
                                             <h5>Personal Information</h5>
-                                            <p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+                                            <p className="f-12">Please add Full name, contact details and your ID/Passport no. This is required for legal purposes.</p>
                                             <div className="picture-profile">
                                                 <div className="row">
                                                     <div className="col-lg-4 col-md-5 col-4 pr-0">
@@ -342,7 +393,7 @@ export default function ChefProfile() {
 									<div className="col-lg-4 col-md-12">
 										<div className="text-left">
 											<h5>Bank Details</h5>
-											<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+											<p className="f-12">Please add bank details in order for chef payments to be processed.</p>
 										</div>
 									</div>
 									<div className="col-lg-8 col-md-12">
@@ -384,15 +435,30 @@ export default function ChefProfile() {
 														</span>
 													)} */}
 												</div>
-												<div className="col-lg-12 col-md-6">
+												
+
+                                                <div className="col-lg-4 col-md-5">
+												<label>VAT Number</label>
+												<input type="text" defaultValue="vat_no" value={vat_no || ''} maxLength={15} onChange={(e) => setVatNo(e.target.value)} />
+												{/* {errors.vat_no && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.vat_no}</span>} */}
+												</div>
+												<div className="col-lg-8 col-md-7">
+												<label>TAX ID</label>
+												<input type="text" defaultValue="tax_id" value={tax_id || ''} maxLength={15} onChange={(e) => setTaxId(e.target.value)} />
+												{/* {errors.tax_id && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.tax_id}</span>} */}
+												</div>
+
+
+												<div className="col-lg-4 col-md-5">
 													<label>BIC</label>
-													<textarea name="BIC" onChange={(e) => setBIC(e.target.value)}></textarea>
+													<input type="text" name="BIC" value={BIC || ''} onChange={(e) => setBIC(e.target.value)} maxLength={8}/>
 													{/* {errors.BIC && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
 															{errors.BIC}
 														</span>
 													)} */}
 												</div>
+
 											</div>
 										</div>
 									</div>
@@ -402,7 +468,7 @@ export default function ChefProfile() {
 									<div className="col-lg-4 col-md-12">
 										<div className="text-left">
 											<h5>Create Password</h5>
-											<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+											<p className="f-12">Please add password and confirm password details in order for chef to login.</p>
 										</div>
 									</div>
 									<div className="col-lg-8 col-md-12">
