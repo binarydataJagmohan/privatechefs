@@ -103,8 +103,8 @@ export default function MyProfile(props: any) {
                     Back
                 </button></Link>
             <h5 style={{ color: "#ff4e00d1" }}>User Detail</h5>
-            <div className="user-class pt-5">
-                <div className="userImg chef-img-set" style={{ flex: "1" }}>
+            <div className="user-class pt-5 align-items-center">
+                <div className="userImg chef-img-set">
                     {getUsers.pic ? (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + getUsers.pic} alt="" width={100} height={100} />
                     ) : (

@@ -1047,7 +1047,7 @@ export default function Bookings() {
 												</td>
 												<td>{chef.amount}</td>
 												<td>
-													<div className="all-form p-0">
+													<div className="all-form p-0 add-w">
 														<div className="login_div">
 															<input
 																type="number"
@@ -1062,7 +1062,7 @@ export default function Bookings() {
 													</div>
 												</td>
 												<td>
-													<div className="all-form p-0">
+													<div className="all-form p-0 add-w">
 														<div className="login_div">
 															<input
 																type="number"
@@ -1077,7 +1077,7 @@ export default function Bookings() {
 													</div>
 												</td>
 												<td>
-													<div className="all-form p-0">
+													<div className="all-form p-0 add-w">
 														<div className="login_div">
 															<select name={`user_show_${chef.applied_jobs_id}`} onChange={handleChange}
 																onBlur={handleBlur} defaultValue={chef.user_show} id={`user_show_${chef.applied_jobs_id}`}>

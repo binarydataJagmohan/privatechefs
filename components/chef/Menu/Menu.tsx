@@ -841,7 +841,7 @@ export default function Menus2(props: any) {
                           aria-labelledby="headingOne"
                           data-bs-parent="#accordionExample"
                         >
-                          <div className="accordion-body">
+                          <div className="accordion-body p-remove">
                             <div className="all-form" id="all_menu_dishes_form">
 
                               <form
@@ -867,11 +867,8 @@ export default function Menus2(props: any) {
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
+                                    <option value="5">All</option>
+                                    
 
                                   </select>
 
@@ -957,7 +954,7 @@ export default function Menus2(props: any) {
                           aria-labelledby="headingTwo"
                           data-bs-parent="#accordionExample"
                         >
-                          <div className="accordion-body">
+                          <div className="accordion-body p-remove">
                             <div className="all-form" id="all_menu_dishes_form">
                               <form
                                 onSubmit={handlMenuItemsSubmit}
@@ -984,11 +981,8 @@ export default function Menus2(props: any) {
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
+                                    <option value="6">All</option>
+                                   
 
                                   </select>
 
@@ -1072,7 +1066,7 @@ export default function Menus2(props: any) {
                           aria-labelledby="headingThree"
                           data-bs-parent="#accordionExample"
                         >
-                          <div className="accordion-body">
+                          <div className="accordion-body p-remove">
                             <div className="all-form" id="all_menu_dishes_form">
                               <form
                                 onSubmit={handlMenuItemsSubmit}
@@ -1095,12 +1089,9 @@ export default function Menus2(props: any) {
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-
+                                    <option value="6">All</option>
+                                    
+                                    
                                   </select>
 
                                   <button
@@ -1184,7 +1175,7 @@ export default function Menus2(props: any) {
                           aria-labelledby="headingThree"
                           data-bs-parent="#accordionExample"
                         >
-                          <div className="accordion-body">
+                          <div className="accordion-body p-remove">
                             <div className="all-form" id="all_menu_dishes_form">
                               <form
                                 onSubmit={handlMenuItemsSubmit}

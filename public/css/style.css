@@ -141,7 +141,6 @@ body {
   font-family: "Poppins", sans-serif;
   background: var(--background-color_3) !important;
 }
-
 img {
   max-width: 100%;
 }
@@ -911,6 +910,7 @@ section {
 .slider-img-plase img {
   border-radius: var(--booking_img_border_radius);
   width: 100%;
+  object-fit: cover;
 }
 
 .slider-img-plase {
@@ -1009,6 +1009,11 @@ section {
 .customers-review {
   padding-left: 15%;
   padding-right: 15%;
+}
+@media (max-width: 1024px) {
+  .home-page-banner-text {
+    right:14px !important;
+  }
 }
 
 @media (max-width: 1150px) {
@@ -1419,6 +1424,9 @@ textarea {
   .side-1 {
     right: 0;
   }
+  .all-form.p-0.add-w input {
+    width: unset;
+}
 
   .side-2 {
     margin-top: -45px;
@@ -1594,6 +1602,7 @@ span.log-out {
   font-size: var(--font_h4);
   line-height: var(--line_height_name);
   color: var(--color_5);
+  word-break: break-all;
 }
 
 .profile-cols p {
@@ -1601,6 +1610,8 @@ span.log-out {
   font-size: var(--font_h6);
   line-height: var(--font_h4);
   color: var(--color_5);
+  
+  
 }
 
 .profile-cols.active {
@@ -2490,8 +2501,11 @@ table input.placeholder-goldan-text {
 
 @media (max-width: 767px) {
   .slider-img-plase {
-    padding-right: 0;
+    padding-right: 0 !important;
   }
+  .slider-img-plase img {
+    height: 260px;
+}
 }
 
 .right-side {
@@ -3519,7 +3533,7 @@ select {
     text-align: center;
     object-fit: cover;
     margin-bottom: 20px;
-    padding-top: 10px !important;
+    padding-top: 0px !important;
   }
   .user-class.pt-5 {
     display: block !important;
@@ -3533,7 +3547,7 @@ select {
   button#btn-send-id {
     width: 100% !important;
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: 0px;
   }
   div#location-img img {
     width: 100% !important;
@@ -3804,7 +3818,7 @@ div#villa_table .table > tbody tr td ul li {
 }
 
 .react-tel-input .form-control {
-  /* height: 57px !important; */
+  height: 57px !important;
   width: 100% !important;
   background: #f1f1f1 !important;
 }
@@ -4015,11 +4029,6 @@ th.active {
   color: black;
 }
 
-.userImg img {
-  width: 60%;
-  height: 67%;
-  border-radius: 100%;
-}
 
 p.alert.alert-danger {
   text-align: center;
@@ -4689,11 +4698,23 @@ td.booking-status-Today {
 .input-group.set-width-number input {
   text-align: center;
 }
-
+.userImg.chef-img-set {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+}
 .userImg.chef-img-set img {
-  width: 50%;
-  height: 88%;
+  width: 100%;
+  height: 100%;
   border-radius: 100%;
+}
+.userImg img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+p{
+  margin: 0px;
 }
 
 /* 30oct */
@@ -4701,7 +4722,7 @@ td.booking-status-Today {
   .logos.img-set-log img {
     height: 52px;
     width: 100%;
-    border: 1px solid #58585845;
+    border: none;
     padding: 5px;
   }
 
@@ -4749,6 +4770,31 @@ button.slick-arrow.slick-prev::before {
 }
 button.slick-arrow.slick-next::before {
   color: #ff7050 !important;
+}
+
+@media(max-width:1024px){
+  .table-btn {
+    padding: 10px 14px;
+}
+div#loginDiv {
+  flex-wrap: wrap;
+}
+.accordion-body.p-remove {
+  padding: 0px;
+}
+.login_div.d-flex .mx-2{
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.w-25.mx-2 {
+  margin: 0px !important;
+}
+input.mx-2.dishes_name_input {
+  margin: 0px !important;
+}
+select#dishes_id {
+  margin-top: 10px !important;
+}
 }
 
 @media (max-width: 767px) {
