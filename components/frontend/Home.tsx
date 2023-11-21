@@ -487,23 +487,23 @@ export default function Home(props: any) {
                         <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. We deliver results.</p>
                     </div>
                     <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
-                    <div className="row mt-5">
+                    <div className="row g-3 mt-5">
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48" id="big-id"><i className="fa-solid fa-spoon"></i></span> </h4>
                                 <h4>We tailor your menu</h4>
                                 <p>Every menu is tailored specifically for you and your guests.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fas fa-bacon"></i></span>  </h4>
                                 <h4>We buy the ingredients</h4>
                                 <p>All shopping is taken care by our Chefs prior their arrival.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-kitchen-set"></i></span> </h4>
                                 <h4>We cook in your kitchen</h4>
                                 <p>All the magic is prepared before your eyes in your own house.</p>
@@ -511,17 +511,17 @@ export default function Home(props: any) {
                         </div>
                     </div>
 
-                    <div className="row mt-4">
+                    <div className="row g-3 mt-4">
                         <div className="col-lg-2 col-md-12"> </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-cutlery"></i></span>  </h4>
                                 <h4>We serve each dish</h4>
                                 <p>All dishes are served by our Chefs so you can relax and enjoy.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-brush"></i></span></h4>
                                 <h4> We clean up</h4>
                                 <p>Don't worry about cleaning. Just sit and enjoy your experience.</p>

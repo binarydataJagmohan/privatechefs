@@ -24,7 +24,7 @@ const PopupModal = ({ handleClose, show, children, staticClass }: any) => {
 
   return (
     <div className={showHideClassName}>
-      <div className="modal-dialog modal-xl villas" id="xtra_large">
+      <div className="villa_header" id="xtra_large">
         <div className="modal-content">
           <div className="modal-header" id="villa_header">
               <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
