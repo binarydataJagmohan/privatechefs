@@ -141,8 +141,8 @@ export default function Notification() {
                     {Array.isArray(userData) && userData.length > 0 ? (
                         userData.map((notification, index) => (
                             <div key={index} className="notification-hover">
-                                <div className="d-flex">
-                                    <div className="circle1">
+                                <div className="d-md-flex">
+                                    <div className="circle1 d-none d-lg-block">
                                         {notification.pic ? (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + notification.pic} alt="user-menu" />
                                         ) : (
@@ -162,7 +162,7 @@ export default function Notification() {
                                     )} </p>
                                     </div>
 
-                                    <div className="text-noti mt-2 text-right">
+                                    <div className="text-noti mt-2 text-md-right">
                                         <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm')}</p>
                                     </div>
                                 </div>

@@ -33,7 +33,7 @@ export default function Header(): JSX.Element {
         approved_by_admin: '',
         profile_status: '',
         approval_msg: '',
-        created_by:'',
+        created_by: '',
     });
 
     useEffect(() => {
@@ -43,19 +43,19 @@ export default function Header(): JSX.Element {
     }, []);
 
     useEffect(() => {
-        const userData:any = getCurrentUserData();
-        const now = new Date(); 
+        const userData: any = getCurrentUserData();
+        const now = new Date();
         const expirationDate = new Date(userData.expiration);
         if (now > expirationDate) {
-          removeToken();
-          removeStorageData();
-          window.location.href = '/404';
-          console.log("yes");
+            removeToken();
+            removeStorageData();
+            window.location.href = '/404';
+            console.log("yes");
         } else {
-          console.log("no");
+            console.log("no");
         }
     }, []);
-    
+
 
     const getSingleData = async (id: any) => {
         const userid: any = getCurrentUserData();
@@ -117,26 +117,28 @@ export default function Header(): JSX.Element {
                 <div className="row">
                     <div className="col-lg-7 col-md-4 col-2">
                         <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
-                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
-                            <p className="alert alert-danger">
-                                Complete your profile for pending admin approval.
-                            </p>
-                        )}
-                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.created_by === null && (
-                            <p className="alert alert-warning">
-                                Profile completed, awaiting admin approval to unlock culinary opportunities.
-                            </p>
-                        )}
-                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes'  && data.created_by === null && (
-                            <p className="alert alert-success">
-                                Congratulations! Your profile has been completed and approved by the admin.
-                                <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
-                            </p>
-                        )}
+                        <div className='d-none d-lg-block'>
+                            {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
+                                <p className="alert alert-danger">
+                                    Complete your profile for pending admin approval.
+                                </p>
+                            )}
+                            {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.created_by === null && (
+                                <p className="alert alert-warning">
+                                    Profile completed, awaiting admin approval to unlock culinary opportunities.
+                                </p>
+                            )}
+                            {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' && data.created_by === null && (
+                                <p className="alert alert-success">
+                                    Congratulations! Your profile has been completed and approved by the admin.
+                                    <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
+                                </p>
+                            )}</div>
+
 
                     </div>
                     <div className="col-lg-3 col-md-6 col-6">
-                         {/* <form className="form-Search">
+                        {/* <form className="form-Search">
                             <input type="text" placeholder="Search" />
                         </form>  */}
                     </div>
@@ -152,6 +154,23 @@ export default function Header(): JSX.Element {
                         </p>
                     </div>
                 </div>
+                <div className='d-block d-lg-none'>
+                    {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
+                        <p className="alert alert-danger">
+                            Complete your profile for pending admin approval.
+                        </p>
+                    )}
+                    {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.created_by === null && (
+                        <p className="alert alert-warning">
+                            Profile completed, awaiting admin approval to unlock culinary opportunities.
+                        </p>
+                    )}
+                    {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' && data.created_by === null && (
+                        <p className="alert alert-success">
+                            Congratulations! Your profile has been completed and approved by the admin.
+                            <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
+                        </p>
+                    )}</div>
             </div>
         </>
     )

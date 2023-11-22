@@ -304,6 +304,7 @@ ul.ft-social li a {
   padding: 20px 20px 30px 20px;
   position: relative;
   border-right: 1px solid #dadada;
+
 }
 
 #sidebar-container .list-group .sidebar-submenu a {
@@ -4001,12 +4002,6 @@ div#test-img img {
   cursor: pointer;
 }
 
-@media (min-width: 1200px) {
-  div#xtra_large {
-    max-width: 1200px;
-  }
-}
-
 .chatactive {
   background: rgba(186, 134, 57, 0.1);
   display: block;
@@ -4820,7 +4815,20 @@ select#dishes_id {
 border-radius: unset;
 }
 
-
+@media (min-width: 1200px) {
+  div#xtra_large {
+    max-width: 1200px;
+    margin: 50px auto;
+  }
+}
+@media (max-width: 1200px) {
+  div#xtra_large {
+    margin: 10px;
+  }
+  select {
+    width:unset;
+  }
+}
 @media (max-width: 575px) {
 
   img.service_img {
@@ -4838,4 +4846,55 @@ border-radius: unset;
 
 .timezone-picker-selected .timezone-picker-textfield input {
   background: var(--background-color_4);
+}
+
+
+
+.common_booking th,
+.common_booking td {
+    text-align: left;
+    padding: 8px;
+}
+
+.common_booking th:nth-child(1),
+.common_booking td:nth-child(1) {
+    min-width: 110px !important;
+}
+
+.common_booking th:nth-child(2),
+.common_booking td:nth-child(2) {
+    min-width: 100px !important;
+}
+.common_booking th:nth-child(4),
+.common_booking td:nth-child(4),
+.common_booking th:nth-child(5),
+.common_booking td:nth-child(5) {
+    min-width: 160px !important;
+}
+.common_booking th:nth-child(6),
+.common_booking td:nth-child(6) {
+    min-width: 200px !important;
+}
+.common_booking th:nth-child(8),
+.common_booking td:nth-child(8) {
+    min-width: 150px !important;
+}
+/* Add similar styles for other columns as needed */
+.h-remove .react-tel-input .form-control {
+  height: 0px !important;
+  padding: 16px  50px !important;
+}
+@media(max-width:991px){
+  .hideOnClickShow {
+    transition: opacity 0.5s ease;
+  }
+  p.notify {
+    margin-left: 0px;
+  }
+  
+  .hideOnClickShow.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+  }
 }

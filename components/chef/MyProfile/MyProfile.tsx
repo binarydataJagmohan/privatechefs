@@ -1202,7 +1202,7 @@ export default function MyProfile() {
 													<input type="email" name="email" value={currentUserData.email} readOnly />
 
 												</div>
-												<div className="col-lg-4 col-md-6">
+												<div className="col-lg-4 col-md-6 h-remove">
 													<label>Phone Number</label>
 													<PhoneInput
 														country={"us"}
