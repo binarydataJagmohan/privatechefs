@@ -530,7 +530,7 @@ export default function Booking(props: any) {
           <div className="row">
             <div className="col-lg-3 col-md-12">
               <div className="my-profile">
-                <a href="/user/userprofile">
+                 <a href="/user/userprofile">
                   <div className="profile-cols mt-5">
                     <h4>Account Settings</h4>
                     <p>Please provide your personal information so we can issue your receipt when you book a service. If you wish an invoice please add the information of the business you with to issue the invoice.</p>
