@@ -546,16 +546,18 @@ export default function Bookings() {
 																View Booking
 															</a>
 														</li>
-
-														<li>
-															<a
-																className="dropdown-item"
-																href="#"
-																onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields() }}
-															>
-																Apply
-															</a>
-														</li>
+														{user.booking_status != 'Expired' && ( 
+															<li>
+																<a
+																	className="dropdown-item"
+																	href="#"
+																	onClick={() => { setModalConfirm(true); setBookingId(user.booking_id); resetFields() }}
+																>
+																	Apply
+																</a>
+															</li>
+														)}
+														
 													</ul>
 												</div>
 											</td>

@@ -44,7 +44,7 @@ export default function Footer() {
 			//confirmButtonColor: "#062B60",
 		}).then((willDelete) => {
 			if (willDelete) {
-
+        setProcessing(true);
 				subscribe(email)
 					.then((res) => {
 						if (res.status == true) {
@@ -62,6 +62,7 @@ export default function Footer() {
                   background: '#ffff',
                 },
               });
+              setProcessing(false);
               setEmail("");
 						} else {
 							toast.error(res.message, {
@@ -77,11 +78,13 @@ export default function Footer() {
 									background: '#ffff',
 								},
 							});
+              setProcessing(false);
               setEmail("")
 						}
 					})
 					.catch((err) => { });
 			} else {
+        setProcessing(false);
 			}
 		});
 	};
@@ -94,7 +97,7 @@ export default function Footer() {
             <h6 className="color-bs8639 ">Subscribe to our newsletter</h6>
             <form className="email-part mt-2" onSubmit={handlesubmit}>
               <input type="email" placeholder="Enter your email" value={email || ''} onChange={handleEmailChange} required/>
-              <button type="submit" className="btn-send w-10 mx-3 mt-3" style={{padding:'6px 14px'}}>Submit</button>
+              <button type="submit" className="btn-send w-10 mx-3 mt-3" style={{padding:'6px 14px'}} disabled={processing}>{processing ? 'please wait..' : 'Submit'}</button>
             </form>
           
             < ChefLocation />

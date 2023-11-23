@@ -531,12 +531,12 @@ export default function MyProfile() {
 				setButtonState(false);
 				console.log(res.data);
 				// console.log(res.data);
-				window.localStorage.removeItem("name");
-				window.localStorage.removeItem("pic");
-				window.localStorage.removeItem("surname");
-				window.localStorage.setItem("name", res.data.name);
-				window.localStorage.setItem("pic", res.data.pic);
-				window.localStorage.setItem("surname", res.data.surname);
+				// window.localStorage.removeItem("name");
+				// window.localStorage.removeItem("pic");
+				// window.localStorage.removeItem("surname");
+				// window.localStorage.setItem("name", res.data.name);
+				// window.localStorage.setItem("pic", res.data.pic);
+				// window.localStorage.setItem("surname", res.data.surname);
 				toast.success(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
 					closeButton: true,

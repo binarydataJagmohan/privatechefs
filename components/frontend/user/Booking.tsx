@@ -619,7 +619,7 @@ export default function Booking(props: any) {
                       <table className="table table-borderless common_booking common_booking" id="user-table">
                         <thead>
                           <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">Booking ID</th>
                             <th scope="col">Date Requested</th>
                             <th scope="col">Booking Date</th>
                             <th scope="col">Category</th> 
@@ -638,7 +638,7 @@ export default function Booking(props: any) {
 
                             return (
                               <tr key={index}>
-                                <td><p className="text-data-18" id="table-p">{index + 1}</p></td>
+                                <td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
                                 <td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
                                 <td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
                                 <td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
@@ -752,13 +752,13 @@ export default function Booking(props: any) {
                                     <div className="accordion-body">
                                       {chefoffer.length > 0 ? (
                                         chefoffer.map((chef, index) => (
-                                          chef.user_show === 'visible' ? (
+                                         
                                             <div className="row" key={index}>
                                               <div className="col-5">
                                                 <p className="chefs-name m-2">{chef.name}</p>
                                               </div>
                                               <div className="col-2">
-                                                <p className="mony m-2">${chef.client_amount}</p>
+                                                <p className="mony m-2">${chef.amount}</p>
                                               </div>
                                               <div className="col-5">
                                                 {chef.menu_names?.split(",").map((menu, index) => (
@@ -766,12 +766,10 @@ export default function Booking(props: any) {
                                                 ))}
                                               </div>
                                             </div>
-                                          ) : (
-                                            <p className="mt-2">{index == 0 && 'No Chef apply for this booking'}</p>
-                                          )
+                                         
                                         ))
                                       ) : (
-                                        <p className="mt-2"></p>
+                                        <p className="mt-2">No Chef apply for this booking</p>
                                       )}
 
                                     </div>
