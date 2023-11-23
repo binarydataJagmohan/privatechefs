@@ -488,7 +488,7 @@ export default function Villas() {
 				</ul>
 				<div className="table-box" id="villa_table">
 					{villasdata.length > 0 ?
-						<table className="table table-borderless">
+						<table className="table table-borderless common_booking">
 							<thead>
 								<tr>
 									<th scope="col">Sr No.</th>

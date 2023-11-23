@@ -277,10 +277,10 @@ export default function MyProfile() {
 
 		if (!vat_no) {
 			errors.vat_no = "Vat no. is required";
-		  }
-		  if (!tax_id) {
+		}
+		if (!tax_id) {
 			errors.tax_id = "Tax Id is required";
-		  }
+		}
 
 		setErrors(errors);
 
@@ -477,24 +477,24 @@ export default function MyProfile() {
 		e.preventDefault();
 
 		const formattedDescription = Object.keys(description)
-		.filter((key:any) => description[key])
-		.join(', ');
+			.filter((key: any) => description[key])
+			.join(', ');
 
 		const formattedService = Object.keys(services_type)
-		.filter((key:any) => services_type[key])
-		.join(', ');
+			.filter((key: any) => services_type[key])
+			.join(', ');
 
 		const formattedLanguages = Object.keys(languages)
-		.filter((key:any) => languages[key])
-		.join(', ');
+			.filter((key: any) => languages[key])
+			.join(', ');
 
 		const formattedFavoriteDishes = Object.keys(favorite_dishes)
-		.filter((key:any) => favorite_dishes[key])
-		.join(', ');
+			.filter((key: any) => favorite_dishes[key])
+			.join(', ');
 
 		const formattedSkills = Object.keys(skills)
-		.filter((key:any) => skills[key])
-		.join(', ');
+			.filter((key: any) => skills[key])
+			.join(', ');
 
 		// console.log(formattedDescription);
 
@@ -738,39 +738,39 @@ export default function MyProfile() {
 			.then(res => {
 				if (res.status == true) {
 					setAbout(res.data.about);
-					const descriptionArray = res.data.description.split(',').map((item:any) => item.trim());
-        
+					const descriptionArray = res.data.description.split(',').map((item: any) => item.trim());
+
 					// Set the description state based on the array
 					setDescription({
-					'Private Chef': descriptionArray.includes('Private Chef'),
-					'Yacht Chef': descriptionArray.includes('Yacht Chef'),
-					'Private Cook': descriptionArray.includes('Private Cook'),
+						'Private Chef': descriptionArray.includes('Private Chef'),
+						'Yacht Chef': descriptionArray.includes('Yacht Chef'),
+						'Private Cook': descriptionArray.includes('Private Cook'),
 					});
 
-					const servicesTypeArray = res.data.services_type.split(',').map((item:any) => item.trim());
-        
+					const servicesTypeArray = res.data.services_type.split(',').map((item: any) => item.trim());
+
 					// Set the description state based on the array
 					setServicesType({
-					'In-House Chef': servicesTypeArray.includes('In-House Chef'),
-					'Full time chef': servicesTypeArray.includes('Full time chef'),
-					'Cooking Classes': servicesTypeArray.includes('Cooking Classes'),
-					'Event Catering': servicesTypeArray.includes('Event Catering'),
+						'In-House Chef': servicesTypeArray.includes('In-House Chef'),
+						'Full time chef': servicesTypeArray.includes('Full time chef'),
+						'Cooking Classes': servicesTypeArray.includes('Cooking Classes'),
+						'Event Catering': servicesTypeArray.includes('Event Catering'),
 					});
 
-					const languagesTypeArray = res.data.languages.split(',').map((item:any) => item.trim());
-        
+					const languagesTypeArray = res.data.languages.split(',').map((item: any) => item.trim());
+
 					// Set the description state based on the array
 					setLanguages({
-					'Greek': languagesTypeArray.includes('Greek'),
-					'English': languagesTypeArray.includes('English'),
-					'Spanish': languagesTypeArray.includes('Spanish'),
-					'French': languagesTypeArray.includes('German'),
-					'Italian': languagesTypeArray.includes('Italian'),
-					'German': languagesTypeArray.includes('German'),
+						'Greek': languagesTypeArray.includes('Greek'),
+						'English': languagesTypeArray.includes('English'),
+						'Spanish': languagesTypeArray.includes('Spanish'),
+						'French': languagesTypeArray.includes('German'),
+						'Italian': languagesTypeArray.includes('Italian'),
+						'German': languagesTypeArray.includes('German'),
 					});
 
-					const FavoriteDishesTypeArray = res.data.favorite_dishes.split(',').map((item:any) => item.trim());
-        
+					const FavoriteDishesTypeArray = res.data.favorite_dishes.split(',').map((item: any) => item.trim());
+
 					// Set the description state based on the array
 					setFavoriteDishes({
 						'Greek': FavoriteDishesTypeArray.includes('Greek'),
@@ -787,15 +787,15 @@ export default function MyProfile() {
 						'Fine Dining': FavoriteDishesTypeArray.includes('Fine Dining'),
 					});
 
-					const SkillsTypeArray = res.data.skills.split(',').map((item:any) => item.trim());
-        
+					const SkillsTypeArray = res.data.skills.split(',').map((item: any) => item.trim());
+
 					// Set the description state based on the array
 					setSkills({
 						'Kosher': SkillsTypeArray.includes('Kosher'),
 						'Halal': SkillsTypeArray.includes('Halal'),
 						'Hindu': SkillsTypeArray.includes('Hindu'),
 						'None': SkillsTypeArray.includes('None'),
-					
+
 					});
 
 
@@ -1020,87 +1020,87 @@ export default function MyProfile() {
 	}
 
 	const handleDescribesChange = (value: string) => {
-		setDescription((prevDescription:any) => {
-		  const updatedDescription = { ...prevDescription };
-	  
-		  // Toggle the value in the object
-		  updatedDescription[value] = !updatedDescription[value];
-	  
-		  // Convert the object keys to a comma-separated string
-		  const descriptionString = Object.keys(updatedDescription).filter(key => updatedDescription[key]).join(', ');
-	  
-		  // Save the string in the state or send it to the database
-		  // setState or saveToDatabase(descriptionString);
-	  
-		  return updatedDescription;
+		setDescription((prevDescription: any) => {
+			const updatedDescription = { ...prevDescription };
+
+			// Toggle the value in the object
+			updatedDescription[value] = !updatedDescription[value];
+
+			// Convert the object keys to a comma-separated string
+			const descriptionString = Object.keys(updatedDescription).filter(key => updatedDescription[key]).join(', ');
+
+			// Save the string in the state or send it to the database
+			// setState or saveToDatabase(descriptionString);
+
+			return updatedDescription;
 		});
 	};
 
 	const handleServiceChange = (value: string) => {
-		setServicesType((prevService:any) => {
-		  const updatedService = { ...prevService };
-	  
-		  // Toggle the value in the object
-		  updatedService[value] = !updatedService[value];
-	  
-		  // Convert the object keys to a comma-separated string
-		  const serviceString = Object.keys(updatedService).filter(key => updatedService[key]).join(', ');
-	  
-		  // Save the string in the state or send it to the database
-		  // setState or saveToDatabase(descriptionString);
-	  
-		  return updatedService;
+		setServicesType((prevService: any) => {
+			const updatedService = { ...prevService };
+
+			// Toggle the value in the object
+			updatedService[value] = !updatedService[value];
+
+			// Convert the object keys to a comma-separated string
+			const serviceString = Object.keys(updatedService).filter(key => updatedService[key]).join(', ');
+
+			// Save the string in the state or send it to the database
+			// setState or saveToDatabase(descriptionString);
+
+			return updatedService;
 		});
 	};
 
 	const handleLanguagesChange = (value: string) => {
-		setLanguages((prevLanguages:any) => {
-		  const updatedLanguages = { ...prevLanguages };
-	  
-		  // Toggle the value in the object
-		  updatedLanguages[value] = !updatedLanguages[value];
-	  
-		  // Convert the object keys to a comma-separated string
-		  const languagesString = Object.keys(updatedLanguages).filter(key => updatedLanguages[key]).join(', ');
-	  
-		  // Save the string in the state or send it to the database
-		  // setState or saveToDatabase(descriptionString);
-	  
-		  return updatedLanguages;
+		setLanguages((prevLanguages: any) => {
+			const updatedLanguages = { ...prevLanguages };
+
+			// Toggle the value in the object
+			updatedLanguages[value] = !updatedLanguages[value];
+
+			// Convert the object keys to a comma-separated string
+			const languagesString = Object.keys(updatedLanguages).filter(key => updatedLanguages[key]).join(', ');
+
+			// Save the string in the state or send it to the database
+			// setState or saveToDatabase(descriptionString);
+
+			return updatedLanguages;
 		});
 	};
 
 	const handleCuisinesChange = (value: string) => {
-		setFavoriteDishes((prevCuisines:any) => {
-		  const updatedCuisines = { ...prevCuisines };
-	  
-		  // Toggle the value in the object
-		  updatedCuisines[value] = !updatedCuisines[value];
-	  
-		  // Convert the object keys to a comma-separated string
-		  const cuisinesString = Object.keys(updatedCuisines).filter(key => updatedCuisines[key]).join(', ');
-	  
-		  // Save the string in the state or send it to the database
-		  // setState or saveToDatabase(descriptionString);
-	  
-		  return updatedCuisines;
+		setFavoriteDishes((prevCuisines: any) => {
+			const updatedCuisines = { ...prevCuisines };
+
+			// Toggle the value in the object
+			updatedCuisines[value] = !updatedCuisines[value];
+
+			// Convert the object keys to a comma-separated string
+			const cuisinesString = Object.keys(updatedCuisines).filter(key => updatedCuisines[key]).join(', ');
+
+			// Save the string in the state or send it to the database
+			// setState or saveToDatabase(descriptionString);
+
+			return updatedCuisines;
 		});
 	};
 
 	const handleSkillsChange = (value: string) => {
-		setSkills((prevSkills:any) => {
-		  const updatedSkills = { ...prevSkills };
-	  
-		  // Toggle the value in the object
-		  updatedSkills[value] = !updatedSkills[value];
-	  
-		  // Convert the object keys to a comma-separated string
-		  const cuisinesString = Object.keys(updatedSkills).filter(key => updatedSkills[key]).join(', ');
-	  
-		  // Save the string in the state or send it to the database
-		  // setState or saveToDatabase(descriptionString);
-	  
-		  return updatedSkills;
+		setSkills((prevSkills: any) => {
+			const updatedSkills = { ...prevSkills };
+
+			// Toggle the value in the object
+			updatedSkills[value] = !updatedSkills[value];
+
+			// Convert the object keys to a comma-separated string
+			const cuisinesString = Object.keys(updatedSkills).filter(key => updatedSkills[key]).join(', ');
+
+			// Save the string in the state or send it to the database
+			// setState or saveToDatabase(descriptionString);
+
+			return updatedSkills;
 		});
 	};
 
@@ -1110,7 +1110,7 @@ export default function MyProfile() {
 			<div className="table-part">
 				<h2>My Profile</h2>
 
-		
+
 				<div className="tab-part change-btn-colors">
 					<div className="border-bottom pb-3">
 						<ul className="nav nav-pills text-left-j " id="pills-tab" role="tablist">
@@ -1285,22 +1285,22 @@ export default function MyProfile() {
 														</span>
 													)}
 												</div>
-												
+
 												<div className="col-lg-4 col-md-5">
-												<label>VAT Number</label>
-												<input type="text" defaultValue="vat_no" value={vat_no || ''} placeholder="VAT Number" maxLength={15} onChange={(e) => setVatNo(e.target.value)} />
-												{errors.vat_no && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.vat_no}</span>}
+													<label>VAT Number</label>
+													<input type="text" defaultValue="vat_no" value={vat_no || ''} placeholder="VAT Number" maxLength={15} onChange={(e) => setVatNo(e.target.value)} />
+													{errors.vat_no && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.vat_no}</span>}
 												</div>
 												<div className="col-lg-8 col-md-7">
-												<label>TAX ID</label>
-												<input type="text" defaultValue="tax_id" value={tax_id || ''} placeholder="TAX ID" maxLength={15} onChange={(e) => setTaxId(e.target.value)} />
-												{errors.tax_id && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.tax_id}</span>}
+													<label>TAX ID</label>
+													<input type="text" defaultValue="tax_id" value={tax_id || ''} placeholder="TAX ID" maxLength={15} onChange={(e) => setTaxId(e.target.value)} />
+													{errors.tax_id && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.tax_id}</span>}
 												</div>
 
 
 												<div className="col-lg-4 col-md-5">
 													<label>BIC</label>
-													<input type="text" name="BIC" value={BIC || ''} onChange={(e) => setBIC(e.target.value)} maxLength={8}/>
+													<input type="text" name="BIC" value={BIC || ''} onChange={(e) => setBIC(e.target.value)} maxLength={8} />
 													{errors.BIC && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
 															{errors.BIC}
@@ -1308,7 +1308,7 @@ export default function MyProfile() {
 													)}
 												</div>
 
-												
+
 											</div>
 										</div>
 									</div>
@@ -1387,18 +1387,18 @@ export default function MyProfile() {
 														{/* <textarea name="description" value={description || ''} onChange={(e) => setDescription(e.target.value)}></textarea> */}
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox1" style={{width:"auto"}} onChange={() => handleDescribesChange('Private Chef')}  checked={description['Private Chef']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox1" style={{width:"auto",paddingLeft:'8px'}}>Private Chef</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox1" style={{ width: "auto" }} onChange={() => handleDescribesChange('Private Chef')} checked={description['Private Chef']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox1" style={{ width: "auto", paddingLeft: '8px' }}>Private Chef</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox2" style={{width:"auto"}}  onChange={() => handleDescribesChange('Yacht Chef')} checked={description['Yacht Chef']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox2" style={{width:"auto",paddingLeft:'8px'}}>Yacht Chef</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox2" style={{ width: "auto" }} onChange={() => handleDescribesChange('Yacht Chef')} checked={description['Yacht Chef']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox2" style={{ width: "auto", paddingLeft: '8px' }}>Yacht Chef</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox3" style={{width:"auto"}}  onChange={() => handleDescribesChange('Private Cook')} checked={description['Private Cook']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox3" style={{width:"auto",paddingLeft:'8px'}}>Private Cook</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox3" style={{ width: "auto" }} onChange={() => handleDescribesChange('Private Cook')} checked={description['Private Cook']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox3" style={{ width: "auto", paddingLeft: '8px' }}>Private Cook</label>
 														</div>
 
 													</div>
@@ -1407,37 +1407,37 @@ export default function MyProfile() {
 														{/* <input type="text" name="services_type" value={services_type || ''} onChange={(e) => setServicesType(e.target.value)} /> */}
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox4" style={{width:"auto"}} onChange={() => handleServiceChange('In-House Chef')}  checked={services_type['In-House Chef']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox4" style={{width:"auto",paddingLeft:'8px'}}>In-House Chef</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox4" style={{ width: "auto" }} onChange={() => handleServiceChange('In-House Chef')} checked={services_type['In-House Chef']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox4" style={{ width: "auto", paddingLeft: '8px' }}>In-House Chef</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox5" style={{width:"auto"}}  onChange={() => handleServiceChange('Full time chef')} checked={services_type['Full time chef']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox5" style={{width:"auto",paddingLeft:'8px'}}> Full time chef</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox5" style={{ width: "auto" }} onChange={() => handleServiceChange('Full time chef')} checked={services_type['Full time chef']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox5" style={{ width: "auto", paddingLeft: '8px' }}> Full time chef</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox6" style={{width:"auto"}}  onChange={() => handleServiceChange('Cooking Classes')} checked={services_type['Cooking Classes']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox6" style={{width:"auto",paddingLeft:'8px'}}>Cooking Classes</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox6" style={{ width: "auto" }} onChange={() => handleServiceChange('Cooking Classes')} checked={services_type['Cooking Classes']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox6" style={{ width: "auto", paddingLeft: '8px' }}>Cooking Classes</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox7" style={{width:"auto"}}  onChange={() => handleServiceChange('Event Catering')} checked={services_type['Event Catering']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox7" style={{width:"auto",paddingLeft:'8px'}}>Event Catering</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox7" style={{ width: "auto" }} onChange={() => handleServiceChange('Event Catering')} checked={services_type['Event Catering']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox7" style={{ width: "auto", paddingLeft: '8px' }}>Event Catering</label>
 														</div>
 
 
 													</div>
 
-													{/* <div className="col-lg-6 col-md-6">
+													{/* <div className="col-lg-6 col-md-6 col-6">
 														<label>Employment Status</label>
 														<input type="text" name="employment_status" value={employment_status || ''} onChange={(e) => setEmploymentStatus(e.target.value)} />
 													</div> */}
-													{/* <div className="col-lg-6 col-md-6">
+													{/* <div className="col-lg-6 col-md-6 col-6">
 														<label>Your website</label>
 														<input type="text" name="website" value={website || ''} onChange={(e) => setWebsite(e.target.value)} />
 													</div> */}
-													{/* <div className="col-lg-6 col-md-6">
+													{/* <div className="col-lg-6 col-md-6 col-6">
 														<label>Languages</label>
 														<input type="text" name="languages" value={languages || ''} onChange={(e) => setLanguages(e.target.value)} />
 													</div> */}
@@ -1447,33 +1447,33 @@ export default function MyProfile() {
 														{/* <input type="text" name="services_type" value={services_type || ''} onChange={(e) => setServicesType(e.target.value)} /> */}
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox8" style={{width:"auto"}} onChange={() => handleLanguagesChange('Greek')}  checked={languages['Greek']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox8" style={{width:"auto",paddingLeft:'8px'}}>Greek</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox8" style={{ width: "auto" }} onChange={() => handleLanguagesChange('Greek')} checked={languages['Greek']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox8" style={{ width: "auto", paddingLeft: '8px' }}>Greek</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox9" style={{width:"auto"}}  onChange={() => handleLanguagesChange('English')} checked={languages['English']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox9" style={{width:"auto",paddingLeft:'8px'}}> English</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox9" style={{ width: "auto" }} onChange={() => handleLanguagesChange('English')} checked={languages['English']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox9" style={{ width: "auto", paddingLeft: '8px' }}> English</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox10" style={{width:"auto"}}  onChange={() => handleLanguagesChange('Spanish')} checked={languages['Spanish']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox10" style={{width:"auto",paddingLeft:'8px'}}>Spanish</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox10" style={{ width: "auto" }} onChange={() => handleLanguagesChange('Spanish')} checked={languages['Spanish']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox10" style={{ width: "auto", paddingLeft: '8px' }}>Spanish</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox11" style={{width:"auto"}}  onChange={() => handleLanguagesChange('French')} checked={languages['French']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox11" style={{width:"auto",paddingLeft:'8px'}}>French</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox11" style={{ width: "auto" }} onChange={() => handleLanguagesChange('French')} checked={languages['French']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox11" style={{ width: "auto", paddingLeft: '8px' }}>French</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox12" style={{width:"auto"}}  onChange={() => handleLanguagesChange('German')} checked={languages['German']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox12" style={{width:"auto",paddingLeft:'8px'}}>German</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox12" style={{ width: "auto" }} onChange={() => handleLanguagesChange('German')} checked={languages['German']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox12" style={{ width: "auto", paddingLeft: '8px' }}>German</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox13" style={{width:"auto"}}  onChange={() => handleLanguagesChange('Italian')} checked={languages['Italian']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox13" style={{width:"auto",paddingLeft:'8px'}}>Italian</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox13" style={{ width: "auto" }} onChange={() => handleLanguagesChange('Italian')} checked={languages['Italian']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox13" style={{ width: "auto", paddingLeft: '8px' }}>Italian</label>
 														</div>
 
 
@@ -1513,70 +1513,70 @@ export default function MyProfile() {
 
 													<div className="col-lg-12 col-md-6 mt-2 ">
 														<label className='mb-3'> Cuisines you can offer.</label>
-														
+
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox14" style={{width:"auto"}} onChange={() => handleCuisinesChange('Greek')}  checked={favorite_dishes['Greek']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox14" style={{width:"auto",paddingLeft:'8px'}}>Greek</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox14" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Greek')} checked={favorite_dishes['Greek']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox14" style={{ width: "auto", paddingLeft: '8px' }}>Greek</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox15" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Mediterranean')} checked={favorite_dishes['Mediterranean']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox15" style={{width:"auto",paddingLeft:'8px'}}> Mediterranean</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox15" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Mediterranean')} checked={favorite_dishes['Mediterranean']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox15" style={{ width: "auto", paddingLeft: '8px' }}> Mediterranean</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox16" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Italian')} checked={favorite_dishes['Italian']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox16" style={{width:"auto",paddingLeft:'8px'}}>Italian</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox16" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Italian')} checked={favorite_dishes['Italian']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox16" style={{ width: "auto", paddingLeft: '8px' }}>Italian</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox17" style={{width:"auto"}}  onChange={() => handleCuisinesChange('French')} checked={favorite_dishes['French']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox17" style={{width:"auto",paddingLeft:'8px'}}>French</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox17" style={{ width: "auto" }} onChange={() => handleCuisinesChange('French')} checked={favorite_dishes['French']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox17" style={{ width: "auto", paddingLeft: '8px' }}>French</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox18" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Asian')} checked={favorite_dishes['Asian']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox18" style={{width:"auto",paddingLeft:'8px'}}>Asian</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox18" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Asian')} checked={favorite_dishes['Asian']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox18" style={{ width: "auto", paddingLeft: '8px' }}>Asian</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox19" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Japanese')} checked={favorite_dishes['Japanese']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox19" style={{width:"auto",paddingLeft:'8px'}}>Japanese</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox19" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Japanese')} checked={favorite_dishes['Japanese']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox19" style={{ width: "auto", paddingLeft: '8px' }}>Japanese</label>
 														</div>
 
-														
-														
-														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox20" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Thai')} checked={favorite_dishes['Thai']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox20" style={{width:"auto",paddingLeft:'8px'}}>Thai</label>
-														</div>
+
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox21" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Ethnic')} checked={favorite_dishes['Ethnic']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox21" style={{width:"auto",paddingLeft:'8px'}}>Ethnic</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox20" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Thai')} checked={favorite_dishes['Thai']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox20" style={{ width: "auto", paddingLeft: '8px' }}>Thai</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox22" style={{width:"auto"}}  onChange={() => handleCuisinesChange('BBQ')} checked={favorite_dishes['BBQ']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox22" style={{width:"auto",paddingLeft:'8px'}}>BBQ</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox21" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Ethnic')} checked={favorite_dishes['Ethnic']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox21" style={{ width: "auto", paddingLeft: '8px' }}>Ethnic</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox23" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Vegetarian')} checked={favorite_dishes['Vegetarian']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox23" style={{width:"auto",paddingLeft:'8px'}}>Vegetarian</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox22" style={{ width: "auto" }} onChange={() => handleCuisinesChange('BBQ')} checked={favorite_dishes['BBQ']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox22" style={{ width: "auto", paddingLeft: '8px' }}>BBQ</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox24" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Vegan')} checked={favorite_dishes['Vegan']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox24" style={{width:"auto",paddingLeft:'8px'}}>Vegan</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox23" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Vegetarian')} checked={favorite_dishes['Vegetarian']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox23" style={{ width: "auto", paddingLeft: '8px' }}>Vegetarian</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox25" style={{width:"auto"}}  onChange={() => handleCuisinesChange('Fine Dining')} checked={favorite_dishes['Fine Dining']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox25" style={{width:"auto",paddingLeft:'8px'}}>Fine Dining</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox24" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Vegan')} checked={favorite_dishes['Vegan']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox24" style={{ width: "auto", paddingLeft: '8px' }}>Vegan</label>
 														</div>
 
-														
+														<div className="form-check form-check-inline mb-2">
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox25" style={{ width: "auto" }} onChange={() => handleCuisinesChange('Fine Dining')} checked={favorite_dishes['Fine Dining']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox25" style={{ width: "auto", paddingLeft: '8px' }}>Fine Dining</label>
+														</div>
+
+
 													</div>
 
 													{/* <div className="col-lg-12 col-md-12">
@@ -1587,27 +1587,27 @@ export default function MyProfile() {
 
 													<div className="col-lg-12 col-md-6 mt-2 ">
 														<label className='mb-3'> Any special skills, knowledge? </label>
-														
+
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox26" style={{width:"auto"}} onChange={() => handleSkillsChange('Kosher')}  checked={skills['Kosher']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox26" style={{width:"auto",paddingLeft:'8px'}}>Kosher</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox26" style={{ width: "auto" }} onChange={() => handleSkillsChange('Kosher')} checked={skills['Kosher']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox26" style={{ width: "auto", paddingLeft: '8px' }}>Kosher</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox27" style={{width:"auto"}}  onChange={() => handleSkillsChange('Halal')} checked={skills['Halal']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox27" style={{width:"auto",paddingLeft:'8px'}}> Halal</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox27" style={{ width: "auto" }} onChange={() => handleSkillsChange('Halal')} checked={skills['Halal']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox27" style={{ width: "auto", paddingLeft: '8px' }}> Halal</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox28" style={{width:"auto"}}  onChange={() => handleSkillsChange('Hindu')} checked={skills['Hindu']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox28" style={{width:"auto",paddingLeft:'8px'}}>Hindu</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox28" style={{ width: "auto" }} onChange={() => handleSkillsChange('Hindu')} checked={skills['Hindu']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox28" style={{ width: "auto", paddingLeft: '8px' }}>Hindu</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox29" style={{width:"auto"}}  onChange={() => handleSkillsChange('None')} checked={skills['None']}/>
-															<label className="form-check-label" htmlFor="inlineCheckbox29" style={{width:"auto",paddingLeft:'8px'}}>None</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox29" style={{ width: "auto" }} onChange={() => handleSkillsChange('None')} checked={skills['None']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox29" style={{ width: "auto", paddingLeft: '8px' }}>None</label>
 														</div>
-														
+
 													</div>
 												</div>
 
@@ -1627,39 +1627,39 @@ export default function MyProfile() {
 										<div className="col-lg-8 col-md-12">
 											<div className="all-form">
 												<div className="row">
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service One</label>
 														<textarea name="servicetitleone" value={servicetitleone || ''} onChange={(e) => setServiceTitleOne(e.target.value)} maxLength={50}></textarea>
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service Description One</label>
 														<textarea name="servicedescriptionone" value={servicedescriptionone || ''} onChange={(e) => setServiceDescriptionOne(e.target.value)}></textarea>
 													</div>
 													
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service Two</label>
 														<textarea name="servicetitletwo" value={servicetitletwo || ''} onChange={(e) => setServiceTitleTwo(e.target.value)} maxLength={50}></textarea>
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service Description Two</label>
 														<textarea name="servicedescriptiontwo" value={servicedescriptiontwo || ''} onChange={(e) => setServiceDescriptionTwo(e.target.value)}></textarea>
 													</div>
 
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service Three</label>
 														<textarea name="favorite_chef" value={servicetitlethree || ''} onChange={(e) => setServiceTitleThree(e.target.value)} maxLength={50}></textarea>
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service Description Three</label>
 														<textarea name="favorite_chef" value={servicedescriptionthree || ''} onChange={(e) => setServiceDescriptionThree(e.target.value)}></textarea>
 													</div>
 
 
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service Four</label>
 														<textarea name="favorite_dishes" value={servicetitlefour || ''} onChange={(e) => setServiceTitleFour(e.target.value)} maxLength={50}></textarea>
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Service Description Four</label>
 														<textarea name="favorite_dishes" value={servicedescriptionfour || ''} onChange={(e) => setServiceDescriptionFour(e.target.value)}></textarea>
 													</div>
@@ -1679,23 +1679,23 @@ export default function MyProfile() {
 										<div className="col-lg-8 col-md-12">
 											<div className="all-form">
 												<div className="row">
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Facebook</label>
 														<input type="url" name="facebook_link" value={facebook_link || ''} onChange={(e) => setFacebookLink(e.target.value)} />
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Instagram</label>
 														<input type="url" name="instagram_link" value={instagram_link || ''} onChange={(e) => setInstagramLink(e.target.value)} />
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Twitter</label>
 														<input type="url" name="twitter_link" value={twitter_link || ''} onChange={(e) => setTwitterLink(e.target.value)} />
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Linkedin</label>
 														<input type="url" name="linkedin_link" value={linkedin_link || ''} onChange={(e) => setLinkedinLink(e.target.value)} />
 													</div>
-													<div className="col-lg-6 col-md-6">
+													<div className="col-lg-6 col-md-6 col-6">
 														<label>Youtube</label>
 														<input type="text" name="youtube_link" value={youtube_link || ''} onChange={(e) => setYoutubeLink(e.target.value)} />
 													</div>

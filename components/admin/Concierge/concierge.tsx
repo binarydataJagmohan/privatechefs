@@ -135,7 +135,7 @@ export default function Users() {
                
                 <div className="table-box">
                     {getallusers.length > 0 ?
-                        <table className="table table-borderless">
+                        <table className="table table-borderless common_booking">
                             <thead>
                                 <tr>
                                     <th scope="col">Sr no</th>

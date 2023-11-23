@@ -52,7 +52,7 @@ export default function Header() {
     return (
         <>
             <div className="right-header mt-4 text-right">
-                <div className="row">
+                <div className="row align-items-center">
                     <div className="col-lg-7 col-md-4 col-2">
                         <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
                     </div>
@@ -65,12 +65,16 @@ export default function Header() {
                         <p className="mb-0 comments-bell"><a href="/admin/chats"><i className="fa-solid fa-comments"></i></a></p>
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
-                        <p className="mb-0 comments-bell set-bell-admin">
-                            <Link href={`/admin/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i></Link>
+                        <div className="classs">
+                            <Link href={`/admin/notification/notification?id=${currentUserData.id}`}className="notification">
+                            <span><i className="fa-solid fa-bell"></i></span>
                             {countdata ? (
-                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: 'red', marginLeft: '5px' }}>{countdata}</span>
+                                  <span className="badge">{countdata}</span>
                             ) : null}
-                        </p>
+                         
+                           </Link>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { getCurrentUserData } from "../../lib/session";
 import { ToastContainer, toast } from "react-toastify";
 import { SaveBooking } from '../../lib/frontendapi';
 import { Loader } from '@googlemaps/js-api-loader';
+import Image from "next/image";
 
 
 export default function Step6() {
@@ -376,12 +377,14 @@ export default function Step6() {
 
               <div className="col-sm-4">
                 <div className="slider-img-plase">
-                  <img
+                  <Image
                     src={
                       process.env.NEXT_PUBLIC_BASE_URL +
                       "images/booking-details/1.jpg"
                     }
                     alt="1"
+                    width={340}
+                    height={192}
                   />
                 </div>
 
@@ -427,12 +430,14 @@ export default function Step6() {
               </div>
               <div className="col-sm-4">
                 <div className="slider-img-plase">
-                  <img
+                <Image
                     src={
                       process.env.NEXT_PUBLIC_BASE_URL +
-                      "images/booking-details/2.jpg"
+                      "images/booking-details/3.jpg"
                     }
-                    alt="2"
+                    alt="3"
+                    width={340}
+                    height={192}
                   />
                 </div>
 
@@ -477,12 +482,14 @@ export default function Step6() {
               </div>
               <div className="col-sm-4">
                 <div className="slider-img-plase">
-                  <img
+                    <Image
                     src={
                       process.env.NEXT_PUBLIC_BASE_URL +
-                      "images/booking-details/3.jpg"
+                      "images/booking-details/2.jpg"
                     }
-                    alt="3"
+                    alt="2"
+                    width={340}
+                    height={192}
                   />
                 </div>
 

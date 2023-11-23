@@ -14,7 +14,7 @@ export default function Chefs() {
 				<h2>Chefs</h2>
 				<button className="table-btn">Total</button>
 				<div className="table-box">
-					<table className="table table-borderless">
+					<table className="table table-borderless common_booking">
 						<thead>
 							<tr>
 								<th scope="col">Photo</th>

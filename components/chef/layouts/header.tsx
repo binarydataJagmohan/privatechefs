@@ -114,7 +114,7 @@ export default function Header(): JSX.Element {
     return (
         <>
             <div className="right-header mt-4 text-right">
-                <div className="row">
+                <div className="row align-items-center">
                     <div className="col-lg-7 col-md-4 col-2">
                         <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
                         <div className='d-none d-lg-block'>
@@ -146,12 +146,19 @@ export default function Header(): JSX.Element {
                         <p className="mb-0 comments-bell"><a href="/chef/chats"><i className="fa-solid fa-comments"></i></a></p>
                     </div>
                     <div className="col-lg-1 col-md-1 col-2">
-                        <p className="mb-0 comments-bell set-bell">
-                            <Link href={`/chef/notification/notification?id=${userData}`}><i className="fa-solid fa-bell"></i></Link>
+                        <div className="classs">
+                            <Link href={`/chef/notification/notification?id=${userData}`}className="notification">
+                            <span><i className="fa-solid fa-bell"></i></span>
                             {countdata ? (
-                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: 'red', marginLeft: '5px' }}>{countdata}</span>
+                                  <span className="badge">{countdata}</span>
                             ) : null}
-                        </p>
+                         
+                           </Link>
+                        </div>
+                        {/* <a href="#" className="notification">
+                            <span><i className="fa-solid fa-bell"></i></span>
+                            <span className="badge">3</span>
+                        </a> */}
                     </div>
                 </div>
                 <div className='d-block d-lg-none'>

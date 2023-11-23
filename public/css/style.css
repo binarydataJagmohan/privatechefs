@@ -129,12 +129,14 @@
   --Res_font_size-normal: 16px;
 
   --Res_banner-title: 30px;
+  --Res_banner-title-sub: 35px;
   --Res_mobile_banner-title: 22px;
 
   --Res_line_height: 13px;
   --Res_font_user: 12px;
   --Res_line_height_table: 20px;
 }
+    
 
 /*foter-part*/
 body {
@@ -624,8 +626,11 @@ main {
   border: 1px solid #dddddd;
   border-radius: 20px;
   margin-top: 2%;
-  /* overflow-x: auto; */
+  overflow-x: auto;
   padding: 2%;
+}
+.table-box.scroll-remove{
+  overflow-x: unset;
 }
 
 table th {
@@ -1439,7 +1444,7 @@ textarea {
 
   .text-same-formatting h2 {
     font-size: var(--Res_banner-title);
-    line-height: var(--Res_mobile_banner-title);
+    line-height: var(--Res_mobile_banner-title-sub);
   }
 
   .tab-m-0 {
@@ -2786,8 +2791,8 @@ li.right-li {
   }
 
   .golden-box-2 {
-    width: 64px;
-    height: 64px;
+    width: 80px;
+    height: 80px;
     margin: 12px 0 10px 0;
   }
 }
@@ -3296,7 +3301,7 @@ select {
 }
 
 .logos:hover img {
-  transform: scale(1.2);
+  transform: scale(1.04);
 }
 
 .logos img {
@@ -3641,7 +3646,6 @@ div#all_menu_dishes_form .btn-send {
   width: 20px;
   /* top: 16px; */
   top: 0 !important;
-  /* right: 42px; */
   right: 26px !important;
   display: flex;
   justify-content: center;
@@ -4515,7 +4519,7 @@ table.table.table-striped tr th:nth-child(3) {
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   padding: 25px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   text-align: center;
 }
 
@@ -4554,7 +4558,7 @@ li#cuisine_id {
   width: 6px;
 }
 img#dummy-img {
-  min-height: 437px;
+  min-height: 400px;
   width: 357px;
 }
 img#single-img1 {
@@ -4619,7 +4623,7 @@ ul#cuision_id li.right-li {
   top: -12px;
 }
 .logos img {
-  height: 100px;
+  height: auto;
   width: 100%;
   object-fit: cover;
 }
@@ -4720,6 +4724,13 @@ p{
     border: none;
     padding: 5px;
   }
+  #location-img img {
+    height: 300px !important;
+  }
+  img#single-img1 {
+    min-height: auto;
+    object-fit: cover;
+  }
 
   .plase-btn p,
   .plase-btn-span {
@@ -4798,7 +4809,7 @@ select#dishes_id {
   z-index: 9999;
 }
 .slick-arrow.slick-next {
-  right: 7px;
+  right: -8px;
   z-index: 9999;
 }
 }
@@ -4828,6 +4839,10 @@ border-radius: unset;
   select {
     width:unset;
   }
+  .common_form_error select {
+    width:100%;
+  }
+
 }
 @media (max-width: 575px) {
 
@@ -4865,6 +4880,10 @@ border-radius: unset;
 .common_booking td:nth-child(2) {
     min-width: 100px !important;
 }
+.common_booking th:nth-child(3),
+.common_booking td:nth-child(3) {
+    min-width: 140px !important;
+}
 .common_booking th:nth-child(4),
 .common_booking td:nth-child(4),
 .common_booking th:nth-child(5),
@@ -4888,6 +4907,9 @@ border-radius: unset;
   .hideOnClickShow {
     transition: opacity 0.5s ease;
   }
+  .classs.w-cover {
+    width: 100%;
+}
   p.notify {
     margin-left: 0px;
   }
@@ -4897,4 +4919,41 @@ border-radius: unset;
     pointer-events: none;
     display: none;
   }
+  td#icons {
+    display: flex;
+}
+td#icons i.fa-solid.fa-pencil {
+  margin-right: 15px;
+}
+}
+.table td {
+  word-break: break-all;
+}
+
+
+.notification {
+  color: white;
+  text-decoration: none;
+  position: relative;
+  padding: 10px;
+}
+.notification i{
+  color: #555555;
+  font-size: 30px;
+}
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.classs {
+  width: 50px;
 }

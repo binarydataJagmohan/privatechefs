@@ -158,7 +158,7 @@ export default function Step4() {
             <div className="col-sm-10">
               <h1>Taste the World</h1>
               <h1 className="awaits mb-0">a great experience awaits</h1>
-              <div className="text-areya-srep dummy-up text-center">
+              <div className="text-areya-srep dummy-up text-center mb-2">
                 <p>Get ready to ignite your taste buds and allow us to take you on a global culinary journey, where every dish is a flavorful adventure. From the fiery zest of Mexican cuisine to the comforting embrace of Italian classics, the world's flavors are at your fingertips. It's not just a meal; it's a cultural exploration. So, get set to savor your way around the world – choose your preferred cuisine, and let the taste-filled adventure begin</p>
               </div>
             </div>

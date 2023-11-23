@@ -614,9 +614,9 @@ export default function Booking(props: any) {
                       </div>
                     </div>
                   </div>
-                  <div className="table-box">
+                  <div className="table-box scroll-remove">
                     {bookingUsers.length > 0 ?
-                      <table className="table table-borderless common_booking" id="user-table">
+                      <table className="table table-borderless common_booking common_booking" id="user-table">
                         <thead>
                           <tr>
                             <th scope="col">ID</th>

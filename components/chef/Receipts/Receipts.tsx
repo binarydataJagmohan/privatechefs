@@ -430,7 +430,7 @@ export default function Receipts() {
 				<button className="table-btn" onClick={() => { modalConfirmOpen(); resetFields(); }}>Add</button>
 				<div className="table-box" id="receipt_table">
 					{getreceipt.length > 0 ?
-						<table className="table table-borderless">
+						<table className="table table-borderless common_booking">
 							<thead>
 								<tr>
 									<th scope="col">ID</th>

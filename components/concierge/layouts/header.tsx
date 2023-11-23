@@ -52,7 +52,7 @@ export default function Header(): JSX.Element {
     return (
         <>
             <div className="right-header mt-4 text-right">
-                <div className="row">
+                <div className="row align-items-center">
                     <div className="col-lg-7 col-md-4 col-2">
                         <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
                      <div className='d-none d-lg-block'>   {currentUserData.approved_by_admin === 'no' && (
@@ -61,7 +61,7 @@ export default function Header(): JSX.Element {
                             </p>
                         )}</div>
                     </div>
-                    <div className="col-lg-3 col-md-6 col-6">
+                    <div className="col-lg-3 col-md-5 col-6">
                         {/* <form className="form-Search">
                             <input type="text" placeholder="Search" />
                         </form> */}     
@@ -69,13 +69,17 @@ export default function Header(): JSX.Element {
                     <div className="col-lg-1 col-md-1 col-2">
                         <p className="mb-0 comments-bell"><a href="/concierge/chats"><i className="fa-solid fa-comments"></i></a></p>
                     </div>
-                    <div className="col-lg-1 col-md-1 col-2">
-                        <p className="mb-0 comments-bell">
-                        <Link href={`/concierge/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i></Link>
+                    <div className="col-lg-1 col-md-2 col-2">
+
+                    <div className="classs w-cover">
+                            <Link href={`/admin/notification/notification?id=${currentUserData.id}`}className="notification">
+                            <span><i className="fa-solid fa-bell"></i></span>
                             {countdata ? (
-                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: 'red', marginLeft: '5px' }}>{countdata}</span>
+                                  <span className="badge">{countdata}</span>
                             ) : null}
-                        </p>
+                         
+                           </Link>
+                        </div>
                     </div>
                 </div>
                 <div className='d-block d-lg-none'>

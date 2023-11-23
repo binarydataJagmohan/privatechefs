@@ -320,7 +320,7 @@ export default function Bookings() {
 				</ul>
 				<div className="table-box">
 					{bookingUsers.length > 0 ?
-						<table className="table table-borderless common_booking">
+						<table className="table table-borderless common_booking common_booking">
 							<thead>
 								<tr>
 									<th scope="col">Booking ID</th>

@@ -147,7 +147,7 @@ export default function TopRatedChef() {
                 </div>
                 <div className="table-box" id="villa_table">
                     <form onSubmit={handleTopRatedChef}>
-                        <table className="table table-borderless">
+                        <table className="table table-borderless common_booking">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

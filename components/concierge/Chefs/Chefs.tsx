@@ -499,7 +499,7 @@ export default function Chefs() {
         </ul>
 
         <div className="table-box" id="villa_table">
-          <table className="table table-borderless">
+          <table className="table table-borderless common_booking">
             <thead>
               <tr>
                 <th scope="col">Photo</th>

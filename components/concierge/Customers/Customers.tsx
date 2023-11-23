@@ -229,7 +229,7 @@ export default function Users() {
                 </div>
                 <div className="table-box" id="villa_table">
                     {getallusers.length > 0 ?
-                        <table className="table table-borderless">
+                        <table className="table table-borderless common_booking">
                             <thead>
                                 <tr>
                                     <th scope="col">Photo</th>

@@ -12,7 +12,7 @@ export default function Villas2() {
 				<div className="row">
 				 <div className="col-lg-7 col-md-12">
 					<div className="table-box">
-					<table className="table table-borderless">
+					<table className="table table-borderless common_booking">
 						<thead>
 							<tr>
 								<th scope="col">ID</th>

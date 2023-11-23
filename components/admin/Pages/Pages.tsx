@@ -137,7 +137,7 @@ export default function Pages() {
             <div className="table-part">
                 <h2>Pages</h2>
                 <div className="table-box" id="villa_table">
-                    <table className="table table-borderless">
+                    <table className="table table-borderless common_booking">
                         <thead>
                             <tr>
                                 <th scope="col">Page Name</th>

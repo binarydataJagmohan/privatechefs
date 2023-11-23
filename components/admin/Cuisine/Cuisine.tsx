@@ -352,7 +352,7 @@ export default function Cuisine() {
           </li>
         </ul>
         <div className="table-box" id="ffff">
-          <table className="table table-borderless">
+          <table className="table table-borderless common_booking">
             <thead>
               <tr>
                 <th scope="col">ID</th>

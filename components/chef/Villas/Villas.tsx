@@ -6,7 +6,7 @@ export default function Villas() {
 				<h2>Villas</h2>
 				<button className="table-btn">Total</button>
 				<div className="table-box">
-					<table className="table table-borderless">
+					<table className="table table-borderless common_booking">
 						<thead>
 							<tr>
 								<th scope="col">ID</th>

@@ -143,7 +143,7 @@ export default function Step2() {
               )}
 
               <h1 className="awaits mb-0 ">a great experience awaits</h1>
-              <div className="text-areya-srep dummy-up text-center">
+              <div className="text-areya-srep dummy-up text-center mb-2">
                 <p>Explore the world of culinary possibilities with our three distinctive options – Basic, Deluxe, or Elite. Embrace the Basic for a straightforward and satisfying experience, step up to Deluxe for added indulgence, or savor the epitome of luxury with our Elite offering. Whichever level you select, we're committed to making your extended stay a delicious and memorable journey.</p>
               </div>
             </div>

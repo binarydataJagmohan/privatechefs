@@ -240,19 +240,19 @@ export default function UserProfile() {
 							<div className="col-lg-9 col-md-12">
 								<div className="all-form tab-m-0 pt-0 right-left-spacing">
 									<div className="row">
-										<div className="col-lg-6 col-md-6">
+										<div className="col-lg-6 col-md-6 col-6">
 											<label>Name </label>
 											<input type="text" name="name" defaultValue={currentUserData.name || ''} placeholder="Name " onChange={(e) => setFullName(e.target.value)} required />
 										</div>
-										<div className="col-lg-6 col-md-6">
+										<div className="col-lg-6 col-md-6 col-6">
 											<label>Email</label>
 											<input type="email" defaultValue="email" value={email || ''} placeholder="example@gmail.com" onChange={(e) => setEmail(e.target.value)} required />
 										</div>
-										<div className="col-lg-6 col-md-6">
+										<div className="col-lg-6 col-md-6 col-6">
 											<label>Password</label>
 											<input type="password" id="loginpassword" name="password" value={password || ''} placeholder="*******" onChange={(e) => setPassword(e.target.value)} />
 										</div>
-										<div className="col-lg-6 col-md-6">
+										<div className="col-lg-6 col-md-6 col-6">
 											<label>Phone</label>
 											<input type="text" defaultValue="phone" maxLength={10} value={phone || ''} placeholder="Phone" onChange={(e) => {
 												const re = /^[0-9\b]+$/;

@@ -432,23 +432,23 @@ export default function Home(props: any) {
                 <div className="container">
                     <h2> Our services</h2>
                     <p className="dis-max-width mb-4">Looking for a Chef to create unforgettable culinary memories? Perhaps a Butler to pamper you all day long with any request? Or a talented Bartender that will surprise you with delicious cocktails? We have it all!</p>
-                    <div className="row mt-5 justify-content-center service_data">
-                        <div className="col-lg-3 col-md-4 col-sm-6">
-                            <div className="card-box">
+                    <div className="row mt-5 justify-content-lg-center service_data g-3">
+                        <div className=" col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                            <div className="card-box h-100">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_01.jpg'} alt="11" className='service_img'/>
                                 <h3>Chefs</h3>
                                 <p className='pb-3'>Our world-class chefs are artists of the kitchen, elevating every meal into a masterpiece. With a global culinary repertoire and a passion for creativity, they turn dining into a remarkable experience. </p>
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6">
-                            <div className="card-box">
+                        <div className=" col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                            <div className="card-box h-100">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/imgpsh_fullsiaze_an22im.jpg'} alt="11" className='service_img'/>
                                 <h3>Butlers</h3>
                                 <p>Our butlers are the epitome of grace and service, ensuring your every need is met with seamless sophistication. From tableside service to event coordination, they add a touch of class to every moment. </p>
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6">
-                            <div className="card-box">
+                        <div className=" col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                            <div className="card-box h-100">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/_3.jpg'} alt="11" className='service_img'/>
                                 <h3>Bartenders</h3>
                                 <p>Our bartenders are skilled mixologists who turn every drink into a work of art. From classic cocktails to custom concoctions, they bring an element of liquid elegance to your event, leaving your guests in awe of their craft. </p>
@@ -464,7 +464,7 @@ export default function Home(props: any) {
                     </div>
                 </div>
             </section>
-            <section className="text-side">
+            <section className="text-side mt-5">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6 col-md-12">
@@ -511,8 +511,8 @@ export default function Home(props: any) {
                         </div>
                     </div>
 
-                    <div className="row g-3 mt-4">
-                        <div className="col-lg-2 col-md-12"> </div>
+                    <div className="row g-3 mt-lg-4 mt-1">
+                        <div className="col-lg-2 col-md-12 d-none d-lg-block"> </div>
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-cutlery"></i></span>  </h4>
@@ -527,7 +527,7 @@ export default function Home(props: any) {
                                 <p>Don't worry about cleaning. Just sit and enjoy your experience.</p>
                             </div>
                         </div>
-                        <div className="col-lg-2 col-md-12"> </div>
+                        <div className="col-lg-2 col-md-12 d-none d-lg-block"> </div>
                     </div>
 
                 </div>

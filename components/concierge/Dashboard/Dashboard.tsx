@@ -208,12 +208,12 @@ export default function Dashboard() {
 						</div>
 
 						<div className="row mt-5">
-							<div className="col-lg-5 col-sm-5">
+							<div className="col-lg-5 col-sm-12 col-md-12">
 
 								<h3 className="f-30 mb-4">Weekly Stats </h3>
 								<div className="row">
-									<div className="col-lg-6 col-md-6">
-										<div className="golden-box m-center h-100">
+									<div className="col-lg-6 col-md-6 col-6 ">
+										<div className="golden-box m-center h-lg-100">
 											<div className="golden-box-2 m-center"></div>
 											<h5>Bookings</h5>
 											<h2>{weeklybooking}</h2>
@@ -230,8 +230,8 @@ export default function Dashboard() {
 											</h6>
 										</div>
 									</div>
-									<div className="col-lg-6 col-md-6">
-										<div className="golden-box m-center h-100">
+									<div className="col-lg-6 col-md-6 col-6 ">
+										<div className="golden-box m-center h-lg-100">
 											<div className="golden-box-2 m-center"></div>
 											<h5>Customers</h5>
 											<h2>{weeklyusers}</h2>
@@ -253,7 +253,7 @@ export default function Dashboard() {
 							<div className="col-lg-7 col-sm-12">
 								<div className="table-box">
 									<h4>Upcoming Requests</h4>
-									<table className="table table-borderless">
+									<table className="table table-borderless common_booking">
 										<thead>
 											<tr>
 												<th scope="col">ID</th>
