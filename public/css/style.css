@@ -4898,6 +4898,10 @@ border-radius: unset;
 .common_booking td:nth-child(8) {
     min-width: 150px !important;
 }
+.common_booking th:nth-child(9),
+.common_booking td:nth-child(9) {
+    min-width: 100px !important;
+}
 /* Add similar styles for other columns as needed */
 .h-remove .react-tel-input .form-control {
   height: 0px !important;
@@ -4956,4 +4960,17 @@ td#icons i.fa-solid.fa-pencil {
 }
 .classs {
   width: 50px;
+}
+/* Common styles for both portrait and landscape */
+.some-element {
+  width: 100%;
+  background-color: red;
+}
+
+/* Landscape styles */
+@media screen and (orientation: landscape) {
+  /* Add your landscape-specific styles here */
+  .some-element {
+      background-color: lightblue;
+  }
 }
