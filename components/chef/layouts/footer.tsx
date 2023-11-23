@@ -2,7 +2,7 @@ import React from 'react'
 export default function Footer(): JSX.Element {
     return (
         <>
-            <footer className="footer-main mt-5">
+            <footer className="footer-main mt-5 mb-3">
                 <div className="container-fluid">
                     <div className="footer-part ft-top-border text-center">
                         <h6 className="color-bs8639 ">Subscribe to our newsletter</h6>
