@@ -278,9 +278,9 @@ export default function MyProfile() {
 		if (!vat_no) {
 			errors.vat_no = "Vat no. is required";
 		}
-		if (!tax_id) {
-			errors.tax_id = "Tax Id is required";
-		}
+		// if (!tax_id) {
+		// 	errors.tax_id = "Tax Id is required";
+		// }
 
 		setErrors(errors);
 

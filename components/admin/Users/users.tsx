@@ -38,6 +38,7 @@ export default function Users() {
     const [totalMenu, setTotalMenu]: any = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedLatitudes, setSelectedLatitudes] = useState<number[]>([]);
+    const [name, setChefName] = useState('');
 
     const pageSize = 10;
 
@@ -223,15 +224,38 @@ export default function Users() {
           });
     };
       
+
+    const handleChef = (e: any) => {
+        const searchTerm = e.target.value;
+
+        if(!searchTerm){
+            setCurrentPage(1)
+            getAllUsersData();
+            setChefName(searchTerm)
+        }else {
+            setChefName(searchTerm);
+    
+        const filteredUsers = totalMenu.filter(user => {
+            const fullName = `${user.name} ${user.surname}`.toLowerCase();
+            return fullName.includes(searchTerm.toLowerCase());
+        });
+        setAllUsers(filteredUsers);
+        }
+
+        
+    };
     
 
     return (
         <>
             <div className="table-part">
+
+                
+
                 <h2>Users</h2>
                 <ul className="table_header_button_section p-r">
-                <li>
-                    {selectedLocation.map((location:any, index:any) => (
+                <li className='float-end mt-0'>
+                    {/* {selectedLocation.map((location:any, index:any) => (
                     <li>
                         {" "}
                         <div key={index} className="table-btn">
@@ -244,11 +268,12 @@ export default function Users() {
                         </button>
                         </div>  
                     </li>
-                    ))}
+                    ))} */}
+                     <input type="text"  className="form-control" placeholder='Search user here..' onChange={handleChef} />
                 </li>
                 
                 
-                <li className="right-li">
+                <li className="text-right">
                     <button
                     className="table-btn border-radius round-white"
                     onClick={() => setModalConfirm(true)}
@@ -402,12 +427,16 @@ export default function Users() {
 
                 </div>
             </PopupModal>
-            <Pagination
-                items={totalMenu.length}
-                currentPage={currentPage}
-                pageSize={pageSize}
-                onPageChange={onPageChange}
-            />
+           
+            {!name && (
+                 <Pagination
+                 items={totalMenu.length}
+                 currentPage={currentPage}
+                 pageSize={pageSize}
+                 onPageChange={onPageChange}
+             />
+            )}
+           
             <ToastContainer/>
         </>
     )

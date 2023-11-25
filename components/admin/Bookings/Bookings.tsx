@@ -9,7 +9,7 @@ import moment from 'moment';
 import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
-
+import { useRouter } from 'next/router';
 
 export default function Bookings() {
 
@@ -104,7 +104,7 @@ export default function Bookings() {
 		menuid: number;
 	}
 
-
+	const router = useRouter();
 
 	const [errors, setErrors] = useState<Errors>({});
 
@@ -165,8 +165,17 @@ export default function Bookings() {
 
 	const pageSize = 10;
 
-
 	useEffect(() => {
+		const bookingId = router.query.booking_id;
+		if (bookingId !== undefined) {
+			getUserData();
+		}else {
+			getUserData();
+		}
+	}, [router.query]);
+
+	const getUserData = async () => {
+	
 		const data = isPageVisibleToRole("admin-bookings");
 		if (data == 2) {
 			window.location.href = "/"; // redirect to login if not logged in
@@ -246,7 +255,7 @@ export default function Bookings() {
 			console.error('Failed to load Google Maps API', error);
 		});
 
-	}, []);
+	}
 
 	const fetchBookingChefDetailbylocation = async (data:any,chef_data:any) => {
 		try {
@@ -287,9 +296,20 @@ export default function Bookings() {
 			const res = await getAdminChefByBooking();
 			if (res.status) {
 
-				setTotalBooking(res.data);
-				const paginatedPosts = paginate(res.data, currentPage, pageSize);
+				// setTotalBooking(res.data);
+				// const paginatedPosts = paginate(res.data, currentPage, pageSize);
+				// setBookingUser(paginatedPosts);
+
+				let filteredReceipts = res.data;
+				if (router.query.booking_id) {
+					
+					filteredReceipts = res.data.filter((receipt:any) => receipt.booking_id == router.query.booking_id);
+				}
+
+				setTotalBooking(filteredReceipts);
+				const paginatedPosts = paginate(filteredReceipts, currentPage, pageSize);
 				setBookingUser(paginatedPosts);
+
 
 			} else {
 				toast.error(res.message, {
@@ -471,7 +491,7 @@ export default function Bookings() {
 
 		var client = $('#client_amount_' + appliedid).val();
 		var admin = $('#admin_amount_' + appliedid).val();
-		var user_show = $('#user_show_' + appliedid).val();
+		// var user_show = $('#user_show_' + appliedid).val();
 
 		if (!assignselectedchef) {
 
@@ -483,7 +503,7 @@ export default function Bookings() {
 			});
 		} else {
 			
-			if (client && admin && user_show == 'visible') {
+			if (client && admin) {
 				setIsSubmitting(true)
 				const data = {
 					booking_id :bookingid,
@@ -492,6 +512,8 @@ export default function Bookings() {
 					client_amount:client,
 					payment_status:payment_status
 				}
+
+				// console.log(data);
 
 				AssignedBookingByAdminWithoutDatabse(data)
 					.then(res => {
@@ -544,7 +566,7 @@ export default function Bookings() {
 			} else {
 				swal({
 					title: 'Oops!',
-					text: 'Please enter admin amount,client amount and select user status is visible',
+					text: 'Please enter admin amount & client amount',
 					icon: 'info',
 
 				});
@@ -554,71 +576,96 @@ export default function Bookings() {
 	};
 
 	function handleChange(event: any) {
-		const name = event.target.name;
+		const key = event.target.name
+		const name = event.target.name.split('_').slice(0, -1).join('_');
 		const value = event.target.value;
-		const id = name.split('_')[2];
+		const id = key.split('_')[2];
 
-		if (name == 'id') {
-			setAppliedId(value);
-			setAppliedKey(name);
-		} else {
-			setAppliedId(id);
-			setAppliedKey(name.split('_').slice(0, -1).join('_'));
+		const data = {
+			id: id,
+			key: name,
+			value: value,
 		}
+		UpdatedAppliedBookingByKeyValue(data)
+			.then(res => {
+				if (res.status == true) {
 
+					// toast.success(res.message, {
+					// 	position: toast.POSITION.TOP_RIGHT
+					// });
 
-		setAppliedValue(value);
+					getSingleUserAssignBookingData(bookingid)
+				} else {
 
-		// console.log(chefId);
+					// toast.error(res.message, {
+					// 	position: toast.POSITION.TOP_RIGHT,
+					// 	closeButton: true,
+					// 	hideProgressBar: false,
+					// 	style: {
+					// 		background: '#ffff',
+					// 		borderLeft: '4px solid #e74c3c',
+					// 		color: '#454545',
+					// 	},
+					// 	progressStyle: {
+					// 		background: '#ffff',
+					// 	},
+					// });
+
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			})
+
 	}
 
-	function handleBlur(event: any) {
+	// function handleBlur(event: any) {
 
-		if (appliedkey != 'id') {
-			const userData = getCurrentUserData() as CurrentUserData;
-			const data = {
-				id: appliedid,
-				key: appliedkey,
-				value: appliedValue,
-				message: 'data',
-				created_by: userData.id
-			}
-			UpdatedAppliedBookingByKeyValue(data)
-				.then(res => {
-					if (res.status == true) {
+	// 	if (appliedkey != 'id') {
+	// 		const userData = getCurrentUserData() as CurrentUserData;
+	// 		const data = {
+	// 			id: appliedid,
+	// 			key: appliedkey,
+	// 			value: appliedValue,
+	// 			message: 'data',
+	// 			created_by: userData.id
+	// 		}
+	// 		UpdatedAppliedBookingByKeyValue(data)
+	// 			.then(res => {
+	// 				if (res.status == true) {
 
-						// toast.success(res.message, {
-						// 	position: toast.POSITION.TOP_RIGHT
-						// });
+	// 					// toast.success(res.message, {
+	// 					// 	position: toast.POSITION.TOP_RIGHT
+	// 					// });
 
-						getSingleUserAssignBookingData(bookingid)
-					} else {
+	// 					getSingleUserAssignBookingData(bookingid)
+	// 				} else {
 
-						toast.error(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #e74c3c',
-								color: '#454545',
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
+	// 					toast.error(res.message, {
+	// 						position: toast.POSITION.TOP_RIGHT,
+	// 						closeButton: true,
+	// 						hideProgressBar: false,
+	// 						style: {
+	// 							background: '#ffff',
+	// 							borderLeft: '4px solid #e74c3c',
+	// 							color: '#454545',
+	// 						},
+	// 						progressStyle: {
+	// 							background: '#ffff',
+	// 						},
+	// 					});
 
-					}
-				})
-				.catch(err => {
-					console.log(err);
-				})
+	// 				}
+	// 			})
+	// 			.catch(err => {
+	// 				console.log(err);
+	// 			})
 				
 
-		}
+	// 	}
 
 
-	}
+	// }
 
 	const resetFields = () => {
 		setAmount('');
@@ -732,7 +779,7 @@ export default function Bookings() {
 		  // Required fields not entered
 		  swal({
 			title: 'Oops!',
-			text: 'Please enter admin amount, client amount, and select user status visibility',
+			text: 'Please enter admin amount, client amount',
 			icon: 'info',
 		  });
 		  return;
@@ -759,7 +806,7 @@ export default function Bookings() {
 		  admin_amount: adminamount,
 		  payment_status:payment_status
 		};
-	  
+ 
 		AssignedBookingByAdmin(data)
 		  .then(res => {
 			if (res.status === true) {
@@ -1252,7 +1299,7 @@ export default function Bookings() {
 										<th scope="col">Chef's Amount</th>
 										<th scope="col">Client Amount</th>
 										<th scope="col">Admin Amount</th>
-										<th scope="col">Show to user</th>
+										{/* <th scope="col">Show to user</th> */}
 									</tr>
 								</thead>
 								<tbody>
@@ -1272,16 +1319,24 @@ export default function Bookings() {
 													</div>
 													
 												</th>
-												<td>{chef.name} {chef.surname}</td>
+												<td>{chef.name} {chef.surname}
+												
+												{payment_status === 'completed' && checkassignselectedchef == chef.chef_id && (
+														<button type="button" className="btn btn-sm btn-success mx-2">Paid</button>
+													)}
+												{chef.applied_jobs_status === 'discussion' && checkassignselectedchef == chef.chef_id && (
+														<button type="button" className="btn btn-sm btn-info text-white">Assigned</button>
+													)}
+
+												</td>
 												<td>
 													{chef.menu_names?.split(",").map((menu, index) => (
 														<button className="table-btn btn-2 list-btn mb-1" key={index}>
 															{menu.trim()}
 														</button>
 													))}
-													{payment_status === 'completed' && checkassignselectedchef == chef.chef_id && (
-														<button type="button" className="btn btn-sm btn-success">Paid</button>
-													)}
+													
+													
 												</td>
 												<td>{chef.amount}</td>
 												<td>
@@ -1293,7 +1348,7 @@ export default function Bookings() {
 																name={`client_amount_${chef.applied_jobs_id}`}
 																placeholder="Client Amount"
 																onChange={handleChange}
-																onBlur={handleBlur}
+																// onBlur={handleBlur}
 																value={chef.client_amount}
 															/>
 														</div>
@@ -1308,13 +1363,13 @@ export default function Bookings() {
 																name={`admin_amount_${chef.applied_jobs_id}`}
 																placeholder="Admin Amount"
 																onChange={handleChange}
-																onBlur={handleBlur}
+																// onBlur={handleBlur}
 																value={chef.admin_amount}
 															/>
 														</div>
 													</div>
 												</td>
-												<td>
+												{/* <td>
 													<div className="all-form p-0 add-w">
 														<div className="login_div">
 															<select name={`user_show_${chef.applied_jobs_id}`} onChange={handleChange}
@@ -1325,7 +1380,7 @@ export default function Bookings() {
 															</select>
 														</div>
 													</div>
-												</td>
+												</td> */}
 											</tr>
 										))
 									) : (
@@ -1379,10 +1434,10 @@ export default function Bookings() {
 										<th scope="col">Chef's Location</th>
 										<th scope="col">Chef's Name</th>
 										<th scope="col-2">Menu</th>
-										<th scope="col">Amount</th>
+										<th scope="col">Chef Amount</th>
 										<th scope="col">Client Amount</th>
 										<th scope="col">Admin Amount</th>
-										<th scope="col">Show to user</th>
+										{/* <th scope="col">Show to user</th> */}
 									</tr>
 								</thead>
 								<tbody>
@@ -1462,7 +1517,7 @@ export default function Bookings() {
 												</div>
 											</div>
 										</td>
-										<td>
+										{/* <td>
 											<div className="all-form p-0 add-w">
 												<div className="login_div">
 													<select name="user_show" onChange={handleChange}
@@ -1473,14 +1528,14 @@ export default function Bookings() {
 													</select>
 												</div>
 											</div>
-										</td>
+										</td> */}
 									</tr>
 								</tbody>
 							</table>
 							<div className="row">
 								<div className="col-md-6">
 									<div className="banner-btn">
-										<button id="btn_offer" type="submit">
+										<button id="btn_offer" type="button">
 											Assign From Database
 										</button>
 									</div>

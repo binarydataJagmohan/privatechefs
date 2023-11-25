@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking } from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking,AssignedBookingByAdminWithoutDatabse } from "../../../lib/adminapi";
 import { getConciergeChefByBooking,getConciergeFilterByBooking} from "../../../lib/concierge";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,6 +10,7 @@ import moment from 'moment';
 import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
+import { useRouter } from 'next/router';
 
 export default function Bookings() {
 
@@ -112,6 +113,10 @@ export default function Bookings() {
 	const [appliedkey, setAppliedKey] = useState('');
 	const [appliedValue, setAppliedValue] = useState('');
 
+	const [assignselectedchef, setAsssignSelectedChef] = useState<Number>(null);
+	const [checkassignselectedchef, setCheckAsssignSelectedChef] = useState<Number>(null);
+	const [payment_status, setPaymentStatus] = useState('pending');
+
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
 	};
@@ -153,23 +158,26 @@ export default function Bookings() {
 
 	}, []);
 
+
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
 	const fetchBookingAdminDetails = async (id: any) => {
 		try {
 			const userData = getCurrentUserData() as CurrentUserData;
 			const res = await getConciergeChefByBooking(userData.id);
 			if (res.status) {
 
-				const filteredData = res.data.filter((record: any) => {
-					return (
-						record.chef_id != id &&
-						record.applied_jobs_status != 'hired' &&
-						record.applied_jobs_status != 'discussion' &&
-						record.applied_jobs_status != 'rejected'
-					);
-				});
+				// const filteredData = res.data.filter((record: any) => {
+				// 	return (
+				// 		record.chef_id != id &&
+				// 		record.applied_jobs_status != 'hired' &&
+				// 		record.applied_jobs_status != 'discussion' &&
+				// 		record.applied_jobs_status != 'rejected'
+				// 	);
+				// });
 
-				setTotalBooking(filteredData);
-				const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+				setTotalBooking(res.data);
+				const paginatedPosts = paginate(res.data, currentPage, pageSize);
 				setBookingUser(paginatedPosts);
 
 			} else {
@@ -276,12 +284,12 @@ export default function Bookings() {
 				if (res.status == true) {
 					setChefOffer(res.data);
 					// console.log(res.data);
-					res.data.forEach((item: any) => {
-						// 
-						if (item.applied_jobs_status == "hired") {
-							setAppliedId(item.applied_jobs_id);
-						}
-					});
+					// res.data.forEach((item: any) => {
+					// 	// 
+					// 	if (item.applied_jobs_status == "hired") {
+					// 		setAppliedId(item.applied_jobs_id);
+					// 	}
+					// });
 
 				} else {
 					setErrorMessage(res.message);
@@ -309,17 +317,17 @@ export default function Bookings() {
 				.then(res => {
 					if (res.status == true) {
 
-						const filteredData = res.data.filter((record: any) => {
-							return (
-								record.chef_id != id &&
-								record.applied_jobs_status != 'hired' &&
-								record.applied_jobs_status != 'discussion' &&
-								record.applied_jobs_status != 'rejected'
-							);
-						});
+						// const filteredData = res.data.filter((record: any) => {
+						// 	return (
+						// 		record.chef_id != id &&
+						// 		record.applied_jobs_status != 'hired' &&
+						// 		record.applied_jobs_status != 'discussion' &&
+						// 		record.applied_jobs_status != 'rejected'
+						// 	);
+						// });
 
-						setTotalBooking(filteredData);
-						const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+						setTotalBooking(res.data);
+						const paginatedPosts = paginate(res.data, currentPage, pageSize);
 						setBookingUser(paginatedPosts);
 					} else {
 						setErrorMessage(res.message);
@@ -338,9 +346,9 @@ export default function Bookings() {
 
 		var client = $('#client_amount_' + appliedid).val();
 		var admin = $('#admin_amount_' + appliedid).val();
-		var user_show = $('#user_show_' + appliedid).val();
+		// var user_show = $('#user_show_' + appliedid).val();
 
-		if (!appliedid) {
+		if (!assignselectedchef) {
 
 			swal({
 				title: 'Oops!',
@@ -349,17 +357,20 @@ export default function Bookings() {
 
 			});
 		} else {
-
-			if (client && admin && user_show == 'visible') {
-				const userData = getCurrentUserData() as CurrentUserData;
+			
+			if (client && admin) {
+				setIsSubmitting(true)
 				const data = {
+					booking_id :bookingid,
 					id: appliedid,
-					key: 'status',
-					value: 'hired',
-					message: 'assign',
-					created_by : userData.id
+					chef_id:assignselectedchef,
+					client_amount:client,
+					payment_status:payment_status
 				}
-				UpdatedAppliedBookingByKeyValue(data)
+
+				// console.log(data);
+
+				AssignedBookingByAdminWithoutDatabse(data)
 					.then(res => {
 						if (res.status == true) {
 
@@ -381,7 +392,7 @@ export default function Bookings() {
 							setModalConfirm(false);
 
 							getSingleUserAssignBookingData(bookingid)
-							fetchBookingAdminDetails(userData.id);
+							fetchBookingAdminDetails(currentUserData.id);
 						} else {
 
 							toast.error(res.message, {
@@ -402,12 +413,15 @@ export default function Bookings() {
 					})
 					.catch(err => {
 						console.log(err);
+					})
+					.finally(() => {
+						setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
 					});
 
 			} else {
 				swal({
 					title: 'Oops!',
-					text: 'Please enter admin amount,client amount and select user status is visible',
+					text: 'Please enter admin amount & client amount',
 					icon: 'info',
 
 				});
@@ -417,70 +431,95 @@ export default function Bookings() {
 	};
 
 	function handleChange(event: any) {
-		const name = event.target.name;
+		const key = event.target.name
+		const name = event.target.name.split('_').slice(0, -1).join('_');
 		const value = event.target.value;
-		const id = name.split('_')[2];
+		const id = key.split('_')[2];
 
-		if (name == 'id') {
-			setAppliedId(value);
-			setAppliedKey(name);
-		} else {
-			setAppliedId(id);
-			setAppliedKey(name.split('_').slice(0, -1).join('_'));
+		const data = {
+			id: id,
+			key: name,
+			value: value,
 		}
+		UpdatedAppliedBookingByKeyValue(data)
+			.then(res => {
+				if (res.status == true) {
 
+					// toast.success(res.message, {
+					// 	position: toast.POSITION.TOP_RIGHT
+					// });
 
-		setAppliedValue(value);
+					getSingleUserAssignBookingData(bookingid)
+				} else {
 
-		// console.log(chefId);
+					// toast.error(res.message, {
+					// 	position: toast.POSITION.TOP_RIGHT,
+					// 	closeButton: true,
+					// 	hideProgressBar: false,
+					// 	style: {
+					// 		background: '#ffff',
+					// 		borderLeft: '4px solid #e74c3c',
+					// 		color: '#454545',
+					// 	},
+					// 	progressStyle: {
+					// 		background: '#ffff',
+					// 	},
+					// });
+
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			})
+
 	}
 
-	function handleBlur(event: any) {
+	// function handleBlur(event: any) {
 
-		if (appliedkey != 'id') {
-			const userData = getCurrentUserData() as CurrentUserData;
-			const data = {
-				id: appliedid,
-				key: appliedkey,
-				value: appliedValue,
-				message: 'data',
-				created_by : userData.id
-			}
-			UpdatedAppliedBookingByKeyValue(data)
-				.then(res => {
-					if (res.status == true) {
+	// 	if (appliedkey != 'id') {
+	// 		const userData = getCurrentUserData() as CurrentUserData;
+	// 		const data = {
+	// 			id: appliedid,
+	// 			key: appliedkey,
+	// 			value: appliedValue,
+	// 			message: 'data',
+	// 			created_by : userData.id
+	// 		}
+	// 		UpdatedAppliedBookingByKeyValue(data)
+	// 			.then(res => {
+	// 				if (res.status == true) {
 
-						// toast.success(res.message, {
-						// 	position: toast.POSITION.TOP_RIGHT
-						// });
+	// 					// toast.success(res.message, {
+	// 					// 	position: toast.POSITION.TOP_RIGHT
+	// 					// });
 
-						getSingleUserAssignBookingData(bookingid)
-					} else {
+	// 					getSingleUserAssignBookingData(bookingid)
+	// 				} else {
 
-						toast.error(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #e74c3c',
-								color: '#454545',
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
+	// 					toast.error(res.message, {
+	// 						position: toast.POSITION.TOP_RIGHT,
+	// 						closeButton: true,
+	// 						hideProgressBar: false,
+	// 						style: {
+	// 							background: '#ffff',
+	// 							borderLeft: '4px solid #e74c3c',
+	// 							color: '#454545',
+	// 						},
+	// 						progressStyle: {
+	// 							background: '#ffff',
+	// 						},
+	// 					});
 
-					}
-				})
-				.catch(err => {
-					console.log(err);
-				});
+	// 				}
+	// 			})
+	// 			.catch(err => {
+	// 				console.log(err);
+	// 			});
 
-		}
+	// 	}
 
 
-	}
+	// }
 
 	const resetFields = () => {
 		setAmount('');
@@ -539,6 +578,11 @@ export default function Bookings() {
 		window.location.href = '/admin/edit-booking/step1';
 	}
 
+	const handleRadioChange = (chef:number,appliedid:any) => {
+		
+		setAsssignSelectedChef(Number(chef));
+		setAppliedId(appliedid);
+	};
 
 	return (
 		<>
@@ -580,7 +624,7 @@ export default function Bookings() {
 					</li>
 				</ul>
 				<div className="table-box">
-					{bookingUsers.length > 0 ?
+				{bookingUsers.length > 0 ?
 						<table className="table table-borderless common_booking common_booking">
 							<thead>
 								<tr>
@@ -591,7 +635,7 @@ export default function Bookings() {
 									<th scope="col">Booking Date</th>
 									<th scope="col">Address</th>
 									<th scope="col">Category</th>
-
+									<th scope="col">Payment Status</th>
 									<th scope="col">Status</th>
 									<th scope="col">Action</th>
 								</tr>
@@ -609,9 +653,9 @@ export default function Bookings() {
 
 									return (
 										<tr key={index}>
-											<td>#{user.booking_id}</td>
-											<td>{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
-											<td className="chefs_pic">
+											<td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
+											<td><p className="text-data-18" id="table-p">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p></td>
+											<td className="chefs_pic"><p className="text-data-18" id="table-p">
 												{user.pic ? <img
 													src={
 														process.env.NEXT_PUBLIC_IMAGE_URL +
@@ -625,15 +669,23 @@ export default function Bookings() {
 													}
 													alt=""
 												/>}
-
+											</p>
 											</td>
-											<td>{formatDate(user.latest_created_at)}</td>
+											<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
 
-											<td>{user.category == 'onetime' ? formatDate(user.dates) : output}</td>
-											<td>{user.location}</td>
-											<td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
+											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
+													
+
+											<td><p className="text-data-18" id="table-p">{user.location}</p></td>
+											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
+
+											<td><p className="text-data-18" id="table-p">{user.payment_status}</p></td>		
 
 											<td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
+
+											{/* <td className={`booking-status-${user.booking_status}`}>
+												{isBookingUpcoming(user.dates)}
+											</td> */}
 
 											<td>
 												<div className="dropdown" id="none-class">
@@ -659,11 +711,13 @@ export default function Bookings() {
 															</a>
 														</li>
 
-														{user.category == 'multipletimes' && (<li>
+														{/* {user.payment_status} */}
+
+														{user.category == 'multipletimes'  && (<li>
 															<a
 																className="dropdown-item"
 																href="#"
-																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields() }}
+																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields();setCheckAsssignSelectedChef(user.assigned_to_user_id);setPaymentStatus(user.payment_status)}}
 															>
 																Assign Booking
 															</a>
@@ -697,7 +751,7 @@ export default function Bookings() {
 							</tbody>
 						</table>
 						:
-						<p className="book1">No Booking Records Found</p>
+						<p className="book1" style={{textAlign:"center"}}>No Booking Records Found.</p>
 					}
 				</div>
 			</div>
@@ -962,17 +1016,18 @@ export default function Bookings() {
 				<div className="popup-part new-modala">
 					<h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
 					<div className="offers">
-						<form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
+					<form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
 							<table className="table">
 								<thead>
 									<tr>
 										<th scope="col">#</th>
+										
 										<th scope="col">Chef's Name</th>
 										<th scope="col-2">Menu</th>
-										<th scope="col">Amount</th>
+										<th scope="col">Chef's Amount</th>
 										<th scope="col">Client Amount</th>
 										<th scope="col">Admin Amount</th>
-										<th scope="col">Show to user</th>
+										{/* <th scope="col">Show to user</th> */}
 									</tr>
 								</thead>
 								<tbody>
@@ -984,22 +1039,32 @@ export default function Bookings() {
 														<input
 															className="form-check-input"
 															type="radio"
-															name="id"
-															defaultValue={chef.applied_jobs_id}
-															onChange={handleChange}
-															onBlur={handleBlur}
-															ref={radioRef}
-															defaultChecked={chef.applied_jobs_status == 'hired'}
+															id={`chef_id_${chef.chef_id}`}
+															name={`chef_id_${chef.chef_id}`}
+															onChange={() => handleRadioChange(Number(chef.chef_id),chef.applied_jobs_id)} // Add this line
+        													checked={assignselectedchef == chef.chef_id} 
 														/>
 													</div>
+													
 												</th>
-												<td>{chef.name} {chef.surname}</td>
+												<td>{chef.name} {chef.surname}
+												
+												{payment_status === 'completed' && checkassignselectedchef == chef.chef_id && (
+														<button type="button" className="btn btn-sm btn-success mx-2">Paid</button>
+													)}
+												{chef.applied_jobs_status == 'discussion' && checkassignselectedchef == chef.chef_id && (
+														<button type="button" className="btn btn-sm btn-info text-white">Assigned</button>
+													)}
+
+												</td>
 												<td>
 													{chef.menu_names?.split(",").map((menu, index) => (
 														<button className="table-btn btn-2 list-btn mb-1" key={index}>
 															{menu.trim()}
 														</button>
 													))}
+													
+													
 												</td>
 												<td>{chef.amount}</td>
 												<td>
@@ -1011,8 +1076,8 @@ export default function Bookings() {
 																name={`client_amount_${chef.applied_jobs_id}`}
 																placeholder="Client Amount"
 																onChange={handleChange}
-																onBlur={handleBlur}
-																defaultValue={chef.client_amount}
+																// onBlur={handleBlur}
+																value={chef.client_amount}
 															/>
 														</div>
 													</div>
@@ -1026,13 +1091,13 @@ export default function Bookings() {
 																name={`admin_amount_${chef.applied_jobs_id}`}
 																placeholder="Admin Amount"
 																onChange={handleChange}
-																onBlur={handleBlur}
-																defaultValue={chef.admin_amount}
+																// onBlur={handleBlur}
+																value={chef.admin_amount}
 															/>
 														</div>
 													</div>
 												</td>
-												<td>
+												{/* <td>
 													<div className="all-form p-0 add-w">
 														<div className="login_div">
 															<select name={`user_show_${chef.applied_jobs_id}`} onChange={handleChange}
@@ -1043,24 +1108,37 @@ export default function Bookings() {
 															</select>
 														</div>
 													</div>
-												</td>
+												</td> */}
 											</tr>
 										))
 									) : (
 										<tr>
-											<td className="">No Chef apply for this booking</td>
+											<td className="" colSpan={7} style={{textAlign:"center" ,paddingTop: "5%",border:"unset",fontSize:"16px"}}><p style={{fontSize:"16px"}}>No Chef apply for this booking</p></td>
 										</tr>
 									)}
 								</tbody>
 							</table>
-							<div className="text-right">
-								<div className="banner-btn">
-									<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
-										Clear
-									</button>
-									<button id="btn_offer" type="submit">
-										Assign Booking
-									</button>
+							<div className="row">
+								<div className="col-md-6">
+									
+								</div>
+								{/* <div className="text-right"> */}
+								<div className="col-md-6">
+									<div className="text-right">
+										<div className="banner-btn">
+											<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
+												Clear
+											</button>
+											<button
+												id="btn_offer"
+												type="submit"
+												disabled={isSubmitting}
+											>
+												{isSubmitting ? "Submitting..." : "Assign Booking"}
+											</button>
+										</div>
+									</div>
+									{/* </div> */}
 								</div>
 							</div>
 						</form>

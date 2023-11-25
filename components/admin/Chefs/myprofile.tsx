@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getSingleUserProfile } from "../../../lib/userapi"
+import { getSingleChefProfile } from "../../../lib/userapi"
 import { getChefAppliedBooking } from "../../../lib/chefapi";
 import moment from 'moment';
 import Pagination from "../../commoncomponents/Pagination";
@@ -23,7 +23,19 @@ export default function MyProfile(props: any) {
         passport_no:string,
         pic:string,
         tax_id:string,
-        vat_no:string
+        vat_no:string,
+        about:string,
+        description: string,
+        services_type: string,
+        favorite_dishes:string,
+        languages:string,
+        love_cooking:string,
+        experience:string,
+        favorite_chef:string,
+        skills: string,
+        addresses:string,
+       
+       
     }
 
     const [getUsers, setUsers] = useState<User>({
@@ -41,7 +53,17 @@ export default function MyProfile(props: any) {
         passport_no:"",
         pic:"",
         tax_id:"",
-        vat_no:""
+        vat_no:"",
+        about: "",
+        description: "",
+        services_type: "",
+        favorite_dishes:"",
+        languages:"",
+        love_cooking:"",
+        experience:"",
+        favorite_chef:"",
+        skills: "",
+        addresses:""
     });
     const [bookingUsers, setBookingUser] = useState([]);
     const [totalMenu, setTotalMenu]:any = useState({});
@@ -52,7 +74,7 @@ export default function MyProfile(props: any) {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const userData = await getSingleUserProfile(id);
+            const userData = await getSingleChefProfile(id);
             setUsers(userData.data);
         };
         fetchUserData();
@@ -161,7 +183,95 @@ export default function MyProfile(props: any) {
                         null
                     )}
                 </div>
+                
             </div>
+                        
+            <div className="user-class mt-4 align-items-center d-flex">
+                <div className="userImg chef-img-set" >
+                    {/* {getUsers.pic ? (
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' +getUsers.pic} alt="" width={100} height={100} />
+                    ) : (
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" width={100} height={100} />
+                    )} */}
+                </div>
+                <div style={{ flex: "1" }}>
+                   
+                    {getUsers.description ? (
+                    <p><span id="book-user">Personal Culinary Expert.</span> : {getUsers.description}</p>
+                    ):(
+                        null
+                    )}
+                     {getUsers.services_type ? (
+                    <p><span id="book-user">Service Offerings</span> : {getUsers.services_type}</p>
+                    ):(
+                        null
+                    )}
+                     {getUsers.languages ? (
+                    <p><span id="book-user">Language Proficiency. </span>: {getUsers.languages}</p>
+                    ):(
+                        null
+                    )}
+
+                    {getUsers.favorite_dishes ? (
+                    <p><span id="book-user">Cuisines Offered</span> : {getUsers.favorite_dishes}</p>
+                    ):(
+                        null
+                    )}
+                    {getUsers.skills ? (
+                    <p><span id="book-user">Special Skills and Knowledge </span>: {getUsers.skills}</p>
+                    ):(
+                        null
+                    )}
+                    
+                </div>
+                
+                
+            </div>
+
+            <div className="user-class mt-4 align-items-center d-flex">
+                <div className="userImg chef-img-set" >
+                    {/* {getUsers.pic ? (
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' +getUsers.pic} alt="" width={100} height={100} />
+                    ) : (
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'} alt="" width={100} height={100} />
+                    )} */}
+                </div>
+                <div style={{ flex: "1" }}>
+                   
+                    {getUsers.about ? (
+                    <p><span id="book-user">About Me.</span> : {getUsers.about}</p>
+                    ):(
+                        null
+                    )}
+                     {getUsers.love_cooking ? (
+                    <p><span id="book-user">Passion for Cooking</span> : {getUsers.love_cooking}</p>
+                    ):(
+                        null
+                    )}
+                     {getUsers.experience ? (
+                    <p><span id="book-user">Culinary Journey. </span>: {getUsers.experience}</p>
+                    ):(
+                        null
+                    )}
+
+                    {getUsers.favorite_chef ? (
+                    <p><span id="book-user">Favorite Chefs. </span>: {getUsers.favorite_chef}</p>
+                    ):(
+                        null
+                    )}
+                    {getUsers.addresses ? (
+                    <p className='mt-4'><span id="book-user">Chef Location. </span>: {getUsers.addresses}</p>
+                    ):(
+                        null
+                    )}
+                    
+                </div>
+                
+                
+            </div>
+
+            
+
             <div className='users-boking'>
                 <div className="table-box">
                 {bookingUsers.length > 0 ?

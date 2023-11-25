@@ -71,7 +71,7 @@ export default function Header(): JSX.Element {
                     </div>
                     <div className="col-lg-1 col-md-2 col-2">
 
-                    <div className="classs w-cover">
+                    {/* <div className="classs w-cover">
                             <Link href={`/admin/notification/notification?id=${currentUserData.id}`}className="notification">
                             <span><i className="fa-solid fa-bell"></i></span>
                             {countdata ? (
@@ -79,7 +79,7 @@ export default function Header(): JSX.Element {
                             ) : null}
                          
                            </Link>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className='d-block d-lg-none'>

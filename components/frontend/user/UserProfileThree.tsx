@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAllergyDetails } from "../../../lib/adminapi";
+import { getAllergyDetails,getAllCuisine} from "../../../lib/adminapi";
 import { UpdateUserToOffiline,updateAllergyAdditonalInfo,getAllergyAdditonalInfo } from "../../../lib/userapi";
 import { ToastContainer, toast } from "react-toastify";
 import swal from "sweetalert";
@@ -39,9 +39,18 @@ export default function UserProfileThree() {
     approved_by_admin: "",
   });
 
+  type Cuisine = {
+    id: number;
+    name: string;
+    image: string;
+  };
+
 
   const [allergiesdata, setAllergies] = useState<Allergies[]>([]);
   const [selectedallergies, setSelectedAllergies] = useState<string[]>([]);
+
+  const [cuisinedata, setCuisine] = useState<Cuisine[]>([]);
+  const [selectedcuisine, setSelectedCuisine] = useState<string[]>([]);
 
   const [additionalnotes, setAdditionalNotes] = useState("");
 
@@ -64,6 +73,7 @@ export default function UserProfileThree() {
         approved_by_admin: userData.approved_by_admin,
       });
       getAllergyDetailsData();
+      getAllCuisineData();
       getAllergyAdditonalInfoData(userData.id)
     }
   }, []);
@@ -85,6 +95,45 @@ export default function UserProfileThree() {
     }
   };
 
+  const getAllCuisineData = async () => {
+    try {
+      const res = await getAllCuisine();
+      if (res.status) {
+        setCuisine(res.data);
+
+      } else {
+        toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT,
+          closeButton: true,
+          hideProgressBar: false,
+          style: {
+            background: '#ffff',
+            borderLeft: '4px solid #e74c3c',
+            color: '#454545',
+          },
+          progressStyle: {
+            background: '#ffff',
+          },
+        });
+      }
+    } catch (err) {
+      toast.error((err as Error).message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        closeButton: true,
+        hideProgressBar: false,
+        style: {
+          background: '#ffff',
+          borderLeft: '4px solid #e74c3c',
+          color: '#454545',
+        },
+        progressStyle: {
+          background: '#ffff',
+        },
+      });
+    }
+  };
+
+
   const getAllergyAdditonalInfoData = async (id:any) => {
     try {
       const res = await getAllergyAdditonalInfo(id);
@@ -93,6 +142,10 @@ export default function UserProfileThree() {
 
         if(res.data.allergy_id != null){
           setSelectedAllergies(res.data.allergy_id.split(","))
+        }
+
+        if(res.data.cuisine_id != null){
+          setSelectedCuisine(res.data.cuisine_id.split(","))
         }
 
         setAdditionalNotes(res.data.additional_notes);
@@ -155,6 +208,7 @@ export default function UserProfileThree() {
       const data = {
         user_id : currentUserData.id,
         allergy_id: selectedallergies.join(","),
+        cuisine_id: selectedcuisine.join(","),
         additional_notes: additionalnotes
       };
 
@@ -326,6 +380,71 @@ export default function UserProfileThree() {
                   ))}
                 </Slider>
               </div>
+
+              <div className="row mt-3">
+                <Slider {...settings} className="mt-2">
+                  {cuisinedata.map((cuisine, index) => (
+                    <div className="col-sm-3" key={index}>
+                      <div className="slider-img-plase">
+                        <input
+                          type="checkbox"
+                          id={`myCheckbox3_${cuisine.id}`}
+                          name="cuisine_type"
+                          value={cuisine.id}
+                          className="step_radio_css"
+                          onChange={(e) => {
+                            const { value } = e.target;
+                            setSelectedCuisine((prevSelectedCuisine) => {
+                              if (prevSelectedCuisine.includes(String(value))) {
+                                return prevSelectedCuisine.filter(
+                                  (c) => c !== String(value)
+                                );
+                              } else {
+                                return [...prevSelectedCuisine, String(value)];
+                              }
+                            });
+                          }}
+                          checked={selectedcuisine.includes(
+                            String(cuisine.id)
+                          )}
+                        />
+                        <label
+                          htmlFor={`myCheckbox3_${cuisine.id}`}
+                          className="step_label_css"
+                        >
+                          {cuisine.image ? (
+                            <img
+                              src={
+                                process.env.NEXT_PUBLIC_IMAGE_URL +
+                                "/images/admin/cuisines/" +
+                                cuisine.image
+                              }
+                              alt="step-img-1"
+                              width={300}
+                              height={300}
+                            />
+                          ) : (
+                            <img
+                              src={
+                                process.env.NEXT_PUBLIC_IMAGE_URL +
+                                "/images/placeholder.jpg"
+                              }
+                              alt="step-img-1"
+                              width={300}
+                              height={300}
+                            />
+                          )}
+
+                          <p className="plase-btn">
+                            <a href="#">{cuisine.name}</a>
+                          </p>
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+
 
             
                 <div className="col-lg-12 col-md-12">
