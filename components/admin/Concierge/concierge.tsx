@@ -21,7 +21,7 @@ export default function Users() {
     const [getallusers, setAllUsers] = useState<User[]>([]);
     const [totalMenu, setTotalMenu]: any = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-   
+    const [name, setChefName] = useState('');
 
     const pageSize = 10;
 
@@ -127,11 +127,42 @@ export default function Users() {
     }
 
 
+    const handleChef = (e: any) => {
+        const searchTerm = e.target.value;
+
+        if(!searchTerm){
+          
+            getAllUsersData();
+            setChefName(searchTerm)
+        }else {
+            setChefName(searchTerm);
+    
+        const filteredUsers = totalMenu.filter((user:any) => {
+            const fullName = `${user.name} ${user.surname}`.toLowerCase();
+            return fullName.includes(searchTerm.toLowerCase());
+        });
+        setAllUsers(filteredUsers);
+        }
+
+        
+    };
+    
+
     return (
         <>
             <div className="table-part">
-                <h2>Concierge</h2>
                
+                <ul className="table_header_button_section p-r mt-4">
+                <li className='float-end mt-0'>
+                   
+                     <input type="text"  className="form-control" placeholder='Search concierge here..' onChange={handleChef} />
+                </li>
+                
+                
+                <li className="text-right">
+                    <h2>Concierge</h2>
+                </li>
+                </ul>
                
                 <div className="table-box">
                     {getallusers.length > 0 ?

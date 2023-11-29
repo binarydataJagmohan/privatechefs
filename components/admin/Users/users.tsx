@@ -229,13 +229,13 @@ export default function Users() {
         const searchTerm = e.target.value;
 
         if(!searchTerm){
-            setCurrentPage(1)
+          
             getAllUsersData();
             setChefName(searchTerm)
         }else {
             setChefName(searchTerm);
     
-        const filteredUsers = totalMenu.filter(user => {
+        const filteredUsers = totalMenu.filter((user:any) => {
             const fullName = `${user.name} ${user.surname}`.toLowerCase();
             return fullName.includes(searchTerm.toLowerCase());
         });

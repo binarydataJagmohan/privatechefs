@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import PopupModal from '../../../components/commoncomponents/PopupModal';
-import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile, getChefAllLocation, getChefLocationByFilter, chefPriceFilter } from '../../../lib/adminapi';
-import { getCurrentUserData } from '../../../lib/session'
-import { createChef } from '../../../lib/concierge';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useState, useEffect } from "react";
+import PopupModal from "../../../components/commoncomponents/PopupModal";
+import {
+  getAllChefDetails,
+  getChefByFilter,
+  getCuisine,
+  approveChefProfile,
+  getChefAllLocation,
+  getChefLocationByFilter,
+  chefPriceFilter,
+} from "../../../lib/adminapi";
+import { getCurrentUserData } from "../../../lib/session";
+import { createChef } from "../../../lib/concierge";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function Chefs() {
-
   interface FilterData {
     id: number;
     name: string;
@@ -22,6 +29,7 @@ export default function Chefs() {
     profile_status: string;
     approved_by_admin: string;
     amount: string;
+    email: string;
   }
   interface chefData {
     id: number;
@@ -33,12 +41,13 @@ export default function Chefs() {
     profile_status: string;
     cuisine_name: string;
     amount: string;
+    email: string;
   }
   interface GetCuisine {
     name: string;
   }
   interface Location {
-    lat: number,
+    lat: number;
     name: string;
     surname: string;
     address: string;
@@ -50,9 +59,9 @@ export default function Chefs() {
   }
 
   interface Errors {
-    email?: string
-    name?: string
-    surname?: string
+    email?: string;
+    name?: string;
+    surname?: string;
   }
 
   interface Menu {
@@ -84,52 +93,53 @@ export default function Chefs() {
   const [buttonStatus, setButtonState] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
+  const [namedata, setChefName] = useState("");
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
-  }
+  };
   const modalConfirmClose = () => {
     setModalConfirm(false);
-  }
+  };
 
   const modalConfirmTwoClose = () => {
     SetModalConfirmTwo(false);
-  }
-
+  };
 
   useEffect(() => {
-
-    const data = isPageVisibleToRole('admin-chefs');
+    const data = isPageVisibleToRole("admin-chefs");
     if (data == 2) {
-      window.location.href = '/login'; // redirect to login if not logged in
+      window.location.href = "/login"; // redirect to login if not logged in
     }
     if (data == 0) {
-      window.location.href = '/404'; // redirect to 404 if not authorized
+      window.location.href = "/404"; // redirect to 404 if not authorized
     }
     if (data == 1) {
       getAllChef();
       getAllCuisine();
       getAllChefLocation();
-      const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
-      getChefByFilter({ cuisines: cuisinesArray.join(',') })
-        .then(res => {
+      const cuisinesArray = Array.isArray(selectedCuisines)
+        ? selectedCuisines
+        : [selectedCuisines];
+      getChefByFilter({ cuisines: cuisinesArray.join(",") })
+        .then((res) => {
           if (res.status) {
             console.log(res.data);
             setFilteredChefs(res.data);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     }
-
   }, [selectedCuisines]);
 
   useEffect(() => {
-    const locationsArray = Array.isArray(selectedLocation) ? selectedLocation : [selectedLocation];
+    const locationsArray = Array.isArray(selectedLocation)
+      ? selectedLocation
+      : [selectedLocation];
     //console.log(locationsArray);
-    getChefLocationByFilter({ locations: locationsArray.join(',') })
+    getChefLocationByFilter({ locations: locationsArray.join(",") })
       .then((res) => {
         if (res.status) {
           setFilterLocation(res.data);
@@ -143,8 +153,10 @@ export default function Chefs() {
   }, [selectedLocation]);
 
   useEffect(() => {
-    const priceArray = Array.isArray(selectedPrice) ? selectedPrice : [selectedPrice];
-    chefPriceFilter({ price: priceArray.join(',') })
+    const priceArray = Array.isArray(selectedPrice)
+      ? selectedPrice
+      : [selectedPrice];
+    chefPriceFilter({ price: priceArray.join(",") })
       .then((res) => {
         if (res.status) {
           setFilterPrice(res.data);
@@ -169,7 +181,7 @@ export default function Chefs() {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const handleRegisterSubmit = (event: any) => {
     event.preventDefault();
@@ -200,7 +212,7 @@ export default function Chefs() {
       };
       console.log(data);
       createChef(data)
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
             SetModalConfirmTwo(false);
             getAllChef();
@@ -210,16 +222,15 @@ export default function Chefs() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #ff4e00d1",
+                color: "#454545",
                 "--toastify-icon-color-success": "#ff4e00d1",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
-
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -227,17 +238,17 @@ export default function Chefs() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -256,12 +267,12 @@ export default function Chefs() {
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         }
@@ -272,41 +283,44 @@ export default function Chefs() {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       });
-  }
+  };
 
   const ApproveChefProfile = async (e: any, id: any) => {
     e.preventDefault();
     const selectedValue = e.target.value;
     const data = {
-      approved_by_admin: selectedValue
-    }
+      approved_by_admin: selectedValue,
+    };
     approveChefProfile(id, data)
       .then((res) => {
         if (res.status == true) {
           getAllChef();
-          window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
+          window.localStorage.setItem(
+            "approved_by_admin",
+            res.data.approved_by_admin
+          );
           setApproveStatus(res.data.approved_by_admin);
           toast.success(res.message, {
             position: toast.POSITION.TOP_RIGHT,
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #ff4e00d1',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #ff4e00d1",
+              color: "#454545",
               "--toastify-icon-color-success": "#ff4e00d1",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         } else {
@@ -315,12 +329,12 @@ export default function Chefs() {
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         }
@@ -328,7 +342,7 @@ export default function Chefs() {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const getAllCuisine = () => {
     getCuisine()
@@ -336,19 +350,18 @@ export default function Chefs() {
         if (res.status) {
           console.log(res);
           setGetCuisine(res.data);
-
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         }
@@ -359,16 +372,16 @@ export default function Chefs() {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       });
-  }
+  };
 
   const handleCheckboxChange = (e: any) => {
     const value = e.target.value;
@@ -378,7 +391,6 @@ export default function Chefs() {
       setSelectedCuisines((prevCuisines) =>
         prevCuisines.filter((c) => c !== value)
       );
-
     }
   };
 
@@ -395,14 +407,13 @@ export default function Chefs() {
 
   const handleCheckboxPriceChange = (e: any) => {
     const value = e.target.value;
-    setSelectedPrice((prevPrice) => (prevPrice === value ? '' : value));
+    setSelectedPrice((prevPrice) => (prevPrice === value ? "" : value));
   };
-
 
   const onPageChange = (page: any) => {
     setCurrentPage(page);
     getAllChefDetails()
-      .then(res => {
+      .then((res) => {
         if (res.status == true) {
           setTotalMenu(res.data);
           const paginatedPosts = paginate(res.data, page, pageSize);
@@ -411,13 +422,15 @@ export default function Chefs() {
           console.log(res.message);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   const removeCuisine = (cuisine: any) => {
-    setSelectedCuisines((prevSelectedCuisines) => prevSelectedCuisines.filter((c) => c !== cuisine));
+    setSelectedCuisines((prevSelectedCuisines) =>
+      prevSelectedCuisines.filter((c) => c !== cuisine)
+    );
   };
 
   const handleShowAllCuisines = () => {
@@ -435,30 +448,68 @@ export default function Chefs() {
   const resetFields = () => {
     setName("");
     setEmail("");
-  }
+  };
 
   const [selectedApprovalFilter, setSelectedApprovalFilter] = useState("all");
 
-  const handleApprovalFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleApprovalFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const filterValue = event.target.value;
     setSelectedApprovalFilter(filterValue);
     if (filterValue === "yes") {
-      const approvedChefs = totalMenu.filter((totalMenus: { approved_by_admin: string; }) => totalMenus.approved_by_admin === "yes");
+      const approvedChefs = totalMenu.filter(
+        (totalMenus: { approved_by_admin: string }) =>
+          totalMenus.approved_by_admin === "yes"
+      );
       console.log(approvedChefs);
       setFilteredChefs(approvedChefs);
     } else if (filterValue === "no") {
-      const unapprovedChefs = totalMenu.filter((totalMenus: { approved_by_admin: string; }) => totalMenus.approved_by_admin === "no");
+      const unapprovedChefs = totalMenu.filter(
+        (totalMenus: { approved_by_admin: string }) =>
+          totalMenus.approved_by_admin === "no"
+      );
       console.log(unapprovedChefs);
       setFilteredChefs(unapprovedChefs);
     } else {
       setFilteredChefs(chefs);
     }
   };
-  
+
+  const handleChef = (e: any) => {
+    const searchTerm = e.target.value;
+
+    if (!searchTerm) {
+      getAllChef();
+      setChefName(searchTerm);
+    } else {
+      setChefName(searchTerm);
+
+      const filteredUsers = totalMenu.filter((user: any) => {
+        const fullName = `${user.name} ${user.surname}`.toLowerCase();
+        return fullName.includes(searchTerm.toLowerCase());
+      });
+      setChefs(filteredUsers);
+    }
+  };
+
   return (
     <>
       <div className="table-part">
-        <h2>Chefs</h2>
+        <ul className="table_header_button_section p-r mt-4 mb-4">
+          <li className="float-end mt-0">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search chef here.."
+              onChange={handleChef}
+            />
+          </li>
+
+          <li className="text-right">
+            <h2>Chefs</h2>
+          </li>
+        </ul>
         <ul className="table_header_button_section p-r">
           <li>
             {/* <button className="table-btn">Total</button> */}
@@ -477,11 +528,28 @@ export default function Chefs() {
               </li>
             ))}
           </li>
-          <li><div className="text-right"><button className="table-btn border-radius round-white table-btn" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Invitation</button></div></li>
-          <li><div className="text-right">
-            <Link href="/admin/chefprofile">
-              <button className="table-btn border-radius round-white table-btn">Add Chefs</button></Link>
-          </div></li>
+          <li>
+            <div className="text-right">
+              <button
+                className="table-btn border-radius round-white table-btn"
+                onClick={() => {
+                  SetModalConfirmTwo(true);
+                  resetFields();
+                }}
+              >
+                Invitation
+              </button>
+            </div>
+          </li>
+          <li>
+            <div className="text-right">
+              <Link href="/admin/chefprofile">
+                <button className="table-btn border-radius round-white table-btn">
+                  Add Chefs
+                </button>
+              </Link>
+            </div>
+          </li>
           <li className="right-li">
             <button
               className="table-btn border-radius round-white"
@@ -489,7 +557,7 @@ export default function Chefs() {
             >
               Filter{" "}
             </button>{" "}
-              <button
+            <button
               className="table-btn border-radius round-white"
               onClick={() => window.location.reload()}
             >
@@ -505,9 +573,10 @@ export default function Chefs() {
                 <th scope="col">Photo</th>
                 <th scope="col">Name</th>
                 <th scope="col">Location</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Cuisines</th>
-                <th scope="col">Profile Status</th>
+                {/* <th scope="col">Amount</th>
+                <th scope="col">Cuisines</th> */}
+                {/* <th scope="col">Profile Status</th> */}
+                <th scope="col">Email</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
@@ -542,8 +611,8 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
-                    <td>{filter.amount || ""}</td>
-                    <td>
+                    <td>{filter.email || ""}</td>
+                    {/* <td>
                       <ul>
                         <ul>
                           {filter.cuisine_name && typeof filter.cuisine_name === 'string' ? (
@@ -570,22 +639,39 @@ export default function Chefs() {
                         </ul>
 
                       </ul>
-                    </td>
+                    </td> */}
+                    <td>{filter.profile_status || ""}</td>
                     <td>
-                      {filter.profile_status || ""}
-                    </td>
-                    <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
+                      <select
+                        aria-label="Default select example"
+                        name="approved_by_admin"
                         onChange={(e) => ApproveChefProfile(e, filter.id)}
                       >
-                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
+                        <option
+                          value="yes"
+                          selected={filter.approved_by_admin === "yes"}
+                        >
+                          Approved
+                        </option>
+                        <option
+                          value="no"
+                          selected={filter.approved_by_admin === "no"}
+                        >
+                          Unapproved
+                        </option>
                       </select>
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                      <a
+                        href={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          "admin/chefs/" +
+                          filter.id
+                        }
+                      >
+                        <i className="fa fa-eye" aria-hidden="true"></i>
+                      </a>
                     </td>
                   </tr>
                 ))
@@ -618,8 +704,8 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
-                    <td>{filter.amount || ""}</td>
-                    <td>
+                    <td>{filter.email || ""}</td>
+                    {/* <td>
                       <ul>
                         {filter.cuisine_name ? (
                           <ul>
@@ -646,22 +732,39 @@ export default function Chefs() {
                         )}
                       </ul>
 
-                    </td>
+                    </td> */}
+                    <td>{filter.profile_status || ""}</td>
                     <td>
-                      {filter.profile_status || ""}
-                    </td>
-                    <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
+                      <select
+                        aria-label="Default select example"
+                        name="approved_by_admin"
                         onChange={(e) => ApproveChefProfile(e, filter.id)}
                       >
-                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
+                        <option
+                          value="yes"
+                          selected={filter.approved_by_admin === "yes"}
+                        >
+                          Approved
+                        </option>
+                        <option
+                          value="no"
+                          selected={filter.approved_by_admin === "no"}
+                        >
+                          Unapproved
+                        </option>
                       </select>
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                      <a
+                        href={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          "admin/chefs/" +
+                          filter.id
+                        }
+                      >
+                        <i className="fa fa-eye" aria-hidden="true"></i>
+                      </a>
                     </td>
                   </tr>
                 ))
@@ -694,8 +797,8 @@ export default function Chefs() {
                       {filter.name || ""} {filter.surname || ""}
                     </td>
                     <td>{filter.address || ""}</td>
-                    <td>{filter.amount || ""}</td>
-                    <td>
+                    <td>{filter.email || ""}</td>
+                    {/* <td>
                       <ul>
                         <ul>
                           {filter.cuisine_name ? (
@@ -722,22 +825,39 @@ export default function Chefs() {
                         </ul>
 
                       </ul>
-                    </td>
+                    </td> */}
+                    <td>{filter.profile_status || ""}</td>
                     <td>
-                      {filter.profile_status || ""}
-                    </td>
-                    <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
+                      <select
+                        aria-label="Default select example"
+                        name="approved_by_admin"
                         onChange={(e) => ApproveChefProfile(e, filter.id)}
                       >
-                        <option value='yes' selected={filter.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={filter.approved_by_admin === 'no'}>Unapproved</option>
+                        <option
+                          value="yes"
+                          selected={filter.approved_by_admin === "yes"}
+                        >
+                          Approved
+                        </option>
+                        <option
+                          value="no"
+                          selected={filter.approved_by_admin === "no"}
+                        >
+                          Unapproved
+                        </option>
                       </select>
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + filter.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                      <a
+                        href={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          "admin/chefs/" +
+                          filter.id
+                        }
+                      >
+                        <i className="fa fa-eye" aria-hidden="true"></i>
+                      </a>
                     </td>
                   </tr>
                 ))
@@ -770,8 +890,8 @@ export default function Chefs() {
                       {chef.name || ""} {chef.surname || ""}
                     </td>
                     <td>{chef.address || ""}</td>
-                    <td>{chef.amount || ""}</td>
-                    <td>
+                    <td>{chef.email || ""}</td>
+                    {/* <td>
                       <ul>
                         {chef.cuisine_name && (
                           <>
@@ -812,24 +932,40 @@ export default function Chefs() {
                               ))}
                         </ul>
                       </div>
-                    </td>
-                    <td>
-                      {chef.profile_status || ""}
-                    </td>
+                    </td> */}
+                    <td>{chef.profile_status || ""}</td>
 
                     <td>
-                      <select aria-label="Default select example" name="approved_by_admin"
+                      <select
+                        aria-label="Default select example"
+                        name="approved_by_admin"
                         onChange={(e) => ApproveChefProfile(e, chef.id)}
-
                       >
-                        <option value='yes' selected={chef.approved_by_admin === 'yes'}>Approved</option>
-                        <option value='no' selected={chef.approved_by_admin === 'no'}>Unapproved</option>
+                        <option
+                          value="yes"
+                          selected={chef.approved_by_admin === "yes"}
+                        >
+                          Approved
+                        </option>
+                        <option
+                          value="no"
+                          selected={chef.approved_by_admin === "no"}
+                        >
+                          Unapproved
+                        </option>
                       </select>
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + chef.id}>
-                        <i className="fa fa-eye" aria-hidden="true"></i></a>
+                      <a
+                        href={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          "admin/chefs/" +
+                          chef.id
+                        }
+                      >
+                        <i className="fa fa-eye" aria-hidden="true"></i>
+                      </a>
                     </td>
                   </tr>
                 ))
@@ -839,7 +975,6 @@ export default function Chefs() {
                 </tr>
               )}
             </tbody>
-
           </table>
         </div>
       </div>
@@ -953,67 +1088,57 @@ export default function Chefs() {
                     <input
                       type="checkbox"
                       value="249"
-                      checked={selectedPrice === '249'}
+                      checked={selectedPrice === "249"}
                       onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
-                    <label style={{ marginLeft: "5px" }}>
-                      Under ₹250
-                    </label>
+                    <label style={{ marginLeft: "5px" }}>Under ₹250</label>
                   </div>
                   <div className="col-sm-12">
                     <input
                       type="checkbox"
                       value="250"
-                      checked={selectedPrice === '250'}
+                      checked={selectedPrice === "250"}
                       onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
-                    <label style={{ marginLeft: "5px" }}>
-                      ₹250-₹500
-                    </label>
+                    <label style={{ marginLeft: "5px" }}>₹250-₹500</label>
                   </div>
                   <div className="col-sm-12">
                     <input
                       type="checkbox"
                       value="900"
-                      checked={selectedPrice === '900'}
+                      checked={selectedPrice === "900"}
                       onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
-                    <label style={{ marginLeft: "5px" }}>
-                      ₹500-₹1,000
-                    </label>
+                    <label style={{ marginLeft: "5px" }}>₹500-₹1,000</label>
                   </div>
                   <div className="col-sm-12">
                     <input
                       type="checkbox"
                       value="1000"
-                      checked={selectedPrice === '1000'}
+                      checked={selectedPrice === "1000"}
                       onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
-                    <label style={{ marginLeft: "5px" }}>
-                      ₹1,000-₹2,000
-                    </label>
+                    <label style={{ marginLeft: "5px" }}>₹1,000-₹2,000</label>
                   </div>
                   <div className="col-sm-12">
                     <input
                       type="checkbox"
                       value="2000"
-                      checked={selectedPrice === '2000'}
+                      checked={selectedPrice === "2000"}
                       onChange={handleCheckboxPriceChange}
                       style={{ marginRight: "5px" }}
                     />
-                    <label style={{ marginLeft: "5px" }}>
-                      Over ₹2000
-                    </label>
+                    <label style={{ marginLeft: "5px" }}>Over ₹2000</label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingFour">
               <button
@@ -1043,9 +1168,7 @@ export default function Chefs() {
                       onChange={handleApprovalFilterChange}
                       checked={selectedApprovalFilter == "yes"}
                     />
-                    <label style={{ marginLeft: "5px" }}>
-                      Approved Chefs
-                    </label>
+                    <label style={{ marginLeft: "5px" }}>Approved Chefs</label>
                   </div>
                   <div className="col-sm-12">
                     <input
@@ -1067,9 +1190,7 @@ export default function Chefs() {
                       onChange={handleApprovalFilterChange}
                       checked={selectedApprovalFilter == "all"}
                     />
-                    <label style={{ marginLeft: "5px" }}>
-                      All chefs
-                    </label>
+                    <label style={{ marginLeft: "5px" }}>All chefs</label>
                   </div>
                 </div>
               </div>
@@ -1078,21 +1199,57 @@ export default function Chefs() {
         </div>
       </PopupModal>
 
-      <PopupModal show={modalConfirmTwo} handleClose={modalConfirmTwoClose} staticClass="var-login">
-        <h4 style={{ color: "#ff4e00d1", textAlign: "center" }}>Send Invitation</h4>
+      <PopupModal
+        show={modalConfirmTwo}
+        handleClose={modalConfirmTwoClose}
+        staticClass="var-login"
+      >
+        <h4 style={{ color: "#ff4e00d1", textAlign: "center" }}>
+          Send Invitation
+        </h4>
         <div className="all-form">
-          <form onSubmit={handleRegisterSubmit} className="common_form_error" id="register_form">
-            <div className='login_div'>
+          <form
+            onSubmit={handleRegisterSubmit}
+            className="common_form_error"
+            id="register_form"
+          >
+            <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.name}</span>}
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              {errors.name && (
+                <span className="small error text-danger mb-2 d-inline-block error_login ">
+                  {errors.name}
+                </span>
+              )}
             </div>
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} />
-              {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
+              <input
+                type="email"
+                id="registeremail"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {errors.email && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.email}
+                </span>
+              )}
             </div>
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
+            <button
+              type="submit"
+              className="btn-send w-100"
+              disabled={buttonStatus}
+            >
+              {buttonStatus ? "Please wait.." : "Submit"}
+            </button>
           </form>
         </div>
       </PopupModal>

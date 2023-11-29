@@ -62,11 +62,11 @@ export default function MyProfile() {
 	const [favorite_chef, setFavoriteChef] = useState("");
 	const [favorite_dishes, setFavoriteDishes] = useState<any>([]);
 	const [love_cooking, setLoveCooking] = useState("");
-	// const [facebook_link, setFacebookLink] = useState("");
-	// const [instagram_link, setInstagramLink] = useState("");
-	// const [twitter_link, setTwitterLink] = useState("");
-	// const [linkedin_link, setLinkedinLink] = useState("");
-	// const [youtube_link, setYoutubeLink] = useState("");
+	const [facebook_link, setFacebookLink] = useState("");
+	const [instagram_link, setInstagramLink] = useState("");
+	const [twitter_link, setTwitterLink] = useState("");
+	const [linkedin_link, setLinkedinLink] = useState("");
+	const [youtube_link, setYoutubeLink] = useState("");
 
 	// const [servicetitleone, setServiceTitleOne] = useState("");
 	// const [servicedescriptionone, setServiceDescriptionOne] = useState("");
@@ -240,6 +240,7 @@ export default function MyProfile() {
 
 
 	const handleUpdateProfile = async (e: any) => {
+		
 		e.preventDefault();
 
 		const errors: any = {};
@@ -512,11 +513,11 @@ export default function MyProfile() {
 			favorite_chef: favorite_chef || '',
 			favorite_dishes: formattedFavoriteDishes || '',
 			love_cooking: love_cooking || '',
-			// facebook_link: facebook_link || '',
-			// instagram_link: instagram_link || '',
-			// twitter_link: twitter_link || '',
-			// linkedin_link: linkedin_link || '',
-			// youtube_link: youtube_link || '',
+			facebook_link: facebook_link || '',
+			instagram_link: instagram_link || '',
+			twitter_link: twitter_link || '',
+			linkedin_link: linkedin_link || '',
+			youtube_link: youtube_link || '',
 			// service_title_1: servicetitleone || '',
 			// service_description_1: servicedescriptionone || '',
 			// service_title_2: servicetitletwo || '',
@@ -738,68 +739,79 @@ export default function MyProfile() {
 			.then(res => {
 				if (res.status == true) {
 					setAbout(res.data.about);
-					const descriptionArray = res.data.description.split(',').map((item: any) => item.trim());
+					if(res.data.description){
 
-					// Set the description state based on the array
-					setDescription({
-						'Private Chef': descriptionArray.includes('Private Chef'),
-						'Yacht Chef': descriptionArray.includes('Yacht Chef'),
-						'Private Cook': descriptionArray.includes('Private Cook'),
-					});
+						const descriptionArray = res.data.description.split(',').map((item: any) => item.trim());
 
-					const servicesTypeArray = res.data.services_type.split(',').map((item: any) => item.trim());
+						// Set the description state based on the array
+						setDescription({
+							'Private Chef': descriptionArray.includes('Private Chef'),
+							'Yacht Chef': descriptionArray.includes('Yacht Chef'),
+							'Private Cook': descriptionArray.includes('Private Cook'),
+						});
+					}
+					
+					if(res.data.services_type){
 
-					// Set the description state based on the array
-					setServicesType({
-						'In-House Chef': servicesTypeArray.includes('In-House Chef'),
-						'Full time chef': servicesTypeArray.includes('Full time chef'),
-						'Cooking Classes': servicesTypeArray.includes('Cooking Classes'),
-						'Event Catering': servicesTypeArray.includes('Event Catering'),
-					});
+						const servicesTypeArray = res.data.services_type.split(',').map((item: any) => item.trim());
+						// Set the description state based on the array
+						setServicesType({
+							'In-House Chef': servicesTypeArray.includes('In-House Chef'),
+							'Full time chef': servicesTypeArray.includes('Full time chef'),
+							'Cooking Classes': servicesTypeArray.includes('Cooking Classes'),
+							'Event Catering': servicesTypeArray.includes('Event Catering'),
+						});
+					}
 
-					const languagesTypeArray = res.data.languages.split(',').map((item: any) => item.trim());
+					if(res.data.languages){
 
-					// Set the description state based on the array
-					setLanguages({
-						'Greek': languagesTypeArray.includes('Greek'),
-						'English': languagesTypeArray.includes('English'),
-						'Spanish': languagesTypeArray.includes('Spanish'),
-						'French': languagesTypeArray.includes('German'),
-						'Italian': languagesTypeArray.includes('Italian'),
-						'German': languagesTypeArray.includes('German'),
-					});
+						const languagesTypeArray = res.data.languages.split(',').map((item: any) => item.trim());
+						// Set the description state based on the array
+						setLanguages({
+							'Greek': languagesTypeArray.includes('Greek'),
+							'English': languagesTypeArray.includes('English'),
+							'Spanish': languagesTypeArray.includes('Spanish'),
+							'French': languagesTypeArray.includes('German'),
+							'Italian': languagesTypeArray.includes('Italian'),
+							'German': languagesTypeArray.includes('German'),
+						});
+					}
 
-					const FavoriteDishesTypeArray = res.data.favorite_dishes.split(',').map((item: any) => item.trim());
+					if(res.data.favorite_dishes){
 
-					// Set the description state based on the array
-					setFavoriteDishes({
-						'Greek': FavoriteDishesTypeArray.includes('Greek'),
-						'Mediterranean': FavoriteDishesTypeArray.includes('Mediterranean'),
-						'Italian': FavoriteDishesTypeArray.includes('Italian'),
-						'French': FavoriteDishesTypeArray.includes('French'),
-						'Asian': FavoriteDishesTypeArray.includes('Asian'),
-						'Japanese': FavoriteDishesTypeArray.includes('Japanese'),
-						'Thai': FavoriteDishesTypeArray.includes('Thai'),
-						'Ethnic': FavoriteDishesTypeArray.includes('Ethnic'),
-						'BBQ': FavoriteDishesTypeArray.includes('BBQ'),
-						'Vegetarian': FavoriteDishesTypeArray.includes('Vegetarian'),
-						'Vegan': FavoriteDishesTypeArray.includes('Vegan'),
-						'Fine Dining': FavoriteDishesTypeArray.includes('Fine Dining'),
-					});
-
-					const SkillsTypeArray = res.data.skills.split(',').map((item: any) => item.trim());
-
-					// Set the description state based on the array
-					setSkills({
-						'Kosher': SkillsTypeArray.includes('Kosher'),
-						'Halal': SkillsTypeArray.includes('Halal'),
-						'Hindu': SkillsTypeArray.includes('Hindu'),
-						'None': SkillsTypeArray.includes('None'),
-
-					});
+						const FavoriteDishesTypeArray = res.data.favorite_dishes.split(',').map((item: any) => item.trim());
+						// Set the description state based on the array
+						setFavoriteDishes({
+							'Greek': FavoriteDishesTypeArray.includes('Greek'),
+							'Mediterranean': FavoriteDishesTypeArray.includes('Mediterranean'),
+							'Italian': FavoriteDishesTypeArray.includes('Italian'),
+							'French': FavoriteDishesTypeArray.includes('French'),
+							'Asian': FavoriteDishesTypeArray.includes('Asian'),
+							'Japanese': FavoriteDishesTypeArray.includes('Japanese'),
+							'Thai': FavoriteDishesTypeArray.includes('Thai'),
+							'Ethnic': FavoriteDishesTypeArray.includes('Ethnic'),
+							'BBQ': FavoriteDishesTypeArray.includes('BBQ'),
+							'Vegetarian': FavoriteDishesTypeArray.includes('Vegetarian'),
+							'Vegan': FavoriteDishesTypeArray.includes('Vegan'),
+							'Fine Dining': FavoriteDishesTypeArray.includes('Fine Dining'),
+						});
+					}
 
 
+					if(res.data.skills){
 
+						const SkillsTypeArray = res.data.skills.split(',').map((item: any) => item.trim());
+
+						// Set the description state based on the array
+						setSkills({
+							'Kosher': SkillsTypeArray.includes('Kosher'),
+							'Halal': SkillsTypeArray.includes('Halal'),
+							'Hindu': SkillsTypeArray.includes('Hindu'),
+							'None': SkillsTypeArray.includes('None'),
+
+						});
+					}
+					
 					// setServicesType(res.data.services_type);
 					// setEmploymentStatus(res.data.employment_status);
 					// setWebsite(res.data.website);
@@ -809,12 +821,12 @@ export default function MyProfile() {
 					setFavoriteChef(res.data.favorite_chef);
 					// setFavoriteDishes(res.data.favorite_dishes);
 					setLoveCooking(res.data.love_cooking);
-					// setFacebookLink(res.data.facebook_link);
-					// setInstagramLink(res.data.instagram_link);
-					// setInstagramLink(res.data.about);
-					// setTwitterLink(res.data.twitter_link);
-					// setLinkedinLink(res.data.linkedin_link);
-					// setYoutubeLink(res.data.youtube_link);
+					setFacebookLink(res.data.facebook_link);
+					setInstagramLink(res.data.instagram_link);
+					setInstagramLink(res.data.about);
+					setTwitterLink(res.data.twitter_link);
+					setLinkedinLink(res.data.linkedin_link);
+					setYoutubeLink(res.data.youtube_link);
 
 					// setServiceTitleOne(res.data.service_title_1);
 					// setServiceDescriptionOne(res.data.service_description_1);
@@ -1668,7 +1680,7 @@ export default function MyProfile() {
 										</div>
 									</div> */}
 
-									{/* <hr />
+									<hr />
 									<div className="row">
 										<div className="col-lg-4 col-md-12">
 											<div className="text-left">
@@ -1702,7 +1714,7 @@ export default function MyProfile() {
 												</div>
 											</div>
 										</div>
-									</div> */}
+									</div>
 									<div className="text-right">
 										<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>									</div>
 									<hr></hr>

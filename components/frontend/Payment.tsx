@@ -222,9 +222,15 @@ export default function stepTwo() {
               <div className="col-lg-7 col-md-12">
                 <div className="all-form tab-m-0 pt-0 right-left-spacing">
                   <div className="row">
+                      <div className='col-lg-12 col-md-12'>
+                        <h2 className='d-inline-block fw-bolder'> Payment Details</h2>
+                        <div className='float-end'>
+                        <img className='' src={process.env.NEXT_PUBLIC_BASE_URL + 'images/stripe.png'} width={250} alt="logo-8" />
+                        </div>
+                      </div>
+  
                     <div className="col-lg-12 col-md-12">
-                    
-
+                      
                       <label htmlFor="">Card Number*</label>
                       <input type="text" className="form-control" placeholder='Enter Card Number' value={formData.CardNumber}
                         onChange={(e) =>
@@ -277,7 +283,7 @@ export default function stepTwo() {
                     </div>
                   </div>
 
-                  <div className="text-right mt-4">
+                  <div className="mt-4">
                     <button className="table-btn" type="submit" disabled={isLoading}>{isLoading ? 'processing..' : 'Submit'}</button>
                   </div>       
                 

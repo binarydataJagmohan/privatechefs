@@ -358,6 +358,7 @@ export default function UserProfileThree() {
                               alt="step-img-1"
                               width={300}
                               height={300}
+                              style={{borderRadius:"inherit"}}
                             />
                           ) : (
                             <img
@@ -365,9 +366,10 @@ export default function UserProfileThree() {
                                 process.env.NEXT_PUBLIC_IMAGE_URL +
                                 "/images/placeholder.jpg"
                               }
-                              alt="step-img-1"
+                              alt="step-img-1 dsf"
                               width={300}
                               height={300}
+                              
                             />
                           )}
 
@@ -385,7 +387,7 @@ export default function UserProfileThree() {
                 <Slider {...settings} className="mt-2">
                   {cuisinedata.map((cuisine, index) => (
                     <div className="col-sm-3" key={index}>
-                      <div className="slider-img-plase">
+                      <div className="slider-img-plase" >
                         <input
                           type="checkbox"
                           id={`myCheckbox3_${cuisine.id}`}
@@ -422,6 +424,7 @@ export default function UserProfileThree() {
                               alt="step-img-1"
                               width={300}
                               height={300}
+                              
                             />
                           ) : (
                             <img
@@ -432,6 +435,7 @@ export default function UserProfileThree() {
                               alt="step-img-1"
                               width={300}
                               height={300}
+                              
                             />
                           )}
 

@@ -117,9 +117,9 @@ export default function UserProfile() {
     if (!vat_no) {
       errors.vat_no = "Vat no. is required";
     }
-    if (!tax_id) {
-      errors.tax_id = "Tax Id is required";
-    }
+    // if (!tax_id) {
+    //   errors.tax_id = "Tax Id is required";
+    // }
 
     if (!user_address) {
       errors.user_address = "Address is required";

@@ -100,7 +100,7 @@ export default function Home(props: any) {
             const res = await getAllLocation();
             if (res.status) {
                 setLocations(res.data);
-                //console.log(res.data);
+                console.log(res.data);
             } else {
                 console.log('error');
             }
@@ -405,6 +405,7 @@ export default function Home(props: any) {
                                                     alt="slider-1"
                                                 />
                                             )}
+                                            
                                             <p className="plase-btn">
                                                 <a
                                                     href={
@@ -549,7 +550,7 @@ export default function Home(props: any) {
                                         ) : (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" id="chef_id" />
                                         )}
-                                        <p className="plase-btn"><a href="/frontchefs">{data.name}</a></p>
+                                        <p className="plase-btn"><a href="/frontchefs">Chef {data.name && data.name.split(' ')[0]}</a></p>
                                     </div>
                                 </div>
                             ))}

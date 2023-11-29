@@ -115,6 +115,7 @@ export default function ChefLocation(props: any) {
             <section className="services-part location-how mt-5 mobile-m-0">
                 <div className="container">
                     <h2>Chefs for this location</h2>
+                    
                     <p className="dis-max-width mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p>
                 </div>
                 <div className="container-fluid mt-5">
