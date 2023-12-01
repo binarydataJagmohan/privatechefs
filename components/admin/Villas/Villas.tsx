@@ -8,6 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
+import { Loader } from '@googlemaps/js-api-loader';
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export default function Villas() {
 
@@ -43,6 +46,10 @@ export default function Villas() {
 	const [editmodalConfirm, editsetModalConfirm] = useState(false);
 	const [buttonStatus, setButtonState] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
+
+	const [lat, setLat] = useState("");
+	const [lng, setLng] = useState("");
+
 	const pageSize = 10;
 
 	const modalConfirmClose = () => {
@@ -68,6 +75,45 @@ export default function Villas() {
 		if (data == 1) {
 			const userid = getCurrentUserData();
 			getAllVillasData();
+
+			const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
+			const loader = new Loader({
+				apiKey,
+				version: 'weekly',
+				libraries: ['places']
+			});
+	
+			function setupAddressAutocomplete(inputId: string) {
+				const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null;
+				if (input) {
+					const autocomplete = new google.maps.places.Autocomplete(input);
+					autocomplete.addListener('place_changed', () => {
+						const place = autocomplete.getPlace();
+	
+						if (place && place.formatted_address && place.geometry && place.geometry.location) {
+							const address = place.formatted_address;
+							const lat = place.geometry.location.lat();
+							const lng = place.geometry.location.lng();
+	
+							// Set the values for the corresponding input field
+							if (inputId == 'address-input' || inputId == 'address-input2') {
+								setAddress(address)
+								setLat(lat.toString());
+								setLng(lng.toString());
+							}
+						}
+					});
+				}
+			}
+	
+			loader.load().then(() => {
+				setupAddressAutocomplete('address-input');
+				setupAddressAutocomplete('address-input2');
+	
+			}).catch((error) => {
+				console.error('Failed to load Google Maps API', error);
+			});
+
 		}
 	}
 
@@ -138,6 +184,8 @@ export default function Villas() {
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
 					setImage(res.villaImg);
+					setLat(res.lat);
+					setLat(res.lng);
 
 				} else {
 					console.log("error");
@@ -171,6 +219,8 @@ export default function Villas() {
 		setTwitterLink("");
 		setLinkedinLink("");
 		setYoutubeLink("");
+		setLat("");
+		setLng("");
 	}
 
 	const handleVillaSubmit = (e: any) => {
@@ -213,6 +263,8 @@ export default function Villas() {
 				name: name,
 				user_id: userData.id,
 				email: email,
+				lat:lat,
+				lng:lng,
 				phone: phone,
 				address: address,
 				city: city,
@@ -321,7 +373,7 @@ export default function Villas() {
 				name: name,
 				email: email || '',
 				phone: phone || '',
-				address: address,
+				address: address || '',
 				city: city || '',
 				state: state || '',
 				partner_owner: partner_owner,
@@ -340,7 +392,9 @@ export default function Villas() {
 				twitter_link: twitter_link || '',
 				linkedin_link: linkedin_link || '',
 				youtube_link: youtube_link || '',
-				image: image
+				lat: lat || '',
+				lng: lng || '',
+				image: image,
 			};
 
 			updateVilla(id, data, image)
@@ -484,7 +538,7 @@ export default function Villas() {
 				<h2>Villas</h2>
 				<ul className="table_header_button_section p-r">
 					<li><button className="table-btn" onClick={() => { setModalConfirm(true); resetFields(); }}>Add</button></li>
-					<li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li>
+					{/* <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> */}
 				</ul>
 				<div className="table-box" id="villa_table">
 					{villasdata.length > 0 ?
@@ -527,7 +581,17 @@ export default function Villas() {
 												<ul
 													className="dropdown-menu"
 													aria-labelledby="dropdownMenuButton"
-												>
+												>	
+													<li>
+														<a
+															className="dropdown-item"
+															href={`villas/${villa.id}`}
+															
+														>
+															View Villa
+														</a>
+													</li>
+
 													<li>
 														<a
 															className="dropdown-item"
@@ -606,20 +670,16 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-							<div className='col-md-4'>
+							<div className='col-md-4 villa_div'>
 								<div className="login_div">
-									<label htmlFor="phone">Phone:</label>
-									<input
-										type="text"
-										name="phone"
-										value={phone}
-										onChange={(e) => {
-											const re = /^[0-9\b]+$/;
-											if (e.target.value === '' || re.test(e.target.value)) {
-												setPhone(e.target.value);
-											}
-										}}
-									/>
+								<label htmlFor="email">Phone:</label>
+									<PhoneInput			
+														country={"us"}
+														value={phone}
+														onChange={(phone) => setPhone(phone)}
+													// add the required attribute here
+													/>
+									
 								</div>
 							</div>
 						</div>
@@ -628,6 +688,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="address">Address:</label>
 									<input
+										id="address-input"
 										type="text"
 										name="address"
 										value={address}
@@ -934,20 +995,15 @@ export default function Villas() {
 									/>
 								</div>
 							</div>
-							<div className='col-md-4'>
+							<div className='col-md-4 villa_div'>
 								<div className="login_div">
 									<label htmlFor="phone">Phone:</label>
-									<input
-										type="text"
-										name="phone"
-										value={phone || ''}
-										onChange={(e) => {
-											const re = /^[0-9\b]+$/;
-											if (e.target.value === '' || re.test(e.target.value)) {
-												setPhone(e.target.value);
-											}
-										}}
-									/>
+									<PhoneInput			
+														country={"us"}
+														value={phone}
+														onChange={(phone) => setPhone(phone)}
+													// add the required attribute here
+													/>
 								</div>
 							</div>
 						</div>
@@ -956,6 +1012,7 @@ export default function Villas() {
 								<div className="login_div">
 									<label htmlFor="address">Address:</label>
 									<input
+										id="address-input2"
 										type="text"
 										name="address"
 										value={address || ''}

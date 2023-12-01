@@ -546,11 +546,11 @@ export default function Home(props: any) {
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase" id="chef-img">
                                         {data.pic ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic} alt="2" id="chef_id" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic}  id="chef_id" />
                                         ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" id="chef_id" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}  id="chef_id" />
                                         )}
-                                        <p className="plase-btn"><a href="/frontchefs">Chef {data.name && data.name.split(' ')[0]}</a></p>
+                                        <p className="plase-btn"><a href={`/privatechef/${data.slug}`}>Chef {data.name && data.name.split(' ')[0]}</a></p>
                                     </div>
                                 </div>
                             ))}

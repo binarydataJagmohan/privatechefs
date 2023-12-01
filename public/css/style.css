@@ -979,9 +979,9 @@ section {
   background: var(--background-color_3);
   box-shadow: var(--admin_base-shadow);
   border-radius: var(--booking_img_border_radius);
-  padding: 20px;
-  width: 100%;
-  height: 100%;
+  /* padding: 20px; */
+  /* width: 100%;
+  height: 100%; */
 }
 
 .step-box h4 {
@@ -4973,4 +4973,8 @@ td#icons i.fa-solid.fa-pencil {
   .some-element {
       background-color: lightblue;
   }
+}
+
+.villa_div .react-tel-input .form-control {
+  height: 35px !important;
 }

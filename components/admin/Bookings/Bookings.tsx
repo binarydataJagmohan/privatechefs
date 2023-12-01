@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin,getChefDetailByLocation,AssignedBookingByAdminWithoutDatabse } from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin,getChefDetailByLocation,AssignedBookingByAdminWithoutDatabse,getVillas,AssignedVillaByBooking} from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -141,7 +141,12 @@ export default function Bookings() {
 
 	const [payment_status, setPaymentStatus] = useState('pending');
 
-	
+	const [modalConfirm2, setModalConfirm2] = useState(false);
+
+	const [villasdata, setVillasData] = useState('');
+
+	const [villa_id, setVillasId] = useState<Number>(null);
+
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
@@ -161,6 +166,10 @@ export default function Bookings() {
 	};
 	const modalConfirmClose1 = () => {
 		setModalConfirm1(false);
+	};
+
+	const modalConfirmClose2 = () => {
+		setModalConfirm2(false);
 	};
 
 	const pageSize = 10;
@@ -187,6 +196,7 @@ export default function Bookings() {
 			fetchBookingAdminDetails();
 			getAllChefData();
 			getChefMenuData();
+			getAllVillasData();
 			setCurrentUserData({
 				...userData,
 				id: userData.id,
@@ -199,6 +209,7 @@ export default function Bookings() {
 			});
 		}
 
+		
 		const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
 		const loader = new Loader({
 			apiKey,
@@ -256,6 +267,22 @@ export default function Bookings() {
 		});
 
 	}
+
+	const getAllVillasData = async () => {
+		getVillas()
+			.then(res => {
+				if (res.status == true) {
+					setVillasData(res.data);
+
+				} else {
+					console.log("error");
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}
+
 
 	const fetchBookingChefDetailbylocation = async (data:any,chef_data:any) => {
 		try {
@@ -853,6 +880,80 @@ export default function Bookings() {
 		  });
 	  };
 
+	  const handleBookingAssignVillaSubmit = (event: any) => {
+		event.preventDefault();
+
+		if (!villa_id) {
+
+			swal({
+				title: 'Oops!',
+				text: 'please choose one villa to assign this booking',
+				icon: 'info',
+
+			});
+		} else {
+			
+				setIsSubmitting(true)
+				const data = {
+					booking_id :bookingid,
+					assigned_to_villa_id: villa_id,
+				}
+
+				AssignedVillaByBooking(data)
+					.then(res => {
+						if (res.status == true) {
+
+							toast.success(res.message, {
+								position: toast.POSITION.TOP_RIGHT,
+								closeButton: true,
+								hideProgressBar: false,
+								style: {
+									background: '#ffff',
+									borderLeft: '4px solid #ff4e00d1',
+									color: '#454545',
+									"--toastify-icon-color-success": "#ff4e00d1",
+								},
+								progressStyle: {
+									background: '#ffff',
+								},
+							});
+
+							setModalConfirm2(false);
+
+							getSingleUserAssignBookingData(bookingid)
+							fetchBookingAdminDetails();
+						} else {
+
+							toast.error(res.message, {
+								position: toast.POSITION.TOP_RIGHT,
+								closeButton: true,
+								hideProgressBar: false,
+								style: {
+									background: '#ffff',
+									borderLeft: '4px solid #e74c3c',
+									color: '#454545',
+								},
+								progressStyle: {
+									background: '#ffff',
+								},
+							});
+
+						}
+					})
+					.catch(err => {
+						console.log(err);
+					})
+					.finally(() => {
+						setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
+					});
+
+	
+		}
+
+	};
+
+
+	  
 
 
 	return (
@@ -984,13 +1085,23 @@ export default function Bookings() {
 
 														{/* {user.payment_status} */}
 
-														{user.category == 'multipletimes'  && (<li>
+														{(user.category == 'multipletimes' &&  user.booking_status != 'Expired')  && (<li>
 															<a
 																className="dropdown-item"
 																href="#"
 																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields();setCheckAsssignSelectedChef(user.assigned_to_user_id);setPaymentStatus(user.payment_status)}}
 															>
 																Assign Booking
+															</a>
+														</li>)}
+
+														{(user.booking_status != 'Expired')  && (<li>
+															<a
+																className="dropdown-item"
+																href="#"
+																onClick={(e) => { setModalConfirm2(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id);setVillasId(Number(user.assigned_to_villa_id))}}
+															>
+																Assign Villa
 															</a>
 														</li>)}
 
@@ -1563,6 +1674,81 @@ export default function Bookings() {
 					</div>
 				</div>
 			</PopupModal>
+
+
+			<PopupModal show={modalConfirm2} handleClose={modalConfirmClose2}>
+				<div className="popup-part new-modala">
+					<h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
+					<div className="offers">
+						<form onSubmit={handleBookingAssignVillaSubmit} className="common_form_error" id="">
+							<table className="table">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										
+										<th scope="col">Villa Name</th>
+										<th scope="col">Villa Phone</th>
+										<th scope="col">Villa Address</th>
+										<th scope="col">Villa Partner/Owner</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									{villasdata.length > 0 ? (
+										villasdata.map((villa:any, index:any) => (
+											<tr key={index}>
+												<th scope="row">
+													<div className="form-check">
+														<input
+															className="form-check-input"
+															type="radio"
+															id={`chef_id_${villa.id}`}
+															name={`chef_id_${villa.id}`}
+															onChange={() => setVillasId(Number(villa.id))} // Add this line
+															checked={villa_id == villa.id ?? false}
+															value={villa.id}
+														/>
+													</div>
+													
+												</th>
+												<td>{villa.name} </td>
+												
+												<td>{villa.phone}</td>
+												<td>{villa.address}</td>
+												<td className="text-capitalize">{villa.partner_owner}</td>
+												
+											</tr>
+										))
+									) : (
+										<tr>
+											<td className="" colSpan={7} style={{textAlign:"center" ,paddingTop: "5%",border:"unset",fontSize:"16px"}}><p style={{fontSize:"16px"}}>No Chef apply for this booking</p></td>
+										</tr>
+									)}
+								</tbody>
+							</table>
+							<div className="row">
+								
+								<div className="col-md-12">
+									<div className="text-end">
+										<div className="">
+											
+											<button
+												id="btn_offer"
+												type="submit"
+												disabled={isSubmitting}
+											>
+												{isSubmitting ? "Submitting..." : "Assign Villa"}
+											</button>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</PopupModal>
+
 
 			<ToastContainer />
 		</>
