@@ -832,19 +832,15 @@ export default function Villas() {
 						</div>
 						<div className="row">
 
-							<div className='col-md-4'>
+							<div className='col-md-4 villa_div'>
 								<div className="login_div">
 									<label htmlFor="consierge_phone">Consierge Phone:</label>
-									<input
-										type="text"
-										name="consierge_phone"
+									
+									<PhoneInput			
+										country={"us"}
 										value={consierge_phone}
-										onChange={(e) => {
-											const re = /^[0-9\b]+$/;
-											if (e.target.value === '' || re.test(e.target.value)) {
-												setConsiergePhone(e.target.value);
-											}
-										}}
+										onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
+													// add the required attribute here
 									/>
 								</div>
 							</div>
@@ -1156,19 +1152,15 @@ export default function Villas() {
 							</div>
 						</div>
 						<div className="row">
-							<div className='col-md-4'>
+						<div className='col-md-4 villa_div'>
 								<div className="login_div">
 									<label htmlFor="consierge_phone">Consierge Phone:</label>
-									<input
-										type="text"
-										name="consierge_phone"
-										value={consierge_phone || ''}
-										onChange={(e) => {
-											const re = /^[0-9\b]+$/;
-											if (e.target.value === '' || re.test(e.target.value)) {
-												setConsiergePhone(e.target.value);
-											}
-										}}
+									
+									<PhoneInput			
+										country={"us"}
+										value={consierge_phone}
+										onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
+													// add the required attribute here
 									/>
 								</div>
 							</div>
@@ -1284,6 +1276,9 @@ export default function Villas() {
 					</form>
 				</div>
 			</PopupModal>
+
+			
+
 
 			<ToastContainer />
 		</>
