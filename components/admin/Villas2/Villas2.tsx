@@ -66,6 +66,8 @@ export default function Villas2(props: any) {
 
   const [bookingdate, setBookingDate] = useState('');
 
+  const mapRefTwo = useRef(null);
+
   const editmodalConfirmClose = () => {
     editsetModalConfirm(false);
   };
@@ -248,8 +250,8 @@ export default function Villas2(props: any) {
           });
           loader.load().then(() => {
             if (res.data) {
-              if (mapRef.current) {
-                const map = new google.maps.Map(mapRef.current, {
+              if (mapRefTwo.current) {
+                const map = new google.maps.Map(mapRefTwo.current, {
                   center: {
                     lat: parseFloat(res.data.lat),
                     lng: parseFloat(res.data.lng),
@@ -518,7 +520,7 @@ export default function Villas2(props: any) {
 
             <div
               className="mt-4"
-              ref={mapRef}
+              ref={mapRefTwo}
               style={{ height: "400px" }}
             ></div>
           </div>
