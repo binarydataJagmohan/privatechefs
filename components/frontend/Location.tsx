@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import { getTestimonials } from '../../lib/adminapi';
 import Head from 'next/head';
+import { getAllLocation } from "../../lib/frontendapi"
 
 export default function Location(props: any) {
 
@@ -35,7 +36,8 @@ export default function Location(props: any) {
         if (props) {
             console.log(props)
             setSlug(props.pages.data);
-            setLocations(props.locations.data);
+            // setLocations(props.locations.data);
+            fetchLocationDetails();
         }
 
     }, []);
@@ -43,6 +45,22 @@ export default function Location(props: any) {
     useEffect(() => { 
         fetchTestimonialDetails();
     }, []);
+
+
+
+    const fetchLocationDetails = async () => {
+        try {
+            const res = await getAllLocation();
+            if (res.status) {
+                setLocations(res.data);
+                console.log(res.data);
+            } else {
+                console.log('error');
+            }
+        } catch (err: any) {
+            console.log('error');
+        }
+    };
 
 
     const fetchTestimonialDetails = async () => {
@@ -305,49 +323,50 @@ export default function Location(props: any) {
                     <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row g-3 mt-5">
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48" id="big-id"><i className="fa-solid fa-spoon"></i></span> </h4>
-                                <h4>You choose the menu</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <h4>We tailor your menu</h4>
+                                <p>Every menu is tailored specifically for you and your guests.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fas fa-bacon"></i></span>  </h4>
                                 <h4>We buy the ingredients</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>All shopping is taken care by our Chefs prior their arrival.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-kitchen-set"></i></span> </h4>
                                 <h4>We cook in your kitchen</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>All the magic is prepared before your eyes in your own house.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="row g-3 mt-4">
-                        <div className="col-lg-2 col-md-12"> </div>
+                    <div className="row g-3 mt-lg-4 mt-1">
+                        <div className="col-lg-2 col-md-12 d-none d-lg-block"> </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-cutlery"></i></span>  </h4>
                                 <h4>We serve each dish</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>All dishes are served by our Chefs so you can relax and enjoy.</p>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-6">
-                            <div className="num-list" id="num-list-id">
+                            <div className="num-list h-100" id="num-list-id">
                                 <h4><span className="big-48"><i className="fa-solid fa-brush"></i></span></h4>
                                 <h4> We clean up</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida tincidunt maecenas malesuada ullamcorper velit amet.</p>
+                                <p>Don't worry about cleaning. Just sit and enjoy your experience.</p>
                             </div>
                         </div>
-                        <div className="col-lg-2 col-md-12"> </div>
+                        <div className="col-lg-2 col-md-12 d-none d-lg-block"> </div>
                     </div>
 
                 </div>
             </section>
+
 
             <section className="services-part location-how mt-5 mobile-m-0">
                 <div className="container">
@@ -416,54 +435,60 @@ export default function Location(props: any) {
             </section>
 
 
-            <section className="experience-slider mt-lg-5">
+            <section className="experience-slider mt-5">
                 <div className="container">
-                    <h3> Things to explore</h3>
+                    <h2 className='text-center'> Things to explore</h2>
                 </div>
-                <div className="container-fluid mt-lg-5 mt-4">
+                <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-1.webp'} alt="slider-1" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
+                            {locations.map((location, index) => (
+                                <div className="col-lg-2 col-md-6" key={index}>
+                                    <a
+                                        href={
+                                            process.env.NEXT_PUBLIC_BASE_URL +
+                                            'location/' +
+                                            location.address
+                                        }
+                                    >
+                                        <div className="slider-img-plase" id="location_idd">
+                                            {location.location_pic ? (
+                                                <img
+                                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + location.location_pic}
+                                                    id="loc_id"
+                                                    alt="slider-1"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
+                                                    id="dummy-img"
+                                                    alt="slider-1"
+                                                />
+                                            )}
+                                            
+                                            <p className="plase-btn">
+                                                <a
+                                                    href={
+                                                        process.env.NEXT_PUBLIC_BASE_URL +
+                                                        'location/' +
+                                                        location.address
+                                                    }
+                                                >
+                                                    {location.address.slice(0, 35)}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </a>
                                 </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-2.webp'} alt="slider-2" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-3.webp'} alt="slider-3" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-4.webp'} alt="slider-4" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-2.webp'} alt="slider-2" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
-                            <div className="col-lg-2 col-md-6">
-                                <div className="slider-img-plase">
-                                    <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/slider-4.webp'} alt="slider-4" />
-                                    <p className="plase-btn"><a href="#">Greece</a></p>
-                                </div>
-                            </div>
+                            ))}
                         </Slider>
+
+
                     </div>
-                    <div className="text-center view-more mt-4"><a href="#">View More</a></div>
+                    {/* <div className="text-center view-more mt-4"><a href="#">View More</a></div> */}
                 </div>
             </section>
+
         </>
     )
 }

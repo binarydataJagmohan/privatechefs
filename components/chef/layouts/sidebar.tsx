@@ -331,6 +331,22 @@ export default function Sidebar(): JSX.Element {
                             <span className="menu-collapsed">Dishes</span>
                         </div>
                     </a>
+
+                    <a href="/chef/dish-gallery" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/dish-gallery' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
+                            e.preventDefault();
+                            CompleteProfile();
+                        }
+                    }}>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa-solid fa-image"></i></span>
+                            <span className="menu-collapsed">Dish Gallery</span>
+                        </div>
+                    </a>
+
                     <a href="/chef/calender" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/calender' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
                         if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();

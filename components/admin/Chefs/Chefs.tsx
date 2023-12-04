@@ -756,7 +756,7 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a
+                      {/* <a
                         href={
                           process.env.NEXT_PUBLIC_BASE_URL +
                           "admin/chefs/" +
@@ -764,7 +764,51 @@ export default function Chefs() {
                         }
                       >
                         <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a>
+                      </a> */}
+                       <div className="dropdown" id="none-class">
+													<a
+														className="dropdown-toggle"
+														data-bs-toggle="dropdown"
+														aria-expanded="false"
+													>
+														<i className="fa-solid fa-ellipsis" role="button"></i>
+													</a>
+													<ul
+														className="dropdown-menu"
+														aria-labelledby="dropdownMenuButton"
+													>
+														<li>
+															<a
+																className="dropdown-item"
+																href={
+                                  process.env.NEXT_PUBLIC_BASE_URL +
+                                  "privatechef/" +
+                                  filter.slug
+                                }
+															
+															>
+																See Full Profile
+															</a>
+														</li>
+
+
+														<li>
+															<a
+																className="dropdown-item"
+															
+                                href={
+                                  process.env.NEXT_PUBLIC_BASE_URL +
+                                  "admin/chefs/" +
+                                  filter.id
+        
+                                }
+															>
+																See Backend Profile
+															</a>
+														</li>
+													
+													</ul>
+												</div>
                     </td>
                   </tr>
                 ))
@@ -849,7 +893,7 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a
+                      {/* <a
                         href={
                           process.env.NEXT_PUBLIC_BASE_URL +
                           "admin/chefs/" +
@@ -857,7 +901,50 @@ export default function Chefs() {
                         }
                       >
                         <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a>
+                      </a> */}
+                       <div className="dropdown" id="none-class">
+													<a
+														className="dropdown-toggle"
+														data-bs-toggle="dropdown"
+														aria-expanded="false"
+													>
+														<i className="fa-solid fa-ellipsis" role="button"></i>
+													</a>
+													<ul
+														className="dropdown-menu"
+														aria-labelledby="dropdownMenuButton"
+													>
+														<li>
+															<a
+																className="dropdown-item"
+																href={
+                                  process.env.NEXT_PUBLIC_BASE_URL +
+                                  "privatechef/" +
+                                  chef.slug
+                                }
+																
+															>
+																See Full Profile
+															</a>
+														</li>
+
+
+														<li>
+															<a
+																className="dropdown-item"
+															
+                                href={
+                                  process.env.NEXT_PUBLIC_BASE_URL +
+                                  "admin/chefs/" +
+                                  chef.id
+                                }
+															>
+																See Backend Profile
+															</a>
+														</li>
+													
+													</ul>
+												</div>
                     </td>
                   </tr>
                 ))
@@ -957,7 +1044,7 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a
+                      {/* <a
                         href={
                           process.env.NEXT_PUBLIC_BASE_URL +
                           "admin/chefs/" +
@@ -965,7 +1052,50 @@ export default function Chefs() {
                         }
                       >
                         <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a>
+                      </a> */}
+                      <div className="dropdown" id="none-class">
+													<a
+														className="dropdown-toggle"
+														data-bs-toggle="dropdown"
+														aria-expanded="false"
+													>
+														<i className="fa-solid fa-ellipsis" role="button"></i>
+													</a>
+													<ul
+														className="dropdown-menu"
+														aria-labelledby="dropdownMenuButton"
+													>
+														<li>
+															<a
+																className="dropdown-item"
+																href={
+                                  process.env.NEXT_PUBLIC_BASE_URL +
+                                  "privatechef/" +
+                                  chef.slug
+                                }
+																
+															>
+																See Full Profile
+															</a>
+														</li>
+
+
+														<li>
+															<a
+																className="dropdown-item"
+															
+                                href={
+                                  process.env.NEXT_PUBLIC_BASE_URL +
+                                  "admin/chefs/" +
+                                  chef.id
+                                }
+															>
+																See Backend Profile
+															</a>
+														</li>
+													
+													</ul>
+												</div>
                     </td>
                   </tr>
                 ))

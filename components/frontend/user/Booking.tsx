@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData,removeBookingData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline } from "../../../lib/userapi";
+import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline,addReviews } from "../../../lib/userapi";
 import { getSingleChefMenu } from "../../../lib/chefapi";
 import { getUserBookingId, deleteBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
@@ -99,6 +99,17 @@ export default function Booking(props: any) {
     applied_jobs_id?:string
   }
 
+  interface FormErrors {
+    description?: string;
+    stars?: number;
+}
+interface Testimonial {
+    id: number;
+    description: string;
+    stars: number;
+}
+
+
   const [bookingUsers, setBookingUser] = useState([]);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
@@ -127,13 +138,26 @@ export default function Booking(props: any) {
 
   const [menu, setMenu] = useState<MenuData[]>([]);
 
-  const [errors, setErrors] = useState<Errors>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const [amount, setAmount] = useState('');
 
   const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
 
   const [category, setBookingCategory] = useState('');
+
+  const [editmodalConfirm, editsetModalConfirm] = useState(false);
+
+  const [stars, setStar] = useState(0);
+
+  const [buttonStatus, setButtonState] = useState(false);
+
+  const [description, setDescription] = useState("");
+  
+
+  const editmodalConfirmClose = () => {
+    editsetModalConfirm(false);
+};
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -165,6 +189,8 @@ export default function Booking(props: any) {
   const [chef_id, setChefID] = useState('');
 
   const [chatmessage, setChatMessage] = useState('');
+
+  const [testimonialList, settestimonialList] = useState<Testimonial>({ id: 0, description: '', stars: 0});
 
   const pageSize = 10;
 
@@ -520,6 +546,102 @@ export default function Booking(props: any) {
 
   }
 
+  const handlMenuSubmit = (event: any) => {
+    event.preventDefault();
+    // Validate form data
+    const errors: any = {};
+    if (!description) {
+        errors.description = "Comment is required";
+    }
+    if (!stars) {
+        errors.stars = "Stars is required";
+    }
+    setErrors(errors);
+    // Submit form data if there are no errors
+    if (Object.keys(errors).length === 0) {
+        setButtonState(true);
+        // const currentUserData: any = {};
+        // Call an API or perform some other action to register the user
+        const data = {
+            booking_id : bookingid,
+            comment: description,
+            given_by_id: currentUserData.id,
+            given_to_id:chef_id,
+            stars: stars,
+        };
+        addReviews(data,)
+            .then((res) => {
+                if (res.status == true) {
+                    console.log(data);
+                    editsetModalConfirm(false);
+                    setButtonState(false);
+                  
+                    toast.success(res.message, {
+                        position: toast.POSITION.TOP_RIGHT,
+                        closeButton: true,
+                        hideProgressBar: false,
+                        style: {
+                            background: '#ffff',
+                            borderLeft: '4px solid #ff4e00d1',
+                            color: '#454545',
+                            "--toastify-icon-color-success": "#ff4e00d1",
+                        },
+                        progressStyle: {
+                            background: '#ffff',
+                        },
+                    });
+                } else {
+                    setButtonState(false);
+                    setModalConfirmTwo(true);
+                    toast.error(res.message, {
+                        position: toast.POSITION.TOP_RIGHT,
+                        closeButton: true,
+                        hideProgressBar: false,
+                        style: {
+                            background: '#ffff',
+                            borderLeft: '4px solid #e74c3c',
+                            color: '#454545',
+                        },
+                        progressStyle: {
+                            background: '#ffff',
+                        },
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+  };
+
+ 
+  const handleStarHover = (num: number) => {
+    const starColor = num > 0 ? "orange" : "blue";
+    const stars = document.querySelectorAll(".fa-star");
+    stars.forEach((star, index) => {
+        (star as HTMLElement).style.color = index < num ? starColor : "#ff4e00d1";
+    });
+  };
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setCurrentUserData((prevState) => {
+        return {
+            ...prevState,
+            [name]: value,
+        };
+    });
+}
+
+
+const resetForm = () => {
+  setStar(0);
+  setChefID("");
+  setBookingId("");
+  setDescription("");
+  setErrors({});
+};
+
   return (
     <>
       <section className="userprofile-part">
@@ -704,10 +826,27 @@ export default function Booking(props: any) {
                                       )}
 
                                       {user.payment_status == 'completed' && (
-                                     <li>
-                                        <button className="btn btn-sm btn-success">Payment successfull</button>
+                                          <li>
+                                          <a
+                                            className="dropdown-item"
+                                            href="#"
+                                            onClick={() => {
+                                              resetForm();
+                                              editsetModalConfirm(true);
+                                              setBookingId(user.booking_id);
+                                              setChefID(user.chefId ?? '')
+                                            }}
+                                          >
+                                            Review
+                                          </a>
                                         </li>
                                       )}
+
+                                      {user.payment_status == 'completed' && (
+                                          <li>
+                                          <button className="btn btn-sm btn-success">Payment successfull</button>
+                                          </li>
+                                        )}
                                       
                                     </ul>
                                   </div>
@@ -1109,6 +1248,67 @@ export default function Booking(props: any) {
         </div>
 
       </PopupModalTwo>
+
+      <PopupModalTwo
+                show={editmodalConfirm}
+                handleClose={editmodalConfirmClose}
+                staticClass="var-login"
+            >
+                <div className="all-form">
+                    <form
+                        className="common_form_error"
+                        id="menu_form"
+                        onSubmit={handlMenuSubmit}
+                    > 
+
+                      <div className="login_div mb-4">
+                            <label htmlFor="Star">Choose Star:</label>
+                            <input type="hidden" name="stars" value={stars} onChange={handleChange} />
+                           
+                            <p className="star-list blue-star" id="star-color">
+                                {[1, 2, 3, 4, 5].map((num) => (
+                                    <i
+                                        key={num}
+                                        className={`fa${num <= stars ? 's' : 'r'} fa-star`}
+                                        onMouseEnter={() => handleStarHover(num)}
+                                        onClick={() => setStar(num)}
+                                    />
+                                ))}
+                            </p>
+                            {errors.stars && (
+                                <span className="small error text-danger mb-2 d-inline-block error_login">
+                                    {errors.stars}
+                                </span>
+                            )}
+                        </div>
+                        
+                        <div className="login_div">
+                            <label htmlFor="Description">Comment:</label>
+                            <textarea
+                                name="description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            ></textarea>
+                             {errors.description && (
+                                <span className="small error text-danger mb-2 d-inline-block error_login">
+                                    {errors.description}
+                                </span>
+                            )}
+                        </div>
+                        
+                        
+                        <button
+                            type="submit"
+                            className="btn-send w-100 mt-3"
+                            disabled={buttonStatus}
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </PopupModalTwo>
+
+
       <ToastContainer />
     </>
   )
