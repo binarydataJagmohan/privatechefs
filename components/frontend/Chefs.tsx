@@ -376,15 +376,18 @@ export default function Chefs(props: any) {
                     <h4>{rev.name}</h4>
 
                     <p className="star-review">
-                      {[...Array(5)].map((_, i) => (
-                        <i
-                          key={i}
-                          className={`fa-solid fa-star${
-                            i < Math.round(rev.stars) ? " filled" : ""
-                          }`}
-                        ></i>
-                      ))}
+                    {[...Array(5)].map((_, index) => (
+                    <i
+                      key={index}
+                      className={`${
+                        index < Math.round(Number(rev.stars))
+                          ? " fa-solid fa-star"
+                          : "fa-regular fa-star"
+                      }`}
+                    ></i>
+                  ))}
                     </p>
+                    
                     <p>{rev.comment}</p>
                   </div>
                 </div>
