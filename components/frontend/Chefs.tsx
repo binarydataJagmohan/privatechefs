@@ -210,9 +210,7 @@ export default function Chefs(props: any) {
             </i>
           </h2>
           <p className="dis-max-width mb-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie
-            laoreet eget penatibus cum lectus. Accumsan, in odio bibendum
-            praesent sollicitudin.{" "}
+          Striving for perfection and an extraordinary culinary experience is my ultimate goal in every dish. {" "}
           </p>
         </div>
       </section>
@@ -221,10 +219,7 @@ export default function Chefs(props: any) {
           <div className="container">
             <h2>My services</h2>
             <p className="dis-max-width mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie
-              laoreet eget penatibus cum lectus. Accumsan, in odio bibendum
-              praesent sollicitudin. Nascetur sapien sollicitudin eu consequat.
-              Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.
+              Embarking on a culinary journey with me means entering a realm where perfection and extraordinary taste converge. My services extend beyond the realm of mere dining – they encapsulate a commitment to crafting culinary experiences that transcend expectations. 
             </p>
             <div className="row mt-5">
               {/* <div className="step-box">
@@ -344,15 +339,12 @@ export default function Chefs(props: any) {
           <div className="container">
             <h2>{getUsers.name} reviews</h2>
             <p className="dis-max-width mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie
-              laoreet eget penatibus cum lectus. Accumsan, in odio bibendum
-              praesent sollicitudin. Nascetur sapien sollicitudin eu consequat.
-              Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.{" "}
+              Immersing myself in reviews, I am constantly reminded of the genuine passion and commitment to excellence that resonates in every aspect of my work. These words fuel my drive and inspire me to continually push the boundaries of culinary innovation{" "}
             </p>
             <div className="row mt-5">
               {reviews.map((rev: any, index: number) => (
                 <div className="col-lg-4 col-md-6" key={index}>
-                   <div className="step-box text-center customers-review py-4" id="test-img" style={{height:'300px'}}>
+                   <div className="step-box text-center customers-review py-2" id="test-img" >
                     {rev.pic ? (
                       <img
                         src={
