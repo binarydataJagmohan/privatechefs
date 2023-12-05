@@ -107,7 +107,7 @@ export default function Footer() {
               <li><Link href="/contact">Contact Us</Link></li>
               <li><Link href="/whoweare">Who we are</Link></li>
               <li><Link href="/ourchefs">Our Chefs</Link></li>
-              <li><Link href="/ourservices">Our Services</Link></li>
+              {/* <li><Link href="/ourservices">Our Services</Link></li> */}
               <li><Link href="/ourlocations">Locations</Link></li>
               <li><Link href="/privacypolicy">Privacy Policy</Link></li>
               <li><Link href="/termsconditions">Terms & Conditions</Link></li>
