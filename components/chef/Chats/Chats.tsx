@@ -210,6 +210,8 @@ export default function Booking(props: any) {
   const newsingleChatIdRef = useRef(null);
   const newgroupIdRef = useRef(null);
 
+  const [showContent, setShowContent] = useState(false);
+
   useEffect(() => {
     const data = isPageVisibleToRole("chef");
     if (data == 2) {
@@ -354,10 +356,15 @@ export default function Booking(props: any) {
         });
       };
     
-      const interval = setInterval(fetchData, 2000); 
-    
+      const interval = setInterval(fetchData, 2000);
+
+      const timeout = setTimeout(() => {
+        setShowContent(true);
+      }, 3000);
+      
       return () => {
-        clearInterval(interval); 
+        clearInterval(interval);
+        clearTimeout(timeout);
       };
       
     }
@@ -548,17 +555,18 @@ export default function Booking(props: any) {
 
     if (Object.keys(newErrors).length === 0) {
    
-      const data = {
+       const data = {
         message: message,
-        chat_type : chat_type,
-        receiver_id: chat_receiver_id,
-        sender_id: chat_sender_id,
-        user_id : currentUserData.id,
-        group_id : chat_group_id,
+        chat_type: chat_type ? chat_type :'single',
+        receiver_id: chat_receiver_id ? chat_receiver_id : 1,
+        sender_id: chat_sender_id ? chat_sender_id :  currentUserData.id,
+        user_id: currentUserData.id,
+        group_id: chat_group_id,
         booking_id: chat_booking_id,
-        unique_booking_id : chat_unqiue_booking_id,
-        single_chat_id: chat_single_chat_id,
-      };  
+        unique_booking_id: chat_unqiue_booking_id,
+        single_chat_id: chat_single_chat_id ? chat_single_chat_id : `1${currentUserData.id}`,
+      };
+ 
 
       // console.log(data);
 
@@ -1226,45 +1234,52 @@ export default function Booking(props: any) {
                                             <div className="user-profile-chats mt-1">
                                               {message.latest_chat_type == 'single' && (
                                                 <h5 className={`chat_color position-relative ${activeChat === index ? 'text-white' : ''}`}>
-                                                  {
-                                                    currentUserData.role === message.sender_role ? (
-                                                      <>
-                                                        {message.receiver_name && message.receiver_name.length > 25 ? (
-                                                          <span>
-                                                            {message.receiver_name.slice(0, 25)}...
-                                                          </span>
-                                                        ) : (
-                                                          <span>
-                                                            {message.receiver_name}
-                                                          </span>
-                                                        )}
-                                                        {Number(message.unreadcount) > 0 && (
-                                                          <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
-                                                            {message.unreadcount}
-                                                          </span>
-                                                        )}
-                                                      </>
-                                                    ) : (
-                                                      <>
-                                                        {message.sender_name && message.sender_name.length > 25 ? (
-                                                          <span>
-                                                            {message.sender_name.slice(0, 25)}...
-                                                          </span>
-                                                        ) : (
-                                                          <span>
-                                                            {message.sender_name}
-                                                          </span>
-                                                        )}
-                                                        {Number(message.unreadcount) > 0 && (
-                                                          <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
-                                                            {message.unreadcount}
-                                                          </span>
-                                                        )}
-                                                      </>
-                                                    )
-                                                  }
-
-                                               
+                                              
+                                              
+                                                {
+                                                  currentUserData.role === message.sender_role ? (
+                                                    <>
+                                                   
+                                                      {message.recevier_name && message.recevier_name.length > 25 ? (
+                                                        <span>
+                                                          {message.recevier_name.slice(0, 25)}...
+                                                        </span>
+                                                      ) : (
+                                                        <span>
+                                                          {message.recevier_name}
+                                                        </span>
+                                                      )}
+                                                      {Number(message.unreadcount) > 0 && (
+                                                        <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
+                                                          {message.unreadcount}
+                                                        </span>
+                                                      )}
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      {message.sender_name && message.sender_name.length > 25 ? (
+                                                        <span>
+                                                          {message.sender_name.slice(0, 25)}...
+                                                        </span>
+                                                      ) : (
+                                                        <span>
+                                                          {message.sender_name}
+                                                        </span>
+                                                      )}
+                                                      {Number(message.unreadcount) > 0 && (
+                                                        <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
+                                                          {message.unreadcount}
+                                                        </span>
+                                                      )}
+  
+                                                      
+  
+                                                      
+                                                    </>
+                                                  )
+                                                }
+  
+  
                                               </h5>
                                               )}
 
@@ -1329,7 +1344,28 @@ export default function Booking(props: any) {
                                     );
                                   })
                                 ) : (
-                                  <p>No messages found.</p>
+                                  showContent && (
+                              
+                                    <a href="#" className='chats-user-a chatactive'>
+                                       <div className="row p-2">
+                                        <div className="col-lg-2 col-md-3 col-3 pr-0">
+                                            <div className="position-relative">
+                                            <img
+                                              src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + admindata.pic}
+                                              alt="chats-user"
+                                            />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-9 col-md-7 col-7">
+                                          <div className="user-profile-chats mt-1">
+                                            <h5 className="chat_color position-relative text-white"><span>admin</span></h5>
+                                            <p className="chat_color mb-0"></p>
+                                            </div>
+                                            <p className="chat_color f-12 text-white">7 minutes ago</p>
+                                          </div>
+                                        </div>
+                                    </a>
+                                  )
                                 )
                               }
 
@@ -1551,11 +1587,11 @@ export default function Booking(props: any) {
                             </React.Fragment>
                               ))
                             ) : (
-                              <p>No messages found.</p>
+                              <p></p>
                             )}
                           </ul>
                         </div>
-                        {adminchatsidebar.length > 0 && (
+                        {adminchatsidebar.length > 0 ?
                         <div className="send-box">
                         <form onSubmit={handleBookingAssignJobSubmit} className="form-Search send-message">
                           <div className="row">
@@ -1588,7 +1624,38 @@ export default function Booking(props: any) {
                           </div>
                           </form>
                         </div>
-                        )}
+                        : <div className="send-box">
+                        <form onSubmit={handleBookingAssignJobSubmit} className="form-Search send-message">
+                          <div className="row">
+                            <div className="col-sm-10 col-9">
+
+                              <input
+                                type="text"
+                                placeholder="Write a message"
+                                value={message} onChange={(e) => setMessage(e.target.value)} onBlur={handleRegisterBlur}
+                              />
+                              {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.message}</span>}
+                            </div>
+                            <div className="col-sm-2 col-3">
+                              <div className="send-part">
+                                <button type="submit" className="chat_msg_send">
+                                  <i className="fa-solid fa-paper-plane"></i>
+
+                                </button>
+                                <label className="mx-2"> <input
+                                  type="file"
+                                  name="image"
+                                  id="uploadfile"
+                                  className="d-none"
+                                  onChange={imageChange}
+                                /> <i className="fa-solid fa-paperclip" style={{ color: '#ff4e00d1' }} role="button"></i>
+                                </label>
+                              </div>
+
+                            </div>
+                          </div>
+                        </form>
+                      </div>}
                       </div>
                     </div>
                     <div className="users-groups">
@@ -1708,12 +1775,11 @@ export default function Booking(props: any) {
                           )}
 
                         
-                            {chat_type == 'single' && adminuserchefmesage.length > 0 && (
-                            <>
-                              {adminuserchefmesage.slice(0, 1).map((message, index) => (
-                                <React.Fragment key={index}>
-                                  
-                                  {(message.sender_role === 'concierge' || message.sender_role === 'admin') && (
+                          {chat_type == 'single' && adminuserchefmesage.length > 0 && (
+                              <>
+                                {adminuserchefmesage.slice(0, 1).map((message, index) => (
+                                  <React.Fragment key={index}>
+                                     {(message.sender_role == 'concierge' || message.sender_role == 'admin' || message.sender_role == 'chef') && (
                                     <p className="g-text">
                                       {message.sender_pic == null ? (
                                         <img
@@ -1734,7 +1800,7 @@ export default function Booking(props: any) {
                                     </p>
                                   )}
 
-                                  {(message.receiver_role === 'users' || message.receiver_role === 'chef') && (
+                                  {(message.receiver_role === 'user' || message.receiver_role == 'chef' || message.receiver_role == 'concierge' || message.receiver_role == 'admin') && (
                                     <p className="g-text">
                                       {message.receiver_pic == null ? (
                                         <img
@@ -1756,11 +1822,10 @@ export default function Booking(props: any) {
                                   )}
 
 
-
-                                </React.Fragment>
-                              ))}
-                            </>
-                          )}
+                                  </React.Fragment>
+                                ))}
+                              </>
+                            )}
 
                           {chat_type == 'group' && chatgroupmember.length > 0 && (
                             <>

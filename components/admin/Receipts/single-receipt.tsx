@@ -18,6 +18,7 @@ export default function MyProfile(props: any) {
         chefpic: string,
         chefemail: string,
         useremail: string,
+        amount:string
     }
 
     const [getUsers, setUsers] = useState<User>({
@@ -33,6 +34,7 @@ export default function MyProfile(props: any) {
         chefpic: "",
         chefemail: "",
         useremail: "",
+        amount:""
 
     });
 
@@ -74,9 +76,9 @@ export default function MyProfile(props: any) {
 
     return (
         <>
-            <h5 style={{ color: "#ff4e00d1" }}>Chefs Detail</h5>
+            <h5 style={{ color: "#ff4e00d1" }}>Receipts Detail</h5>
             <div className="user-class pt-5 align-items-center">
-                <div className="userImg" style={{ flex: "1" }}>
+                <div className="" style={{ flex: "1" }}>
                     {getUsers.chefpic ? (
                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + getUsers.chefpic} alt="" width={100} height={100} />
                     ) : (
@@ -100,18 +102,20 @@ export default function MyProfile(props: any) {
                     ) : (
                         null
                     )}
-                    {getUsers.chefaddress ? (
+                     {getUsers.chefaddress ? (
                         <p><span id="book-user">Chef Address</span> : {getUsers.chefaddress}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.orderdate ? (
-                        <p><span id="book-user">Oder Date</span> : {getUsers.orderdate}</p>
                     ) : (
                         null
                     )}
                 </div>
                 <div style={{ flex: "2" }}>
+               
+                    {getUsers.orderdate ? (
+                        <p><span id="book-user">Oder Date</span> : {getUsers.orderdate}</p>
+                    ) : (
+                        null
+                    )}
+                   
                     {getUsers.username ? (
                         <p><span id="book-user">Recipient Name </span> : {getUsers.username} </p>
                     ) : (
@@ -122,16 +126,22 @@ export default function MyProfile(props: any) {
                     ) : (
                         null
                     )}
+
+                    
+
                     {getUsers.useremail ? (
                         <p><span id="book-user">Recipient Email</span> : {getUsers.useremail}</p>
                     ) : (
                         null
                     )}
-                    {getUsers.useraddress ? (
-                        <p><span id="book-user">Recipient Address </span>: {getUsers.useraddress}</p>
+
+                    {getUsers.amount ? (
+                        <p><span id="book-user">Recipient Amount</span> : {getUsers.amount}</p>
                     ) : (
                         null
                     )}
+
+                    
                 </div>
             </div>
         </>

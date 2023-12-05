@@ -120,7 +120,7 @@ export default function UserProfile() {
 						background: '#ffff',
 					},
 				});
-				window.location.reload();
+				// window.location.reload();
 			})
 			.catch(error => {
 				console.error(error);
@@ -214,6 +214,7 @@ export default function UserProfile() {
 													? URL.createObjectURL(image)
 													: (userData.pic ? process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + userData.pic : '')
 											}
+											style={{objectFit:'contain'}}
 											alt=""
 										/>
 									) : (
@@ -223,6 +224,7 @@ export default function UserProfile() {
 													? URL.createObjectURL(image)
 													: process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'
 											}
+											style={{objectFit:'contain'}}
 											alt=""
 										/>
 									)}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { getChefBookingData } from "../../../lib/chefapi"
+import { getChefBookingData,getAllChefReview } from "../../../lib/chefapi"
 import { getCurrentUserData } from '../../../lib/session'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getUserBookingId } from "../../../lib/adminapi";
@@ -81,6 +81,8 @@ export default function Dashboard() {
 	const [sidebarConfirm, setSidebarConfirm] = useState(false);
 	const [bookingdate, setBookingDate] = useState('');
 
+	const [average_rating, setAverageRating] = useState("");
+
 	const sidebarConfirmOpen = () => {
 		setSidebarConfirm(true);
 	};
@@ -118,7 +120,22 @@ export default function Dashboard() {
 		};
 
 		fetchBookingCount();
+		const userData: User = getCurrentUserData() as User;
+		getAllChefReviewData(userData.id)
+
 	}, [])
+
+	const getAllChefReviewData = async (id: any) => {
+		getAllChefReview(id)
+		  .then((res: any) => {
+			if (res.status == true) {
+			  setAverageRating(res.averageRating);
+			}
+		  })
+		  .catch((err: any) => {
+			console.log(err);
+		  });
+	  };
 
 	const formatDate = (value: any) => {
 		return moment(value).format('D/M/YY');
@@ -228,8 +245,8 @@ export default function Dashboard() {
 									<div className="col-lg-6 col-md-6 col-6 ">
 										<div className="golden-box m-center h-lg-100">
 											<div className="golden-box-2 m-center"></div>
-											<h5>Rating</h5>
-											<h6>+2,5%</h6>
+											<h5>Average Rating</h5>
+											<h6>{average_rating}</h6>
 										</div>
 									</div>
 								</div>

@@ -565,6 +565,13 @@ export default function Booking(props: any) {
 
             setIsFormSubmitted(true);
 
+            // const usersChatsElement = document.querySelector('.users-chats');
+            // // Check if the element is found before attempting to scroll
+            // if (usersChatsElement) {
+            //     // Scroll to the element
+              
+            //     usersChatsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // }
 
           } else {
              
@@ -1013,7 +1020,7 @@ export default function Booking(props: any) {
                                     const formattedDate = zonedTimeToUtc(new Date(message.latest_created_at), message.timezone);
 
                                     return (
-                                      <a href="#" className={`chats-user-a ${activeChat === index ? 'chatactive' : ''}`} onClick={() => handleButtonClick(index, message.latest_chat_type,message.sender_id, message.receiver_id,currentUserData.id,message.group_id,message.group_name,message.booking_id,message.unique_booking_id,message.single_chat_id,message.sender_name,message.receiver_name)} key={index}>
+                                      <a href="#google" className={`chats-user-a ${activeChat === index ? 'chatactive' : ''}`} onClick={() => handleButtonClick(index, message.latest_chat_type,message.sender_id, message.receiver_id,currentUserData.id,message.group_id,message.group_name,message.booking_id,message.unique_booking_id,message.single_chat_id,message.sender_name,message.receiver_name)} key={index}>
                                         <div className="row p-2">
 
                                           {message.latest_chat_type == 'single' && (
@@ -1176,7 +1183,7 @@ export default function Booking(props: any) {
                         </div>
                       </div>
                     </div>
-                    <div className="users-chats">
+                    <div className="users-chats" id="google">
                       <div className="msg-head">
                         <div className="row">
                           <div className="col-lg-8 col-md-8 col-8">

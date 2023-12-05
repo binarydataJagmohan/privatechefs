@@ -1500,7 +1500,7 @@ export default function MyProfile() {
 										<div className="col-lg-4 col-md-12">
 											<div className="text-left">
 												<h5>Professional Experience</h5>
-												<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+												<p className="f-12">Showcase your professional experience to clients.</p>
 											</div>
 										</div>
 										<div className="col-lg-8 col-md-12">
@@ -1685,7 +1685,7 @@ export default function MyProfile() {
 										<div className="col-lg-4 col-md-12">
 											<div className="text-left">
 												<h5>Social Networks</h5>
-												<p className="f-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue metus fermentum, curabitur nibh pellentesque dignissim neque lacus suscipit. Placerat viverra egestas.</p>
+												<p className="f-12">Share your social networks with clients.</p>
 											</div>
 										</div>
 										<div className="col-lg-8 col-md-12">
