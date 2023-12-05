@@ -247,39 +247,8 @@ export default function MyProfile(props: any) {
                         null
                     )}
                     
-                    {getUsers.address ? (
-                        <p><span id="book-user">Address</span> : {getUsers.address}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.city ? (
-                        <p><span id="book-user">City</span> : {getUsers.city}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.country ? (
-                        <p><span id="book-user">Country </span>: {getUsers.country}</p>
-                    ) : (
-                        null
-                    )}
-                    {getUsers.post_code ? (
-                        <p><span id="book-user">Post Code </span>: {getUsers.post_code}</p>
-                    ) : (
-                        null
-                    )}
                     
-                    
-                </div>
-                
-            </div>
 
-            <div className="user-class pt-5 align-items-center">
-                <div className="userImg chef-img-set">
-                    
-                    <p><span id="book-user">Invoice Details</span></p>
-                </div>
-                <div style={{ flex: "2" }}>
-                    
                     {getUsers.user_address ? (
                         <p><span id="book-user">Address</span> : {getUsers.user_address}</p>
                     ) : (
@@ -297,6 +266,39 @@ export default function MyProfile(props: any) {
                     )}
                     {getUsers.user_post_code ? (
                         <p><span id="book-user">Post Code </span>: {getUsers.user_post_code}</p>
+                    ) : (
+                        null
+                    )}
+                    
+                    
+                </div>
+                
+            </div>
+
+            <div className="user-class pt-5 align-items-center">
+                <div className="userImg chef-img-set">
+                    
+                    <p><span id="book-user">Invoice Details</span></p>
+                </div>
+                <div style={{ flex: "2" }}>
+                    
+                    {getUsers.address ? (
+                        <p><span id="book-user">Address</span> : {getUsers.address}</p>
+                    ) : (
+                        null
+                    )}
+                    {getUsers.city ? (
+                        <p><span id="book-user">City</span> : {getUsers.city}</p>
+                    ) : (
+                        null
+                    )}
+                    {getUsers.country ? (
+                        <p><span id="book-user">Country </span>: {getUsers.country}</p>
+                    ) : (
+                        null
+                    )}
+                    {getUsers.post_code ? (
+                        <p><span id="book-user">Post Code </span>: {getUsers.post_code}</p>
                     ) : (
                         null
                     )}

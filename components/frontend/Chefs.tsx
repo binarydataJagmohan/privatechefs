@@ -352,7 +352,7 @@ export default function Chefs(props: any) {
             <div className="row mt-5">
               {reviews.map((rev: any, index: number) => (
                 <div className="col-lg-4 col-md-6" key={index}>
-                  <div className="step-box text-center customers-review py-2">
+                   <div className="step-box text-center customers-review py-4" id="test-img" style={{height:'300px'}}>
                     {rev.pic ? (
                       <img
                         src={

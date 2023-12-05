@@ -387,7 +387,7 @@ export default function Location(props: any) {
                                         }
                                         <p className="plase-btn">
                                             {location.address ? (
-                                                <a href="#">Chef {location.name &&  location.name.split(" ")[0]}</a>
+                                                <a href={`/privatechef/${location.slug}`}>Chef {location.name &&  location.name.split(" ")[0]}</a>
                                             ) : (
                                                 <span></span>
                                             )}
@@ -409,7 +409,7 @@ export default function Location(props: any) {
                     <div className="row mt-5 g-3">
                         {testimonials.slice(0, 3).map((testimonial) => (
                             <div className="col-lg-4 col-md-6">
-                                <div className="step-box text-center customers-review" id="test-img">
+                                <div className="step-box text-center customers-review py-4" id="test-img" style={{height:'300px'}}>
                                     {testimonial.image ? (
                                         <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/admin/testimonial/' + testimonial.image} alt="ava4" />
                                     ) : (

@@ -136,7 +136,7 @@ export default function OurChefs(props: any) {
                                         ) : (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="2" id="chef_id" />
                                         )}
-                                         <p className="plase-btn"><a href="/frontchefs">Chef {data.name && data.name.split(' ')[0]}</a></p>
+                                         <p className="plase-btn"><a href={`/privatechef/${data.slug}`}>Chef {data.name && data.name.split(' ')[0]}</a></p>
                                     </div>
                                 </div>
                             ))}
@@ -189,7 +189,7 @@ export default function OurChefs(props: any) {
                                                             ) : (
                                                                 <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt={chef.name} id="chef_id" />
                                                             )}
-                                                            <p className="plase-btn"><a href="/frontchefs">{chef.name}</a></p>
+                                                            <p className="plase-btn"><a href={`/privatechef/${chef.slug}`}>{chef.name}</a></p>
                                                         </div>
                                                     </div>
                                                 ))
