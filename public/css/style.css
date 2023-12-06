@@ -4978,3 +4978,15 @@ td#icons i.fa-solid.fa-pencil {
 .villa_div .react-tel-input .form-control {
   height: 35px !important;
 }
+
+ul#signup_dropdown[data-bs-popper] {
+    top: 100%;
+    left: -70px;
+}
+
+.dont_color {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #333333;
+}

@@ -812,10 +812,30 @@ export default function Header({ }) {
                     </a>
                   </li>
                 )}
-                <li className="user">
-                  {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn/SignUp</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
+                <li className="user nav-item">
+                  {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
 
                 </li>
+                {!current_user_id && (
+                <li className="user nav-item">
+                  <div className="dropdown">
+                          <a
+                              className="dropdown-toggle nav-link"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              role="button"
+                            >
+                            SignUp
+                            </a>
+                        <ul id="signup_dropdown" className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a className="dropdown-item" href="#" onClick={() => { setRole('user'); signuppopup(); }}>User</a></li>
+                          <li><a className="dropdown-item" href="#"  onClick={() => { setRole('chef'); signuppopup(); }}>Chef</a></li>
+                          <li><a className="dropdown-item" href="#"  onClick={() => { setRole('concierge'); signuppopup(); }}>Concierge</a></li>
+                        </ul>
+                    </div>
+
+                </li>
+                )}
               </ul>
             </div>
           </nav>
@@ -846,8 +866,24 @@ export default function Header({ }) {
 
           <div className='d-flex justify-content-between sign_up_forgot_password'>
 
-            <p className="text-link text-left my-2"><a href="#" onClick={() => signuppopup()}>Don’t have an account? <span>Sign up</span></a></p>
+            <div className="dropdown text-link mt-2">
+                <span className='dont_color'>Don’t have an account? </span>
+                  <a
+                    className="dropdown-toggle nav-link px-0 d-inline"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    role="button"
+                  >
+                 <span>Sign up</span>
+                  </a>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a className="dropdown-item" href="#" onClick={() => { setRole('user'); signuppopup(); }}>User</a></li>
+                <li><a className="dropdown-item" href="#"  onClick={() => { setRole('chef'); signuppopup(); }}>Chef</a></li>
+                <li><a className="dropdown-item" href="#"  onClick={() => { setRole('concierge'); signuppopup(); }}>Concierge</a></li>
+              </ul>
+            </div>
 
+            
             <p className="text-link text-left my-2"><a href="#" onClick={() => forgotpopup()}><span>Forgot password? </span></a></p>
 
           </div>
@@ -880,7 +916,7 @@ export default function Header({ }) {
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
 
-            <div className='login_div mb-2'>
+            {/* <div className='login_div mb-2'>
               <label htmlFor="email">Role:</label>
               <select className="login-select" onChange={(e) => setRole(e.target.value)} name="role">
                 <option value="">Select Role</option>
@@ -889,7 +925,7 @@ export default function Header({ }) {
                 <option value="concierge">Concierge</option>
               </select>
               {errors.role && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.role}</span>}
-            </div>
+            </div> */}
 
             <div className='login_div'>
               <label htmlFor="password">Password:</label>
