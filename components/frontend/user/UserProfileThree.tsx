@@ -9,6 +9,7 @@ import axios from "axios";
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { removeToken, removeStorageData } from "../../../lib/session";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 export default function UserProfileThree() {
   interface CurrentUserData {
@@ -215,21 +216,7 @@ export default function UserProfileThree() {
       updateAllergyAdditonalInfo(data)
         .then(res => {
           if (res.status == true) {
-
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
+            showToast('success', res.message);
 
           } else {
 

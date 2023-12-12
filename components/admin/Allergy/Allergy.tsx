@@ -13,6 +13,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 
 type Employee = {
@@ -242,20 +243,7 @@ export default function Allergy() {
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
             setAllergis(paginatedPosts);
             setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
+            showToast('success', res.message); 
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -313,20 +301,7 @@ export default function Allergy() {
           editsetModalConfirm(false);
           fetchAllergyDetails();
           setAllergyList(updatedData);
-          toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
-            closeButton: true,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #ff4e00d1',
-              color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00d1",
-            },
-            progressStyle: {
-              background: '#ffff',
-            },
-          });
+          showToast('success', res.message); 
         } else {
           toast.error(res.message,
             {
@@ -344,7 +319,6 @@ export default function Allergy() {
               },
             });
         }
-        // toast.success("Allergy updated successfully!");
       })
       .catch((err) => {
         console.log(err);

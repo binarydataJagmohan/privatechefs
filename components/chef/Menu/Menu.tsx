@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import PopupModal from '../../commoncomponents/PopupModal';
 import Image from 'next/image'
+import { showToast } from "../../commoncomponents/toastUtils";
 export default function Menus2(props: any) {
 
   let id = props.MenuId;
@@ -279,20 +280,7 @@ export default function Menus2(props: any) {
           setSearchInputValue('');
           setDishType('');
           setSearchResultsVisible(false);
-          toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
-            closeButton: true,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #ff4e00d1',
-              color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00d1",
-            },
-            progressStyle: {
-              background: '#ffff',
-            },
-          });
+          showToast('success', res.message);
 
           setName('');
         } else {
@@ -397,20 +385,7 @@ export default function Menus2(props: any) {
             setDescription(res.menudata.description);
             setCuisineDataId(res.menudata.cuisine_id);
             setImage(res.menudata.image);
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
+            showToast('success', res.message);
 
           } else {
             setButtonState(false);
@@ -559,21 +534,7 @@ export default function Menus2(props: any) {
             setMinPice(res.menudata.min_price);
             setMaxPice(res.menudata.max_price);
             setcomments(res.menudata.comments);
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
-
+            showToast('success', res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {

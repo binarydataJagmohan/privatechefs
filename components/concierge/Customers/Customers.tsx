@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { createUser, deleteUser } from '../../../lib/concierge';
 import swal from "sweetalert";
 import { getCurrentUserData } from '../../../lib/session'
+import { showToast } from '../../commoncomponents/toastUtils';
 
 export default function Users() {
 
@@ -132,20 +133,7 @@ export default function Users() {
                         getAllUsersData();
                         setModalConfirm(false);
                         setButtonState(false);
-                        toast.success(res.message, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            closeButton: true,
-                            hideProgressBar: false,
-                            style: {
-                                background: '#ffff',
-                                borderLeft: '4px solid #ff4e00d1',
-                                color: '#454545',
-                                "--toastify-icon-color-success": "#ff4e00d1",
-                            },
-                            progressStyle: {
-                                background: '#ffff',
-                            },
-                        });
+                        showToast('success', res.message);
 
                     } else {
                         setButtonState(false);

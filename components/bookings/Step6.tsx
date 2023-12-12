@@ -40,7 +40,7 @@ export default function Step6() {
   const [cuisine, setSelectedCuisine] = useState(['']);
   const [allergies, setSelectedAllergies] = useState(['']);
   const [additionalnotes, setAdditionalNotes] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false); // Add this state variable
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add this state variable
 
 
 
@@ -266,14 +266,14 @@ export default function Step6() {
   // }
   async function handleSubmit(e: any) {
     e.preventDefault();
-  
+
     if (isSubmitting) {
       return; // If already submitting, return early to prevent multiple submissions
     }
-  
+
     // Set isSubmitting to true to disable the button
     setIsSubmitting(true);
-  
+
     if (adults || teens || childrens) {
       if (name && email && phone) {
         const data = {
@@ -296,10 +296,10 @@ export default function Step6() {
           lat: lat,
           lng: lng,
         };
-  
+
         try {
           const res = await SaveBooking(data);
-  
+
           if (res.status === true) {
             window.location.href = "/bookings/step7";
             window.localStorage.setItem("bookingid", res.bookingid);
@@ -319,7 +319,7 @@ export default function Step6() {
               },
             });
           }
-        } 
+        }
         catch (err) {
           toast.error(err, {
             position: toast.POSITION.TOP_RIGHT,
@@ -350,11 +350,11 @@ export default function Step6() {
         icon: 'info',
       });
     }
-  
+
     // Reset isSubmitting to false after the submission process is complete
     setIsSubmitting(false);
   }
-  
+
   return (
     <>
       <section className="journey-part">
@@ -398,7 +398,7 @@ export default function Step6() {
                           setAdults(adults - 1);
                         }
                       }}
-                      style={{border: '1px lightgrey solid'}}>
+                      style={{ border: '1px lightgrey solid' }}>
                       -
                     </button>
                   </div>
@@ -421,7 +421,7 @@ export default function Step6() {
                       className="btn btn-outline-secondary"
                       type="button"
                       onClick={() => setAdults(adults + 1)}
-                      style={{border: '1px lightgrey solid'}}>
+                      style={{ border: '1px lightgrey solid' }}>
                       +
                     </button>
                   </div>
@@ -430,7 +430,7 @@ export default function Step6() {
               </div>
               <div className="col-sm-4">
                 <div className="slider-img-plase">
-                <Image
+                  <Image
                     src={
                       process.env.NEXT_PUBLIC_BASE_URL +
                       "images/booking-details/3.jpg"
@@ -451,7 +451,7 @@ export default function Step6() {
                           setTeens(teens - 1);
                         }
                       }}
-                      style={{border: '1px lightgrey solid'}}>
+                      style={{ border: '1px lightgrey solid' }}>
                       -
                     </button>
                   </div>
@@ -473,7 +473,7 @@ export default function Step6() {
                       className="btn btn-outline-secondary"
                       type="button"
                       onClick={() => setTeens(teens + 1)}
-                      style={{border: '1px lightgrey solid'}}>
+                      style={{ border: '1px lightgrey solid' }}>
                       +
                     </button>
                   </div>
@@ -482,7 +482,7 @@ export default function Step6() {
               </div>
               <div className="col-sm-4">
                 <div className="slider-img-plase">
-                    <Image
+                  <Image
                     src={
                       process.env.NEXT_PUBLIC_BASE_URL +
                       "images/booking-details/2.jpg"
@@ -504,7 +504,7 @@ export default function Step6() {
                           setChildren(childrens - 1);
                         }
                       }}
-                      style={{border: '1px lightgrey solid'}}
+                      style={{ border: '1px lightgrey solid' }}
                     >
                       -
                     </button>
@@ -527,7 +527,7 @@ export default function Step6() {
                       className="btn btn-outline-secondary"
                       type="button"
                       onClick={() => setChildren(childrens + 1)}
-                      style={{border: '1px lightgrey solid'}}
+                      style={{ border: '1px lightgrey solid' }}
                     >
                       +
                     </button>
@@ -554,12 +554,21 @@ export default function Step6() {
                   <div className="col-lg-6 col-md-12">
                     <div className="all-form input-big">
                       <h4 className="title-18">Name</h4>
-                      <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                      {!userid ? (
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          disabled // Disable the input field if userid exists
+                        />
+                      )}
 
-                      />
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-12">
@@ -575,12 +584,22 @@ export default function Step6() {
                   <div className="col-lg-6 col-md-12">
                     <div className="all-form input-big">
                       <h4 className="title-18">Email</h4>
-                      <input
+                     
+                       {!userid ? (
+                         <input
+                         type="email"
+                         value={email}
+                         onChange={(e) => setEmail(e.target.value)}
+ 
+                       />
+                      ) : (
+                        <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-
+                        disabled
                       />
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-12">
@@ -604,7 +623,7 @@ export default function Step6() {
                 <a href="/bookings/step5">Back</a>
               </div>
               <div className="view-more bg-golden mt-3">
-                 <button
+                <button
                   className="booking_submit_btn"
                   type="submit"
                   disabled={isSubmitting} // Disable the button while submitting

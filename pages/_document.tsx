@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href={process.env.NEXT_PUBLIC_BASE_URL + '/images/fav.png'} />
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
           <link rel="stylesheet" type="text/css" href={process.env.NEXT_PUBLIC_BASE_URL+'css/style.css'}/>
           <link rel="stylesheet" type="text/css" href={process.env.NEXT_PUBLIC_BASE_URL+'css/custom.css'}/>

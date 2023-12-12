@@ -8,6 +8,7 @@ import { UpdateBooking } from '../../../lib/frontendapi';
 import { Loader } from '@googlemaps/js-api-loader';
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getEditBookingData } from '../../../lib/adminapi';
+import { showToast } from "../../commoncomponents/toastUtils";
 export default function Step6() {
 
   interface User {
@@ -236,20 +237,7 @@ export default function Step6() {
           .then(res => {
             if (res.status == true) {
               removeBookingData();
-              toast.success(res.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                closeButton: true,
-                hideProgressBar: false,
-                style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #ff4e00d1',
-                  color: '#454545',
-                  "--toastify-icon-color-success": "#ff4e00d1",
-                },
-                progressStyle: {
-                  background: '#ffff',
-                },
-              });
+              showToast('success', res.message);
               setTimeout(() => {
                 window.location.href = "/concierge/bookings";
               }, 2000);

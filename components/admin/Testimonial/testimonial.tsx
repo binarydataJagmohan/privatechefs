@@ -15,6 +15,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 interface FormErrors {
     name?: string;
@@ -114,20 +115,7 @@ export default function Allergy() {
                         const paginatedPosts = paginate(res.data, currentPage, pageSize);
                         setTestimonials(paginatedPosts);
                         settestimonialList({ id: 0, name: '', description: '', image: '', stars: 0 });
-                        toast.success(res.message, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            closeButton: true,
-                            hideProgressBar: false,
-                            style: {
-                                background: '#ffff',
-                                borderLeft: '4px solid #ff4e00d1',
-                                color: '#454545',
-                                "--toastify-icon-color-success": "#ff4e00d1",
-                            },
-                            progressStyle: {
-                                background: '#ffff',
-                            },
-                        });
+                        showToast('success', res.message);
                     } else {
                         setButtonState(false);
                         toast.error(res.message, {
@@ -195,20 +183,7 @@ export default function Allergy() {
                 editsetModalConfirm(false);
                 fetchTestimonialDetails();
                 settestimonialList(updatedData);
-                toast.success("Testimonial updated successfully!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    closeButton: true,
-                    hideProgressBar: false,
-                    style: {
-                        background: '#ffff',
-                        borderLeft: '4px solid #ff4e00d1',
-                        color: '#454545',
-                        "--toastify-icon-color-success": "#ff4e00d1",
-                    },
-                    progressStyle: {
-                        background: '#ffff',
-                    },
-                });
+                showToast('success', res.message);
             })
             .catch((err) => {
                 toast.error("Failed to update testimonial. Please try again.", {

@@ -10,6 +10,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import { checkCustomRoutes } from "next/dist/lib/load-custom-routes";
 import swal from "sweetalert";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 export default function Bookings() {
 
@@ -337,20 +338,7 @@ export default function Bookings() {
 					.then(res => {
 						if (res.status == true) {
 
-							toast.success(res.message, {
-								position: toast.POSITION.TOP_RIGHT,
-								closeButton: true,
-								hideProgressBar: false,
-								style: {
-									background: '#ffff',
-									borderLeft: '4px solid #ff4e00d1',
-									color: '#454545',
-									"--toastify-icon-color-success": "#ff4e00d1",
-								},
-								progressStyle: {
-									background: '#ffff',
-								},
-							});
+							showToast('success', res.message); 
 
 							setModalConfirm(false);
 
@@ -423,9 +411,7 @@ export default function Bookings() {
 				.then(res => {
 					if (res.status == true) {
 
-						// toast.success(res.message, {
-						// 	position: toast.POSITION.TOP_RIGHT
-						// });
+						// showToast('success', res.message); 
 
 						getSingleUserAssignBookingData(bookingid)
 					} else {
@@ -521,20 +507,7 @@ export default function Bookings() {
 			.then((res) => {
 				if (res.status == true) {
 					setBookingStatus(res.data.booking_status);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-						closeButton: true,
-						hideProgressBar: false,
-						style: {
-							background: '#ffff',
-							borderLeft: '4px solid #ff4e00d1',
-							color: '#454545',
-							"--toastify-icon-color-success": "#ff4e00d1",
-						},
-						progressStyle: {
-							background: '#ffff',
-						},
-					});
+					showToast('success', res.message); 
 				} else {
 					toast.error(res.message, {
 						position: toast.POSITION.TOP_RIGHT,
@@ -629,8 +602,11 @@ export default function Bookings() {
 									return (
 										<tr key={index}>
 											<td>#{user.booking_id}</td>
-                                            <td>{user.applied_chef_name}</td>
-											<td>{`${user.name} ${user.surname !== null && user.surname !== 'null' ? user.surname : ''}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
+											
+                                            <td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + user.applied_chef_id} target="_blank" className="nameofusers">{user.applied_chef_name}</a></td>
+										
+											<td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id} target="_blank" className="nameofusers">{`${user.name} ${user.surname !== null && user.surname !== 'null' ? user.surname : ''}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</a></td>
+
 											<td className="chefs_pic">
 												{user.pic ? <img
 													src={

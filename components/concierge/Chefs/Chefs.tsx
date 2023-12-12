@@ -10,6 +10,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import { getCurrentUserData } from '../../../lib/session'
 import swal from "sweetalert";
+import { showToast } from '../../commoncomponents/toastUtils';
 
 
 export default function Chefs() {
@@ -221,24 +222,8 @@ export default function Chefs() {
       .then((res) => {
         if (res.status == true) {
           getAllChef();
-          // window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
           setApproveStatus(res.data.approved_by_admin);
-          // setApproveStatusValue(res.data.approved_by_admin);
-          //console.log(res.data.approved_by_admin);
-          toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
-            closeButton: true,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #ff4e00d1',
-              color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00d1",
-            },
-            progressStyle: {
-              background: '#ffff',
-            },
-          });
+          showToast('success', res.message);
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
@@ -377,20 +362,7 @@ export default function Chefs() {
             SetModalConfirmTwo(false);
             getAllChef();
             setButtonState(false);
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
+            showToast('success', res.message);
 
           } else {
             setButtonState(false);

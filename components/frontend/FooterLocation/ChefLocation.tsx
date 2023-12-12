@@ -45,7 +45,7 @@ export default function ChefLocation() {
                 <div className="row">
                     {locations.map((location, index) => (
                         <div className="col-md-4" key={index}>
-                            <div className="set-location-chef mt-4">
+                            <div className="set-location-chef mt-1">
                                 <a
                                     href={
                                         process.env.NEXT_PUBLIC_BASE_URL +

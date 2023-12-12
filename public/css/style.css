@@ -246,7 +246,7 @@ ul.ft-social li a {
 
 .footer-part {
   /* padding: 50px 0; */
-  padding: 25px 0;
+  padding: 15px 0;
 }
 
 ::-moz-placeholder {
@@ -4989,4 +4989,22 @@ ul#signup_dropdown[data-bs-popper] {
   font-size: 12px;
   line-height: 18px;
   color: #333333;
+}
+
+.popup-sign-color {
+  color: #1d1d1d;
+}
+
+a.popup-sign-color:hover {
+  color: #1d1d1d;
+}
+.nameofusers {
+  color: #222222;
+}
+
+a.nav-link.set-color-text {
+  color: #fff !important;
+}
+a.nav-link.set-color-text:hover {
+  color: #fff !important;
 }

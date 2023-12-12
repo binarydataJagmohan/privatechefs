@@ -6,6 +6,7 @@ import { paginate } from "../../../helpers/paginate";
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { ToastContainer, toast } from 'react-toastify';
 import { send } from 'process';
+import { showToast } from '../../commoncomponents/toastUtils';
 
 export default function Users() {
 
@@ -186,20 +187,7 @@ export default function Users() {
               setModalConfirmTwo(false);
               setButtonState(false);
               setMessage("");  
-              toast.success(res.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                closeButton: true,
-                hideProgressBar: false,
-                style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #ff4e00d1',
-                  color: '#454545',
-                  '--toastify-icon-color-success': '#ff4e00d1',
-                },
-                progressStyle: {
-                  background: '#ffff',
-                },
-              });
+              showToast('success', res.message);
             } else {
               setButtonState(false);
               setModalConfirmTwo(false);

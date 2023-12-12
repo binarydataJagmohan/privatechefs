@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import swal from "sweetalert";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 export default function DishGallery() {
   interface CurrentUserData {
@@ -161,20 +162,7 @@ export default function DishGallery() {
             setModalConfirm(false);
             setButtonState(false);
             getAllChefMenuData(currentUserData.id);
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: "#ffff",
-                borderLeft: "4px solid #ff4e00d1",
-                color: "#454545",
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: "#ffff",
-              },
-            });
+            showToast('success', res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {

@@ -13,6 +13,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
 import PopupModalTwo from '../../commoncomponents/PopupModal';
 import { removeToken, removeStorageData } from "../../../lib/session";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 export default function Booking(props: any) {
 
@@ -575,21 +576,7 @@ interface Testimonial {
                     console.log(data);
                     editsetModalConfirm(false);
                     setButtonState(false);
-                  
-                    toast.success(res.message, {
-                        position: toast.POSITION.TOP_RIGHT,
-                        closeButton: true,
-                        hideProgressBar: false,
-                        style: {
-                            background: '#ffff',
-                            borderLeft: '4px solid #ff4e00d1',
-                            color: '#454545',
-                            "--toastify-icon-color-success": "#ff4e00d1",
-                        },
-                        progressStyle: {
-                            background: '#ffff',
-                        },
-                    });
+                    showToast('success', res.message);
                 } else {
                     setButtonState(false);
                     setModalConfirmTwo(true);

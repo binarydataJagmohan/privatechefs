@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Head from 'next/head';
+import { showToast } from '../commoncomponents/toastUtils';
 
 export default function Contact(props: any) {
 
@@ -70,20 +71,7 @@ export default function Contact(props: any) {
                     if (res.status == true) {
                         console.log(res.status);
                         setButtonState(false);
-                        toast.success(res.message, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            closeButton: true,
-                            hideProgressBar: false,
-                            style: {
-                                background: '#ffff',
-                                borderLeft: '4px solid #ff4e00d1',
-                                color: '#454545',
-                                "--toastify-icon-color-success": "#ff4e00d1",
-                            },
-                            progressStyle: {
-                                background: '#ffff',
-                            },
-                        });
+                        showToast('success', res.message);
 
                     } else {
                         setButtonState(false);

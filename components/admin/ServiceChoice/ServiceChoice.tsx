@@ -13,6 +13,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 interface FormErrors {
   name?: string;
@@ -220,20 +221,7 @@ export default function ServiceChoice() {
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
             setService(paginatedPosts);
             setServiceList([]);
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
+            showToast('success', res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -309,20 +297,7 @@ export default function ServiceChoice() {
         editsetModalConfirm(false);
         fetchServiceDetails();
         setServiceList(res.data);
-        toast.success("service updated successfully!", {
-          position: toast.POSITION.TOP_RIGHT,
-          closeButton: true,
-          hideProgressBar: false,
-          style: {
-            background: '#ffff',
-            borderLeft: '4px solid #ff4e00d1',
-            color: '#454545',
-            "--toastify-icon-color-success": "#ff4e00d1",
-          },
-          progressStyle: {
-            background: '#ffff',
-          },
-        });
+        showToast('success', res.message);
       })
       .catch((err) => {
         toast.error("Failed to update Service. Please try again.", {

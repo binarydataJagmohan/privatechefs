@@ -11,6 +11,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import { checkCustomRoutes } from "next/dist/lib/load-custom-routes";
 import swal from "sweetalert";
+import { showToast } from "../../commoncomponents/toastUtils";
 
 export default function Bookings() {
 
@@ -338,20 +339,7 @@ export default function Bookings() {
 					.then(res => {
 						if (res.status == true) {
 
-							toast.success(res.message, {
-								position: toast.POSITION.TOP_RIGHT,
-								closeButton: true,
-								hideProgressBar: false,
-								style: {
-									background: '#ffff',
-									borderLeft: '4px solid #ff4e00d1',
-									color: '#454545',
-									"--toastify-icon-color-success": "#ff4e00d1",
-								},
-								progressStyle: {
-									background: '#ffff',
-								},
-							});
+							showToast('success', res.message);
 
 							setModalConfirm(false);
 
@@ -522,20 +510,7 @@ export default function Bookings() {
 			.then((res) => {
 				if (res.status == true) {
 					setBookingStatus(res.data.booking_status);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-						closeButton: true,
-						hideProgressBar: false,
-						style: {
-							background: '#ffff',
-							borderLeft: '4px solid #ff4e00d1',
-							color: '#454545',
-							"--toastify-icon-color-success": "#ff4e00d1",
-						},
-						progressStyle: {
-							background: '#ffff',
-						},
-					});
+					showToast('success', res.message);
 				} else {
 					toast.error(res.message, {
 						position: toast.POSITION.TOP_RIGHT,

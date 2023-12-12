@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { removeBookingData } from "../../lib/session";
 import { getAllLocation } from "../../lib/frontendapi"
+import { showToast } from '../commoncomponents/toastUtils';
 
 
 export default function Home(props: any) {
@@ -239,22 +240,7 @@ export default function Home(props: any) {
                     if (res.status == true) {
                         setButtonState(false);
                         setModalConfirmTwo(false);
-                        toast.success(res.message, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            closeButton: true,
-                            hideProgressBar: false,
-                            style: {
-                                background: '#ffff',
-                                borderLeft: '4px solid #ff4e00d1',
-                                color: '#454545',
-                                "--toastify-icon-color-success": "#ff4e00d1",
-                            },
-                            progressStyle: {
-                                background: '#ffff',
-                            },
-                        });
-
-
+                        showToast('success', res.message);
                     } else {
                         setButtonState(false);
                         if (res.status === false && res.errors) {

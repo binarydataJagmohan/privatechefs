@@ -11,6 +11,7 @@ import PopupModal from '../../../components/commoncomponents/PopupModal';
 import swal from "sweetalert";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
+import { showToast } from '../../commoncomponents/toastUtils';
 
 export default function MyProfile() {
 
@@ -139,20 +140,7 @@ export default function MyProfile() {
 					getChefLocationData(currentUserData.id);
 					setModalConfirm(false);
 					setButtonState(false);
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-						closeButton: true,
-						hideProgressBar: false,
-						style: {
-							background: '#ffff',
-							borderLeft: '4px solid #ff4e00d1',
-							color: '#454545',
-							"--toastify-icon-color-success": "#ff4e00d1",
-						},
-						progressStyle: {
-							background: '#ffff',
-						},
-					});
+					showToast('success', res.message);
 				} else {
 					setButtonState(false);
 					toast.error(res.message, {
@@ -201,20 +189,7 @@ export default function MyProfile() {
 						editmodalConfirmClose();
 						setButtonState(false);
 						getChefLocationData(currentUserData.id);
-						toast.success(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #ff4e00d1',
-								color: '#454545',
-								"--toastify-icon-color-success": "#ff4e00d1",
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
+						showToast('success', res.message);
 					} else {
 						setButtonState(false);
 						toast.error(res.message, {
@@ -320,20 +295,7 @@ export default function MyProfile() {
 					window.localStorage.setItem("profile_status", res.data.profile_status);
 					window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
 
-					toast.success(res.message, {
-						position: toast.POSITION.TOP_RIGHT,
-						closeButton: true,
-						hideProgressBar: false,
-						style: {
-							background: '#ffff',
-							borderLeft: '4px solid #ff4e00d1',
-							color: '#454545',
-							"--toastify-icon-color-success": "#ff4e00d1",
-						},
-						progressStyle: {
-							background: '#ffff',
-						},
-					});
+					showToast('success', res.message);
 					// window.location.reload();
 				})
 				.catch((err) => {
@@ -362,20 +324,7 @@ export default function MyProfile() {
 		updateChefImage(currentUserData.id, file)
 			.then((res) => {
 				window.localStorage.setItem("pic", res.data.pic);
-				toast.success(res.message, {
-					position: toast.POSITION.TOP_RIGHT,
-					closeButton: true,
-					hideProgressBar: false,
-					style: {
-						background: '#ffff',
-						borderLeft: '4px solid #ff4e00d1',
-						color: '#454545',
-						"--toastify-icon-color-success": "#ff4e00d1",
-					},
-					progressStyle: {
-						background: '#ffff',
-					},
-				});
+				showToast('success', res.message);
 				window.location.reload();
 			})
 			.catch(error => {
@@ -421,20 +370,7 @@ export default function MyProfile() {
 						getChefLocationData(userData.id);
 						setModalConfirm(false);
 						setButtonState(false);
-						toast.success(res.message, {
-							position: toast.POSITION.TOP_RIGHT,
-							closeButton: true,
-							hideProgressBar: false,
-							style: {
-								background: '#ffff',
-								borderLeft: '4px solid #ff4e00d1',
-								color: '#454545',
-								"--toastify-icon-color-success": "#ff4e00d1",
-							},
-							progressStyle: {
-								background: '#ffff',
-							},
-						});
+						showToast('success', res.message);
 
 					} else {
 						setButtonState(false);
@@ -538,20 +474,7 @@ export default function MyProfile() {
 				// window.localStorage.setItem("name", res.data.name);
 				// window.localStorage.setItem("pic", res.data.pic);
 				// window.localStorage.setItem("surname", res.data.surname);
-				toast.success(res.message, {
-					position: toast.POSITION.TOP_RIGHT,
-					closeButton: true,
-					hideProgressBar: false,
-					style: {
-						background: '#ffff',
-						borderLeft: '4px solid #ff4e00d1',
-						color: '#454545',
-						"--toastify-icon-color-success": "#ff4e00d1",
-					},
-					progressStyle: {
-						background: '#ffff',
-					},
-				});
+				showToast('success', res.message);
 
 			}).catch(err => {
 				setButtonState(false);

@@ -8,6 +8,7 @@ import { removeToken, removeStorageData } from "../../../lib/session";
 import TimezonePicker from 'react-bootstrap-timezone-picker';
 import 'react-bootstrap-timezone-picker/dist/react-bootstrap-timezone-picker.min.css';
 import { Loader } from '@googlemaps/js-api-loader';
+import { showToast } from '../../commoncomponents/toastUtils';
 export default function UserProfile() {
   
     const [isHidden, setIsHidden] = useState(true);
@@ -174,20 +175,7 @@ export default function UserProfile() {
           window.localStorage.setItem("surname", res.data.surname);
           window.localStorage.setItem("address", res.data.address);
           window.localStorage.setItem("phone", res.data.phone);
-          toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
-            closeButton: true,
-            hideProgressBar: false,
-            style: {
-              background: '#ffff',
-              borderLeft: '4px solid #ff4e00d1',
-              color: '#454545',
-              "--toastify-icon-color-success": "#ff4e00d1",
-            },
-            progressStyle: {
-              background: '#ffff',
-            },
-          });
+          showToast('success', res.message);
         })
         .catch((err) => {
           setButtonState(false);
@@ -215,20 +203,7 @@ export default function UserProfile() {
     updateUsersImage(currentUserData.id, file)
       .then((res) => {
         window.localStorage.setItem("pic", res.data.pic);
-        toast.success(res.message, {
-          position: toast.POSITION.TOP_RIGHT,
-          closeButton: true,
-          hideProgressBar: false,
-          style: {
-            background: '#ffff',
-            borderLeft: '4px solid #ff4e00d1',
-            color: '#454545',
-            "--toastify-icon-color-success": "#ff4e00d1",
-          },
-          progressStyle: {
-            background: '#ffff',
-          },
-        });
+        showToast('success', res.message);
       })
       .catch(error => {
         console.error(error);

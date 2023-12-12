@@ -8,6 +8,7 @@ import { removeToken, removeStorageData, getCurrentUserData, removeBookingData }
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { UpdateUserToOffiline } from "../../../lib/userapi"
 import { useSession, signIn, signOut } from 'next-auth/react'
+import { showToast } from '../../commoncomponents/toastUtils'; 
 
 export default function Header({ }) {
 
@@ -17,8 +18,8 @@ export default function Header({ }) {
     email?: string
     role?: string
     name?: string
-    privacy?:string
-    terms?:string
+    privacy?: string
+    terms?: string
   }
 
   interface User {
@@ -85,11 +86,11 @@ export default function Header({ }) {
   const { data: session } = useSession() || {};
 
   useEffect(() => {
-     // if(session){
-     // 	window.location.href = '/user/dashboard';
-     // }
-    
-     if (session) {
+    // if(session){
+    // 	window.location.href = '/user/dashboard';
+    // }
+
+    if (session) {
       SocialData(session.user, 'google');
     }
 
@@ -104,7 +105,7 @@ export default function Header({ }) {
       password: '12345678'
     };
 
-   // console.log(data);
+    // console.log(data);
 
     socialDataSave(data)
       .then(res => {
@@ -132,27 +133,8 @@ export default function Header({ }) {
             setCurrentUserId(true);
             setUserId(res.data.user.id);
 
-            signOut({redirect: false}).then();
-            // toast.success(res.message, {
-            //   position: toast.POSITION.TOP_RIGHT,
-            //   closeButton: true,
-            //   hideProgressBar: false,
-            //   style: {
-            //     background: '#ffff',
-            //     borderLeft: '4px solid #ff4e00d1',
-            //     color: '#454545',
-            //     "--toastify-icon-color-success": "#ff4e00d1",
-            //   },
-            //   progressStyle: {
-            //     background: '#ffff',
-            //   },
-            // });
-
-            // setTimeout(() => {
-            //   if (res.data.user.role == "user") {
-            //     window.location.href = "/user/userprofile";
-            //   }
-            // }, 1000);
+            signOut({ redirect: false }).then();
+            showToast('success', res.message); 
 
             router.push('/user/userprofile');
 
@@ -173,7 +155,7 @@ export default function Header({ }) {
               },
             });
           }
-        }else {
+        } else {
           setButtonState(false);
           if (res.status === false && res.errors) {
             Object.keys(res.errors).forEach(function (key) {
@@ -243,7 +225,7 @@ export default function Header({ }) {
           removeToken();
           removeStorageData();
           removeBookingData();
-          signOut({redirect: false}).then();
+          signOut({ redirect: false }).then();
           window.location.href = '/';
           setIsAuthenticated(false);
           setRole("");
@@ -277,7 +259,7 @@ export default function Header({ }) {
 
     // Submit form data if there are no errors
     if (Object.keys(newErrors).length === 0) {
-       setButtonState(true);
+      setButtonState(true);
       // Call an API or perform some other action to register the user
       const data = {
         email: email,
@@ -303,21 +285,7 @@ export default function Header({ }) {
               window.localStorage.setItem("expiration", res.authorisation.expiration);
               window.localStorage.setItem("created_by", res.user.created_by);
 
-              toast.success(res.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                closeButton: true,
-                hideProgressBar: false,
-                style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #ff4e00d1',
-                  color: '#454545',
-                  "--toastify-icon-color-success": "#ff4e00d1",
-                },
-                progressStyle: {
-                  background: '#ffff',
-                },
-              });
-
+              showToast('success', res.message); 
               setTimeout(() => {
                 if (res.user.role == "admin") {
                   window.location.href = "/admin/dashboard";
@@ -464,7 +432,7 @@ export default function Header({ }) {
       newErrors.terms = "Please accept terms and condition";
     }
 
-    
+
 
     setErrors(newErrors);
 
@@ -500,20 +468,7 @@ export default function Header({ }) {
               window.localStorage.setItem("profile_status", res.data.profile_status);
               window.localStorage.setItem("created_by", res.data.user.created_by);
 
-              toast.success(res.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                closeButton: true,
-                hideProgressBar: false,
-                style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #ff4e00d1',
-                  color: '#454545',
-                  "--toastify-icon-color-success": "#ff4e00d1",
-                },
-                progressStyle: {
-                  background: '#ffff',
-                },
-              });
+              showToast('success', res.message); 
 
               setTimeout(() => {
                 if (res.data.user.role == "chef") {
@@ -650,21 +605,7 @@ export default function Header({ }) {
           if (res.status == true) {
             SetModalConfirmThree(false);
             setButtonState(false);
-            toast.success(res.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              closeButton: true,
-              hideProgressBar: false,
-              style: {
-                background: '#ffff',
-                borderLeft: '4px solid #ff4e00d1',
-                color: '#454545',
-                "--toastify-icon-color-success": "#ff4e00d1",
-              },
-              progressStyle: {
-                background: '#ffff',
-              },
-            });
-
+            showToast('success', res.message); 
 
           } else {
             setButtonState(false);
@@ -716,18 +657,18 @@ export default function Header({ }) {
   };
 
 
-  const handleAccept = ()=> {
+  const handleAccept = () => {
 
-    if(acceptance == true){
+    if (acceptance == true) {
       setAcceptance(false)
-    }else {
+    } else {
       setAcceptance(true)
     }
-    
+
   }
 
-  
-  
+
+
 
   //Forgout submit close
 
@@ -793,16 +734,16 @@ export default function Header({ }) {
                       My Profile
                     </a>
                   </li>
-                  
+
                 )}
 
-              {isAuthenticated && role === "user" && (
+                {isAuthenticated && role === "user" && (
                   <li className="nav-item">
                     <a className="nav-link" href="/user/setting">
                       Settings
                     </a>
                   </li>
-                  
+
                 )}
 
                 {isAuthenticated && role === "concierge" && (
@@ -817,24 +758,19 @@ export default function Header({ }) {
 
                 </li>
                 {!current_user_id && (
-                <li className="user nav-item">
-                  <div className="dropdown">
-                          <a
-                              className="dropdown-toggle nav-link"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                              role="button"
-                            >
-                            SignUp
-                            </a>
-                        <ul id="signup_dropdown" className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          <li><a className="dropdown-item" href="#" onClick={() => { setRole('user'); signuppopup(); }}>User</a></li>
-                          <li><a className="dropdown-item" href="#"  onClick={() => { setRole('chef'); signuppopup(); }}>Chef</a></li>
-                          <li><a className="dropdown-item" href="#"  onClick={() => { setRole('concierge'); signuppopup(); }}>Concierge</a></li>
-                        </ul>
-                    </div>
+                  <li className="user nav-item">
+                    <div className="dropdown">
 
-                </li>
+                      <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('chef'); signuppopup(); }}>Chef Registration</a></div>
+                    </div>
+                  </li>
+                )}
+                 {!current_user_id && (
+                  <li className="user nav-item">
+                    <div className="dropdown">
+                    <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a></div></div>
+
+                  </li>
                 )}
               </ul>
             </div>
@@ -867,29 +803,20 @@ export default function Header({ }) {
           <div className='d-flex justify-content-between sign_up_forgot_password'>
 
             <div className="dropdown text-link mt-2">
-                <span className='dont_color'>Don’t have an account? </span>
-                  <a
-                    className="dropdown-toggle nav-link px-0 d-inline"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    role="button"
-                  >
-                 <span>Sign up</span>
-                  </a>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a className="dropdown-item" href="#" onClick={() => { setRole('user'); signuppopup(); }}>User</a></li>
-                <li><a className="dropdown-item" href="#"  onClick={() => { setRole('chef'); signuppopup(); }}>Chef</a></li>
-                <li><a className="dropdown-item" href="#"  onClick={() => { setRole('concierge'); signuppopup(); }}>Concierge</a></li>
-              </ul>
+              <span className='dont_color'>Don’t have an account? </span>
+              <a href="#"
+              >
+                <span  onClick={() => { setRole('user'); signuppopup(); }}>Sign up</span>
+              </a>
             </div>
 
-            
+
             <p className="text-link text-left my-2"><a href="#" onClick={() => forgotpopup()}><span>Forgot password? </span></a></p>
 
           </div>
 
           <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
-          {/* <button className="btn-g"><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/a-logo.jpg'} alt="a-logo" /> Continue with Apple</button> */}
+ 
           <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
 
@@ -937,33 +864,33 @@ export default function Header({ }) {
               <input type="password" id="confirmPassword text-danger mb-2 d-inline-block" name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
               {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_login" >{errors.confirmPassword}</span>}
             </div>
-              
-            <label className='text-start text-decoration-underline fw-bold' role="button" onClick={()=>handleAccept()}>Acceptance Policy</label>
 
-              
+            <label className='text-start text-decoration-underline fw-bold' role="button" onClick={() => handleAccept()}>Acceptance Policy</label>
+
+
             {acceptance && (
               <p className='text-start'>I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy</a> and  <a target="_blank" href='/termsconditions'>Terms of Use</a> of Private Chefs Worldwide. I understand and consent to the collection, processing, and use of my personal data as outlined in these documents. I acknowledge that my information will be handled in accordance with the applicable data protection laws.
               </p>
             )}
 
-           <div className='login_div mt-2'>
-              <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{width:'auto'}} onChange={(e)=>setPrivacy(e.target.checked)}/>
-              <label className="form-check-label" htmlFor="flexCheckIndeterminate" style={{width:'auto',marginLeft:"4px"}}>
-                I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy.</a>
+            <div className='login_div mt-2'>
+              <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{ width: 'auto' }} onChange={(e) => setPrivacy(e.target.checked)} />
+              <label className="form-check-label" htmlFor="flexCheckIndeterminate" style={{ width: 'auto', marginLeft: "4px" }}>
+                I have read and agree to the <a target="_blank" href='/privacypolicy' className='popup-sign-color'>Privacy Policy.</a>
               </label>
               {errors.privacy && <span className="small error text-danger mt-4 d-inline-block error_login" >{errors.privacy}</span>}
             </div>
 
-              
+
             <div className='login_div'>
-              <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{width:'auto'}} onChange={(e)=>setTerms(e.target.checked)}/>
-              <label className="form-check-label mb-4" htmlFor="flexCheckIndeterminate" style={{width:'auto',marginLeft:"4px"}}>
-                I have read and agree to the <a target="_blank" href='/termsconditions'>Terms of Use.</a>
+              <input className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" style={{ width: 'auto' }} onChange={(e) => setTerms(e.target.checked)} />
+              <label className="form-check-label mb-4" htmlFor="flexCheckIndeterminate" style={{ width: 'auto', marginLeft: "4px" }}>
+                I have read and agree to the <a target="_blank" href='/termsconditions' className='popup-sign-color'>Terms of Use.</a>
               </label>
               {errors.terms && <span className="small error text-danger mt-4 d-inline-block error_login" >{errors.terms}</span>}
             </div>
-            
-          
+
+
             <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
           </form>
           <p className="text-link text-left my-2"><a href="#" onClick={() => signinpopup()}>Already have account? <span>Sign in</span></a></p>

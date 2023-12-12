@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin,getChefDetailByLocation,AssignedBookingByAdminWithoutDatabse,getVillas,AssignedVillaByBooking} from "../../../lib/adminapi";
+import { getUserBookingId, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, getAdminChefByBooking, getAdminChefFilterByBooking, deleteBooking, getAllChefDetails, getChefMenus, AssignedBookingByAdmin, getChefDetailByLocation, AssignedBookingByAdminWithoutDatabse, getVillas, AssignedVillaByBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -10,6 +10,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
 import { useRouter } from 'next/router';
+import { showToast } from "../../commoncomponents/toastUtils";
 
 export default function Bookings() {
 
@@ -57,6 +58,7 @@ export default function Bookings() {
 	interface Errors {
 		chefid?: string;
 	}
+
 
 
 	const [bookingUsers, setBookingUser] = useState([]);
@@ -129,7 +131,7 @@ export default function Bookings() {
 	const [getchefmenu, setgetChefMenu] = useState<Menu[]>([]);
 	const [selectedChef, setSelectedChef] = useState('');
 	const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
-	
+
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [address, setAddress] = useState("");
 
@@ -178,13 +180,13 @@ export default function Bookings() {
 		const bookingId = router.query.booking_id;
 		if (bookingId !== undefined) {
 			getUserData();
-		}else {
+		} else {
 			getUserData();
 		}
 	}, [router.query]);
 
 	const getUserData = async () => {
-	
+
 		const data = isPageVisibleToRole("admin-bookings");
 		if (data == 2) {
 			window.location.href = "/"; // redirect to login if not logged in
@@ -209,7 +211,7 @@ export default function Bookings() {
 			});
 		}
 
-		
+
 		const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ""
 		const loader = new Loader({
 			apiKey,
@@ -226,33 +228,33 @@ export default function Bookings() {
 					const place = autocomplete.getPlace();
 
 					if (place && place.formatted_address && place.geometry && place.geometry.location) {
-						
-						
+
+
 
 						// Set the values for the corresponding input field
 						if (inputId === 'address-input') {
 							const lat = place.geometry.location.lat();
 							const lng = place.geometry.location.lng();
 
-							const data  = {
-								lat :lat,
+							const data = {
+								lat: lat,
 								lng: lng
 							}
 							getAllChefDetails()
-							.then(res => {
-								if (res.status == true) {
+								.then(res => {
+									if (res.status == true) {
 
-									fetchBookingChefDetailbylocation(data,res.data);
+										fetchBookingChefDetailbylocation(data, res.data);
 
-								} else {
-									console.log('error');
-								}
-							})
-							.catch(err => {
-								console.log(err);
-							});
-							
-							
+									} else {
+										console.log('error');
+									}
+								})
+								.catch(err => {
+									console.log(err);
+								});
+
+
 						}
 					}
 				});
@@ -261,7 +263,7 @@ export default function Bookings() {
 
 		loader.load().then(() => {
 			setupAddressAutocomplete('address-input');
-			
+
 		}).catch((error) => {
 			console.error('Failed to load Google Maps API', error);
 		});
@@ -284,37 +286,37 @@ export default function Bookings() {
 	}
 
 
-	const fetchBookingChefDetailbylocation = async (data:any,chef_data:any) => {
+	const fetchBookingChefDetailbylocation = async (data: any, chef_data: any) => {
 		try {
 
 			const res = await getChefDetailByLocation(data);
 
-			const filteredChefLocation = chef_data.filter((location:any) =>
-					res.data.some((chef:any) => chef.user_id == location.id)
-				);
+			const filteredChefLocation = chef_data.filter((location: any) =>
+				res.data.some((chef: any) => chef.user_id == location.id)
+			);
 
 			setgetAllChef(filteredChefLocation);
 
 			if (res.status == false) {
-				
+
 				toast.info(res.message, {
 					position: toast.POSITION.TOP_RIGHT,
 					closeButton: true,
 					hideProgressBar: false,
 					style: {
-					  background: '#ffff',
-					  borderLeft: '4px solid #e74c3c',
-					  color: '#454545',
-					  "--toastify-icon-color-info": "#e74c3c",
+						background: '#ffff',
+						borderLeft: '4px solid #e74c3c',
+						color: '#454545',
+						"--toastify-icon-color-info": "#e74c3c",
 					},
 					progressStyle: {
-					  background: '#ffff',
+						background: '#ffff',
 					},
-				  });
+				});
 
 			}
 		} catch (err: any) {
-			
+
 		}
 	};
 
@@ -329,8 +331,8 @@ export default function Bookings() {
 
 				let filteredReceipts = res.data;
 				if (router.query.booking_id) {
-					
-					filteredReceipts = res.data.filter((receipt:any) => receipt.booking_id == router.query.booking_id);
+
+					filteredReceipts = res.data.filter((receipt: any) => receipt.booking_id == router.query.booking_id);
 				}
 
 				setTotalBooking(filteredReceipts);
@@ -429,13 +431,13 @@ export default function Bookings() {
 			.then(res => {
 				if (res.status == true) {
 					setChefOffer(res.data);
-					
+
 					// console.log(res.data);
 					// res.data.forEach((item: any) => {
 					// 	// 
 					// 	if (item.applied_jobs_status == "hired") {
 					// 		setAppliedId(item.applied_jobs_id);
-							
+
 					// 	}
 					// });
 
@@ -505,8 +507,8 @@ export default function Bookings() {
 		}
 	};
 
-	const handleRadioChange = (chef:number,appliedid:any) => {
-		
+	const handleRadioChange = (chef: number, appliedid: any) => {
+
 		setAsssignSelectedChef(Number(chef));
 		setAppliedId(appliedid);
 	};
@@ -529,15 +531,15 @@ export default function Bookings() {
 
 			});
 		} else {
-			
+
 			if (client && admin) {
 				setIsSubmitting(true)
 				const data = {
-					booking_id :bookingid,
+					booking_id: bookingid,
 					id: appliedid,
-					chef_id:assignselectedchef,
-					client_amount:client,
-					payment_status:payment_status
+					chef_id: assignselectedchef,
+					client_amount: client,
+					payment_status: payment_status
 				}
 
 				// console.log(data);
@@ -546,20 +548,7 @@ export default function Bookings() {
 					.then(res => {
 						if (res.status == true) {
 
-							toast.success(res.message, {
-								position: toast.POSITION.TOP_RIGHT,
-								closeButton: true,
-								hideProgressBar: false,
-								style: {
-									background: '#ffff',
-									borderLeft: '4px solid #ff4e00d1',
-									color: '#454545',
-									"--toastify-icon-color-success": "#ff4e00d1",
-								},
-								progressStyle: {
-									background: '#ffff',
-								},
-							});
+							showToast('success', res.message); 
 
 							setModalConfirm(false);
 
@@ -687,7 +676,7 @@ export default function Bookings() {
 	// 			.catch(err => {
 	// 				console.log(err);
 	// 			})
-				
+
 
 	// 	}
 
@@ -755,23 +744,25 @@ export default function Bookings() {
 
 		setAddress(event.target.val)
 
-		if(event.target.val == undefined){
+		if (event.target.val == undefined) {
 			getAllChefDetails()
-			.then(res => {
-				if (res.status == true) {
-					setgetAllChef(res.data);
-				} else {
-					console.log('error');
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
+				.then(res => {
+					if (res.status == true) {
+						setgetAllChef(res.data);
+					} else {
+						console.log('error');
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		}
-		
-	
+
+
 	};
 
+	const [chefEmail, setChefEmail] = useState('');
+	const [chefPhone, setChefPhone] = useState('');
 
 	const handleChefSelection = (event: any) => {
 		const selectedChefId = event.target.value;
@@ -779,6 +770,14 @@ export default function Bookings() {
 
 		const filteredMenuOptions = getchefmenu.filter((data) => data.chefid == selectedChefId);
 		setMenuOptions(filteredMenuOptions);
+		const selectedChefData = getallchef.find((chef) => chef.id == parseInt(selectedChefId, 10));
+		if (selectedChefData) {
+			setChefEmail(selectedChefData.email);
+			setChefPhone(selectedChefData.phone);
+		} else {
+			setChefEmail('');
+			setChefPhone('');
+		}
 	};
 
 	const handleChefMenu = (event: any) => {
@@ -786,101 +785,88 @@ export default function Bookings() {
 		setSelectedMenu(selectedChefId);
 	};
 
-    const handleBookingApplyJobSubmit = (event: any) => {
+	const handleBookingApplyJobSubmit = (event: any) => {
 		event.preventDefault();
-	  
+
 		if (isSubmitting) {
-		  return; // If already submitting, return early to prevent multiple submissions
+			return; // If already submitting, return early to prevent multiple submissions
 		}
-	  
+
 		if (!selectedChef) {
-		  // Chef not selected from dropdown
-		  swal({
-			title: 'Oops!',
-			text: 'Please choose one user to assign this booking',
-			icon: 'info',
-		  });
-		  return;
+			// Chef not selected from dropdown
+			swal({
+				title: 'Oops!',
+				text: 'Please choose one user to assign this booking',
+				icon: 'info',
+			});
+			return;
 		}
 		if (!adminamount || !clientamount) {
-		  // Required fields not entered
-		  swal({
-			title: 'Oops!',
-			text: 'Please enter admin amount, client amount',
-			icon: 'info',
-		  });
-		  return;
+			// Required fields not entered
+			swal({
+				title: 'Oops!',
+				text: 'Please enter admin amount, client amount',
+				icon: 'info',
+			});
+			return;
 		}
-	  
+
 		if (!menuOptions || !menuOptions[0] || !menuOptions[0].menuid) {
-		  // Menu not selected or not available
-		  swal({
-			title: 'Oops!',
-			text: 'Please select a user with menus',
-			icon: 'info',
-		  });
-		  return;
+			// Menu not selected or not available
+			swal({
+				title: 'Oops!',
+				text: 'Please select a user with menus',
+				icon: 'info',
+			});
+			return;
 		}
-	  
+
 		setIsSubmitting(true); // Set isSubmitting to true when the form submission begins
-	  
+
 		const data = {
-		  amount: amount1,
-		  menu: menuOptions[0].menuid,
-		  booking_id: bookingid,
-		  chef_id: selectedChef,
-		  client_amount: clientamount,
-		  admin_amount: adminamount,
-		  payment_status:payment_status
+			amount: amount1,
+			menu: menuOptions[0].menuid,
+			booking_id: bookingid,
+			chef_id: selectedChef,
+			client_amount: clientamount,
+			admin_amount: adminamount,
+			payment_status: payment_status
 		};
- 
+
 		AssignedBookingByAdmin(data)
-		  .then(res => {
-			if (res.status === true) {
-			  setModalConfirm(false);
-			  setModalConfirm1(false);
-	  
-			  toast.success(res.message, {
-				position: toast.POSITION.TOP_RIGHT,
-				closeButton: true,
-				hideProgressBar: false,
-				style: {
-				  background: '#ffff',
-				  borderLeft: '4px solid #ff4e00d1',
-				  color: '#454545',
-				  "--toastify-icon-color-success": "#ff4e00d1",
-				},
-				progressStyle: {
-				  background: '#ffff',
-				},
-			  });
+			.then(res => {
+				if (res.status === true) {
+					setModalConfirm(false);
+					setModalConfirm1(false);
 
-			  window.location.reload()
-			} else {
-			  toast.error(res.message, {
-				position: toast.POSITION.TOP_RIGHT,
-				closeButton: true,
-				hideProgressBar: false,
-				style: {
-				  background: '#ffff',
-				  borderLeft: '4px solid #e74c3c',
-				  color: '#454545',
-				},
-				progressStyle: {
-				  background: '#ffff',
-				},
-			  });
-			}
-		  })
-		  .catch(err => {
-			console.log(err);
-		  })
-		  .finally(() => {
-			setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
-		  });
-	  };
+					showToast('success', res.message); 
 
-	  const handleBookingAssignVillaSubmit = (event: any) => {
+					window.location.reload()
+				} else {
+					toast.error(res.message, {
+						position: toast.POSITION.TOP_RIGHT,
+						closeButton: true,
+						hideProgressBar: false,
+						style: {
+							background: '#ffff',
+							borderLeft: '4px solid #e74c3c',
+							color: '#454545',
+						},
+						progressStyle: {
+							background: '#ffff',
+						},
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			})
+			.finally(() => {
+				setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
+			});
+	};
+
+	const handleBookingAssignVillaSubmit = (event: any) => {
 		event.preventDefault();
 
 		if (!villa_id) {
@@ -892,68 +878,55 @@ export default function Bookings() {
 
 			});
 		} else {
-			
-				setIsSubmitting(true)
-				const data = {
-					booking_id :bookingid,
-					assigned_to_villa_id: villa_id,
-				}
 
-				AssignedVillaByBooking(data)
-					.then(res => {
-						if (res.status == true) {
+			setIsSubmitting(true)
+			const data = {
+				booking_id: bookingid,
+				assigned_to_villa_id: villa_id,
+			}
 
-							toast.success(res.message, {
-								position: toast.POSITION.TOP_RIGHT,
-								closeButton: true,
-								hideProgressBar: false,
-								style: {
-									background: '#ffff',
-									borderLeft: '4px solid #ff4e00d1',
-									color: '#454545',
-									"--toastify-icon-color-success": "#ff4e00d1",
-								},
-								progressStyle: {
-									background: '#ffff',
-								},
-							});
+			AssignedVillaByBooking(data)
+				.then(res => {
+					if (res.status == true) {
 
-							setModalConfirm2(false);
+						showToast('success', res.message); 
 
-							getSingleUserAssignBookingData(bookingid)
-							fetchBookingAdminDetails();
-						} else {
+						setModalConfirm2(false);
 
-							toast.error(res.message, {
-								position: toast.POSITION.TOP_RIGHT,
-								closeButton: true,
-								hideProgressBar: false,
-								style: {
-									background: '#ffff',
-									borderLeft: '4px solid #e74c3c',
-									color: '#454545',
-								},
-								progressStyle: {
-									background: '#ffff',
-								},
-							});
+						getSingleUserAssignBookingData(bookingid)
+						fetchBookingAdminDetails();
+					} else {
 
-						}
-					})
-					.catch(err => {
-						console.log(err);
-					})
-					.finally(() => {
-						setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
-					});
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: '#ffff',
+								borderLeft: '4px solid #e74c3c',
+								color: '#454545',
+							},
+							progressStyle: {
+								background: '#ffff',
+							},
+						});
 
-	
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				})
+				.finally(() => {
+					setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
+				});
+
+
 		}
 
 	};
 
 
-	  
+
 
 
 	return (
@@ -1026,7 +999,10 @@ export default function Bookings() {
 									return (
 										<tr key={index}>
 											<td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
-											<td><p className="text-data-18" id="table-p">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p></td>
+
+											<td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id} target="_blank" className="nameofusers">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} </a></td>
+
+
 											<td className="chefs_pic"><p className="text-data-18" id="table-p">
 												{user.pic ? <img
 													src={
@@ -1046,12 +1022,12 @@ export default function Bookings() {
 											<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
 
 											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
-													
+
 
 											<td><p className="text-data-18" id="table-p">{user.location}</p></td>
 											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
 
-											<td><p className="text-data-18" id="table-p">{user.payment_status}</p></td>		
+											<td><p className="text-data-18" id="table-p">{user.payment_status}</p></td>
 
 											<td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
 
@@ -1085,21 +1061,21 @@ export default function Bookings() {
 
 														{/* {user.payment_status} */}
 
-														{(user.category == 'multipletimes' &&  user.booking_status != 'Expired')  && (<li>
+														{(user.category == 'multipletimes' && user.booking_status != 'Expired') && (<li>
 															<a
 																className="dropdown-item"
 																href="#"
-																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields();setCheckAsssignSelectedChef(user.assigned_to_user_id);setPaymentStatus(user.payment_status)}}
+																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields(); setCheckAsssignSelectedChef(user.assigned_to_user_id); setPaymentStatus(user.payment_status) }}
 															>
 																Assign Booking
 															</a>
 														</li>)}
 
-														{(user.booking_status != 'Expired')  && (<li>
+														{(user.booking_status != 'Expired') && (<li>
 															<a
 																className="dropdown-item"
 																href="#"
-																onClick={(e) => { setModalConfirm2(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id);setVillasId(Number(user.assigned_to_villa_id))}}
+																onClick={(e) => { setModalConfirm2(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); setVillasId(Number(user.assigned_to_villa_id)) }}
 															>
 																Assign Villa
 															</a>
@@ -1133,7 +1109,7 @@ export default function Bookings() {
 							</tbody>
 						</table>
 						:
-						<p className="book1" style={{textAlign:"center"}}>No Booking Records Found.</p>
+						<p className="book1" style={{ textAlign: "center" }}>No Booking Records Found.</p>
 					}
 				</div>
 			</div>
@@ -1185,7 +1161,7 @@ export default function Bookings() {
 													</div>
 												))
 											) : (
-												<p className="mt-2" style={{textAlign:"center"}}>No Chef apply for this booking</p>
+												<p className="mt-2" style={{ textAlign: "center" }}>No Chef apply for this booking</p>
 											)}
 										</div>
 									</div>
@@ -1264,9 +1240,9 @@ export default function Bookings() {
 													<p className="chefs-name name-12">Special Requests:</p>
 												</div>
 												<div className="col-8">
-    											{booking.notes !== null && booking.notes !== 'null' ? (
-                                                  <p className="mony f-w-4">{booking.notes}</p>
-                                                ) : ''}
+													{booking.notes !== null && booking.notes !== 'null' ? (
+														<p className="mony f-w-4">{booking.notes}</p>
+													) : ''}
 
 												</div>
 											</div>
@@ -1404,9 +1380,9 @@ export default function Bookings() {
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										
+
 										<th scope="col">Chef's Name</th>
-										<th scope="col-2">Menu</th>
+										{/* <th scope="col-2">Menu</th> */}
 										<th scope="col">Chef's Amount</th>
 										<th scope="col">Client Amount</th>
 										<th scope="col">Admin Amount</th>
@@ -1424,23 +1400,23 @@ export default function Bookings() {
 															type="radio"
 															id={`chef_id_${chef.chef_id}`}
 															name={`chef_id_${chef.chef_id}`}
-															onChange={() => handleRadioChange(Number(chef.chef_id),chef.applied_jobs_id)} // Add this line
-        													checked={assignselectedchef == chef.chef_id} 
+															onChange={() => handleRadioChange(Number(chef.chef_id), chef.applied_jobs_id)} // Add this line
+															checked={assignselectedchef == chef.chef_id}
 														/>
 													</div>
-													
+
 												</th>
 												<td>{chef.name} {chef.surname}
-												
-												{payment_status === 'completed' && checkassignselectedchef == chef.chef_id && (
+
+													{payment_status === 'completed' && checkassignselectedchef == chef.chef_id && (
 														<button type="button" className="btn btn-sm btn-success mx-2">Paid</button>
 													)}
-												{chef.applied_jobs_status === 'discussion' && checkassignselectedchef == chef.chef_id && (
+													{chef.applied_jobs_status === 'discussion' && checkassignselectedchef == chef.chef_id && (
 														<button type="button" className="btn btn-sm btn-info text-white">Assigned</button>
 													)}
 
 												</td>
-												<td>
+												{/* <td>
 													{chef.menu_names?.split(",").map((menu, index) => (
 														<button className="table-btn btn-2 list-btn mb-1" key={index}>
 															{menu.trim()}
@@ -1448,7 +1424,7 @@ export default function Bookings() {
 													))}
 													
 													
-												</td>
+												</td> */}
 												<td>{chef.amount}</td>
 												<td>
 													<div className="all-form p-0 add-w">
@@ -1496,7 +1472,7 @@ export default function Bookings() {
 										))
 									) : (
 										<tr>
-											<td className="" colSpan={7} style={{textAlign:"center" ,paddingTop: "5%",border:"unset",fontSize:"16px"}}><p style={{fontSize:"16px"}}>No Chef apply for this booking</p></td>
+											<td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}><p style={{ fontSize: "16px" }}>No Chef apply for this booking</p></td>
 										</tr>
 									)}
 								</tbody>
@@ -1504,7 +1480,7 @@ export default function Bookings() {
 							<div className="row">
 								<div className="col-md-6">
 									<div className="banner-btn">
-										<button type="button" id="btn_offer" className="mx-2"  onClick={(e) => { setModalConfirm1(true); setModalConfirm(false); }}>
+										<button type="button" id="btn_offer" className="mx-2" onClick={(e) => { setModalConfirm1(true); setModalConfirm(false); }}>
 											Assign From Database
 										</button>
 									</div>
@@ -1544,7 +1520,9 @@ export default function Bookings() {
 										<th scope="col">#</th>
 										<th scope="col">Chef's Location</th>
 										<th scope="col">Chef's Name</th>
-										<th scope="col-2">Menu</th>
+										{/* <th scope="col-2">Menu</th> */}
+										<th scope="col">Email</th>
+										{chefPhone ? <th scope="col">Phone</th> : <></>}
 										<th scope="col">Chef Amount</th>
 										<th scope="col">Client Amount</th>
 										<th scope="col">Admin Amount</th>
@@ -1565,15 +1543,15 @@ export default function Bookings() {
 										</td>
 										<td>
 
-										<div className="all-form p-0 add-w">
+											<div className="all-form p-0 add-w">
 												<div className="login_div">
-												<input id="address-input" type="text" name="address" value={address} onChange={handleChefaddress} />
-										
+													<input id="address-input" type="text" name="address" value={address} onChange={handleChefaddress} />
+
 												</div>
 											</div>
 
 										</td>
-										
+
 										<td>
 											<div className="login_div">
 												<select name="chef_id" value={selectedChef} onChange={handleChefSelection}
@@ -1586,6 +1564,30 @@ export default function Bookings() {
 											</div>
 										</td>
 										<td>
+												<div className="all-form p-0 add-w">
+													<div className="login_div">
+														<input id="address-input" type="text" name="address" value={chefEmail} readOnly />
+
+													</div>
+												</div>
+										</td>
+										{chefPhone ?
+										<td>
+											{chefPhone && (
+												<div className="all-form p-0 add-w">
+													<div className="login_div">
+														<input
+															id="address-input"
+															type="text"
+															name="address"
+															value={chefPhone}
+															readOnly
+														/>
+													</div>
+												</div>
+											)}
+										</td>: <></>}
+										{/* <td>
 											<div className="login_div">
 												<select name="menu1" value={selectedmenu} onChange={handleChefMenu}
 												>	<option value="">Choose menu</option>
@@ -1594,7 +1596,7 @@ export default function Bookings() {
 													))}
 												</select>
 											</div>
-										</td>
+										</td> */}
 										<td>
 											<div className="all-form p-0 add-w">
 												<div className="login_div">
@@ -1658,7 +1660,7 @@ export default function Bookings() {
 											<button id="btn_offer" className="mx-2" type="button" onClick={handleClear}>
 												Clear
 											</button>
-										<button
+											<button
 												id="btn_offer"
 												type="submit"
 												disabled={isSubmitting}
@@ -1685,17 +1687,17 @@ export default function Bookings() {
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										
+
 										<th scope="col">Villa Name</th>
 										<th scope="col">Villa Phone</th>
 										<th scope="col">Villa Address</th>
 										<th scope="col">Villa Partner/Owner</th>
-										
+
 									</tr>
 								</thead>
 								<tbody>
 									{villasdata.length > 0 ? (
-										villasdata.map((villa:any, index:any) => (
+										villasdata.map((villa: any, index: any) => (
 											<tr key={index}>
 												<th scope="row">
 													<div className="form-check">
@@ -1709,29 +1711,29 @@ export default function Bookings() {
 															value={villa.id}
 														/>
 													</div>
-													
+
 												</th>
 												<td>{villa.name} </td>
-												
+
 												<td>{villa.phone}</td>
 												<td>{villa.address}</td>
 												<td className="text-capitalize">{villa.partner_owner}</td>
-												
+
 											</tr>
 										))
 									) : (
 										<tr>
-											<td className="" colSpan={7} style={{textAlign:"center" ,paddingTop: "5%",border:"unset",fontSize:"16px"}}><p style={{fontSize:"16px"}}>No Chef apply for this booking</p></td>
+											<td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}><p style={{ fontSize: "16px" }}>No Chef apply for this booking</p></td>
 										</tr>
 									)}
 								</tbody>
 							</table>
 							<div className="row">
-								
+
 								<div className="col-md-12">
 									<div className="text-end">
 										<div className="">
-											
+
 											<button
 												id="btn_offer"
 												type="submit"
@@ -1741,7 +1743,7 @@ export default function Bookings() {
 											</button>
 										</div>
 									</div>
-									
+
 								</div>
 							</div>
 						</form>
