@@ -5008,3 +5008,15 @@ a.nav-link.set-color-text {
 a.nav-link.set-color-text:hover {
   color: #fff !important;
 }
+@media (max-width: 991.98px) {
+  .d-none-set {
+    display: none !important;
+  }
+}
+
+/* Hide elements with d-lg-none class on large devices */
+@media (min-width: 992px) {
+  .d-lg-none-set {
+    display: none !important;
+  }
+}

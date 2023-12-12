@@ -8,7 +8,7 @@ import { removeToken, removeStorageData, getCurrentUserData, removeBookingData }
 import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { UpdateUserToOffiline } from "../../../lib/userapi"
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { showToast } from '../../commoncomponents/toastUtils'; 
+import { showToast } from '../../commoncomponents/toastUtils';
 
 export default function Header({ }) {
 
@@ -134,7 +134,7 @@ export default function Header({ }) {
             setUserId(res.data.user.id);
 
             signOut({ redirect: false }).then();
-            showToast('success', res.message); 
+            showToast('success', res.message);
 
             router.push('/user/userprofile');
 
@@ -285,7 +285,7 @@ export default function Header({ }) {
               window.localStorage.setItem("expiration", res.authorisation.expiration);
               window.localStorage.setItem("created_by", res.user.created_by);
 
-              showToast('success', res.message); 
+              showToast('success', res.message);
               setTimeout(() => {
                 if (res.user.role == "admin") {
                   window.location.href = "/admin/dashboard";
@@ -468,7 +468,7 @@ export default function Header({ }) {
               window.localStorage.setItem("profile_status", res.data.profile_status);
               window.localStorage.setItem("created_by", res.data.user.created_by);
 
-              showToast('success', res.message); 
+              showToast('success', res.message);
 
               setTimeout(() => {
                 if (res.data.user.role == "chef") {
@@ -605,7 +605,7 @@ export default function Header({ }) {
           if (res.status == true) {
             SetModalConfirmThree(false);
             setButtonState(false);
-            showToast('success', res.message); 
+            showToast('success', res.message);
 
           } else {
             setButtonState(false);
@@ -757,21 +757,35 @@ export default function Header({ }) {
                   {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
 
                 </li>
-                {!current_user_id && (
-                  <li className="user nav-item">
-                    <div className="dropdown">
 
-                      <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('chef'); signuppopup(); }}>Chef Registration</a></div>
-                    </div>
-                  </li>
-                )}
-                 {!current_user_id && (
-                  <li className="user nav-item">
-                    <div className="dropdown">
-                    <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a></div></div>
+                <div className='d-none-set d-lg-block'>
+                  {!current_user_id && (
+                    <li className="user nav-item">
+                      <div className="dropdown">
 
-                  </li>
-                )}
+                        <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('chef'); signuppopup(); }}>Chef Registration</a></div>
+                      </div>
+                    </li>
+                  )}</div>
+                  <div className='d-none-set d-lg-block'>
+                  {!current_user_id && (
+                    <li className="user nav-item">
+                      <div className="dropdown">
+                        <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a></div></div>
+                    </li>
+                  )}</div>
+
+
+                    {/* mobile view button */}
+                <div className='d-block d-lg-none-set'>
+                  {!current_user_id && (
+                    <><li className="nav-item">
+                      <a className="nav-link" href="#" onClick={() => { setRole('chef'); signuppopup(); }}>Chef Registration</a>
+                    </li><li className="nav-item">
+                        <a className="nav-link" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a>
+                      </li></>
+                  )}</div>
+
               </ul>
             </div>
           </nav>
@@ -806,7 +820,7 @@ export default function Header({ }) {
               <span className='dont_color'>Don’t have an account? </span>
               <a href="#"
               >
-                <span  onClick={() => { setRole('user'); signuppopup(); }}>Sign up</span>
+                <span onClick={() => { setRole('user'); signuppopup(); }}>Sign up</span>
               </a>
             </div>
 
@@ -816,7 +830,7 @@ export default function Header({ }) {
           </div>
 
           <button className="btn-g" onClick={() => signIn('google')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/g-logo.png'} alt="g-logo" /> Continue with Google</button>
- 
+
           <button className="btn-g" onClick={() => signIn('facebook')}><img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/f-logo.png'} alt="f-logo" /> Continue with Facebook</button>
         </div>
 

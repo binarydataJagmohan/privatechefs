@@ -777,21 +777,33 @@ export default function Header({ }) {
                   {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
 
                 </li>
-                {!current_user_id && (
-                  <li className="user nav-item">
-                    <div className="dropdown">
+                <div className='d-none-set d-lg-block'>
+                  {!current_user_id && (
+                    <li className="user nav-item">
+                      <div className="dropdown">
 
-                      <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('chef'); signuppopup(); }}>Chef Registration</a></div>
-                    </div>
-                  </li>
-                )}
-                 {!current_user_id && (
-                  <li className="user nav-item">
-                    <div className="dropdown">
-                    <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a></div></div>
+                        <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('chef'); signuppopup(); }}>Chef Registration</a></div>
+                      </div>
+                    </li>
+                  )}</div>
+                <div className='d-none-set d-lg-block'>
+                  {!current_user_id && (
+                    <li className="user nav-item">
+                      <div className="dropdown">
+                        <div className="banner-btn" style={{ marginTop: '0' }}> <a className="nav-link set-color-text" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a></div></div>
+                    </li>
+                  )}</div>
 
-                  </li>
-                )}
+
+                {/* mobile view button */}
+                <div className='d-block d-lg-none-set'>
+                  {!current_user_id && (
+                    <><li className="nav-item">
+                      <a className="nav-link" href="#" onClick={() => { setRole('chef'); signuppopup(); }}>Chef Registration</a>
+                    </li><li className="nav-item">
+                        <a className="nav-link" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a>
+                      </li></>
+                  )}</div>
               </ul>
             </div>
           </nav>
