@@ -38,7 +38,7 @@ export default function Footer() {
     event.preventDefault();
 		swal({
 			title: "GDPR Consent",
-			text: "By clicking the 'Submit' button, you consent to Private Chefs Worldwide collecting and processing the personal data you provided for the purpose of registering and using our platform. Your data will be handled in accordance with our Privacy Policy and in compliance with the General Data Protection Regulation (GDPR)..\n\nWe may use your information to contact you regarding your account, provide updates on our services, and send important notifications. You have the right to access, rectify, or erase your personal data at any time. For more information on how we process and protect your data, please review our Privacy Policy..\n\nIf you have any questions or concerns about your privacy or data processing, please contact us at info@privatechefsworld.com",
+			text: "By clicking the 'Submit' button, you consent to Private Chefs World collecting and processing the personal data you provided for the purpose of registering and using our platform. Your data will be handled in accordance with our Privacy Policy and in compliance with the General Data Protection Regulation (GDPR)..\n\nWe may use your information to contact you regarding your account, provide updates on our services, and send important notifications. You have the right to access, rectify, or erase your personal data at any time. For more information on how we process and protect your data, please review our Privacy Policy..\n\nIf you have any questions or concerns about your privacy or data processing, please contact us at info@privatechefsworld.com",
 			icon: "warning",
 			//buttons: true,
 			dangerMode: true,

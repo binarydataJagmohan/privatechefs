@@ -113,7 +113,7 @@ export default function OurChefs(props: any) {
                             <div className="banner-text pages-text">
                                 <h1>Our Culinary Artists</h1>
                                 <div className="banner-btn mb-5"><a href="/bookings/step1">Start your journey</a></div>
-                                <p>Prepare to be introduced to a world of culinary excellence as we proudly present our top-rated Chefs from across the globe. At Private Chefs Worldwide, our team of talented culinary artists have not only perfected their craft but also elevated it to new heights..</p>
+                                <p>Prepare to be introduced to a world of culinary excellence as we proudly present our top-rated Chefs from across the globe. At Private Chefs World, our team of talented culinary artists have not only perfected their craft but also elevated it to new heights..</p>
                             </div>
                         </div>
                     </div>

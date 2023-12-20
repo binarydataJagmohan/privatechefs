@@ -177,7 +177,7 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs Worldwide, is more than just a culinary service. We are a global culinary movement, operating in 30 countries and powered by a passionate team of over 2500 talented chefs.
+                                            Private Chefs World, is more than just a culinary service. We are a global culinary movement, operating in 30 countries and powered by a passionate team of over 2500 talented chefs.
                                         </div>
                                     </div>
                                 </div>
@@ -224,7 +224,7 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapse5" className="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            At Private Chefs Worldwide, we understand the importance of seamless communication throughout the booking process. While we value open dialogue, we encourage clients to go through our dedicated team to discuss their needs and preferences. Our team is experienced in ensuring that your booking process is smooth and successful, allowing you to focus on the delightful culinary experience that awaits. Our approach helps maintain a secure and hassle-free booking process while allowing our talented chefs to do what they do best – creating exceptional dining experiences for you.
+                                            At Private Chefs World, we understand the importance of seamless communication throughout the booking process. While we value open dialogue, we encourage clients to go through our dedicated team to discuss their needs and preferences. Our team is experienced in ensuring that your booking process is smooth and successful, allowing you to focus on the delightful culinary experience that awaits. Our approach helps maintain a secure and hassle-free booking process while allowing our talented chefs to do what they do best – creating exceptional dining experiences for you.
                                         </div>
                                     </div>
                                 </div>
@@ -294,7 +294,7 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs Worldwide exclusively accepts chefs with a culinary degree and those with high-end training in fine dining restaurants and 5-star hotels. This rigorous standard ensures our platform maintains a commitment to excellence and delivers exceptional culinary experiences to our discerning clientele
+                                            Private Chefs World exclusively accepts chefs with a culinary degree and those with high-end training in fine dining restaurants and 5-star hotels. This rigorous standard ensures our platform maintains a commitment to excellence and delivers exceptional culinary experiences to our discerning clientele
                                         </div>
                                     </div>
                                 </div>
@@ -506,14 +506,14 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            As a Private Chefs Worldwide member, it is incredibly important to fulfill your commitments with each guest who decided to reserve your menu. We strongly advise against cancelling any reservations you previously accepted since these can cause a great inconvenience to the guests, you would have disqualified other chefs for no reason, and ultimately, affected the credibility of our website.
+                                            As a Private Chefs World member, it is incredibly important to fulfill your commitments with each guest who decided to reserve your menu. We strongly advise against cancelling any reservations you previously accepted since these can cause a great inconvenience to the guests, you would have disqualified other chefs for no reason, and ultimately, affected the credibility of our website.
 
                                             <p>If you have no choice but to cancel a reservation, and not due to a reason of force majeure, you should be aware that you may incur on the following penalties:</p>
                                             <p>In any case, please contact the guest as soon as possible to inform them of the cancellation, as well as the Take a Chef team info@privatechefsworld.com</p>
                                             <p>Your ranking in search results when receiving service requests will be negatively affected.</p>
                                             <p>There will be a 20% penalty on the next reservation.</p>
                                             <p>Your calendar will not be available for the dates of the canceled reservation.</p>
-                                            <p>You are subject to expulsion from Private Chefs Worldwide if you cancel more than 2 reservations in a six-month period.</p>
+                                            <p>You are subject to expulsion from Private Chefs World if you cancel more than 2 reservations in a six-month period.</p>
                                         </div>
                                     </div>
                                 </div>

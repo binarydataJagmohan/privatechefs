@@ -883,7 +883,7 @@ export default function Header({ }) {
 
 
             {acceptance && (
-              <p className='text-start'>I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy</a> and  <a target="_blank" href='/termsconditions'>Terms of Use</a> of Private Chefs Worldwide. I understand and consent to the collection, processing, and use of my personal data as outlined in these documents. I acknowledge that my information will be handled in accordance with the applicable data protection laws.
+              <p className='text-start'>I have read and agree to the <a target="_blank" href='/privacypolicy'>Privacy Policy</a> and  <a target="_blank" href='/termsconditions'>Terms of Use</a> of Private Chefs World. I understand and consent to the collection, processing, and use of my personal data as outlined in these documents. I acknowledge that my information will be handled in accordance with the applicable data protection laws.
               </p>
             )}
 

@@ -464,7 +464,7 @@ export default function Villas() {
 				<h2>Villas</h2>
 				<ul className="table_header_button_section p-r">
 					<li><button className="table-btn" onClick={() => { setModalConfirm(true); resetFields(); }}>Add</button></li>
-					<li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li>
+					{/* <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> */}
 				</ul>
 				<div className="table-box" id="villa_table">
 					{villasdata.length > 0 ?

@@ -29,10 +29,10 @@ export default function TermsConditions(props: any) {
                     <h1>Terms & Conditions</h1>
                     <h2>Description</h2>
                     <p>
-                        A.S ABOVE AND BEYOND WORLDWIDE LTD, a limited company with various brands, (hereinafter for this website and service referred to as "Private Chefs World") and has developed an advertising intermediation website that can be accessed from the website <a href="https://www.privatechefsworld.com">www.privatechefsworld.com</a>, designed to put diners who wish to contract private chef services with chefs offering their services as independent providers of such services.
+                        A.S ABOVE AND BEYOND World LTD, a limited company with various brands, (hereinafter for this website and service referred to as "Private Chefs World") and has developed an advertising intermediation website that can be accessed from the website <a href="https://www.privatechefsworld.com">www.privatechefsworld.com</a>, designed to put diners who wish to contract private chef services with chefs offering their services as independent providers of such services.
                     </p>
                     <p>
-                        These terms and conditions are intended to regulate access and terms of use of the Website. Please read these conditions carefully. You understand and acknowledge that Private Chefs Worldwide acts as an intermediate between the Chefs and the Clients and is not a party to any contract, agreement, or contractual relationship, of any kind.
+                        These terms and conditions are intended to regulate access and terms of use of the Website. Please read these conditions carefully. You understand and acknowledge that Private Chefs World acts as an intermediate between the Chefs and the Clients and is not a party to any contract, agreement, or contractual relationship, of any kind.
                     </p>
                     <p>
                         By registering with an email address, you acknowledge that you have read and accepted these general conditions of use.

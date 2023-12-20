@@ -158,7 +158,7 @@ export default function Step5() {
               <h1>Special requests</h1>
               <h1 className="awaits mb-0">a great experience awaits</h1>
               <div className="text-areya-srep dummy-up text-center mb-2">
-                <p>At Private Chefs Worldwide, your culinary journey is uniquely yours. We understand that everyone has their own set of dietary preferences and religious restrictions. Our talented chefs are committed to crafting a dining experience that respects your individuality. Share your requirements, and we'll ensure your meals align perfectly with your values and tastes.</p>
+                <p>At Private Chefs World, your culinary journey is uniquely yours. We understand that everyone has their own set of dietary preferences and religious restrictions. Our talented chefs are committed to crafting a dining experience that respects your individuality. Share your requirements, and we'll ensure your meals align perfectly with your values and tastes.</p>
               </div>
             </div>
           </div>
