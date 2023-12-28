@@ -43,6 +43,7 @@ export default function Chefs() {
     cuisine_name: string;
     amount: string;
     email: string;
+    slug:any;
   }
   interface GetCuisine {
     name: string;
@@ -489,9 +490,9 @@ export default function Chefs() {
           <li>
             {/* <button className="table-btn">Total</button> */}
             {selectedCuisines.map((cuisine, index) => (
-              <li>
+              <li key={index}>
                 {" "}
-                <div key={index} className="table-btn">
+                <div  className="table-btn">
                   <span>{cuisine}</span>
                   <button
                     className="remove-btn"
@@ -719,7 +720,7 @@ export default function Chefs() {
                           value="yes"
                           selected={filter.approved_by_admin === "yes"}
                         >
-                          Approved
+                          Approved 
                         </option>
                         <option
                           value="no"
@@ -895,7 +896,7 @@ export default function Chefs() {
 																href={
                                   process.env.NEXT_PUBLIC_BASE_URL +
                                   "privatechef/" +
-                                  chef.slug
+                                  chefs.slug
                                 }
 																
 															>
@@ -911,7 +912,7 @@ export default function Chefs() {
                                 href={
                                   process.env.NEXT_PUBLIC_BASE_URL +
                                   "admin/chefs/" +
-                                  chef.id
+                                  chefs.id
                                 }
 															>
 																See Backend Profile

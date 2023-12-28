@@ -441,9 +441,9 @@ export default function Chefs() {
           <li>
             {/* <button className="table-btn">Total</button> */}
             {selectedCuisines.map((cuisine, index) => (
-              <li>
+              <li  key={index}>
                 {" "}
-                <div key={index} className="table-btn">
+                <div className="table-btn">
                   <span>{cuisine}</span>
                   <button
                     className="remove-btn"
@@ -460,14 +460,14 @@ export default function Chefs() {
               <button className="table-btn border-radius round-white" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add</button>
             </div>
           </li>
-          <li className="right-li">
+          {/* <li className="right-li">
             <button
               className="table-btn border-radius round-white"
               onClick={() => setModalConfirm(true)}
             >
-              Filter{" "}
+              Filter fgsdg{" "}
             </button>
-          </li>
+          </li> */}
         </ul>
 
         <div className="table-box" id="villa_table">

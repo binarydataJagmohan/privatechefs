@@ -437,12 +437,12 @@ export default function MyProfile() {
 
 		setButtonState(true);
 		const id = currentUserData.id;
+
+		
 		const data = {
 			about: about || '',
 			description: formattedDescription || '',
 			services_type: formattedService || '',
-			// employment_status: employment_status || '',
-			// website: website || '',
 			languages: formattedLanguages || '',
 			experience: experience || '',
 			skills: formattedSkills || '',
@@ -454,26 +454,12 @@ export default function MyProfile() {
 			twitter_link: twitter_link || '',
 			linkedin_link: linkedin_link || '',
 			youtube_link: youtube_link || '',
-			// service_title_1: servicetitleone || '',
-			// service_description_1: servicedescriptionone || '',
-			// service_title_2: servicetitletwo || '',
-			// service_description_2: servicedescriptiontwo || '',
-			// service_title_3: servicetitlethree || '',
-			// service_description_3: servicedescriptionthree || '',
-			// service_title_4: servicetitlefour || '',
-			// service_description_4: servicedescriptionfour || '',
 		};
+		console.log(data);
 		UpdateChefResume(id, data)
 			.then(res => {
 				setButtonState(false);
 				console.log(res.data);
-				// console.log(res.data);
-				// window.localStorage.removeItem("name");
-				// window.localStorage.removeItem("pic");
-				// window.localStorage.removeItem("surname");
-				// window.localStorage.setItem("name", res.data.name);
-				// window.localStorage.setItem("pic", res.data.pic);
-				// window.localStorage.setItem("surname", res.data.surname);
 				showToast('success', res.message);
 
 			}).catch(err => {
@@ -1319,7 +1305,6 @@ export default function MyProfile() {
 													</div>
 													<div className="col-lg-12 col-md-12">
 														<label className='mb-4 d-block'>What describes you best?</label>
-														{/* <textarea name="description" value={description || ''} onChange={(e) => setDescription(e.target.value)}></textarea> */}
 
 														<div className="form-check form-check-inline mb-2">
 															<input className="form-check-input" type="checkbox" id="inlineCheckbox1" style={{ width: "auto" }} onChange={() => handleDescribesChange('Private Chef')} checked={description['Private Chef']} />

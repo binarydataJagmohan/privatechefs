@@ -397,7 +397,6 @@ export default function MyProfile(props: any) {
                                     <th scope="col">Address</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Image</th>
-                                    {/* <th scope="col">Status</th> */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -412,7 +411,7 @@ export default function MyProfile(props: any) {
 
                                     return (
                                         <tr key={index}>
-                                            <td>{index + 1}</td>
+                                            <td>#{user.booking_id}</td>
                                             <td>{`${user.name} ${user.surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</td>
 
                                             <td>{formatDate(user.latest_created_at)}</td>

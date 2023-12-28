@@ -81,6 +81,7 @@ export default function Notification() {
                     setTotalNotify(res.data);
                     const paginatedPosts = paginate(res.data, page, pageSize);
                     setUserData(paginatedPosts);
+                    
                 } else {
                     setErrorMessage(res.message);
                 }
@@ -98,6 +99,8 @@ export default function Notification() {
                     setTotalNotify(res.data);
                     const paginatedPosts = paginate(res.data, currentPage, pageSize);
                     setUserData(paginatedPosts);
+                    console.log(paginatedPosts);
+
                 } else {
                     console.log("error");
                 }
@@ -154,7 +157,20 @@ export default function Notification() {
                                         <p className='notify'> {notification.type === 'register' ? (
                                         <>
                                         {notification.description.split('.')[0]}.
-                                        {notification.description.split('.')[2] == 'user' ? <a target={"_blank"} href={ process.env.NEXT_PUBLIC_BASE_URL+'admin/users/'+notification.description.split('.')[1]}><small>View Profile</small></a> :<a target={"_blank"} href={ process.env.NEXT_PUBLIC_BASE_URL+'admin/chefs/'+notification.description.split('.')[1]}><small>View Profile</small></a>}
+
+                                        {notification.description.split('.')[2] == 'user' ?
+                                         <a target={"_blank"} href={ process.env.NEXT_PUBLIC_BASE_URL+'admin/users/'+notification.description.split('.')[1]}><small>View Profile</small></a> 
+                                         :
+                                         <>
+                                         {currentUserData.role === 'admin' ? (
+                                            <a target="_blank" href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + notification.description.split('.')[1]}>
+                                                <small>View Profile</small>
+                                            </a>
+                                        ) : (
+                                            <p></p>
+                                        )}</>
+                                         
+                                         }
                                          
                                         </>
                                     ) : (
