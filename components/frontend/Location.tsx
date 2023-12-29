@@ -25,18 +25,27 @@ export default function Location(props: any) {
         meta_desc: string;
         meta_tag: string;
     }
+    interface LocationSlug {
+        name: string;
+        slug: string;
+        meta_desc: string;
+        meta_tag: string;
+        address:any;
+    }
 
 
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [locations, setLocations] = useState<Location[]>([]);
     const [stars, setStar] = useState([]);
     const [pageslug, setSlug] = useState<PageSlug | null>(null);
+    const [address, setAddress] = useState<LocationSlug[]>([]);
 
     useEffect(() => {
         if (props) {
             console.log(props)
-            setSlug(props.pages.data);
-            // setLocations(props.locations.data);
+            setSlug(props.pages.data);            
+            setAddress(props.locations.data);
+
             fetchLocationDetails();
         }
 
@@ -152,7 +161,7 @@ export default function Location(props: any) {
                         </div>
                         <div className="col-sm-6">
                             <div className="pages-text pt-4 mt-5">
-                                <h1>{locations && locations.length > 0 ? locations[0].address : ''}</h1>
+                                <h1>{address && address.length > 0 ? address[0].address : ''}</h1>
                                 <div className="banner-btn mb-4"><a href="/bookings/step1">Start your journey</a></div>
                                 
                                 {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. Nascetur sapien sollicitudin eu consequat. Sem sed accumsan aliquet dapibus tincidunt lobortis sed mauris.</p> */}

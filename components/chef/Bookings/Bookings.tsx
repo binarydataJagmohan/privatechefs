@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { getCurrentUserData } from "../../../lib/session";
@@ -278,7 +279,7 @@ export default function Bookings() {
 
 	const handleButtonClick = (index: any, type: string, id: string) => {
 		setActiveIndex(index);
-		if (type == 'all') {
+		if (type == 'all' || type == 'upcoming') {
 			fetchBookingUserDetails(id);
 		} else {
 			getUserChefFilterByBooking(id, type)
@@ -477,7 +478,6 @@ export default function Bookings() {
 							<tbody>
 
 								{bookingUsers.map((user: any, index) => {
-
 									const datesString = user.dates;
 									const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
 									const startDate = dates[0];

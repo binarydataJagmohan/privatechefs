@@ -720,32 +720,14 @@ export default function MyProfile() {
 
 						});
 					}
-					
-					// setServicesType(res.data.services_type);
-					// setEmploymentStatus(res.data.employment_status);
-					// setWebsite(res.data.website);
-					// setLanguages(res.data.languages);
 					setExperience(res.data.experience);
-					// setSkills(res.data.skills);
 					setFavoriteChef(res.data.favorite_chef);
-					// setFavoriteDishes(res.data.favorite_dishes);
 					setLoveCooking(res.data.love_cooking);
 					setFacebookLink(res.data.facebook_link);
 					setInstagramLink(res.data.instagram_link);
-					setInstagramLink(res.data.about);
 					setTwitterLink(res.data.twitter_link);
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
-
-					// setServiceTitleOne(res.data.service_title_1);
-					// setServiceDescriptionOne(res.data.service_description_1);
-					// setServiceTitleTwo(res.data.service_title_2);
-					// setServiceDescriptionTwo(res.data.service_description_2);
-					// setServiceTitleThree(res.data.service_title_3);
-					// setServiceDescriptionThree(res.data.service_description_3);
-					// setServiceTitleFour(res.data.service_title_4);
-					// setServiceDescriptionFour(res.data.service_description_4);
-
 					setChefResume(res.data);
 				} else {
 					toast.error(res.message, {
