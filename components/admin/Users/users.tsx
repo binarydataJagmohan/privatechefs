@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAllUsers, getUserLocationByFilter, getUserAllLocation,sendMessageToUserByAdmin } from '../../../lib/adminapi'
+import { getAllUsers, getUserLocationByFilter, getUserAllLocation,sendMessageToUserByAdmin,userDelete } from '../../../lib/adminapi'
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
@@ -7,6 +7,7 @@ import PopupModal from '../../../components/commoncomponents/PopupModal';
 import { ToastContainer, toast } from 'react-toastify';
 import { send } from 'process';
 import { showToast } from '../../commoncomponents/toastUtils';
+import swal from 'sweetalert';
 
 export default function Users() {
 
@@ -229,10 +230,62 @@ export default function Users() {
         });
         setAllUsers(filteredUsers);
         }
-
-        
     };
     
+
+    const handleDelete = (e: any, id: any) => {
+        e.preventDefault();
+        swal({
+          title: "Are you sure?",
+          text: "You want to delete the User Profile",
+          icon: "warning",
+          dangerMode: true,
+          buttons: ["Cancel", "Yes, I am sure!"],
+        }).then((willDelete) => {
+          if (willDelete) {
+            userDelete(id)
+              .then((res) => {
+                if (res.status === true) {
+                  swal("Your User has been deleted!", {
+                    icon: "success",
+                  });
+                  getAllUsersData();
+                } else {
+                  toast.error(res.message, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    closeButton: true,
+                    hideProgressBar: false,
+                    style: {
+                      background: '#ffff',
+                      borderLeft: '4px solid #e74c3c',
+                      color: '#454545',
+                    },
+                    progressStyle: {
+                      background: '#ffff',
+                    },
+                  });
+                }
+              })
+              .catch((err) => {
+                toast.error(err.message, {
+                  position: toast.POSITION.BOTTOM_RIGHT,
+                  closeButton: true,
+                  hideProgressBar: false,
+                  style: {
+                    background: '#ffff',
+                    borderLeft: '4px solid #e74c3c',
+                    color: '#454545',
+                  },
+                  progressStyle: {
+                    background: '#ffff',
+                  },
+                });
+              });
+          } else {
+            // handle cancel
+          }
+        });
+      };
 
     return (
         <>
@@ -345,6 +398,9 @@ export default function Users() {
                                             <td style={{ paddingLeft: "25px" }}>
                                                 <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
                                                     <i className="fa fa-eye" aria-hidden="true"></i>
+                                                </a>{"   "}
+                                                <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
+                                                <i className="fa fa-trash" aria-hidden="true" onClick={(e)=>handleDelete(e,user.id)}></i>
                                                 </a>
                                             </td>
                                         </tr>

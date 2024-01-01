@@ -8,6 +8,7 @@ import {
   getChefAllLocation,
   getChefLocationByFilter,
   chefPriceFilter,
+  chefDelete
 } from "../../../lib/adminapi";
 import { getCurrentUserData } from "../../../lib/session";
 import { createChef } from "../../../lib/concierge";
@@ -18,6 +19,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import Link from "next/link";
 import { showToast } from "../../commoncomponents/toastUtils";
+import swal from "sweetalert";
 
 export default function Chefs() {
   interface FilterData {
@@ -469,6 +471,59 @@ export default function Chefs() {
     }
   };
 
+  const handleDelete = (e: any, id: any) => {
+    e.preventDefault();
+    swal({
+      title: "Are you sure?",
+      text: "You want to delete the Chef Profile",
+      icon: "warning",
+      dangerMode: true,
+      buttons: ["Cancel", "Yes, I am sure!"],
+    }).then((willDelete) => {
+      if (willDelete) {
+        chefDelete(id)
+          .then((res) => {
+            if (res.status === true) {
+              swal("Your Chef has been deleted!", {
+                icon: "success",
+              });
+              getAllChef();
+            } else {
+              toast.error(res.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: '#ffff',
+                  borderLeft: '4px solid #e74c3c',
+                  color: '#454545',
+                },
+                progressStyle: {
+                  background: '#ffff',
+                },
+              });
+            }
+          })
+          .catch((err) => {
+            toast.error(err.message, {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: '#ffff',
+                borderLeft: '4px solid #e74c3c',
+                color: '#454545',
+              },
+              progressStyle: {
+                background: '#ffff',
+              },
+            });
+          });
+      } else {
+        // handle cancel
+      }
+    });
+  };
   return (
     <>
       <div className="table-part">
@@ -1065,8 +1120,18 @@ export default function Chefs() {
                                   "admin/chefs/" +
                                   chef.id
                                 }
+
 															>
 																See Backend Profile
+															</a>
+														</li>
+
+                            <li style={{cursor:'pointer'}}>
+															<a
+																className="dropdown-item"
+                                onClick={(e) => handleDelete(e, chef.id)}
+															>
+																Delete Profile
 															</a>
 														</li>
 													
