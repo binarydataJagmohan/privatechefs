@@ -43,18 +43,11 @@ export default function Header({ }) {
   const [user_id, setUserId] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const userrole = 'admin';
-  const [activeTab, setActiveTab] = useState("");
-
   const [acceptance, setAcceptance] = useState(false);
-
   const [privacy, setPrivacy] = useState(false);
   const [terms, setTerms] = useState(false);
 
 
-  useEffect(() => {
-    checkuser();
-
-  }, []);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -86,10 +79,6 @@ export default function Header({ }) {
   const { data: session } = useSession() || {};
 
   useEffect(() => {
-    // if(session){
-    // 	window.location.href = '/user/dashboard';
-    // }
-
     if (session) {
       SocialData(session.user, 'google');
     }
@@ -172,14 +161,46 @@ export default function Header({ }) {
 
   };
 
-  const checkuser = async () => {
-    const user: User = getCurrentUserData() as User;
+  useEffect(() => {
+    checkuser();
+  }, []);
+
+  useEffect(() => {
+    const clientId = getClientIdFromURL(); 
+    const user = getCurrentUserData() as User;
     if (user.id != null) {
       setCurrentUserId(true);
       setUserId(user.id);
+    }
+    if (clientId && clientId != user.id) {
+      setModalConfirm(true); 
+    } else if (clientId == user.id) {
+      setModalConfirm(false); 
+    } else {
+      console.log();
+    }
+  }, []);
+  
+  const getClientIdFromURL = () => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('client_id');
+    }
+    return null;
+  };
 
+
+  const checkuser = async () => {
+    const user = getCurrentUserData() as User;
+    if (user.id != null) {
+      setCurrentUserId(true);
+      setUserId(user.id);
     }
   };
+
+
+  const clientId = getClientIdFromURL();
+  const clientIdExists = clientId !== null;
 
   const modalConfirmClose = () => {
     setModalConfirm(false);
@@ -236,14 +257,16 @@ export default function Header({ }) {
 
   }
 
+  useEffect(() => {
+    
+  }, []);
+
   //login submit start
 
   const handleLoginSubmit = (event: any) => {
     event.preventDefault();
 
-    // Validate form data
     const newErrors: Errors = {};
-
     if (!email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -254,13 +277,10 @@ export default function Header({ }) {
     } else if (password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
     }
-
     setErrors(newErrors);
 
-    // Submit form data if there are no errors
     if (Object.keys(newErrors).length === 0) {
       setButtonState(true);
-      // Call an API or perform some other action to register the user
       const data = {
         email: email,
         password: password,
@@ -284,8 +304,17 @@ export default function Header({ }) {
               window.localStorage.setItem("profile_status", res.user.profile_status);
               window.localStorage.setItem("expiration", res.authorisation.expiration);
               window.localStorage.setItem("created_by", res.user.created_by);
-
               showToast('success', res.message);
+              const url = localStorage.getItem('currentURL');
+
+               if(url)
+               {
+                  
+                       window.location.href = url;
+                     
+               }
+
+
               setTimeout(() => {
                 if (res.user.role == "admin") {
                   window.location.href = "/admin/dashboard";
@@ -293,9 +322,10 @@ export default function Header({ }) {
               }, 1000);
 
               setTimeout(() => {
+
                 if (res.user.role == "user") {
                   if (res.user.profile_status == "completed") {
-                    window.location.href = "/bookings/step1";
+                     window.location.href = "/bookings/step1";
                   } else {
                     window.location.href = "/user/userprofile";
                   }
@@ -683,25 +713,10 @@ export default function Header({ }) {
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav ms-auto mt-2 ">
-                {/* <li className="nav-item">
-                                  <a className="nav-link active" aria-current="page" href="/covid19">COVID-19</a>
-                                </li> */}
-                {/* <li className="nav-item">
-                  <a className="nav-link" href="/bookings/step1">Start your journey</a>
-                </li> */}
-
 
                 <li className={`nav-item ${router.pathname === '/bookings/step1' ? 'active' : ''}`}>
                   <a className="nav-link" href="/bookings/step1">Start your journey</a>
                 </li>
-
-                {/* {isAuthenticated && role === "user" && (
-              <li className="nav-item">
-                <a className="nav-link" href="/user/dashboard">
-                  Dashboard
-                </a>
-              </li>
-            )} */}
 
                 <li className={`nav-item ${router.pathname === '/whoweare' ? 'active' : ''}`}>
                   <a className="nav-link" href="/whoweare">Who we are</a>
@@ -767,7 +782,7 @@ export default function Header({ }) {
                       </div>
                     </li>
                   )}</div>
-                  <div className='d-none-set d-lg-block'>
+                <div className='d-none-set d-lg-block'>
                   {!current_user_id && (
                     <li className="user nav-item">
                       <div className="dropdown">
@@ -776,7 +791,7 @@ export default function Header({ }) {
                   )}</div>
 
 
-                    {/* mobile view button */}
+                {/* mobile view button */}
                 <div className='d-block d-lg-none-set'>
                   {!current_user_id && (
                     <><li className="nav-item">
@@ -794,7 +809,8 @@ export default function Header({ }) {
 
 
       {/* // login popup code start  */}
-      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
+      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login" clientIdExists={clientIdExists}
+      >
         <div className="text-center popup-img">
           <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo.png'} alt="logo" />
         </div>

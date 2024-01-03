@@ -126,19 +126,19 @@ export default function Menus2(props: any) {
     }
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
-        getSingleChefMenuData(id);
-        getAllCrusineData();
-        fetchdishes(userData.id);
-        setCurrentUserData({
-          ...userData,
-          id: userData.id,
-          name: userData.name,
-          pic: userData.pic,
-          surname: userData.surname,
-          role: userData.role,
-          approved_by_admin: userData.approved_by_admin,
+      getSingleChefMenuData(id);
+      getAllCrusineData();
+      fetchdishes(userData.id);
+      setCurrentUserData({
+        ...userData,
+        id: userData.id,
+        name: userData.name,
+        pic: userData.pic,
+        surname: userData.surname,
+        role: userData.role,
+        approved_by_admin: userData.approved_by_admin,
 
-        });
+      });
     }
     else {
       window.location.href = "/404";
@@ -349,32 +349,23 @@ export default function Menus2(props: any) {
 
   const handlMenuSubmit = (event: any) => {
     event.preventDefault();
-
-    // Validate form data
     const newErrors: Errors = {};
 
-    if (!menuname) {
+    if (!menuname.trim()) { // Check if menuname is empty or contains only whitespace
       newErrors.menuname = "Name is required";
     }
-
     if (!cuisineid) {
       newErrors.cuisine = "Cuisine is required";
     }
-
-    setErrors(errors);
-
-    // Submit form data if there are no errors
-    if (Object.keys(errors).length === 0) {
-
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
       setButtonState(true);
-      // Call an API or perform some other action to register the user
       const data = {
         menu_id: id,
         name: menuname,
         description: description,
         cuisineid: cuisineid,
         user_id: currentUserData.id
-
       };
       updateChefMenu(data, Uploadimage[0])
         .then(res => {
@@ -680,17 +671,8 @@ export default function Menus2(props: any) {
     updateChefDishCount(data)
       .then(res => {
         if (res.status == true) {
-
-          // toast.success(res.message, {
-          //   position: toast.POSITION.TOP_RIGHT
-          // });
-
         } else {
           setButtonState(false);
-          // toast.error(res.message, {
-          //   position: toast.POSITION.TOP_RIGHT
-          // });
-
         }
       })
       .catch(err => {
@@ -829,7 +811,7 @@ export default function Menus2(props: any) {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="5">All</option>
-                                    
+
 
                                   </select>
 
@@ -943,7 +925,7 @@ export default function Menus2(props: any) {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">All</option>
-                                   
+
 
                                   </select>
 
@@ -1051,8 +1033,8 @@ export default function Menus2(props: any) {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">All</option>
-                                    
-                                    
+
+
                                   </select>
 
                                   <button
@@ -1287,7 +1269,7 @@ export default function Menus2(props: any) {
 
             <div className='login_div'>
               <label htmlFor="name">Name:</label>
-              <input type="text" name='name' value={menuname} onChange={(e) => setMenuName(e.target.value)} onBlur={handleMenuBlur} autoComplete="username" />
+              <input type="text" name='name' value={menuname} onChange={(e) => setMenuName(e.target.value)} onBlur={handleMenuBlur} autoComplete="off" />
               {errors.menuname && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.menuname}</span>}
             </div>
             <div className='login_div'>
