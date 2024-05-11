@@ -4,6 +4,8 @@ import { getSingleChefProfile } from "../../lib/userapi";
 
 import { getAllChefDishGallery, getAllChefReview } from "../../lib/chefapi";
 
+  
+
 export default function Chefs(props: any) {
   interface User {
     id: number;
@@ -145,19 +147,32 @@ export default function Chefs(props: any) {
   };
   return (
     <>
-      <section className="banner-part p-0">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-6">
-              <img
-                src="/images/banner-5.jpg"
-                alt="banner-5"
-                className="w-100 border-0 banner-left"
-              />
-            </div>
-            <div className="col-sm-6">
-              <div className="banner-text pages-text  margin-sp">
-                {getUsers.pic ? (
+
+  <section className="banner-part-chef text-center">
+  <div className="overlay-black">
+    <div className="container">
+      <h1>Chef Xenofon Samoilis</h1>
+      <p>Private Chef In Corfu</p>
+    </div>
+  </div>
+  </section>
+
+  <section className="get-know">
+  <div className="container">
+    <div className="me-better">
+      <div className="row">
+        <div className="col-lg-4 col-md-12">
+         <h2>Get to know me better</h2>
+         <q>Perfection and extraordinary taste is my goal in every dish</q>  
+            <a href="#" className="btn-design">Book Now</a>
+           
+        </div>
+        <div className="col-lg-4 col-md-12">
+          <p>Hello everyone, I'm Chef Nikos and my world revolves around the magic of cooking. Ever since I was young, I've been captivated by the artistry that goes into creating a dish. To me, a kitchen is more than just a place to cook; it's a stage where I bring my culinary visions to life. I've had the privilege of learning at some of the finest culinary schools, where I mastered the balance of classic techniques and modern innovation. My approach to cooking is simple: blend tradition with creativity, and always keep the flavors genuine and bold. My passion </p>
+          <a href="#" className="read-more">Read More</a>
+        </div>
+        <div className="col-lg-4 col-md-12">
+        {getUsers.pic ? (
                   <img
                     src={
                       process.env.NEXT_PUBLIC_IMAGE_URL +
@@ -165,84 +180,80 @@ export default function Chefs(props: any) {
                       getUsers.pic
                     }
                     alt="chef"
-                    className="chef-img w-25"
+                    className="chef-profile"
                   />
                 ) : (
                   <img
                     src={process.env.NEXT_PUBLIC_BASE_URL + "/images/chef.png"}
                     alt="chef"
-                    className="chef-img"
+                    className="chef-profile"
                   />
                 )}
+        </div>
+      </div>
 
-                <h1>{getUsers.name}</h1>
-                <p className="star-review">
-                  {[...Array(5)].map((_, index) => (
-                    <i
-                      key={index}
-                      className={`${
-                        index < Math.round(Number(average_rating))
-                          ? " fa-solid fa-star"
-                          : "fa-regular fa-star"
-                      }`}
-                    ></i>
-                  ))}
-
-                  <span>{reviews.length} reviews</span>
-                </p>
-                <p className="mt-2">{getUsers.about}</p>
-                <div className="banner-btn mb-5">
-                  <a href="/bookings/step1">Start your journey</a>
-                </div>
-              </div>
-            </div>
+      <div className="about-me">
+        <div className="row">
+          <div className="col-sm-4">
+            <h3>More about me</h3>
+            <p><b>For me, cooking is...</b></p>
+            <p>Love, passion, my life, my everything</p>
+            <br /> 
+          </div>
+          <div className="col-sm-4">
+          <p><b>I learned to cook at...</b> </p>
+          <p>3* The Fat Duck , 2* Spondi Athens, 1 *The Hinds Head, 1* he Pollen Street , Vezene Athens, Milos Athens</p>
+          <br /> 
+          </div>
+          <div className="col-sm-4">
+            <p><b>A cooking secret...</b></p>
+            <p>Precision for cooking</p>
+            <br /> 
           </div>
         </div>
-      </section>
+      </div>
+  
+    </div >
+  </div>
+  </section>
 
-      <section className="services-part mt-5">
-        <div className="container">
-          <p className="font-sb-title-up"> Get to know me better </p>
-          <h2>
-            <i>
-              “Perfection and extraordinery taste is my goal <br /> in every
-              dish”
-            </i>
-          </h2>
-          <p className="dis-max-width mb-4">
-          Striving for perfection and an extraordinary culinary experience is my ultimate goal in every dish. {" "}
-          </p>
-        </div>
-      </section>
-      {getUsers.services_type && (
-        <section className="services-part location-how  mt-5 tab-m-0 tab-p-0">
-          <div className="container">
-            <h2>My services</h2>
-            <p className="dis-max-width mb-4">
-              Embarking on a culinary journey with me means entering a realm where perfection and extraordinary taste converge. My services extend beyond the realm of mere dining – they encapsulate a commitment to crafting culinary experiences that transcend expectations. 
-            </p>
-            <div className="row mt-5">
-              {/* <div className="step-box">
-                              <h4><span className="big-48">1</span></h4>
-                              <h4>{getUsers.service_title_one}</h4>
-                              <p>{getUsers.service_description_one} </p>
-                              </div> */}
-              {getUsers.services_type &&
-                getUsers.services_type.split(",").map((service, index) => (
-                  <div className="col-lg-3 col-md-6" key={index}>
-                    <div className="step-box p-4">
-                      <h4>
-                        <span className="big-48">{index + 1}</span>
-                      </h4>
-                      <h4>{service}</h4>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </div>
-        </section>
-      )}
+  <section className="images-part">
+   <div className="container">
+    <div className="row">
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-1.webp"} alt="chef" className="chef-profile"/>
+      </div>
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-2.webp"} alt="chef" className="chef-profile"/>
+      </div>
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-3.webp"} alt="chef" className="chef-profile"/>
+      </div>
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-4.webp"} alt="chef" className="chef-profile"/>
+      </div>
 
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-5.webp"} alt="chef" className="chef-profile"/>
+      </div>
+
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-4.webp"} alt="chef" className="chef-profile"/>
+      </div>
+
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-2.webp"} alt="chef" className="chef-profile"/>
+      </div>
+
+      <div className="col-sm-3">
+      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-1.webp"} alt="chef" className="chef-profile"/>
+      </div>
+
+      
+    </div>
+   </div>
+  </section>
+  
       <section className="messages-part">
         <div className="container ">
           {getUsers.love_cooking && (
