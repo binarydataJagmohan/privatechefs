@@ -5020,3 +5020,123 @@ a.nav-link.set-color-text:hover {
     display: none !important;
   }
 }
+
+
+/*11-05-24  */
+main {
+  padding: 0;
+}
+.banner-part-chef {
+  background-image: url(../images/banner-part-chef.webp);
+  padding: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.overlay-black {
+  background: #00000075;
+  padding: 80px 0 150px 0;
+}
+.banner-part-chef h1 {
+  font-weight: 600;
+  font-size: 50px;
+  color: #fff;
+}
+.banner-part-chef p {
+  font-size: 18px;
+  color: #fff;
+}
+
+.get-know {
+  background-color: #f0efef;
+  padding-bottom: 60px;
+}
+
+.me-better h2 {
+    font-weight: 500;
+    font-size: 50px;
+    color: #212121;
+}
+.me-better q {
+  font-size: 22px;
+  color: #182427;
+  font-style: italic;
+}
+.btn-design {
+  display: block;
+  background: var(--background_5);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-weight: var(--banner_btn_wt);
+  font-size: var(--banner_btn_font_size);
+  line-height: var(--banner_btn_line_height);
+  color: var(--color_4);
+  width: fit-content;
+  margin-top: 15px;
+}
+.btn-design:hover{
+  color: #fff;
+}
+.get-know p {
+  font-size: 16px;
+  color: #182427;
+  margin-bottom: 4px;
+}
+.read-more {
+  font-size: 18px;
+  color: #212121;
+  font-weight: 600;
+  border-bottom: solid 2px #fc6b2b;
+  transition: 0.6s;
+}
+.read-more:hover{
+  color: #fc6b2b;
+}
+.chef-profile {
+  border-radius: 15px;
+}
+.me-better {
+  background: #fff;
+  padding: 40px;
+  border-radius: 25px;
+  margin-top: -100px;
+}
+.about-me {
+  margin-top: 39px;
+  padding-top: 30px;
+  border-top: solid 1px #ddd;
+}
+.about-me h3 {
+  font-size: 30px;
+  color: #182427;
+}
+.images-part img {
+  margin: 0 0 20px 0;
+}
+.images-part {
+  padding: 60px 0;
+}
+@media (max-width: 992px) {
+  .banner-part-chef h1 { 
+    font-size: 30px; 
+}
+.banner-part-chef p {
+  font-size: 16px; 
+}
+.me-better h2 { 
+  font-size: 30px; 
+}
+.me-better q {
+  font-size: 16px; 
+}
+.btn-design { 
+  margin-bottom: 20px;
+}
+.chef-profile {
+  margin-top: 30px;
+}
+
+
+
+
+}
