@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getAdminMessageData,getClickAdminChefUserChatData,ContactByAdminToUserAndChef,ContactByAdminToUserAndChefWithShareFile,getAllUserData,SendMessageToUserByAdmin,CreateGroupChatByAdmin } from "../../../lib/adminapi";
+import { getAdminMessageData,getClickAdminChefUserChatData,ContactByAdminToUserAndChef,ContactByAdminToUserAndChefWithShareFile,getAllUserData,SendMessageToUserByAdmin,CreateGroupChatByAdmin, deleteChatMessage } from "../../../lib/adminapi";
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
 import { formatDistanceToNow } from 'date-fns';
@@ -119,6 +119,7 @@ export default function Booking(props: any) {
   }
 
   interface AdninChatMessages {
+    chat_message_id:number;
     sender_id: number;
     receiver_id?: number;
     sender_name: string;
@@ -951,7 +952,23 @@ export default function Booking(props: any) {
      
     };
 
-  
+  const handleDeleteSingleMessage = (messageId:any) => {
+    deleteChatMessage(messageId)
+    .then(res => {
+      if (res.status == true) {
+        toast.success(res.message, {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      } else {
+        toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
   return (
     <>
     
@@ -1339,6 +1356,7 @@ export default function Booking(props: any) {
 
                                     <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
                                     </span>{" "}
+                                    <p className="text-right" onClick={() => handleDeleteSingleMessage(message.chat_message_id)} style={{position: "relative", left: "-30px", color: "#ff0000", cursor: "pointer"}}><i className="fa fa-close"></i></p>
                                     {currentUserData.pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
                                         alt="chats-user"

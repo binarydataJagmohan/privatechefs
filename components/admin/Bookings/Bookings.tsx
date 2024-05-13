@@ -11,9 +11,9 @@ import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
 import { useRouter } from 'next/router';
 import { showToast } from "../../commoncomponents/toastUtils";
+import { set } from "date-fns";
 
 export default function Bookings() {
-
 	interface Booking {
 		adults?: number;
 		allergies?: string;
@@ -83,6 +83,8 @@ export default function Bookings() {
 		role: '',
 		approved_by_admin: ''
 	});
+
+	const [loading, setLoading] = useState(true);
 
 	interface ChefOffer {
 		name?: string;
@@ -338,7 +340,7 @@ export default function Bookings() {
 				setTotalBooking(filteredReceipts);
 				const paginatedPosts = paginate(filteredReceipts, currentPage, pageSize);
 				setBookingUser(paginatedPosts);
-
+				setLoading(false);
 
 			} else {
 				toast.error(res.message, {
@@ -354,6 +356,7 @@ export default function Bookings() {
 						background: '#ffff',
 					},
 				});
+				setLoading(true);
 			}
 		} catch (err: any) {
 			toast.error(err.message, {
@@ -969,147 +972,156 @@ export default function Bookings() {
 					</li>
 				</ul>
 				<div className="table-box" id="admin-booking">
-					{bookingUsers.length > 0 ?
-						<table className="table table-borderless common_booking common_booking">
-							<thead>
-								<tr>
-									<th scope="col">Booking ID</th>
-									<th scope="col">Customer</th>
-									<th scope="col">Image</th>
-									<th scope="col">Date Requested</th>
-									<th scope="col">Booking Date</th>
-									<th scope="col">Address</th>
-									<th scope="col">Category</th>
-									<th scope="col">Payment Status</th>
-									<th scope="col">Status</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-
-								{bookingUsers.map((user: any, index) => {
-
-									const datesString = user.dates;
-									const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
-									const startDate = dates[0];
-									const endDate = dates[dates.length - 1];
-									const output = `${startDate} to ${endDate}`;
-									const surname = user.surname !== null && user.surname !== 'null' ? user.surname : '';
-
-									return (
-										<tr key={index}>
-											<td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
-
-											<td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id} target="_blank" className="nameofusers">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} </a></td>
-
-
-											<td className="chefs_pic"><p className="text-data-18" id="table-p">
-												{user.pic ? <img
-													src={
-														process.env.NEXT_PUBLIC_IMAGE_URL +
-														"/images/chef/users/" + user.pic
-													}
-													alt=""
-												/> : <img
-													src={
-														process.env.NEXT_PUBLIC_IMAGE_URL +
-														"/images/users.jpg"
-													}
-													alt=""
-												/>}
-											</p>
-											</td>
-											<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
-
-											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
-
-
-											<td><p className="text-data-18" id="table-p">{user.location}</p></td>
-											<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
-
-											<td><p className="text-data-18" id="table-p">{user.payment_status}</p></td>
-
-											<td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
-
-											{/* <td className={`booking-status-${user.booking_status}`}>
-												{isBookingUpcoming(user.dates)}
-											</td> */}
-
-											<td>
-												<div className="dropdown" id="none-class">
-													<a
-														className="dropdown-toggle"
-														data-bs-toggle="dropdown"
-														aria-expanded="false"
-													>
-														<i className="fa-solid fa-ellipsis" role="button"></i>
-													</a>
-													<ul
-														className="dropdown-menu"
-														aria-labelledby="dropdownMenuButton"
-													>
-														<li>
-															<a
-																className="dropdown-item"
-																href="#"
-																onClick={(e) => getSingleBookingUser(e, user.booking_id)}
-																data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
-															>
-																View Booking
-															</a>
-														</li>
-
-														{/* {user.payment_status} */}
-
-														{(user.category == 'multipletimes' && user.booking_status != 'Expired') && (<li>
-															<a
-																className="dropdown-item"
-																href="#"
-																onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields(); setCheckAsssignSelectedChef(user.assigned_to_user_id); setPaymentStatus(user.payment_status) }}
-															>
-																Assign Booking
-															</a>
-														</li>)}
-
-														{(user.booking_status != 'Expired') && (<li>
-															<a
-																className="dropdown-item"
-																href="#"
-																onClick={(e) => { setModalConfirm2(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); setVillasId(Number(user.assigned_to_villa_id)) }}
-															>
-																Assign Villa
-															</a>
-														</li>)}
-
-
-														<li>
-															<a
-																className="dropdown-item"
-																href="#"
-																onClick={(e) => editbooking(user.booking_id)}
-															>
-																Edit
-															</a>
-														</li>
-														<li>
-															<a
-																className="dropdown-item"
-																href="#"
-																onClick={() => { deleteBookingByAdmin(user.booking_id); }}
-															>
-																Delete
-															</a>
-														</li>
-													</ul>
-												</div>
-											</td>
+					{
+						loading == false 
+						?
+							bookingUsers.length > 0 ?
+								<table className="table table-borderless common_booking common_booking">
+									<thead>
+										<tr>
+											<th scope="col">Booking ID</th>
+											<th scope="col">Customer</th>
+											<th scope="col">Image</th>
+											<th scope="col">Date Requested</th>
+											<th scope="col">Booking Date</th>
+											<th scope="col">Address</th>
+											<th scope="col">Category</th>
+											<th scope="col">Payment Status</th>
+											<th scope="col">Status</th>
+											<th scope="col">Action</th>
 										</tr>
-									);
-								})}
-							</tbody>
-						</table>
+									</thead>
+									<tbody>
+
+										{bookingUsers.map((user: any, index) => {
+
+											const datesString = user.dates;
+											const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
+											const startDate = dates[0];
+											const endDate = dates[dates.length - 1];
+											const output = `${startDate} to ${endDate}`;
+											const surname = user.surname !== null && user.surname !== 'null' ? user.surname : '';
+
+											return (
+												<tr key={index}>
+													<td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
+
+													<td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id} target="_blank" className="nameofusers">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} </a></td>
+
+
+													<td className="chefs_pic"><p className="text-data-18" id="table-p">
+														{user.pic ? <img
+															src={
+																process.env.NEXT_PUBLIC_IMAGE_URL +
+																"/images/chef/users/" + user.pic
+															}
+															alt=""
+														/> : <img
+															src={
+																process.env.NEXT_PUBLIC_IMAGE_URL +
+																"/images/users.jpg"
+															}
+															alt=""
+														/>}
+													</p>
+													</td>
+													<td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
+
+													<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
+
+
+													<td><p className="text-data-18" id="table-p">{user.location}</p></td>
+													<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
+
+													<td><p className="text-data-18" id="table-p">{user.payment_status}</p></td>
+
+													<td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
+
+													{/* <td className={`booking-status-${user.booking_status}`}>
+														{isBookingUpcoming(user.dates)}
+													</td> */}
+
+													<td>
+														<div className="dropdown" id="none-class">
+															<a
+																className="dropdown-toggle"
+																data-bs-toggle="dropdown"
+																aria-expanded="false"
+															>
+																<i className="fa-solid fa-ellipsis" role="button"></i>
+															</a>
+															<ul
+																className="dropdown-menu"
+																aria-labelledby="dropdownMenuButton"
+															>
+																<li>
+																	<a
+																		className="dropdown-item"
+																		href="#"
+																		onClick={(e) => getSingleBookingUser(e, user.booking_id)}
+																		data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+																	>
+																		View Booking
+																	</a>
+																</li>
+
+																{/* {user.payment_status} */}
+
+																{/* {(user.category == 'multipletimes' && user.booking_status != 'Expired') && (<li> */}
+																{(user.booking_status != 'Expired') && (<li>
+																	<a
+																		className="dropdown-item"
+																		href="#"
+																		onClick={(e) => { setModalConfirm(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); resetFields(); setCheckAsssignSelectedChef(user.assigned_to_user_id); setPaymentStatus(user.payment_status) }}
+																	>
+																		Assign Booking
+																	</a>
+																</li>)}
+
+																{(user.booking_status != 'Expired') && (<li>
+																	<a
+																		className="dropdown-item"
+																		href="#"
+																		onClick={(e) => { setModalConfirm2(true); getSingleUserAssignBookingData(user.booking_id); setBookingId(user.booking_id); setVillasId(Number(user.assigned_to_villa_id)) }}
+																	>
+																		Assign Villa
+																	</a>
+																</li>)}
+
+
+																<li>
+																	<a
+																		className="dropdown-item"
+																		href="#"
+																		onClick={(e) => editbooking(user.booking_id)}
+																	>
+																		Edit
+																	</a>
+																</li>
+																<li>
+																	<a
+																		className="dropdown-item"
+																		href="#"
+																		onClick={() => { deleteBookingByAdmin(user.booking_id); }}
+																	>
+																		Delete
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</td>
+												</tr>
+											);
+										})}
+									</tbody>
+								</table>
+							:
+								<p className="book1" style={{ textAlign: "center" }}>no record found</p>		
 						:
-						<p className="book1" style={{ textAlign: "center" }}>No Booking Records Found.</p>
+							<div className="text-center">
+								<img src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/chef_loading_img_3.gif`} width={50}/><p>Loading</p>
+							</div>
+						// <p className="book1" style={{ textAlign: "center" }}>loading</p>
 					}
 				</div>
 			</div>
@@ -1557,9 +1569,12 @@ export default function Bookings() {
 												<select name="chef_id" value={selectedChef} onChange={handleChefSelection}
 												>
 													<option value="">Choose Option</option>
-													{getallchef.map((data: any) => (
-														<option key={data.id} value={data.id}>{data.name}</option>
-													))}
+													{getallchef.map((data: any) => {
+														console.log(data.menu_name);
+														if(data.menu_name){
+															return(<option key={data.id} value={data.id}>{data.name}</option>)
+														}
+													})}
 												</select>
 											</div>
 										</td>
