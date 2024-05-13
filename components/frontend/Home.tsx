@@ -415,7 +415,7 @@ export default function Home(props: any) {
                 </div>
             </section>
 
-            <section className="services-part mt-4">
+            {/* <section className="services-part mt-4">
                 <div className="container">
                     <h2> Our services</h2>
                     <p className="dis-max-width mb-4">Looking for a Chef to create unforgettable culinary memories? Perhaps a Butler to pamper you all day long with any request? Or a talented Bartender that will surprise you with delicious cocktails? We have it all!</p>
@@ -440,7 +440,7 @@ export default function Home(props: any) {
                                 <h3>Bartenders</h3>
                                 <p>Our bartenders are skilled mixologists who turn every drink into a work of art. From classic cocktails to custom concoctions, they bring an element of liquid elegance to your event, leaving your guests in awe of their craft. </p>
                             </div>
-                        </div>
+                        </div> */}
                         {/*<div className="col-lg-3 col-md-6">
                             <div className="card-box">
                             <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/14.webp'} alt="11" />
@@ -448,9 +448,9 @@ export default function Home(props: any) {
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                             </div>
                         </div>*/}
-                    </div>
+                    {/* </div>
                 </div>
-            </section>
+            </section> */}
             <section className="text-side mt-5">
                 <div className="container">
                     <div className="row">
@@ -529,7 +529,7 @@ export default function Home(props: any) {
                     <div className="row">
                         <Slider {...settings}>
                             {allchef.map((data: any) => (
-                                <div className="col-lg-2 col-md-6">
+                                <div className="col-lg-2 col-md-6" key={data.id}>
                                     <div className="slider-img-plase" id="chef-img">
                                         {data.pic ? (
                                             <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic}  id="chef_id" />
