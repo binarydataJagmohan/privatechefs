@@ -399,7 +399,7 @@ export default function Allergy() {
                         <table className="table table-borderless common_booking">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
+                                    {/* <th scope="col">ID</th> */}
                                     <th scope="col">Photo</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Description</th>
@@ -410,7 +410,7 @@ export default function Allergy() {
                             <tbody>
                                 {testimonials.map((allergy: any, index) => (
                                     <tr key={allergy.id}>
-                                        <td>{++index}</td>
+                                        {/* <td>{++index}</td> */}
                                         <td className="chefs_pic">
                                             {allergy.image ? (
                                                 <img

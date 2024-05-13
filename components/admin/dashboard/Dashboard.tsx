@@ -258,7 +258,7 @@ export default function Dashboard() {
 									<table className="table table-borderless common_booking">
 										<thead>
 											<tr>
-												<th scope="col">ID</th>
+												{/* <th scope="col">ID</th> */}
 												<th scope="col">Order ID</th>
 												<th scope="col">Total Cost</th>
 												<th scope="col">Order Date</th>
@@ -270,7 +270,7 @@ export default function Dashboard() {
 													const orderDate = new Date(booking.orderDate);
 													return (
 														<tr key={index}>
-															<td>{index + 1}</td>
+															{/* <td>{index + 1}</td> */}
 															<td>#{booking.bookingId}</td>
 															<td>${booking.amount}</td>
 															<td>{orderDate.toLocaleDateString()}</td>

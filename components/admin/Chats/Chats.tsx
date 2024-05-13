@@ -119,7 +119,7 @@ export default function Booking(props: any) {
   }
 
   interface AdninChatMessages {
-    chat_message_id:number;
+    chat_message_id: number;
     sender_id: number;
     receiver_id?: number;
     sender_name: string;
@@ -969,6 +969,12 @@ export default function Booking(props: any) {
       console.log(err);
     });
   }
+  if (typeof document !== 'undefined') {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  }
   return (
     <>
     
@@ -1356,8 +1362,12 @@ export default function Booking(props: any) {
 
                                     <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
                                     </span>{" "}
-                                    <p className="text-right" onClick={() => handleDeleteSingleMessage(message.chat_message_id)} style={{position: "relative", left: "-30px", color: "#ff0000", cursor: "pointer"}}><i className="fa fa-close"></i></p>
-                                    {currentUserData.pic == null ? <img
+                                    {/* <Tooltip message="Hello, world!">
+                                      icon
+                                    </Tooltip> */}
+                                    <p className="text-right" data-bs-toggle="tooltip" data-bs-html="true" title="OnClick delete a message" onClick={() => handleDeleteSingleMessage(message.chat_message_id)} style={{position: "relative", left: "-30px", color: "#ff0000", cursor: "pointer"}}><i className="fa fa-close"></i></p>
+                                    {currentUserData.pic == null ? 
+                                      <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
                                         alt="chats-user"
                                       /> : <img

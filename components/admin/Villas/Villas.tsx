@@ -526,8 +526,8 @@ export default function Villas() {
 									<th scope="col">Phone</th>
 									<th scope="col">Address</th>
 									<th scope="col">Partner/Owner</th>
-									<th scope="col">Bedroom</th>
-									<th scope="col">Bathrooms</th>
+									{/* <th scope="col">Bedroom</th>
+									<th scope="col">Bathrooms</th> */}
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -542,8 +542,8 @@ export default function Villas() {
 										<td>{villa.phone}</td>
 										<td>{villa.address}</td>
 										<td>{villa.partner_owner}</td>
-										<td>{villa.bedrooms}</td>
-										<td>{villa.bathrooms}</td>
+										{/* <td>{villa.bedrooms}</td>
+										<td>{villa.bathrooms}</td> */}
 										<td>
 											<div className="dropdown" id="none-class">
 												<a
