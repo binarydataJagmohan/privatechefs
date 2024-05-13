@@ -368,47 +368,95 @@ export default function Home(props: any) {
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
-                            {locations.map((location, index) => (
-                                <div className="col-lg-2 col-md-6" key={index}>
-                                    <a
-                                        href={
-                                            process.env.NEXT_PUBLIC_BASE_URL +
-                                            'location/' +
-                                            location.address
-                                        }
-                                    >
-                                        <div className="slider-img-plase" id="location_idd">
-                                            {location.location_pic ? (
-                                                <img
-                                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + location.location_pic}
-                                                    id="loc_id"
-                                                    alt="slider-1"
-                                                />
-                                            ) : (
-                                                <img
-                                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
-                                                    id="dummy-img"
-                                                    alt="slider-1"
-                                                />
-                                            )}
-                                            
-                                            <p className="plase-btn">
-                                                <a
-                                                    href={
-                                                        process.env.NEXT_PUBLIC_BASE_URL +
-                                                        'location/' +
-                                                        location.address
-                                                    }
-                                                >
-                                                    {location.address.slice(0, 35)}
-                                                </a>
-                                            </p>
+                            {locations.map((location, index) => {
+                                if(index < 7){
+                                    return(
+                                        <div className="col-lg-2 col-md-6" key={index}>
+                                            <a
+                                                href={
+                                                    process.env.NEXT_PUBLIC_BASE_URL +
+                                                    'location/' +
+                                                    location.address
+                                                }
+                                            >
+                                                <div className="slider-img-plase" id="location_idd">
+                                                    {location.location_pic ? (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + location.location_pic}
+                                                            id="loc_id"
+                                                            alt="slider-1"
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
+                                                            id="dummy-img"
+                                                            alt="slider-1"
+                                                        />
+                                                    )}
+                                                    
+                                                    <p className="plase-btn">
+                                                        <a
+                                                            href={
+                                                                process.env.NEXT_PUBLIC_BASE_URL +
+                                                                'location/' +
+                                                                location.address
+                                                            }
+                                                        >
+                                                            {location.address.slice(0, 35)}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </a>
-                                </div>
-                            ))}
+                                    )
+                                }
+                            })}
                         </Slider>
-
+                        <Slider {...settings}>
+                            {locations.map((location, index) => {
+                                if(index > 6){
+                                    return(
+                                        <div className="col-lg-2 col-md-6" key={index}>
+                                            <a
+                                                href={
+                                                    process.env.NEXT_PUBLIC_BASE_URL +
+                                                    'location/' +
+                                                    location.address
+                                                }
+                                            >
+                                                <div className="slider-img-plase" id="location_idd">
+                                                    {location.location_pic ? (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + location.location_pic}
+                                                            id="loc_id"
+                                                            alt="slider-1"
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
+                                                            id="dummy-img"
+                                                            alt="slider-1"
+                                                        />
+                                                    )}
+                                                    
+                                                    <p className="plase-btn">
+                                                        <a
+                                                            href={
+                                                                process.env.NEXT_PUBLIC_BASE_URL +
+                                                                'location/' +
+                                                                location.address
+                                                            }
+                                                        >
+                                                            {location.address.slice(0, 35)}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    )
+                                }
+                            })}
+                        </Slider>
 
                     </div>
                     {/* <div className="text-center view-more mt-4"><a href="#">View More</a></div> */}

@@ -984,7 +984,7 @@ export default function Bookings() {
 											<th scope="col">Image</th>
 											<th scope="col">Date Requested</th>
 											<th scope="col">Booking Date</th>
-											<th scope="col">Address</th>
+											{/* <th scope="col">Address</th> */}
 											<th scope="col">Category</th>
 											<th scope="col">Payment Status</th>
 											<th scope="col">Status</th>
@@ -1030,7 +1030,7 @@ export default function Bookings() {
 													<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
 
 
-													<td><p className="text-data-18" id="table-p">{user.location}</p></td>
+													{/* <td><p className="text-data-18" id="table-p">{user.location}</p></td> */}
 													<td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
 
 													<td><p className="text-data-18" id="table-p">{user.payment_status}</p></td>

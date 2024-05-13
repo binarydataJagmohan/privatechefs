@@ -33,6 +33,7 @@ export default function Chefs() {
     approved_by_admin: string;
     amount: string;
     email: string;
+    slug: string;
   }
   interface chefData {
     id: number;
@@ -51,6 +52,7 @@ export default function Chefs() {
     name: string;
   }
   interface Location {
+    id: number;
     lat: number;
     name: string;
     surname: string;
@@ -60,6 +62,8 @@ export default function Chefs() {
     profile_status: string;
     cuisine_name: string;
     amount: string;
+    email: string;
+    slug: string;
   }
 
   interface Errors {
@@ -603,7 +607,7 @@ export default function Chefs() {
               <tr>
                 <th scope="col">Photo</th>
                 <th scope="col">Name</th>
-                <th scope="col">Location</th>
+                {/* <th scope="col">Location</th> */}
                 {/* <th scope="col">Amount</th>
                 <th scope="col">Cuisines</th> */}
                 {/* <th scope="col">Profile Status</th> */}
@@ -618,30 +622,32 @@ export default function Chefs() {
                   <tr key={index}>
                     {filter.pic ? (
                       <td className="chefs_pic">
-                        <img
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}><img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
                             "/images/chef/users/" +
                             filter.pic
                           }
                           alt=""
-                        />
+                        /></a>
                       </td>
                     ) : (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/placeholder.jpg"
-                          }
-                          alt=""
-                        />
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}>
+                          <img
+                            src={
+                              process.env.NEXT_PUBLIC_IMAGE_URL +
+                              "/images/placeholder.jpg"
+                            }
+                            alt=""
+                          />
+                        </a>
                       </td>
                     )}
                     <td>
-                      {filter.name || ""} {filter.surname || ""}
+                    <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}>{filter.name || ""} {filter.surname || ""}</a>
                     </td>
-                    <td>{filter.address || ""}</td>
+                    {/* <td>{filter.address || ""}</td> */}
                     <td>{filter.email || ""}</td>
                     {/* <td>
                       <ul>
@@ -711,7 +717,7 @@ export default function Chefs() {
                   <tr key={index}>
                     {filter.pic ? (
                       <td className="chefs_pic">
-                        <img
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}><img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
                             "/images/chef/users/" +
@@ -719,22 +725,24 @@ export default function Chefs() {
                           }
                           alt=""
                         />
+                        </a>
                       </td>
                     ) : (
                       <td className="chefs_pic">
-                        <img
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}><img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
                             "/images/placeholder.jpg"
                           }
                           alt=""
                         />
+                        </a>
                       </td>
                     )}
                     <td>
-                      {filter.name || ""} {filter.surname || ""}
+                    <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}>{filter.name || ""} {filter.surname || ""}</a>
                     </td>
-                    <td>{filter.address || ""}</td>
+                    {/* <td>{filter.address || ""}</td> */}
                     <td>{filter.email || ""}</td>
                     {/* <td>
                       <ul>
@@ -848,6 +856,7 @@ export default function Chefs() {
                   <tr key={filter.id}>
                     {filter.pic ? (
                       <td className="chefs_pic">
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}>
                         <img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
@@ -856,9 +865,11 @@ export default function Chefs() {
                           }
                           alt=""
                         />
+                        </a>
                       </td>
                     ) : (
                       <td className="chefs_pic">
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}>
                         <img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
@@ -866,10 +877,11 @@ export default function Chefs() {
                           }
                           alt=""
                         />
+                        </a>
                       </td>
                     )}
                     <td>
-                      {filter.name || ""} {filter.surname || ""}
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +filter.slug}>{filter.name || ""} {filter.surname || ""}</a>
                     </td>
                     <td>{filter.address || ""}</td>
                     <td>{filter.email || ""}</td>
@@ -984,7 +996,7 @@ export default function Chefs() {
                   <tr key={chef.id}>
                     {chef.pic ? (
                       <td className="chefs_pic">
-                        <img
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +chef.slug}><img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
                             "/images/chef/users/" +
@@ -992,9 +1004,11 @@ export default function Chefs() {
                           }
                           alt=""
                         />
+                        </a>
                       </td>
                     ) : (
                       <td className="chefs_pic">
+                        <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +chef.slug}>
                         <img
                           src={
                             process.env.NEXT_PUBLIC_IMAGE_URL +
@@ -1002,10 +1016,11 @@ export default function Chefs() {
                           }
                           alt=""
                         />
+                        </a>
                       </td>
                     )}
                     <td>
-                      {chef.name || ""} {chef.surname || ""}
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL +"privatechef/" +chef.slug}>{chef.name || ""} {chef.surname || ""}</a>
                     </td>
                     <td>{chef.address || ""}</td>
                     <td>{chef.email || ""}</td>

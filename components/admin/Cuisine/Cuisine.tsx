@@ -330,7 +330,7 @@ export default function Cuisine() {
           <table className="table table-borderless common_booking">
             <thead>
               <tr>
-                <th scope="col">ID</th>
+                {/* <th scope="col">ID</th> */}
                 <th scope="col">Photo</th>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
@@ -340,7 +340,7 @@ export default function Cuisine() {
             <tbody>
               {cuisines.map((cuisine: any, index) => (
                 <tr key={cuisine.id}>
-                  <td>{index + 1}</td>
+                  {/* <td>{index + 1}</td> */}
                   <td className="chefs_pic">
                     {cuisine.image && cuisine.image !== 'null' ?
                       <img
