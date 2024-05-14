@@ -9,6 +9,7 @@ export default function Document() {
           <link rel="stylesheet" type="text/css" href={process.env.NEXT_PUBLIC_BASE_URL+'css/style.css'}/>
           <link rel="stylesheet" type="text/css" href={process.env.NEXT_PUBLIC_BASE_URL+'css/custom.css'}/>
           <link rel="stylesheet" type="text/css" href={process.env.NEXT_PUBLIC_BASE_URL+'css/chatcss.css'}/>
+          <link rel="stylesheet" type="text/css" href={process.env.NEXT_PUBLIC_BASE_URL+'css/notification.css'}/>
           <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
           <link rel="stylesheet" type="text/css" href="https://kenwheeler.github.io/slick/slick/slick.css"/> 

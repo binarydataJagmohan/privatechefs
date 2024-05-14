@@ -29,7 +29,7 @@ export default function TermsConditions(props: any) {
                     <h1>Terms & Conditions</h1>
                     <h2>Description</h2>
                     <p>
-                        A.S ABOVE AND BEYOND World LTD, a limited company with various brands, (hereinafter for this website and service referred to as "Private Chefs World") and has developed an advertising intermediation website that can be accessed from the website <a href="https://www.privatechefsworld.com">www.privatechefsworld.com</a>, designed to put diners who wish to contract private chef services with chefs offering their services as independent providers of such services.
+                        A.S ABOVE AND BEYOND World LTD, a limited company with various brands, (hereinafter for this website and service referred to as "Private Chefs World") and has developed an advertising intermediation website that can be accessed from the website <a href="https://www.privatechefsworld.com">www.privatechefsworld.com</a>, designed to put diners who wish to contract Private Chefs services with chefs offering their services as independent providers of such services.
                     </p>
                     <p>
                         These terms and conditions are intended to regulate access and terms of use of the Website. Please read these conditions carefully. You understand and acknowledge that Private Chefs World acts as an intermediate between the Chefs and the Clients and is not a party to any contract, agreement, or contractual relationship, of any kind.
@@ -50,7 +50,7 @@ export default function TermsConditions(props: any) {
 
                     <h5>1.1.2 Chef</h5>
                     <p>
-                        As a Chef, as long as you meet the conditions established below, you can offer private chef services to Diners in the region that you have requested.
+                        As a Chef, as long as you meet the conditions established below, you can offer Private Chefs services to Diners in the region that you have requested.
                     </p>
                     <p>
                         You can only respond to a Request if you meet each and every one of the conditions indicated below:
@@ -60,7 +60,7 @@ export default function TermsConditions(props: any) {
                         <li>(ii) you have extensive professional experience in the gastronomic field as a cook, a minimum of 5 years.</li>
                         <li>(iii) you have the legal regulations on food handling, hygiene, and sanitary conditions, and therefore you are in possession of the appropriate licenses.</li>
                         <li>(iv) you comply with the legal requirements demanded by the current local labor legislation, either as a mercantile company or as a self-employed worker.</li>
-                        <li>(v) you have civil liability insurance against any damage that may occur in the provision of private chef services, concerning eventual food poisoning, as well as damage to movable and immovable property used during the provision of services, as well as damage to real property that is in the domicile of the Diner and that could suffer damage during the time you are managing the Service.</li>
+                        <li>(v) you have civil liability insurance against any damage that may occur in the provision of Private Chefs services, concerning eventual food poisoning, as well as damage to movable and immovable property used during the provision of services, as well as damage to real property that is in the domicile of the Diner and that could suffer damage during the time you are managing the Service.</li>
                         <li>(vi) you comply with the applicable legislation in your territory regarding the transport of raw materials, cooked or not, guaranteeing the hygiene and food safety conditions required by the corresponding authority within the geographical location where the Service is provided.</li>
                         <li>(vii) you use utensils in good conditions and take the necessary measures to guarantee their correct hygiene.</li>
                         <li>(viii) you guarantee the good condition of the raw materials used during the provision of services.</li>
@@ -227,7 +227,7 @@ export default function TermsConditions(props: any) {
                         When you are contracted as a Chef by Private Chefs World, you commit to:
                     </p>
                     <ul>
-                        <li>(i) to respect all laws, regulations and codes regarding the activity of private chef, especially to have liability insurance in force at the time of the Service;</li>
+                        <li>(i) to respect all laws, regulations and codes regarding the activity of Private Chefs, especially to have liability insurance in force at the time of the Service;</li>
                         <li>(ii)verify that your insurance policy covers the services offered in each Offer sent to the Customer;</li>
                         <li>(iii) not assume any risk during the performance of the Service, nor take any product or substance that may adversely affect your care and due diligence required by the activity of the Service itself;</li>
                         <li>(iv)to execute the Service as described in the Offer and to respect the times and places agreed with the Guest;</li>

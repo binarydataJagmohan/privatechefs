@@ -927,11 +927,12 @@ export default function Bookings() {
 		}
 
 	};
-
-
-
-
-
+	if (typeof document !== 'undefined') {
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		  return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	}
 	return (
 		<>
 			<div className="table-part">
@@ -1001,10 +1002,11 @@ export default function Bookings() {
 											const endDate = dates[dates.length - 1];
 											const output = `${startDate} to ${endDate}`;
 											const surname = user.surname !== null && user.surname !== 'null' ? user.surname : '';
+											const fullName = user.name+' '+ surname.split(' ').map((word:any) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
 											return (
 												<tr key={index}>
-													<td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
+													<td><p className="text-data-18" id="table-p" data-bs-toggle="tooltip" title={`Customer: ${fullName}, Address: ${user.location}, Booking Date: ${output}, Category: ${user.category == 'onetime' ? 'One time' : 'Mutiple Times'}, Payment Status: ${user.payment_status}, Booking Status: ${user.booking_status}`}>#{user.booking_id}</p></td>
 
 													<td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id} target="_blank" className="nameofusers">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} </a></td>
 
