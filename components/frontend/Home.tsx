@@ -521,7 +521,7 @@ export default function Home(props: any) {
                     <div className='services-id'>
                         <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. We deliver results.</p>
                     </div>
-                    <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
+                    <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your Private Chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row g-3 mt-5">
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list h-100" id="num-list-id">

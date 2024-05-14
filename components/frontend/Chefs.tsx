@@ -152,7 +152,7 @@ export default function Chefs(props: any) {
   <div className="overlay-black">
     <div className="container">
       <h1>Chef Xenofon Samoilis</h1>
-      <p>Private Chef In Corfu</p>
+      <p>Private Chefs In Corfu</p>
     </div>
   </div>
   </section>

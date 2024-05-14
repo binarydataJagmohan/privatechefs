@@ -52,7 +52,7 @@ export default function ChefLocation() {
                                         'location/' +
                                         location.address
                                     }>
-                                    <div className="color-bs8639">Private Chef in  {location.address.slice(0, 35)}</div></a>
+                                    <div className="color-bs8639">Private Chefs in  {location.address.slice(0, 35)}</div></a>
                             </div>
                         </div>
                     ))}
