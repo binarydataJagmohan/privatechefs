@@ -295,11 +295,11 @@ export default function Home(props: any) {
 
 
     const settings = {
-        rows: 1,
+        rows: 2,
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 1,
+        slidesToShow: 5,
         //slidesToScroll: 1,
         centerMode: false,
         variableWidth: true,
@@ -345,7 +345,7 @@ export default function Home(props: any) {
                 <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
                 <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
             </Head>
-                <section className="banner-part">
+            <section className="banner-part">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-8">
@@ -353,7 +353,7 @@ export default function Home(props: any) {
                         </div>
                         <div className="col-sm-4">
                             <div className="banner-text home-page-banner-text">
-                                <h1>Creating memoriess with food</h1>
+                                <h1>Creating memories with food</h1>
                                 <div className="banner-btn"><a href="/bookings/step1">Start your journey</a></div>
                             </div>
                         </div>
@@ -368,54 +368,102 @@ export default function Home(props: any) {
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
-                            {locations.map((location, index) => (
-                                <div className="col-lg-2 col-md-6" key={index}>
-                                    <a
-                                        href={
-                                            process.env.NEXT_PUBLIC_BASE_URL +
-                                            'location/' +
-                                            location.address
-                                        }
-                                    >
-                                        <div className="slider-img-plase" id="location_idd">
-                                            {location.location_pic ? (
-                                                <img
-                                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + location.location_pic}
-                                                    id="loc_id"
-                                                    alt="slider-1"
-                                                />
-                                            ) : (
-                                                <img
-                                                    src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
-                                                    id="dummy-img"
-                                                    alt="slider-1"
-                                                />
-                                            )}
-                                            
-                                            <p className="plase-btn">
-                                                <a
-                                                    href={
-                                                        process.env.NEXT_PUBLIC_BASE_URL +
-                                                        'location/' +
-                                                        location.address
-                                                    }
-                                                >
-                                                    {location.address.slice(0, 35)}
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </a>
-                                </div>
-                            ))}
-                        </Slider>
+                            {locations.map((location, index) => {
+                                //if(index < 7){
+                                    return(
+                                        <div className="col-lg-2 col-md-6" key={index}>
+                                            <a
+                                                href={
+                                                    process.env.NEXT_PUBLIC_BASE_URL +
+                                                    'location/' +
+                                                    location.address
+                                                }
+                                            >
+                                                <div className="slider-img-plase" id="location_idd">
+                                                    {location.location_pic ? (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + location.location_pic}
+                                                            id="loc_id"
+                                                            alt="slider-1"
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
+                                                            id="dummy-img"
+                                                            alt="slider-1"
+                                                        />
+                                                    )}
 
+                                                    <p className="plase-btn">
+                                                        <a
+                                                            href={
+                                                                process.env.NEXT_PUBLIC_BASE_URL +
+                                                                'location/' +
+                                                                location.address
+                                                            }
+                                                        >
+                                                            {location.address.slice(0, 35)}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    )
+                                //}
+                            })}
+                        </Slider>
+                        {/* <Slider {...settings}>
+                            {locations.reverse().map((location, index) => {
+                                //if(index > 6){
+                                    return(
+                                        <div className="col-lg-2 col-md-6" key={index}>
+                                            <a
+                                                href={
+                                                    process.env.NEXT_PUBLIC_BASE_URL +
+                                                    'location/' +
+                                                    location.address
+                                                }
+                                            >
+                                                <div className="slider-img-plase" id="location_idd">
+                                                    {location.location_pic ? (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/location/' + location.location_pic}
+                                                            id="loc_id"
+                                                            alt="slider-1"
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/placeholder.jpg'}
+                                                            id="dummy-img"
+                                                            alt="slider-1"
+                                                        />
+                                                    )}
+
+                                                    <p className="plase-btn">
+                                                        <a
+                                                            href={
+                                                                process.env.NEXT_PUBLIC_BASE_URL +
+                                                                'location/' +
+                                                                location.address
+                                                            }
+                                                        >
+                                                            {location.address.slice(0, 35)}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    )
+                                //}
+                            })}
+                        </Slider> */}
 
                     </div>
                     {/* <div className="text-center view-more mt-4"><a href="#">View More</a></div> */}
                 </div>
             </section>
 
-            <section className="services-part mt-4">
+            {/* <section className="services-part mt-4">
                 <div className="container">
                     <h2> Our services</h2>
                     <p className="dis-max-width mb-4">Looking for a Chef to create unforgettable culinary memories? Perhaps a Butler to pamper you all day long with any request? Or a talented Bartender that will surprise you with delicious cocktails? We have it all!</p>
@@ -440,17 +488,17 @@ export default function Home(props: any) {
                                 <h3>Bartenders</h3>
                                 <p>Our bartenders are skilled mixologists who turn every drink into a work of art. From classic cocktails to custom concoctions, they bring an element of liquid elegance to your event, leaving your guests in awe of their craft. </p>
                             </div>
-                        </div>
-                        {/*<div className="col-lg-3 col-md-6">
+                        </div> */}
+            {/*<div className="col-lg-3 col-md-6">
                             <div className="card-box">
                             <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/14.webp'} alt="11" />
                             <h3>Massage</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                             </div>
                         </div>*/}
-                    </div>
+            {/* </div>
                 </div>
-            </section>
+            </section> */}
             <section className="text-side mt-5">
                 <div className="container">
                     <div className="row">
@@ -473,7 +521,7 @@ export default function Home(props: any) {
                     <div className='services-id'>
                         <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. We deliver results.</p>
                     </div>
-                    <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your private chefs (at the place & time you want them) as quick & easy as possible for you.</p>
+                    <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your Private Chefs (at the place & time you want them) as quick & easy as possible for you.</p>
                     <div className="row g-3 mt-5">
                         <div className="col-lg-4 col-md-6">
                             <div className="num-list h-100" id="num-list-id">
@@ -529,12 +577,12 @@ export default function Home(props: any) {
                     <div className="row">
                         <Slider {...settings}>
                             {allchef.map((data: any) => (
-                                <div className="col-lg-2 col-md-6">
+                                <div className="col-lg-2 col-md-6" key={data.id}>
                                     <div className="slider-img-plase" id="chef-img">
                                         {data.pic ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic}  id="chef_id" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic} id="chef_id" />
                                         ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}  id="chef_id" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} id="chef_id" />
                                         )}
                                         <p className="plase-btn"><a href={`/privatechef/${data.slug}`}>Chef {data.name && data.name.split(' ')[0]}</a></p>
                                     </div>
@@ -793,7 +841,7 @@ export default function Home(props: any) {
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-5.png'} alt="logo-5" />
                             </div>
                         </div>
-                        
+
                         {/* <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-7" />

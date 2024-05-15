@@ -1,5 +1,7 @@
 import React from 'react'
 export default function Footer(): JSX.Element {
+    const date = new Date();
+    const year = date.getFullYear();
     return (
         <>
             <footer className="footer-main mt-5 mb-3">
@@ -22,7 +24,7 @@ export default function Footer(): JSX.Element {
                             <li><a href="#"><i className="fa-brands fa-instagram"></i></a></li>
                             <li><a href="#"><i className="fa-brands fa-linkedin"></i></a></li>
                         </ul>
-                        <p className="font-small color-bs8639 mt-3 mb-0">Copyright © 2021 Private Chefs All rights reserved</p>
+                        <p className="font-small color-bs8639 mt-3 mb-0">Copyright © {year} Private Chefs All rights reserved</p>
                     </div>
                 </div>
             </footer>

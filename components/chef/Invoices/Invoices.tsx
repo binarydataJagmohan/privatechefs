@@ -403,7 +403,7 @@ export default function Invoices() {
 						</div> */}
             <div className="mt-4">
               <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-                {buttonStatus ? "Please wait.." : "Save"}
+                {buttonStatus ? "Please wait.." : "Save Invoice Information"}
               </button>
             </div>
           </form>
@@ -457,7 +457,7 @@ export default function Invoices() {
 						</div> */}
             <div className="mt-4">
               <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-                {buttonStatus ? "Please wait.." : "Save"}
+                {buttonStatus ? "Please wait.." : "Update Invoice Information"}
               </button>
             </div>
           </form>

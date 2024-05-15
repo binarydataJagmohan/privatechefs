@@ -77,7 +77,8 @@ export default function Footer() {
 			}
 		});
 	};
-
+  const date = new Date();
+  const year = date.getFullYear();
   return (
     <>
       <footer className="footer-main">
@@ -108,7 +109,7 @@ export default function Footer() {
               <li><Link href="https://www.linkedin.com/" target="
               "><i className="fa-brands fa-linkedin"></i></Link></li>
             </ul>
-            <p className="font-small color-bs8639 mt-3 mb-0">Copyright © 2023 Private Chefs All rights reserved</p>
+            <p className="font-small color-bs8639 mt-3 mb-0">Copyright © {year} Private Chefs All rights reserved</p>
           </div>
         </div>
       </footer>

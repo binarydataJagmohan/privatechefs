@@ -1217,7 +1217,7 @@ export default function MyProfile() {
 									</div>
 								</div>
 								<div className="text-right">
-									<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+									<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save my profile information'}</button>
 								</div>
 								<hr />
 							</form>
@@ -1289,8 +1289,8 @@ export default function MyProfile() {
 														<label className='mb-4 d-block'>What describes you best?</label>
 
 														<div className="form-check form-check-inline mb-2">
-															<input className="form-check-input" type="checkbox" id="inlineCheckbox1" style={{ width: "auto" }} onChange={() => handleDescribesChange('Private Chef')} checked={description['Private Chef']} />
-															<label className="form-check-label" htmlFor="inlineCheckbox1" style={{ width: "auto", paddingLeft: '8px' }}>Private Chef</label>
+															<input className="form-check-input" type="checkbox" id="inlineCheckbox1" style={{ width: "auto" }} onChange={() => handleDescribesChange('Private Chefs')} checked={description['Private Chefs']} />
+															<label className="form-check-label" htmlFor="inlineCheckbox1" style={{ width: "auto", paddingLeft: '8px' }}>Private Chefs</label>
 														</div>
 
 														<div className="form-check form-check-inline mb-2">
@@ -1606,7 +1606,7 @@ export default function MyProfile() {
 										</div>
 									</div>
 									<div className="text-right">
-										<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>									</div>
+										<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Profile Resume Information'}</button>									</div>
 									<hr></hr>
 								</>
 							</form>
@@ -1713,7 +1713,7 @@ export default function MyProfile() {
 											</div>
 										</div>
 										<div className="text-right">
-											<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+											<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Profile Location Information'}</button>
 										</div>
 									</form>
 								</div>

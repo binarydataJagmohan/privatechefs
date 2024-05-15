@@ -145,7 +145,7 @@ export default function Contact(props: any) {
                                     <textarea name="message" value={message || ''} onChange={(e) => setMessage(e.target.value)} placeholder="Type your message"></textarea>
                                     {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.message}</span>}
                                     <div className="text-right" id="contact-fromid">
-                                        <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+                                        <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Contact Information'}</button>
                                     </div>
                                 </div>
                             </form>
@@ -206,12 +206,12 @@ export default function Contact(props: any) {
                                 <div className="accordion-item">
                                     <h2 className="accordion-header" id="heading4">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                                            Why Choose to Book a Private Chef?
+                                            Why Choose to Book a Private Chefs?
                                         </button>
                                     </h2>
                                     <div id="collapse4" className="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Booking a private chef means you can enjoy a dining experience customized just for you in the comfort of your own space. You get to relax, focus on your guests, and relish a menu that perfectly matches your tastes, dietary needs, and cultural preferences.
+                                            Booking a Private Chefs means you can enjoy a dining experience customized just for you in the comfort of your own space. You get to relax, focus on your guests, and relish a menu that perfectly matches your tastes, dietary needs, and cultural preferences.
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +237,7 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapse6" className="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                        Our single service includes a one-time dining experience where you can choose the cuisine, menu, and style of your meal. Your private chef will prepare, serve, and clean up, ensuring a seamless and memorable culinary experience.
+                                        Our single service includes a one-time dining experience where you can choose the cuisine, menu, and style of your meal. Your Private Chefs will prepare, serve, and clean up, ensuring a seamless and memorable culinary experience.
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapse7" className="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Our multiple services cater to those looking for extended culinary experiences, such as vacation villa or chalet rentals. These services can encompass multiple meals throughout the day, offering you the convenience of having a private chef at your disposal for the duration of your stay.
+                                            Our multiple services cater to those looking for extended culinary experiences, such as vacation villa or chalet rentals. These services can encompass multiple meals throughout the day, offering you the convenience of having a Private Chefs at your disposal for the duration of your stay.
 
 
                                         </div>
@@ -276,7 +276,7 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapse8" className="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            Private Chefs allows you to enjoy the experience of having a private chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
+                                            Private Chefs allows you to enjoy the experience of having a Private Chefs anywhere in the world. As a guest, you simply fill in the details of your event in an easy and dynamic way, and the best four local chefs interested will respond with a personalized menu and budget for you. Once you decide on a candidate based on their chef profile, menu proposal, and conversation, you can reserve the experience and the chef will take care of the rest.
                                         </div>
                                     </div>
                                 </div> */}
@@ -421,7 +421,7 @@ export default function Contact(props: any) {
                                     </h2>
                                     <div id="collapse11" className="accordion-collapse collapse" aria-labelledby="heading11" data-bs-parent="#accordionExample">
                                         <div className="accordion-body">
-                                            No, you don't! At Private Chefs you can sign up and offer your services as a private chef completely free of charge. We only earn a commission on each confirmed booking.
+                                            No, you don't! At Private Chefs you can sign up and offer your services as a Private Chefs completely free of charge. We only earn a commission on each confirmed booking.
                                         </div>
                                     </div>
                                 </div>

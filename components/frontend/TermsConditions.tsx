@@ -37,12 +37,6 @@ export default function TermsConditions(props: any) {
           </p>
           <p className="mt-3 mb-3">By registering with an email address, you acknowledge that you have read and accepted these general conditions of use.</p>
 
-          <h2 className="mt-3 mb-3">1. Users</h2>
-
-          <h5 className="mt-3 mb-3">1.1.1 Diners</h5>
-          <p className="mt-3 mb-3">As a Diner, you can request a Service through the Platform, entering the information related to the Service you require (date, location, type of cuisine, etc.).</p>
-          <p className="mt-3 mb-3">By submitting your Request, you will receive from our team an email confirmation that we received your request and we are processing it.</p>
-
           <h5 className="mt-3 mb-3">1.1.2 Chef</h5>
           <p className="mt-3 mb-3">As a Chef, as long as you meet the conditions established below, you can offer private chef services to Diners in the region that you have requested.</p>
           <p className="mt-3 mb-3">You can only respond to a Request if you meet each and every one of the conditions indicated below:</p>

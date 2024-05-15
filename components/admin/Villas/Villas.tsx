@@ -12,7 +12,6 @@ import { Loader } from "@googlemaps/js-api-loader";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { showToast } from "../../commoncomponents/toastUtils";
-import PageFound from "../../pageFound";
 
 export default function Villas() {
   const [name, setFullName] = useState("");
@@ -527,8 +526,8 @@ export default function Villas() {
                   <th scope="col">Phone</th>
                   <th scope="col">Address</th>
                   <th scope="col">Partner/Owner</th>
-                  <th scope="col">Bedroom</th>
-                  <th scope="col">Bathrooms</th>
+                  {/* <th scope="col">Bedroom</th>
+									<th scope="col">Bathrooms</th> */}
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -544,8 +543,8 @@ export default function Villas() {
                       <td>{villa.phone}</td>
                       <td>{villa.address}</td>
                       <td>{villa.partner_owner}</td>
-                      <td>{villa.bedrooms}</td>
-                      <td>{villa.bathrooms}</td>
+                      {/* <td>{villa.bedrooms}</td>
+										<td>{villa.bathrooms}</td> */}
                       <td>
                         <div className="dropdown" id="none-class">
                           <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -582,9 +581,7 @@ export default function Villas() {
               </tbody>
             </table>
           ) : (
-            <>
-              <PageFound iconClass={"fa-solid fa-home"} heading={" No villas"} subText={"available"} />
-            </>
+            <p className="book1 text-center">No Records Found</p>
           )}
         </div>
       </div>
@@ -805,7 +802,7 @@ export default function Villas() {
             </div>
             <div className="mt-4">
               <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-                {buttonStatus ? "Please wait.." : "Save"}
+                {buttonStatus ? "Please wait.." : "Save Villas Information"}
               </button>
             </div>
           </form>
@@ -1054,7 +1051,7 @@ export default function Villas() {
             </div>
             <div className="mt-4">
               <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-                {buttonStatus ? "Please wait.." : "Update"}
+                {buttonStatus ? "Please wait.." : "Update Villas Information"}
               </button>
             </div>
           </form>

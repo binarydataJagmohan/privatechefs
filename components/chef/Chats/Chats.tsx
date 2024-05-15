@@ -3,7 +3,7 @@ import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getAllUserData,SendMessageToUserByAdmin,CreateGroupChatByAdmin } from "../../../lib/adminapi";
 
-import { getChefMessageData,getClickChefUserChatData,ContactUserByChef,ContactUserByChefWithShareFile,getAdminData } from "../../../lib/chefapi";
+import { getChefMessageData,getClickChefUserChatData,ContactUserByChef,ContactUserByChefWithShareFile,getAdminData, deleteChatMessage } from "../../../lib/chefapi";
 
 import { ToastContainer, toast } from "react-toastify";
 import moment from 'moment';
@@ -146,6 +146,7 @@ export default function Booking(props: any) {
   }
 
   interface AdninChatMessages {
+    chat_message_id: number;
     sender_id: number;
     receiver_id?: number;
     sender_name: string;
@@ -1100,6 +1101,23 @@ export default function Booking(props: any) {
       }
     });
   };
+  const handleDeleteSingleMessage = (messageId:any) => {
+    deleteChatMessage(messageId)
+    .then(res => {
+      if (res.status == true) {
+        toast.success(res.message, {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      } else {
+        toast.error(res.message, {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
   return (
     <>
     
@@ -1426,6 +1444,15 @@ export default function Booking(props: any) {
 
                                     <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
                                     </span>{" "}
+                                    {/* <p className="text-right" data-bs-toggle="tooltip" data-bs-html="true" title="OnClick delete a message" onClick={() => handleDeleteSingleMessage(message.chat_message_id)} style={{position: "relative", left: "-30px", color: "#ff0000", cursor: "pointer"}}><i className="fa fa-close"></i></p> */}
+                                    <div className="dropdown drop-btn">
+                                      <button className="down-menu" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i className="fa-solid fa-ellipsis"></i>
+                                      </button>
+                                      <ul className="dropdown-menu min-100" aria-labelledby="dropdownMenu2">
+                                        <li className="trash-icon"><button className="dropdown-item" type="button" onClick={() => handleDeleteSingleMessage(message.chat_message_id)}><i className="fa-regular fa-trash-can"></i> Delete   </button></li>  
+                                      </ul>
+                                    </div>
                                     {message.sender_pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
                                         alt="chats-user"

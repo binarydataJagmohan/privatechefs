@@ -541,7 +541,7 @@ export default function UserProfile() {
                             </div>
                           </div>
                           <div className="text-right mt-4">
-                            <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+                            <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save User Profile Information'}</button>
                           </div>
                         </div>
                       </div>
@@ -706,7 +706,7 @@ export default function UserProfile() {
                     </div>
                   </div>
                   <div className="text-right mt-4">
-                    <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+                    <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save User Profile Information'}</button>
                   </div>
                 </div>
               </div>

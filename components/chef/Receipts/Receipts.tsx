@@ -504,6 +504,51 @@ export default function Receipts() {
           </form>
         </div>
       </PopupModal>
+      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
+        <div className="all-form" id="form_id">
+          <form className="common_form_error" id="menu_form" onSubmit={handleReceiptSubmit}>
+            <div className="login_div">
+              <label htmlFor="booking">BookingId:</label>
+              <select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
+                <option value="" disabled>
+                  Select Booking
+                </option>
+                {Array.isArray(getbooking) &&
+                  getbooking.map((booking, index) => (
+                    <option key={booking.id} value={booking.id}>
+                      {`bookingid#${booking.id} - location#${booking.location}-booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
+                    </option>
+                  ))}
+              </select>
+              {errors.booking_id && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.booking_id}</span>}
+            </div>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="login_div">
+                  <label htmlFor="date">Order date:</label>
+                  <input type="date" name="order_date" value={order_date} onChange={(e) => setOrderDate(e.target.value)} />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="login_div">
+                  <label htmlFor="amount">Amount:</label>
+                  <input type="number" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                  {errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.amount}</span>}
+                </div>
+              </div>
+            </div>
+            <div className="login_div">
+              <label htmlFor="Description">Description:</label>
+              <textarea id="form-description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+            </div>
+            <div className="mt-4">
+              <button className="btn-send w-100" disabled={buttonStatus}>
+                {buttonStatus ? "Please wait.." : "Save Receipts Information"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </PopupModal>
 
       <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
         <div className="all-form" id="form_id">
