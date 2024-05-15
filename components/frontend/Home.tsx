@@ -345,7 +345,7 @@ export default function Home(props: any) {
                 <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
                 <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
             </Head>
-                <section className="banner-part">
+            <section className="banner-part">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-8">
@@ -353,7 +353,7 @@ export default function Home(props: any) {
                         </div>
                         <div className="col-sm-4">
                             <div className="banner-text home-page-banner-text">
-                                <h1>Creating memoriess with food</h1>
+                                <h1>Creating memories with food</h1>
                                 <div className="banner-btn"><a href="/bookings/step1">Start your journey</a></div>
                             </div>
                         </div>
@@ -369,8 +369,8 @@ export default function Home(props: any) {
                     <div className="row">
                         <Slider {...settings}>
                             {locations.map((location, index) => {
-                                if(index < 7){
-                                    return(
+                                if (index < 7) {
+                                    return (
                                         <div className="col-lg-2 col-md-6" key={index}>
                                             <a
                                                 href={
@@ -393,7 +393,7 @@ export default function Home(props: any) {
                                                             alt="slider-1"
                                                         />
                                                     )}
-                                                    
+
                                                     <p className="plase-btn">
                                                         <a
                                                             href={
@@ -414,8 +414,8 @@ export default function Home(props: any) {
                         </Slider>
                         <Slider {...settings}>
                             {locations.map((location, index) => {
-                                if(index > 6){
-                                    return(
+                                if (index > 6) {
+                                    return (
                                         <div className="col-lg-2 col-md-6" key={index}>
                                             <a
                                                 href={
@@ -438,7 +438,7 @@ export default function Home(props: any) {
                                                             alt="slider-1"
                                                         />
                                                     )}
-                                                    
+
                                                     <p className="plase-btn">
                                                         <a
                                                             href={
@@ -489,14 +489,14 @@ export default function Home(props: any) {
                                 <p>Our bartenders are skilled mixologists who turn every drink into a work of art. From classic cocktails to custom concoctions, they bring an element of liquid elegance to your event, leaving your guests in awe of their craft. </p>
                             </div>
                         </div> */}
-                        {/*<div className="col-lg-3 col-md-6">
+            {/*<div className="col-lg-3 col-md-6">
                             <div className="card-box">
                             <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/14.webp'} alt="11" />
                             <h3>Massage</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Molestie laoreet eget penatibus cum lectus. Accumsan, in odio bibendum praesent sollicitudin. </p>
                             </div>
                         </div>*/}
-                    {/* </div>
+            {/* </div>
                 </div>
             </section> */}
             <section className="text-side mt-5">
@@ -580,9 +580,9 @@ export default function Home(props: any) {
                                 <div className="col-lg-2 col-md-6" key={data.id}>
                                     <div className="slider-img-plase" id="chef-img">
                                         {data.pic ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic}  id="chef_id" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + data.pic} id="chef_id" />
                                         ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}  id="chef_id" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} id="chef_id" />
                                         )}
                                         <p className="plase-btn"><a href={`/privatechef/${data.slug}`}>Chef {data.name && data.name.split(' ')[0]}</a></p>
                                     </div>
@@ -841,7 +841,7 @@ export default function Home(props: any) {
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-5.png'} alt="logo-5" />
                             </div>
                         </div>
-                        
+
                         {/* <div className="col-lg-4 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-7" />
