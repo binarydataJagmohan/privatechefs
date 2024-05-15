@@ -1,14 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import {
-  saveVilla,
-  updateVilla,
-  getUserBookingId,
-  getSingleVillas,
-  deleteSingleVilla,
-  getAdminVillaByBooking,
-} from "../../../lib/adminapi";
+import { saveVilla, updateVilla, getUserBookingId, getSingleVillas, deleteSingleVilla, getAdminVillaByBooking } from "../../../lib/adminapi";
 import { Loader } from "@googlemaps/js-api-loader";
 import { useRouter } from "next/router";
 import { paginate } from "../../../helpers/paginate";
@@ -19,6 +12,7 @@ import swal from "sweetalert";
 import PopupModal from "../../../components/commoncomponents/PopupModalLarge";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import PageFound from "../../pageFound";
 
 export default function Villas2(props: any) {
   const [name, setFullName] = useState("");
@@ -64,7 +58,7 @@ export default function Villas2(props: any) {
 
   const [sidebarConfirm, setSidebarConfirm] = useState(false);
 
-  const [bookingdate, setBookingDate] = useState('');
+  const [bookingdate, setBookingDate] = useState("");
 
   const mapRefTwo = useRef(null);
 
@@ -73,8 +67,8 @@ export default function Villas2(props: any) {
   };
 
   const sidebarConfirmOpen = () => {
-		setSidebarConfirm(true);
-	};
+    setSidebarConfirm(true);
+  };
 
   const pageSize = 10;
 
@@ -97,48 +91,47 @@ export default function Villas2(props: any) {
   };
 
   interface ChefOffer {
-		name?: string;
-		surname?: string;
-		menu_names?: string;
-		amount?: string;
-		id?: number;
-		chef_id?: number;
-		client_amount?: string;
-		admin_amount?: string;
-		user_show?: string;
-		applied_jobs_status: string;
-		applied_jobs_id: string;
-
-	}
+    name?: string;
+    surname?: string;
+    menu_names?: string;
+    amount?: string;
+    id?: number;
+    chef_id?: number;
+    client_amount?: string;
+    admin_amount?: string;
+    user_show?: string;
+    applied_jobs_status: string;
+    applied_jobs_id: string;
+  }
 
   interface Booking {
-		adults?: number;
-		allergies?: string;
-		booking_id?: number;
-		booking_status?: string;
-		category?: string;
-		childrens?: number;
-		cuisines?: string;
-		dates?: string;
-		email?: string;
-		lat?: string;
-		lng?: string;
-		latest_created_at?: string;
-		location?: string;
-		name?: string;
-		notes?: string;
-		service_name?: string;
-		surname?: string;
-		teens?: number;
-		user_id?: number;
-		phone?: string;
-	}
+    adults?: number;
+    allergies?: string;
+    booking_id?: number;
+    booking_status?: string;
+    category?: string;
+    childrens?: number;
+    cuisines?: string;
+    dates?: string;
+    email?: string;
+    lat?: string;
+    lng?: string;
+    latest_created_at?: string;
+    location?: string;
+    name?: string;
+    notes?: string;
+    service_name?: string;
+    surname?: string;
+    teens?: number;
+    user_id?: number;
+    phone?: string;
+  }
 
   interface DaysBookingCheck {
-		breakfast?: string;
-		lunch?: string;
-		dinner?: string;
-	}
+    breakfast?: string;
+    lunch?: string;
+    dinner?: string;
+  }
 
   const fetchBookingAdminDetails = async (id: any) => {
     try {
@@ -146,17 +139,11 @@ export default function Villas2(props: any) {
       if (res.status) {
         let filteredReceipts = res.data;
         if (router.query.booking_id) {
-          filteredReceipts = res.data.filter(
-            (receipt: any) => receipt.booking_id == router.query.booking_id
-          );
+          filteredReceipts = res.data.filter((receipt: any) => receipt.booking_id == router.query.booking_id);
         }
 
         setTotalBooking(filteredReceipts);
-        const paginatedPosts = paginate(
-          filteredReceipts,
-          currentPage,
-          pageSize
-        );
+        const paginatedPosts = paginate(filteredReceipts, currentPage, pageSize);
         setBookingUser(paginatedPosts);
       } else {
         toast.error(res.message, {
@@ -324,41 +311,39 @@ export default function Villas2(props: any) {
     });
   };
 
+  const getSingleBookingUser = (e: any, id: any) => {
+    e.preventDefault();
+    getUserBookingId(id).then((res) => {
+      setBooking(res.booking[0]);
+      setChefOffer(res.chefoffer);
+      setDaysBooking(res.days_booking);
+      setSidebarConfirm(true);
 
-	const getSingleBookingUser = (e: any, id: any) => {
-		e.preventDefault();
-		getUserBookingId(id).then((res) => {
-			setBooking(res.booking[0]);
-			setChefOffer(res.chefoffer);
-			setDaysBooking(res.days_booking);
-			setSidebarConfirm(true);
+      if (res.days_booking.length == 1) {
+        setBookingDate(formatDate(res.booking[0].dates));
+      } else {
+        const datesString = res.booking[0].dates;
+        const dates = datesString.split(",").map((dateString: string) => formatDate(dateString));
+        const startDate = dates[0];
+        const endDate = dates[dates.length - 1];
+        const output = `${startDate} to ${endDate}`;
+        setBookingDate(output);
+      }
+      // create a new map instance
+      if (typeof google !== "undefined" && mapRef.current !== null) {
+        const map = new google.maps.Map(mapRef.current, {
+          center: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+          zoom: 12,
+        });
 
-			if (res.days_booking.length == 1) {
-				setBookingDate(formatDate(res.booking[0].dates))
-			} else {
-				const datesString = res.booking[0].dates;
-				const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
-				const startDate = dates[0];
-				const endDate = dates[dates.length - 1];
-				const output = `${startDate} to ${endDate}`;
-				setBookingDate(output)
-
-			}
-			// create a new map instance
-			if (typeof google !== 'undefined' && mapRef.current !== null) {
-				const map = new google.maps.Map(mapRef.current, {
-					center: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
-					zoom: 12,
-				});
-
-				const marker = new google.maps.Marker({
-					position: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
-					map: map,
-					title: res.booking[0].location,
-				});
-			}
-		});
-	};
+        const marker = new google.maps.Marker({
+          position: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+          map: map,
+          title: res.booking[0].location,
+        });
+      }
+    });
+  };
 
   return (
     <>
@@ -374,17 +359,11 @@ export default function Villas2(props: any) {
           </button> */}
 
           <a href="#" className="t-icon">
-            <i
-              className="fa-solid fa-trash"
-              onClick={(e) => deleteSinglevilla(props.id)}
-            ></i>
+            <i className="fa-solid fa-trash" onClick={(e) => deleteSinglevilla(props.id)}></i>
           </a>
 
           <a href="#" className="t-icon">
-            <i
-              className="fa-solid fa-eye"
-              onClick={(e) => editsetModalConfirm(true)}
-            ></i>
+            <i className="fa-solid fa-eye" onClick={(e) => editsetModalConfirm(true)}></i>
           </a>
         </h2>
 
@@ -408,21 +387,15 @@ export default function Villas2(props: any) {
                   <tbody>
                     {bookingUsers.map((user: any, index) => {
                       const datesString = user.dates;
-                      const dates = datesString
-                        .split(",")
-                        .map((dateString: string) => formatDate(dateString));
+                      const dates = datesString.split(",").map((dateString: string) => formatDate(dateString));
                       const startDate = dates[0];
                       const endDate = dates[dates.length - 1];
                       const output = `${startDate} to ${endDate}`;
-                      const surname =
-                        user.surname !== null && user.surname !== "null"
-                          ? user.surname
-                          : "";
+                      const surname = user.surname !== null && user.surname !== "null" ? user.surname : "";
 
                       return (
                         <tr key={index}>
-                          <td onClick={(e) => getSingleBookingUser(e, user.booking_id)}
-																data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                          <td onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <p className="text-data-18" id="table-p">
                               #{user.booking_id}
                             </p>
@@ -431,57 +404,29 @@ export default function Villas2(props: any) {
                             <p className="text-data-18" id="table-p">
                               {`${user.name} ${surname}`
                                 .split(" ")
-                                .map(
-                                  (word) =>
-                                    word.charAt(0).toUpperCase() + word.slice(1)
-                                )
+                                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                                 .join(" ")}
                             </p>
                           </td>
                           <td className="chefs_pic">
                             <p className="text-data-18" id="table-p">
-                              {user.pic ? (
-                                <img
-                                  src={
-                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                    "/images/chef/users/" +
-                                    user.pic
-                                  }
-                                  alt=""
-                                />
-                              ) : (
-                                <img
-                                  src={
-                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                    "/images/users.jpg"
-                                  }
-                                  alt=""
-                                />
-                              )}
+                              {user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}
                             </p>
                           </td>
 
                           <td>
                             <p className="text-data-18" id="table-p">
-                              {user.category == "onetime"
-                                ? formatDate(user.dates)
-                                : output}
+                              {user.category == "onetime" ? formatDate(user.dates) : output}
                             </p>
                           </td>
 
                           <td>
                             <p className="text-data-18" id="table-p">
-                              {user.category == "onetime"
-                                ? "One time"
-                                : "Mutiple Times"}
+                              {user.category == "onetime" ? "One time" : "Mutiple Times"}
                             </p>
                           </td>
 
-                          <td
-                            className={`booking-status-${user.booking_status}`}
-                          >
-                            {user.booking_status}
-                          </td>
+                          <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
 
                           <td></td>
                         </tr>
@@ -490,47 +435,22 @@ export default function Villas2(props: any) {
                   </tbody>
                 </table>
               ) : (
-                <p className="book1" style={{ textAlign: "center" }}>
-                  No Records Found.
-                </p>
+                <>
+                  <PageFound iconClass={"fa-solid fa-home"} heading={" No villas"} subText={"available"} />
+                </>
               )}
             </div>
-            <Pagination
-              items={totalBooking.length}
-              currentPage={currentPage}
-              pageSize={pageSize}
-              onPageChange={onPageChange}
-            />
+            <Pagination items={totalBooking.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
           </div>
 
           <div className="col-lg-5  col-md-12">
-            {villa_img ? (
-              <img
-                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/villas/images/${villa_img}`}
-                alt="villa"
-                className="boder-img"
-              />
-            ) : (
-              <img
-                src={process.env.NEXT_PUBLIC_BASE_URL + "images/villa.png"}
-                alt="villa"
-                className="boder-img"
-              />
-            )}
+            {villa_img ? <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/villas/images/${villa_img}`} alt="villa" className="boder-img" /> : <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/villa.png"} alt="villa" className="boder-img" />}
 
-            <div
-              className="mt-4"
-              ref={mapRefTwo}
-              style={{ height: "400px" }}
-            ></div>
+            <div className="mt-4" ref={mapRefTwo} style={{ height: "400px" }}></div>
           </div>
         </div>
       </div>
-      <PopupModal
-        show={editmodalConfirm}
-        handleClose={editmodalConfirmClose}
-        staticClass="var-login"
-      >
+      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
         <div className="all-form" id="form_id">
           <form className="common_form_error" id="menu_form">
             <div className="row">
@@ -543,12 +463,7 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="email">Email:</label>
-                  <input
-                    type="text"
-                    name="email"
-                    value={email || ""}
-                    disabled
-                  />
+                  <input type="text" name="email" value={email || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4 villa_div">
@@ -567,13 +482,7 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="address">Address:</label>
-                  <input
-                    id="address-input2"
-                    type="text"
-                    name="address"
-                    value={address || ""}
-                    disabled
-                  />
+                  <input id="address-input2" type="text" name="address" value={address || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
@@ -585,12 +494,7 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="state">State:</label>
-                  <input
-                    type="text"
-                    name="state"
-                    value={state || ""}
-                    disabled
-                  />
+                  <input type="text" name="state" value={state || ""} disabled />
                 </div>
               </div>
             </div>
@@ -598,36 +502,20 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="partner_owner">Partner/Owner:</label>
-                  <input
-                    type="text"
-                    name="state"
-                    value={partner_owner || ""}
-                    disabled
-                  />
+                  <input type="text" name="state" value={partner_owner || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="category">Category:</label>
 
-                  <input
-                    type="text"
-                    name="state"
-                    value={category || ""}
-                    disabled
-                  />
+                  <input type="text" name="state" value={category || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="capacity">Capacity:</label>
-                  <input
-                    type="number"
-                    name="capacity"
-                    value={capacity || ""}
-                    onChange={(e) => setCapacity(e.target.value)}
-                    disabled
-                  />
+                  <input type="number" name="capacity" value={capacity || ""} onChange={(e) => setCapacity(e.target.value)} disabled />
                 </div>
               </div>
             </div>
@@ -635,34 +523,19 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="price_per_day">Price Per Day:</label>
-                  <input
-                    type="number"
-                    name="price_per_day"
-                    value={price_per_day || ""}
-                    disabled
-                  />
+                  <input type="number" name="price_per_day" value={price_per_day || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="bedrooms">Bedrooms:</label>
-                  <input
-                    type="number"
-                    name="bedrooms"
-                    value={bedrooms || ""}
-                    disabled
-                  />
+                  <input type="number" name="bedrooms" value={bedrooms || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="bathrooms">Bathrooms:</label>
-                  <input
-                    type="number"
-                    name="bathrooms"
-                    value={bathrooms || ""}
-                    disabled
-                  />
+                  <input type="number" name="bathrooms" value={bathrooms || ""} disabled />
                 </div>
               </div>
             </div>
@@ -671,38 +544,21 @@ export default function Villas2(props: any) {
                 <div className="login_div">
                   <label htmlFor="type_of_stove">Type of stove1:</label>
 
-                  <input
-                    type="text"
-                    name="bathrooms"
-                    className="text-capitalize"
-                    value={type_of_stove || ""}
-                    disabled
-                  />
+                  <input type="text" name="bathrooms" className="text-capitalize" value={type_of_stove || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="equipment">Equipment:</label>
 
-                  <input
-                    type="text"
-                    name="bathrooms"
-                    value={equipment || ""}
-                    disabled
-                  />
+                  <input type="text" name="bathrooms" value={equipment || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="BBQ">BBQ:</label>
 
-                  <input
-                    type="text"
-                    name="bathrooms"
-                    value={BBQ || ""}
-                    disabled
-                    className="text-capitalize"
-                  />
+                  <input type="text" name="bathrooms" value={BBQ || ""} disabled className="text-capitalize" />
                 </div>
               </div>
             </div>
@@ -710,34 +566,19 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="consierge_phone">Consierge Phone:</label>
-                  <input
-                    type="text"
-                    name="consierge_phone"
-                    value={consierge_phone || ""}
-                    disabled
-                  />
+                  <input type="text" name="consierge_phone" value={consierge_phone || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="website">Website:</label>
-                  <input
-                    type="url"
-                    name="website"
-                    value={website || ""}
-                    disabled
-                  />
+                  <input type="url" name="website" value={website || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="facebook_link">Facebook Link:</label>
-                  <input
-                    type="url"
-                    name="facebook_link"
-                    value={facebook_link || ""}
-                    disabled
-                  />
+                  <input type="url" name="facebook_link" value={facebook_link || ""} disabled />
                 </div>
               </div>
             </div>
@@ -745,34 +586,19 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="instagram_link">Instagram Link:</label>
-                  <input
-                    type="url"
-                    name="instagram_link"
-                    value={instagram_link || ""}
-                    disabled
-                  />
+                  <input type="url" name="instagram_link" value={instagram_link || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="twitter_link">Twitter Link:</label>
-                  <input
-                    type="url"
-                    name="twitter_link"
-                    value={twitter_link || ""}
-                    disabled
-                  />
+                  <input type="url" name="twitter_link" value={twitter_link || ""} disabled />
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="linkedin_link">Linkedin Link:</label>
-                  <input
-                    type="url"
-                    name="linkedin_link"
-                    value={linkedin_link || ""}
-                    disabled
-                  />
+                  <input type="url" name="linkedin_link" value={linkedin_link || ""} disabled />
                 </div>
               </div>
             </div>
@@ -780,12 +606,7 @@ export default function Villas2(props: any) {
               <div className="col-md-4">
                 <div className="login_div">
                   <label htmlFor="youtube_link">Youtube Link:</label>
-                  <input
-                    type="url"
-                    name="youtube_link"
-                    value={youtube_link}
-                    disabled
-                  />
+                  <input type="url" name="youtube_link" value={youtube_link} disabled />
                 </div>
               </div>
             </div>
@@ -801,29 +622,13 @@ export default function Villas2(props: any) {
                         images instanceof Blob || images instanceof File ? (
                           <div className="col-md-2" key={index}>
                             <div className="">
-                              <img
-                                src={URL.createObjectURL(images)}
-                                className="s-image"
-                                alt="selected image"
-                                width={100}
-                                height={100}
-                              />
+                              <img src={URL.createObjectURL(images)} className="s-image" alt="selected image" width={100} height={100} />
                             </div>
                           </div>
                         ) : (
                           <div className="col-md-2" key={index}>
                             <div className="">
-                              <img
-                                src={
-                                  process.env.NEXT_PUBLIC_IMAGE_URL +
-                                  "/images/villas/images/" +
-                                  images.image
-                                }
-                                alt="villa-image"
-                                width={100}
-                                height={100}
-                                className="s-image"
-                              />
+                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/villas/images/" + images.image} alt="villa-image" width={100} height={100} className="s-image" />
                             </div>
                           </div>
                         )
@@ -837,253 +642,238 @@ export default function Villas2(props: any) {
       </PopupModal>
 
       <div className="offcanvas-part">
-				<div className="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-					<div className="offcanvas-header">
-						<h5 id="offcanvasRightLabel">Booking Details</h5>
-						<button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-					</div>
-					<div className="offcanvas-body">
-						<div>
-							<button className="table-btn btn-2 date mr-sp">{bookingdate}</button>
+        <div className="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+          <div className="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Booking Details</h5>
+            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div className="offcanvas-body">
+            <div>
+              <button className="table-btn btn-2 date mr-sp">{bookingdate}</button>
+            </div>
+            <div className="off-can">
+              <div className="accordion" id="accordionExample">
+                <div className="accordion-item">
+                  <h2 className="accordion-header" id="headingOne">
+                    <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Chefs offers
+                    </button>
+                  </h2>
+                  <div id="collapseOne" className="mt-2 accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div className="accordion-body">
+                      {chefoffer.length > 0 ? (
+                        chefoffer.map((chef, index) => (
+                          <div className="row" key={index}>
+                            <div className="col-5">
+                              <p className="chefs-name m-2">{chef.name}</p>
+                            </div>
+                            <div className="col-2">
+                              <p className="mony m-2">${chef.amount}</p>
+                            </div>
+                            <div className="col-5">
+                              {chef.menu_names?.split(",").map((menu, index) => (
+                                <button className="table-btn btn-2 list-btn m-2" key={index}>
+                                  {menu.trim()}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="mt-2" style={{ textAlign: "center" }}>
+                          No Chef apply for this booking
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
-						</div>
-						<div className="off-can">
-							<div className="accordion" id="accordionExample">
+                <div className="accordion-item">
+                  <h2 className="accordion-header" id="headingTwo">
+                    <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                      Service Details
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" className="accordion-collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div className="accordion-body">
+                      <div className="row mt-1">
+                        <div className="col-4">
+                          <p className="chefs-name name-12">Service Type:</p>
+                        </div>
+                        <div className="col-8">
+                          <p className="mony f-w-4">{booking.category == "onetime" ? "One time Service" : "Mutiple Times Services"} </p>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-4">
+                          <p className="chefs-name name-12">Services </p>
+                        </div>
+                        <div className="col-8">
+                          <p className="mony f-w-4">{booking.service_name}</p>
+                        </div>
+                      </div>
+                      {daysbooking.length === 1 && (
+                        <div className="row mt-1">
+                          <div className="col-4">
+                            <p className="chefs-name name-12">Meal:</p>
+                          </div>
+                          <div className="col-8">
+                            <>
+                              {daysbooking[0].breakfast === "yes" && <button className="table-btn btn-2 list-btn">Breakfast</button>}
+                              {daysbooking[0].lunch === "yes" && <button className="table-btn btn-2 list-btn">Lunch</button>}
+                              {daysbooking[0].dinner === "yes" && <button className="table-btn btn-2 list-btn">Dinner</button>}
+                            </>
+                          </div>
+                        </div>
+                      )}
 
-								<div className="accordion-item">
-									<h2 className="accordion-header" id="headingOne">
-										<button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-											Chefs offers
-										</button>
-									</h2>
-									<div id="collapseOne" className="mt-2 accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-										<div className="accordion-body">
-											{chefoffer.length > 0 ? (
-												chefoffer.map((chef, index) => (
-													<div className="row" key={index}>
-														<div className="col-5">
-															<p className="chefs-name m-2">{chef.name}</p>
-														</div>
-														<div className="col-2">
-															<p className="mony m-2">${chef.amount}</p>
-														</div>
-														<div className="col-5">
-															{chef.menu_names?.split(",").map((menu, index) => (
-																<button className="table-btn btn-2 list-btn m-2" key={index}>{menu.trim()}</button>
-															))}
-														</div>
-													</div>
-												))
-											) : (
-												<p className="mt-2" style={{textAlign:"center"}}>No Chef apply for this booking</p>
-											)}
-										</div>
-									</div>
-								</div>
+                      <div className="row mt-1">
+                        <div className="col-4">
+                          <p className="chefs-name name-12">Cuisine:</p>
+                        </div>
+                        <div className="col-8">
+                          {booking &&
+                            booking.cuisines &&
+                            booking.cuisines.split(",").map((cuisine, index) => (
+                              <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">
+                                {cuisine.trim()}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
 
-
-								<div className="accordion-item">
-									<h2 className="accordion-header" id="headingTwo">
-										<button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-											Service Details
-										</button>
-									</h2>
-									<div id="collapseTwo" className="accordion-collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-										<div className="accordion-body">
-											<div className="row mt-1">
-												<div className="col-4">
-													<p className="chefs-name name-12">Service Type:</p>
-												</div>
-												<div className="col-8">
-													<p className="mony f-w-4">{booking.category == 'onetime' ? 'One time Service' : 'Mutiple Times Services'} </p>
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-4">
-													<p className="chefs-name name-12">Services </p>
-												</div>
-												<div className="col-8">
-													<p className="mony f-w-4">{booking.service_name}</p>
-												</div>
-											</div>
-											{daysbooking.length === 1 && (
-												<div className="row mt-1">
-													<div className="col-4">
-														<p className="chefs-name name-12">Meal:</p>
-													</div>
-													<div className="col-8">
-														<>
-															{daysbooking[0].breakfast === 'yes' &&
-																<button className="table-btn btn-2 list-btn">Breakfast</button>
-															}
-															{daysbooking[0].lunch === 'yes' &&
-																<button className="table-btn btn-2 list-btn">Lunch</button>
-															}
-															{daysbooking[0].dinner === 'yes' &&
-																<button className="table-btn btn-2 list-btn">Dinner</button>
-															}
-														</>
-													</div>
-												</div>
-											)}
-
-											<div className="row mt-1">
-												<div className="col-4">
-													<p className="chefs-name name-12">Cuisine:</p>
-												</div>
-												<div className="col-8">
-													{booking && booking.cuisines && booking.cuisines.split(",").map((cuisine, index) => (
-														<button key={index} className="table-btn btn-2 list-btn m-1 mb-2">{cuisine.trim()}</button>
-													))}
-												</div>
-											</div>
-
-											<div className="row mt-1">
-												<div className="col-4">
-													<p className="chefs-name name-12">Allergies:</p>
-												</div>
-												<div className="col-8">
-													{booking && booking.allergies && booking.allergies.split(",").map((allergies, index) => (
-														<button key={index} className="table-btn btn-2 list-btn m-1 mb-2">{allergies.trim()}</button>
-													))}
-
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-4">
-													<p className="chefs-name name-12">Special Requests:</p>
-												</div>
-												<div className="col-8">
-    											{booking.notes !== null && booking.notes !== 'null' ? (
-                                                  <p className="mony f-w-4">{booking.notes}</p>
-                                                ) : ''}
-
-												</div>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								{daysbooking.length > 1 && (
-									<div className="accordion-item">
-										<h2 className="accordion-header" id="headingTwo4">
-											<button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo4" aria-expanded="true" aria-controls="collapseTwo4">
-												Days Overview
-											</button>
-										</h2>
-										<div id="collapseTwo4" className="accordion-collapse show" aria-labelledby="headingTwo4" data-bs-parent="#accordionExample">
-											<div className="accordion-body">
-												{daysbooking.map((daybooking, index) => (
-													<div key={index} className="row mt-1">
-														<div className="col-4">
-															<p className="chefs-name name-12">Days {index + 1}:</p>
-														</div>
-														<div className="col-8">
-															<p className="mony f-w-4">
-																{daybooking.breakfast === 'yes' ? (
-																	<button className="table-btn btn-2 list-btn">Breakfast</button>
-																) : null}
-																{daybooking.lunch === 'yes' ? (
-																	<button className="table-btn btn-2 list-btn">Lunch</button>
-																) : null}
-																{daybooking.dinner === 'yes' ? (
-																	<button className="table-btn btn-2 list-btn">Dinner</button>
-																) : null}
-																{daybooking.breakfast !== 'yes' &&
-																	daybooking.lunch !== 'yes' &&
-																	daybooking.dinner !== 'yes' && (
-																		<span>No meal selected</span>
-																	)}
-															</p>
-														</div>
-
-													</div>
-												))}
-
-											</div>
-										</div>
-									</div>
-								)}
-								<div className="accordion-item">
-									<h2 className="accordion-header" id="headingThree">
-										<button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-											Customer Details
-										</button>
-									</h2>
-									<div id="collapseThree" className="accordion-collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-										<div className="accordion-body">
-											<div className="row mt-1">
-												<div className="col-5 text-right">
-													<p className="chefs-name name-12">Number of people:</p>
-												</div>
-												<div className="col-7"></div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-5 text-right">
-													<p className="chefs-name name-12">Adults</p>
-												</div>
-												<div className="col-7">
-													<p className="mony">{booking.adults}</p>
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-5 text-right">
-													<p className="chefs-name name-12">Teens:</p>
-												</div>
-												<div className="col-7">
-													<p className="mony">{booking.teens}</p>
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-5 text-right">
-													<p className="chefs-name name-12">Children:</p>
-												</div>
-												<div className="col-7">
-													<p className="mony">{booking.childrens}</p>
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-5">
-													<p className="chefs-name name-12">Full Name:</p>
-												</div>
-												<div className="col-7">
-													<p className="mony">{booking.name} {booking.surname !== null && booking.surname !== 'null' ? booking.surname : ''}</p>
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-5">
-													<p className="chefs-name name-12">Email:</p>
-												</div>
-												<div className="col-7">
-													<p className="mony">{booking.email}</p>
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-5">
-													<p className="chefs-name name-12">Phone Number:</p>
-												</div>
-												<div className="col-7">
-													<p className="mony">{booking.phone}</p>
-												</div>
-											</div>
-											<div className="row mt-1">
-												<div className="col-5">
-													<p className="chefs-name name-12">Location:</p>
-												</div>
-												<div className="col-7">
-													<p className="mony">{booking.location}</p>
-												</div>
-											</div>
-											<div ref={mapRef} style={{ height: "400px" }}></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>                         
-
+                      <div className="row mt-1">
+                        <div className="col-4">
+                          <p className="chefs-name name-12">Allergies:</p>
+                        </div>
+                        <div className="col-8">
+                          {booking &&
+                            booking.allergies &&
+                            booking.allergies.split(",").map((allergies, index) => (
+                              <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">
+                                {allergies.trim()}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-4">
+                          <p className="chefs-name name-12">Special Requests:</p>
+                        </div>
+                        <div className="col-8">{booking.notes !== null && booking.notes !== "null" ? <p className="mony f-w-4">{booking.notes}</p> : ""}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {daysbooking.length > 1 && (
+                  <div className="accordion-item">
+                    <h2 className="accordion-header" id="headingTwo4">
+                      <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo4" aria-expanded="true" aria-controls="collapseTwo4">
+                        Days Overview
+                      </button>
+                    </h2>
+                    <div id="collapseTwo4" className="accordion-collapse show" aria-labelledby="headingTwo4" data-bs-parent="#accordionExample">
+                      <div className="accordion-body">
+                        {daysbooking.map((daybooking, index) => (
+                          <div key={index} className="row mt-1">
+                            <div className="col-4">
+                              <p className="chefs-name name-12">Days {index + 1}:</p>
+                            </div>
+                            <div className="col-8">
+                              <p className="mony f-w-4">
+                                {daybooking.breakfast === "yes" ? <button className="table-btn btn-2 list-btn">Breakfast</button> : null}
+                                {daybooking.lunch === "yes" ? <button className="table-btn btn-2 list-btn">Lunch</button> : null}
+                                {daybooking.dinner === "yes" ? <button className="table-btn btn-2 list-btn">Dinner</button> : null}
+                                {daybooking.breakfast !== "yes" && daybooking.lunch !== "yes" && daybooking.dinner !== "yes" && <span>No meal selected</span>}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className="accordion-item">
+                  <h2 className="accordion-header" id="headingThree">
+                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                      Customer Details
+                    </button>
+                  </h2>
+                  <div id="collapseThree" className="accordion-collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div className="accordion-body">
+                      <div className="row mt-1">
+                        <div className="col-5 text-right">
+                          <p className="chefs-name name-12">Number of people:</p>
+                        </div>
+                        <div className="col-7"></div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-5 text-right">
+                          <p className="chefs-name name-12">Adults</p>
+                        </div>
+                        <div className="col-7">
+                          <p className="mony">{booking.adults}</p>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-5 text-right">
+                          <p className="chefs-name name-12">Teens:</p>
+                        </div>
+                        <div className="col-7">
+                          <p className="mony">{booking.teens}</p>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-5 text-right">
+                          <p className="chefs-name name-12">Children:</p>
+                        </div>
+                        <div className="col-7">
+                          <p className="mony">{booking.childrens}</p>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-5">
+                          <p className="chefs-name name-12">Full Name:</p>
+                        </div>
+                        <div className="col-7">
+                          <p className="mony">
+                            {booking.name} {booking.surname !== null && booking.surname !== "null" ? booking.surname : ""}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-5">
+                          <p className="chefs-name name-12">Email:</p>
+                        </div>
+                        <div className="col-7">
+                          <p className="mony">{booking.email}</p>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-5">
+                          <p className="chefs-name name-12">Phone Number:</p>
+                        </div>
+                        <div className="col-7">
+                          <p className="mony">{booking.phone}</p>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-5">
+                          <p className="chefs-name name-12">Location:</p>
+                        </div>
+                        <div className="col-7">
+                          <p className="mony">{booking.location}</p>
+                        </div>
+                      </div>
+                      <div ref={mapRef} style={{ height: "400px" }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
-import {
-  getAllChefDetails,
-  getChefByFilter,
-  getCuisine,
-  approveChefProfile,
-  getChefAllLocation,
-  getChefLocationByFilter,
-  chefPriceFilter,
-  chefDelete
-} from "../../../lib/adminapi";
+import { getAllChefDetails, getChefByFilter, getCuisine, approveChefProfile, getChefAllLocation, getChefLocationByFilter, chefPriceFilter, chefDelete } from "../../../lib/adminapi";
 import { getCurrentUserData } from "../../../lib/session";
 import { createChef } from "../../../lib/concierge";
 import { ToastContainer, toast } from "react-toastify";
@@ -45,12 +36,15 @@ export default function Chefs() {
     cuisine_name: string;
     amount: string;
     email: string;
-    slug:any;
+    slug: any;
   }
   interface GetCuisine {
     name: string;
   }
   interface Location {
+    slug: string;
+    id: string;
+    email: string;
     lat: number;
     name: string;
     surname: string;
@@ -122,9 +116,7 @@ export default function Chefs() {
       getAllChef();
       getAllCuisine();
       getAllChefLocation();
-      const cuisinesArray = Array.isArray(selectedCuisines)
-        ? selectedCuisines
-        : [selectedCuisines];
+      const cuisinesArray = Array.isArray(selectedCuisines) ? selectedCuisines : [selectedCuisines];
       getChefByFilter({ cuisines: cuisinesArray.join(",") })
         .then((res) => {
           if (res.status) {
@@ -139,9 +131,7 @@ export default function Chefs() {
   }, [selectedCuisines]);
 
   useEffect(() => {
-    const locationsArray = Array.isArray(selectedLocation)
-      ? selectedLocation
-      : [selectedLocation];
+    const locationsArray = Array.isArray(selectedLocation) ? selectedLocation : [selectedLocation];
     //console.log(locationsArray);
     getChefLocationByFilter({ locations: locationsArray.join(",") })
       .then((res) => {
@@ -157,9 +147,7 @@ export default function Chefs() {
   }, [selectedLocation]);
 
   useEffect(() => {
-    const priceArray = Array.isArray(selectedPrice)
-      ? selectedPrice
-      : [selectedPrice];
+    const priceArray = Array.isArray(selectedPrice) ? selectedPrice : [selectedPrice];
     chefPriceFilter({ price: priceArray.join(",") })
       .then((res) => {
         if (res.status) {
@@ -221,7 +209,7 @@ export default function Chefs() {
             SetModalConfirmTwo(false);
             getAllChef();
             setButtonState(false);
-            showToast('success', res.message); 
+            showToast("success", res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -295,12 +283,9 @@ export default function Chefs() {
       .then((res) => {
         if (res.status == true) {
           getAllChef();
-          window.localStorage.setItem(
-            "approved_by_admin",
-            res.data.approved_by_admin
-          );
+          window.localStorage.setItem("approved_by_admin", res.data.approved_by_admin);
           setApproveStatus(res.data.approved_by_admin);
-          showToast('success', res.message); 
+          showToast("success", res.message);
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
@@ -366,9 +351,7 @@ export default function Chefs() {
     if (e.target.checked) {
       setSelectedCuisines((prevCuisines) => [...prevCuisines, value]);
     } else {
-      setSelectedCuisines((prevCuisines) =>
-        prevCuisines.filter((c) => c !== value)
-      );
+      setSelectedCuisines((prevCuisines) => prevCuisines.filter((c) => c !== value));
     }
   };
 
@@ -377,9 +360,7 @@ export default function Chefs() {
     if (e.target.checked) {
       setSelectedLocation((prevLocations) => [...prevLocations, value]);
     } else {
-      setSelectedLocation((prevLocations) =>
-        prevLocations.filter((c) => c !== value)
-      );
+      setSelectedLocation((prevLocations) => prevLocations.filter((c) => c !== value));
     }
   };
 
@@ -406,9 +387,7 @@ export default function Chefs() {
   };
 
   const removeCuisine = (cuisine: any) => {
-    setSelectedCuisines((prevSelectedCuisines) =>
-      prevSelectedCuisines.filter((c) => c !== cuisine)
-    );
+    setSelectedCuisines((prevSelectedCuisines) => prevSelectedCuisines.filter((c) => c !== cuisine));
   };
 
   const handleShowAllCuisines = () => {
@@ -430,23 +409,15 @@ export default function Chefs() {
 
   const [selectedApprovalFilter, setSelectedApprovalFilter] = useState("all");
 
-  const handleApprovalFilterChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleApprovalFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const filterValue = event.target.value;
     setSelectedApprovalFilter(filterValue);
     if (filterValue === "yes") {
-      const approvedChefs = totalMenu.filter(
-        (totalMenus: { approved_by_admin: string }) =>
-          totalMenus.approved_by_admin === "yes"
-      );
+      const approvedChefs = totalMenu.filter((totalMenus: { approved_by_admin: string }) => totalMenus.approved_by_admin === "yes");
       console.log(approvedChefs);
       setFilteredChefs(approvedChefs);
     } else if (filterValue === "no") {
-      const unapprovedChefs = totalMenu.filter(
-        (totalMenus: { approved_by_admin: string }) =>
-          totalMenus.approved_by_admin === "no"
-      );
+      const unapprovedChefs = totalMenu.filter((totalMenus: { approved_by_admin: string }) => totalMenus.approved_by_admin === "no");
       console.log(unapprovedChefs);
       setFilteredChefs(unapprovedChefs);
     } else {
@@ -494,12 +465,12 @@ export default function Chefs() {
                 closeButton: true,
                 hideProgressBar: false,
                 style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
                 },
                 progressStyle: {
-                  background: '#ffff',
+                  background: "#ffff",
                 },
               });
             }
@@ -510,12 +481,12 @@ export default function Chefs() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           });
@@ -529,12 +500,7 @@ export default function Chefs() {
       <div className="table-part">
         <ul className="table_header_button_section p-r mt-4 mb-4">
           <li className="float-end mt-0">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search chef here.."
-              onChange={handleChef}
-            />
+            <input type="text" className="form-control" placeholder="Search chef here.." onChange={handleChef} />
           </li>
 
           <li className="text-right">
@@ -547,12 +513,9 @@ export default function Chefs() {
             {selectedCuisines.map((cuisine, index) => (
               <li key={index}>
                 {" "}
-                <div  className="table-btn">
+                <div className="table-btn">
                   <span>{cuisine}</span>
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeCuisine(cuisine)}
-                  >
+                  <button className="remove-btn" onClick={() => removeCuisine(cuisine)}>
                     x
                   </button>
                 </div>
@@ -575,23 +538,15 @@ export default function Chefs() {
           <li>
             <div className="text-right">
               <Link href="/admin/chefprofile">
-                <button className="table-btn border-radius round-white table-btn">
-                  Add Chefs
-                </button>
+                <button className="table-btn border-radius round-white table-btn">Add Chefs</button>
               </Link>
             </div>
           </li>
           <li className="right-li">
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => setModalConfirm(true)}
-            >
+            <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
               Filter{" "}
             </button>{" "}
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => window.location.reload()}
-            >
+            <button className="table-btn border-radius round-white" onClick={() => window.location.reload()}>
               Clear All{" "}
             </button>
           </li>
@@ -618,24 +573,11 @@ export default function Chefs() {
                   <tr key={index}>
                     {filter.pic ? (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/chef/users/" +
-                            filter.pic
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
                       </td>
                     ) : (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/placeholder.jpg"
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
                       </td>
                     )}
                     <td>
@@ -673,34 +615,18 @@ export default function Chefs() {
                     </td> */}
                     <td>{filter.profile_status || ""}</td>
                     <td>
-                      <select
-                        aria-label="Default select example"
-                        name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, filter.id)}
-                      >
-                        <option
-                          value="yes"
-                          selected={filter.approved_by_admin === "yes"}
-                        >
+                      <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
+                        <option value="yes" selected={filter.approved_by_admin === "yes"}>
                           Approved
                         </option>
-                        <option
-                          value="no"
-                          selected={filter.approved_by_admin === "no"}
-                        >
+                        <option value="no" selected={filter.approved_by_admin === "no"}>
                           Unapproved
                         </option>
                       </select>
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      <a
-                        href={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          "admin/chefs/" +
-                          filter.id
-                        }
-                      >
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefs/" + filter.id}>
                         <i className="fa fa-eye" aria-hidden="true"></i>
                       </a>
                     </td>
@@ -711,24 +637,11 @@ export default function Chefs() {
                   <tr key={index}>
                     {filter.pic ? (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/chef/users/" +
-                            filter.pic
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
                       </td>
                     ) : (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/placeholder.jpg"
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
                       </td>
                     )}
                     <td>
@@ -766,21 +679,11 @@ export default function Chefs() {
                     </td> */}
                     <td>{filter.profile_status || ""}</td>
                     <td>
-                      <select
-                        aria-label="Default select example"
-                        name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, filter.id)}
-                      >
-                        <option
-                          value="yes"
-                          selected={filter.approved_by_admin === "yes"}
-                        >
-                          Approved 
+                      <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
+                        <option value="yes" selected={filter.approved_by_admin === "yes"}>
+                          Approved
                         </option>
-                        <option
-                          value="no"
-                          selected={filter.approved_by_admin === "no"}
-                        >
+                        <option value="no" selected={filter.approved_by_admin === "no"}>
                           Unapproved
                         </option>
                       </select>
@@ -796,50 +699,24 @@ export default function Chefs() {
                       >
                         <i className="fa fa-eye" aria-hidden="true"></i>
                       </a> */}
-                       <div className="dropdown" id="none-class">
-													<a
-														className="dropdown-toggle"
-														data-bs-toggle="dropdown"
-														aria-expanded="false"
-													>
-														<i className="fa-solid fa-ellipsis" role="button"></i>
-													</a>
-													<ul
-														className="dropdown-menu"
-														aria-labelledby="dropdownMenuButton"
-													>
-														<li>
-															<a
-																className="dropdown-item"
-																href={
-                                  process.env.NEXT_PUBLIC_BASE_URL +
-                                  "privatechef/" +
-                                  filter.slug
-                                }
-															
-															>
-																See Full Profile
-															</a>
-														</li>
+                      <div className="dropdown" id="none-class">
+                        <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                        </a>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <li>
+                            <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
+                              See Full Profile
+                            </a>
+                          </li>
 
-
-														<li>
-															<a
-																className="dropdown-item"
-															
-                                href={
-                                  process.env.NEXT_PUBLIC_BASE_URL +
-                                  "admin/chefs/" +
-                                  filter.id
-        
-                                }
-															>
-																See Backend Profile
-															</a>
-														</li>
-													
-													</ul>
-												</div>
+                          <li>
+                            <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefs/" + filter.id}>
+                              See Backend Profile
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -848,24 +725,11 @@ export default function Chefs() {
                   <tr key={filter.id}>
                     {filter.pic ? (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/chef/users/" +
-                            filter.pic
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
                       </td>
                     ) : (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/placeholder.jpg"
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
                       </td>
                     )}
                     <td>
@@ -903,21 +767,11 @@ export default function Chefs() {
                     </td> */}
                     <td>{filter.profile_status || ""}</td>
                     <td>
-                      <select
-                        aria-label="Default select example"
-                        name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, filter.id)}
-                      >
-                        <option
-                          value="yes"
-                          selected={filter.approved_by_admin === "yes"}
-                        >
+                      <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
+                        <option value="yes" selected={filter.approved_by_admin === "yes"}>
                           Approved
                         </option>
-                        <option
-                          value="no"
-                          selected={filter.approved_by_admin === "no"}
-                        >
+                        <option value="no" selected={filter.approved_by_admin === "no"}>
                           Unapproved
                         </option>
                       </select>
@@ -933,49 +787,24 @@ export default function Chefs() {
                       >
                         <i className="fa fa-eye" aria-hidden="true"></i>
                       </a> */}
-                       <div className="dropdown" id="none-class">
-													<a
-														className="dropdown-toggle"
-														data-bs-toggle="dropdown"
-														aria-expanded="false"
-													>
-														<i className="fa-solid fa-ellipsis" role="button"></i>
-													</a>
-													<ul
-														className="dropdown-menu"
-														aria-labelledby="dropdownMenuButton"
-													>
-														<li>
-															<a
-																className="dropdown-item"
-																href={
-                                  process.env.NEXT_PUBLIC_BASE_URL +
-                                  "privatechef/" +
-                                  chefs.slug
-                                }
-																
-															>
-																See Full Profile
-															</a>
-														</li>
+                      <div className="dropdown" id="none-class">
+                        <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                        </a>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <li>
+                            <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chefs.slug}>
+                              See Full Profile
+                            </a>
+                          </li>
 
-
-														<li>
-															<a
-																className="dropdown-item"
-															
-                                href={
-                                  process.env.NEXT_PUBLIC_BASE_URL +
-                                  "admin/chefs/" +
-                                  chefs.id
-                                }
-															>
-																See Backend Profile
-															</a>
-														</li>
-													
-													</ul>
-												</div>
+                          <li>
+                            <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefs/" + chefs.id}>
+                              See Backend Profile
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -984,24 +813,11 @@ export default function Chefs() {
                   <tr key={chef.id}>
                     {chef.pic ? (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/chef/users/" +
-                            chef.pic
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + chef.pic} alt="" />
                       </td>
                     ) : (
                       <td className="chefs_pic">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_IMAGE_URL +
-                            "/images/placeholder.jpg"
-                          }
-                          alt=""
-                        />
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
                       </td>
                     )}
                     <td>
@@ -1054,21 +870,11 @@ export default function Chefs() {
                     <td>{chef.profile_status || ""}</td>
 
                     <td>
-                      <select
-                        aria-label="Default select example"
-                        name="approved_by_admin"
-                        onChange={(e) => ApproveChefProfile(e, chef.id)}
-                      >
-                        <option
-                          value="yes"
-                          selected={chef.approved_by_admin === "yes"}
-                        >
+                      <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, chef.id)}>
+                        <option value="yes" selected={chef.approved_by_admin === "yes"}>
                           Approved
                         </option>
-                        <option
-                          value="no"
-                          selected={chef.approved_by_admin === "no"}
-                        >
+                        <option value="no" selected={chef.approved_by_admin === "no"}>
                           Unapproved
                         </option>
                       </select>
@@ -1085,58 +891,29 @@ export default function Chefs() {
                         <i className="fa fa-eye" aria-hidden="true"></i>
                       </a> */}
                       <div className="dropdown" id="none-class">
-													<a
-														className="dropdown-toggle"
-														data-bs-toggle="dropdown"
-														aria-expanded="false"
-													>
-														<i className="fa-solid fa-ellipsis" role="button"></i>
-													</a>
-													<ul
-														className="dropdown-menu"
-														aria-labelledby="dropdownMenuButton"
-													>
-														<li>
-															<a
-																className="dropdown-item"
-																href={
-                                  process.env.NEXT_PUBLIC_BASE_URL +
-                                  "privatechef/" +
-                                  chef.slug
-                                }
-																
-															>
-																See Full Profile
-															</a>
-														</li>
+                        <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                        </a>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <li>
+                            <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
+                              See Full Profile
+                            </a>
+                          </li>
 
+                          <li>
+                            <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefs/" + chef.id}>
+                              See Backend Profile
+                            </a>
+                          </li>
 
-														<li>
-															<a
-																className="dropdown-item"
-															
-                                href={
-                                  process.env.NEXT_PUBLIC_BASE_URL +
-                                  "admin/chefs/" +
-                                  chef.id
-                                }
-
-															>
-																See Backend Profile
-															</a>
-														</li>
-
-                            <li style={{cursor:'pointer'}}>
-															<a
-																className="dropdown-item"
-                                onClick={(e) => handleDelete(e, chef.id)}
-															>
-																Delete Profile
-															</a>
-														</li>
-													
-													</ul>
-												</div>
+                          <li style={{ cursor: "pointer" }}>
+                            <a className="dropdown-item" onClick={(e) => handleDelete(e, chef.id)}>
+                              Delete Profile
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -1149,48 +926,23 @@ export default function Chefs() {
           </table>
         </div>
       </div>
-      <Pagination
-        items={totalMenu.length}
-        currentPage={currentPage}
-        pageSize={pageSize}
-        onPageChange={onPageChange}
-      />
+      <Pagination items={totalMenu.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose}>
         <div className="accordion" id="accordionExample">
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingOne">
-              <button
-                className="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
+              <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 Cuisines
               </button>
             </h2>
-            <div
-              id="collapseOne"
-              className="accordion-collapse collapse show"
-              aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample"
-            >
+            <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
               <div className="accordion-body">
                 {/* <div className="container chkbox"> */}
                 <div className="row">
                   {getcuisine.map((cuisines, index) => (
                     <div className="col-sm-4" key={index}>
-                      <input
-                        type="checkbox"
-                        value={cuisines.name}
-                        onChange={handleCheckboxChange}
-                        style={{ marginRight: "5px" }}
-                        checked={selectedCuisines.includes(cuisines.name)}
-                      />
-                      <label style={{ marginLeft: "5px" }}>
-                        {cuisines.name}
-                      </label>{" "}
+                      <input type="checkbox" value={cuisines.name} onChange={handleCheckboxChange} style={{ marginRight: "5px" }} checked={selectedCuisines.includes(cuisines.name)} />
+                      <label style={{ marginLeft: "5px" }}>{cuisines.name}</label>{" "}
                     </div>
                   ))}
                 </div>
@@ -1200,35 +952,16 @@ export default function Chefs() {
           </div>
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingTwo">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
+              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 Locations
               </button>
             </h2>
-            <div
-              id="collapseTwo"
-              className="accordion-collapse collapse show"
-              aria-labelledby="headingTwo"
-              data-bs-parent="#accordionExample"
-            >
+            <div id="collapseTwo" className="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
               <div className="accordion-body" id="location-filter">
                 {getlocation.map((location, index) => (
                   <div className="col-sm-12" key={index}>
-                    <input
-                      type="checkbox"
-                      value={location.lat}
-                      onChange={handleCheckboxLocationChange}
-                      style={{ marginRight: "5px" }}
-                    />
-                    <label style={{ marginLeft: "5px" }}>
-                      {location.address}
-                    </label>
+                    <input type="checkbox" value={location.lat} onChange={handleCheckboxLocationChange} style={{ marginRight: "5px" }} />
+                    <label style={{ marginLeft: "5px" }}>{location.address}</label>
                   </div>
                 ))}
               </div>
@@ -1236,73 +969,31 @@ export default function Chefs() {
           </div>
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingThree">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseThree"
-                aria-expanded="false"
-                aria-controls="collapseThree"
-              >
+              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                 Pricing
               </button>
             </h2>
-            <div
-              id="collapseThree"
-              className="accordion-collapse collapse show"
-              aria-labelledby="headingThree"
-              data-bs-parent="#accordionExample"
-            >
+            <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
               <div className="accordion-body">
                 <div className="row">
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="249"
-                      checked={selectedPrice === "249"}
-                      onChange={handleCheckboxPriceChange}
-                      style={{ marginRight: "5px" }}
-                    />
+                    <input type="checkbox" value="249" checked={selectedPrice === "249"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
                     <label style={{ marginLeft: "5px" }}>Under ₹250</label>
                   </div>
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="250"
-                      checked={selectedPrice === "250"}
-                      onChange={handleCheckboxPriceChange}
-                      style={{ marginRight: "5px" }}
-                    />
+                    <input type="checkbox" value="250" checked={selectedPrice === "250"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
                     <label style={{ marginLeft: "5px" }}>₹250-₹500</label>
                   </div>
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="900"
-                      checked={selectedPrice === "900"}
-                      onChange={handleCheckboxPriceChange}
-                      style={{ marginRight: "5px" }}
-                    />
+                    <input type="checkbox" value="900" checked={selectedPrice === "900"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
                     <label style={{ marginLeft: "5px" }}>₹500-₹1,000</label>
                   </div>
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="1000"
-                      checked={selectedPrice === "1000"}
-                      onChange={handleCheckboxPriceChange}
-                      style={{ marginRight: "5px" }}
-                    />
+                    <input type="checkbox" value="1000" checked={selectedPrice === "1000"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
                     <label style={{ marginLeft: "5px" }}>₹1,000-₹2,000</label>
                   </div>
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="2000"
-                      checked={selectedPrice === "2000"}
-                      onChange={handleCheckboxPriceChange}
-                      style={{ marginRight: "5px" }}
-                    />
+                    <input type="checkbox" value="2000" checked={selectedPrice === "2000"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
                     <label style={{ marginLeft: "5px" }}>Over ₹2000</label>
                   </div>
                 </div>
@@ -1312,55 +1003,23 @@ export default function Chefs() {
 
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingFour">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseFour"
-                aria-expanded="false"
-                aria-controls="collapseFour"
-              >
+              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                 Approved
               </button>
             </h2>
-            <div
-              id="collapseFour"
-              className="accordion-collapse collapse show"
-              aria-labelledby="headingFour"
-              data-bs-parent="#accordionExample"
-            >
+            <div id="collapseFour" className="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
               <div className="accordion-body">
                 <div className="row">
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="yes"
-                      style={{ marginRight: "5px" }}
-                      onChange={handleApprovalFilterChange}
-                      checked={selectedApprovalFilter == "yes"}
-                    />
+                    <input type="checkbox" value="yes" style={{ marginRight: "5px" }} onChange={handleApprovalFilterChange} checked={selectedApprovalFilter == "yes"} />
                     <label style={{ marginLeft: "5px" }}>Approved Chefs</label>
                   </div>
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="no"
-                      style={{ marginRight: "5px" }}
-                      onChange={handleApprovalFilterChange}
-                      checked={selectedApprovalFilter == "no"}
-                    />
-                    <label style={{ marginLeft: "5px" }}>
-                      Unapproved Chefs
-                    </label>
+                    <input type="checkbox" value="no" style={{ marginRight: "5px" }} onChange={handleApprovalFilterChange} checked={selectedApprovalFilter == "no"} />
+                    <label style={{ marginLeft: "5px" }}>Unapproved Chefs</label>
                   </div>
                   <div className="col-sm-12">
-                    <input
-                      type="checkbox"
-                      value="all"
-                      style={{ marginRight: "5px" }}
-                      onChange={handleApprovalFilterChange}
-                      checked={selectedApprovalFilter == "all"}
-                    />
+                    <input type="checkbox" value="all" style={{ marginRight: "5px" }} onChange={handleApprovalFilterChange} checked={selectedApprovalFilter == "all"} />
                     <label style={{ marginLeft: "5px" }}>All chefs</label>
                   </div>
                 </div>
@@ -1370,55 +1029,21 @@ export default function Chefs() {
         </div>
       </PopupModal>
 
-      <PopupModal
-        show={modalConfirmTwo}
-        handleClose={modalConfirmTwoClose}
-        staticClass="var-login"
-      >
-        <h4 style={{ color: "#ff4e00d1", textAlign: "center" }}>
-          Send Invitation
-        </h4>
+      <PopupModal show={modalConfirmTwo} handleClose={modalConfirmTwoClose} staticClass="var-login">
+        <h4 style={{ color: "#ff4e00d1", textAlign: "center" }}>Send Invitation</h4>
         <div className="all-form">
-          <form
-            onSubmit={handleRegisterSubmit}
-            className="common_form_error"
-            id="register_form"
-          >
+          <form onSubmit={handleRegisterSubmit} className="common_form_error" id="register_form">
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              {errors.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login ">
-                  {errors.name}
-                </span>
-              )}
+              <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.name}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="registeremail"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {errors.email && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.email}
-                </span>
-              )}
+              <input type="email" id="registeremail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
-            <button
-              type="submit"
-              className="btn-send w-100"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
               {buttonStatus ? "Please wait.." : "Submit"}
             </button>
           </form>
