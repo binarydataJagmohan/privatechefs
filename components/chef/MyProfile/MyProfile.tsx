@@ -1217,7 +1217,7 @@ export default function MyProfile() {
 									</div>
 								</div>
 								<div className="text-right">
-									<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+									<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save my profile information'}</button>
 								</div>
 								<hr />
 							</form>
@@ -1606,7 +1606,7 @@ export default function MyProfile() {
 										</div>
 									</div>
 									<div className="text-right">
-										<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>									</div>
+										<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Profile Resume Information'}</button>									</div>
 									<hr></hr>
 								</>
 							</form>
@@ -1713,7 +1713,7 @@ export default function MyProfile() {
 											</div>
 										</div>
 										<div className="text-right">
-											<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+											<button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Profile Location Information'}</button>
 										</div>
 									</form>
 								</div>

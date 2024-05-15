@@ -870,7 +870,7 @@ export default function Villas() {
 							<button
 								type="submit"
 								className="btn-send w-100"
-								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
+								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Villas Information'}
 							</button>
 						</div>
 					</form>

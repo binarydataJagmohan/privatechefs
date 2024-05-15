@@ -1003,12 +1003,6 @@ export default function Booking(props: any) {
       console.log(err);
     });
   }
-  if (typeof document !== 'undefined') {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-  }
   return (
     <>
     
@@ -1456,7 +1450,15 @@ export default function Booking(props: any) {
 
                                     <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
                                     </span>{" "}
-                                    <p className="text-right" data-bs-toggle="tooltip" data-bs-html="true" title="OnClick delete a message" onClick={() => handleDeleteSingleMessage(message.chat_message_id)} style={{position: "relative", left: "-30px", color: "#ff0000", cursor: "pointer"}}><i className="fa fa-close"></i></p>
+                                    {/* <p className="text-right" data-bs-toggle="tooltip" data-bs-html="true" title="OnClick delete a message" onClick={() => handleDeleteSingleMessage(message.chat_message_id)} style={{position: "relative", left: "-30px", color: "#ff0000", cursor: "pointer"}}><i className="fa fa-close"></i></p> */}
+                                    <div className="dropdown drop-btn">
+                                      <button className="down-menu" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i className="fa-solid fa-ellipsis"></i>
+                                      </button>
+                                      <ul className="dropdown-menu min-100" aria-labelledby="dropdownMenu2">
+                                        <li className="trash-icon"><button className="dropdown-item" type="button" onClick={() => handleDeleteSingleMessage(message.chat_message_id)}><i className="fa-regular fa-trash-can"></i> Delete   </button></li>  
+                                      </ul>
+                                    </div>
                                     {message.sender_pic == null ? <img
                                         src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
                                         alt="chats-user"

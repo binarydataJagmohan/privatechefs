@@ -5182,3 +5182,116 @@ main {
   border-top: none;
 }
 /*****custom tabs css end*******/
+/********tooltip css start****/
+.toolTip{
+  color: #240b36;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+.toolTip:before,
+.toolTip:after{
+  content: '';
+  background: linear-gradient(to right bottom,transparent 85%,#ff4e00d1 51%);
+  height: 20px;
+  width: 20px;
+  opacity: 0;
+  z-index: -100;
+  transition: all .65s cubic-bezier(.84,-0.18,.31,1.26), opacity .65s .5s;
+}
+.toolTip:after{
+  content: attr(data-tip);
+  color: #fff;
+  background: #ff4e00d1;
+  font-size: 13px;
+  font-weight: 500;
+  height: auto;
+  /* width: 200px; */
+  width: 170px;
+  padding: 7px 7px;
+  border-radius: 10px;
+  transition: all .65s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+  text-align: center;
+}
+.toolTip:hover:before,
+.toolTip:hover:after{
+  opacity: 1;
+  z-index: 100;
+  transition: all .65s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+}
+.toolTip:hover:after{ transition: all .65s cubic-bezier(.84,-0.18,.31,1.26); }
+.toolTip.top:before,
+.toolTip.top:after{
+  transform: translateX(-50%) translateY(-60%) rotate(45deg) scale(0.6);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+}
+.toolTip.top:after{ transform: translateX(-50%) translateY(20%) rotate(0) scale(0.6); }
+.toolTip.top:hover:before{ transform: translateX(-50%) translateY(-35%) rotate(45deg) scale(1); }
+.toolTip.top:hover:after{ transform: translateX(-50%) translateY(-20%) rotate(0) scale(1); }
+.toolTip.right:before,
+.toolTip.right:after{
+  transform: translateX(80%) translateY(50%) rotate(135deg) scale(1);
+  position: absolute;
+  left: 100%;
+  bottom: 50%;
+}
+.toolTip.right:after{ transform: translateX(-30%) translateY(50%) rotate(0) scale(0.6); }
+.toolTip.right:hover:before{ transform: translateX(40%) translateY(50%) rotate(135deg) scale(1); }
+.toolTip.right:hover:after{ transform: translateX(7%) translateY(50%) rotate(0) scale(1); }
+@media only screen and (max-width: 767px){
+  .toolTip{ margin: 0 0 20px; }
+}
+/*******tooltip css end*********/
+/*******chat delete dropdown css start*****/
+.drop-btn button.down-menu {
+  border: none;
+  border-radius: 0;
+  font-size: 16px;
+  color: #212121;
+  background: #fff0;
+}
+
+.drop-btn ul.dropdown-menu.show {
+  padding: 0;
+}
+.drop-btn ul.dropdown-menu.show button.dropdown-item {
+  background: #fff;
+  color: #000;
+  padding: 5px 10px;
+   font-size: 13px;
+}
+.dropdown.drop-btn {
+  text-align: right;
+  position: absolute;
+  right: 52px;
+}
+.drop-btn ul.dropdown-menu.show button.dropdown-item:hover {
+  background: #efefef;
+}
+
+.trash-icon i {
+  color: #f10036bd;
+}
+.drop-btn ul.dropdown-menu.show button.dropdown-item i {
+  padding-right: 1px;
+ 
+}
+.btn-check:focus+.btn, .btn:focus { 
+  box-shadow: unset;
+}
+.drop-btn ul.dropdown-menu hr {
+  margin: 0;
+}
+.min-100 {
+  min-width: 100px;
+}
+.drop-btn .dropdown-menu .trash-icon{
+  width: 100%;
+  display: inline;
+}
+/*******chat delete dropdown css end*****/
