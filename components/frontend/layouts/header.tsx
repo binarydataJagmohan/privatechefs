@@ -166,21 +166,23 @@ export default function Header({ }) {
   }, []);
 
   useEffect(() => {
-    const clientId = getClientIdFromURL(); 
+    const clientId = getClientIdFromURL();
     const user = getCurrentUserData() as User;
+    const bookingcurrentURL = localStorage.getItem('bookingcurrentURL')
+
     if (user.id != null) {
       setCurrentUserId(true);
       setUserId(user.id);
     }
-    if (clientId && clientId != user.id) {
-      setModalConfirm(true); 
+    if (clientId && clientId != user.id || bookingcurrentURL) {
+      setModalConfirm(true);
     } else if (clientId == user.id) {
-      setModalConfirm(false); 
+      setModalConfirm(false);
     } else {
       console.log();
     }
   }, []);
-  
+
   const getClientIdFromURL = () => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
@@ -258,7 +260,7 @@ export default function Header({ }) {
   }
 
   useEffect(() => {
-    
+
   }, []);
 
   //login submit start
@@ -305,14 +307,16 @@ export default function Header({ }) {
               window.localStorage.setItem("expiration", res.authorisation.expiration);
               window.localStorage.setItem("created_by", res.user.created_by);
               showToast('success', res.message);
-              const url = localStorage.getItem('currentURL');
+              let url: any = localStorage.getItem('currentURL');
 
-               if(url)
-               {
-                  
-                       window.location.href = url;
-                     
-               }
+              if (url) {
+                window.location.href = url;
+              } else {
+                url = localStorage.getItem('bookingcurrentURL')
+                if (url) {
+                  window.location.href = url;
+                }
+              }
 
 
               setTimeout(() => {
@@ -325,7 +329,7 @@ export default function Header({ }) {
 
                 if (res.user.role == "user") {
                   if (res.user.profile_status == "completed") {
-                     window.location.href = "/bookings/step1";
+                    window.location.href = "/bookings/step1";
                   } else {
                     window.location.href = "/user/userprofile";
                   }
