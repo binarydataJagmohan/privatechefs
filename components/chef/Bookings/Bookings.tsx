@@ -11,6 +11,7 @@ import moment from 'moment';
 import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import { showToast } from "../../commoncomponents/toastUtils";
+import { useRouter } from 'next/router';
 
 export default function Bookings() {
 
@@ -69,7 +70,6 @@ export default function Bookings() {
 		selectedmenu?: string;
 	}
 
-
 	const [bookingUsers, setBookingUser] = useState([]);
 	const [modalConfirm, setModalConfirm] = useState(false);
 	const [sidebarConfirm, setSidebarConfirm] = useState(false);
@@ -81,7 +81,7 @@ export default function Bookings() {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [errorMessage, setErrorMessage] = useState('');
-	const [bookingid, setBookingId] = useState('');
+	const [bookingid, setBookingId]: any = useState('');
 	const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
 		id: '',
 		name: '',
@@ -94,14 +94,14 @@ export default function Bookings() {
 		created_by: ''
 	});
 	const [isSubmitting, setIsSubmitting] = useState(false);
-
 	const [menu, setMenu] = useState<MenuData[]>([]);
-
 	const [errors, setErrors] = useState<Errors>({});
-
 	const [amount, setAmount] = useState('');
-
 	const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
+
+	const router = useRouter();
+	const { booking_id } = router.query;
+
 
 	const modalConfirmOpen = () => {
 		setModalConfirm(true);
@@ -121,14 +121,9 @@ export default function Bookings() {
 
 	useEffect(() => {
 		const loadData = async () => {
+			const userData = getCurrentUserData() as CurrentUserData;
 			const data = isPageVisibleToRole("chef-bookings");
-			if (data == 2) {
-				window.location.href = "/login"; // redirect to login if not logged in
-			} else if (data == 0) {
-				window.location.href = "/404"; // redirect to 404 if not authorized
-			}
 			if (data == 1) {
-				const userData = getCurrentUserData() as CurrentUserData;
 				fetchBookingUserDetails(userData.id)
 				getAllChefMenuData(userData.id)
 				setCurrentUserData({
@@ -141,14 +136,36 @@ export default function Bookings() {
 					approved_by_admin: userData.approved_by_admin,
 
 				});
+				localStorage.removeItem('bookingcurrentURL');
+
 			}
+			if (data == 2) {
+				if (!userData?.id) {
+					const BookingcurrentURL: any = getCurrentURL();
+					localStorage.setItem('bookingcurrentURL', BookingcurrentURL);
+				}
+				window.location.href = "/"; // redirect to login if not logged in
+			} else if (data == 0) {
+				window.location.href = "/404"; // redirect to 404 if not authorized
+			}
+
+
 			else {
-				window.location.href = "/404";
+				// window.location.href = "/404";
 			}
 		};
 
 		loadData();
+
 	}, []);
+
+
+	const getCurrentURL = () => {
+		if (typeof window !== 'undefined') {
+			return window.location.href;
+		}
+		return null;
+	};
 
 	const fetchBookingUserDetails = async (id: any) => {
 		try {
@@ -198,6 +215,14 @@ export default function Bookings() {
 				},
 			});
 		}
+		const openOffcanvas = () => {
+			const viewBookingButton = document.getElementById('viewBookingButton');
+			// alert(viewBookingButton)
+			if (viewBookingButton) {
+				viewBookingButton.click();
+			}
+		};
+		openOffcanvas();
 	};
 
 	const onPageChange = (page: any) => {
@@ -231,8 +256,8 @@ export default function Bookings() {
 	const getSingleBookingUser = (e: any, id: any) => {
 		e.preventDefault();
 		getUserBookingId(id).then((res) => {
-			//   console.log(res.booking[0]);
 			setBooking(res.booking[0]);
+
 			setDaysBooking(res.days_booking);
 			setSidebarConfirm(true);
 
@@ -355,63 +380,62 @@ export default function Bookings() {
 
 	const handleBookingApplyJobSubmit = (event: any) => {
 		event.preventDefault();
-	  
+
 		if (isSubmitting) {
-		  return; // If already submitting, return early to prevent multiple submissions
+			return; // If already submitting, return early to prevent multiple submissions
 		}
-	  
+
 		// Validate form data
 		const newErrors: Errors = {};
-	  
+
 		if (!amount) {
-		  newErrors.amount = "Amount is required";
+			newErrors.amount = "Amount is required";
 		}
-	  
+
 		if (!selectedmenu || selectedmenu.length === 0) {
-		  newErrors.selectedmenu = "Please select at least one menu item";
+			newErrors.selectedmenu = "Please select at least one menu item";
 		}
 		setErrors(newErrors);
-	  
+
 		// Submit form data if there are no errors
 		if (amount && selectedmenu.length >= 1) {
-		  setIsSubmitting(true);
-		  const data = {
-			amount: amount,
-			menu: selectedmenu.join(","),
-			booking_id: bookingid,
-			chef_id: currentUserData.id,
-		  };
-		  saveChefAppliedBookingJob(data)
-			.then((res) => {
-			  setIsSubmitting(false); // Move it here
-	  
-			  if (res.status == true) {
-				setModalConfirm(false);
-				fetchBookingUserDetails(currentUserData.id);
-				showToast('success', res.message);
-			  } else {
-				toast.error(res.message, {
-				  position: toast.POSITION.TOP_RIGHT,
-				  closeButton: true,
-				  hideProgressBar: false,
-				  style: {
-					background: "#ffff",
-					borderLeft: "4px solid #e74c3c",
-					color: "#454545",
-				  },
-				  progressStyle: {
-					background: "#ffff",
-				  },
+			setIsSubmitting(true);
+			const data = {
+				amount: amount,
+				menu: selectedmenu.join(","),
+				booking_id: bookingid,
+				chef_id: currentUserData.id,
+			};
+			saveChefAppliedBookingJob(data)
+				.then((res) => {
+					setIsSubmitting(false); // Move it here
+
+					if (res.status == true) {
+						setModalConfirm(false);
+						fetchBookingUserDetails(currentUserData.id);
+						showToast('success', res.message);
+					} else {
+						toast.error(res.message, {
+							position: toast.POSITION.TOP_RIGHT,
+							closeButton: true,
+							hideProgressBar: false,
+							style: {
+								background: "#ffff",
+								borderLeft: "4px solid #e74c3c",
+								color: "#454545",
+							},
+							progressStyle: {
+								background: "#ffff",
+							},
+						});
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					setIsSubmitting(false);
 				});
-			  }
-			})
-			.catch((err) => {
-			  console.log(err);
-			  setIsSubmitting(false);
-			});
 		}
-	  };
-	  
+	};
 
 	const resetFields = () => {
 		setAmount('');
@@ -524,7 +548,7 @@ export default function Bookings() {
 														className="dropdown-menu"
 														aria-labelledby="dropdownMenuButton"
 													>
-														<li>
+														{/* <li>
 															<a
 																className="dropdown-item"
 																href="#"
@@ -533,8 +557,30 @@ export default function Bookings() {
 															>
 																View Booking
 															</a>
+														</li> */}
+														<li>
+															{booking_id == user.booking_id ? (
+																<a
+																	className="dropdown-item "
+																	href="#"
+																	onClick={(e) => getSingleBookingUser(e, user.booking_id)}
+																	data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+																	id="viewBookingButton"
+																>
+																	View Booking
+																</a>
+															) : (
+																<a
+																	className="dropdown-item"
+																	href="#"
+																	onClick={(e) => getSingleBookingUser(e, user.booking_id)}
+																	data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+																>
+																	View Booking
+																</a>
+															)}
 														</li>
-														{user.booking_status != 'Expired' && ( 
+														{user.booking_status != 'Expired' && (
 															<li>
 																<a
 																	className="dropdown-item"
@@ -545,7 +591,7 @@ export default function Bookings() {
 																</a>
 															</li>
 														)}
-														
+
 													</ul>
 												</div>
 											</td>
@@ -570,6 +616,7 @@ export default function Bookings() {
 
 			<div className="offcanvas-part">
 				<div className="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+
 					<div className="offcanvas-header">
 						<h5 id="offcanvasRightLabel">Booking Details</h5>
 						<button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -578,6 +625,15 @@ export default function Bookings() {
 						<div>
 							<button className="table-btn btn-2 date mr-sp">{bookingdate}</button>
 
+							{booking.booking_status != 'Expired' && (
+								<button
+									className="table-btn"
+									style={{ color: '#fff' }}
+									onClick={() => { setModalConfirm(true); setBookingId(booking.booking_id); resetFields() }}
+								>
+									Apply
+								</button>
+							)}
 						</div>
 						<div className="off-can">
 							<div className="accordion" id="accordionExample">
