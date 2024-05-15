@@ -547,7 +547,7 @@ export default function Receipts() {
 						<div className='mt-4'>
 							<button
 								className="btn-send w-100"
-								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
+								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Receipts Information'}
 							</button>
 						</div>
 					</form>

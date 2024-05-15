@@ -438,7 +438,7 @@ export default function Invoices() {
 							<button
 								type="submit"
 								className="btn-send w-100"
-								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
+								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Invoice Information'}
 							</button>
 						</div>
 					</form>
@@ -518,7 +518,7 @@ export default function Invoices() {
 							<button
 								type="submit"
 								className="btn-send w-100"
-								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}
+								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update Invoice Information'}
 							</button>
 						</div>
 					</form>

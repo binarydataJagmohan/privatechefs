@@ -1006,8 +1006,8 @@ export default function Bookings() {
 
 											return (
 												<tr key={index}>
-													<td><p className="text-data-18" id="table-p" data-bs-toggle="tooltip" title={`Customer: ${fullName}, Address: ${user.location}, Booking Date: ${output}, Category: ${user.category == 'onetime' ? 'One time' : 'Mutiple Times'}, Payment Status: ${user.payment_status}, Booking Status: ${user.booking_status}`}>#{user.booking_id}</p></td>
-
+													{/* <td><p className="" id="table-p" data-bs-toggle="tooltip" title={`Customer: ${fullName}, Address: ${user.location}, Booking Date: ${output}, Category: ${user.category == 'onetime' ? 'One time' : 'Mutiple Times'}, Payment Status: ${user.payment_status}, Booking Status: ${user.booking_status}`}>#{user.booking_id}</p></td> */}
+													<td><span className="text-data-18 toolTip top" id="table-p" data-tip={`Customer: ${fullName}, Address: ${user.location}, Booking Date: ${output}, Category: ${user.category == 'onetime' ? 'One time' : 'Mutiple Times'}, Payment Status: ${user.payment_status}, Booking Status: ${user.booking_status}`}>#{user.booking_id}</span></td>
 													<td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id} target="_blank" className="nameofusers">{`${user.name} ${surname}`.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} </a></td>
 
 

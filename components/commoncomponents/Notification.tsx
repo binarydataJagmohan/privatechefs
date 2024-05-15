@@ -154,7 +154,7 @@ export default function Notification() {
 
                                     </div>
                                     <div className="text-noti mt-2">
-                                        <p className='notify'> {notification.type === 'register' ? (
+                                        <p className='notify' style={{fontWeight:"500"}}> {notification.type === 'register' ? (
                                         <>
                                         {notification.description.split('.')[0]}.
 
@@ -187,10 +187,12 @@ export default function Notification() {
                                             notification.description
                                           )
                                     )} </p>
+                                    <p className='notify' style={{fontStyle:"italic", fontSize:"12px"}}>{moment(notification.created_at).format('hh:mm a')}</p>
                                     </div>
 
-                                    <div className="text-noti mt-2 text-md-right">
-                                        <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm')}</p>
+                                    <div className="text-noti mt-2 text-md-right text-right">
+                                        {/* <p>{moment(notification.created_at).format('MMMM Do YYYY, h:mm')}</p> */}
+                                        <p>{moment(notification.created_at).format('MMMM Do YYYY')}</p>
                                     </div>
                                 </div>
                             </div>

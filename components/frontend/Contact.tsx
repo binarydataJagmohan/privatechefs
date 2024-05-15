@@ -145,7 +145,7 @@ export default function Contact(props: any) {
                                     <textarea name="message" value={message || ''} onChange={(e) => setMessage(e.target.value)} placeholder="Type your message"></textarea>
                                     {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.message}</span>}
                                     <div className="text-right" id="contact-fromid">
-                                        <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+                                        <button className="table-btn" type="submit" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Contact Information'}</button>
                                     </div>
                                 </div>
                             </form>

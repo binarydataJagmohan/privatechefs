@@ -478,7 +478,7 @@ export default function ChefProfile() {
 									</div>
 								</div>
                                 <div className="text-right">
-                                    <button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save'}</button>
+                                    <button className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Save Profile Information'}</button>
                                 </div>
                                 <hr />
                             </form>
