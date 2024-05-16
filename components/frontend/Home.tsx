@@ -336,6 +336,11 @@ export default function Home(props: any) {
             <div className="col-sm-4">
               <div className="banner-text home-page-banner-text">
                 <h1>Creating memories with food</h1>
+                <p>
+                  Food has a unique way of bringing people together, creating lasting memories, and celebrating moments of joy. From family gatherings to festive celebrations, food plays an integral role in our lives. Whether it’s a holiday feast, a
+                  birthday party, or a simple dinner with loved ones, the meals we share are often the highlight of these special occasions. Food not only nourishes our bodies but also serves as a bridge between cultures and generations, connecting
+                  us to our heritage and traditions.
+                </p>
                 <div className="banner-btn">
                   <a href="/bookings/step1">Start your journey</a>
                 </div>
@@ -525,7 +530,7 @@ export default function Home(props: any) {
         <div className="container">
           <h2 className="text-center">What they say about us...</h2>
           <h4 className="text-center">So proud to create such beautiful memories!</h4>
-          <div className="row mt-5">
+          <div className="row">
             {testimonials.slice(0, 3).map((testimonial) => (
               <div className="col-lg-4 col-md-12" key={testimonial.id}>
                 <div className="test-box">
@@ -554,7 +559,7 @@ export default function Home(props: any) {
         </div>
       </section>
       <section className="testimonial-part text-center pt-3">
-        <div className="container">
+        {/* <div className="container">
           <div className="row mt-5">
             <div className="col-md-3">
               <div className="customers">
@@ -578,6 +583,36 @@ export default function Home(props: any) {
               <div className="customers">
                 <p>30</p>
                 <span>Countries operating​</span>
+              </div>
+            </div>
+          </div>
+        </div> */}
+        <div className="container">
+          <div id="counter">
+            <div className="row g-4">
+              <div className=" col-sm-6 col-md-6 col-lg-3">
+                <div className="item customers">
+                  <p>10,500</p>
+                  <span>Happy customers</span>
+                </div>
+              </div>
+              <div className=" col-sm-6 col-md-6 col-lg-3">
+                <div className="item customers">
+                  <p>3,800</p>
+                  <span>Bookings</span>
+                </div>
+              </div>
+              <div className=" col-sm-6 col-md-6 col-lg-3">
+                <div className="item customers">
+                  <p>2,500</p>
+                  <span>Chefs</span>
+                </div>
+              </div>
+              <div className=" col-sm-6 col-md-6 col-lg-3">
+                <div className="item customers">
+                  <p>30</p>
+                  <span>Countries operating​</span>
+                </div>
               </div>
             </div>
           </div>
@@ -727,6 +762,16 @@ export default function Home(props: any) {
                 <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/28.jpg"} alt="logo-8" />
               </div>
             </div>
+            <div className="col-lg-2 col-md-6 col-6">
+              <div className="logos width-set-inst">
+                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/12.jpg"} alt="logo-8" />
+              </div>
+            </div>
+            <div className="col-lg-2 col-md-6 col-6">
+              <div className="logos width-set-inst">
+                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/13.jpg"} alt="logo-8" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -738,38 +783,38 @@ export default function Home(props: any) {
           </p>
 
           <div className="row   mt-5">
-            <div className="col-lg-4 col-md-6 col-6">
+            <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
                 <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-1.png"} alt="logo-1" />
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-6">
+            <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
                 <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-2.png"} alt="logo-2" />
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-6">
+            <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
                 <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-3.png"} alt="logo-3" />
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-6">
+            <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
                 <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-4.png"} alt="logo-4" />
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-6">
+            <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
                 <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-5.png"} alt="logo-5" />
               </div>
             </div>
 
-            {/* <div className="col-lg-4 col-md-6 col-6">
+            {/* <div className="col-lg-2 col-md-6 col-6">
                             <div className="logos img-set-log">
                                 <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/logo-1.png'} alt="logo-7" />
                             </div>
                         </div> */}
-            <div className="col-lg-4 col-md-6 col-6">
+            <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
                 <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-8.png"} alt="logo-8" />
               </div>
