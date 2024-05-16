@@ -555,19 +555,21 @@ export default function Chefs() {
           </li>
         </ul>
 
-        <div className="table-box" id="villa_table">
+        <div className="table-box " id="villa_table">
           <table className="table table-borderless common_booking">
             <thead>
               <tr>
-                <th scope="col">Photo</th>
+                {/* <th scope="col">Photo</th> */}
                 <th scope="col">Name</th>
-                {/* <th scope="col">Location</th> */}
                 {/* <th scope="col">Amount</th>
                 <th scope="col">Cuisines</th> */}
-                {/* <th scope="col">Profile Status</th> */}
                 <th scope="col">Email</th>
+                <th scope="col">Location</th>
                 <th scope="col">Status</th>
-                <th scope="col">Action</th>
+                <th scope="col">Profile Status</th>
+                <th scope="col" className="text-center">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -592,36 +594,8 @@ export default function Chefs() {
                         {filter.name || ""} {filter.surname || ""}
                       </a>
                     </td>
-                    {/* <td>{filter.address || ""}</td> */}
                     <td>{filter.email || ""}</td>
-                    {/* <td>
-                      <ul>
-                        <ul>
-                          {filter.cuisine_name && typeof filter.cuisine_name === 'string' ? (
-                            filter.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={() => setShowAllCuisines(true)}
-                                    >
-                                      +{filter.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })
-                          ) : (
-                            <li>No cuisines available</li>
-                          )}
-                        </ul>
-
-                      </ul>
-                    </td> */}
+                    <td>{filter.address || ""}</td>
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -662,8 +636,8 @@ export default function Chefs() {
                         {filter.name || ""} {filter.surname || ""}
                       </a>
                     </td>
-                    {/* <td>{filter.address || ""}</td> */}
                     <td>{filter.email || ""}</td>
+                    <td>{filter.address || ""}</td>
                     {/* <td>
                       <ul>
                         {filter.cuisine_name ? (
@@ -690,7 +664,6 @@ export default function Chefs() {
                           <li>No cuisines available</li>
                         )}
                       </ul>
-
                     </td> */}
                     <td>{filter.profile_status || ""}</td>
                     <td>
@@ -832,26 +805,32 @@ export default function Chefs() {
               ) : chefs.length > 0 ? (
                 chefs.map((chef) => (
                   <tr key={chef.id}>
-                    {chef.pic ? (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + chef.pic} alt="" />
-                        </a>
-                      </td>
-                    ) : (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
-                        </a>
-                      </td>
-                    )}
                     <td>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
-                        {chef.name || ""} {chef.surname || ""}
-                      </a>
+                      <div className="row align-items-center">
+                        <div className="col-3  text-end">
+                          {chef.pic ? (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + chef.pic} alt="" />
+                              </a>
+                            </div>
+                          ) : (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-9 p-0">
+                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
+                            {chef.name || ""} {chef.surname || ""}
+                          </a>
+                        </div>
+                      </div>
                     </td>
-                    <td>{chef.address || ""}</td>
                     <td>{chef.email || ""}</td>
+                    <td>{chef.address || ""}</td>
                     {/* <td>
                       <ul>
                         {chef.cuisine_name && (
