@@ -559,12 +559,12 @@ export default function Chefs() {
               <tr>
                 <th scope="col">Photo</th>
                 <th scope="col">Name</th>
-                {/* <th scope="col">Location</th> */}
+                <th scope="col">Location</th>
                 {/* <th scope="col">Amount</th>
                 <th scope="col">Cuisines</th> */}
-                {/* <th scope="col">Profile Status</th> */}
                 <th scope="col">Email</th>
                 <th scope="col">Status</th>
+                <th scope="col">Profile Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
