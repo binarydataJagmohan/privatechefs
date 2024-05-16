@@ -454,7 +454,7 @@ export default function Dish() {
               setModalConfirm(true);
               resetFields();
             }}>
-              Add Dish
+              Add Dish Information
             </button>
           </div>
         </div>
@@ -591,7 +591,7 @@ export default function Dish() {
               className="btn-send w-100 mt-3"
               disabled={buttonStatus}
             >
-              Submit
+              Submit Dish Information
             </button>
           </form>
         </div>

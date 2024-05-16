@@ -191,7 +191,7 @@ export default function UserProfile() {
                             className="table-btn"
                             disabled={buttonStatus}
                           >
-                            {buttonStatus ? "please wait..." : "Update"}
+                            {buttonStatus ? "please wait..." : "Update Setting Information"}
                           </button>
                         </div>
                       </div>
