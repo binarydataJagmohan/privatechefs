@@ -1074,7 +1074,6 @@ export default function Chefs() {
           </form>
         </div>
       </PopupModal>
-
       <ToastContainer />
     </>
   );
