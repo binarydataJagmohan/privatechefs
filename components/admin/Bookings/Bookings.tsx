@@ -26,6 +26,7 @@ import swal from "sweetalert";
 import { useRouter } from "next/router";
 import { showToast } from "../../commoncomponents/toastUtils";
 import PageFound from "../../pageFound";
+import { log } from "console";
 
 export default function Bookings() {
   interface Booking {
@@ -131,31 +132,24 @@ export default function Bookings() {
   const [appliedkey, setAppliedKey] = useState("");
   const [appliedValue, setAppliedValue] = useState("");
 
-  const [amount1, setamount1] = useState("");
-  const [clientamount, setClientAmount] = useState("");
-  const [adminamount, setAdminAmount] = useState("");
+  const [amount1, setamount1]: any = useState("");
+  const [clientamount, setClientAmount]: any = useState("");
+  const [adminamount, setAdminAmount]: any = useState("");
   const [usershow, setUserShow] = useState("");
   const [getallchef, setgetAllChef] = useState([]);
   const [getchefmenu, setgetChefMenu] = useState<Menu[]>([]);
   const [selectedChef, setSelectedChef] = useState("");
   const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [address, setAddress] = useState("");
-
   const [booking_id, setAppliedBookingId] = useState("");
-
   const [assignselectedchef, setAsssignSelectedChef] = useState<Number>(null);
-
   const [checkassignselectedchef, setCheckAsssignSelectedChef] = useState<Number>(null);
-
   const [payment_status, setPaymentStatus] = useState("pending");
-
   const [modalConfirm2, setModalConfirm2] = useState(false);
-
   const [villasdata, setVillasData] = useState("");
-
   const [villa_id, setVillasId] = useState<Number>(null);
+
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -305,16 +299,13 @@ export default function Bookings() {
           },
         });
       }
-    } catch (err: any) {}
+    } catch (err: any) { }
   };
 
   const fetchBookingAdminDetails = async () => {
     try {
       const res = await getAdminChefByBooking();
       if (res.status) {
-        // setTotalBooking(res.data);
-        // const paginatedPosts = paginate(res.data, currentPage, pageSize);
-        // setBookingUser(paginatedPosts);
 
         let filteredReceipts = res.data;
         if (router.query.booking_id) {
@@ -412,15 +403,6 @@ export default function Bookings() {
       .then((res) => {
         if (res.status == true) {
           setChefOffer(res.data);
-
-          // console.log(res.data);
-          // res.data.forEach((item: any) => {
-          // 	//
-          // 	if (item.applied_jobs_status == "hired") {
-          // 		setAppliedId(item.applied_jobs_id);
-
-          // 	}
-          // });
         } else {
           setErrorMessage(res.message);
         }
@@ -596,52 +578,6 @@ export default function Bookings() {
       });
   }
 
-  // function handleBlur(event: any) {
-
-  // 	if (appliedkey != 'id') {
-  // 		const userData = getCurrentUserData() as CurrentUserData;
-  // 		const data = {
-  // 			id: appliedid,
-  // 			key: appliedkey,
-  // 			value: appliedValue,
-  // 			message: 'data',
-  // 			created_by: userData.id
-  // 		}
-  // 		UpdatedAppliedBookingByKeyValue(data)
-  // 			.then(res => {
-  // 				if (res.status == true) {
-
-  // 					// toast.success(res.message, {
-  // 					// 	position: toast.POSITION.TOP_RIGHT
-  // 					// });
-
-  // 					getSingleUserAssignBookingData(bookingid)
-  // 				} else {
-
-  // 					toast.error(res.message, {
-  // 						position: toast.POSITION.TOP_RIGHT,
-  // 						closeButton: true,
-  // 						hideProgressBar: false,
-  // 						style: {
-  // 							background: '#ffff',
-  // 							borderLeft: '4px solid #e74c3c',
-  // 							color: '#454545',
-  // 						},
-  // 						progressStyle: {
-  // 							background: '#ffff',
-  // 						},
-  // 					});
-
-  // 				}
-  // 			})
-  // 			.catch(err => {
-  // 				console.log(err);
-  // 			})
-
-  // 	}
-
-  // }
-
   const resetFields = () => {
     setAmount("");
     setSelectedMenu("");
@@ -776,7 +712,7 @@ export default function Bookings() {
       return;
     }
 
-    setIsSubmitting(true); // Set isSubmitting to true when the form submission begins
+    setIsSubmitting(true);
 
     const data = {
       amount: amount1,
@@ -819,6 +755,20 @@ export default function Bookings() {
       .finally(() => {
         setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
       });
+  };
+
+  const handleAmountChange = (e: any, type: string, adminCharge: any, chefCharge: any) => {
+    let totalAmount = 0
+    if (type === 'admin') {
+      totalAmount += Number(e.target.value)
+      totalAmount += Number(chefCharge)
+      setAdminAmount(Number(e.target.value))
+    } else {
+      totalAmount += Number(e.target.value)
+      totalAmount += Number(adminCharge)
+      setamount1(Number(e.target.value))
+    }
+    setClientAmount(totalAmount.toString());
   };
 
   const handleBookingAssignVillaSubmit = (event: any) => {
@@ -1456,13 +1406,11 @@ export default function Bookings() {
                     <th scope="col">#</th>
                     <th scope="col">Chef's Location</th>
                     <th scope="col">Chef's Name</th>
-                    {/* <th scope="col-2">Menu</th> */}
                     <th scope="col">Email</th>
                     {chefPhone ? <th scope="col">Phone</th> : <></>}
                     <th scope="col">Chef Amount</th>
                     <th scope="col">Client Amount</th>
                     <th scope="col">Admin Amount</th>
-                    {/* <th scope="col">Show to user</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -1512,49 +1460,32 @@ export default function Bookings() {
                     ) : (
                       <></>
                     )}
-                    {/* <td>
-											<div className="login_div">
-												<select name="menu1" value={selectedmenu} onChange={handleChefMenu}
-												>	<option value="">Choose menu</option>
-													{menuOptions.map((data: any) => (
-														<option key={data.menuid} value={data.menuid}>{data.menu_name}</option>
-													))}
-												</select>
-											</div>
-										</td> */}
                     <td>
                       <div className="all-form p-0 add-w">
                         <div className="login_div">
-                          <input type="number" name="amount1" onChange={(e) => setamount1(e.target.value)} />
+                          <input type="number" name="amount1" onChange={(e) => { setamount1(e.target.value); handleAmountChange(e, 'admin', adminamount, null); }} />
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="all-form p-0 add-w">
                         <div className="login_div">
-                          <input type="number" name="clientamount" onChange={(e) => setClientAmount(e.target.value)} />
+                          <input
+                            type="number"
+                            name="clientamount"
+                            value={clientamount}
+                            onChange={(e) => setClientAmount(e.target.value)}
+                          />
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="all-form p-0 add-w">
                         <div className="login_div">
-                          <input type="number" name="adminamount" onChange={(e) => setAdminAmount(e.target.value)} />
+                          <input type="number" name="adminamount" onChange={(e) => { handleAmountChange(e, 'admin', null, amount1); }} />
                         </div>
                       </div>
                     </td>
-                    {/* <td>
-											<div className="all-form p-0 add-w">
-												<div className="login_div">
-													<select name="user_show" onChange={handleChange}
-													>
-														<option value="" disabled>Choose Option</option>
-														<option value="visible">Visible</option>
-														<option value="invisible">Invisible</option>
-													</select>
-												</div>
-											</div>
-										</td> */}
                   </tr>
                 </tbody>
               </table>
@@ -1566,7 +1497,6 @@ export default function Bookings() {
                     </button>
                   </div>
                 </div>
-                {/* <div className="text-right"> */}
                 <div className="col-md-6">
                   <div className="text-right">
                     <div className="banner-btn">
@@ -1578,7 +1508,6 @@ export default function Bookings() {
                       </button>
                     </div>
                   </div>
-                  {/* </div> */}
                 </div>
               </div>
             </form>
