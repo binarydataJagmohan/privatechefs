@@ -358,7 +358,7 @@ export default function ServiceChoice() {
                 setModalConfirm(true);
               }}
             >
-              Add
+              Add Services Choice Information
             </button>
           </li>
         </ul>
@@ -529,7 +529,7 @@ export default function ServiceChoice() {
               className="btn-send w-100 mt-3"
               disabled={buttonStatus}
             >
-              Submit
+              Submit Services Choice Information
             </button>
           </form>
         </div>
@@ -575,7 +575,7 @@ export default function ServiceChoice() {
             </div>
 
             <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
-              Update
+              Update Services Choice Information
             </button>
           </form>
         </div>

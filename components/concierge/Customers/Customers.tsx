@@ -289,18 +289,16 @@ export default function Users() {
                             <input type="text" id="surname" name="surname" value={surname} onChange={(e) => setSurname(e.target.value)} />
                             {errors.surname && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.surname}</span>}
                         </div> */}
-            <div className="login_div">
-              <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
-            </div>
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-              {buttonStatus ? "Please wait.." : "Submit"}
-            </button>
-          </form>
-        </div>
-      </PopupModal>
-      <ToastContainer />
-    </>
-  );
+                        <div className='login_div'>
+                            <label htmlFor="email">Email:</label>
+                            <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                            {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
+                        </div>
+                        <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit User Information'}</button>
+                    </form>
+                </div>
+            </PopupModal>
+            <ToastContainer />
+        </>
+    )
 }

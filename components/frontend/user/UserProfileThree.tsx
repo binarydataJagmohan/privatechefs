@@ -448,7 +448,7 @@ export default function UserProfileThree() {
                   ></textarea>
                 </div>
 
-                <button type="submit" className="btn-send w-10 float-end mt-3">Submit</button>
+                <button type="submit" className="btn-send w-10 float-end mt-3">Submit Additional/Preferences Information</button>
 
                 </form>
 

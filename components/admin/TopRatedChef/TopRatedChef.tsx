@@ -163,7 +163,7 @@ export default function TopRatedChef() {
                                 ))}
                             </tbody>
                         </table>
-                         <div className="top-class-btn"><button className="table-btn">Update</button></div>
+                         <div className="text-right"><button className="table-btn">Update Top Rated Chef Information</button></div>
                     </form>
                 </div>
             </div>

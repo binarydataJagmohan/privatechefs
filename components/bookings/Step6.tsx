@@ -628,7 +628,7 @@ export default function Step6() {
                   type="submit"
                   disabled={isSubmitting} // Disable the button while submitting
                 >
-                  {isSubmitting ? "Submitting..." : "Submit"}
+                  {isSubmitting ? "Submitting..." : "Submit Booking Information"}
                 </button>
               </div>
             </div>
