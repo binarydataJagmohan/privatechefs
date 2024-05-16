@@ -3,11 +3,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import PopupModal from "../../commoncomponents/PopupModal";
 import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import {
-  saveChefDishImages,
-  getAllChefDishGallery,
-  deleteChefDishImage,
-} from "../../../lib/chefapi";
+import { saveChefDishImages, getAllChefDishGallery, deleteChefDishImage } from "../../../lib/chefapi";
 import { useRouter } from "next/router";
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import swal from "sweetalert";
 import { showToast } from "../../commoncomponents/toastUtils";
+import PageFound from "../../pageFound";
 
 export default function DishGallery() {
   interface CurrentUserData {
@@ -162,7 +159,7 @@ export default function DishGallery() {
             setModalConfirm(false);
             setButtonState(false);
             getAllChefMenuData(currentUserData.id);
-            showToast('success', res.message);
+            showToast("success", res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -216,11 +213,7 @@ export default function DishGallery() {
     setDishId(id);
 
     if (filteredMenu[0].img) {
-      setPreview(
-        process.env.NEXT_PUBLIC_IMAGE_URL +
-          "/images/chef/dishes/" +
-          filteredMenu[0].img
-      );
+      setPreview(process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/dishes/" + filteredMenu[0].img);
     }
 
     setModalConfirm(true);
@@ -304,9 +297,7 @@ export default function DishGallery() {
               resetFields();
             }}
           >
-            <button className="table-btn border-radius round-white">
-              Add Image
-            </button>
+            <button className="table-btn border-radius round-white">Add Image</button>
           </li>
         </ul>
         <div className="row mt-4 add_menu_items">
@@ -315,107 +306,44 @@ export default function DishGallery() {
               return (
                 <div className="col-sm-3 dishes_gallery" key={index}>
                   <div className="slider-img-plase">
-                    <i
-                      className="fa-solid fa-pen-to-square position-absolute end-0 text-white"
-                      role="button"
-                      onClick={(e) => EditDishImage(e, menu.id)}
-                    ></i>
-                    <i
-                      className="fa-solid fa-trash position-absolute end-0 text-white"
-                      role="button"
-                      onClick={(e) => deleteDishImage(e, menu.id)}
-                    ></i>
+                    <i className="fa-solid fa-pen-to-square position-absolute end-0 text-white" role="button" onClick={(e) => EditDishImage(e, menu.id)}></i>
+                    <i className="fa-solid fa-trash position-absolute end-0 text-white" role="button" onClick={(e) => deleteDishImage(e, menu.id)}></i>
                     {menu.img ? (
-                      <img
-                        src={
-                          process.env.NEXT_PUBLIC_IMAGE_URL +
-                          "/images/chef/dishes/" +
-                          menu.img
-                        }
-                        width={612}
-                        height={300}
-                        alt={menu.name}
-                       
-                      />
+                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/dishes/" + menu.img} width={612} height={300} alt={menu.name} />
                     ) : (
-                      <img
-                        src={
-                          process.env.NEXT_PUBLIC_IMAGE_URL +
-                          "/images/placeholder.jpg"
-                        }
-                        width={612}
-                        height={300}
-                        alt={menu.menu_name}
-                      />
+                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} width={612} height={300} alt={menu.menu_name} />
                     )}
                   </div>
                 </div>
               );
             })
           ) : (
-            <div className="col-sm-12">
-              <div className="slider-img-plase  ">
-                <p className="py-2 text-start mx-2">No Record Found</p>
-              </div>
-            </div>
+            <>
+              <PageFound iconClass={"fa-solid fa-receipt"} heading={" No Dish Gallery  "} subText={"Available"} />
+            </>
           )}
         </div>
       </div>
-      <Pagination
-        items={totalMenu.length}
-        currentPage={currentPage}
-        pageSize={pageSize}
-        onPageChange={onPageChange}
-      />
+      <Pagination items={totalMenu.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
 
       {/* // Menu popup start  */}
-      <PopupModal
-        show={modalConfirm}
-        handleClose={modalConfirmClose}
-        staticClass="var-login"
-      >
+      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
         <div className="text-center popup-img">
-          <p
-            className="text-start fw-bold px-2 fs-4"
-            style={{ color: "#ff4e00d1" }}
-          >
+          <p className="text-start fw-bold px-2 fs-4" style={{ color: "#ff4e00d1" }}>
             {dishid ? "Edit Image" : "Add Image"}
           </p>
         </div>
         <div className="all-form">
-          <form
-            onSubmit={handlMenuSubmit}
-            className="common_form_error"
-            id="menu_form"
-          >
+          <form onSubmit={handlMenuSubmit} className="common_form_error" id="menu_form">
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleImageChange}
-                ref={fileInputRef}
-                required={!dishid}
-              />
-              {preview && (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  width={100}
-                  height={100}
-                  style={{ objectFit: "contain" }}
-                />
-              )}
+              <input type="file" name="image" accept="image/*" onChange={handleImageChange} ref={fileInputRef} required={!dishid} />
+              {preview && <img src={preview} alt="Preview" width={100} height={100} style={{ objectFit: "contain" }} />}
             </div>
 
             <div className="image-preview mb-4"></div>
 
-            <button
-              type="submit"
-              className="btn-send w-25 float-end"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-25 float-end" disabled={buttonStatus}>
               Submit
             </button>
           </form>

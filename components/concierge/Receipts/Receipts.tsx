@@ -5,6 +5,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getCurrentUserData } from '../../../lib/session'
+import PageFound from '../../pageFound';
 
 
 export default function Receipts() {
@@ -96,7 +97,9 @@ export default function Receipts() {
 							</tbody>
 						</table>
 						:
-						<p className='book1 text-center'>No Records Found</p>
+						<>
+						<PageFound iconClass={"fa-solid fa-receipt"} heading={" No receipts  "} subText={"available"} />
+					  </>
 					}
 				</div>
 			</div>

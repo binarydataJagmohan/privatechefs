@@ -14,6 +14,7 @@ import swal from "sweetalert";
 import PopupModalTwo from '../../commoncomponents/PopupModal';
 import { removeToken, removeStorageData } from "../../../lib/session";
 import { showToast } from "../../commoncomponents/toastUtils";
+import PageFound from "../../pageFound";
 
 export default function Booking(props: any) {
 
@@ -844,7 +845,9 @@ const resetForm = () => {
                         </tbody>
                       </table>
                       :
-                      <p className="book1">No Booking Records Found</p>
+                      <>
+                      <PageFound iconClass={"fa-solid fa-book-open-reader"} heading={" No bookings "} subText={"available"} />
+                    </>
                     }
                     <Pagination
                       items={totalBooking.length}

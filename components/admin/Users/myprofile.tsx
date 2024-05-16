@@ -7,6 +7,7 @@ import { paginate } from "../../../helpers/paginate";
 import Link from 'next/link';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PageFound from '../../pageFound';
 
 export default function MyProfile(props: any) {
 
@@ -441,7 +442,9 @@ export default function MyProfile(props: any) {
                             </tbody>
                         </table>
                         :
-                        <p className="book1">No Booking Records Found</p>
+                        <>
+                      <PageFound iconClass={"fa-solid fa-user"} heading={" No users"} subText={"available"} />
+                   </>
                     }
                 </div>
 

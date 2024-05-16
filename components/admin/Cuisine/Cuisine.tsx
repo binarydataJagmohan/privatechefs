@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { ToastContainer, toast } from "react-toastify";
-import {
-  saveCuisine,
-  getAllCrusine,
-  cuisneDelete,
-  getSingleCisine,
-  updateCuisine
-} from "../../../lib/adminapi";
+import { saveCuisine, getAllCrusine, cuisneDelete, getSingleCisine, updateCuisine } from "../../../lib/adminapi";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
@@ -33,14 +27,13 @@ export default function Cuisine() {
   const pageSize = 10;
 
   const current_UserData: any = { currentUserData };
-  const errors_name: any = { currentUserData }
+  const errors_name: any = { currentUserData };
 
   const toggleDescription = (index: any) => {
     const newShowFullDescription = [...showFullDescription];
     newShowFullDescription[index] = !newShowFullDescription[index];
     setShowFullDescription(newShowFullDescription);
   };
-
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -56,12 +49,11 @@ export default function Cuisine() {
   };
 
   useEffect(() => {
-
-    const data = isPageVisibleToRole('admin-cuisine');
+    const data = isPageVisibleToRole("admin-cuisine");
     if (data == 2) {
-      window.location.href = '/login'; // redirect to login if not logged in
+      window.location.href = "/login"; // redirect to login if not logged in
     } else if (data == 0) {
-      window.location.href = '/404'; // redirect to 404 if not authorized
+      window.location.href = "/404"; // redirect to 404 if not authorized
     }
     if (data == 1) {
       const userData = getCurrentUserData();
@@ -84,12 +76,12 @@ export default function Cuisine() {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       }
@@ -99,12 +91,12 @@ export default function Cuisine() {
         closeButton: true,
         hideProgressBar: false,
         style: {
-          background: '#ffff',
-          borderLeft: '4px solid #e74c3c',
-          color: '#454545',
+          background: "#ffff",
+          borderLeft: "4px solid #e74c3c",
+          color: "#454545",
         },
         progressStyle: {
-          background: '#ffff',
+          background: "#ffff",
         },
       });
     }
@@ -140,12 +132,12 @@ export default function Cuisine() {
                 closeButton: true,
                 hideProgressBar: false,
                 style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
                 },
                 progressStyle: {
-                  background: '#ffff',
+                  background: "#ffff",
                 },
               });
             }
@@ -156,12 +148,12 @@ export default function Cuisine() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           });
@@ -202,7 +194,6 @@ export default function Cuisine() {
         name: name,
         description: description,
         user_id: userData.id,
-
       };
 
       saveCuisine(data, image[0])
@@ -220,7 +211,7 @@ export default function Cuisine() {
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
             setCuisines(paginatedPosts);
             setCuisinesList([]);
-            showToast('success', res.message); 
+            showToast("success", res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -228,12 +219,12 @@ export default function Cuisine() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           }
@@ -269,7 +260,7 @@ export default function Cuisine() {
         console.log(res.data);
         editsetModalConfirm(false);
         fetchCuisneDetails();
-        showToast('success', res.message); 
+        showToast("success", res.message);
       })
 
       .catch((err) => {
@@ -278,12 +269,12 @@ export default function Cuisine() {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
         console.log(err);
@@ -310,7 +301,6 @@ export default function Cuisine() {
     setErrors(newErrors);
   };
 
-
   return (
     <>
       <div className="table-part">
@@ -318,10 +308,7 @@ export default function Cuisine() {
         <ul className="table_header_button_section p-r" id="cuision_id">
           {/* <li><button className="table-btn">Total</button></li> */}
           <li className="right-li">
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => setModalConfirm(true)}
-            >
+            <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
               Add{" "}
             </button>
           </li>
@@ -342,33 +329,12 @@ export default function Cuisine() {
                 <tr key={cuisine.id}>
                   {/* <td>{index + 1}</td> */}
                   <td className="chefs_pic">
-                    {cuisine.image && cuisine.image !== 'null' ?
-                      <img
-                        src={
-                          process.env.NEXT_PUBLIC_IMAGE_URL +
-                          "/images/admin/cuisines/" +
-                          cuisine.image
-                        }
-                        alt=""
-                      />
-                      :
-                      <img
-                        src={
-                          process.env.NEXT_PUBLIC_IMAGE_URL +
-                          "/images/placeholder.jpg"
-                        }
-                        alt=""
-                      />
-                    }
+                    {cuisine.image && cuisine.image !== "null" ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/cuisines/" + cuisine.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}
                   </td>
                   <td>{cuisine.name}</td>
                   <td>
                     {cuisine.description && cuisine.description.length > 100 ? (
-                      <ReactReadMoreReadLess
-                        charLimit={100}
-                        readMoreText={"Read more..."}
-                        readLessText={"Read less..."}
-                      >
+                      <ReactReadMoreReadLess charLimit={100} readMoreText={"Read more..."} readLessText={"Read less..."}>
                         {cuisine.description}
                       </ReactReadMoreReadLess>
                     ) : (
@@ -377,32 +343,17 @@ export default function Cuisine() {
                   </td>
                   <td>
                     <div className="dropdown" id="none-class">
-                      <a
-                        className="dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
+                      <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i className="fa-solid fa-ellipsis"></i>
                       </a>
-                      <ul
-                        className="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                      >
+                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                            onClick={(e) => editCuisine(e, cuisine.id)}
-                          >
+                          <a className="dropdown-item" href="#" onClick={(e) => editCuisine(e, cuisine.id)}>
                             Edit
                           </a>
                         </li>
                         <li>
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                            onClick={(e) => handleDelete(e, cuisine.id)}
-                          >
+                          <a className="dropdown-item" href="#" onClick={(e) => handleDelete(e, cuisine.id)}>
                             Delete
                           </a>
                         </li>
@@ -414,108 +365,47 @@ export default function Cuisine() {
             </tbody>
           </table>
         </div>
-        <Pagination
-          items={cuisines2.length}
-          currentPage={currentPage}
-          pageSize={pageSize}
-          onPageChange={onPageChange}
-        />
+        <Pagination items={cuisines2.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
       </div>
 
       {/* // Menu popup start  */}
-      <PopupModal
-        show={modalConfirm}
-        handleClose={modalConfirmClose}
-        staticClass="var-login"
-      >
+      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
         <div className="all-form">
-          <form
-            onSubmit={handlMenuSubmit}
-            className="common_form_error"
-            id="menu_form"
-
-          >
+          <form onSubmit={handlMenuSubmit} className="common_form_error" id="menu_form">
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onBlur={handleMenuBlur}
-                autoComplete="username"
-              />
-              {errors.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.name}
-                </span>
-              )}
+              <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} onBlur={handleMenuBlur} autoComplete="username" />
+              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea
-                name="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                onBlur={handleMenuBlur}
-              ></textarea>
-              {errors.description && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.description}
-                </span>
-              )}
+              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onBlur={handleMenuBlur}></textarea>
+              {errors.description && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.description}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input
-                type="file"
-                name="image"
-                onChange={(e: any) => setImage(e.target.files)}
-                accept="jpg,png"
-              />
-              {errors.image && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.image}</span>
-              )}
+              <input type="file" name="image" onChange={(e: any) => setImage(e.target.files)} accept="jpg,png" />
+              {errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
             </div>
 
-            <button
-              type="submit"
-              className="btn-send w-100"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
               Submit
             </button>
           </form>
         </div>
       </PopupModal>
 
-      <PopupModal
-        show={editmodalConfirm}
-        handleClose={editmodalConfirmClose}
-        staticClass="var-login"
-      >
+      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
         <div className="all-form">
           <form className="common_form_error" id="menu_form" onSubmit={handleUpdateCuisine}>
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                name="allergy_name"
-                value={cuisinesList ? cuisinesList.name : ''}
-                onBlur={handleMenuBlur}
-                autoComplete="username"
-                onChange={(e) => setCuisinesList({ ...cuisinesList, name: e.target.value })}
-              />
-              {errors.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.name}
-                </span>
-              )}
+              <input type="text" name="allergy_name" value={cuisinesList ? cuisinesList.name : ""} onBlur={handleMenuBlur} autoComplete="username" onChange={(e) => setCuisinesList({ ...cuisinesList, name: e.target.value })} />
+              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea name="description" value={cuisinesList ? cuisinesList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setCuisinesList({ ...cuisinesList, description: e.target.value })}></textarea>
+              <textarea name="description" value={cuisinesList ? cuisinesList.description : ""} onBlur={handleMenuBlur} onChange={(e) => setCuisinesList({ ...cuisinesList, description: e.target.value })}></textarea>
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
@@ -523,10 +413,7 @@ export default function Cuisine() {
               {cuisinesList.image ? (
                 <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/cuisines/${cuisinesList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
               ) : (
-                <img src={
-                  process.env.NEXT_PUBLIC_IMAGE_URL +
-                  "/images/placeholder.jpg"
-                } style={{ width: "20%", height: "100px" }} />
+                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} style={{ width: "20%", height: "100px" }} />
               )}
             </div>
 
