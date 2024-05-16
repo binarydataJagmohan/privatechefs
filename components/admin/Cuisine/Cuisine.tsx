@@ -308,8 +308,11 @@ export default function Cuisine() {
         <ul className="table_header_button_section p-r" id="cuision_id">
           {/* <li><button className="table-btn">Total</button></li> */}
           <li className="right-li">
-            <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
-              Add{" "}
+            <button
+              className="table-btn border-radius round-white"
+              onClick={() => setModalConfirm(true)}
+            >
+              Add Cuisine Information{" "}
             </button>
           </li>
         </ul>
@@ -399,8 +402,12 @@ export default function Cuisine() {
               {errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
             </div>
 
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-              Submit
+            <button
+              type="submit"
+              className="btn-send w-100"
+              disabled={buttonStatus}
+            >
+              Submit Cuisine Information
             </button>
           </form>
         </div>
@@ -429,7 +436,7 @@ export default function Cuisine() {
             </div>
 
             <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
-              Update
+              Update Cuisine Information
             </button>
           </form>
         </div>

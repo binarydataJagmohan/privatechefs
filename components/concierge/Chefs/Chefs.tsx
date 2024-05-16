@@ -457,7 +457,7 @@ export default function Chefs() {
           </li>
           <li>
             <div className='text-right'>
-              <button className="table-btn border-radius round-white" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add</button>
+              <button className="table-btn border-radius round-white" onClick={() => { SetModalConfirmTwo(true); resetFields(); }}>Add Chef Information</button>
             </div>
           </li>
           {/* <li className="right-li">
@@ -1079,7 +1079,7 @@ export default function Chefs() {
               <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit Chef Information'}</button>
           </form>
         </div>
       </PopupModal>

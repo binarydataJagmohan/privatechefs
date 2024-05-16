@@ -511,7 +511,7 @@ export default function Villas() {
                 resetFields();
               }}
             >
-              Add
+              Add Villas Information
             </button>
           </li>
           {/* <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> */}

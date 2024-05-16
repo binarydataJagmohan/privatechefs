@@ -297,7 +297,9 @@ export default function DishGallery() {
               resetFields();
             }}
           >
-            <button className="table-btn border-radius round-white">Add Image</button>
+            <button className="table-btn border-radius round-white">
+              Add Dishes Gallery Image
+            </button>
           </li>
         </ul>
         <div className="row mt-4 add_menu_items">
@@ -329,8 +331,11 @@ export default function DishGallery() {
       {/* // Menu popup start  */}
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
         <div className="text-center popup-img">
-          <p className="text-start fw-bold px-2 fs-4" style={{ color: "#ff4e00d1" }}>
-            {dishid ? "Edit Image" : "Add Image"}
+          <p
+            className="text-start fw-bold px-2 fs-4"
+            style={{ color: "#ff4e00d1" }}
+          >
+            {dishid ? "Edit Dishes Gallery Image" : "Add Dishes Gallery Image"}
           </p>
         </div>
         <div className="all-form">
@@ -343,8 +348,12 @@ export default function DishGallery() {
 
             <div className="image-preview mb-4"></div>
 
-            <button type="submit" className="btn-send w-25 float-end" disabled={buttonStatus}>
-              Submit
+            <button
+              type="submit"
+              className="btn-send w-100 float-end"
+              disabled={buttonStatus}
+            >
+              Submit Dishes Gallery Image
             </button>
           </form>
         </div>

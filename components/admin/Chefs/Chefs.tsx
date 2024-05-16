@@ -539,7 +539,9 @@ export default function Chefs() {
           <li>
             <div className="text-right">
               <Link href="/admin/chefprofile">
-                <button className="table-btn border-radius round-white table-btn">Add Chefs</button>
+                <button className="table-btn border-radius round-white table-btn">
+                  Add Chefs Information
+                </button>
               </Link>
             </div>
           </li>
@@ -1047,8 +1049,12 @@ export default function Chefs() {
               <input type="email" id="registeremail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-              {buttonStatus ? "Please wait.." : "Submit"}
+            <button
+              type="submit"
+              className="btn-send w-100"
+              disabled={buttonStatus}
+            >
+              {buttonStatus ? "Please wait.." : "Submit Invitation Information"}
             </button>
           </form>
         </div>

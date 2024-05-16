@@ -189,7 +189,7 @@ export default function Pages() {
                         <button
                             className="btn-send w-100"
                         >
-                            Update
+                            Update Page Information
                         </button>
                     </form>
                 </div>

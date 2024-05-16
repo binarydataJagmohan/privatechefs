@@ -377,7 +377,7 @@ export default function Allergy() {
                 setModalConfirm(true);
               }}
             >
-              Add
+              Add Testimonial Information
             </button>
           </li>
         </ul>
@@ -471,24 +471,48 @@ export default function Allergy() {
                                     />
                                 ))}
                             </p> */}
-              <p className="star-list blue-star" id="star-color">
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <i key={num} className={`fa${num <= stars ? "s" : "r"} fa-star`} onMouseEnter={() => handleStarHover(num)} onClick={() => setStar(num)} />
-                ))}
-              </p>
-              {errors.stars && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.stars}</span>}
-            </div>
-            <div className="login_div">
-              <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" accept="jpg,png" onChange={handleImageChange} />
-              {previewImage && <img src={previewImage} alt="Preview" style={{ width: "20%", height: "auto" }} />}
-            </div>
-            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
-              Submit
-            </button>
-          </form>
-        </div>
-      </PopupModal>
+                            <p className="star-list blue-star" id="star-color">
+                                {[1, 2, 3, 4, 5].map((num) => (
+                                    <i
+                                        key={num}
+                                        className={`fa${num <= stars ? 's' : 'r'} fa-star`}
+                                        onMouseEnter={() => handleStarHover(num)}
+                                        onClick={() => setStar(num)}
+                                    />
+                                ))}
+                            </p>
+                            {errors.stars && (
+                                <span className="small error text-danger mb-2 d-inline-block error_login">
+                                    {errors.stars}
+                                </span>
+                            )}
+                        </div>
+                        <div className="login_div">
+                            <label htmlFor="Image">Image:</label>
+                            <input
+                                type="file"
+                                name="image"
+                                accept="jpg,png"
+                                onChange={handleImageChange}
+                            />
+                            {previewImage && (
+                                <img
+                                    src={previewImage}
+                                    alt="Preview"
+                                    style={{ width: "20%", height: "auto" }}
+                                />
+                            )}
+                        </div>
+                        <button
+                            type="submit"
+                            className="btn-send w-100 mt-3"
+                            disabled={buttonStatus}
+                        >
+                            Submit Testimonial Information
+                        </button>
+                    </form>
+                </div>
+            </PopupModal>
 
       <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
         <div className="all-form">
@@ -517,20 +541,24 @@ export default function Allergy() {
               <label htmlFor="Image">Image:</label>
               <input type="file" name="image" accept="jpg,png" onChange={handleInputChange} />
 
-              {newImage ? (
-                <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
-              ) : (
-                testimonialList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/testimonial/${testimonialList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
-              )}
-            </div>
-            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
-              Update
-            </button>
-          </form>
-        </div>
-      </PopupModal>
-      {/* // Menu popup end  */}
-      <ToastContainer />
-    </>
-  );
+                            {newImage ? (
+                                <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                            ) : (
+                                testimonialList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/testimonial/${testimonialList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                            )}
+                        </div>
+                        <button
+                            type="submit"
+                            className="btn-send w-100 mt-3"
+                            disabled={buttonStatus}
+                        >
+                            Update Testimonial Information
+                        </button>
+                    </form>
+                </div>
+            </PopupModal>
+            {/* // Menu popup end  */}
+            <ToastContainer />
+        </>
+    );
 }

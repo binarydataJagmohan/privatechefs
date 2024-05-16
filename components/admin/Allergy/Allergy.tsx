@@ -395,7 +395,7 @@ export default function Allergy() {
                 setModalConfirm(true);
               }}
             >
-              Add
+              Add Allergy Information
             </button>
 
           </li>
@@ -575,7 +575,7 @@ export default function Allergy() {
               className="btn-send w-100 mt-3"
               disabled={buttonStatus}
             >
-              Submit
+              Submit Allergy Information
             </button>
           </form>
         </div>
@@ -638,7 +638,7 @@ export default function Allergy() {
               className="btn-send w-100 mt-3"
               disabled={buttonStatus}
             >
-              Update
+              Update Allergy Information
             </button>
           </form>
         </div>
