@@ -295,11 +295,11 @@ export default function Home(props: any) {
 
 
     const settings = {
-        rows: 2,
+        rows: 1,
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 5,
+        slidesToShow: 1,
         //slidesToScroll: 1,
         centerMode: false,
         variableWidth: true,
@@ -369,7 +369,7 @@ export default function Home(props: any) {
                     <div className="row">
                         <Slider {...settings}>
                             {locations.map((location, index) => {
-                                //if(index < 7){
+                                if(index < 7){
                                     return(
                                         <div className="col-lg-2 col-md-6" key={index}>
                                             <a
@@ -409,12 +409,12 @@ export default function Home(props: any) {
                                             </a>
                                         </div>
                                     )
-                                //}
+                                }
                             })}
                         </Slider>
-                        {/* <Slider {...settings}>
+                        <Slider {...settings}>
                             {locations.reverse().map((location, index) => {
-                                //if(index > 6){
+                                if(index > 6){
                                     return(
                                         <div className="col-lg-2 col-md-6" key={index}>
                                             <a
@@ -454,9 +454,9 @@ export default function Home(props: any) {
                                             </a>
                                         </div>
                                     )
-                                //}
+                                }
                             })}
-                        </Slider> */}
+                        </Slider>
 
                     </div>
                     {/* <div className="text-center view-more mt-4"><a href="#">View More</a></div> */}
