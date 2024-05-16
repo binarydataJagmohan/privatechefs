@@ -49,6 +49,7 @@ export default function Header({ }) {
 
   const [privacy, setPrivacy] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [currentUserData, setCurrentUserData]: any = useState({});
 
 
   useEffect(() => {
@@ -59,6 +60,7 @@ export default function Header({ }) {
   useEffect(() => {
     const token = window.localStorage.getItem("token");
     const userData: any = getCurrentUserData();
+    setCurrentUserData(userData);
     const now = new Date();
     const expirationDate = new Date(userData.expiration);
     if (token) {
@@ -804,6 +806,53 @@ export default function Header({ }) {
                         <a className="nav-link" href="#" onClick={() => { setRole('concierge'); signuppopup(); }}>B2B Registration</a>
                       </li></>
                   )}</div>
+
+
+                {isAuthenticated && role === "admin" && (
+                  <div className=''>
+                    <div className="dropdown adminAddMenu adminHomePAges" id="none-class">
+                      <a href="/" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        {currentUserData.pic && currentUserData.pic != 'null' ?
+                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" style={{ borderRadius: '40px' }} height={40} width={40} />
+                          : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
+                      </a>
+
+                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                        <li className="dropdown-item">
+                          Hello {currentUserData.role}
+                        </li>
+
+                        <li>
+                          <a href="/admin/dashboard" className="dropdown-item">
+                            <div className="d-flex ">
+                              <span className="icon-dash"><i className="fa-solid fa-boxes-stacked"></i></span>
+                              <span className="menu-collapsed">Dashboard</span>
+                            </div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/admin/setting" className="dropdown-item">
+                            <div className="d-flex ">
+                              <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                              <span className="menu-collapsed">Settings</span>
+                            </div>
+                          </a>
+                        </li>
+
+
+                        <li>
+                          <a href='#' onClick={handleLogout} className="dropdown-item">
+                            <div className="d-flex ">
+                              <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>
+                              <span className="menu-collapsed">Logout</span>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </ul>
             </div>
           </nav>

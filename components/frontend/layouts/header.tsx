@@ -46,9 +46,12 @@ export default function Header({ }) {
   const [acceptance, setAcceptance] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [currentUserData, setCurrentUserData]: any = useState({});
 
 
-
+  useEffect(() => {
+    getAllNotify();
+  }, []);
   useEffect(() => {
     const token = window.localStorage.getItem("token");
     const userData: any = getCurrentUserData();
@@ -65,6 +68,11 @@ export default function Header({ }) {
       }
     }
   }, []);
+
+  const getAllNotify = async () => {
+    const userData: any = getCurrentUserData();
+    setCurrentUserData(userData);
+  }
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -740,6 +748,7 @@ export default function Header({ }) {
                     </a>
                   </li>
                 )}
+
                 {isAuthenticated && role === "chef" && (
                   <li className={`nav-item ${router.pathname === '/chef/dashboard' ? 'active' : ''}`}>
                     <a className="nav-link" href="/chef/dashboard">
@@ -776,7 +785,51 @@ export default function Header({ }) {
                   {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
 
                 </li>
+                {isAuthenticated && role === "admin" && (
+                  <div className=''>
+                    <div className="dropdown adminAddMenu adminHomePAges" id="none-class">
+                      <a href="/" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        {currentUserData.pic && currentUserData.pic != 'null' ?
+                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" style={{ borderRadius: '40px' }} height={40} width={40} />
+                          : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
+                      </a>
 
+                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                        <li className="dropdown-item">
+                          Hello {currentUserData.role}
+                        </li>
+
+                        <li>
+                          <a href="/admin/dashboard" className="dropdown-item">
+                            <div className="d-flex ">
+                              <span className="icon-dash"><i className="fa-solid fa-boxes-stacked"></i></span>
+                              <span className="menu-collapsed">Dashboard</span>
+                            </div>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/admin/setting" className="dropdown-item">
+                            <div className="d-flex ">
+                              <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                              <span className="menu-collapsed">Settings</span>
+                            </div>
+                          </a>
+                        </li>
+
+
+                        <li>
+                          <a href='#' onClick={handleLogout} className="dropdown-item">
+                            <div className="d-flex ">
+                              <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>
+                              <span className="menu-collapsed">Logout</span>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
                 <div className='d-none-set d-lg-block'>
                   {!current_user_id && (
                     <li className="user nav-item">

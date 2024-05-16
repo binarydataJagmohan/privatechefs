@@ -298,7 +298,7 @@ export default function Bookings() {
           },
         });
       }
-    } catch (err: any) {}
+    } catch (err: any) { }
   };
 
   const fetchBookingAdminDetails = async () => {
@@ -882,7 +882,7 @@ export default function Bookings() {
 
                       <td>
                         <div className="row align-items-center">
-                          <div className="col-3 text-end">
+                          <div className="col-2 col-sm-3 text-sm-end">
                             <p>
                               {user.pic ? (
                                 <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" width={35} height={35} style={{ borderRadius: "35px" }} />

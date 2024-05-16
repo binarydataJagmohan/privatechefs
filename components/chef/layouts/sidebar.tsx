@@ -22,7 +22,7 @@ export default function Sidebar(): JSX.Element {
     interface UserData {
         id: number;
         approved_by_admin: string;
-        created_by:string;
+        created_by: string;
     }
 
     const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
@@ -39,7 +39,7 @@ export default function Sidebar(): JSX.Element {
     const [userData, setUserData] = useState<UserData>({
         id: 0,
         approved_by_admin: '',
-        created_by:'',
+        created_by: '',
     });
 
     const [bookingcount, setBookingCount] = useState();
@@ -157,8 +157,8 @@ export default function Sidebar(): JSX.Element {
         <>
 
             <div id="sidebar-container" className="sidebar-expanded  mobile-view d-md-block">
-                <div className="user-profile">
-                    <div className="row">
+                <div className="">
+                    {/* <div className="row">
                         <div className="col-lg-3 col-md-4 col-4 pr-0">
                             <a href="/chef/myprofile">
                                 {currentUserData.pic && currentUserData.pic != 'null' ?
@@ -173,6 +173,9 @@ export default function Sidebar(): JSX.Element {
                                 <p>{currentUserData.role}</p>
                             </div>
                         </div>
+                    </div> */}
+                    <div className='text-center'>
+                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" width={70} height={70} />
                     </div>
                 </div>
                 <ul className="list-group">
@@ -183,13 +186,13 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'} onClick={(e) => {
-                            if (userData.approved_by_admin === 'no' && userData.created_by === null) {
-                                e.preventDefault();
-                                AdminApprovalInfoAlert();
-                            } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
-                                e.preventDefault();
-                                CompleteProfile();
-                            }                   
+                        if (userData.approved_by_admin === 'no' && userData.created_by === null) {
+                            e.preventDefault();
+                            AdminApprovalInfoAlert();
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
+                            e.preventDefault();
+                            CompleteProfile();
+                        }
                     }}>
                         <div className="d-flex ">
                             <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
@@ -226,7 +229,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Available Jobs</span>
                             {bookingcount ? (
-                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{bookingcount}</span>
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px', height: '25px', width: '25px', maxHeight: '25px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>{bookingcount}</span>
                             ) : null}
                         </div>
                     </a>
@@ -244,7 +247,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Applied Jobs</span>
                             {appliedbookingcount ? (
-                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{appliedbookingcount}</span>
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px', height: '25px', width: '25px', maxHeight: '25px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>{appliedbookingcount}</span>
                             ) : null}
                         </div>
                     </a>
@@ -262,7 +265,7 @@ export default function Sidebar(): JSX.Element {
                             <span className="icon-dash"><i className="fa-solid fa-file-lines"></i></span>
                             <span className="menu-collapsed">Assigned Jobs</span>
                             {hiredbookingcount ? (
-                                 <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px',height:'25px',width: '25px',maxHeight:'25px',alignItems: 'center',justifyContent:'center',display:'flex'}}>{hiredbookingcount}</span>
+                                <span className="badge badge-danger rounded-circle noti-icon-badge" style={{ backgroundColor: '#ff4e00d1', marginLeft: '5px', height: '25px', width: '25px', maxHeight: '25px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>{hiredbookingcount}</span>
                             ) : null}
                         </div>
                     </a>
@@ -351,7 +354,7 @@ export default function Sidebar(): JSX.Element {
                         if (userData.approved_by_admin === 'no' && userData.created_by === null) {
                             e.preventDefault();
                             AdminApprovalInfoAlert();
-                        } else if (currentUserData.profile_status === 'pending'  && userData.created_by === null) {
+                        } else if (currentUserData.profile_status === 'pending' && userData.created_by === null) {
                             e.preventDefault();
                             CompleteProfile();
                         }
@@ -383,11 +386,11 @@ export default function Sidebar(): JSX.Element {
                     </a>
 
                     <a href="/chef/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/chef/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
-                            <div className="d-flex ">
-                                <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
-                                <span className="menu-collapsed">Settings</span>
-                            </div>
-                        </a>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                            <span className="menu-collapsed">Settings</span>
+                        </div>
+                    </a>
 
                     <a onClick={handleLogout} data-toggle="collapse" aria-expanded="false" role="button" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start ' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">

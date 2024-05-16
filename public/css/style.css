@@ -412,7 +412,7 @@ a.list-group-item.active span.menu-collapsed {
 
 span.icon-dash {
   color: #8c8c8c;
-  font-size: var(--font_size_2);
+  font-size: var(--font_h4);
   margin-bottom: -5px;
 }
 
@@ -455,8 +455,8 @@ form.form-Search input::placeholder {
 }
 
 .user-profile img {
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
   border-radius: 100px;
   object-fit: contain;
 }
@@ -506,8 +506,8 @@ a.bars-icon {
   }
 
   .user-profile img {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
   }
 
@@ -715,7 +715,8 @@ table thead tr:hover {
   }
 }
 
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
   /* table, thead, tbody, th, td, tr { 
     display: block; 
   }
@@ -4939,12 +4940,31 @@ button.slick-arrow.slick-next::before {
 .table td {
   word-break: break-all;
 }
+.adminAddMenu ul.dropdown-menu.show {
+  top: 20px !important;
+  padding: 0px 10px;
+}
+.adminAddMenu .dropdown-item {
+  padding: 5px 0px;
+}
+.adminAddMenu .dropdown-item:focus,
+.dropdown-item:hover {
+  color: #000;
+  background-color: transparent;
+}
+
+.adminAddMenu.adminHomePAges ul.dropdown-menu.show {
+  top: 50px !important;
+  padding: 0px 10px;
+  right: 53px !important;
+  left: -119px;
+}
 
 .notification {
   color: white;
   text-decoration: none;
   position: relative;
-  padding: 10px;
+  padding: 0px;
 }
 .notification i {
   color: #555555;
@@ -5278,7 +5298,8 @@ main {
   padding: 0.9rem 2rem;
   text-align: center;
   text-decoration: none;
-  transition: color 0.1s cubic-bezier(0.16, 0.08, 0.355, 1), background 0.1s cubic-bezier(0.16, 0.08, 0.355, 1);
+  transition: color 0.1s cubic-bezier(0.16, 0.08, 0.355, 1),
+    background 0.1s cubic-bezier(0.16, 0.08, 0.355, 1);
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -5396,9 +5417,9 @@ main {
 .browser-item a {
   color: #000;
 }
-div#none-class {
+/* div#none-class {
   text-align: center;
-}
+} */
 
 .pac-container.pac-logo.hdpi {
   z-index: 99999 !important;
@@ -5456,7 +5477,8 @@ div#none-class {
   width: 20px;
   opacity: 0;
   z-index: -100;
-  transition: all 0.65s cubic-bezier(0.84, -0.18, 0.31, 1.26), opacity 0.65s 0.5s;
+  transition: all 0.65s cubic-bezier(0.84, -0.18, 0.31, 1.26),
+    opacity 0.65s 0.5s;
 }
 .toolTip:after {
   content: attr(data-tip);

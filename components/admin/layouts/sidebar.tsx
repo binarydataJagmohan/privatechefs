@@ -58,13 +58,16 @@ export default function Sidebar(): JSX.Element {
         <>
             <div id="sidebar-container" className="sidebar-expanded  mobile-view d-md-block">
                 <div className="fixed-left">
-                    <div className="user-profile">
-                        <div className="row">
+                    <div className="">
+                        <div className='text-center'>
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" width={70} height={70} />
+                        </div>
+                        {/* <div className="row">
                             <div className="col-lg-3 col-md-4 col-4 pr-0">
                                 <a href="/">
-                                   {currentUserData.pic && currentUserData.pic != 'null' ?
-                                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" />
-                                    : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
+                                    {currentUserData.pic && currentUserData.pic != 'null' ?
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" />
+                                        : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" />}
                                 </a>
                             </div>
                             <div className="col-lg-9 col-md-8 col-8">
@@ -73,7 +76,7 @@ export default function Sidebar(): JSX.Element {
                                     <p>{currentUserData.role}</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <ul className="list-group">
                         <a href="#" data-toggle="sidebar-colapse" className="list-group-item list-group-item-action d-flex align-items-center icon-arrow">
@@ -194,7 +197,7 @@ export default function Sidebar(): JSX.Element {
                                 <span className="menu-collapsed">Service choice</span>
                             </div>
                         </a>
-                       <a href="/admin/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
+                        <a href="/admin/setting" data-toggle="collapse" aria-expanded="false" className={router.pathname == '/admin/setting' ? 'list-group-item list-group-item-action flex-column align-items-start active' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                             <div className="d-flex ">
                                 <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
                                 <span className="menu-collapsed">Settings</span>

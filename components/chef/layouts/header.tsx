@@ -4,6 +4,8 @@ import { notificationForUserAdmin } from '../../../lib/notificationapi';
 import Link from 'next/link'
 import { getSingleUserProfile } from "../../../lib/userapi"
 import { approvalMsg } from "../../../lib/chefapi"
+import { UpdateUserToOffiline } from "../../../lib/userapi"
+import { useRouter } from "next/router";
 
 
 export default function Header(): JSX.Element {
@@ -27,6 +29,8 @@ export default function Header(): JSX.Element {
     const [userData, setUserData] = useState('');
     const [countdata, setCountData] = useState("");
     const [isVisible, setIsVisible] = useState(true);
+    const [currentUserData, setCurrentUserData]: any = useState({});
+    const router = useRouter();
 
     const [data, setData] = useState<UserData>({
         id: 0,
@@ -44,6 +48,7 @@ export default function Header(): JSX.Element {
 
     useEffect(() => {
         const userData: any = getCurrentUserData();
+        setCurrentUserData(userData);
         const now = new Date();
         const expirationDate = new Date(userData.expiration);
         if (now > expirationDate) {
@@ -111,11 +116,24 @@ export default function Header(): JSX.Element {
             });
     }
 
+    function handleLogout() {
+        UpdateUserToOffiline(currentUserData.id)
+            .then(res => {
+                if (res.status == true) {
+                    removeToken();
+                    removeStorageData();
+                    window.location.href = '/';
+                } else {
+                    console.log("error");
+                }
+            })
+
+    }
     return (
         <>
-            <div className="right-header mt-4 text-right">
+            <div className="right-header mt-4">
                 <div className="row align-items-center">
-                    <div className="col-lg-7 col-md-4 col-2">
+                    <div className="col-lg-10 col-md-6 col-2">
                         <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
                         <div className='d-none d-lg-block'>
                             {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
@@ -134,51 +152,82 @@ export default function Header(): JSX.Element {
                                     <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
                                 </p>
                             )}</div>
+                    </div>
+                    <div className=' col-10 col-md-6 col-lg-2'>
+                        <div className="d-flex align-items-center gx-5 justify-content-end">
+                            <div className='p-1'>
+                                <p className="mb-0 comments-bell"><a href="/chef/chats"><i className="fa-solid fa-comments"></i></a></p>
+                            </div>
+                            <div className="px-3">
+                                <Link href={`/chef/notification/notification?id=${userData}`} className="notification">
+                                    <span><i className="fa-solid fa-bell"></i></span>
+                                    {countdata ? (
+                                        <span className="badge">{countdata}</span>
+                                    ) : null}
 
-
-                    </div>
-                    <div className="col-lg-3 col-md-6 col-6">
-                        {/* <form className="form-Search">
-                            <input type="text" placeholder="Search" />
-                        </form>  */}
-                    </div>
-                    <div className="col-lg-1 col-md-1 col-2">
-                        <p className="mb-0 comments-bell"><a href="/chef/chats"><i className="fa-solid fa-comments"></i></a></p>
-                    </div>
-                    <div className="col-lg-1 col-md-1 col-2">
-                        <div className="classs">
-                            <Link href={`/chef/notification/notification?id=${userData}`}className="notification">
-                            <span><i className="fa-solid fa-bell"></i></span>
-                            {countdata ? (
-                                  <span className="badge">{countdata}</span>
-                            ) : null}
-                         
-                           </Link>
+                                </Link>
+                            </div>
+                            <div className=''>
+                                <div className="dropdown adminAddMenu" id="none-class">
+                                    <a href="/" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {currentUserData.pic && currentUserData.pic != 'null' ?
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" style={{ borderRadius: '40px' }} height={40} width={40} />
+                                            : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
+                                    </a>
+                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li className="dropdown-item">
+                                            {currentUserData.name}
+                                            <br />
+                                            <span className="role-set" style={{ color: '#8c8c8c', fontSize: '14px' }}>{currentUserData.role}</span>
+                                        </li>
+                                        <li>
+                                            <a href="/" className="dropdown-item">
+                                                <div className="d-flex ">
+                                                    <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
+                                                    <span className="menu-collapsed">{router.pathname.startsWith('/chef') ? 'Home' : ''}</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/chef/myprofile" className="dropdown-item">
+                                                <div className="d-flex ">
+                                                    <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                                                    <span className="menu-collapsed">My Profile</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href='#' onClick={handleLogout} className="dropdown-item">
+                                                <div className="d-flex ">
+                                                    <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>
+                                                    <span className="menu-collapsed">Logout</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        {/* <a href="#" className="notification">
-                            <span><i className="fa-solid fa-bell"></i></span>
-                            <span className="badge">3</span>
-                        </a> */}
                     </div>
+                    <div className='d-block d-lg-none'>
+                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
+                            <p className="alert alert-danger">
+                                Complete your profile for pending admin approval.
+                            </p>
+                        )}
+                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.created_by === null && (
+                            <p className="alert alert-warning">
+                                Profile completed, awaiting admin approval to unlock culinary opportunities.
+                            </p>
+                        )}
+                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' && data.created_by === null && (
+                            <p className="alert alert-success">
+                                Congratulations! Your profile has been completed and approved by the admin.
+                                <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
+                            </p>
+                        )}</div>
                 </div>
-                <div className='d-block d-lg-none'>
-                    {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
-                        <p className="alert alert-danger">
-                            Complete your profile for pending admin approval.
-                        </p>
-                    )}
-                    {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.created_by === null && (
-                        <p className="alert alert-warning">
-                            Profile completed, awaiting admin approval to unlock culinary opportunities.
-                        </p>
-                    )}
-                    {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' && data.created_by === null && (
-                        <p className="alert alert-success">
-                            Congratulations! Your profile has been completed and approved by the admin.
-                            <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
-                        </p>
-                    )}</div>
-            </div>
+            </div >
         </>
     )
 }

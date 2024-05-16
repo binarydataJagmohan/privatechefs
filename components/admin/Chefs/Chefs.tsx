@@ -567,7 +567,7 @@ export default function Chefs() {
                 <th scope="col">Location</th>
                 <th scope="col">Status</th>
                 <th scope="col">Profile Status</th>
-                <th scope="col" className="text-center">
+                <th scope="col" className="text-sm-center">
                   Action
                 </th>
               </tr>
@@ -807,7 +807,7 @@ export default function Chefs() {
                   <tr key={chef.id}>
                     <td>
                       <div className="row align-items-center">
-                        <div className="col-3  text-end">
+                        <div className="col-sm-3 col-2  text-sm-end">
                           {chef.pic ? (
                             <div className="chefs_pic">
                               <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>

@@ -492,7 +492,7 @@ export default function Villas() {
               });
             }
           })
-          .catch((err) => {});
+          .catch((err) => { });
       } else {
       }
     });
@@ -529,7 +529,7 @@ export default function Villas() {
                   <th scope="col">Partner/Owner</th>
                   {/* <th scope="col">Bedroom</th>
 									<th scope="col">Bathrooms</th> */}
-                  <th scope="col" className="text-center">
+                  <th scope="col" className="text-sm-center">
                     Action
                   </th>
                 </tr>
@@ -548,7 +548,7 @@ export default function Villas() {
                       <td>{villa.partner_owner}</td>
                       {/* <td>{villa.bedrooms}</td>
 										<td>{villa.bathrooms}</td> */}
-                      <td>
+                      <td className="text-sm-center">
                         <div className="dropdown" id="none-class">
                           <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i className="fa-solid fa-ellipsis"></i>
@@ -618,7 +618,7 @@ export default function Villas() {
                     country={"us"}
                     value={phone}
                     onChange={(phone) => setPhone(phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>
@@ -739,7 +739,7 @@ export default function Villas() {
                     country={"us"}
                     value={consierge_phone}
                     onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>
@@ -840,7 +840,7 @@ export default function Villas() {
                     country={"us"}
                     value={phone}
                     onChange={(phone) => setPhone(phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>
@@ -983,7 +983,7 @@ export default function Villas() {
                     country={"us"}
                     value={consierge_phone}
                     onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>
