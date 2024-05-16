@@ -163,10 +163,16 @@ export default function Bookings() {
         const filteredData = res.data.filter((record: any) => {
           return record.chef_id != id && record.applied_jobs_status != "hired" && record.applied_jobs_status != "discussion" && record.applied_jobs_status != "rejected";
         });
-
         setTotalBooking(filteredData);
         const paginatedPosts = paginate(filteredData, currentPage, pageSize);
         setBookingUser(paginatedPosts);
+        const openOffcanvas = () => {
+          const viewBookingButton = document.getElementById("viewBookingButton");
+          if (viewBookingButton) {
+            viewBookingButton.click();
+          }
+        };
+        openOffcanvas();
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -197,14 +203,7 @@ export default function Bookings() {
         },
       });
     }
-    const openOffcanvas = () => {
-      const viewBookingButton = document.getElementById("viewBookingButton");
-      // alert(viewBookingButton)
-      if (viewBookingButton) {
-        viewBookingButton.click();
-      }
-    };
-    openOffcanvas();
+
   };
 
   const onPageChange = (page: any) => {
@@ -334,7 +333,7 @@ export default function Bookings() {
     setSelectedMenu((prevMenuItems: any) => (isChecked ? [...prevMenuItems, menuItemId] : prevMenuItems.filter((item: any) => item !== menuItemId)));
   };
 
-  const handleMenuItemBlur = (event: any) => {};
+  const handleMenuItemBlur = (event: any) => { };
 
   const handleBookingApplyJobSubmit = (event: any) => {
     event.preventDefault();
@@ -521,7 +520,8 @@ export default function Bookings() {
               </tbody>
             </table>
           ) : (
-            <p className="book1">No Booking Records Found</p>
+            // <p className="book1">No Booking Records Found</p>
+            <PageFound iconClass={"fa-solid fa-book-open-reader"} heading={" You don't have"} subText={"any active Available Jobs yet"} />
           )}
         </div>
       </div>

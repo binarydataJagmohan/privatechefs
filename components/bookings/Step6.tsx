@@ -584,21 +584,21 @@ export default function Step6() {
                   <div className="col-lg-6 col-md-12">
                     <div className="all-form input-big">
                       <h4 className="title-18">Email</h4>
-                     
-                       {!userid ? (
-                         <input
-                         type="email"
-                         value={email}
-                         onChange={(e) => setEmail(e.target.value)}
- 
-                       />
+
+                      {!userid ? (
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+
+                        />
                       ) : (
                         <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled
-                      />
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          disabled
+                        />
                       )}
                     </div>
                   </div>
