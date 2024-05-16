@@ -35,7 +35,7 @@ export default function Step7() {
           <div className="conglatulations-part text-center">
             <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/Conglatulations.jpg"} alt="Conglatulations" />
             <h3 className="mt-4 mb-3"> Congratulations!</h3>
-            <p>Your booking was succesful! </p>
+            <p>Your booking was successfull! </p>
             <p>
               Our congierge team will contact you for any further details. Please be aware for any
               <br /> email about chef’s offers!{" "}

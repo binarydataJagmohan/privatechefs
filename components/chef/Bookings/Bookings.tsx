@@ -13,6 +13,7 @@ import Pagination from "../../commoncomponents/Pagination";
 import { showToast } from "../../commoncomponents/toastUtils";
 import { useRouter } from "next/router";
 import PageFound from "../../pageFound";
+import { log } from "console";
 
 export default function Bookings() {
   interface Booking {
@@ -68,9 +69,9 @@ export default function Bookings() {
     selectedmenu?: string;
   }
 
-  const [bookingUsers, setBookingUser] = useState([]);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [sidebarConfirm, setSidebarConfirm] = useState(false);
+  const [bookingUsers, setBookingUser] = useState([]);
   const [booking, setBooking] = useState<Booking>({});
   const [totalBooking, setTotalBooking] = useState([]);
   const [bookingdate, setBookingDate] = useState("");
@@ -163,10 +164,20 @@ export default function Bookings() {
         const filteredData = res.data.filter((record: any) => {
           return record.chef_id != id && record.applied_jobs_status != "hired" && record.applied_jobs_status != "discussion" && record.applied_jobs_status != "rejected";
         });
-
         setTotalBooking(filteredData);
         const paginatedPosts = paginate(filteredData, currentPage, pageSize);
         setBookingUser(paginatedPosts);
+
+        if (filteredData.booking_id == booking_id) {
+          const openOffcanvas = () => {
+            const viewBookingButton = document.getElementById("viewBookingButton");
+            if (viewBookingButton) {
+              viewBookingButton.click();
+            }
+          };
+          openOffcanvas();
+        }
+
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -197,14 +208,7 @@ export default function Bookings() {
         },
       });
     }
-    const openOffcanvas = () => {
-      const viewBookingButton = document.getElementById("viewBookingButton");
-      // alert(viewBookingButton)
-      if (viewBookingButton) {
-        viewBookingButton.click();
-      }
-    };
-    openOffcanvas();
+
   };
 
   const onPageChange = (page: any) => {
@@ -334,7 +338,7 @@ export default function Bookings() {
     setSelectedMenu((prevMenuItems: any) => (isChecked ? [...prevMenuItems, menuItemId] : prevMenuItems.filter((item: any) => item !== menuItemId)));
   };
 
-  const handleMenuItemBlur = (event: any) => {};
+  const handleMenuItemBlur = (event: any) => { };
 
   const handleBookingApplyJobSubmit = (event: any) => {
     event.preventDefault();
@@ -405,7 +409,6 @@ export default function Bookings() {
     <>
       <div className="table-part">
         <h2 className="mb-4">Available Jobs</h2>
-
         <ul className="table_header_button_section">
           <li>
             <button className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(0, "all", currentUserData.id)}>
@@ -440,7 +443,6 @@ export default function Bookings() {
                   <th scope="col">Booking Date</th>
                   <th scope="col">Address</th>
                   <th scope="col">Category</th>
-
                   <th scope="col">Status</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -463,29 +465,16 @@ export default function Bookings() {
                       </td>
                       <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td>
                       <td>{formatDate(user.latest_created_at)}</td>
-
                       <td>{user.category == "onetime" ? formatDate(user.dates) : output}</td>
                       <td>{user.location}</td>
                       <td>{user.category == "onetime" ? "One time" : "Mutiple Times"}</td>
-
                       <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
-
                       <td>
                         <div className="dropdown" id="none-class">
                           <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i className="fa-solid fa-ellipsis" role="button"></i>
                           </a>
                           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {/* <li>
-															<a
-																className="dropdown-item"
-																href="#"
-																onClick={(e) => getSingleBookingUser(e, user.booking_id)}
-																data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
-															>
-																View Booking
-															</a>
-														</li> */}
                             <li>
                               {booking_id == user.booking_id ? (
                                 <a className="dropdown-item " href="#" onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="viewBookingButton">
@@ -506,8 +495,7 @@ export default function Bookings() {
                                     setModalConfirm(true);
                                     setBookingId(user.booking_id);
                                     resetFields();
-                                  }}
-                                >
+                                  }}>
                                   Apply
                                 </a>
                               </li>
@@ -521,7 +509,8 @@ export default function Bookings() {
               </tbody>
             </table>
           ) : (
-            <p className="book1">No Booking Records Found</p>
+            // <p className="book1">No Booking Records Found</p>
+            <PageFound iconClass={"fa-solid fa-book-open-reader"} heading={" You don't have"} subText={"any active Available Jobs yet"} />
           )}
         </div>
       </div>
@@ -537,7 +526,6 @@ export default function Bookings() {
           <div className="offcanvas-body">
             <div>
               <button className="table-btn btn-2 date mr-sp">{bookingdate}</button>
-
               {booking.booking_status != "Expired" && (
                 <button
                   className="table-btn"
@@ -546,11 +534,7 @@ export default function Bookings() {
                     setModalConfirm(true);
                     setBookingId(booking.booking_id);
                     resetFields();
-                  }}
-                >
-                  Apply
-                </button>
-              )}
+                  }}>Apply</button>)}
             </div>
             <div className="off-can">
               <div className="accordion" id="accordionExample">
