@@ -238,7 +238,7 @@ export default function UserProfile() {
 												}
 											}} required />
 										</div>
-										<div className="text-right mt-5"><button className="table-btn">Update</button>
+										<div className="text-right mt-5"><button className="table-btn">Update Setting Information</button>
 										</div>
 									</div>
 								</div>

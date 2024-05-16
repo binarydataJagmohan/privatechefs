@@ -383,7 +383,7 @@ export default function Menus() {
 
             </div>
 
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>Submit</button>
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>Submit Menu Information</button>
           </form>
 
         </div>

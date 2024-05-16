@@ -1240,7 +1240,7 @@ export default function Menus2(props: any) {
                       <textarea name="comments" value={comments || ''} onChange={(e) => setcomments(e.target.value)} onBlur={handlPersonPriceBlur} ></textarea>
                     </div>
                     <div className="col-lg-12 text-end col-md-6 mt-2">
-                      <button type="submit" className="btn-send w-20 mb-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit'}</button>
+                      <button type="submit" className="btn-send w-20 mb-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit Persons & Prices Information'}</button>
 
                     </div>
                   </div>
@@ -1309,7 +1309,7 @@ export default function Menus2(props: any) {
               )}
             </div>
 
-            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update'}</button>
+            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update Menu Information'}</button>
           </form>
 
         </div>

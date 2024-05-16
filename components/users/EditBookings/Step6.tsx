@@ -534,7 +534,7 @@ export default function Step6() {
                         <a href="/user/edit-booking/step5">Back</a>
                       </div>
                       <div className="view-more bg-golden mt-3">
-                        <button className="booking_submit_btn" type="submit">Update</button>
+                        <button className="booking_submit_btn" type="submit">Update Booking Information</button>
                       </div>
                     </div>
                   </div>

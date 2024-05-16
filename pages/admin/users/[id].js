@@ -1,5 +1,6 @@
 import React from 'react';
-import MyProfile from '../../../components/admin/Users/myprofile';
+//import MyProfile from '../../../components/admin/Users/myprofile';
+import MyProfile from '../../../components/admin/Users/latestmyprofile';
 
 export default function Myprofile({id}) {
   return (

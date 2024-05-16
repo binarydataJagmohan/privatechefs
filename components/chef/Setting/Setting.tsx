@@ -139,7 +139,7 @@ export default function UserProfile() {
 
 										<div className="col-lg-4 col-md-6">
 											<label></label>
-											<button style={{padding:"6px 20px"}} type='submit' className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'please wait...' : 'Update'}</button>
+											<button style={{padding:"6px 20px"}} type='submit' className="table-btn" disabled={buttonStatus}>{buttonStatus ? 'please wait...' : 'Update Setting Information'}</button>
 										</div>
 
 									</div>

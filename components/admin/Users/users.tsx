@@ -318,69 +318,78 @@ export default function Users() {
         </ul>
 
         <div className="table-box">
-          {getallusers.length > 0 ? (
-            <table className="table table-borderless common_booking">
-              <thead>
-                <tr>
-                  {filterLocation.length > 0 && <th scope="col">Select</th>}
-                  <th scope="col">Photo</th>
-                  <th scope="col">Name/Surname</th>
-                  <th scope="col">Current Location</th>
-                  <th scope="col">Phone no.</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filterLocation.length > 0
-                  ? filterLocation.map((user: any, index: any) => (
-                      <tr key={index}>
-                        <td className="chefs_pic">
-                          <input
-                            type="checkbox"
-                            checked={isFilterSelected(user.id)} // You can customize this based on your data
-                            onChange={() => handleFilterSelection(user.id)} // You can use a unique identifier for each user
-                          />
-                        </td>
-                        <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td>
-                        <td>
-                          {user.name || ""} {user.surname || ""}
-                        </td>
-                        <td>{user.address || ""}</td>
-                        <td>{user.phone || ""}</td>
-                        <td style={{ paddingLeft: "25px" }}>
-                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                            <i className="fa fa-eye" aria-hidden="true"></i>
-                          </a>
-                        </td>
-                        <td></td>
+          {getallusers.length > 0 ?
+              <table className="table table-borderless common_booking">
+                  <thead>
+                      <tr>
+                          {filterLocation.length > 0 && (
+                              <th scope="col">Select</th>
+                          )} 
+                          <th scope="col">Photo</th>
+                          <th scope="col">Name/Surname</th>
+                          <th scope="col">Current Location</th>
+                          <th scope="col">Phone no.</th>
+                          <th scope="col">Action</th>
                       </tr>
-                    ))
-                  : getallusers.map((user, index) => (
-                      <tr key={index}>
-                        <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td>
-                        <td>
-                          {user.name || ""} {user.surname || ""}
-                        </td>
-                        <td>{user.address || ""}</td>
-                        <td>{user.phone || ""}</td>
-                        <td style={{ paddingLeft: "25px" }}>
-                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                            <i className="fa fa-eye" aria-hidden="true"></i>
-                          </a>
-                          {"   "}
-                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                            <i className="fa fa-trash" aria-hidden="true" onClick={(e) => handleDelete(e, user.id)}></i>
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
-              </tbody>
-            </table>
-          ) : (
-            <>
-              <PageFound iconClass={"fa-solid fa-users"} heading={" No users"} subText={"available"} />
-            </>
-          )}
+                  </thead>
+                  <tbody>
+                      {filterLocation.length > 0 ? (
+                          filterLocation.map((user:any, index:any) => (
+                              <tr key={index}>
+                                  <td className="chefs_pic">
+                                  <input
+                                  type="checkbox"
+                                  checked={isFilterSelected(user.id)} // You can customize this based on your data
+                                  onChange={() => handleFilterSelection(user.id)} // You can use a unique identifier for each user
+                                  />
+                                  </td>
+                                  <td className="chefs_pic">
+                                      {user.pic ? (
+                                          <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}><img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" /></a>
+                                      ) : (
+                                          <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}><img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" /></a>
+                                      )}
+                                  </td>
+                                  <td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>{user.name || ''} {user.surname || ''}</a></td>
+                                  <td>{user.address || ''}</td>
+                                  <td>{user.phone || ''}</td>
+                                  <td style={{ paddingLeft: "25px" }}>
+                                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
+                                          <i className="fa fa-eye" aria-hidden="true"></i>
+                                      </a>
+                                  </td>
+                                  <td></td>
+                              </tr>
+                          ))
+                      ) : (
+                          getallusers.map((user, index) => (
+                              <tr key={index}>
+                                  <td className="chefs_pic">
+                                      {user.pic ? (
+                                          <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}><img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + user.pic} alt="" /></a>
+                                      ) : (
+                                          <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}><img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" /></a>
+                                      )}
+                                  </td>
+                                  <td><a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>{user.name || ''} {user.surname || ''}</a></td>
+                                  <td>{user.address || ''}</td>
+                                  <td>{user.phone || ''}</td>
+                                  <td style={{ paddingLeft: "25px" }}>
+                                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
+                                          <i className="fa fa-eye" aria-hidden="true"></i>
+                                      </a>{"   "}
+                                      <a href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/users/' + user.id}>
+                                      <i className="fa fa-trash" aria-hidden="true" onClick={(e)=>handleDelete(e,user.id)}></i>
+                                      </a>
+                                  </td>
+                              </tr>
+                          ))
+                      )}
+                  </tbody>
+              </table>
+              :
+              <p className='book1 text-center'>No Records Found</p>
+          }
         </div>
       </div>
 
