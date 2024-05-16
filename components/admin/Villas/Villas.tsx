@@ -12,6 +12,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { showToast } from "../../commoncomponents/toastUtils";
+import PageFound from "../../pageFound";
 
 export default function Villas() {
   const [name, setFullName] = useState("");
@@ -491,7 +492,7 @@ export default function Villas() {
               });
             }
           })
-          .catch((err) => {});
+          .catch((err) => { });
       } else {
       }
     });
@@ -528,7 +529,9 @@ export default function Villas() {
                   <th scope="col">Partner/Owner</th>
                   {/* <th scope="col">Bedroom</th>
 									<th scope="col">Bathrooms</th> */}
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-sm-center">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -545,7 +548,7 @@ export default function Villas() {
                       <td>{villa.partner_owner}</td>
                       {/* <td>{villa.bedrooms}</td>
 										<td>{villa.bathrooms}</td> */}
-                      <td>
+                      <td className="text-sm-center">
                         <div className="dropdown" id="none-class">
                           <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i className="fa-solid fa-ellipsis"></i>
@@ -581,7 +584,9 @@ export default function Villas() {
               </tbody>
             </table>
           ) : (
-            <p className="book1 text-center">No Records Found</p>
+            <>
+              <PageFound iconClass={"fa-solid fa-user-tie"} heading={" No Villas"} subText={"available"} />
+            </>
           )}
         </div>
       </div>
@@ -613,7 +618,7 @@ export default function Villas() {
                     country={"us"}
                     value={phone}
                     onChange={(phone) => setPhone(phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>
@@ -734,7 +739,7 @@ export default function Villas() {
                     country={"us"}
                     value={consierge_phone}
                     onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>
@@ -835,7 +840,7 @@ export default function Villas() {
                     country={"us"}
                     value={phone}
                     onChange={(phone) => setPhone(phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>
@@ -978,7 +983,7 @@ export default function Villas() {
                     country={"us"}
                     value={consierge_phone}
                     onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
-                    // add the required attribute here
+                  // add the required attribute here
                   />
                 </div>
               </div>

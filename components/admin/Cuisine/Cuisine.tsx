@@ -321,10 +321,11 @@ export default function Cuisine() {
             <thead>
               <tr>
                 {/* <th scope="col">ID</th> */}
-                <th scope="col">Photo</th>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
-                <th scope="col"></th>
+                <th scope="col" className="text-center">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -332,9 +333,19 @@ export default function Cuisine() {
                 <tr key={cuisine.id}>
                   {/* <td>{index + 1}</td> */}
                   <td className="chefs_pic">
-                    {cuisine.image && cuisine.image !== "null" ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/cuisines/" + cuisine.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}
+                    <div className="row align-items-center">
+                      <div className="col-3 p-0 text-center">
+                        {" "}
+                        {cuisine.image && cuisine.image !== "null" ? (
+                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/cuisines/" + cuisine.image} alt="" />
+                        ) : (
+                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                        )}
+                      </div>
+                      <div className="col-9 p-0">{cuisine.name}</div>
+                    </div>
                   </td>
-                  <td>{cuisine.name}</td>
+
                   <td>
                     {cuisine.description && cuisine.description.length > 100 ? (
                       <ReactReadMoreReadLess charLimit={100} readMoreText={"Read more..."} readLessText={"Read less..."}>

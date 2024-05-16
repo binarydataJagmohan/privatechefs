@@ -150,7 +150,6 @@ export default function Bookings() {
   const [villasdata, setVillasData] = useState("");
   const [villa_id, setVillasId] = useState<Number>(null);
 
-
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -306,7 +305,6 @@ export default function Bookings() {
     try {
       const res = await getAdminChefByBooking();
       if (res.status) {
-
         let filteredReceipts = res.data;
         if (router.query.booking_id) {
           filteredReceipts = res.data.filter((receipt: any) => receipt.booking_id == router.query.booking_id);
@@ -758,15 +756,15 @@ export default function Bookings() {
   };
 
   const handleAmountChange = (e: any, type: string, adminCharge: any, chefCharge: any) => {
-    let totalAmount = 0
-    if (type === 'admin') {
-      totalAmount += Number(e.target.value)
-      totalAmount += Number(chefCharge)
-      setAdminAmount(Number(e.target.value))
+    let totalAmount = 0;
+    if (type === "admin") {
+      totalAmount += Number(e.target.value);
+      totalAmount += Number(chefCharge);
+      setAdminAmount(Number(e.target.value));
     } else {
-      totalAmount += Number(e.target.value)
-      totalAmount += Number(adminCharge)
-      setamount1(Number(e.target.value))
+      totalAmount += Number(e.target.value);
+      totalAmount += Number(adminCharge);
+      setamount1(Number(e.target.value));
     }
     setClientAmount(totalAmount.toString());
   };
@@ -848,14 +846,14 @@ export default function Bookings() {
             </button>
           </li>
         </ul>
-        <div className="table-box" id="admin-booking">
+        <div className="table-box concierge" id="admin-booking">
           {bookingUsers.length > 0 ? (
             <table className="table table-borderless common_booking common_booking">
               <thead>
                 <tr>
                   <th scope="col">Booking ID</th>
                   <th scope="col">Customer</th>
-                  <th scope="col">Image</th>
+                  <th scope="col"></th>
                   <th scope="col">Date Requested</th>
                   <th scope="col">Booking Date</th>
                   <th scope="col">Address</th>
@@ -883,19 +881,28 @@ export default function Bookings() {
                       </td>
 
                       <td>
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id} target="_blank" className="nameofusers">
-                          {`${user.name} ${surname}`
-                            .split(" ")
-                            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                            .join(" ")}{" "}
-                        </a>
+                        <div className="row align-items-center">
+                          <div className="col-2 col-sm-3 text-sm-end">
+                            <p>
+                              {user.pic ? (
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" width={35} height={35} style={{ borderRadius: "35px" }} />
+                              ) : (
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" width={35} height={35} style={{ borderRadius: "50px" }} />
+                              )}
+                            </p>
+                          </div>
+                          <div className="col-9 p-0">
+                            <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id} target="_blank" className="nameofusers">
+                              {`${user.name} ${surname}`
+                                .split(" ")
+                                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(" ")}{" "}
+                            </a>
+                          </div>
+                        </div>
                       </td>
 
-                      <td className="chefs_pic">
-                        <p className="text-data-18" id="table-p">
-                          {user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}
-                        </p>
-                      </td>
+                      <td className="chefs_pic"></td>
                       <td>
                         <p className="text-data-18" id="table-p">
                           {formatDate(user.latest_created_at)}
@@ -1463,7 +1470,21 @@ export default function Bookings() {
                     <td>
                       <div className="all-form p-0 add-w">
                         <div className="login_div">
-                          <input type="number" name="amount1" onChange={(e) => { setamount1(e.target.value); handleAmountChange(e, 'admin', adminamount, null); }} />
+                          <input
+                            type="number"
+                            name="amount1"
+                            onChange={(e) => {
+                              setamount1(e.target.value);
+                              handleAmountChange(e, "admin", adminamount, null);
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="all-form p-0 add-w">
+                        <div className="login_div">
+                          <input type="number" name="clientamount" value={clientamount} onChange={(e) => setClientAmount(e.target.value)} />
                         </div>
                       </div>
                     </td>
@@ -1472,17 +1493,11 @@ export default function Bookings() {
                         <div className="login_div">
                           <input
                             type="number"
-                            name="clientamount"
-                            value={clientamount}
-                            onChange={(e) => setClientAmount(e.target.value)}
+                            name="adminamount"
+                            onChange={(e) => {
+                              handleAmountChange(e, "admin", null, amount1);
+                            }}
                           />
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="all-form p-0 add-w">
-                        <div className="login_div">
-                          <input type="number" name="adminamount" onChange={(e) => { handleAmountChange(e, 'admin', null, amount1); }} />
                         </div>
                       </div>
                     </td>
