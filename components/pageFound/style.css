@@ -18,11 +18,11 @@
   text-align: center;
   font-weight: normal;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: var(--font_wt_700);
   line-height: 26px;
 }
 .empty_state p {
-  font-size: 14px;
+  font-size: var(--font_size);
   margin: 0px;
   color: #999;
   text-align: center;

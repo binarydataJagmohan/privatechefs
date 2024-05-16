@@ -8,11 +8,11 @@ import { getAdminData } from "../../../lib/chefapi";
 import { getUserMessageData, getClickUserChefChatData, ContactChefByUser, ContactChefByUserWithShareFile, deleteChatMessage } from "../../../lib/userapi";
 
 import { ToastContainer, toast } from "react-toastify";
-import moment from 'moment';
-import { formatDistanceToNow } from 'date-fns';
-import { zonedTimeToUtc } from 'date-fns-tz';
-import PopupModalTwo from '../../commoncomponents/PopupModal';
-import PopupModalLarge from '../../commoncomponents/PopupModalLarge';
+import moment from "moment";
+import { formatDistanceToNow } from "date-fns";
+import { zonedTimeToUtc } from "date-fns-tz";
+import PopupModalTwo from "../../commoncomponents/PopupModal";
+import PopupModalLarge from "../../commoncomponents/PopupModalLarge";
 import { AnyPtrRecord } from "dns";
 import { showToast } from "../../commoncomponents/toastUtils";
 export default function Booking(props: any) {
@@ -29,9 +29,9 @@ export default function Booking(props: any) {
 
   const [activeChat, setActiveChat] = useState(-1);
 
-  const [activeButton, setActiveButton] = useState('desc');
+  const [activeButton, setActiveButton] = useState("desc");
 
-  const ChatSortBy = useRef('desc');
+  const ChatSortBy = useRef("desc");
 
   const [searchInputValue, setSearchInputValue] = useState("");
 
@@ -39,52 +39,49 @@ export default function Booking(props: any) {
 
   const [showContent, setShowContent] = useState(false);
 
-
   const [userdata, setUserData] = useState<UserData>({
-    id: '',
-    name: '',
-    email: '',
-    surname: '',
-    role: ''
+    id: "",
+    name: "",
+    email: "",
+    surname: "",
+    role: "",
   });
 
   const [admindata, setAdminData] = useState<AdminData>({
-    id: '',
-    name: '',
-    email: '',
-    surname: '',
-    role: '',
-    pic: ''
+    id: "",
+    name: "",
+    email: "",
+    surname: "",
+    role: "",
+    pic: "",
   });
 
   const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
 
-  const [chatmessage, setChatMessage] = useState('');
+  const [chatmessage, setChatMessage] = useState("");
 
-  const [searchuserid, setSearchUserId] = useState('');
+  const [searchuserid, setSearchUserId] = useState("");
 
   const [modalConfirm, setModalConfirm] = useState(false);
 
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [Uploadimage, setUploadImage] = useState('');
-  const [previewimage, setPreviewimage] = useState('');
+  const [Uploadimage, setUploadImage] = useState("");
+  const [previewimage, setPreviewimage] = useState("");
   const [groupname, setGroupName] = useState("");
   const [groupmessage, setGroupMessage] = useState("");
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
 
-  const ChatSortTypeBy = useRef('first');
+  const ChatSortTypeBy = useRef("first");
 
   const modalConfirmCloseTwo = () => {
     setSearchInputValue("");
     setModalConfirmTwo(false);
-
   };
 
   const modalConfirmClose = () => {
     setModalConfirm(false);
   };
-
 
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
     id: "",
@@ -120,7 +117,7 @@ export default function Booking(props: any) {
     email: string;
     surname: string;
     role: string;
-    pic: string
+    pic: string;
   }
 
   interface AdminSideBarChatMessages {
@@ -140,14 +137,13 @@ export default function Booking(props: any) {
     sender_pic?: string;
     group_image?: string;
     group_name?: string;
-    recevier_pic?: string
-    recevier_name?: string
-    sender_role?: string
-    chat_type?: string
-    group_id?: string
+    recevier_pic?: string;
+    recevier_name?: string;
+    sender_role?: string;
+    chat_type?: string;
+    group_id?: string;
     unique_booking_id?: string;
     single_chat_id?: string;
-
   }
 
   interface AdninChatMessages {
@@ -164,14 +160,12 @@ export default function Booking(props: any) {
     booking_id?: number;
     chatdate?: string;
     type?: string;
-    bookig_send_by?: string
+    bookig_send_by?: string;
     created_by?: string;
-    created_by_id?:number;
-    created_by_pic?:string;
-    created_by_role?:string
-
+    created_by_id?: number;
+    created_by_pic?: string;
+    created_by_role?: string;
   }
-
 
   interface Errors {
     message?: string;
@@ -190,7 +184,6 @@ export default function Booking(props: any) {
   }
 
   const [errors, setErrors] = useState<Errors>({});
-
 
   const [group_name, setCurrentGroupName] = useState("");
 
@@ -247,20 +240,17 @@ export default function Booking(props: any) {
           id: userData.id,
           sender_id: SenderIdRef.current,
           sort: ChatSortBy.current,
-          chat_sort_type: ChatSortTypeBy.current
+          chat_sort_type: ChatSortTypeBy.current,
         };
 
-
         getClickUserChefChatData(data)
-          .then(res => {
+          .then((res) => {
             if (res.status == true) {
-
               setAdminChatSiderBar(res.userchatsider);
               setAdminChatMessage(res.userchatdata);
               setChatGroupMember(res.chat_member);
 
-              if (ChatSortTypeBy.current == 'first') {
-
+              if (ChatSortTypeBy.current == "first") {
                 setCurrentChatType(res.userchatsider[0].latest_chat_type);
                 setChatReceiverId(res.userchatsider[0].receiver_id);
                 setChatSenderId(res.userchatsider[0].sender_id);
@@ -272,93 +262,77 @@ export default function Booking(props: any) {
                 newsingleChatIdRef.current = res.userchatsider[0].single_chat_id;
                 newgroupIdRef.current = res.userchatsider[0].group_id;
 
-                if (res.userchatsider[0].latest_chat_type == 'booking') {
+                if (res.userchatsider[0].latest_chat_type == "booking") {
                   setChatBookingId(res.userchatsider[0].booking_id);
-
                 } else {
                   setChatBookingId("");
                 }
 
-                if (res.userchatsider[0].latest_chat_type == 'group') {
+                if (res.userchatsider[0].latest_chat_type == "group") {
                   setChatGroupName(res.userchatsider[0].group_name);
                 } else {
                   setChatGroupName("");
                 }
 
-                if (res.userchatsider[0].latest_chat_type == 'single') {
-
-                   if(res.userchatsider[0].sender_id == currentUserData.id){
-                       
-                        setChatSingleChatName(res.userchatsider[0].receiver_name);
-                      }else {
-                        if(res.userchatsider[0].sender_id != currentUserData.id){
-                          setChatSingleChatName(res.userchatsider[0].sender_name);
-                        }
-                      }
-
-
+                if (res.userchatsider[0].latest_chat_type == "single") {
+                  if (res.userchatsider[0].sender_id == currentUserData.id) {
+                    setChatSingleChatName(res.userchatsider[0].receiver_name);
+                  } else {
+                    if (res.userchatsider[0].sender_id != currentUserData.id) {
+                      setChatSingleChatName(res.userchatsider[0].sender_name);
+                    }
+                  }
                 } else {
                   setChatSingleChatName("");
                 }
               }
 
-              if (ChatSortTypeBy.current == 'second') {
-
-                if (res.userchatsider[0].latest_chat_type == 'single') {
-
+              if (ChatSortTypeBy.current == "second") {
+                if (res.userchatsider[0].latest_chat_type == "single") {
                   if (res.userchatsider[0].single_chat_id != newsingleChatIdRef.current) {
                     ChatSortTypeBy.current = "first";
                   }
-                  console.log(res.userchatsider[0].single_chat_id + 'c_s');
-                  console.log(newsingleChatIdRef.current + 'a_s');
+                  console.log(res.userchatsider[0].single_chat_id + "c_s");
+                  console.log(newsingleChatIdRef.current + "a_s");
                 }
 
-                if (res.userchatsider[0].latest_chat_type == 'booking') {
-
+                if (res.userchatsider[0].latest_chat_type == "booking") {
                   if (res.userchatsider[0].unique_booking_id != newuniqueBookingIdRef.current) {
                     ChatSortTypeBy.current = "first";
-
                   }
 
-                  console.log(res.userchatsider[0].unique_booking_id + 'c_b');
-                  console.log(newuniqueBookingIdRef.current + 'a_b');
-
+                  console.log(res.userchatsider[0].unique_booking_id + "c_b");
+                  console.log(newuniqueBookingIdRef.current + "a_b");
                 }
 
-                if (res.userchatsider[0].latest_chat_type == 'group') {
-
+                if (res.userchatsider[0].latest_chat_type == "group") {
                   if (res.userchatsider[0].group_id != newgroupIdRef.current) {
                     ChatSortTypeBy.current = "first";
-
                   }
 
-                  console.log(res.userchatsider[0].group_id + 'c_g');
-                  console.log(newgroupIdRef.current + 'a_g');
-
+                  console.log(res.userchatsider[0].group_id + "c_g");
+                  console.log(newgroupIdRef.current + "a_g");
                 }
-
-
               }
 
               // console.log(adminuserchefmesage);
             } else {
-
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
                 closeButton: true,
                 hideProgressBar: false,
                 style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
                 },
                 progressStyle: {
-                  background: '#ffff',
+                  background: "#ffff",
                 },
               });
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       };
@@ -368,17 +342,13 @@ export default function Booking(props: any) {
       const timeout = setTimeout(() => {
         setShowContent(true);
       }, 3000);
-      
+
       return () => {
         clearInterval(interval);
         clearTimeout(timeout);
       };
-
     }
-
   }, []);
-
-
 
   const fetchUserMessageDetails = async (id: any) => {
     try {
@@ -399,31 +369,26 @@ export default function Booking(props: any) {
         setChatUniqueBookingId(res.userchatsider[0].unique_booking_id);
         setChatSingleChatId(res.userchatsider[0].single_chat_id);
 
-        if (res.userchatsider[0].latest_chat_type == 'booking') {
+        if (res.userchatsider[0].latest_chat_type == "booking") {
           setChatBookingId(res.userchatsider[0].booking_id);
-
         } else {
           setChatBookingId("");
         }
 
-        if (res.userchatsider[0].latest_chat_type == 'group') {
+        if (res.userchatsider[0].latest_chat_type == "group") {
           setChatGroupName(res.userchatsider[0].group_name);
         } else {
           setChatGroupName("");
         }
 
-        if (res.userchatsider[0].latest_chat_type == 'single') {
-
-           if(res.userchatsider[0].sender_id == id){
-                       
-              setChatSingleChatName(res.userchatsider[0].receiver_name);
-            }else {
-              if(res.userchatsider[0].sender_id != id){
-                setChatSingleChatName(res.userchatsider[0].sender_name);
-              }
+        if (res.userchatsider[0].latest_chat_type == "single") {
+          if (res.userchatsider[0].sender_id == id) {
+            setChatSingleChatName(res.userchatsider[0].receiver_name);
+          } else {
+            if (res.userchatsider[0].sender_id != id) {
+              setChatSingleChatName(res.userchatsider[0].sender_name);
             }
-
-
+          }
         } else {
           setChatSingleChatName("");
         }
@@ -438,11 +403,7 @@ export default function Booking(props: any) {
         newsingleChatIdRef.current = res.userchatsider[0].single_chat_id;
         newgroupIdRef.current = res.userchatsider[0].group_id;
 
-
         setIsFormSubmitted(true);
-
-
-
       } else {
         // toast.error(res.message, {
         //   position: toast.POSITION.TOP_RIGHT,
@@ -455,9 +416,7 @@ export default function Booking(props: any) {
     }
   };
 
-
   const fetchAdminData = async () => {
-
     try {
       const res = await getAdminData();
       if (res.status) {
@@ -469,12 +428,12 @@ export default function Booking(props: any) {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       }
@@ -484,20 +443,18 @@ export default function Booking(props: any) {
         closeButton: true,
         hideProgressBar: false,
         style: {
-          background: '#ffff',
-          borderLeft: '4px solid #e74c3c',
-          color: '#454545',
+          background: "#ffff",
+          borderLeft: "4px solid #e74c3c",
+          color: "#454545",
         },
         progressStyle: {
-          background: '#ffff',
+          background: "#ffff",
         },
       });
     }
   };
 
-
   const fetchAllUserData = async () => {
-
     try {
       const res = await getAllUserData();
       if (res.status) {
@@ -509,12 +466,12 @@ export default function Booking(props: any) {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       }
@@ -524,12 +481,12 @@ export default function Booking(props: any) {
         closeButton: true,
         hideProgressBar: false,
         style: {
-          background: '#ffff',
-          borderLeft: '4px solid #e74c3c',
-          color: '#454545',
+          background: "#ffff",
+          borderLeft: "4px solid #e74c3c",
+          color: "#454545",
         },
         progressStyle: {
-          background: '#ffff',
+          background: "#ffff",
         },
       });
     }
@@ -563,12 +520,11 @@ export default function Booking(props: any) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-
       const data = {
         message: message,
-        chat_type: chat_type ? chat_type :'single',
+        chat_type: chat_type ? chat_type : "single",
         receiver_id: chat_receiver_id ? chat_receiver_id : 1,
-        sender_id: chat_sender_id ? chat_sender_id :  currentUserData.id,
+        sender_id: chat_sender_id ? chat_sender_id : currentUserData.id,
         user_id: currentUserData.id,
         group_id: chat_group_id,
         booking_id: chat_booking_id,
@@ -578,51 +534,44 @@ export default function Booking(props: any) {
 
       console.log(data);
 
-
       ContactChefByUser(data)
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
             setMessage("");
             fetchUserMessageDetails(currentUserData.id);
             setIsFormSubmitted(true);
-            setActiveButton('desc');
-            ChatSortBy.current = 'desc';
+            setActiveButton("desc");
+            ChatSortBy.current = "desc";
 
-            setChatReceiverId(chat_receiver_id ? chat_receiver_id : '1');
-            setChatSenderId(chat_sender_id ? chat_sender_id :  currentUserData.id);
+            setChatReceiverId(chat_receiver_id ? chat_receiver_id : "1");
+            setChatSenderId(chat_sender_id ? chat_sender_id : currentUserData.id);
             setChatGroupId(chat_group_id);
             setChatUniqueBookingId(chat_unqiue_booking_id);
-            setChatSingleChatId(chat_single_chat_id ? chat_single_chat_id : `1${currentUserData.id}`,);
-            setCurrentChatType(chat_type ? chat_type :'single',);
-            
-
+            setChatSingleChatId(chat_single_chat_id ? chat_single_chat_id : `1${currentUserData.id}`);
+            setCurrentChatType(chat_type ? chat_type : "single");
           } else {
-
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
-
   };
 
   const handleButtonClick = (index: number, chat_type: any, sender_id: any, receiver_id: any, user_id: any, group_id: any, group_name: any, booking_id: any, unique_booking_id: any, single_chat_id: any, sender_name: any, receiver_name: any) => {
-
-
     setActiveChat(index);
 
     setChatReceiverId(receiver_id);
@@ -638,7 +587,7 @@ export default function Booking(props: any) {
     singleChatIdRef.current = single_chat_id;
     groupIdRef.current = group_id;
     SenderIdRef.current = sender_id;
-    ChatSortTypeBy.current = 'second';
+    ChatSortTypeBy.current = "second";
 
     const data = {
       latest_chat_type: chat_type,
@@ -649,29 +598,28 @@ export default function Booking(props: any) {
       index: index,
       sender_id: sender_id,
       sort: ChatSortBy.current,
-      chat_sort_type: 'second'
+      chat_sort_type: "second",
     };
 
     getClickUserChefChatData(data)
-      .then(res => {
+      .then((res) => {
         if (res.status == true) {
-
           setAdminChatSiderBar(res.userchatsider);
           setAdminChatMessage(res.userchatdata);
           setChatGroupMember(res.chat_member);
 
-          if (chat_type == 'booking') {
+          if (chat_type == "booking") {
             setChatBookingId(booking_id);
           } else {
             setChatBookingId("");
           }
 
-          if (chat_type == 'group') {
+          if (chat_type == "group") {
             setChatGroupName(group_name);
           } else {
             setChatGroupName("");
           }
-          if (chat_type == 'single') {
+          if (chat_type == "single") {
             if (sender_id != currentUserData.id) {
               setChatSingleChatName(sender_name);
             }
@@ -679,33 +627,28 @@ export default function Booking(props: any) {
             if (receiver_id != currentUserData.id) {
               setChatSingleChatName(receiver_name);
             }
-
-
           } else {
             setChatSingleChatName("");
           }
 
           setIsFormSubmitted(true);
-
-
         } else {
-
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -727,8 +670,8 @@ export default function Booking(props: any) {
   }, [isFormSubmitted]);
 
   const formatDate = (value: any) => {
-    return moment(value).format('D/M/YYYY HH:mm');
-  }
+    return moment(value).format("D/M/YYYY HH:mm");
+  };
 
   const imageChange = async (e: any) => {
     const file = e.target.files[0];
@@ -739,145 +682,143 @@ export default function Booking(props: any) {
     const fileType = file.type;
     let formData = new FormData();
 
-    if (fileType.startsWith('image/')) {
+    if (fileType.startsWith("image/")) {
       // Image file
-      const allowedExtensions = ['jpg', 'jpeg', 'png'];
-      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const allowedExtensions = ["jpg", "jpeg", "png"];
+      const fileExtension = file.name.split(".").pop()?.toLowerCase();
       if (!allowedExtensions.includes(fileExtension)) {
         // Invalid image extension
         // console.log('Invalid image extension. Allowed extensions are: jpg, jpeg, png');
-        toast.info('Invalid image extension. Allowed extensions are: jpg, jpeg, png', {
+        toast.info("Invalid image extension. Allowed extensions are: jpg, jpeg, png", {
           position: toast.POSITION.TOP_RIGHT,
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
         return;
       }
       if (file.size > 200 * 1024) {
         // Image size exceeds 200KB
-        console.log('Image size should be less than or equal to 200KB');
-        toast.info('Image size should be less than or equal to 200KB', {
+        console.log("Image size should be less than or equal to 200KB");
+        toast.info("Image size should be less than or equal to 200KB", {
           position: toast.POSITION.TOP_RIGHT,
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
         return;
       }
-      formData.append('type', 'image');
-    } else if (fileType === 'application/pdf') {
+      formData.append("type", "image");
+    } else if (fileType === "application/pdf") {
       // PDF file
       if (file.size > 1024 * 1024) {
         // PDF size exceeds 1MB
         // console.log('PDF size should be less than or equal to 1MB');
-        toast.info('PDF size should be less than or equal to 1MB', {
+        toast.info("PDF size should be less than or equal to 1MB", {
           position: toast.POSITION.TOP_RIGHT,
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
         return;
       }
-      formData.append('type', 'pdf');
-    } else if (fileType === 'video/mp4') {
+      formData.append("type", "pdf");
+    } else if (fileType === "video/mp4") {
       // MP4 video file
       if (file.size > 2 * 1024 * 1024) {
         // Video size exceeds 1MB
-        console.log('Video size should be less than or equal to 1MB');
-        toast.info('Video size should be less than or equal to 2MB', {
+        console.log("Video size should be less than or equal to 1MB");
+        toast.info("Video size should be less than or equal to 2MB", {
           position: toast.POSITION.TOP_RIGHT,
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
         return;
       }
-      formData.append('type', 'video');
+      formData.append("type", "video");
     } else {
       // Invalid file type
       // console.log('Invalid file type');
-      toast.info('Invalid file type', {
+      toast.info("Invalid file type", {
         position: toast.POSITION.TOP_RIGHT,
         closeButton: true,
         hideProgressBar: false,
         style: {
-          background: '#ffff',
-          borderLeft: '4px solid #e74c3c',
-          color: '#454545',
+          background: "#ffff",
+          borderLeft: "4px solid #e74c3c",
+          color: "#454545",
         },
         progressStyle: {
-          background: '#ffff',
+          background: "#ffff",
         },
       });
       return;
     }
 
-
-
-    formData.append('data', file);
-    formData.append('chat_type', chat_type);
-    formData.append('receiver_id', chat_receiver_id);
-    formData.append('sender_id', chat_sender_id);
-    formData.append('user_id', currentUserData.id);
-    formData.append('group_id', chat_group_id);
-    formData.append('booking_id', chat_booking_id);
-    formData.append('unique_booking_id', chat_unqiue_booking_id);
-    formData.append('single_chat_id', chat_single_chat_id);
+    formData.append("data", file);
+    formData.append("chat_type", chat_type);
+    formData.append("receiver_id", chat_receiver_id);
+    formData.append("sender_id", chat_sender_id);
+    formData.append("user_id", currentUserData.id);
+    formData.append("group_id", chat_group_id);
+    formData.append("booking_id", chat_booking_id);
+    formData.append("unique_booking_id", chat_unqiue_booking_id);
+    formData.append("single_chat_id", chat_single_chat_id);
 
     ContactChefByUserWithShareFile(formData)
-      .then(res => {
+      .then((res) => {
         if (res.status === true) {
-          setMessage('');
+          setMessage("");
           fetchUserMessageDetails(currentUserData.id);
           setIsFormSubmitted(true);
-          setActiveButton('desc');
-          ChatSortBy.current = 'desc';
+          setActiveButton("desc");
+          ChatSortBy.current = "desc";
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -885,32 +826,28 @@ export default function Booking(props: any) {
   const handleFilterButtonClick = (buttonName: any) => {
     setActiveButton(buttonName);
     ChatSortBy.current = buttonName;
-    ChatSortTypeBy.current = 'first';
+    ChatSortTypeBy.current = "first";
     setActiveChat(0);
-
 
     // handleButtonClick(0,receiver_id,booking_id);
     // Additional logic or actions you want to perform
   };
 
   function handleSearchInputChange(event: any) {
-
     setSearchInputValue(event.target.value.trim());
     setSearchResultsVisible(true);
     console.log(userdata);
-
   }
 
   function renderSearchResults() {
     const query = searchInputValue.toLowerCase();
-    const matchingData = Object.values(userdata)
-      .filter((user) => {
-        const fullName = `${user.name} ${user.surname}`.toLowerCase();
-        return fullName.includes(query);
-      });
+    const matchingData = Object.values(userdata).filter((user) => {
+      const fullName = `${user.name} ${user.surname}`.toLowerCase();
+      return fullName.includes(query);
+    });
 
     return (
-      <div className="mb-4" id="new_search-results" style={{ height: Object.keys(matchingData).length > 0 ? '' : 'auto', display: searchResultsVisible ? 'block' : 'none' }}>
+      <div className="mb-4" id="new_search-results" style={{ height: Object.keys(matchingData).length > 0 ? "" : "auto", display: searchResultsVisible ? "block" : "none" }}>
         <ul>
           {matchingData.length > 0 ? (
             matchingData.map((user) => (
@@ -919,9 +856,7 @@ export default function Booking(props: any) {
               </li>
             ))
           ) : (
-            <li>
-              No records found
-            </li>
+            <li>No records found</li>
           )}
         </ul>
       </div>
@@ -930,12 +865,11 @@ export default function Booking(props: any) {
 
   function addItem(id: any, name: any) {
     setSearchUserId(id);
-    setSearchInputValue(name)
-    setSearchResultsVisible(false)
+    setSearchInputValue(name);
+    setSearchResultsVisible(false);
     setModalConfirmTwo(true);
-    setChatMessage('');
+    setChatMessage("");
   }
-
 
   const handlMessageSubmit = (event: any) => {
     event.preventDefault();
@@ -947,50 +881,43 @@ export default function Booking(props: any) {
       newErrors.chatmessage = "Message is required";
     }
 
-
     setErrors(newErrors);
 
     // Submit form data if there are no errors
     if (Object.keys(newErrors).length === 0) {
-
       const data = {
         message: chatmessage,
         sender_id: currentUserData.id,
         receiver_id: searchuserid,
         single_chat_id: currentUserData.id + searchuserid,
-        chat_type: 'single'
-
+        chat_type: "single",
       };
       SendMessageToUserByAdmin(data)
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
-            setSearchInputValue('')
+            setSearchInputValue("");
             setModalConfirmTwo(false);
             fetchUserMessageDetails(currentUserData.id);
-
           } else {
-
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
-
-
   };
 
   const handleMessageBlur = (event: any) => {
@@ -998,7 +925,6 @@ export default function Booking(props: any) {
     const newErrors = { ...errors };
 
     switch (name) {
-
       case "chatmessage":
         if (!value) {
           newErrors.chatmessage = "Messge is required";
@@ -1017,18 +943,17 @@ export default function Booking(props: any) {
 
   const creategroupchat = () => {
     setModalConfirm(true);
-    setGroupName('');
-    setGroupMessage('')
+    setGroupName("");
+    setGroupMessage("");
     setSelectedMembers([]);
   };
-
 
   //menu submit start
 
   const handlGroupSubmit = (event: any) => {
     event.preventDefault();
 
-    const groupmember = selectedMembers.join(",")
+    const groupmember = selectedMembers.join(",");
     // Validate form data
     const newErrors: Errors = {};
 
@@ -1044,53 +969,44 @@ export default function Booking(props: any) {
       newErrors.groupmember = "Please select alteast one member";
     }
 
-
     setErrors(newErrors);
 
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
-
       const data = {
         group_name: groupname,
         group_admin_id: currentUserData.id,
         member_id: groupmember,
-        chat_type: 'group',
-        message: groupmessage
-
+        chat_type: "group",
+        message: groupmessage,
       };
       CreateGroupChatByAdmin(data, Uploadimage[0])
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
             setModalConfirm(false);
             fetchUserMessageDetails(currentUserData.id);
-            showToast('success', res.message);
-
+            showToast("success", res.message);
           } else {
-
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
-
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
-
   };
-
-
 
   const handleImageChange = (event: any) => {
     const file = event.target.files[0];
@@ -1099,81 +1015,80 @@ export default function Booking(props: any) {
     reader.onload = () => {
       setUploadImage(event.target.files);
       setPreviewImage(reader.result as string);
-
     };
 
     reader.readAsDataURL(file);
   };
 
-
   const handleCheckboxChange = (e: any, userId: any) => {
     const isChecked = e.target.checked;
-    setSelectedMembers(prevState => {
+    setSelectedMembers((prevState) => {
       if (isChecked) {
         // Add the selected user to the array
         return [...prevState, userId];
       } else {
         // Remove the deselected user from the array
-        return prevState.filter(id => id !== userId);
+        return prevState.filter((id) => id !== userId);
       }
     });
   };
 
-  const handleDeleteSingleMessage = (messageId:any) => {
+  const handleDeleteSingleMessage = (messageId: any) => {
     deleteChatMessage(messageId)
-    .then(res => {
-      if (res.status == true) {
-        toast.success(res.message, {
-          position: toast.POSITION.TOP_RIGHT
-        });
-      } else {
-        toast.error(res.message, {
-          position: toast.POSITION.TOP_RIGHT
-        });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  }
+      .then((res) => {
+        if (res.status == true) {
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
-
       <section className="userprofile-part">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12 col-md-12">
               <div className="table-part">
                 <h2>Chats</h2>
-                
+
                 <div className="">
                   <div className="row">
-                  <div className="users-all col-lg-2"><div className="my-profile"> 
-                            <a href="/user/userprofile">
-                                <div className="profile-cols mt-5">
-                                    <h4>Account Settings</h4>
-                                    <p>Please provide your personal information so we can issue your receipt when you book a service. If you wish an invoice please add the information of the business you with to issue the invoice.</p>
-                                </div>
-                            </a>
-                            <a href="/user/booking">
-                                <div className="profile-cols mt-4 ">
-                                    <h4>My Bookings</h4>
-                                    <p>Your bookings history all in one place. </p>
-                                </div>
-                            </a>
-                          
-                              <div className="profile-cols active mt-4 mb-4">
-                                  <h4>My Messages</h4>
-                                  <p> We are here for you. Please feel free to contact us any time. </p>
-                               </div>
-                           
-                            <a href="/user/userprofilethree">
+                    <div className="users-all col-lg-2">
+                      <div className="my-profile">
+                        <a href="/user/userprofile">
+                          <div className="profile-cols mt-5">
+                            <h4>Account Settings</h4>
+                            <p>Please provide your personal information so we can issue your receipt when you book a service. If you wish an invoice please add the information of the business you with to issue the invoice.</p>
+                          </div>
+                        </a>
+                        <a href="/user/booking">
+                          <div className="profile-cols mt-4 ">
+                            <h4>My Bookings</h4>
+                            <p>Your bookings history all in one place. </p>
+                          </div>
+                        </a>
+
+                        <div className="profile-cols active mt-4 mb-4">
+                          <h4>My Messages</h4>
+                          <p> We are here for you. Please feel free to contact us any time. </p>
+                        </div>
+
+                        <a href="/user/userprofilethree">
                           <div className="profile-cols mt-4 mb-4">
                             <h4>Aditional Information/Preferences</h4>
                             <p>Let us know your favorite cuisines any additional information and if you have allergies, dietary or religious restrictions.</p>
                           </div>
                         </a>
-                        </div></div>
+                      </div>
+                    </div>
                     <div className="chats-box users-all col-lg-3">
                       <div className="chats-btns mt-4">
                         <form className="form-Search">
@@ -1194,26 +1109,17 @@ export default function Booking(props: any) {
 
                         <ul className="table_header_button_section p-r">
                           <li>
-                            <button
-                              className={`${activeButton === 'desc' ? 'table-btn' : 'table-btn btn-2'}`}
-                              onClick={() => handleFilterButtonClick('desc')}
-                            >
+                            <button className={`${activeButton === "desc" ? "table-btn" : "table-btn btn-2"}`} onClick={() => handleFilterButtonClick("desc")}>
                               Recent
                             </button>
                           </li>
                           <li>
-                            <button
-                              className={`${activeButton === 'asc' ? 'table-btn' : 'table-btn btn-2'}`}
-                              onClick={() => handleFilterButtonClick('asc')}
-                            >
+                            <button className={`${activeButton === "asc" ? "table-btn" : "table-btn btn-2"}`} onClick={() => handleFilterButtonClick("asc")}>
                               Oldest
                             </button>
                           </li>
                           <li>
-                            <button
-                              className={`${activeButton === 'unread' ? 'table-btn' : 'table-btn btn-2'}`}
-                              onClick={() => handleFilterButtonClick('unread')}
-                            >
+                            <button className={`${activeButton === "unread" ? "table-btn" : "table-btn btn-2"}`} onClick={() => handleFilterButtonClick("unread")}>
                               Unread
                             </button>
                           </li>
@@ -1222,117 +1128,97 @@ export default function Booking(props: any) {
                       </div>
                       <div className="chats-h">
                         <div className="chats-user-profile mt-1">
-
-                          {
-                            adminchatsidebar.length > 0 ? (
-                              adminchatsidebar.map((message, index: number) => {
+                          {adminchatsidebar.length > 0
+                            ? adminchatsidebar.map((message, index: number) => {
                                 // Convert the latest_created_at to the specified time zone
                                 const formattedDate = zonedTimeToUtc(new Date(message.latest_created_at), message.timezone);
 
                                 return (
-                                  <a href="#" className={`chats-user-a ${activeChat === index ? 'chatactive' : ''}`} onClick={() => handleButtonClick(index, message.latest_chat_type, message.sender_id, message.receiver_id, currentUserData.id, message.group_id, message.group_name, message.booking_id, message.unique_booking_id, message.single_chat_id, message.sender_name, message.receiver_name)} key={index}>
+                                  <a
+                                    href="#"
+                                    className={`chats-user-a ${activeChat === index ? "chatactive" : ""}`}
+                                    onClick={() =>
+                                      handleButtonClick(
+                                        index,
+                                        message.latest_chat_type,
+                                        message.sender_id,
+                                        message.receiver_id,
+                                        currentUserData.id,
+                                        message.group_id,
+                                        message.group_name,
+                                        message.booking_id,
+                                        message.unique_booking_id,
+                                        message.single_chat_id,
+                                        message.sender_name,
+                                        message.receiver_name
+                                      )
+                                    }
+                                    key={index}
+                                  >
                                     <div className="row p-2">
-
-                                      {message.latest_chat_type == 'single' && (
+                                      {message.latest_chat_type == "single" && (
                                         <div className="col-lg-2 col-md-3 col-3 pr-0">
                                           <div className="position-relative">
                                             {message.pic == null ? (
-                                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="chats-user" />
+                                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
                                             ) : (
-                                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.sender_pic} alt="chats-user" />
+                                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.sender_pic} alt="chats-user" />
                                             )}
-                                            {message.is_online == 'yes' && (<i className="position-absolute  fa-solid fa-circle chats-circle user_chat_online_circle text-success"></i>)}
+                                            {message.is_online == "yes" && <i className="position-absolute  fa-solid fa-circle chats-circle user_chat_online_circle text-success"></i>}
                                           </div>
                                         </div>
                                       )}
 
-                                      {message.latest_chat_type == 'booking' && (
+                                      {message.latest_chat_type == "booking" && (
                                         <div className="col-lg-2 col-md-3 col-3 pr-0" id="booking_images">
-
                                           {message.sender_pic == null ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="chats-user" className="user_sider_sender_booking_pic" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" className="user_sider_sender_booking_pic" />
                                           ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.sender_pic} alt="chats-user" className="user_sider_sender_booking_pic" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.sender_pic} alt="chats-user" className="user_sider_sender_booking_pic" />
                                           )}
 
                                           {message.recevier_pic == null ? (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="chats-user" className="user_sider_receive_booking_pic" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" className="user_sider_receive_booking_pic" />
                                           ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.recevier_pic} alt="chats-user" className="user_sider_receive_booking_pic" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.recevier_pic} alt="chats-user" className="user_sider_receive_booking_pic" />
                                           )}
-
-
                                         </div>
                                       )}
 
-
-                                      {message.latest_chat_type == 'group' && (
+                                      {message.latest_chat_type == "group" && (
                                         <div className="col-lg-2 col-md-3 col-3 pr-0">
                                           {message.group_image == null ? (
-                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/group_chat_2.png'} alt="chats-user" />
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/group_chat_2.png"} alt="chats-user" />
                                           ) : (
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/group/' + message.group_image} alt="chats-user" />
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/group/" + message.group_image} alt="chats-user" />
                                           )}
-
                                         </div>
                                       )}
-
 
                                       <div className="col-lg-9 col-md-7 col-7">
                                         <div className="user-profile-chats mt-1">
-                                          {message.latest_chat_type == 'single' && (
-                                            <h5 className={`chat_color position-relative ${activeChat === index ? 'text-white' : ''}`}>
-                                              
-                                              
-                                              {
-                                                currentUserData.role === message.sender_role ? (
-                                                  <>
-                                                 
-                                                    {message.recevier_name && message.recevier_name.length > 25 ? (
-                                                      <span>
-                                                        {message.recevier_name.slice(0, 25)}...
-                                                      </span>
-                                                    ) : (
-                                                      <span>
-                                                        {message.recevier_name}
-                                                      </span>
-                                                    )}
-                                                    {Number(message.unreadcount) > 0 && (
-                                                      <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
-                                                        {message.unreadcount}
-                                                      </span>
-                                                    )}
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    {message.sender_name && message.sender_name.length > 25 ? (
-                                                      <span>
-                                                        {message.sender_name.slice(0, 25)}...
-                                                      </span>
-                                                    ) : (
-                                                      <span>
-                                                        {message.sender_name}
-                                                      </span>
-                                                    )}
-                                                    {Number(message.unreadcount) > 0 && (
-                                                      <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
-                                                        {message.unreadcount}
-                                                      </span>
-                                                    )}
-
-                                                    
-
-                                                    
-                                                  </>
-                                                )
-                                              }
-
-
+                                          {message.latest_chat_type == "single" && (
+                                            <h5 className={`chat_color position-relative ${activeChat === index ? "text-white" : ""}`}>
+                                              {currentUserData.role === message.sender_role ? (
+                                                <>
+                                                  {message.recevier_name && message.recevier_name.length > 25 ? <span>{message.recevier_name.slice(0, 25)}...</span> : <span>{message.recevier_name}</span>}
+                                                  {Number(message.unreadcount) > 0 && (
+                                                    <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? "bg-white" : "text-white bg-secondary"}`}>{message.unreadcount}</span>
+                                                  )}
+                                                </>
+                                              ) : (
+                                                <>
+                                                  {message.sender_name && message.sender_name.length > 25 ? <span>{message.sender_name.slice(0, 25)}...</span> : <span>{message.sender_name}</span>}
+                                                  {Number(message.unreadcount) > 0 && (
+                                                    <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? "bg-white" : "text-white bg-secondary"}`}>{message.unreadcount}</span>
+                                                  )}
+                                                </>
+                                              )}
                                             </h5>
                                           )}
 
-                                          {message.latest_chat_type == 'booking' && (
-                                            <h5 className={`chat_color position-relative ${activeChat === index ? 'text-white' : ''}`}>
+                                          {message.latest_chat_type == "booking" && (
+                                            <h5 className={`chat_color position-relative ${activeChat === index ? "text-white" : ""}`}>
                                               Booking# {message.booking_id}
                                               {/* {Number(message.unreadcount) > 0 && (
                                                     <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
@@ -1342,8 +1228,8 @@ export default function Booking(props: any) {
                                             </h5>
                                           )}
 
-                                          {message.latest_chat_type == 'group' && (
-                                            <h5 className={`chat_color position-relative ${activeChat === index ? 'text-white' : ''}`}>
+                                          {message.latest_chat_type == "group" && (
+                                            <h5 className={`chat_color position-relative ${activeChat === index ? "text-white" : ""}`}>
                                               {message.group_name && message.group_name.length > 25 ? `${message.group_name.slice(0, 25)}...` : message.group_name} (Group)
                                               {/* {Number(message.unreadcount) > 0 && (
                                                     <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
@@ -1353,85 +1239,68 @@ export default function Booking(props: any) {
                                             </h5>
                                           )}
 
-                                          {message.latest_type == 'image' && <div className="image_sider_bar d-flex align-items-center"> <img
-                                            src={process.env.NEXT_PUBLIC_BASE_URL + '/images/small_image.png'}
-                                            className="sidebar_chat_border rounded"
-                                            width={30} height={30}
-                                            alt="chats-user"
-                                          /><span className="small_font mx-2 text-secondary">image</span></div>}
-
-                                          {message.latest_type == 'pdf' && <div className="image_sider_bar d-flex align-items-center"> <img
-                                            src={process.env.NEXT_PUBLIC_BASE_URL + '/images/small_pdf.png'}
-                                            className="sidebar_chat_border rounded"
-                                            width={30} height={30}
-                                            alt="chats-user"
-                                          /><span className="small_font mx-2 text-secondary">Pdf</span></div>}
-
-                                          {message.latest_type == 'video' && <div className="image_sider_bar d-flex align-items-center"> <img
-                                            src={process.env.NEXT_PUBLIC_BASE_URL + '/images/small_video.png'}
-                                            className="sidebar_chat_border rounded"
-                                            width={30} height={30}
-                                            alt="chats-user"
-                                          /><span className="small_font mx-2 text-secondary">video</span></div>}
-
-                                          {message.latest_type !== 'image' && message.latest_type !== 'pdf' && message.latest_type !== 'video' && (
-                                            <p className="chat_color mb-0">
-                                              {message.latest_message && message.latest_message.length > 40 ? `${message.latest_message.slice(0, 40)}...` : message.latest_message}
-                                            </p>
+                                          {message.latest_type == "image" && (
+                                            <div className="image_sider_bar d-flex align-items-center">
+                                              {" "}
+                                              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/small_image.png"} className="sidebar_chat_border rounded" width={30} height={30} alt="chats-user" />
+                                              <span className="small_font mx-2 text-secondary">image</span>
+                                            </div>
                                           )}
 
+                                          {message.latest_type == "pdf" && (
+                                            <div className="image_sider_bar d-flex align-items-center">
+                                              {" "}
+                                              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/small_pdf.png"} className="sidebar_chat_border rounded" width={30} height={30} alt="chats-user" />
+                                              <span className="small_font mx-2 text-secondary">Pdf</span>
+                                            </div>
+                                          )}
 
+                                          {message.latest_type == "video" && (
+                                            <div className="image_sider_bar d-flex align-items-center">
+                                              {" "}
+                                              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/small_video.png"} className="sidebar_chat_border rounded" width={30} height={30} alt="chats-user" />
+                                              <span className="small_font mx-2 text-secondary">video</span>
+                                            </div>
+                                          )}
+
+                                          {message.latest_type !== "image" && message.latest_type !== "pdf" && message.latest_type !== "video" && (
+                                            <p className="chat_color mb-0">{message.latest_message && message.latest_message.length > 40 ? `${message.latest_message.slice(0, 40)}...` : message.latest_message}</p>
+                                          )}
                                         </div>
-                                        <p className={`chat_color f-12 ${activeChat === index ? 'text-white' : ''}`}>
-                                          {formatDistanceToNow(formattedDate, { addSuffix: true })}
-                                        </p>
+                                        <p className={`chat_color f-12 ${activeChat === index ? "text-white" : ""}`}>{formatDistanceToNow(formattedDate, { addSuffix: true })}</p>
                                       </div>
-
                                     </div>
                                   </a>
                                 );
                               })
-                            ) : showContent && (
-                              
-                              <a href="#" className='chats-user-a chatactive'>
-                                 <div className="row p-2">
-                                  <div className="col-lg-2 col-md-3 col-3 pr-0">
+                            : showContent && (
+                                <a href="#" className="chats-user-a chatactive">
+                                  <div className="row p-2">
+                                    <div className="col-lg-2 col-md-3 col-3 pr-0">
                                       <div className="position-relative">
-                                      <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + admindata.pic}
-                                        alt="chats-user"
-                                      />
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + admindata.pic} alt="chats-user" />
                                       </div>
-                                  </div>
-                                  <div className="col-lg-9 col-md-7 col-7">
-                                    <div className="user-profile-chats mt-1">
-                                      <h5 className="chat_color position-relative text-white"><span>admin</span></h5>
-                                      <p className="chat_color mb-0"></p>
+                                    </div>
+                                    <div className="col-lg-9 col-md-7 col-7">
+                                      <div className="user-profile-chats mt-1">
+                                        <h5 className="chat_color position-relative text-white">
+                                          <span>admin</span>
+                                        </h5>
+                                        <p className="chat_color mb-0"></p>
                                       </div>
                                       <p className="chat_color f-12 text-white">7 minutes ago</p>
                                     </div>
                                   </div>
-                              </a>
-                            )
-                          }
-
-
+                                </a>
+                              )}
                         </div>
                       </div>
                     </div>
-                    <div className="chats-box col-lg-4" style={{borderRight:"1px solid #DDDDDD"}}>
+                    <div className="chats-box col-lg-4" style={{ borderRight: "1px solid #DDDDDD" }}>
                       <div className="msg-head">
                         <div className="row">
                           <div className="col-lg-8 col-md-8 col-8">
-                            <h3>
-                              {
-                                adminchatsidebar.length > 0 && chat_type == 'booking'
-                                  ? 'Booking#' + chat_booking_id
-                                  : chat_type == 'group'
-                                    ? chat_group_name + '(Group)'
-                                    : chat_single_name
-                              }
-                            </h3>
+                            <h3>{adminchatsidebar.length > 0 && chat_type == "booking" ? "Booking#" + chat_booking_id : chat_type == "group" ? chat_group_name + "(Group)" : chat_single_name}</h3>
                           </div>
                           <div className="col-lg-4 col-md-4 col-4 text-right">
                             <div className="icon-head-chats">
@@ -1446,179 +1315,148 @@ export default function Booking(props: any) {
                         </div>
                       </div>
 
-                      <div className="msg-body" >
+                      <div className="msg-body">
                         <div className="user-box">
-
                           <ul className="user-mess" ref={userMessRef}>
                             {adminuserchefmesage.length > 0 ? (
                               adminuserchefmesage.map((message, index) => (
                                 <React.Fragment key={index}>
-
-                                  {( message.sender_role == 'chef' ||  message.sender_role == 'admin' || message.sender_role == 'concierge' )  && message.bookig_send_by == null && (
+                                  {(message.sender_role == "chef" || message.sender_role == "admin" || message.sender_role == "concierge") && message.bookig_send_by == null && (
                                     <li className="reply">
-                                      {message.sender_pic == null ? <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                        alt="chats-user"
-                                      /> : <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.sender_pic}
-                                        alt="chats-user"
-                                      />}
+                                      {message.sender_pic == null ? (
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
+                                      ) : (
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.sender_pic} alt="chats-user" />
+                                      )}
                                       <span className="bg-f1">
-                                        {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/' + message.message} target="_blank" rel="noopener noreferrer">  <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/' + message.message}
-                                          className="chat_shared_image"
-                                          width={128} height={128}
-                                          alt="chats-user"
-                                        /></a>}
-                                        {message.type === 'pdf' && (
-                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/pdf/' + message.message} target="_blank" rel="noopener noreferrer">  <img
-                                            src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
-                                            className="chat_shared_image"
-                                            alt="chats-user"
-                                          /></a>
+                                        {message.type === "image" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} className="chat_shared_image" width={128} height={128} alt="chats-user" />
+                                          </a>
                                         )}
-                                        {message.type === 'video' && (
-                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
+                                        {message.type === "pdf" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/pdf/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/pdf.png"} className="chat_shared_image" alt="chats-user" />
+                                          </a>
+                                        )}
+                                        {message.type === "video" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} target="_blank" rel="noopener noreferrer">
                                             <video className="chat_shared_video" controls width={150} height={150}>
-                                              <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
+                                              <source src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>
                                           </a>
                                         )}
-                                        {message.type !== 'image' && message.type !== 'pdf' && message.type !== 'video' && message.message}
+                                        {message.type !== "image" && message.type !== "pdf" && message.type !== "video" && message.message}
 
-                                        <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>
+                                        <div className="mt-2 small_font"> {formatDate(message.chatdate)} </div>
                                       </span>{" "}
-                                      <div className="mt-2 small_font name_chat">
-                                        {message && message.sender_name && message.sender_name.length > 8 ? (
-                                          message.sender_name.substring(0, 8) + ''
-                                        ) : (
-                                          message && message.sender_name
-                                        )}
-                                      </div>
-                                    </li>)}
-
-
-                                  {message.bookig_send_by == 'admin' && (
-                                    <li className="reply">
-                                      {admindata.pic == null ? <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                        alt="chats-user"
-                                      /> : <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + admindata.pic}
-                                        alt="chats-user"
-                                      />}
-                                      <span className="bg-f1">
-                                        {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/' + message.message} target="_blank" rel="noopener noreferrer">  <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/' + message.message}
-                                          className="chat_shared_image"
-                                          width={128} height={128}
-                                          alt="chats-user"
-                                        /></a>}
-                                        {message.type === 'pdf' && (
-                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/pdf/' + message.message} target="_blank" rel="noopener noreferrer">  <img
-                                            src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
-                                            className="chat_shared_image"
-                                            alt="chats-user"
-                                          /></a>
-                                        )}
-                                        {message.type === 'video' && (
-                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
-                                            <video className="chat_shared_video" controls width={150} height={150}>
-                                              <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
-                                              Your browser does not support the video tag.
-                                            </video>
-                                          </a>
-                                        )}
-                                        {message.type !== 'image' && message.type !== 'pdf' && message.type !== 'video' && message.message}
-
-                                        <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>
-                                      </span>{" "}
-                                      <div className="mt-2 small_font name_chat">
-                                        {admindata && admindata.name && admindata.name.length > 8 ? (
-                                          admindata.name.substring(0, 8) + ''
-                                        ) : (
-                                          admindata && admindata.name
-                                        )}
-                                      </div>
+                                      <div className="mt-2 small_font name_chat">{message && message.sender_name && message.sender_name.length > 8 ? message.sender_name.substring(0, 8) + "" : message && message.sender_name}</div>
                                     </li>
                                   )}
 
-
-                                  {message.bookig_send_by == 'concierge' && (
-                                  <li className="reply">
-                                     {message.created_by_pic == null ? <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                        alt="chats-user"
-                                      /> : <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/'+message.created_by_pic}
-                                      alt="chats-user"
-                                    />}
-                                     <span className="bg-f1">
-                                    {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message} target="_blank" rel="noopener noreferrer">  <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/'+message.message}
-                                        className="chat_shared_image"
-                                        width={128} height={128}
-                                        alt="chats-user"
-                                      /></a>}
-                                    {message.type === 'pdf' && (
-                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/pdf/'+message.message} target="_blank" rel="noopener noreferrer">  <img
-                                      src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
-                                      className="chat_shared_image"
-                                      alt="chats-user"
-                                    /></a>
-                                    )}
-                                    {message.type === 'video' && (
-                                      <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
-                                        <video className="chat_shared_video" controls width={150} height={150}>
-                                          <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
-                                          Your browser does not support the video tag.
-                                        </video>
-                                      </a>
-                                    )}
-                                    {message.type !== 'image' && message.type !== 'pdf' && message.type !== 'video' && message.message}
-
-                                    <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>     
-                                    </span>{" "}
-                                    <div className="mt-2 small_font name_chat">
-                                      {message && message.created_by && message.created_by.length > 8 ? (
-                                        message.created_by.substring(0, 8) + ''
+                                  {message.bookig_send_by == "admin" && (
+                                    <li className="reply">
+                                      {admindata.pic == null ? (
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
                                       ) : (
-                                        message && message.created_by
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + admindata.pic} alt="chats-user" />
                                       )}
-                                    </div>
-                                  </li> )}
+                                      <span className="bg-f1">
+                                        {message.type === "image" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} className="chat_shared_image" width={128} height={128} alt="chats-user" />
+                                          </a>
+                                        )}
+                                        {message.type === "pdf" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/pdf/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/pdf.png"} className="chat_shared_image" alt="chats-user" />
+                                          </a>
+                                        )}
+                                        {message.type === "video" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            <video className="chat_shared_video" controls width={150} height={150}>
+                                              <source src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} type="video/mp4" />
+                                              Your browser does not support the video tag.
+                                            </video>
+                                          </a>
+                                        )}
+                                        {message.type !== "image" && message.type !== "pdf" && message.type !== "video" && message.message}
 
-                                  {message.sender_role == 'user' && message.bookig_send_by == null && (
+                                        <div className="mt-2 small_font"> {formatDate(message.chatdate)} </div>
+                                      </span>{" "}
+                                      <div className="mt-2 small_font name_chat">{admindata && admindata.name && admindata.name.length > 8 ? admindata.name.substring(0, 8) + "" : admindata && admindata.name}</div>
+                                    </li>
+                                  )}
+
+                                  {message.bookig_send_by == "concierge" && (
+                                    <li className="reply">
+                                      {message.created_by_pic == null ? (
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
+                                      ) : (
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.created_by_pic} alt="chats-user" />
+                                      )}
+                                      <span className="bg-f1">
+                                        {message.type === "image" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} className="chat_shared_image" width={128} height={128} alt="chats-user" />
+                                          </a>
+                                        )}
+                                        {message.type === "pdf" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/pdf/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/pdf.png"} className="chat_shared_image" alt="chats-user" />
+                                          </a>
+                                        )}
+                                        {message.type === "video" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            <video className="chat_shared_video" controls width={150} height={150}>
+                                              <source src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} type="video/mp4" />
+                                              Your browser does not support the video tag.
+                                            </video>
+                                          </a>
+                                        )}
+                                        {message.type !== "image" && message.type !== "pdf" && message.type !== "video" && message.message}
+
+                                        <div className="mt-2 small_font"> {formatDate(message.chatdate)} </div>
+                                      </span>{" "}
+                                      <div className="mt-2 small_font name_chat">{message && message.created_by && message.created_by.length > 8 ? message.created_by.substring(0, 8) + "" : message && message.created_by}</div>
+                                    </li>
+                                  )}
+
+                                  {message.sender_role == "user" && message.bookig_send_by == null && (
                                     <li className="reply-two">
                                       <span className="bg-f1">
-                                        {message.type === 'image' && <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/' + message.message} target="_blank" rel="noopener noreferrer">  <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/images/' + message.message}
-                                          className="chat_shared_image"
-                                          width={150} height={150}
-                                          alt="chats-user"
-                                        /></a>}
-                                        {message.type === 'pdf' && (
-                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/pdf/' + message.message} target="_blank" rel="noopener noreferrer">  <img
-                                            src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
-                                            className="chat_shared_image"
-                                            alt="chats-user"
-                                          /></a>
+                                        {message.type === "image" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} className="chat_shared_image" width={150} height={150} alt="chats-user" />
+                                          </a>
+                                        )}
+                                        {message.type === "pdf" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/pdf/" + message.message} target="_blank" rel="noopener noreferrer">
+                                            {" "}
+                                            <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/pdf.png"} className="chat_shared_image" alt="chats-user" />
+                                          </a>
                                         )}
 
-
-                                        {message.type === 'video' && (
-                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
+                                        {message.type === "video" && (
+                                          <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} target="_blank" rel="noopener noreferrer">
                                             <video className="chat_shared_video" controls width={150} height={150}>
-                                              <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
+                                              <source src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} type="video/mp4" />
                                               Your browser does not support the video tag.
                                             </video>
                                           </a>
                                         )}
 
-                                        {message.type !== 'image' && message.type !== 'pdf' && message.type !== 'video' && message.message}
+                                        {message.type !== "image" && message.type !== "pdf" && message.type !== "video" && message.message}
 
-                                        <div className="mt-2 small_font">  {formatDate(message.chatdate)}  </div>
+                                        <div className="mt-2 small_font"> {formatDate(message.chatdate)} </div>
                                       </span>{" "}
                                       {/* <p className="text-right" data-bs-toggle="tooltip" data-bs-html="true" title="OnClick delete a message" onClick={() => handleDeleteSingleMessage(message.chat_message_id)} style={{position: "relative", left: "-30px", color: "#ff0000", cursor: "pointer"}}><i className="fa fa-close"></i></p> */}
                                       <div className="dropdown drop-btn">
@@ -1626,21 +1464,21 @@ export default function Booking(props: any) {
                                           <i className="fa-solid fa-ellipsis"></i>
                                         </button>
                                         <ul className="dropdown-menu min-100" aria-labelledby="dropdownMenu2">
-                                          <li className="trash-icon"><button className="dropdown-item" type="button" onClick={() => handleDeleteSingleMessage(message.chat_message_id)}><i className="fa-regular fa-trash-can"></i> Delete   </button></li>  
+                                          <li className="trash-icon">
+                                            <button className="dropdown-item" type="button" onClick={() => handleDeleteSingleMessage(message.chat_message_id)}>
+                                              <i className="fa-regular fa-trash-can"></i> Delete{" "}
+                                            </button>
+                                          </li>
                                         </ul>
                                       </div>
-                                      {message.sender_pic == null ? <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                        alt="chats-user"
-                                      /> : <img
-                                        src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.sender_pic}
-                                        alt="chats-user"
-                                      />}
+                                      {message.sender_pic == null ? (
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
+                                      ) : (
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.sender_pic} alt="chats-user" />
+                                      )}
                                       <div className="mt-2 small_font name_chat_two">You</div>
                                     </li>
                                   )}
-
-
                                 </React.Fragment>
                               ))
                             ) : (
@@ -1648,381 +1486,260 @@ export default function Booking(props: any) {
                             )}
                           </ul>
                         </div>
-                        {adminchatsidebar.length > 0 ?
+                        {adminchatsidebar.length > 0 ? (
                           <div className="send-box">
                             <form onSubmit={handleBookingAssignJobSubmit} className="form-Search send-message">
                               <div className="row">
                                 <div className="col-sm-10 col-9">
-
-                                  <input
-                                    type="text"
-                                    placeholder="Write a message"
-                                    value={message} onChange={(e) => setMessage(e.target.value)} onBlur={handleRegisterBlur}
-                                  />
+                                  <input type="text" placeholder="Write a message" value={message} onChange={(e) => setMessage(e.target.value)} onBlur={handleRegisterBlur} />
                                   {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.message}</span>}
                                 </div>
                                 <div className="col-sm-2 col-3">
                                   <div className="send-part">
                                     <button type="submit" className="chat_msg_send">
                                       <i className="fa-solid fa-paper-plane"></i>
-
                                     </button>
-                                    <label className="mx-2"> <input
-                                      type="file"
-                                      name="image"
-                                      id="uploadfile"
-                                      className="d-none"
-                                      onChange={imageChange}
-                                    /> <i className="fa-solid fa-paperclip" style={{ color: '#ff4e00d1' }} role="button"></i>
+                                    <label className="mx-2">
+                                      {" "}
+                                      <input type="file" name="image" id="uploadfile" className="d-none" onChange={imageChange} /> <i className="fa-solid fa-paperclip" style={{ color: "#ff4e00d1" }} role="button"></i>
                                     </label>
                                   </div>
-
                                 </div>
                               </div>
                             </form>
                           </div>
-                        : <div className="send-box">
-                        <form onSubmit={handleBookingAssignJobSubmit} className="form-Search send-message">
-                          <div className="row">
-                            <div className="col-sm-10 col-9">
-
-                              <input
-                                type="text"
-                                placeholder="Write a message"
-                                value={message} onChange={(e) => setMessage(e.target.value)} onBlur={handleRegisterBlur}
-                              />
-                              {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.message}</span>}
-                            </div>
-                            <div className="col-sm-2 col-3">
-                              <div className="send-part">
-                                <button type="submit" className="chat_msg_send">
-                                  <i className="fa-solid fa-paper-plane"></i>
-
-                                </button>
-                                <label className="mx-2"> <input
-                                  type="file"
-                                  name="image"
-                                  id="uploadfile"
-                                  className="d-none"
-                                  onChange={imageChange}
-                                /> <i className="fa-solid fa-paperclip" style={{ color: '#ff4e00d1' }} role="button"></i>
-                                </label>
+                        ) : (
+                          <div className="send-box">
+                            <form onSubmit={handleBookingAssignJobSubmit} className="form-Search send-message">
+                              <div className="row">
+                                <div className="col-sm-10 col-9">
+                                  <input type="text" placeholder="Write a message" value={message} onChange={(e) => setMessage(e.target.value)} onBlur={handleRegisterBlur} />
+                                  {errors.message && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.message}</span>}
+                                </div>
+                                <div className="col-sm-2 col-3">
+                                  <div className="send-part">
+                                    <button type="submit" className="chat_msg_send">
+                                      <i className="fa-solid fa-paper-plane"></i>
+                                    </button>
+                                    <label className="mx-2">
+                                      {" "}
+                                      <input type="file" name="image" id="uploadfile" className="d-none" onChange={imageChange} /> <i className="fa-solid fa-paperclip" style={{ color: "#ff4e00d1" }} role="button"></i>
+                                    </label>
+                                  </div>
+                                </div>
                               </div>
-
-                            </div>
+                            </form>
                           </div>
-                        </form>
-                      </div>}
+                        )}
                       </div>
                     </div>
                     <div className="chats-box users-groups col-lg-3">
-
                       <ul className="nav nav-pills mt-3 mb-3" id="pills-tab" role="tablist">
                         <li className="nav-item" role="presentation">
-                          <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Chat Members</button>
+                          <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                            Chat Members
+                          </button>
                         </li>
                         <li className="nav-item" role="presentation">
-                          <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"> Shared file</button>
+                          <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                            {" "}
+                            Shared file
+                          </button>
                         </li>
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                           <div className="sp-4">
-                            {chat_type === 'booking' && adminuserchefmesage.length > 0 && (
+                            {chat_type === "booking" && adminuserchefmesage.length > 0 && (
                               <>
                                 {adminuserchefmesage.slice(0, 1).map((message, index) => (
                                   <React.Fragment key={index}>
-                                    {message.sender_role === 'user' && (
+                                    {message.sender_role === "user" && (
                                       <p className="g-text">
                                         {message.sender_pic == null ? (
-                                          <img
-                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                            alt="chats-user"
-                                          />
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
                                         ) : (
-                                          <img
-                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.sender_pic}
-                                            alt="chats-user"
-                                          />
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.sender_pic} alt="chats-user" />
                                         )}
                                         <span>
-                                          {message.sender_name && message.sender_name.length > 25
-                                            ? `${message.sender_name.slice(0, 25)}...`
-                                            : message.sender_name} ({message.sender_role})
+                                          {message.sender_name && message.sender_name.length > 25 ? `${message.sender_name.slice(0, 25)}...` : message.sender_name} ({message.sender_role})
                                         </span>
                                       </p>
                                     )}
 
-                                    {message.receiver_role === 'chef' && (
+                                    {message.receiver_role === "chef" && (
                                       <p className="g-text">
                                         {message.receiver_pic == null ? (
-                                          <img
-                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                            alt="chats-user"
-                                          />
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
                                         ) : (
-                                          <img
-                                            src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.receiver_pic}
-                                            alt="chats-user"
-                                          />
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.receiver_pic} alt="chats-user" />
                                         )}
                                         <span>
-                                          {message.receiver_name && message.receiver_name.length > 25
-                                            ? `${message.receiver_name.slice(0, 25)}...`
-                                            : message.receiver_name} ({message.receiver_role})
+                                          {message.receiver_name && message.receiver_name.length > 25 ? `${message.receiver_name.slice(0, 25)}...` : message.receiver_name} ({message.receiver_role})
                                         </span>
                                       </p>
                                     )}
                                   </React.Fragment>
                                 ))}
 
-                                {
-                                  adminuserchefmesage.find((message) => message.bookig_send_by === 'admin') && (
-                                    <p className="g-text">
-                                      {admindata.pic == null ? (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                          alt="chats-user"
-                                        />
-                                      ) : (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + admindata.pic}
-                                          alt="chats-user"
-                                        />
-                                      )}
+                                {adminuserchefmesage.find((message) => message.bookig_send_by === "admin") && (
+                                  <p className="g-text">
+                                    {admindata.pic == null ? (
+                                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
+                                    ) : (
+                                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + admindata.pic} alt="chats-user" />
+                                    )}
 
+                                    <span>
+                                      {admindata.name && admindata.name.length > 25 ? `${admindata.name.slice(0, 25)}...` : admindata.name} ({admindata.role})
+                                    </span>
+                                  </p>
+                                )}
 
-                                      <span>
-                                        {admindata.name && admindata.name.length > 25
-                                          ? `${admindata.name.slice(0, 25)}...`
-                                          : admindata.name} ({admindata.role})
-                                      </span>
-
-                                    </p>
-                                  )
-                                }
-
-                              {adminuserchefmesage?.find((message) => message.bookig_send_by == 'concierge') && (
-                                
-                                <p className="g-text">
-                                  {adminuserchefmesage?.find((message) => message.bookig_send_by == 'concierge')?.created_by_pic == null ? (
-                                    <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                      alt="chats-user"
-                                    />
-                                  ) : (
-                                    <img
-                                      src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by_pic}
-                                      alt="chats-user"
-                                    />
-                                  )}
-                                  <span>
-                                  {adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by &&
-                                    adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by.length > 25
-                                    ? `${adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by.slice(0, 25)}...`
-                                    : adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by} ({adminuserchefmesage?.find((message) => message.bookig_send_by === 'concierge')?.created_by_role})
-                                </span>
-
-                                </p>
-                              )}
-
-
+                                {adminuserchefmesage?.find((message) => message.bookig_send_by == "concierge") && (
+                                  <p className="g-text">
+                                    {adminuserchefmesage?.find((message) => message.bookig_send_by == "concierge")?.created_by_pic == null ? (
+                                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
+                                    ) : (
+                                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + adminuserchefmesage?.find((message) => message.bookig_send_by === "concierge")?.created_by_pic} alt="chats-user" />
+                                    )}
+                                    <span>
+                                      {adminuserchefmesage?.find((message) => message.bookig_send_by === "concierge")?.created_by && adminuserchefmesage?.find((message) => message.bookig_send_by === "concierge")?.created_by.length > 25
+                                        ? `${adminuserchefmesage?.find((message) => message.bookig_send_by === "concierge")?.created_by.slice(0, 25)}...`
+                                        : adminuserchefmesage?.find((message) => message.bookig_send_by === "concierge")?.created_by}{" "}
+                                      ({adminuserchefmesage?.find((message) => message.bookig_send_by === "concierge")?.created_by_role})
+                                    </span>
+                                  </p>
+                                )}
                               </>
                             )}
 
-
-                            {chat_type == 'single' && adminuserchefmesage.length > 0 && (
+                            {chat_type == "single" && adminuserchefmesage.length > 0 && (
                               <>
                                 {adminuserchefmesage.slice(0, 1).map((message, index) => (
                                   <React.Fragment key={index}>
-                                     {(message.sender_role == 'concierge' || message.sender_role == 'admin' || message.sender_role == 'user') && (
-                                    <p className="g-text">
-                                      {message.sender_pic == null ? (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                          alt="chats-user"
-                                        />
-                                      ) : (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.sender_pic}
-                                          alt="chats-user"
-                                        />
-                                      )}
-                                      <span>
-                                        {message.sender_name && message.sender_name.length > 25
-                                          ? `${message.sender_name.slice(0, 25)}...`
-                                          : message.sender_name} ({message.sender_role})
-                                      </span>
-                                    </p>
-                                  )}
+                                    {(message.sender_role == "concierge" || message.sender_role == "admin" || message.sender_role == "user") && (
+                                      <p className="g-text">
+                                        {message.sender_pic == null ? (
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
+                                        ) : (
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.sender_pic} alt="chats-user" />
+                                        )}
+                                        <span>
+                                          {message.sender_name && message.sender_name.length > 25 ? `${message.sender_name.slice(0, 25)}...` : message.sender_name} ({message.sender_role})
+                                        </span>
+                                      </p>
+                                    )}
 
-                                  {(message.receiver_role === 'user' || message.receiver_role == 'chef' || message.receiver_role == 'concierge' || message.receiver_role == 'admin') && (
-                                    <p className="g-text">
-                                      {message.receiver_pic == null ? (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                          alt="chats-user"
-                                        />
-                                      ) : (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.receiver_pic}
-                                          alt="chats-user"
-                                        />
-                                      )}
-                                      <span>
-                                        {message.receiver_name && message.receiver_name.length > 25
-                                          ? `${message.receiver_name.slice(0, 25)}...`
-                                          : message.receiver_name} ({message.receiver_role})
-                                      </span>
-                                    </p>
-                                  )}
-
-
+                                    {(message.receiver_role === "user" || message.receiver_role == "chef" || message.receiver_role == "concierge" || message.receiver_role == "admin") && (
+                                      <p className="g-text">
+                                        {message.receiver_pic == null ? (
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
+                                        ) : (
+                                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.receiver_pic} alt="chats-user" />
+                                        )}
+                                        <span>
+                                          {message.receiver_name && message.receiver_name.length > 25 ? `${message.receiver_name.slice(0, 25)}...` : message.receiver_name} ({message.receiver_role})
+                                        </span>
+                                      </p>
+                                    )}
                                   </React.Fragment>
                                 ))}
                               </>
                             )}
 
-                            {chat_type == 'group' && chatgroupmember.length > 0 && (
+                            {chat_type == "group" && chatgroupmember.length > 0 && (
                               <>
                                 {chatgroupmember.map((message, index) => (
                                   <React.Fragment key={index}>
                                     <p className="g-text">
                                       {message.pic == null ? (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'}
-                                          alt="chats-user"
-                                        />
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="chats-user" />
                                       ) : (
-                                        <img
-                                          src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + message.pic}
-                                          alt="chats-user"
-                                        />
+                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + message.pic} alt="chats-user" />
                                       )}
 
-
-                                    <span>
-                                      {message.name && message.name.length > 25
-                                        ? `${message.name.slice(0, 25)}...`
-                                        : message.name} {(message.group_admin_id !== message.user_id) && (
+                                      <span>
+                                        {message.name && message.name.length > 25 ? `${message.name.slice(0, 25)}...` : message.name}{" "}
+                                        {message.group_admin_id !== message.user_id && (
                                           <>
                                             {message.role && (
-                                              <> 
-                                                {'('}{message.role}{')'}
+                                              <>
+                                                {"("}
+                                                {message.role}
+                                                {")"}
                                               </>
                                             )}
                                           </>
                                         )}
-                                        
-                                      {message.group_admin_id == message.user_id && (' (Group admin)')}
-                                  </span>
-
+                                        {message.group_admin_id == message.user_id && " (Group admin)"}
+                                      </span>
                                     </p>
-
                                   </React.Fragment>
                                 ))}
                               </>
                             )}
-
-
                           </div>
-
                         </div>
                         <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                           <div className="sp-4 tab_share_file">
                             <ul className="user-mess" id="asd">
-                              {
-                                adminuserchefmesage.some((message) => message.type !== null) ? (
-                                  <>
-                                    {adminuserchefmesage
-                                      .filter((message) => message.type !== null && message.chatdate)
-                                      .sort((a, b) => {
-                                        const dateA = new Date(a.chatdate as string);
-                                        const dateB = new Date(b.chatdate as string);
-                                        return dateB.getTime() - dateA.getTime();
-                                      })
-                                      .map((message, index) => (
-                                        <React.Fragment key={index}>
-                                          <li className="reply new_reply_msg d-flex align-items-center">
-                                            <span>
-                                              {message.type === 'image' && (
-                                                <a
-                                                  href={
-                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                    '/images/chat/images/' +
-                                                    message.message
-                                                  }
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                                >
-                                                  <img
-                                                    src={
-                                                      process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                      '/images/chat/images/' +
-                                                      message.message
-                                                    }
-                                                    className="chat_shared_image"
-                                                    width={128}
-                                                    height={128}
-                                                    alt="chats-user"
-                                                  />
-                                                </a>
-                                              )}
-                                              {message.type === 'pdf' && (
-                                                <a
-                                                  href={
-                                                    process.env.NEXT_PUBLIC_IMAGE_URL +
-                                                    '/images/chat/pdf/' +
-                                                    message.message
-                                                  }
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                                >
-                                                  <img
-                                                    src={process.env.NEXT_PUBLIC_BASE_URL + '/images/pdf.png'}
-                                                    className="chat_shared_image"
-                                                    alt="chats-user"
-                                                  />
-                                                </a>
-                                              )}
-                                              {message.type === 'video' && (
-                                                <a href={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} target="_blank" rel="noopener noreferrer">
-                                                  <video className="chat_shared_video" controls width={150} height={150}>
-                                                    <source src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chat/video/' + message.message} type="video/mp4" />
-                                                    Your browser does not support the video tag.
-                                                  </video>
-                                                </a>
-                                              )}
-                                            </span>
+                              {adminuserchefmesage.some((message) => message.type !== null) ? (
+                                <>
+                                  {adminuserchefmesage
+                                    .filter((message) => message.type !== null && message.chatdate)
+                                    .sort((a, b) => {
+                                      const dateA = new Date(a.chatdate as string);
+                                      const dateB = new Date(b.chatdate as string);
+                                      return dateB.getTime() - dateA.getTime();
+                                    })
+                                    .map((message, index) => (
+                                      <React.Fragment key={index}>
+                                        <li className="reply new_reply_msg d-flex align-items-center">
+                                          <span>
+                                            {message.type === "image" && (
+                                              <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} target="_blank" rel="noopener noreferrer">
+                                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/images/" + message.message} className="chat_shared_image" width={128} height={128} alt="chats-user" />
+                                              </a>
+                                            )}
+                                            {message.type === "pdf" && (
+                                              <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/pdf/" + message.message} target="_blank" rel="noopener noreferrer">
+                                                <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/pdf.png"} className="chat_shared_image" alt="chats-user" />
+                                              </a>
+                                            )}
+                                            {message.type === "video" && (
+                                              <a href={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} target="_blank" rel="noopener noreferrer">
+                                                <video className="chat_shared_video" controls width={150} height={150}>
+                                                  <source src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chat/video/" + message.message} type="video/mp4" />
+                                                  Your browser does not support the video tag.
+                                                </video>
+                                              </a>
+                                            )}
+                                          </span>
 
-                                            <span className="mx-2 small_font">
+                                          <span className="mx-2 small_font">
+                                            {message.bookig_send_by === "admin"
+                                              ? currentUserData.name
+                                              : message.bookig_send_by === "concierge"
+                                              ? message.created_by.length <= 10
+                                                ? message.created_by
+                                                : message.created_by.substring(0, 10) + "..."
+                                              : message.sender_role == "user" || message.sender_role == "chef" || message.sender_role == "admin" || message.sender_role == "concierge"
+                                              ? message.sender_name.length <= 10
+                                                ? message.sender_name
+                                                : message.sender_name.substring(0, 10) + "..."
+                                              : ""}
 
-                                            {
-                                              message.bookig_send_by === 'admin'
-                                                ? currentUserData.name 
-                                                : (message.bookig_send_by === 'concierge'
-                                                  ? (message.created_by.length <= 10 ? message.created_by : message.created_by.substring(0, 10) + '...')
-                                                  : (message.sender_role == 'user' || message.sender_role == 'chef' || message.sender_role == 'admin' || message.sender_role == 'concierge'
-                                                    ? (message.sender_name.length <= 10 ? message.sender_name : message.sender_name.substring(0, 10) + '...')
-                                                    : '')
-                                                  )
-                                            }
-
-                                              <div className="mt-2 small_font">{formatDate(new Date(message.chatdate as string))}</div>
-                                            </span>
-                                          </li>
-                                        </React.Fragment>
-                                      ))}
-                                    {adminuserchefmesage.filter((message) => message.type !== null && message.chatdate).length === 0 && (
-                                      <p>No data found.</p>
-                                    )}
-                                  </>
-                                ) : (
-                                  <p>No data found.</p>
-                                )
-                              }
-
-
+                                            <div className="mt-2 small_font">{formatDate(new Date(message.chatdate as string))}</div>
+                                          </span>
+                                        </li>
+                                      </React.Fragment>
+                                    ))}
+                                  {adminuserchefmesage.filter((message) => message.type !== null && message.chatdate).length === 0 && <p>No data found.</p>}
+                                </>
+                              ) : (
+                                <p>No data found.</p>
+                              )}
                             </ul>
                           </div>
                         </div>
@@ -2037,84 +1754,86 @@ export default function Booking(props: any) {
       </section>
 
       <PopupModalTwo show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
-
-        <div className="all-form" >
+        <div className="all-form">
           <form onSubmit={handlMessageSubmit} className="common_form_error" id="menu_form">
-
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="name">Message:</label>
               <textarea name="chatmessage" value={chatmessage} onChange={(e) => setChatMessage(e.target.value)} onBlur={handleMessageBlur}></textarea>
 
               {errors.chatmessage && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.chatmessage}</span>}
             </div>
 
-            <button type="submit" className="btn-send w-100 mt-3">Submit</button>
+            <button type="submit" className="btn-send w-100 mt-3">
+              Submit
+            </button>
           </form>
-
         </div>
-
       </PopupModalTwo>
-
 
       <PopupModalLarge show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
         {/* <div className="text-center popup-img">
                   <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
               </div> */}
-        <div className="all-form" >
+        <div className="all-form">
           <form onSubmit={handlGroupSubmit} className="common_form_error" id="menu_form">
-
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="name">Group Name:</label>
-              <input type="text" name='groupname' value={groupname} onChange={(e) => setGroupName(e.target.value)} />
+              <input type="text" name="groupname" value={groupname} onChange={(e) => setGroupName(e.target.value)} />
               {errors.groupname && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.groupname}</span>}
             </div>
 
-
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="name">Message:</label>
-              <input type="text" name='groupmessage' value={groupmessage} onChange={(e) => setGroupMessage(e.target.value)} />
+              <input type="text" name="groupmessage" value={groupmessage} onChange={(e) => setGroupMessage(e.target.value)} />
               {errors.groupmessage && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.groupmessage}</span>}
             </div>
 
             <div className="container p-0 login_div">
               <div className="row">
                 <div className="col-6">
-                  <label className="mb-3 mt-1" htmlFor="Image">Select User:</label>
-                  {Array.isArray(userdata) && userdata.filter(user => user.role === 'user').length > 0 ? (
-                    userdata.filter(user => user.role === 'user').map((user, index) => (
-                      <div className="checkbox d-flex" key={index}>
-                        <input id={`flexCheckDefault${index}`} value="4" name="member_ids[]" type="checkbox" onChange={(e) => handleCheckboxChange(e, user.id)} />
-                        <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
-                          <span className="mx-2">{user.name}</span>
-                        </label>
-                      </div>
-                    ))
+                  <label className="mb-3 mt-1" htmlFor="Image">
+                    Select User:
+                  </label>
+                  {Array.isArray(userdata) && userdata.filter((user) => user.role === "user").length > 0 ? (
+                    userdata
+                      .filter((user) => user.role === "user")
+                      .map((user, index) => (
+                        <div className="checkbox d-flex" key={index}>
+                          <input id={`flexCheckDefault${index}`} value="4" name="member_ids[]" type="checkbox" onChange={(e) => handleCheckboxChange(e, user.id)} />
+                          <label className="col-11" htmlFor={`flexCheckDefault${index}`}>
+                            <span className="mx-2">{user.name}</span>
+                          </label>
+                        </div>
+                      ))
                   ) : (
                     <p className="mt-2">No data found</p>
                   )}
                 </div>
 
                 <div className="col-6">
-                  <label className="mb-3 mt-1" htmlFor="Image">Select chef:</label>
-                  {Array.isArray(userdata) && userdata.filter(user => user.role === 'chef').length > 0 ? (
-                    userdata.filter(user => user.role === 'chef').map((user, index) => (
-                      <div className="checkbox d-flex" key={index}>
-                        <input id={`flexCheckDefaultnew${index}`} value="4" name="member_ids[]" type="checkbox" onChange={(e) => handleCheckboxChange(e, user.id)} />
-                        <label className="col-11" htmlFor={`flexCheckDefaultnew${index}`}>
-                          <span className="mx-2">{user.name}</span>
-                        </label>
-                      </div>
-                    ))
+                  <label className="mb-3 mt-1" htmlFor="Image">
+                    Select chef:
+                  </label>
+                  {Array.isArray(userdata) && userdata.filter((user) => user.role === "chef").length > 0 ? (
+                    userdata
+                      .filter((user) => user.role === "chef")
+                      .map((user, index) => (
+                        <div className="checkbox d-flex" key={index}>
+                          <input id={`flexCheckDefaultnew${index}`} value="4" name="member_ids[]" type="checkbox" onChange={(e) => handleCheckboxChange(e, user.id)} />
+                          <label className="col-11" htmlFor={`flexCheckDefaultnew${index}`}>
+                            <span className="mx-2">{user.name}</span>
+                          </label>
+                        </div>
+                      ))
                   ) : (
                     <p className="mt-2">No data found</p>
                   )}
                   {errors.groupmember && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.groupmember}</span>}
                 </div>
-
               </div>
             </div>
 
-            <div className='login_div mt-3'>
+            <div className="login_div mt-3">
               <label htmlFor="Image">Group Image:</label>
               <input type="file" name="image" accept="jpg,png" onChange={handleImageChange} />
               {previewImage && (
@@ -2122,22 +1841,17 @@ export default function Booking(props: any) {
                   <img src={previewImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
                 </div>
               )}
-
             </div>
-            <div className="image_preview mb-4 d-none">
-              {previewimage && (
-                <img src={previewimage} alt="Preview" width={100} height={100} />
-              )}
-            </div>
+            <div className="image_preview mb-4 d-none">{previewimage && <img src={previewimage} alt="Preview" width={100} height={100} />}</div>
 
-            <button type="submit" className="btn-send mt-3 float-end" >Create</button>
+            <button type="submit" className="btn-send mt-3 float-end">
+              Create
+            </button>
           </form>
-
         </div>
-
       </PopupModalLarge>
 
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }

@@ -138,14 +138,13 @@ export default function Users() {
           </li>
         </ul>
 
-        <div className="table-box">
+        <div className="table-box concierge">
           {getallusers.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>
                 <tr>
                   <th scope="col">Sr no</th>
-                  <th scope="col">Photo</th>
-                  <th scope="col">Name/Surname</th>
+                  <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Status</th>
                 </tr>
@@ -154,12 +153,15 @@ export default function Users() {
                 {getallusers.map((user, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td>
-                    <td>
-                      {user.name || ""} {user.surname || ""}
+                    <td className="chefs_pic">
+                      <div className="row align-items-center">
+                        <div className="col-3 p-0 text-center">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</div>
+                        <div className="col-9 p-0">
+                          {user.name || ""} {user.surname || ""}
+                        </div>
+                      </div>
                     </td>
                     <td>{user.email || ""}</td>
-
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, user.id)}>
                         <option value="yes" selected={user.approved_by_admin === "yes"}>

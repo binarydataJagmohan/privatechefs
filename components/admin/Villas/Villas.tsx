@@ -12,6 +12,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { showToast } from "../../commoncomponents/toastUtils";
+import PageFound from "../../pageFound";
 
 export default function Villas() {
   const [name, setFullName] = useState("");
@@ -528,7 +529,9 @@ export default function Villas() {
                   <th scope="col">Partner/Owner</th>
                   {/* <th scope="col">Bedroom</th>
 									<th scope="col">Bathrooms</th> */}
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-center">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -581,7 +584,9 @@ export default function Villas() {
               </tbody>
             </table>
           ) : (
-            <p className="book1 text-center">No Records Found</p>
+            <>
+              <PageFound iconClass={"fa-solid fa-user-tie"} heading={" No Villas"} subText={"available"} />
+            </>
           )}
         </div>
       </div>
