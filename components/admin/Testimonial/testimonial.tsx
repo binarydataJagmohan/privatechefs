@@ -387,11 +387,11 @@ export default function Allergy() {
               <thead>
                 <tr>
                   <th scope="col">ID</th>
-                  <th scope="col">Photo</th>
+                  {/* <th scope="col">Photo</th> */}
                   <th scope="col">Name</th>
                   <th scope="col">Description</th>
                   <th scope="col">Star</th>
-                  <th scope="col"></th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -399,10 +399,19 @@ export default function Allergy() {
                   <tr key={allergy.id}>
                     <td>{++index}</td>
                     <td className="chefs_pic">
-                      {allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}
-                    </td>
+                      <div className="d-flex gap-2 align-items-center">
+                        <div className="">
+                          <p>
+                            {allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}
+                          </p>
+                        </div>
+                        <div className="">
+                          {allergy.name}
+                        </div>
+                      </div>
 
-                    <td>{allergy.name}</td>
+
+                    </td>
                     {/* <td>{allergy.description}</td> */}
                     <td className="abc">
                       {showFullDescription[index] && allergy.description ? allergy.description : allergy.description ? (allergy.description.length > 100 ? `${allergy.description.slice(0, 100)}...` : allergy.description) : ""}
@@ -471,48 +480,48 @@ export default function Allergy() {
                                     />
                                 ))}
                             </p> */}
-                            <p className="star-list blue-star" id="star-color">
-                                {[1, 2, 3, 4, 5].map((num) => (
-                                    <i
-                                        key={num}
-                                        className={`fa${num <= stars ? 's' : 'r'} fa-star`}
-                                        onMouseEnter={() => handleStarHover(num)}
-                                        onClick={() => setStar(num)}
-                                    />
-                                ))}
-                            </p>
-                            {errors.stars && (
-                                <span className="small error text-danger mb-2 d-inline-block error_login">
-                                    {errors.stars}
-                                </span>
-                            )}
-                        </div>
-                        <div className="login_div">
-                            <label htmlFor="Image">Image:</label>
-                            <input
-                                type="file"
-                                name="image"
-                                accept="jpg,png"
-                                onChange={handleImageChange}
-                            />
-                            {previewImage && (
-                                <img
-                                    src={previewImage}
-                                    alt="Preview"
-                                    style={{ width: "20%", height: "auto" }}
-                                />
-                            )}
-                        </div>
-                        <button
-                            type="submit"
-                            className="btn-send w-100 mt-3"
-                            disabled={buttonStatus}
-                        >
-                            Submit Testimonial Information
-                        </button>
-                    </form>
-                </div>
-            </PopupModal>
+              <p className="star-list blue-star" id="star-color">
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <i
+                    key={num}
+                    className={`fa${num <= stars ? 's' : 'r'} fa-star`}
+                    onMouseEnter={() => handleStarHover(num)}
+                    onClick={() => setStar(num)}
+                  />
+                ))}
+              </p>
+              {errors.stars && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.stars}
+                </span>
+              )}
+            </div>
+            <div className="login_div">
+              <label htmlFor="Image">Image:</label>
+              <input
+                type="file"
+                name="image"
+                accept="jpg,png"
+                onChange={handleImageChange}
+              />
+              {previewImage && (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  style={{ width: "20%", height: "auto" }}
+                />
+              )}
+            </div>
+            <button
+              type="submit"
+              className="btn-send w-100 mt-3"
+              disabled={buttonStatus}
+            >
+              Submit Testimonial Information
+            </button>
+          </form>
+        </div>
+      </PopupModal>
 
       <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
         <div className="all-form">
@@ -541,24 +550,24 @@ export default function Allergy() {
               <label htmlFor="Image">Image:</label>
               <input type="file" name="image" accept="jpg,png" onChange={handleInputChange} />
 
-                            {newImage ? (
-                                <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
-                            ) : (
-                                testimonialList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/testimonial/${testimonialList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
-                            )}
-                        </div>
-                        <button
-                            type="submit"
-                            className="btn-send w-100 mt-3"
-                            disabled={buttonStatus}
-                        >
-                            Update Testimonial Information
-                        </button>
-                    </form>
-                </div>
-            </PopupModal>
-            {/* // Menu popup end  */}
-            <ToastContainer />
-        </>
-    );
+              {newImage ? (
+                <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
+              ) : (
+                testimonialList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/testimonial/${testimonialList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
+              )}
+            </div>
+            <button
+              type="submit"
+              className="btn-send w-100 mt-3"
+              disabled={buttonStatus}
+            >
+              Update Testimonial Information
+            </button>
+          </form>
+        </div>
+      </PopupModal>
+      {/* // Menu popup end  */}
+      <ToastContainer />
+    </>
+  );
 }

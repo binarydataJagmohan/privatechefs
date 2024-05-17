@@ -136,7 +136,7 @@ export default function Bookings() {
   const [clientamount, setClientAmount]: any = useState("");
   const [adminamount, setAdminAmount]: any = useState("");
   const [usershow, setUserShow] = useState("");
-  const [getallchef, setgetAllChef] = useState([]);
+  const [getallchef, setgetAllChef]: any = useState([]);
   const [getchefmenu, setgetChefMenu] = useState<Menu[]>([]);
   const [selectedChef, setSelectedChef] = useState("");
   const [menuOptions, setMenuOptions] = useState<Menu[]>([]);
@@ -149,6 +149,8 @@ export default function Bookings() {
   const [modalConfirm2, setModalConfirm2] = useState(false);
   const [villasdata, setVillasData] = useState("");
   const [villa_id, setVillasId] = useState<Number>(null);
+  const [assignedata, setAssigneData] = useState(false);
+
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -369,7 +371,6 @@ export default function Bookings() {
       setChefOffer(res.chefoffer);
       setDaysBooking(res.days_booking);
       setSidebarConfirm(true);
-
       if (res.days_booking.length == 1) {
         setBookingDate(formatDate(res.booking[0].dates));
       } else {
@@ -415,6 +416,8 @@ export default function Bookings() {
       .then((res) => {
         if (res.status == true) {
           setgetAllChef(res.data);
+          console.log(res.data);
+
         } else {
           console.log("error");
         }
@@ -429,7 +432,6 @@ export default function Bookings() {
       .then((res) => {
         if (res.status == true) {
           setgetChefMenu(res.data);
-          console.log(res.data);
         } else {
           console.log("error");
         }
@@ -676,13 +678,10 @@ export default function Bookings() {
 
   const handleBookingApplyJobSubmit = (event: any) => {
     event.preventDefault();
-
     if (isSubmitting) {
-      return; // If already submitting, return early to prevent multiple submissions
+      return;
     }
-
     if (!selectedChef) {
-      // Chef not selected from dropdown
       swal({
         title: "Oops!",
         text: "Please choose one user to assign this booking",
@@ -691,7 +690,6 @@ export default function Bookings() {
       return;
     }
     if (!adminamount || !clientamount) {
-      // Required fields not entered
       swal({
         title: "Oops!",
         text: "Please enter admin amount, client amount",
@@ -701,7 +699,6 @@ export default function Bookings() {
     }
 
     if (!menuOptions || !menuOptions[0] || !menuOptions[0].menuid) {
-      // Menu not selected or not available
       swal({
         title: "Oops!",
         text: "Please select a user with menus",
@@ -725,11 +722,9 @@ export default function Bookings() {
     AssignedBookingByAdmin(data)
       .then((res) => {
         if (res.status === true) {
-          setModalConfirm(false);
+          // setModalConfirm(false);
           setModalConfirm1(false);
-
           showToast("success", res.message);
-
           window.location.reload();
         } else {
           toast.error(res.message, {
@@ -1265,13 +1260,10 @@ export default function Bookings() {
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-
                     <th scope="col">Chef's Name</th>
-                    {/* <th scope="col-2">Menu</th> */}
                     <th scope="col">Chef's Amount</th>
                     <th scope="col">Client Amount</th>
                     <th scope="col">Admin Amount</th>
-                    {/* <th scope="col">Show to user</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -1303,15 +1295,6 @@ export default function Bookings() {
                             </button>
                           )}
                         </td>
-                        {/* <td>
-													{chef.menu_names?.split(",").map((menu, index) => (
-														<button className="table-btn btn-2 list-btn mb-1" key={index}>
-															{menu.trim()}
-														</button>
-													))}
-													
-													
-												</td> */}
                         <td>{chef.amount}</td>
                         <td>
                           <div className="all-form p-0 add-w">
@@ -1322,7 +1305,6 @@ export default function Bookings() {
                                 name={`client_amount_${chef.applied_jobs_id}`}
                                 placeholder="Client Amount"
                                 onChange={handleChange}
-                                // onBlur={handleBlur}
                                 value={chef.client_amount}
                               />
                             </div>
@@ -1337,24 +1319,11 @@ export default function Bookings() {
                                 name={`admin_amount_${chef.applied_jobs_id}`}
                                 placeholder="Admin Amount"
                                 onChange={handleChange}
-                                // onBlur={handleBlur}
                                 value={chef.admin_amount}
                               />
                             </div>
                           </div>
                         </td>
-                        {/* <td>
-													<div className="all-form p-0 add-w">
-														<div className="login_div">
-															<select name={`user_show_${chef.applied_jobs_id}`} onChange={handleChange}
-																onBlur={handleBlur} defaultValue={chef.user_show} id={`user_show_${chef.applied_jobs_id}`}>
-																<option value="">Choose Option</option>
-																<option value="visible">Visible</option>
-																<option value="invisible">Invisible</option>
-															</select>
-														</div>
-													</div>
-												</td> */}
                       </tr>
                     ))
                   ) : (
@@ -1375,6 +1344,7 @@ export default function Bookings() {
                       className="mx-2"
                       onClick={(e) => {
                         setModalConfirm1(true);
+                        setAssigneData(true);
                         setModalConfirm(false);
                       }}
                     >
@@ -1382,7 +1352,6 @@ export default function Bookings() {
                     </button>
                   </div>
                 </div>
-                {/* <div className="text-right"> */}
                 <div className="col-md-6">
                   <div className="text-right">
                     <div className="banner-btn">
@@ -1394,13 +1363,13 @@ export default function Bookings() {
                       </button>
                     </div>
                   </div>
-                  {/* </div> */}
                 </div>
               </div>
             </form>
           </div>
         </div>
       </PopupModal>
+
 
       <PopupModal show={modalConfirm1} handleClose={modalConfirmClose1}>
         <div className="popup-part new-modala">
@@ -1441,7 +1410,7 @@ export default function Bookings() {
                           <option value="">Choose Option</option>
                           {getallchef.map((data: any) => (
                             <option key={data.id} value={data.id}>
-                              {data.name}
+                              {data.name} | {data.email}
                             </option>
                           ))}
                         </select>
@@ -1528,6 +1497,82 @@ export default function Bookings() {
             </form>
           </div>
         </div>
+        {assignedata &&
+          (
+            <div className="popup-part new-modala mt-4">
+              <h4 className="title-pop up-move mt-2">Applied chefs</h4>
+              <div className="offers">
+                <form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Chef's Name</th>
+                        <th scope="col">Chef's Email</th>
+                        <th scope="col">Chef's Amount</th>
+                        <th scope="col">Client Amount</th>
+                        <th scope="col">Admin Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getallchef.length > 0 ? (
+                        getallchef.filter((chef: { job_status: string; }) => chef.job_status === "hired").length > 0 ? (
+                          getallchef.filter((chef: { job_status: string; }) => chef.job_status === "hired")
+                            .map((chef: any, index: any) => (
+                              <tr key={index}>
+                                <th scope="row">
+                                  <div className="form-check">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      id={`chef_id_${chef.chef_id}`}
+                                      name={`chef_id_${chef.chef_id}`}
+                                      onChange={() => handleRadioChange(Number(chef.chef_id), chef.applied_jobs_id)}
+                                      checked={assignselectedchef == chef.chef_id}
+                                    />
+                                  </div>
+                                </th>
+                                <td>
+                                  {chef.name} {chef.surname}
+                                  {payment_status === "completed" && checkassignselectedchef == chef.chef_id && (
+                                    <button type="button" className="btn btn-sm btn-success mx-2">
+                                      Paid
+                                    </button>
+                                  )}
+                                  {chef.applied_jobs_status === "discussion" && checkassignselectedchef == chef.chef_id && (
+                                    <button type="button" className="btn btn-sm btn-info text-white">
+                                      Assigned
+                                    </button>
+                                  )}
+                                </td>
+                                <td>{chef.email}</td>
+                                <td>{chef.amount}</td>
+                                <td>{chef.clientamount}</td>
+                                <td>{chef.adminamount}</td>
+                              </tr>
+                            ))
+                        ) : (
+                          <tr>
+                            <td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}>
+                              <p style={{ fontSize: "16px" }}>No Chef apply for this booking</p>
+                            </td>
+                          </tr>
+                        )
+                      ) : (
+                        <tr>
+                          <td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}>
+                            <p style={{ fontSize: "16px" }}>No Chef apply for this booking</p>
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+
+                  </table>
+                </form>
+              </div>
+            </div>
+          )
+        }
       </PopupModal>
 
       <PopupModal show={modalConfirm2} handleClose={modalConfirmClose2}>

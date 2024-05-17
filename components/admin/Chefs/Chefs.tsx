@@ -806,8 +806,8 @@ export default function Chefs() {
                 chefs.map((chef) => (
                   <tr key={chef.id}>
                     <td>
-                      <div className="row align-items-center">
-                        <div className="col-sm-3 col-2  text-sm-end">
+                      <div className="d-flex gap-2 align-items-center">
+                        <div className="">
                           {chef.pic ? (
                             <div className="chefs_pic">
                               <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
@@ -822,57 +822,15 @@ export default function Chefs() {
                             </div>
                           )}
                         </div>
-                        <div className="col-9 p-0">
-                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
+                        <div className="">
+                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug} target="_blank">
                             {chef.name || ""} {chef.surname || ""}
                           </a>
                         </div>
                       </div>
                     </td>
                     <td>{chef.email || ""}</td>
-                    <td>{chef.address || ""}</td>
-                    {/* <td>
-                      <ul>
-                        {chef.cuisine_name && (
-                          <>
-                            {chef.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={handleShowAllCuisines}
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#collapseCuisines"
-                                      aria-expanded={showAllCuisines}
-                                    >
-                                      +{chef.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })}
-                          </>
-                        )}
-                      </ul>
-
-                      <div
-                        className={`collapse${showAllCuisines ? " show" : ""}`}
-                        id="collapseCuisines"
-                      >
-                        <ul>
-                          {chef.cuisine_name &&
-                            chef.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => (
-                                <li key={index}>{cuisine}</li>
-                              ))}
-                        </ul>
-                      </div>
-                    </td> */}
+                    <td>{chef.address || "N/A"}</td>
                     <td>{chef.profile_status || ""}</td>
 
                     <td>
@@ -887,18 +845,9 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      {/* <a
-                        href={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          "admin/chefs/" +
-                          chef.id
-                        }
-                      >
-                        <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a> */}
-                      <div className="dropdown" id="none-class">
+                      <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                          <i className="fa-solid fa-ellipsis " role="button"></i>
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <li>
