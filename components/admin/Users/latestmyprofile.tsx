@@ -693,7 +693,7 @@ export default function MyProfile(props: any) {
                                             </div>
                                         )})
                                     :
-                                        <p className="book1 text-center">No Booking Records Found</p>
+                                        <p className="book1 text-center">No any notification Found</p>
                                 :
                                     <div className="text-center">
                                         <img src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/chef_loading_img_3.gif`} width={50}/><p>Loading</p>
