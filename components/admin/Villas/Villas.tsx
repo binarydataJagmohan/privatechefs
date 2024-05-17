@@ -543,8 +543,8 @@ export default function Villas() {
 										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
 									</td> */}
                       <td>{villa.name}</td>
-                      <td>{villa.phone}</td>
-                      <td>{villa.address}</td>
+                      <td>{villa.phone || 'N/A'}</td>
+                      <td>{villa.address || 'N/A'}</td>
                       <td>{villa.partner_owner}</td>
                       {/* <td>{villa.bedrooms}</td>
 										<td>{villa.bathrooms}</td> */}

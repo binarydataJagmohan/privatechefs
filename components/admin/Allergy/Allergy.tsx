@@ -164,6 +164,7 @@ export default function Allergy() {
             if (res.status === true) {
               swal("Your Allergy Details has been deleted!", {
                 icon: "success",
+                timer: 2000, // Close after 2 seconds
               });
               fetchAllergyDetails();
               setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
@@ -213,6 +214,9 @@ export default function Allergy() {
     if (!name) {
       errors.name = "Name is required";
     }
+    if (!description) {
+      errors.description = "Description is required";
+    }
 
     if (!image) {
       errors.image = "Image is required";
@@ -243,7 +247,7 @@ export default function Allergy() {
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
             setAllergis(paginatedPosts);
             setAllergyList({ id: 0, allergy_name: '', description: '', image: '' });
-            showToast('success', res.message); 
+            showToast('success', res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -301,7 +305,7 @@ export default function Allergy() {
           editsetModalConfirm(false);
           fetchAllergyDetails();
           setAllergyList(updatedData);
-          showToast('success', res.message); 
+          showToast('success', res.message);
         } else {
           toast.error(res.message,
             {
@@ -541,7 +545,11 @@ export default function Allergy() {
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleMenuBlur}
               ></textarea>
-
+              {errors.description && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.description}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>

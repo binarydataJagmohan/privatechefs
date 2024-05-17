@@ -5750,7 +5750,7 @@ main {
   width: 200px;
   min-height: 100px;
   background: #fff;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   opacity: 0;
   transform: translateY(-10px);
   visibility: hidden;
@@ -5758,7 +5758,7 @@ main {
 }
 
 .menu::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -10px;
   right: 14px;
@@ -5807,3 +5807,15 @@ main {
   font-size: 1.2em;
 }
 /*******header user menu dropdown css end*******/
+
+i.fa-solid.fa-ellipsis {
+  font-size: 20px;
+  display: block;
+  text-align: center;
+}
+
+@media (max-width: 991px) {
+  i.fa-solid.fa-ellipsis {
+    text-align: left;
+  }
+}
