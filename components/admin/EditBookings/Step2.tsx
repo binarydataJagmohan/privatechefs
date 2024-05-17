@@ -232,7 +232,7 @@ export default function Step2() {
                                 <div className="container-fluid mt-5">
                                     <div className="d-flx-step">
                                     <div className="view-more  mt-4"><a href="/admin/edit-booking/step1">Back</a></div>
-                                    <div className="view-more bg-golden mt-4"><a href="#" onClick={(e) => CheckStepTwo()}>Next</a></div>    
+                                    <div className="view-more bg-golden mt-4"><a href="#" onClick={(e) => CheckStepTwo()}>Save and Continue</a></div>    
                                 </div> 
                         </div>
                     </div>

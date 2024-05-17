@@ -22,6 +22,16 @@ export default function Step1() {
     if (selectedDates.length === 2) {
       const fromDate = selectedDates[0];
       const toDate = selectedDates[1];
+      //setMutipleTimeDate(selectedDates);
+      if (toDate <= fromDate) {
+        // Adjust end date to be after today
+        const adjustedEndDate = new Date(fromDate);
+        adjustedEndDate.setDate(fromDate.getDate() + 1);
+        setMutipleTimeDate([fromDate, adjustedEndDate]);
+      } else {
+        setMutipleTimeDate(selectedDates);
+      }
+    } else {
       setMutipleTimeDate(selectedDates);
     }
   };
@@ -380,7 +390,8 @@ export default function Step1() {
                                               altInput: true,
                                               altFormat: "F j, Y",
                                               dateFormat: "Y-m-d",
-                                              defaultDate: "today" // Set default date to today
+                                              defaultDate: "today", // Set default date to today
+                                              minDate: "today"
                                             }}
                                           />
                                           
@@ -408,7 +419,8 @@ export default function Step1() {
                                             altFormat: "F j, Y",
                                             dateFormat: "Y-m-d",
                                             mode: "range",
-                                            defaultDate: "today" // Set default date to today
+                                            defaultDate: "today", // Set default date to today
+                                            minDate: "today"
                                           }}
                                         />
                                       </div>
@@ -426,18 +438,18 @@ export default function Step1() {
                                     {servicetype === "onetime" && onetimedate ? (
                                       <div className="view-more bg-golden mt-4">
                                         <a href="#" onClick={(e) => Usertype('onetime')}>
-                                          Next
+                                          Save and Continue
                                         </a>
                                       </div>
                                     ) : servicetype === "multipletimes" && mutipletimedate.length === 2 ? (
                                       <div className="view-more bg-golden mt-4" >
                                         <a href="#" onClick={(e) => Usertype('mutipletime')}>
-                                          Next
+                                          Save and Continue
                                         </a>
                                       </div>
                                     ) : (
                                       <div className="view-more bg-golden mt-4 onalert">
-                                        <a href="#" onClick={(e) => Usertype('service_error')}>Next</a>
+                                        <a href="#" onClick={(e) => Usertype('service_error')}>Save and Continue</a>
                                       </div>
                                     )}
                                 

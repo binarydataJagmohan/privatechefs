@@ -606,13 +606,13 @@ export default function Step6() {
                       </div>
                     </div>
                   </div>
-                  <div className="container-fluid ">
+                  <div className="container size-real ">
                     <div className="d-flx-step">
                       <div className="view-more  mt-4">
                         <a href="/admin/edit-booking/step5">Back</a>
                       </div>
                       <div className="view-more bg-golden mt-3">
-                        <button className="booking_submit_btn" type="submit">Update</button>
+                        <button className="booking_submit_btn" type="submit">Update Booking Information</button>
                       </div>
                     </div>
                   </div>

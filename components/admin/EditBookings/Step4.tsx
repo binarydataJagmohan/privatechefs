@@ -278,7 +278,7 @@ export default function Step4() {
                               <div className="container-fluid mt-5">
                               <div className="d-flx-step">
                               <div className="view-more  mt-4"><a href="/admin/edit-booking/step3">Back</a></div>
-                              <div className="view-more bg-golden mt-4"><a href="#" onClick={(e) => CheckStepFour()}>Next</a></div>    
+                              <div className="view-more bg-golden mt-4"><a href="#" onClick={(e) => CheckStepFour()}>Save and Continue</a></div>    
                           </div> 
                               
                     </div>

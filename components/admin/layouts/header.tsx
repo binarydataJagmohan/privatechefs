@@ -105,6 +105,7 @@ export default function Header() {
                                 </div>
                                 <div className="menu">
                                     <ul>
+                                        <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
                                         <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'admin/chats'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
                                         <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`admin/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
                                         <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'admin/setting'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>

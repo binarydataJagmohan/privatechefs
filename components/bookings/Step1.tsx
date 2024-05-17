@@ -49,10 +49,21 @@ export default function Step1(props: any) {
 
   const handleMutipleTimeDateChange = (selectedDates: Date[], dateStr: string, instance: any) => {
     if (selectedDates.length === 2) {
+      const today = new Date();
       const fromDate = selectedDates[0];
       const toDate = selectedDates[1];
-      setMutipleTimeDate(selectedDates);
+      //setMutipleTimeDate(selectedDates);
+      if (toDate <= fromDate) {
+        // Adjust end date to be after today
+        const adjustedEndDate = new Date(fromDate);
+        adjustedEndDate.setDate(fromDate.getDate() + 1);
+        setMutipleTimeDate([fromDate, adjustedEndDate]);
+      } else {
+        setMutipleTimeDate(selectedDates);
+      }
       // console.log(selectedDates);
+    } else {
+      setMutipleTimeDate(selectedDates);
     }
   };
 
@@ -259,7 +270,7 @@ export default function Step1(props: any) {
             )}
           </div>
         </div>
-        <div className="container-fluid mt-5">
+        <div className="container size-real mt-5">
           <h4 className="rotate-text">select service type</h4>
           <div className="d-flx-step">
             <div className="view-more opec-v mt-4">
@@ -269,20 +280,20 @@ export default function Step1(props: any) {
               <div className="view-more bg-golden mt-4">
                 {currentrole.role !== "chef" ? (
                   <a href="#" onClick={(e) => Usertype('onetime')}>
-                    Next
+                    Save and Continue
                   </a>
                 ) : (
-                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Next</a>
+                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Save and Continue</a>
                 )}
               </div>
             ) : servicetype === "multipletimes" && mutipletimedate.length === 2 ? (
               <div className="view-more bg-golden mt-4" >
                 {currentrole.role !== "chef" ? (
                   <a href="#" onClick={(e) => Usertype('mutipletime')}>
-                    Next
+                    Save and Continue
                   </a>
                 ) : (
-                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Next</a>
+                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Save and Continue</a>
                 )}
 
               </div>
@@ -290,10 +301,10 @@ export default function Step1(props: any) {
               <div className="view-more bg-golden mt-4 onalert">
                 {currentrole.role !== "chef" ? (
                   <a href="#" onClick={(e) => Usertype('service_error')}>
-                    Next
+                    Save and Continue
                   </a>
                 ) : (
-                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Next</a>
+                  <a style={{ cursor: "pointer", color: "#fff" }} onClick={() => showSwal()}>Save and Continue</a>
                 )}
               </div>
             )}

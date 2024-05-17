@@ -5191,7 +5191,7 @@ main {
   border: 6px solid #ddd;
   border-radius: 50%;
   margin-bottom: 10px;
-  padding: 20px;
+  /* padding: 20px; */
   background-size: cover;
   background-position: center center;
 }
@@ -5743,6 +5743,11 @@ main {
   object-fit: cover;
 }
 
+.menu.front-menu{
+  top: calc(75% + 24px);
+  right: 0px;
+}
+
 .menu {
   position: absolute;
   top: calc(9% + 24px);
@@ -5796,7 +5801,8 @@ main {
 
 .menu ul li a {
   text-decoration: none;
-  color: #000;
+  /* color: #000; */
+  color: #ff4e00d1;
   display: flex;
   align-items: center;
   padding: 15px 20px;
@@ -5805,6 +5811,15 @@ main {
 
 .menu ul li a i {
   font-size: 1.2em;
+}
+.menu ul .user_menu a{
+  padding-bottom: 0px;
+}
+.user-role {
+  display: block;
+  font-size: 0.85em;
+  color: #ff4e00d1;
+  padding-left: 48px; /* Adjust spacing as needed */
 }
 /*******header user menu dropdown css end*******/
 
