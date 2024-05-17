@@ -55,6 +55,8 @@ export default function UserProfile() {
   const [user_country, setUserCountry] = useState("");
   const [user_post_code, setUserPostCode] = useState("");
 
+  const [email, setEmail] = useState("");
+
 
   const [errors, setErrors]: any = useState({});
 
@@ -144,6 +146,7 @@ export default function UserProfile() {
       const data = {
         name: name || '',
         surname: surname || '',
+        email: email,
         phone: phone || '',
         address: address || '',
         timezone: timezone || '',
@@ -294,6 +297,7 @@ export default function UserProfile() {
         if (res.status == true) {
           setFullName(res.data.name);
           setSurName(res.data.surname);
+          setEmail(res.data.email);
           setPhone(res.data.phone);
           setAddress(res.data.address);
           setTimezone(res.data.timezone);
@@ -418,6 +422,11 @@ export default function UserProfile() {
                             <input type="text" name="surname" defaultValue={surname || ''} placeholder="Surname" onChange={(e) => setSurName(e.target.value)} />
                             {errors.surname && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.surname}</span>}
                           </div>
+                          <div className='col-lg-6 col-md-6 col-6'>
+                              <label>Email</label>
+                              <input type="email" defaultValue={currentUserData.email || ''} placeholder="Email" onChange={(e) => setEmail(e.target.value)} readOnly/>
+                              {/* {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>} */}
+                            </div>
                           <div className="col-lg-6 col-md-6 col-6">
                             <label>Phone</label>
                             <input type="text" defaultValue="phone" maxLength={10} value={phone || ''} placeholder="Phone" onChange={(e) => {
@@ -428,7 +437,7 @@ export default function UserProfile() {
                             }} />
                             {errors.phone && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.phone}</span>}
                           </div>
-                          <div className="col-lg-6 col-md-6 col-6">
+                          <div className="col-lg-12 col-md-6 col-6">
                             <label>Birthday</label>
                             <input type="date" defaultValue="birthday" value={birthday || ''} placeholder="Birthday" onChange={(e) => setBirthday(e.target.value)} />
                             {errors.birthday && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.birthday}</span>}
@@ -583,6 +592,11 @@ export default function UserProfile() {
                       <input type="text" name="surname" defaultValue={surname || ''} placeholder="Surname" onChange={(e) => setSurName(e.target.value)} maxLength={50} />
                       {errors.surname && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.surname}</span>}
                     </div>
+                    <div className='col-lg-6 col-md-6 col-6'>
+                      <label>Email</label>
+                      <input type="email" defaultValue={currentUserData.email || ''} placeholder="Email" onChange={(e) => setEmail(e.target.value)} readOnly/>
+                      {/* {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>} */}
+                    </div>
                     <div className="col-lg-6 col-md-6 col-6">
                       <label>Phone</label>
                       <input type="text" defaultValue="phone" maxLength={10} value={phone || ''} placeholder="Phone" onChange={(e) => {
@@ -593,7 +607,7 @@ export default function UserProfile() {
                       }} />
                       {errors.phone && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.phone}</span>}
                     </div>
-                    <div className="col-lg-6 col-md-6 col-6">
+                    <div className="col-lg-12 col-md-6 col-6">
                       <label>Birthday</label>
                       <input type="date" defaultValue="birthday" value={birthday || ''} placeholder="Birthday" onChange={(e) => setBirthday(e.target.value)} />
                       {errors.birthday && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.birthday}</span>}

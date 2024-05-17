@@ -31,6 +31,8 @@ export default function Chefs(props: any) {
     favorite_chef: string;
     skills: string;
     addresses: string;
+    city:string;
+    role:string;
   }
 
   const [getUsers, setUsers] = useState<User>({
@@ -59,6 +61,9 @@ export default function Chefs(props: any) {
     favorite_chef: "",
     skills: "",
     addresses: "",
+    city: "",
+    role: "",
+
   });
   let id = props.userId;
 
@@ -67,6 +72,8 @@ export default function Chefs(props: any) {
   const [reviews, setTotalReview] = useState<any>([]);
 
   const [average_rating, setAverageRating] = useState("");
+
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -143,13 +150,23 @@ export default function Chefs(props: any) {
       },
     ],
   };
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const renderDescription = (description:any) => {
+    if (isExpanded) {
+      return description;
+    }
+    return description.length > 100 ? description.substring(0, 100) + '...' : description;
+  };
   return (
     <>
       <section className="banner-part-chef text-center">
         <div className="overlay-black">
           <div className="container">
-            <h1>Chef Xenofon Samoilis</h1>
-            <p>Private Chef In Corfu</p>
+            <h1>{getUsers.name}</h1>
+            <p>Private Chef In {getUsers.city}</p>
           </div>
         </div>
       </section>
@@ -160,23 +177,28 @@ export default function Chefs(props: any) {
               <div className="col-lg-4 col-md-12">
                 <h2>Get to know me better</h2>
                 <q>Perfection and extraordinary taste is my goal in every dish</q>
-                <a href="#" className="btn-design">
+                <a href="/bookings/step1" className="btn-design">
                   Book Now
                 </a>
               </div>
               <div className="col-lg-4 col-md-12">
-                <p>
-                  Hello everyone, I'm Chef Nikos and my world revolves around the magic of cooking. Ever since I was young, I've been captivated by the artistry that goes into creating a dish. To me, a kitchen is more than just a place to cook; it's
-                  a stage where I bring my culinary visions to life. I've had the privilege of learning at some of the finest culinary schools, where I mastered the balance of classic techniques and modern innovation. My approach to cooking is
-                  simple: blend tradition with creativity, and always keep the flavors genuine and bold. My passion{" "}
-                </p>
-                <a href="#" className="read-more">
-                  Read More
-                </a>
+                {getUsers.description 
+                  ? 
+                    <>
+                      <p>
+                        {renderDescription(getUsers.description)}
+                      </p>
+                      <a href="#" className="read-more" onClick={toggleExpand}>
+                        {isExpanded ? 'Read Less' : 'Read More'}
+                      </a>
+                    </>
+                  :
+                    ''
+                }
               </div>
               <div className="col-lg-4 col-md-12">
                 {getUsers.pic ? (
-                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + getUsers.pic} alt="chef" className="chef-profile" />
+                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + getUsers.pic} alt="chef" className="chef-profile" style={{width:"250px", height:"250px", borderRadius:"190px"}} />
                 ) : (
                   <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/chef.png"} alt="chef" className="chef-profile" />
                 )}
@@ -190,21 +212,21 @@ export default function Chefs(props: any) {
                   <p>
                     <b>For me, cooking is...</b>
                   </p>
-                  <p>Love, passion, my life, my everything</p>
+                  <p>{getUsers.love_cooking ? getUsers.love_cooking : ''}</p>
                   <br />
                 </div>
                 <div className="col-sm-4">
                   <p>
                     <b>I learned to cook at...</b>{" "}
                   </p>
-                  <p>3* The Fat Duck , 2* Spondi Athens, 1 *The Hinds Head, 1* he Pollen Street , Vezene Athens, Milos Athens</p>
+                  <p>{getUsers.experience ? getUsers.experience : ''}</p>
                   <br />
                 </div>
                 <div className="col-sm-4">
                   <p>
                     <b>A cooking secret...</b>
                   </p>
-                  <p>Precision for cooking</p>
+                  <p>{getUsers.favorite_dishes ? getUsers.favorite_dishes : ''}</p>
                   <br />
                 </div>
               </div>
@@ -212,140 +234,80 @@ export default function Chefs(props: any) {
           </div>
         </div>
       </section>
-      <section className="images-part">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-1.webp"} alt="chef" className="chef-profile" />
-            </div>
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-2.webp"} alt="chef" className="chef-profile" />
-            </div>
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-3.webp"} alt="chef" className="chef-profile" />
-            </div>
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-4.webp"} alt="chef" className="chef-profile" />
-            </div>
-
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-5.webp"} alt="chef" className="chef-profile" />
-            </div>
-
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-4.webp"} alt="chef" className="chef-profile" />
-            </div>
-
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-2.webp"} alt="chef" className="chef-profile" />
-            </div>
-
-            <div className="col-sm-3">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-1.webp"} alt="chef" className="chef-profile" />
+      {totalDishes.length > 0 && (
+        <section className="images-part">
+          <div className="container">
+            <div className="row">
+            {totalDishes.map((dishes: any, index: any) => {
+              return (
+                <div className="col-sm-3" key={index}>
+                  {dishes.img ? (
+                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/dishes/" + dishes.img} alt="chef" className="chef-profile" style={{maxHeight: "285px", width: "100%"}}/>
+                  ) : (
+                    <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="chef" className="chef-profile" />
+                  )}
+                  {/* <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/f-1.webp"} alt="chef" className="chef-profile" /> */}
+                </div>
+              )
+            })}
             </div>
           </div>
-        </div>
-      </section>
-      <section id="reviewSection">
-        <div className="container">
-          <h1 className="text-center">Chef Xenofon's reviews</h1>
-          <div className="row" id="imageSlide">
-            <div className="col-md-4">
-              <div className="box-area">
-                <div className="single-box">
-                  <div className="img-area one" />
-                  <div className="img-text">
-                    <span className="header-text">
-                      <strong>Kay Ferdenad</strong>
-                    </span>
-                    <div className="line" />
-                    <h3>Adrienne Goetz - Sep 25 2023</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. copesge shskq?</p>
-                    <ul className="starEnd mt-3">
-                      <li>
-                        <i className="fa-solid fa-star"></i>
-                      </li>
-                      <li>
-                        <i className="fa-solid fa-star"></i>
-                      </li>
-                      <li>
-                        <i className="fa-solid fa-star"></i>
-                      </li>
-                      <li>
-                        <i className="fa-solid fa-star-half-stroke"></i>
-                      </li>
-                      <li>
-                        <i className="fa-solid fa-star-half-stroke"></i>
-                      </li>
-                    </ul>
+        </section>
+      )}
+      {reviews.length > 0 && (
+        <section id="reviewSection">
+          <div className="container">
+            <h1 className="text-center">{getUsers.name} reviews</h1>
+            <div className="row" id="imageSlide">
+              {reviews.map((rev: any, index: number) => {
+                const createdAt = new Date(rev.created_at);
+                const options:any = { year: 'numeric', month: 'short', day: '2-digit' };
+                const formattedDate = createdAt.toLocaleDateString('en-US', options);
+                return(
+                  <div className="col-md-4" key={index}>
+                    <div className="box-area">
+                      <div className="single-box">
+                        <div className="">
+                          {rev.pic ? (
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + rev.pic} alt="chef" className="img-area" />
+                          ) : (
+                            <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/chef.png"} alt="chef" className="img-area" />
+                          )}
+                        </div>
+                        <div className="img-text">
+                          <span className="header-text">
+                            <strong>{rev.name}</strong>
+                          </span>
+                          <div className="line"></div>
+                          <h3>Adrienne Goetz - { formattedDate }</h3>
+                          <p>{rev.comment}</p>
+                          <ul className="starEnd mt-3">
+                            {[...Array(5)].map((_, index) => (
+                            <li key={index}><i className={`${index < Math.round(Number(rev.stars)) ? " fa-solid fa-star" : "fa-regular fa-star"}`}></i></li>
+                            ))}
+                            {/* <li>
+                              <i className="fa-solid fa-star"></i>
+                            </li>
+                            <li>
+                              <i className="fa-solid fa-star"></i>
+                            </li>
+                            <li>
+                              <i className="fa-solid fa-star-half-stroke"></i>
+                            </li>
+                            <li>
+                              <i className="fa-solid fa-star-half-stroke"></i>
+                            </li> */}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="single-box">
-                <div className="img-area two" />
-                <div className="img-text">
-                  <span className="header-text">
-                    <strong>David Rayan</strong>
-                  </span>
-                  <div className="line" />
-                  <h3>Adrienne Goetz - Sep 25 2023</h3>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. copesge shskq?</p>
-                  <ul className=" starEnd mt-3">
-                    <li>
-                      <i className="fa-solid fa-star"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star-half-stroke"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star-half-stroke"></i>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="single-box">
-                <div className="img-area three" />
-                <div className="img-text">
-                  <span className="header-text">
-                    <strong>Handan fashli</strong>
-                  </span>
-                  <div className="line" />
-                  <h3>Adrienne Goetz - Sep 25 2023</h3>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. copesge shskq?</p>
-                  <ul className=" mt-3 starEnd">
-                    <li>
-                      <i className="fa-solid fa-star"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star-half-stroke"></i>
-                    </li>
-                    <li>
-                      <i className="fa-solid fa-star-half-stroke"></i>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                )
+              })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       <section id="bookSection">
         <div className="container">
           <div className="row g-3">
@@ -369,11 +331,11 @@ export default function Chefs(props: any) {
               </div>
               <div className="col-sm-12">
                 <div className="shadow-box">
-                  <h3>Book your experience with Chef Xenofon</h3>
+                  <h3>Book your experience with {getUsers.name}</h3>
                   <p>Specify the details of your requests and the chef will send you a custom menu just for you.</p>
-                  <button type="submit" className=" a-btn-cta x-light   mx-3 mt-3" style={{ padding: "15px 14px" }}>
+                  <a href="/bookings/step1" className=" a-btn-cta x-light   mx-3 mt-3" style={{ padding: "15px 14px", color: "#182427" }}>
                     Book
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -385,115 +347,57 @@ export default function Chefs(props: any) {
           </div>
         </div>
       </section>
-      <section className="messages-part">
+      {/* <section className="messages-part">
         <div className="container ">
           {getUsers.love_cooking && (
             <div className="messages-text mt-5 tab-m-top">
               <p className="small-title">I love cooking because...</p>
-              <p className="italic-title">{getUsers.love_cooking}</p>
+              <p className="italic-title">{getUsers.love_cooking}</p> */}
               {/* <p className="italic-title">“Love, passion, my life, my everything”</p> */}
-            </div>
+            {/* </div>
           )}
 
           {getUsers.experience && (
             <div className="messages-text mt-5">
-              <p className="small-title">Culinary experience</p>
+              <p className="small-title">Culinary experience</p> */}
               {/* <p className="italic-title">“3* The Fat Duck,  2*Spondi Athens, 1* The Hinds Head, 1* he Pollen Street, Veneze Atens, Milos Athens”</p> */}
-              <p className="italic-title">{getUsers.experience}</p>
+              {/* <p className="italic-title">{getUsers.experience}</p>
             </div>
           )}
 
           {getUsers.services_type && (
             <div className="messages-text mt-5">
               <p className="small-title">Personal Culinary Expert..</p>
-              <p className="italic-title">{getUsers.services_type}</p>
+              <p className="italic-title">{getUsers.services_type}</p> */}
               {/* <p className="italic-title">“Fetan Adria, Juan Roca, Grand Archaz and many more”</p> */}
-            </div>
+            {/* </div>
           )}
 
           {getUsers.favorite_dishes && (
             <div className="messages-text mt-5">
               <p className="small-title">Cuisines Offered</p>
-              <p className="italic-title">{getUsers.favorite_dishes}</p>
+              <p className="italic-title">{getUsers.favorite_dishes}</p> */}
               {/* <p className="italic-title">“Precision and passion for cooking”</p> */}
-            </div>
+            {/* </div>
           )}
 
           {getUsers.languages && (
             <div className="messages-text mt-5">
               <p className="small-title">Language Proficiency</p>
-              <p className="italic-title">{getUsers.languages}</p>
+              <p className="italic-title">{getUsers.languages}</p> */}
               {/* <p className="italic-title">“Precision and passion for cooking”</p> */}
-            </div>
+            {/* </div>
           )}
 
           {getUsers.skills && (
             <div className="messages-text mt-5">
               <p className="small-title">Special Skills and Knowledge</p>
-              <p className="italic-title">{getUsers.skills}</p>
+              <p className="italic-title">{getUsers.skills}</p> */}
               {/* <p className="italic-title">“Precision and passion for cooking”</p> */}
-            </div>
+            {/* </div>
           )}
         </div>
-      </section>
-      {totalDishes.length > 0 && (
-        <section className="experience-slider mobile-p-0">
-          <div className="container ">
-            <h2 className="font-black">{getUsers.name} photo album</h2>
-            <div className="row mt-5 mobile-m-0">
-              <Slider {...settings}>
-                {totalDishes.map((dishes: any, index: any) => {
-                  return (
-                    <div className="col-lg-2 col-md-6" key={index}>
-                      <div className="slider-img-plase">
-                        {dishes.img ? (
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/dishes/" + dishes.img} width={612} height={300} />
-                        ) : (
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} width={612} height={300} />
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </Slider>
-            </div>
-          </div>
-        </section>
-      )}
-      {reviews.length > 0 && (
-        <section className="services-part location-how mt-5 mobile-m-0">
-          <div className="container">
-            <h2>{getUsers.name} reviews</h2>
-            <p className="dis-max-width mb-4">
-              Immersing myself in reviews, I am constantly reminded of the genuine passion and commitment to excellence that resonates in every aspect of my work. These words fuel my drive and inspire me to continually push the boundaries of culinary
-              innovation{" "}
-            </p>
-            <div className="row mt-5">
-              {reviews.map((rev: any, index: number) => (
-                <div className="col-lg-4 col-md-6" key={index}>
-                  <div className="step-box text-center customers-review py-2" id="test-img">
-                    {rev.pic ? (
-                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + rev.pic} alt="chef" className="chef-img w-25" />
-                    ) : (
-                      <img src={process.env.NEXT_PUBLIC_BASE_URL + "/images/chef.png"} alt="chef" className="chef-img" />
-                    )}
-
-                    <h4>{rev.name}</h4>
-
-                    <p className="star-review">
-                      {[...Array(5)].map((_, index) => (
-                        <i key={index} className={`${index < Math.round(Number(rev.stars)) ? " fa-solid fa-star" : "fa-regular fa-star"}`}></i>
-                      ))}
-                    </p>
-
-                    <p>{rev.comment}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      </section> */}
     </>
   );
 }
