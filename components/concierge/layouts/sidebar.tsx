@@ -68,23 +68,13 @@ export default function Sidebar(): JSX.Element {
 
     return (
         <>
-        
+
             <div id="sidebar-container" className="sidebar-expanded  mobile-view d-md-block">
-                <div className="user-profile">
-                    <div className="row">
-                        <div className="col-lg-3 col-md-4 col-4 pr-0">
+                <div className="fixed-left">
+                    <div className="">
+                        <div className='text-center'>
                             <a href="/">
-                                {currentUserData.pic && currentUserData.pic == 'null' ? 
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" />
-                                 :
-                                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/chef/users/' + currentUserData.pic} alt="user-menu" />}
-                            </a>
-                        </div>
-                        <div className="col-lg-9 col-md-8 col-8">
-                            <div className="user-profile-collapsed">
-                                <h5>{currentUserData.name}</h5>
-                                <p>{currentUserData.role}</p>
-                            </div>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" width={70} height={70} /></a>
                         </div>
                     </div>
                 </div>
@@ -231,11 +221,11 @@ export default function Sidebar(): JSX.Element {
                             AdminApprovalInfoAlert();
                         }
                     }}>
-                            <div className="d-flex ">
-                                <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
-                                <span className="menu-collapsed">Settings</span>
-                            </div>
-                        </a>
+                        <div className="d-flex ">
+                            <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
+                            <span className="menu-collapsed">Settings</span>
+                        </div>
+                    </a>
 
                     <a onClick={handleLogout} data-toggle="collapse" aria-expanded="false" role="button" className={router.pathname == '/chef/chats' ? 'list-group-item list-group-item-action flex-column align-items-start ' : 'list-group-item list-group-item-action flex-column align-items-start'}>
                         <div className="d-flex ">
@@ -244,7 +234,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </a>
                 </ul>
-            </div>
+            </div >
         </>
     )
 }

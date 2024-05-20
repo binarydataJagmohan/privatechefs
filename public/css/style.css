@@ -5743,7 +5743,7 @@ main {
   object-fit: cover;
 }
 
-.menu.front-menu{
+.menu.front-menu {
   top: calc(75% + 24px);
   right: 0px;
 }
@@ -5812,7 +5812,7 @@ main {
 .menu ul li a i {
   font-size: 1.2em;
 }
-.menu ul .user_menu a{
+.menu ul .user_menu a {
   padding-bottom: 0px;
 }
 .user-role {
@@ -5832,5 +5832,11 @@ i.fa-solid.fa-ellipsis {
 @media (max-width: 991px) {
   i.fa-solid.fa-ellipsis {
     text-align: left;
+  }
+}
+
+@media (max-width: 456px) {
+  .setmobilepass {
+    margin-top: 25px;
   }
 }

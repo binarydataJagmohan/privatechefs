@@ -81,7 +81,7 @@ export default function Notification() {
                     setTotalNotify(res.data);
                     const paginatedPosts = paginate(res.data, page, pageSize);
                     setUserData(paginatedPosts);
-                    
+
                 } else {
                     setErrorMessage(res.message);
                 }
@@ -154,40 +154,39 @@ export default function Notification() {
 
                                     </div>
                                     <div className="text-noti mt-2">
-                                        <p className='notify' style={{fontWeight:"500"}}> {notification.type === 'register' ? (
-                                        <>
-                                        {notification.description.split('.')[0]}.
-
-                                        {notification.description.split('.')[2] == 'user' ?
-                                         <a target={"_blank"} href={ process.env.NEXT_PUBLIC_BASE_URL+'admin/users/'+notification.description.split('.')[1]}><small>View Profile</small></a> 
-                                         :
-                                         <>
-                                         {currentUserData.role === 'admin' ? (
-                                            <a target="_blank" href={process.env.NEXT_PUBLIC_BASE_URL + 'admin/chefs/' + notification.description.split('.')[1]}>
-                                                <small>View Profile</small>
-                                            </a>
-                                        ) : (
-                                            <p></p>
-                                        )}</>
-                                         
-                                         }
-                                         
-                                        </>
-                                    ) : (
-                                        
-                                        notification.type === 'booking' ? (
-                                            // JSX for your additional condition
+                                        <p className='notify' style={{ fontWeight: "500" }}> {notification.type === 'register' ? (
                                             <>
-                                            {notification.description}.
-                                                <a className='' target={"_blank"} href={ notification.description ? process.env.NEXT_PUBLIC_BASE_URL+'admin/bookings?booking_id='+notification.description.split('#')[1] : ''}><small>View Booking</small></a>
-                                            
+                                                {notification.description}.
+                                                <a className='' target={"_blank"} href={notification.description ? process.env.NEXT_PUBLIC_BASE_URL + 'admin/bookings?booking_id=' + notification.description.split('#')[1] : ''}><small>View Booking</small></a>
+
                                             </>
-                                          ) : (
-                                            // Default condition
-                                            notification.description
-                                          )
-                                    )} </p>
-                                    <p className='notify' style={{fontStyle:"italic", fontSize:"12px"}}>{moment(notification.created_at).format('hh:mm a')}</p>
+                                        ) : (
+
+                                            notification.type === 'booking' ? (
+                                                // JSX for your additional condition
+                                                <>
+                                                    {notification.description ? (
+                                                        <>
+                                                            {notification.description}
+                                                            <a
+                                                                className=''
+                                                                target={"_blank"}
+                                                                href={`${process.env.NEXT_PUBLIC_BASE_URL}admin/bookings?booking_id=${notification.description.split('#')[1]}`}
+                                                            >
+                                                                <small>View Booking</small>
+                                                            </a>
+                                                        </>
+                                                    ) : (
+                                                        <p></p>
+                                                    )}
+
+                                                </>
+                                            ) : (
+                                                // Default condition
+                                                notification.description
+                                            )
+                                        )} </p>
+                                        <p className='notify' style={{ fontStyle: "italic", fontSize: "12px" }}>{moment(notification.created_at).format('hh:mm a')}</p>
                                     </div>
 
                                     <div className="text-noti mt-2 text-md-right text-right">

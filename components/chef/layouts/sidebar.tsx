@@ -175,7 +175,7 @@ export default function Sidebar(): JSX.Element {
                         </div>
                     </div> */}
                     <div className='text-center'>
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" width={70} height={70} />
+                        <a href="/">   <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" width={70} height={70} /></a>
                     </div>
                 </div>
                 <ul className="list-group">

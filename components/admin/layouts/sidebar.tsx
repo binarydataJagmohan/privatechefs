@@ -60,23 +60,9 @@ export default function Sidebar(): JSX.Element {
                 <div className="fixed-left">
                     <div className="">
                         <div className='text-center'>
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" width={70} height={70} />
+                            <a href="/">
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" width={70} height={70} /></a>
                         </div>
-                        {/* <div className="row">
-                            <div className="col-lg-3 col-md-4 col-4 pr-0">
-                                <a href="/">
-                                    {currentUserData.pic && currentUserData.pic != 'null' ?
-                                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" />
-                                        : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/logo.png'} alt="user-menu" />}
-                                </a>
-                            </div>
-                            <div className="col-lg-9 col-md-8 col-8">
-                                <div className="user-profile-collapsed">
-                                    <h5></h5>
-                                    <p>{currentUserData.role}</p>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
                     <ul className="list-group">
                         <a href="#" data-toggle="sidebar-colapse" className="list-group-item list-group-item-action d-flex align-items-center icon-arrow">
