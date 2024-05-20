@@ -432,10 +432,15 @@ export default function Header({ }) {
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Invalid email address";
     }
+    // if (!password) {
+    //   newErrors.password = "Password is required";
+    // } else if (password.length < 8) {
+    //   newErrors.password = "Password must be at least 8 characters";
+    // }
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+    } else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password)) {
+      newErrors.password = "Password must be at least 8+ chars, start uppercase, 1 special, 1 number.";
     }
     if (!confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
@@ -565,10 +570,17 @@ export default function Header({ }) {
         }
         break;
       case "password":
+        // if (!value) {
+        //   newErrors.password = "Password is required";
+        // } else if (value.length < 8) {
+        //   newErrors.password = "Password must be at least 8 characters";
+        // } else {
+        //   delete newErrors.password;
+        // }
         if (!value) {
           newErrors.password = "Password is required";
-        } else if (value.length < 8) {
-          newErrors.password = "Password must be at least 8 characters";
+        } else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(value)) {
+          newErrors.password = "Password must be at least 8+ chars, start uppercase, 1 special, 1 number.";
         } else {
           delete newErrors.password;
         }
@@ -869,11 +881,11 @@ export default function Header({ }) {
           <form onSubmit={handleLoginSubmit} className="common_form_error" id="login_form">
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="loginemail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleLoginBlur} autoComplete="username" />
+              <input type="email" id="loginemail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleLoginBlur} autoComplete="username" maxLength={50} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
             <div className='login_div'>
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password" >Password:</label>
               <input type="password" id="loginpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleLoginBlur} autoComplete="current-password" />
 
               {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.password}</span>}
@@ -924,12 +936,12 @@ export default function Header({ }) {
           <form onSubmit={handleRegisterSubmit} className="common_form_error" id="register_form">
             <div className='login_div'>
               <label htmlFor="name">Name:</label>
-              <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} onBlur={handleRegisterBlur} />
+              <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} onBlur={handleRegisterBlur} maxLength={50} />
               {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.name}</span>}
             </div>
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} />
+              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} maxLength={50} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
 
@@ -945,9 +957,9 @@ export default function Header({ }) {
             </div> */}
 
             <div className='login_div'>
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password" className='setmobilepass'>Password:</label>
               <input type="password" id="registerpassword" name='password' value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
-              {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.password}</span>}
+              {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login pasword-mobile" style={{ wordWrap: 'break-word', marginTop: '-8px' }}>{errors.password}</span>}
             </div>
             <div className='login_div'>
               <label htmlFor="confirmPassword">Confirm Password:</label>

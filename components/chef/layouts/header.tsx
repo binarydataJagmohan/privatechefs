@@ -132,7 +132,7 @@ export default function Header(): JSX.Element {
     if (typeof window !== "undefined") {
         window.addEventListener('DOMContentLoaded', clickFunction, false);
     }
-    function clickFunction(){
+    function clickFunction() {
         let menu = document.querySelector('.menu');
         menu?.classList.toggle('active');
     }
@@ -186,10 +186,10 @@ export default function Header(): JSX.Element {
                                 </div>
                                 <div className="menu">
                                     <ul>
-                                        <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
-                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'chef/chats'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
-                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`chef/notification/notification?id=${userData}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
-                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'chef/setting'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
+                                        <li className='user_menu'><a href={process.env.NEXT_PUBLIC_BASE_URL + 'chef/myprofile'}><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0, 15) + '...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL + 'chef/chats'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL + `chef/notification/notification?id=${userData}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL + 'chef/setting'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
                                         <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
                                     </ul>
                                 </div>
