@@ -51,7 +51,6 @@ export default function Header() {
                 console.log(err);
             });
     }
-
     function handleLogout() {
         UpdateUserToOffiline(currentUserData.id)
             .then(res => {
@@ -65,7 +64,14 @@ export default function Header() {
             })
 
     }
-
+    if (typeof window !== "undefined") {
+        window.addEventListener('DOMContentLoaded', clickFunction, false);
+    }
+    function clickFunction(){
+        let menu = document.querySelector('.menu');
+        menu?.classList.toggle('active');
+    }
+    
     return (
         <>
             <div className="right-header mt-4 text-sm-right">
@@ -74,53 +80,36 @@ export default function Header() {
                         <a href="#" className="bars-icon"><i className="fa-solid fa-bars"></i></a>
                     </div>
                     <div className=' col-10 col-md-6 col-lg-2'>
-                        <div className='d-flex align-items-center g-5 justify-content-end'>
+                        <div className="d-flex align-items-center gx-5 justify-content-end">
                             <div className='p-1'>
                                 <p className="mb-0 comments-bell"><a href="/admin/chats"><i className="fa-solid fa-comments"></i></a></p>
                             </div>
-                            <div className='px-3'>
+                            <div className="px-3">
                                 <Link href={`/admin/notification/notification?id=${currentUserData.id}`} className="notification">
                                     <span><i className="fa-solid fa-bell"></i></span>
                                     {countdata ? (
                                         <span className="badge">{countdata}</span>
                                     ) : null}
+
                                 </Link>
                             </div>
                             <div className=''>
-                                <div className="dropdown adminAddMenu" id="none-class">
-                                    <a href="/" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {currentUserData.pic && currentUserData.pic != 'null' ?
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" style={{ borderRadius: '40px' }} height={40} width={40} />
-                                            : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
-                                    </a>
-                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li className="dropdown-item">
-                                            Hello {currentUserData.role}
-                                        </li>
-                                        <li>
-                                            <a href="/" className="dropdown-item">
-                                                <div className="d-flex ">
-                                                    <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
-                                                    <span className="menu-collapsed">{router.pathname.startsWith('/admin') ? 'Home' : ''}</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/admin/setting" className="dropdown-item">
-                                                <div className="d-flex ">
-                                                    <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
-                                                    <span className="menu-collapsed">Settings</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href='#' onClick={handleLogout} className="dropdown-item">
-                                                <div className="d-flex ">
-                                                    <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>
-                                                    <span className="menu-collapsed">Logout</span>
-                                                </div>
-                                            </a>
-                                        </li>
+                                <div className="profile" onClick={clickFunction}>
+                                    <div className="img-box">
+                                        {currentUserData.pic ? (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="" />
+                                        ) : (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="" />
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="menu">
+                                    <ul>
+                                        <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'admin/chats'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`admin/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'admin/setting'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
+                                        <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
                                     </ul>
                                 </div>
                             </div>

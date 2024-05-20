@@ -527,7 +527,7 @@ export default function Step6() {
                       </div>
                     </div>
                   </div>
-                  <div className="container-fluid ">
+                  <div className="container size-real ">
                     <div className="d-flx-step">
                       <div className="view-more  mt-4">
                         <a href="/concierge/edit-booking/step5">Back</a>

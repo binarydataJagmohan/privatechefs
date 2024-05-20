@@ -149,6 +149,7 @@ export default function Allergy() {
             if (res.status === true) {
               swal("Your Allergy Details has been deleted!", {
                 icon: "success",
+                timer: 2000, // Close after 2 seconds
               });
               fetchAllergyDetails();
               setAllergyList({ id: 0, allergy_name: "", description: "", image: "" });
@@ -197,6 +198,9 @@ export default function Allergy() {
     const errors: any = {};
     if (!name) {
       errors.name = "Name is required";
+    }
+    if (!description) {
+      errors.description = "Description is required";
     }
 
     if (!image) {
@@ -445,6 +449,7 @@ export default function Allergy() {
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
               <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onBlur={handleMenuBlur}></textarea>
+              {errors.description && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.description}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>

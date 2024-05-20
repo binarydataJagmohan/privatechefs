@@ -461,7 +461,7 @@ export default function Villas() {
                 resetFields();
               }}
             >
-              Add
+              Add Villas Information
             </button>
           </li>
           {/* <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> */}
@@ -758,7 +758,7 @@ export default function Villas() {
             </div>
             <div className="mt-4">
               <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-                {buttonStatus ? "Please wait.." : "Save"}
+                {buttonStatus ? "Please wait.." : "Save Villas Information"}
               </button>
             </div>
           </form>
@@ -766,482 +766,291 @@ export default function Villas() {
       </PopupModal>
 
       {/* // villa Edit popup start  */}
-
-      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
-        <div className="all-form" id="form_id">
-          <form className="common_form_error" id="menu_form" onSubmit={handleVillaupdate}>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="name">Name:</label>
-                  <input type="text" name="name" value={name || ""} onChange={(e) => setFullName(e.target.value)} />
-                  {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="email">Email:</label>
-                  <input type="text" name="email" value={email || ""} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="phone">Phone:</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={phone || ""}
-                    onChange={(e) => {
-                      const re = /^[0-9\b]+$/;
-                      if (e.target.value === "" || re.test(e.target.value)) {
-                        setPhone(e.target.value);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="address">Address:</label>
-                  <input type="text" name="address" value={address || ""} onChange={(e) => setAddress(e.target.value)} />
-                  {errors.address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.address}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="city">City:</label>
-                  <input type="text" name="city" value={city || ""} onChange={(e) => setCity(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="state">State:</label>
-                  <input type="text" name="state" value={state || ""} onChange={(e) => setState(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="partner_owner">Partner/Owner:</label>
-                  <select aria-label="Default select example" name="partner_owner" value={partner_owner} onChange={(e) => setPartnerOwner(e.target.value)}>
-                    <option value="">Select partner/owner</option>
-                    <option value="partner" defaultValue={partner_owner === "partner" ? "true" : undefined}>
-                      Partner
-                    </option>
-                    <option value="owner" defaultValue={partner_owner === "owner" ? "true" : undefined}>
-                      Owner
-                    </option>
-                  </select>
-                  {errors.partner_owner && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.partner_owner}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="category">Category:</label>
-                  <select aria-label="Default select example" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <option value="">Select category</option>
-                    <option value="basic" defaultValue={category === "basic" ? "true" : undefined}>
-                      Basic
-                    </option>
-                    <option value="luxury" defaultValue={category === "luxury" ? "true" : undefined}>
-                      Luxury
-                    </option>
-                  </select>
-                  {errors.category && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.category}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="capacity">Capacity:</label>
-                  <input type="number" name="capacity" value={capacity || ""} onChange={(e) => setCapacity(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="price_per_day">Price Per Day:</label>
-                  <input type="number" name="price_per_day" value={price_per_day || ""} onChange={(e) => setPrice(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="bedrooms">Bedrooms:</label>
-                  <input type="number" name="bedrooms" value={bedrooms || ""} onChange={(e) => setBedrooms(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="bathrooms">Bathrooms:</label>
-                  <input type="number" name="bathrooms" value={bathrooms || ""} onChange={(e) => setBathrooms(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="type_of_stove">Type of stove1:</label>
-                  <select aria-label="Default select example" name="type_of_stove" value={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
-                    <option value="">Select Stove</option>
-                    <option value="gas" defaultValue={type_of_stove === "gas" ? "true" : undefined}>
-                      Gas
-                    </option>
-                    <option value="electric" defaultValue={type_of_stove === "electric" ? "true" : undefined}>
-                      Electric
-                    </option>
-                    <option value="induction" defaultValue={type_of_stove === "induction" ? "true" : undefined}>
-                      Induction
-                    </option>
-                  </select>
-                  {errors.type_of_stove && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.type_of_stove}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="equipment">Equipment:</label>
-                  <select aria-label="Default select example" name="equipment" value={equipment} onChange={(e) => setEquipment(e.target.value)}>
-                    <option value="">Select Equipment</option>
-                    <option value="basic" defaultValue={equipment === "basic" ? "true" : undefined}>
-                      basic
-                    </option>
-                    <option value="fully_equipped" defaultValue={equipment === "basic" ? "true" : undefined}>
-                      fully_equipped
-                    </option>
-                  </select>
-                  {errors.equipment && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.equipment}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="BBQ">BBQ:</label>
-                  <select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
-                    <option value="">Select BBQ</option>
-                    <option value="yes" defaultValue={BBQ === "yes" ? "true" : undefined}>
-                      Yes
-                    </option>
-                    <option value="no" defaultValue={BBQ === "no" ? "true" : undefined}>
-                      No
-                    </option>
-                  </select>
-                  {errors.BBQ && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.BBQ}</span>}
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="consierge_phone">Consierge Phone:</label>
-                  <input
-                    type="text"
-                    name="consierge_phone"
-                    value={consierge_phone || ""}
-                    onChange={(e) => {
-                      const re = /^[0-9\b]+$/;
-                      if (e.target.value === "" || re.test(e.target.value)) {
-                        setConsiergePhone(e.target.value);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="website">Website:</label>
-                  <input type="url" name="website" value={website || ""} onChange={(e) => setWebsite(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="facebook_link">Facebook Link:</label>
-                  <input type="url" name="facebook_link" value={facebook_link || ""} onChange={(e) => setFacebookLink(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="instagram_link">Instagram Link:</label>
-                  <input type="url" name="instagram_link" value={instagram_link || ""} onChange={(e) => setInstagramLink(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="twitter_link">Twitter Link:</label>
-                  <input type="url" name="twitter_link" value={twitter_link || ""} onChange={(e) => setTwitterLink(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="linkedin_link">Linkedin Link:</label>
-                  <input type="url" name="linkedin_link" value={linkedin_link || ""} onChange={(e) => setLinkedinLink(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="login_div">
-                  <label htmlFor="Image">Image:</label>
-                  <input type="file" name="image" onChange={handleImageChange} multiple />
-                  {errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
-
-                  <div className="row mt-3 g-3">
-                    {image &&
-                      image.map((images: any, index) =>
-                        images instanceof Blob || images instanceof File ? (
-                          <div className="col-md-4" key={index}>
-                            <div className="v-img">
-                              <img src={URL.createObjectURL(images)} className="s-image" alt="selected image" width={100} height={100} />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="col-md-4" key={index}>
-                            <div className="v-img">
-                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/villas/images/" + images.image} alt="villa-image" width={100} height={100} className="s-image" />
-                            </div>
-                          </div>
-                        )
-                      )}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="login_div">
-                  <label htmlFor="youtube_link">Youtube Link:</label>
-                  <input type="url" name="youtube_link" value={youtube_link} onChange={(e) => setYoutubeLink(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
-                {buttonStatus ? "Please wait.." : "Update"}
-              </button>
-            </div>
-          </form>
-        </div>
-      </PopupModal>
-
-      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
-        <div className="all-form" id="form_id">
-          <form className="common_form_error" id="menu_form" onSubmit={handleVillaupdate}>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="name">Name:</label>
-                  <input type="text" name="name" value={name || ""} onChange={(e) => setFullName(e.target.value)} />
-                  {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="email">Email:</label>
-                  <input type="text" name="email" value={email || ""} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="phone">Phone:</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={phone || ""}
-                    onChange={(e) => {
-                      const re = /^[0-9\b]+$/;
-                      if (e.target.value === "" || re.test(e.target.value)) {
-                        setPhone(e.target.value);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="address">Address:</label>
-                  <input type="text" name="address" value={address || ""} onChange={(e) => setAddress(e.target.value)} />
-                  {errors.address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.address}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="city">City:</label>
-                  <input type="text" name="city" value={city || ""} onChange={(e) => setCity(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="state">State:</label>
-                  <input type="text" name="state" value={state || ""} onChange={(e) => setState(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="partner_owner">Partner/Owner:</label>
-                  <select aria-label="Default select example" name="partner_owner" value={partner_owner} onChange={(e) => setPartnerOwner(e.target.value)}>
-                    <option value="">Select partner/owner</option>
-                    <option value="partner" defaultValue={partner_owner === "partner" ? "true" : undefined}>
-                      Partner
-                    </option>
-                    <option value="owner" defaultValue={partner_owner === "owner" ? "true" : undefined}>
-                      Owner
-                    </option>
-                  </select>
-                  {errors.partner_owner && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.partner_owner}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="category">Category:</label>
-                  <select aria-label="Default select example" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <option value="">Select category</option>
-                    <option value="basic" defaultValue={category === "basic" ? "true" : undefined}>
-                      Basic
-                    </option>
-                    <option value="luxury" defaultValue={category === "luxury" ? "true" : undefined}>
-                      Luxury
-                    </option>
-                  </select>
-                  {errors.category && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.category}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="capacity">Capacity:</label>
-                  <input type="number" name="capacity" value={capacity || ""} onChange={(e) => setCapacity(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="price_per_day">Price Per Day:</label>
-                  <input type="number" name="price_per_day" value={price_per_day || ""} onChange={(e) => setPrice(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="bedrooms">Bedrooms:</label>
-                  <input type="number" name="bedrooms" value={bedrooms || ""} onChange={(e) => setBedrooms(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="bathrooms">Bathrooms:</label>
-                  <input type="number" name="bathrooms" value={bathrooms || ""} onChange={(e) => setBathrooms(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="type_of_stove">Type of stove1:</label>
-                  <select aria-label="Default select example" name="type_of_stove" value={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
-                    <option value="">Select Stove</option>
-                    <option value="gas" defaultValue={type_of_stove === "gas" ? "true" : undefined}>
-                      Gas
-                    </option>
-                    <option value="electric" defaultValue={type_of_stove === "electric" ? "true" : undefined}>
-                      Electric
-                    </option>
-                    <option value="induction" defaultValue={type_of_stove === "induction" ? "true" : undefined}>
-                      Induction
-                    </option>
-                  </select>
-                  {errors.type_of_stove && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.type_of_stove}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="equipment">Equipment:</label>
-                  <select aria-label="Default select example" name="equipment" value={equipment} onChange={(e) => setEquipment(e.target.value)}>
-                    <option value="">Select Equipment</option>
-                    <option value="basic" defaultValue={equipment === "basic" ? "true" : undefined}>
-                      basic
-                    </option>
-                    <option value="fully_equipped" defaultValue={equipment === "basic" ? "true" : undefined}>
-                      fully_equipped
-                    </option>
-                  </select>
-                  {errors.equipment && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.equipment}</span>}
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="BBQ">BBQ:</label>
-                  <select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
-                    <option value="">Select BBQ</option>
-                    <option value="yes" defaultValue={BBQ === "yes" ? "true" : undefined}>
-                      Yes
-                    </option>
-                    <option value="no" defaultValue={BBQ === "no" ? "true" : undefined}>
-                      No
-                    </option>
-                  </select>
-                  {errors.BBQ && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.BBQ}</span>}
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="consierge_phone">Consierge Phone:</label>
-                  <input
-                    type="text"
-                    name="consierge_phone"
-                    value={consierge_phone || ""}
-                    onChange={(e) => {
-                      const re = /^[0-9\b]+$/;
-                      if (e.target.value === "" || re.test(e.target.value)) {
-                        setConsiergePhone(e.target.value);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="website">Website:</label>
-                  <input type="url" name="website" value={website || ""} onChange={(e) => setWebsite(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="facebook_link">Facebook Link:</label>
-                  <input type="url" name="facebook_link" value={facebook_link || ""} onChange={(e) => setFacebookLink(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="instagram_link">Instagram Link:</label>
-                  <input type="url" name="instagram_link" value={instagram_link || ""} onChange={(e) => setInstagramLink(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="twitter_link">Twitter Link:</label>
-                  <input type="url" name="twitter_link" value={twitter_link || ""} onChange={(e) => setTwitterLink(e.target.value)} />
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="login_div">
-                  <label htmlFor="linkedin_link">Linkedin Link:</label>
-                  <input type="url" name="linkedin_link" value={linkedin_link || ""} onChange={(e) => setLinkedinLink(e.target.value)} />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="login_div">
-                  <label htmlFor="Image">Image:</label>
-                  <input type="file" name="image" onChange={handleImageChange} multiple />
-                  {errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
+			<PopupModal
+				show={editmodalConfirm}
+				handleClose={editmodalConfirmClose}
+				staticClass="var-login"
+			>
+				<div className="all-form" id="form_id">
+					<form
+						className="common_form_error"
+						id="menu_form"
+						onSubmit={handleVillaupdate}
+					>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="name">Name:</label>
+									<input
+										type="text"
+										name="name"
+										value={name || ''}
+										onChange={(e) => setFullName(e.target.value)}
+									/>
+									{errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="email">Email:</label>
+									<input
+										type="text"
+										name="email"
+										value={email || ''}
+										onChange={(e) => setEmail(e.target.value)}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="phone">Phone:</label>
+									<input
+										type="text"
+										name="phone"
+										value={phone || ''}
+										onChange={(e) => {
+											const re = /^[0-9\b]+$/;
+											if (e.target.value === '' || re.test(e.target.value)) {
+												setPhone(e.target.value);
+											}
+										}}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="address">Address:</label>
+									<input
+										type="text"
+										name="address"
+										value={address || ''}
+										onChange={(e) => setAddress(e.target.value)}
+									/>
+									{errors.address && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.address}</span>}
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="city">City:</label>
+									<input
+										type="text"
+										name="city"
+										value={city || ''}
+										onChange={(e) => setCity(e.target.value)}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="state">State:</label>
+									<input
+										type="text"
+										name="state"
+										value={state || ''}
+										onChange={(e) => setState(e.target.value)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="partner_owner">Partner/Owner:</label>
+									<select aria-label="Default select example" name="partner_owner"
+										value={partner_owner}
+										onChange={(e) => setPartnerOwner(e.target.value)}>
+										<option value=''>Select partner/owner</option>
+										<option value='partner' defaultValue={partner_owner === 'partner' ? 'true' : undefined}>Partner</option>
+										<option value='owner' defaultValue={partner_owner === 'owner' ? 'true' : undefined}
+										>Owner</option>
+									</select>
+									{errors.partner_owner && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.partner_owner}</span>}
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="category">Category:</label>
+									<select aria-label="Default select example" name="category"
+										value={category}
+										onChange={(e) => setCategory(e.target.value)}>
+										<option value=''>Select category</option>
+										<option value='basic' defaultValue={category === 'basic' ? 'true' : undefined}>Basic</option>
+										<option value='luxury' defaultValue={category === 'luxury' ? 'true' : undefined}>Luxury</option>
+									</select>
+									{errors.category && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.category}</span>}
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="capacity">Capacity:</label>
+									<input
+										type="number"
+										name="capacity"
+										value={capacity || ''}
+										onChange={(e) => setCapacity(e.target.value)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="price_per_day">Price Per Day:</label>
+									<input
+										type="number"
+										name="price_per_day"
+										value={price_per_day || ''}
+										onChange={(e) => setPrice(e.target.value)}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="bedrooms">Bedrooms:</label>
+									<input
+										type="number"
+										name="bedrooms"
+										value={bedrooms || ''}
+										onChange={(e) => setBedrooms(e.target.value)}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="bathrooms">Bathrooms:</label>
+									<input
+										type="number"
+										name="bathrooms"
+										value={bathrooms || ''}
+										onChange={(e) => setBathrooms(e.target.value)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="type_of_stove">Type of stove1:</label>
+									<select aria-label="Default select example" name="type_of_stove" value={type_of_stove} onChange={(e) => setTypeStove(e.target.value)}>
+										<option value=''>Select Stove</option>
+										<option value='gas' defaultValue={type_of_stove === 'gas' ? 'true' : undefined}>Gas</option>
+										<option value='electric' defaultValue={type_of_stove === 'electric' ? 'true' : undefined}>Electric</option>
+										<option value='induction' defaultValue={type_of_stove === 'induction' ? 'true' : undefined}>Induction</option>
+									</select>
+									{errors.type_of_stove && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.type_of_stove}</span>}
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="equipment">Equipment:</label>
+									<select aria-label="Default select example" name="equipment" value={equipment} onChange={(e) => setEquipment(e.target.value)}>
+										<option value=''>Select Equipment</option>
+										<option value='basic' defaultValue={equipment === 'basic' ? 'true' : undefined}>basic</option>
+										<option value='fully_equipped' defaultValue={equipment === 'basic' ? 'true' : undefined}>fully_equipped</option>
+									</select>
+									{errors.equipment && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.equipment}</span>}
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="BBQ">BBQ:</label>
+									<select aria-label="Default select example" name="BBQ" value={BBQ} onChange={(e) => setBBQ(e.target.value)}>
+										<option value=''>Select BBQ</option>
+										<option value='yes' defaultValue={BBQ === 'yes' ? 'true' : undefined}>Yes</option>
+										<option value='no' defaultValue={BBQ === 'no' ? 'true' : undefined}>No</option>
+									</select>
+									{errors.BBQ && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.BBQ}</span>}
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="consierge_phone">Consierge Phone:</label>
+									<input
+										type="text"
+										name="consierge_phone"
+										value={consierge_phone || ''}
+										onChange={(e) => {
+											const re = /^[0-9\b]+$/;
+											if (e.target.value === '' || re.test(e.target.value)) {
+												setConsiergePhone(e.target.value);
+											}
+										}}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="website">Website:</label>
+									<input
+										type="url"
+										name="website"
+										value={website || ''}
+										onChange={(e) => setWebsite(e.target.value)}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="facebook_link">Facebook Link:</label>
+									<input
+										type="url"
+										name="facebook_link"
+										value={facebook_link || ''}
+										onChange={(e) => setFacebookLink(e.target.value)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="instagram_link">Instagram Link:</label>
+									<input
+										type="url"
+										name="instagram_link"
+										value={instagram_link || ''}
+										onChange={(e) => setInstagramLink(e.target.value)}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="twitter_link">Twitter Link:</label>
+									<input
+										type="url"
+										name="twitter_link"
+										value={twitter_link || ''}
+										onChange={(e) => setTwitterLink(e.target.value)}
+									/>
+								</div>
+							</div>
+							<div className='col-md-4'>
+								<div className="login_div">
+									<label htmlFor="linkedin_link">Linkedin Link:</label>
+									<input
+										type="url"
+										name="linkedin_link"
+										value={linkedin_link || ''}
+										onChange={(e) => setLinkedinLink(e.target.value)}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="row">
+							<div className='col-md-6'>
+								<div className="login_div">
+									<label htmlFor="Image">Image:</label>
+									<input
+										type="file"
+										name="image"
+										onChange={handleImageChange}
+										multiple
+									/>
+									{errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
 
                   <div className="row mt-3 g-3">
                     {image &&

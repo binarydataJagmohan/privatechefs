@@ -72,7 +72,7 @@ export default function Footer() {
               setEmail("");
             }
           })
-          .catch((err) => {});
+          .catch((err) => { });
       } else {
         setProcessing(false);
       }
@@ -95,7 +95,7 @@ export default function Footer() {
                     Discover the culinary genius behind our delicious dishes. Our chefs bring <br></br>creativity and passion to every meal, ensuring a memorable dining experience.
                   </p>
                   <form className=" mt-2 mb-4" onSubmit={handlesubmit}>
-                    <input type="email" placeholder="Enter your email" value={email || ""} onChange={handleEmailChange} required />
+                    <input type="email" placeholder="Enter your email" value={email || ""} onChange={handleEmailChange} required maxLength={50} />
                     <button type="submit" className="bt" disabled={processing}>
                       {processing ? "please wait.." : "Submit"}
                     </button>

@@ -217,7 +217,7 @@ export default function Users() {
               resetFields();
             }}
           >
-            Add
+            Add User Information
           </button>
         </div>
         <div className="table-box " id="villa_table">

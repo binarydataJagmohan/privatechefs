@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { removeToken, removeStorageData, getCurrentUserData } from '../../../lib/session'
 import { notificationForUserAdmin } from '../../../lib/notificationapi';
 import Link from 'next/link'
-import { getSingleUserProfile } from "../../../lib/userapi"
+import { getSingleUserProfile, UpdateUserToOffiline } from "../../../lib/userapi"
 import { approvalMsg } from "../../../lib/chefapi"
-import { UpdateUserToOffiline } from "../../../lib/userapi"
 import { useRouter } from "next/router";
 
 
@@ -98,6 +97,8 @@ export default function Header(): JSX.Element {
 
     const getAllNotify = async () => {
         const userData: User = getCurrentUserData() as User;
+        const UserData: any = getCurrentUserData();
+        setCurrentUserData(UserData);
         setUserData(userData.id);
         getNotification(userData.id);
     }
@@ -115,7 +116,6 @@ export default function Header(): JSX.Element {
                 console.log(err);
             });
     }
-
     function handleLogout() {
         UpdateUserToOffiline(currentUserData.id)
             .then(res => {
@@ -128,6 +128,13 @@ export default function Header(): JSX.Element {
                 }
             })
 
+    }
+    if (typeof window !== "undefined") {
+        window.addEventListener('DOMContentLoaded', clickFunction, false);
+    }
+    function clickFunction(){
+        let menu = document.querySelector('.menu');
+        menu?.classList.toggle('active');
     }
     return (
         <>
@@ -168,64 +175,27 @@ export default function Header(): JSX.Element {
                                 </Link>
                             </div>
                             <div className=''>
-                                <div className="dropdown adminAddMenu" id="none-class">
-                                    <a href="/" className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {currentUserData.pic && currentUserData.pic != 'null' ?
-                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="user-menu" style={{ borderRadius: '40px' }} height={40} width={40} />
-                                            : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="user-menu" />}
-                                    </a>
-                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li className="dropdown-item">
-                                            {currentUserData.name}
-                                            <br />
-                                            <span className="role-set" style={{ color: '#8c8c8c', fontSize: '14px' }}>{currentUserData.role}</span>
-                                        </li>
-                                        <li>
-                                            <a href="/" className="dropdown-item">
-                                                <div className="d-flex ">
-                                                    <span className="icon-dash"><i className="fa-solid fa-house"></i></span>
-                                                    <span className="menu-collapsed">{router.pathname.startsWith('/chef') ? 'Home' : ''}</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/chef/myprofile" className="dropdown-item">
-                                                <div className="d-flex ">
-                                                    <span className="icon-dash"><i className="fa fa-cog" aria-hidden="true"></i></span>
-                                                    <span className="menu-collapsed">My Profile</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href='#' onClick={handleLogout} className="dropdown-item">
-                                                <div className="d-flex ">
-                                                    <span className="icon-dash"><i className="fa fa-sign-out" aria-hidden="true"></i></span>
-                                                    <span className="menu-collapsed">Logout</span>
-                                                </div>
-                                            </a>
-                                        </li>
+                                <div className="profile" onClick={clickFunction}>
+                                    <div className="img-box">
+                                        {currentUserData.pic && currentUserData.pic != 'null' ? (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="" />
+                                        ) : (
+                                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="" />
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="menu">
+                                    <ul>
+                                        <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'chef/chats'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`chef/notification/notification?id=${userData}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
+                                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'chef/setting'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
+                                        <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className='d-block d-lg-none'>
-                        {data.profile_status === 'pending' && data.approved_by_admin === 'no' && data.created_by === null && (
-                            <p className="alert alert-danger">
-                                Complete your profile for pending admin approval.
-                            </p>
-                        )}
-                        {data.profile_status === 'completed' && data.approved_by_admin === 'no' && data.created_by === null && (
-                            <p className="alert alert-warning">
-                                Profile completed, awaiting admin approval to unlock culinary opportunities.
-                            </p>
-                        )}
-                        {isVisible && data.profile_status === 'completed' && data.approved_by_admin === 'yes' && data.approval_msg === 'yes' && data.created_by === null && (
-                            <p className="alert alert-success">
-                                Congratulations! Your profile has been completed and approved by the admin.
-                                <button className="table-btn1" value="no" onClick={approvalMsgStatus}>OK</button>
-                            </p>
-                        )}</div>
                 </div>
             </div >
         </>

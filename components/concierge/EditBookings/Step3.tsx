@@ -734,7 +734,7 @@ export default function Step3() {
                   </div>
                   <div className="view-more bg-golden mt-4">
                     <a href="#" onClick={(e) => CheckStepThree()}>
-                      Next
+                    Save and Continue
                     </a>
                   </div>
                 </div>

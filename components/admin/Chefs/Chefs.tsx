@@ -737,8 +737,8 @@ export default function Chefs() {
                 chefs.map((chef) => (
                   <tr key={chef.id}>
                     <td>
-                      <div className="row align-items-center">
-                        <div className="col-sm-3 col-2  text-sm-end">
+                      <div className="d-flex gap-2 align-items-center">
+                        <div className="">
                           {chef.pic ? (
                             <div className="chefs_pic">
                               <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
@@ -753,16 +753,15 @@ export default function Chefs() {
                             </div>
                           )}
                         </div>
-                        <div className="col-9 p-0">
-                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
+                        <div className="">
+                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug} target="_blank">
                             {chef.name || ""} {chef.surname || ""}
                           </a>
                         </div>
                       </div>
                     </td>
                     <td>{chef.email || ""}</td>
-                    <td>{chef.address || ""}</td>
-
+                    <td>{chef.address || "N/A"}</td>
                     <td>{chef.profile_status || ""}</td>
 
                     <td>

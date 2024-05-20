@@ -387,11 +387,11 @@ export default function Allergy() {
               <thead>
                 <tr>
                   <th scope="col">ID</th>
-                  <th scope="col">Photo</th>
+                  {/* <th scope="col">Photo</th> */}
                   <th scope="col">Name</th>
                   <th scope="col">Description</th>
                   <th scope="col">Star</th>
-                  <th scope="col"></th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -399,10 +399,13 @@ export default function Allergy() {
                   <tr key={allergy.id}>
                     <td>{++index}</td>
                     <td className="chefs_pic">
-                      {allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}
+                      <div className="d-flex gap-2 align-items-center">
+                        <div className="">
+                          <p>{allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</p>
+                        </div>
+                        <div className="">{allergy.name}</div>
+                      </div>
                     </td>
-
-                    <td>{allergy.name}</td>
                     {/* <td>{allergy.description}</td> */}
                     <td className="abc">
                       {showFullDescription[index] && allergy.description ? allergy.description : allergy.description ? (allergy.description.length > 100 ? `${allergy.description.slice(0, 100)}...` : allergy.description) : ""}

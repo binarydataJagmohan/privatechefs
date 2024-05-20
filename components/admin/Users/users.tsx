@@ -317,7 +317,7 @@ export default function Users() {
           </li>
         </ul>
 
-        <div className="table-box ">
+        <div className="table-box">
           {getallusers.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>
@@ -357,8 +357,8 @@ export default function Users() {
                             {user.name || ""} {user.surname || ""}
                           </a>
                         </td>
-                        <td>{user.address || ""}</td>
-                        <td>{user.phone || ""}</td>
+                        <td>{user.address || "N/A"}</td>
+                        <td>{user.phone || "N/A"}</td>
                         <td style={{ paddingLeft: "25px" }}>
                           <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
                             <i className="fa fa-eye" aria-hidden="true"></i>
@@ -385,8 +385,8 @@ export default function Users() {
                             {user.name || ""} {user.surname || ""}
                           </a>
                         </td>
-                        <td>{user.address || ""}</td>
-                        <td>{user.phone || ""}</td>
+                        <td>{user.address || "N/A"}</td>
+                        <td>{user.phone || "N/A"}</td>
                         <td style={{ paddingLeft: "25px" }}>
                           <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
                             <i className="fa fa-eye" aria-hidden="true"></i>
