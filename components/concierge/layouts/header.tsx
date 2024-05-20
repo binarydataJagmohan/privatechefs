@@ -85,15 +85,15 @@ export default function Header(): JSX.Element {
                   </a>
                 </p>
               </div>
-              {/* <div className="px-3">
-                                <Link href={`/chef/notification/notification?id=${userData}`} className="notification">
-                                    <span><i className="fa-solid fa-bell"></i></span>
-                                    {countdata ? (
-                                        <span className="badge">{countdata}</span>
-                                    ) : null}
+              <div className="px-3">
+                <Link href={`/concierge/notification/notification?id=${currentUserData.id}`} className="notification">
+                    <span><i className="fa-solid fa-bell"></i></span>
+                    {countdata ? (
+                        <span className="badge">{countdata}</span>
+                    ) : null}
 
-                                </Link>
-                            </div> */}
+                </Link>
+              </div>
               <div className="">
                 <div className="profile" onClick={clickFunction}>
                   <div className="img-box">
@@ -117,7 +117,7 @@ export default function Header(): JSX.Element {
                         <i className="fa-solid fa-comments"></i>&nbsp;Chat
                       </a>
                     </li>
-                    {/* <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`concierge/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li> */}
+                    <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`concierge/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
                     <li>
                       <a href={process.env.NEXT_PUBLIC_BASE_URL + "concierge/setting"}>
                         <i className="fa fa-cog"></i>&nbsp;Settings
