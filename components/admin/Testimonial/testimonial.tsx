@@ -367,21 +367,27 @@ export default function Allergy() {
   return (
     <>
       <div className="table-part">
-        <h2>Testimonial</h2>
-        <ul className="table_header_button_section p-r">
-          <li className="right-li" id="allergy-id">
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => {
-                resetForm();
-                setModalConfirm(true);
-              }}
-            >
-              Add Testimonial Information
-            </button>
-          </li>
-        </ul>
-        <div className="table-box " id="ffff">
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
+            <h2>Testimonial</h2>
+          </div>
+          <div className="col-sm-4 col-12">
+            <ul className="table_header_button_section p-r">
+              <li className="right-li" id="allergy-id">
+                <button
+                  className="table-btn border-radius round-white"
+                  onClick={() => {
+                    resetForm();
+                    setModalConfirm(true);
+                  }}
+                >
+                  Add Testimonial Information
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="table-box  mt-4" id="ffff">
           {testimonials.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>

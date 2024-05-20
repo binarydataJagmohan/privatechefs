@@ -839,7 +839,7 @@ export default function Bookings() {
             </button>
           </li>
         </ul>
-        <div className="table-box responsive-table" id="admin-booking">
+        <div className="table-box responsive-table mt-3" id="admin-booking">
           {bookingUsers.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>

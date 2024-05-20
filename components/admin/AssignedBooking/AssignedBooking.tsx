@@ -518,7 +518,7 @@ export default function Bookings() {
             </button>
           </li>
         </ul>
-        <div className="table-box ">
+        <div className="table-box mt-3 ">
           {bookingUsers.length > 0 ? (
             <table className="table table-borderless common_booking common_booking">
               <thead>
