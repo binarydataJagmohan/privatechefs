@@ -648,8 +648,8 @@ export default function Chefs() {
                         </div>
                       </div>
                     </td>
-                    <td>{filter.email || ""}</td>
-                    <td>{filter.address || ""}</td>
+                    <td>{filter.email || "N/A"}</td>
+                    <td>{filter.address || "N/A"}</td>
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -711,8 +711,8 @@ export default function Chefs() {
                         </div>
                       </div>
                     </td>
-                    <td>{filter.address || ""}</td>
-                    <td>{filter.email || ""}</td>
+                    <td>{filter.address || "N/A"}</td>
+                    <td>{filter.email || "N/A"}</td>
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -726,15 +726,6 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      {/* <a
-                        href={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          "admin/chefs/" +
-                          filter.id
-                        }
-                      >
-                        <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a> */}
                       <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                           <i className="fa-solid fa-ellipsis " role="button"></i>
