@@ -712,9 +712,9 @@ export default function Header({ }) {
   if (typeof window !== "undefined") {
     window.addEventListener('DOMContentLoaded', clickFunction, false);
   }
-  function clickFunction(){
-      let menu = document.querySelector('.menu');
-      menu?.classList.toggle('active');
+  function clickFunction() {
+    let menu = document.querySelector('.menu');
+    menu?.classList.toggle('active');
   }
 
 
@@ -794,22 +794,22 @@ export default function Header({ }) {
                 {isAuthenticated && (
                   <div className=''>
                     <div className="profile" onClick={clickFunction}>
-                        <div className="img-box">
-                            {currentUserData.pic && currentUserData.pic != 'null' ? (
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="" />
-                            ) : (
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="" />
-                            )}
-                        </div>
+                      <div className="img-box">
+                        {currentUserData.pic && currentUserData.pic != 'null' ? (
+                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="" />
+                        ) : (
+                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="" />
+                        )}
+                      </div>
                     </div>
                     <div className="menu front-menu">
-                        <ul>
-                            <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
-                            <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'admin/chats'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
-                            <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`admin/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
-                            <li><a href={process.env.NEXT_PUBLIC_BASE_URL+'admin/setting'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
-                            <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
-                        </ul>
+                      <ul>
+                        <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0, 15) + '...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
+                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL + 'user/messages'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
+                        {/* <li><a href={process.env.NEXT_PUBLIC_BASE_URL + `user/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li> */}
+                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL + 'user/userprofile'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
+                        <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
+                      </ul>
                     </div>
                   </div>
                 )}
@@ -904,12 +904,12 @@ export default function Header({ }) {
           <form onSubmit={handleRegisterSubmit} className="common_form_error" id="register_form">
             <div className='login_div'>
               <label htmlFor="name">Name:</label>
-              <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} onBlur={handleRegisterBlur} />
+              <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} onBlur={handleRegisterBlur} maxLength={50} />
               {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login ">{errors.name}</span>}
             </div>
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} />
+              <input type="email" id="registeremail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleRegisterBlur} maxLength={50} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
 

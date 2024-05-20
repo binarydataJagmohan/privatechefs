@@ -128,7 +128,7 @@ export default function Home(props: any) {
           },
         });
       }
-    } catch (err: any) {}
+    } catch (err: any) { }
   };
 
   const CheckResetPasswordVerification = async () => {
@@ -381,7 +381,7 @@ export default function Home(props: any) {
             </Slider>
             <Slider {...settings}>
               {locations.reverse().map((location, index) => {
-                if (index > 6) {
+                if (index > 7) {
                   return (
                     <div className="col-lg-2 col-md-6" key={index}>
                       <a href={process.env.NEXT_PUBLIC_BASE_URL + "location/" + location.address}>
