@@ -78,7 +78,7 @@ export default function Receipts() {
         <button className="table-btn">Total</button>
         <div className="table-box">
           {getreceipt.length > 0 ? (
-            <table className="table table-borderless common_booking">
+            <table className="table table-borderless">
               <thead>
                 <tr>
                   <th scope="col">ID</th>

@@ -499,59 +499,65 @@ export default function Chefs() {
   return (
     <>
       <div className="table-part">
-        <ul className="table_header_button_section p-r mt-4 mb-4">
-          <li className="float-end mt-0">
-            <input type="text" className="form-control" placeholder="Search chef here.." onChange={handleChef} />
-          </li>
-
-          <li className="text-right">
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
             <h2>Chefs</h2>
-          </li>
-        </ul>
-        <ul className="table_header_button_section p-r">
-          <li>
-            {/* <button className="table-btn">Total</button> */}
-            {selectedCuisines.map((cuisine, index) => (
-              <li key={index}>
-                {" "}
-                <div className="table-btn">
-                  <span>{cuisine}</span>
-                  <button className="remove-btn" onClick={() => removeCuisine(cuisine)}>
-                    x
+          </div>
+          <div className="col-sm-4 col-12">
+            <ul className="table_header_button_section">
+              <input type="text" className="form-control" placeholder="Search chef here.." onChange={handleChef} />
+            </ul>
+          </div>
+        </div>
+
+        <div className="row align-items-center mt-3 mb-3 table_header_button_section p-r">
+          <div className="col-12">
+            <ul className="table_header_button_section p-r">
+              <li>
+                {/* <button className="table-btn">Total</button> */}
+                {selectedCuisines.map((cuisine, index) => (
+                  <li key={index}>
+                    {" "}
+                    <div className="table-btn">
+                      <span>{cuisine}</span>
+                      <button className="remove-btn" onClick={() => removeCuisine(cuisine)}>
+                        x
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </li>
+              <li>
+                <div className="">
+                  <button
+                    className="table-btn border-radius round-white table-btn"
+                    onClick={() => {
+                      SetModalConfirmTwo(true);
+                      resetFields();
+                    }}
+                  >
+                    Invitation
                   </button>
                 </div>
               </li>
-            ))}
-          </li>
-          <li>
-            <div className="text-right">
-              <button
-                className="table-btn border-radius round-white table-btn"
-                onClick={() => {
-                  SetModalConfirmTwo(true);
-                  resetFields();
-                }}
-              >
-                Invitation
-              </button>
-            </div>
-          </li>
-          <li>
-            <div className="text-right">
-              <Link href="/admin/chefprofile">
-                <button className="table-btn border-radius round-white table-btn">Add Chefs Information</button>
-              </Link>
-            </div>
-          </li>
-          <li className="right-li">
-            <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
-              Filter{" "}
-            </button>{" "}
-            <button className="table-btn border-radius round-white" onClick={() => window.location.reload()}>
-              Clear All{" "}
-            </button>
-          </li>
-        </ul>
+              <li>
+                <div className="">
+                  <Link href="/admin/chefprofile">
+                    <button className="table-btn border-radius round-white table-btn">Add Chefs Information</button>
+                  </Link>
+                </div>
+              </li>
+              <li className="">
+                <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
+                  Filter{" "}
+                </button>{" "}
+                <button className="table-btn border-radius round-white" onClick={() => window.location.reload()}>
+                  Clear All{" "}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
 
         <div className="table-box  " id="villa_table">
           <table className="table table-borderless common_booking">
@@ -737,18 +743,18 @@ export default function Chefs() {
                 chefs.map((chef) => (
                   <tr key={chef.id}>
                     <td>
-                      <div className="d-flex gap-2 align-items-center">
+                      <div className="flex-commn">
                         <div className="">
                           {chef.pic ? (
                             <div className="chefs_pic">
                               <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + chef.pic} alt="" />
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + chef.pic} alt="" width={35} height={35} />
                               </a>
                             </div>
                           ) : (
                             <div className="chefs_pic">
                               <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" width={35} height={35} />
                               </a>
                             </div>
                           )}

@@ -117,11 +117,11 @@ export default function TopRatedChef() {
   return (
     <>
       <div className="table-part">
-        <div className="row g-3 mt-3 justify-content-between">
-          <div className="col-auto">
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-sm-8 col-12">
             <h2>Top Rated Chef</h2>
           </div>
-          <div className="col-auto">
+          <div className="col-sm-4 col-12 text-lg-0 text-end">
             <input type="text" className="form-control" placeholder="Search chef here.." onChange={handlechef} />
           </div>
         </div>

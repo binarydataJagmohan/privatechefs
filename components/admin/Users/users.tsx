@@ -283,48 +283,39 @@ export default function Users() {
     <>
       <div className="table-part">
         <h2>Users</h2>
-        <ul className="table_header_button_section p-r">
-          <li className="float-end mt-0">
-            {/* {selectedLocation.map((location:any, index:any) => (
-                    <li>
-                        {" "}
-                        <div key={index} className="table-btn">
-                        <span>{getlocation.find(item => item.lat === location)?.address}</span>
-                        <button
-                            className="remove-btn"
-                            onClick={() => removeLocation(location)}
-                        >
-                            x
-                        </button>
-                        </div>  
-                    </li>
-                    ))} */}
-            <input type="text" className="form-control" placeholder="Search user here.." onChange={handleChef} />
-          </li>
 
-          <li className="text-right">
-            <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
-              Filter{" "}
-            </button>{" "}
-            <button className="table-btn border-radius round-white" onClick={() => window.location.reload()}>
-              Clear All{" "}
-            </button>
-            {selectedFilters.length > 0 && (
-              <button className="table-btn border-radius round-white mx-2" onClick={() => setModalConfirmTwo(true)}>
-                Send message
-              </button>
-            )}
-          </li>
-        </ul>
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
+            <ul className="table_header_button_section p-r">
+              <li className="text-right">
+                <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
+                  Filter{" "}
+                </button>{" "}
+                <button className="table-btn border-radius round-white" onClick={() => window.location.reload()}>
+                  Clear All{" "}
+                </button>
+                {selectedFilters.length > 0 && (
+                  <button className="table-btn border-radius round-white mx-2" onClick={() => setModalConfirmTwo(true)}>
+                    Send message
+                  </button>
+                )}
+              </li>
+            </ul>
+          </div>
+          <div className="col-sm-4 col-12">
+            {" "}
+            <input type="text" className="form-control" placeholder="Search user here.." onChange={handleChef} />
+          </div>
+        </div>
 
         <div className="table-box">
           {getallusers.length > 0 ? (
-            <table className="table table-borderless common_booking">
+            <table className="table table-borderless">
               <thead>
                 <tr>
-                  {filterLocation.length > 0 && <th scope="col">Select</th>}
-                  <th scope="col">Photo</th>
-                  <th scope="col">Name/Surname</th>
+                  {/* {filterLocation.length > 0 && <th scope="col">Select</th>} */}
+                  <th scope="col">Select</th>
+                  <th scope="col">Name</th>
                   <th scope="col">Current Location</th>
                   <th scope="col">Phone no.</th>
                   <th scope="col">Action</th>
@@ -341,21 +332,26 @@ export default function Users() {
                             onChange={() => handleFilterSelection(user.id)} // You can use a unique identifier for each user
                           />
                         </td>
-                        <td className="chefs_pic">
-                          {user.pic ? (
-                            <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" />
-                            </a>
-                          ) : (
-                            <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />
-                            </a>
-                          )}
-                        </td>
                         <td>
-                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                            {user.name || ""} {user.surname || ""}
-                          </a>
+                          <div className="flex-commn">
+                            <div className="">
+                              {user.pic ? (
+                                <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
+                                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" height={35} width={35} style={{ borderRadius: "50px" }} />
+                                </a>
+                              ) : (
+                                <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
+                                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" height={35} width={35} style={{ borderRadius: "50px" }} />
+                                </a>
+                              )}
+                            </div>
+                            <div className="">
+                              {" "}
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
+                                {user.name || ""} {user.surname || ""}
+                              </a>
+                            </div>
+                          </div>
                         </td>
                         <td>{user.address || "N/A"}</td>
                         <td>{user.phone || "N/A"}</td>
@@ -364,26 +360,37 @@ export default function Users() {
                             <i className="fa fa-eye" aria-hidden="true"></i>
                           </a>
                         </td>
-                        <td></td>
                       </tr>
                     ))
                   : getallusers.map((user, index) => (
                       <tr key={index}>
                         <td className="chefs_pic">
-                          {user.pic ? (
-                            <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" />
-                            </a>
-                          ) : (
-                            <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />
-                            </a>
-                          )}
+                          <input
+                            type="checkbox"
+                            checked={isFilterSelected(user.id)} // You can customize this based on your data
+                            onChange={() => handleFilterSelection(user.id)} // You can use a unique identifier for each user
+                          />
                         </td>
                         <td>
-                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
-                            {user.name || ""} {user.surname || ""}
-                          </a>
+                          <div className="flex-commn">
+                            <div className="">
+                              {user.pic ? (
+                                <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
+                                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" height={35} width={35} style={{ borderRadius: "50px" }} />
+                                </a>
+                              ) : (
+                                <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
+                                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" height={35} width={35} style={{ borderRadius: "50px" }} />
+                                </a>
+                              )}
+                            </div>
+                            <div className="">
+                              {" "}
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id}>
+                                {user.name || ""} {user.surname || ""}
+                              </a>
+                            </div>
+                          </div>
                         </td>
                         <td>{user.address || "N/A"}</td>
                         <td>{user.phone || "N/A"}</td>

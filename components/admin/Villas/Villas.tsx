@@ -501,34 +501,36 @@ export default function Villas() {
   return (
     <>
       <div className="table-part">
-        <h2>Villas</h2>
-        <ul className="table_header_button_section p-r">
-          <li>
-            <button
-              className="table-btn"
-              onClick={() => {
-                setModalConfirm(true);
-                resetFields();
-              }}
-            >
-              Add Villas Information
-            </button>
-          </li>
-          {/* <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> */}
-        </ul>
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
+            <h2>Villas</h2>
+          </div>
+          <div className="col-sm-4 col-12 text-end">
+            <ul className="table_header_button_section p-r">
+              <li>
+                <button
+                  className="table-btn"
+                  onClick={() => {
+                    setModalConfirm(true);
+                    resetFields();
+                  }}
+                >
+                  Add Villas Information
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div className="table-box " id="villa_table">
           {villasdata.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>
                 <tr>
                   <th scope="col">Sr No.</th>
-                  {/* <th scope="col">Image</th> */}
                   <th scope="col">Name</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Address</th>
                   <th scope="col">Partner/Owner</th>
-                  {/* <th scope="col">Bedroom</th>
-									<th scope="col">Bathrooms</th> */}
                   <th scope="col" className="text-sm-center">
                     Action
                   </th>
@@ -539,15 +541,10 @@ export default function Villas() {
                   villasdata.map((villa, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      {/* <td id="villa_img">
-										{villa.image == 'null' ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/users.jpg'} alt="user-menu" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + 'images/villas/images/' + villa.image} alt="user-menu" />}
-									</td> */}
                       <td>{villa.name}</td>
-                      <td>{villa.phone || 'N/A'}</td>
-                      <td>{villa.address || 'N/A'}</td>
+                      <td>{villa.phone || "N/A"}</td>
+                      <td>{villa.address || "N/A"}</td>
                       <td>{villa.partner_owner}</td>
-                      {/* <td>{villa.bedrooms}</td>
-										<td>{villa.bathrooms}</td> */}
                       <td className="text-sm-center">
                         <div className="dropdown" id="none-class">
                           <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

@@ -335,39 +335,48 @@ export default function ServiceChoice() {
   return (
     <>
       <div className="table-part">
-        <h2>Services Choice</h2>
-        <ul className="table_header_button_section p-r">
-          {/* <li><button className="table-btn">Total</button></li> */}
-          <li className="right-li">
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => {
-                resetForm();
-                setModalConfirm(true);
-              }}
-            >
-              Add Services Choice Information
-            </button>
-          </li>
-        </ul>
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-sm-6 col-4">
+            <h2>Services Choice</h2>
+          </div>
+          <div className="col-sm-6 col-8 text-lg-0 text-end">
+            <ul className="table_header_button_section p-r" id="">
+              <button
+                className="table-btn border-radius round-white"
+                onClick={() => {
+                  resetForm();
+                  setModalConfirm(true);
+                }}
+              >
+                Add Services Choice Information
+              </button>
+            </ul>
+          </div>
+        </div>
+
         <div className="table-box " id="ffff">
-          <table className="table table-borderless common_booking">
+          <table className="table table-borderless">
             <thead>
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Photo</th>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
-                <th scope="col"></th>
+                <th scope="col" className="text-sm-center">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
               {services.map((service: any, index) => (
                 <tr key={service.id}>
                   <td>{++index}</td>
-                  <td className="chefs_pic">{service.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/service/" + service.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</td>
-
-                  <td>{service.service_name}</td>
+                  <td className="chefs_pic">
+                    <div className="flex-commn">
+                      <div className=""> {service.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/service/" + service.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</div>
+                      <div className="">{service.service_name}</div>
+                    </div>
+                  </td>
+                  {/* <td>{service.service_name}</td> */}
                   <td className="abc">
                     {showFullDescription[index] && service.description ? service.description : service.description ? (service.description.length > 100 ? `${service.description.slice(0, 100)}...` : service.description) : ""}
                     {service.description && service.description.length > 100 && (

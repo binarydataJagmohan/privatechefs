@@ -362,45 +362,50 @@ export default function Allergy() {
   return (
     <>
       <div className="table-part">
-        <h2>Allergy</h2>
-        <ul className="table_header_button_section p-r">
-          {/* <li><button className="table-btn">Total</button></li> */}
-          <li className="right-li" id="allergy-id">
-            {/* <button
-              className="table-btn border-radius round-white"
-              onClick={() => setModalConfirm(true)}
-            >
-              Add{" "}
-            </button> */}
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => {
-                resetForm();
-                setModalConfirm(true);
-              }}
-            >
-              Add Allergy Information
-            </button>
-          </li>
-        </ul>
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-sm-6 col-4">
+            <h2>Allergy</h2>
+          </div>
+          <div className="col-sm-6 col-8 text-lg-0 text-end">
+            <ul className="table_header_button_section p-r" id="">
+              <button
+                className="table-btn border-radius round-white"
+                onClick={() => {
+                  resetForm();
+                  setModalConfirm(true);
+                }}
+              >
+                Add Allergy Information
+              </button>
+            </ul>
+          </div>
+        </div>
         <div className="table-box " id="ffff">
-          <table className="table table-borderless common_booking">
+          <table className="table table-borderless">
             <thead>
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Photo</th>
+                {/* <th scope="col">Photo</th> */}
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
-                <th scope="col"></th>
+                <th scope="col" className="text-sm-center">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
               {allergis.map((allergy: any, index) => (
                 <tr key={allergy.id}>
                   <td>{++index}</td>
-                  <td className="chefs_pic">{allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/allergy/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</td>
+                  <td className="chefs_pic">
+                    <div className="flex-commn">
+                      <div className="">{allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/allergy/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</div>
 
-                  <td>{allergy.allergy_name}</td>
+                      <div className="">{allergy.allergy_name}</div>
+                    </div>
+                  </td>
+
+                  {/* <td></td> */}
                   {/* <td>{allergy.description}</td> */}
                   <td className="abc">
                     {showFullDescription[index] && allergy.description ? allergy.description : allergy.description ? (allergy.description.length > 100 ? `${allergy.description.slice(0, 100)}...` : allergy.description) : ""}

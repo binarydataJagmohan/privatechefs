@@ -128,15 +128,21 @@ export default function Users() {
   return (
     <>
       <div className="table-part">
-        <ul className="table_header_button_section p-r mt-4">
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
+            <h2>Concierge</h2>
+          </div>
+          <div className="col-4 table_header_button_section">
+            <input type="text" className="form-control" placeholder="Search concierge here.." onChange={handleChef} />
+          </div>
+        </div>
+        {/* <ul className="table_header_button_section p-r mt-4">
           <li className="float-end mt-0">
             <input type="text" className="form-control" placeholder="Search concierge here.." onChange={handleChef} />
           </li>
 
-          <li className="text-right">
-            <h2>Concierge</h2>
-          </li>
-        </ul>
+          <li className="text-right"></li>
+        </ul> */}
 
         <div className="table-box concierge">
           {getallusers.length > 0 ? (
@@ -146,7 +152,9 @@ export default function Users() {
                   <th scope="col">Sr no</th>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Status</th>
+                  <th scope="col" className="text-sm-end">
+                    Status
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -154,16 +162,16 @@ export default function Users() {
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td className="chefs_pic">
-                      <div className="row align-items-center">
-                        <div className="col-3 p-0 text-center">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</div>
-                        <div className="col-9 p-0">
+                      <div className="flex-commn">
+                        <div className="">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</div>
+                        <div className="">
                           {user.name || ""} {user.surname || ""}
                         </div>
                       </div>
                     </td>
                     <td>{user.email || ""}</td>
-                    <td>
-                      <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, user.id)}>
+                    <td className="text-sm-end">
+                      <select aria-label="Default select example" style={{ width: "unset" }} name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, user.id)}>
                         <option value="yes" selected={user.approved_by_admin === "yes"}>
                           Approved
                         </option>

@@ -646,6 +646,13 @@ main {
   overflow-x: unset;
 }
 
+.table-box::-webkit-scrollbar {
+  width: 0px;
+}
+.table-box::-webkit-scrollbar:horizontal {
+  height: 0px;
+}
+
 table th {
   font-weight: var(--font_wt_name);
   font-size: var(--Res_font_size-normal);
@@ -673,7 +680,7 @@ table tr {
 }
 
 table tr:hover {
-  box-shadow: 0px 3px 11px rgb(0 0 0 / 11%);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 table thead tr:hover {
@@ -1271,7 +1278,6 @@ ul#pills-tab .nav-link:hover {
 .table_header_button_section li {
   display: inline-block;
   margin-right: 7px;
-  margin-top: -40px;
 }
 
 h2.font-black {
@@ -4736,6 +4742,9 @@ p {
     border: none;
     padding: 5px;
   }
+  input#top-rated {
+    margin-left: 0px;
+  }
   #location-img img {
     height: 300px !important;
   }
@@ -4907,6 +4916,44 @@ button.slick-arrow.slick-next::before {
 .common_booking th:nth-child(9),
 .common_booking td:nth-child(9) {
   min-width: 100px !important;
+}
+
+@media (max-width: 1366px) {
+  .common_booking th:nth-child(1),
+  .common_booking td:nth-child(1) {
+    min-width: 180px !important;
+  }
+
+  .common_booking th:nth-child(2),
+  .common_booking td:nth-child(2) {
+    min-width: 180px !important;
+  }
+  .common_booking th:nth-child(3),
+  .common_booking td:nth-child(3) {
+    min-width: 180px !important;
+  }
+  .common_booking th:nth-child(4),
+  .common_booking td:nth-child(4),
+  .common_booking th:nth-child(5),
+  .common_booking td:nth-child(5) {
+    min-width: 180px !important;
+  }
+  .common_booking th:nth-child(6),
+  .common_booking td:nth-child(6) {
+    min-width: 180px !important;
+  }
+  .common_booking th:nth-child(7),
+  .common_booking td:nth-child(7) {
+    min-width: 180px !important;
+  }
+  .common_booking th:nth-child(8),
+  .common_booking td:nth-child(8) {
+    min-width: 180px !important;
+  }
+  .common_booking th:nth-child(9),
+  .common_booking td:nth-child(9) {
+    min-width: 180px !important;
+  }
 }
 /* Add similar styles for other columns as needed */
 .h-remove .react-tel-input .form-control {
@@ -5354,7 +5401,7 @@ main {
 
   .table td {
     text-align: left;
-    padding-left: 0%;
+    padding-left: 2%;
     position: relative;
   }
 
@@ -5830,4 +5877,11 @@ i.fa-solid.fa-ellipsis {
   i.fa-solid.fa-ellipsis {
     text-align: left;
   }
+}
+
+/* 20-5 */
+.flex-commn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
