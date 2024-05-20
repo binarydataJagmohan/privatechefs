@@ -312,7 +312,6 @@ export default function Chefs() {
     getCuisine()
       .then((res) => {
         if (res.status) {
-          console.log(res);
           setGetCuisine(res.data);
         } else {
           toast.error(res.message, {
@@ -577,26 +576,32 @@ export default function Chefs() {
               {filterPrice.length > 0 ? (
                 filterPrice.map((filter, index) => (
                   <tr key={index}>
-                    {filter.pic ? (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
-                        </a>
-                      </td>
-                    ) : (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
-                        </a>
-                      </td>
-                    )}
                     <td>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                        {filter.name || ""} {filter.surname || ""}
-                      </a>
+                      <div className="d-flex gap-2 align-items-center">
+                        <div className="">
+                          {filter.pic ? (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
+                              </a>
+                            </div>
+                          ) : (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                        <div className="">
+                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug} target="_blank">
+                            {filter.name || ""} {filter.surname || ""}
+                          </a>
+                        </div>
+                      </div>
                     </td>
-                    <td>{filter.email || ""}</td>
-                    <td>{filter.address || ""}</td>
+                    <td>{filter.email || "N/A"}</td>
+                    <td>{filter.address || "N/A"}</td>
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -609,7 +614,7 @@ export default function Chefs() {
                       </select>
                     </td>
 
-                    <td style={{ paddingLeft: "25px" }}>
+                    <td className="text-center">
                       <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefs/" + filter.id}>
                         <i className="fa fa-eye" aria-hidden="true"></i>
                       </a>
@@ -619,23 +624,29 @@ export default function Chefs() {
               ) : filterLocation.length > 0 ? (
                 filterLocation.map((filter, index) => (
                   <tr key={index}>
-                    {filter.pic ? (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
-                        </a>
-                      </td>
-                    ) : (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
-                        </a>
-                      </td>
-                    )}
                     <td>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                        {filter.name || ""} {filter.surname || ""}
-                      </a>
+                      <div className="d-flex gap-2 align-items-center">
+                        <div className="">
+                          {filter.pic ? (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
+                              </a>
+                            </div>
+                          ) : (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                        <div className="">
+                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug} target="_blank">
+                            {filter.name || ""} {filter.surname || ""}
+                          </a>
+                        </div>
+                      </div>
                     </td>
                     <td>{filter.email || ""}</td>
                     <td>{filter.address || ""}</td>
@@ -676,23 +687,29 @@ export default function Chefs() {
               ) : filteredChefs.length > 0 ? (
                 filteredChefs.map((filter) => (
                   <tr key={filter.id}>
-                    {filter.pic ? (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
-                        </a>
-                      </td>
-                    ) : (
-                      <td className="chefs_pic">
-                        <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                          <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
-                        </a>
-                      </td>
-                    )}
                     <td>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
-                        {filter.name || ""} {filter.surname || ""}
-                      </a>
+                      <div className="d-flex gap-2 align-items-center">
+                        <div className="">
+                          {filter.pic ? (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + filter.pic} alt="" />
+                              </a>
+                            </div>
+                          ) : (
+                            <div className="chefs_pic">
+                              <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug}>
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                        <div className="">
+                          <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + filter.slug} target="_blank">
+                            {filter.name || ""} {filter.surname || ""}
+                          </a>
+                        </div>
+                      </div>
                     </td>
                     <td>{filter.address || ""}</td>
                     <td>{filter.email || ""}</td>

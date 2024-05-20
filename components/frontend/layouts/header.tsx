@@ -94,16 +94,12 @@ export default function Header({ }) {
   }, [session]);
 
   const SocialData = (user: any, type: any) => {
-
     const data = {
       name: user.name,
       email: user.email,
       login_type: type,
       password: '12345678'
     };
-
-    // console.log(data);
-
     socialDataSave(data)
       .then(res => {
         if (res.status == true) {
@@ -129,12 +125,9 @@ export default function Header({ }) {
             setRole(res.data.user.role);
             setCurrentUserId(true);
             setUserId(res.data.user.id);
-
             signOut({ redirect: false }).then();
             showToast('success', res.message);
-
             router.push('/user/userprofile');
-
           } else {
             setButtonState(false);
             toast.info(res.message, {
@@ -164,9 +157,7 @@ export default function Header({ }) {
         }
       })
       .catch((err) => {
-
       });
-
   };
 
   useEffect(() => {
@@ -266,10 +257,6 @@ export default function Header({ }) {
       })
 
   }
-
-  useEffect(() => {
-
-  }, []);
 
   //login submit start
 
@@ -452,11 +439,17 @@ export default function Header({ }) {
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Invalid email address";
     }
+    // if (!password) {
+    //   newErrors.password = "Password is required";
+    // } else if (password.length < 8) {
+    //   newErrors.password = "Password must be at least 8 characters";
+    // }
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+    } else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password)) {
+      newErrors.password = "Password must be at least 8+ chars, start uppercase, 1 special, 1 number.";
     }
+
     if (!confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (password !== confirmPassword) {
@@ -473,11 +466,7 @@ export default function Header({ }) {
     if (!terms) {
       newErrors.terms = "Please accept terms and condition";
     }
-
-
-
     setErrors(newErrors);
-
     // Submit form data if there are no errors
     if (Object.keys(newErrors).length === 0) {
       setButtonState(true);
@@ -585,10 +574,17 @@ export default function Header({ }) {
         }
         break;
       case "password":
+        // if (!value) {
+        //   newErrors.password = "Password is required";
+        // } else if (value.length < 8) {
+        //   newErrors.password = "Password must be at least 8 characters";
+        // } else {
+        //   delete newErrors.password;
+        // }
         if (!value) {
           newErrors.password = "Password is required";
-        } else if (value.length < 8) {
-          newErrors.password = "Password must be at least 8 characters";
+        } else if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(value)) {
+          newErrors.password = "Password must be at least 8+ chars, start uppercase, 1 special, 1 number.";
         } else {
           delete newErrors.password;
         }
@@ -803,13 +799,13 @@ export default function Header({ }) {
                       </div>
                     </div>
                     <div className="menu front-menu">
-                      <ul>
-                        <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0, 15) + '...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
-                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL + 'user/messages'}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
-                        {/* <li><a href={process.env.NEXT_PUBLIC_BASE_URL + `user/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li> */}
-                        <li><a href={process.env.NEXT_PUBLIC_BASE_URL + 'user/userprofile'}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
-                        <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
-                      </ul>
+                        <ul>
+                            <li className='user_menu'><a href='#'><i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a><span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span></li>
+                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/chats`}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
+                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
+                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/setting`}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
+                            <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
+                        </ul>
                     </div>
                   </div>
                 )}
@@ -858,11 +854,11 @@ export default function Header({ }) {
           <form onSubmit={handleLoginSubmit} className="common_form_error" id="login_form">
             <div className='login_div'>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="loginemail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleLoginBlur} autoComplete="username" />
+              <input type="email" id="loginemail" name='email' value={email} onChange={(e) => setEmail(e.target.value)} onBlur={handleLoginBlur} autoComplete="username" maxLength={50} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
             <div className='login_div'>
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password" >Password:</label>
               <input type="password" id="loginpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleLoginBlur} autoComplete="current-password" />
 
               {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.password}</span>}
@@ -925,9 +921,9 @@ export default function Header({ }) {
             </div> */}
 
             <div className='login_div'>
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password" className='setmobilepass'>Password:</label>
               <input type="password" id="registerpassword" name='password' value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
-              {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.password}</span>}
+              {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login pasword-mobile" style={{ wordWrap: 'break-word', marginTop: '-8px' }}>{errors.password}</span>}
             </div>
             <div className='login_div'>
               <label htmlFor="confirmPassword">Confirm Password:</label>
