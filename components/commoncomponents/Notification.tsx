@@ -179,7 +179,7 @@ export default function Notification() {
                                             // JSX for your additional condition
                                             <>
                                             {notification.description}.
-                                                <a className='' target={"_blank"} href={ process.env.NEXT_PUBLIC_BASE_URL+'admin/bookings?booking_id='+notification.description.split('#')[1]}><small>View Booking</small></a>
+                                                <a className='' target={"_blank"} href={ notification.description ? process.env.NEXT_PUBLIC_BASE_URL+'admin/bookings?booking_id='+notification.description.split('#')[1] : ''}><small>View Booking</small></a>
                                             
                                             </>
                                           ) : (

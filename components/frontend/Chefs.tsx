@@ -33,6 +33,8 @@ export default function Chefs(props: any) {
     addresses: string;
     city:string;
     role:string;
+    know_me_better: string;
+    cooking_secret: string;
   }
 
   const [getUsers, setUsers] = useState<User>({
@@ -63,6 +65,8 @@ export default function Chefs(props: any) {
     addresses: "",
     city: "",
     role: "",
+    cooking_secret: "",
+    know_me_better: ""
 
   });
   let id = props.userId;
@@ -176,17 +180,18 @@ export default function Chefs(props: any) {
             <div className="row">
               <div className="col-lg-4 col-md-12">
                 <h2>Get to know me better</h2>
-                <q>Perfection and extraordinary taste is my goal in every dish</q>
+                {getUsers.know_me_better ? <q>{getUsers.know_me_better}</q> : ''}
+                {/* <q>Perfection and extraordinary taste is my goal in every dish</q> */}
                 <a href="/bookings/step1" className="btn-design">
                   Book Now
                 </a>
               </div>
               <div className="col-lg-4 col-md-12">
-                {getUsers.description 
+                {getUsers.about 
                   ? 
                     <>
                       <p>
-                        {renderDescription(getUsers.description)}
+                        {renderDescription(getUsers.about)}
                       </p>
                       <a href="#" className="read-more" onClick={toggleExpand}>
                         {isExpanded ? 'Read Less' : 'Read More'}
@@ -226,7 +231,8 @@ export default function Chefs(props: any) {
                   <p>
                     <b>A cooking secret...</b>
                   </p>
-                  <p>{getUsers.favorite_dishes ? getUsers.favorite_dishes : ''}</p>
+                  <p>{getUsers.cooking_secret ? getUsers.cooking_secret : ''}</p>
+                  {/* <p>{getUsers.favorite_dishes ? getUsers.favorite_dishes : ''}</p> */}
                   <br />
                 </div>
               </div>

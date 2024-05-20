@@ -576,7 +576,11 @@ export default function UserProfile() {
                       <p>Let us know your favorite cuisines any additional information and if you have allergies, dietary or religious restrictions.</p>
                     </div>
                   </a>
-
+                  <a href={`/user/notification/notification?id=${currentUserData.id}`}>
+                    <div className="profile-cols mt-4 mb-4">
+                      <h4>Notification</h4>
+                    </div>
+                  </a>
                 </div>
               </div>
               <div className="col-lg-7 col-md-12 d-none d-lg-block">

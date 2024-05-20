@@ -299,6 +299,11 @@ export default function UserProfileThree() {
                     restrictions.
                   </p>
                 </div>
+                <a href={`/user/notification/notification?id=${currentUserData.id}`}>
+                  <div className="profile-cols mt-4 mb-4">
+                    <h4>Notification</h4>
+                  </div>
+                </a>
               </div>
             </div>
             <div className="col-lg-9 col-md-12">

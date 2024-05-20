@@ -68,6 +68,8 @@ export default function MyProfile() {
 	const [twitter_link, setTwitterLink] = useState("");
 	const [linkedin_link, setLinkedinLink] = useState("");
 	const [youtube_link, setYoutubeLink] = useState("");
+	const [cookingSecret, setCookingSecret] = useState("");
+	const [knowMeBetter, setKnowMeBetter] = useState("");
 
 	// const [servicetitleone, setServiceTitleOne] = useState("");
 	// const [servicedescriptionone, setServiceDescriptionOne] = useState("");
@@ -454,30 +456,32 @@ export default function MyProfile() {
 			twitter_link: twitter_link || '',
 			linkedin_link: linkedin_link || '',
 			youtube_link: youtube_link || '',
+			cooking_secret: cookingSecret || '',
+			know_me_better: knowMeBetter || ''
 		};
 		console.log(data);
 		UpdateChefResume(id, data)
-			.then(res => {
-				setButtonState(false);
-				console.log(res.data);
-				showToast('success', res.message);
+		.then(res => {
+			setButtonState(false);
+			console.log(res.data);
+			showToast('success', res.message);
 
-			}).catch(err => {
-				setButtonState(false);
-				toast.error(err, {
-					position: toast.POSITION.BOTTOM_RIGHT,
-					closeButton: true,
-					hideProgressBar: false,
-					style: {
-						background: '#ffff',
-						borderLeft: '4px solid #e74c3c',
-						color: '#454545',
-					},
-					progressStyle: {
-						background: '#ffff',
-					},
-				});
+		}).catch(err => {
+			setButtonState(false);
+			toast.error(err, {
+				position: toast.POSITION.BOTTOM_RIGHT,
+				closeButton: true,
+				hideProgressBar: false,
+				style: {
+					background: '#ffff',
+					borderLeft: '4px solid #e74c3c',
+					color: '#454545',
+				},
+				progressStyle: {
+					background: '#ffff',
+				},
 			});
+		});
 	};
 
 	useEffect(() => {
@@ -729,6 +733,8 @@ export default function MyProfile() {
 					setLinkedinLink(res.data.linkedin_link);
 					setYoutubeLink(res.data.youtube_link);
 					setChefResume(res.data);
+					setCookingSecret(res.data.cooking_secret);
+					setKnowMeBetter(res.data.know_me_better);
 				} else {
 					toast.error(res.message, {
 						position: toast.POSITION.TOP_RIGHT,
@@ -1007,7 +1013,9 @@ export default function MyProfile() {
 		});
 	};
 
+	const handleCookingSecretChange = () =>{
 
+	}
 	return (
 		<>
 			<div className="table-part">
@@ -1285,6 +1293,10 @@ export default function MyProfile() {
 														<label>Tell us about you</label>
 														<textarea name="about" value={about || ''} onChange={(e) => setAbout(e.target.value)}></textarea>
 													</div>
+													<div className="col-lg-12 col-md-6 mt-2 ">
+														<label className='mb-3'> Know Me Better </label>
+														<input type="text" name='know_me_better' value={knowMeBetter || ''} onChange={(e:any) => setKnowMeBetter(e.target.value)} />
+													</div>
 													<div className="col-lg-12 col-md-12">
 														<label className='mb-4 d-block'>What describes you best?</label>
 
@@ -1509,7 +1521,11 @@ export default function MyProfile() {
 															<input className="form-check-input" type="checkbox" id="inlineCheckbox29" style={{ width: "auto" }} onChange={() => handleSkillsChange('None')} checked={skills['None']} />
 															<label className="form-check-label" htmlFor="inlineCheckbox29" style={{ width: "auto", paddingLeft: '8px' }}>None</label>
 														</div>
+													</div>
 
+													<div className="col-lg-12 col-md-6 mt-2 ">
+														<label className='mb-3'> A cooking secret </label>
+														<input type="text" name='cooking_secret' value={cookingSecret || ''} onChange={(e:any) => setCookingSecret(e.target.value)} />
 													</div>
 												</div>
 
