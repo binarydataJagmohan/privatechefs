@@ -18,6 +18,9 @@ export default function MyProfile(props: any) {
     chefemail: string;
     useremail: string;
     amount: string;
+    userphone: string;
+    location: string;
+    booking_phone: string;
   }
 
   const [getUsers, setUsers] = useState<User>({
@@ -34,6 +37,9 @@ export default function MyProfile(props: any) {
     chefemail: "",
     useremail: "",
     amount: "",
+    userphone: "",
+    location: "",
+    booking_phone: "",
   });
 
   let id = props.userId;
@@ -83,19 +89,20 @@ export default function MyProfile(props: any) {
         </div>
         <div className="col-lg-10 text-left">
           <h2>Booking Details</h2>
-          <strong>Street:</strong> <span>109, 1st Flr, Om Chambers, Kemps Corner, Nr Peddar Rdfly Over, Kemps Corner</span>
-          <br />
+          {/* <strong>Street:</strong> <span>109, 1st Flr, Om Chambers, Kemps Corner, Nr Peddar Rdfly Over, Kemps Corner</span> */}
+          <strong>Street:</strong> <span>{getUsers.location}</span>
+          {/* <br />
           <strong>City:</strong> <span> Mumbai</span>
           <br />
-          <strong>State/province/area:</strong> <span> Maharashtra</span>
+          <strong>State/province/area:</strong> <span> Maharashtra</span>*/}
           <br />
-          <strong>Phone number: </strong> <span> 02223638663</span>
+          <strong>Phone number: </strong> <span> {getUsers.booking_phone}</span>
           <br />
-          <strong>Zip code:</strong> <span>400036</span>
+          {/* <strong>Zip code:</strong> <span>400036</span>
           <br />
           <strong>Country calling code: </strong> <span> +91</span>
-          <br />
-          <strong>Country: </strong> <span>India</span>
+          <br /> */}
+          {/* <strong>Country: </strong> <span>India</span> */}
         </div>
       </div>
       <div className="row">
@@ -104,26 +111,26 @@ export default function MyProfile(props: any) {
             <h4>User Details</h4>
             <div>
               <p>
-                <span id="book-user">Name : </span> {getUsers.chefname}
+                <span id="book-user">Name : </span> {getUsers.username}
               </p>
-              {getUsers.chefsurname ? (
+              {getUsers.usersurname ? (
                 <p>
-                  <span id="book-user">Surname : </span> {getUsers.chefsurname}
+                  <span id="book-user">Surname : </span> {getUsers.usersurname}
                 </p>
               ) : null}
-              {getUsers.chefemail ? (
+              {getUsers.useremail ? (
                 <p>
-                  <span id="book-user">Email : </span> {getUsers.chefemail}
+                  <span id="book-user">Email : </span> {getUsers.useremail}
                 </p>
               ) : null}
-              {getUsers.chefphone ? (
+              {getUsers.userphone ? (
                 <p>
-                  <span id="book-user">phone no : </span> {getUsers.chefphone}
+                  <span id="book-user">phone no : </span> {getUsers.userphone}
                 </p>
               ) : null}
-              {getUsers.chefaddress ? (
+              {getUsers.useraddress ? (
                 <p>
-                  <span id="book-user">Address : </span> {getUsers.chefaddress}
+                  <span id="book-user">Address : </span> {getUsers.useraddress}
                 </p>
               ) : null}
             </div>
