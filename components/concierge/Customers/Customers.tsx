@@ -208,19 +208,25 @@ export default function Users() {
   return (
     <>
       <div className="table-part">
-        <h2>Users</h2>
-        <div className="text-right">
-          <button
-            className="table-btn"
-            onClick={() => {
-              setModalConfirm(true);
-              resetFields();
-            }}
-          >
-            Add User Information
-          </button>
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
+            <h2>Users</h2>
+          </div>
+          <div className="col-sm-4 col-12 text-end">
+            <div className="text-right">
+              <button
+                className="table-btn"
+                onClick={() => {
+                  setModalConfirm(true);
+                  resetFields();
+                }}
+              >
+                Add User Information
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="table-box " id="villa_table">
+        <div className="table-box mt-3" id="villa_table">
           {getallusers.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>

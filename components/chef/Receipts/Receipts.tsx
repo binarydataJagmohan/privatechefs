@@ -391,7 +391,7 @@ export default function Receipts() {
         >
           Add
         </button>
-        <div className="table-box " id="receipt_table">
+        <div className="table-box mt-3 " id="receipt_table">
           {getreceipt.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>

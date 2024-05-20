@@ -136,14 +136,6 @@ export default function Users() {
             <input type="text" className="form-control" placeholder="Search concierge here.." onChange={handleChef} />
           </div>
         </div>
-        {/* <ul className="table_header_button_section p-r mt-4">
-          <li className="float-end mt-0">
-            <input type="text" className="form-control" placeholder="Search concierge here.." onChange={handleChef} />
-          </li>
-
-          <li className="text-right"></li>
-        </ul> */}
-
         <div className="table-box concierge">
           {getallusers.length > 0 ? (
             <table className="table table-borderless common_booking">

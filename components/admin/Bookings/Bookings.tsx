@@ -816,7 +816,6 @@ export default function Bookings() {
     <>
       <div className="table-part">
         <h2 className="mb-4">Available Bookings </h2>
-
         <ul className="table_header_button_section">
           <li>
             <button className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(0, "all")}>

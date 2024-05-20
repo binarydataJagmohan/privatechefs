@@ -371,9 +371,9 @@ export default function Allergy() {
           <div className="col-8">
             <h2>Testimonial</h2>
           </div>
-          <div className="col-sm-4 col-12">
+          <div className="col-sm-4 col-12 text-end">
             <ul className="table_header_button_section p-r">
-              <li className="right-li" id="allergy-id">
+              <li className="" id="allergy-id">
                 <button
                   className="table-btn border-radius round-white"
                   onClick={() => {

@@ -68,7 +68,7 @@ export default function Invoices() {
       <div className="table-part">
         <h2>Invoices</h2>
         <button className="table-btn">Total</button>
-        <div className="table-box ">
+        <div className="table-box mt-3">
           {getinvoice.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>

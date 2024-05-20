@@ -532,7 +532,7 @@ export default function Bookings() {
   return (
     <>
       <div className="table-part">
-        <h2 className="mb-4">Available Bookings</h2>
+        <h2 className="">Available Bookings</h2>
 
         <ul className="table_header_button_section">
           <li>
@@ -556,7 +556,7 @@ export default function Bookings() {
             </button>
           </li>
         </ul>
-        <div className="table-box ">
+        <div className="table-box mt-3 ">
           {bookingUsers.length > 0 ? (
             <table className="table table-borderless common_booking common_booking">
               <thead>

@@ -61,7 +61,7 @@ export default function Receipts() {
       <div className="table-part">
         <h2>Receipts</h2>
         <button className="table-btn">Total</button>
-        <div className="table-box ">
+        <div className="table-box mt-3">
           {getreceipt.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>

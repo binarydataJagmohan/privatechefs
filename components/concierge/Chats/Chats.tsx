@@ -932,13 +932,12 @@ export default function Booking(props: any) {
             <div className="col-lg-12 col-md-12">
               <div className="table-part">
                 <h2>Chats</h2>
-
                 <div className="chats-box">
                   <div className="d-flex">
                     <div className="users-all">
-                      <div className="chats-btns mt-4">
+                      <div className="chats-btns">
                         <form className="form-Search">
-                          <input type="text" name="starter" value={searchInputValue} onChange={handleSearchInputChange} placeholder="Search user and chef by name.." className="mb-4" required />
+                          <input type="text" name="starter" value={searchInputValue} onChange={handleSearchInputChange} placeholder="Search user and chef by name.." className="mb-2" required />
                         </form>
                         <div className="position-relative">
                           <div className="" id="compare_countries_result">

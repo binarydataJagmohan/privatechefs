@@ -3556,9 +3556,9 @@ select {
     margin-bottom: 20px;
     padding-top: 0px !important;
   }
-  .user-class.pt-5 {
+  /* .user-class.pt-5 {
     display: block !important;
-  }
+  } */
   .text-link a {
     font-size: 10px !important;
   }
@@ -4032,9 +4032,9 @@ div#test-img img {
   color: var(--color_1) !important;
 }
 
-.user-class.pt-5 {
+/* .user-class.pt-5 {
   display: flex;
-}
+} */
 
 span#book-user {
   color: #ff4e00d1;
@@ -5890,4 +5890,16 @@ i.fa-solid.fa-ellipsis {
   max-width: 700px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
   padding: 2%;
+}
+
+.user-class {
+  margin-top: 3%;
+  padding: 2%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  border-radius: 8px;
+}
+.user-class p {
+  margin: 15px 0px;
+  display: flex;
+  justify-content: space-between;
 }
