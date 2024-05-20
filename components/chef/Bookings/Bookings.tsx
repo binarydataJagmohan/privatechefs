@@ -177,7 +177,6 @@ export default function Bookings() {
           };
           openOffcanvas();
         }
-
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -208,7 +207,6 @@ export default function Bookings() {
         },
       });
     }
-
   };
 
   const onPageChange = (page: any) => {
@@ -338,7 +336,7 @@ export default function Bookings() {
     setSelectedMenu((prevMenuItems: any) => (isChecked ? [...prevMenuItems, menuItemId] : prevMenuItems.filter((item: any) => item !== menuItemId)));
   };
 
-  const handleMenuItemBlur = (event: any) => { };
+  const handleMenuItemBlur = (event: any) => {};
 
   const handleBookingApplyJobSubmit = (event: any) => {
     event.preventDefault();
@@ -431,7 +429,7 @@ export default function Bookings() {
             </button>
           </li>
         </ul>
-        <div className="table-box">
+        <div className="table-box ">
           {bookingUsers.length > 0 ? (
             <table className="table table-borderless common_booking common_booking">
               <thead>
@@ -495,7 +493,8 @@ export default function Bookings() {
                                     setModalConfirm(true);
                                     setBookingId(user.booking_id);
                                     resetFields();
-                                  }}>
+                                  }}
+                                >
                                   Apply
                                 </a>
                               </li>
@@ -534,7 +533,11 @@ export default function Bookings() {
                     setModalConfirm(true);
                     setBookingId(booking.booking_id);
                     resetFields();
-                  }}>Apply</button>)}
+                  }}
+                >
+                  Apply
+                </button>
+              )}
             </div>
             <div className="off-can">
               <div className="accordion" id="accordionExample">

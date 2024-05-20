@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { ToastContainer, toast } from "react-toastify";
-import {
-  saveService,
-  getServiceDetails,
-  serviceDelete,
-  getSingleService,
-  serviceUpdate
-} from "../../../lib/adminapi";
+import { saveService, getServiceDetails, serviceDelete, getSingleService, serviceUpdate } from "../../../lib/adminapi";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
@@ -38,8 +32,6 @@ export default function ServiceChoice() {
   const [preview, setPreview] = useState<null | string>(null);
   const [newImage, setNewImage] = useState("");
 
-
-
   const pageSize = 5;
 
   const toggleDescription = (index: any) => {
@@ -47,7 +39,6 @@ export default function ServiceChoice() {
     newShowFullDescription[index] = !newShowFullDescription[index];
     setShowFullDescription(newShowFullDescription);
   };
-
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -63,12 +54,11 @@ export default function ServiceChoice() {
   };
 
   useEffect(() => {
-
-    const data = isPageVisibleToRole('admin-servicechoice');
+    const data = isPageVisibleToRole("admin-servicechoice");
     if (data == 2) {
-      window.location.href = '/login'; // redirect to login if not logged in
+      window.location.href = "/login"; // redirect to login if not logged in
     } else if (data == 0) {
-      window.location.href = '/404'; // redirect to 404 if not authorized
+      window.location.href = "/404"; // redirect to 404 if not authorized
     }
     if (data == 1) {
       const userData = getCurrentUserData();
@@ -90,12 +80,12 @@ export default function ServiceChoice() {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       }
@@ -105,12 +95,12 @@ export default function ServiceChoice() {
         closeButton: true,
         hideProgressBar: false,
         style: {
-          background: '#ffff',
-          borderLeft: '4px solid #e74c3c',
-          color: '#454545',
+          background: "#ffff",
+          borderLeft: "4px solid #e74c3c",
+          color: "#454545",
         },
         progressStyle: {
-          background: '#ffff',
+          background: "#ffff",
         },
       });
     }
@@ -146,12 +136,12 @@ export default function ServiceChoice() {
                 closeButton: true,
                 hideProgressBar: false,
                 style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
                 },
                 progressStyle: {
-                  background: '#ffff',
+                  background: "#ffff",
                 },
               });
             }
@@ -162,12 +152,12 @@ export default function ServiceChoice() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           });
@@ -195,13 +185,11 @@ export default function ServiceChoice() {
     if (Object.keys(errors).length === 0) {
       setButtonState(true);
 
-
       // Call an API or perform some other action to register the user
       const data = {
         name: name,
         description: description,
         user_id: currentUserData.id,
-
       };
 
       saveService(data, image)
@@ -221,7 +209,7 @@ export default function ServiceChoice() {
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
             setService(paginatedPosts);
             setServiceList([]);
-            showToast('success', res.message);
+            showToast("success", res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -229,12 +217,12 @@ export default function ServiceChoice() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           }
@@ -297,7 +285,7 @@ export default function ServiceChoice() {
         editsetModalConfirm(false);
         fetchServiceDetails();
         setServiceList(res.data);
-        showToast('success', res.message);
+        showToast("success", res.message);
       })
       .catch((err) => {
         toast.error("Failed to update Service. Please try again.", {
@@ -305,12 +293,12 @@ export default function ServiceChoice() {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
         console.log(err);
@@ -362,7 +350,7 @@ export default function ServiceChoice() {
             </button>
           </li>
         </ul>
-        <div className="table-box" id="ffff">
+        <div className="table-box " id="ffff">
           <table className="table table-borderless common_booking">
             <thead>
               <tr>
@@ -377,73 +365,30 @@ export default function ServiceChoice() {
               {services.map((service: any, index) => (
                 <tr key={service.id}>
                   <td>{++index}</td>
-                  <td className="chefs_pic">
-                    {service.image ? (
-                      <img
-                        src={
-                          process.env.NEXT_PUBLIC_IMAGE_URL +
-                          "/images/admin/service/" +
-                          service.image
-                        }
-                        alt=""
-                      />
-                    ) : (
-                      <img
-                        src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"}
-                        alt=""
-                      />
-                    )}
-                  </td>
+                  <td className="chefs_pic">{service.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/service/" + service.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</td>
 
                   <td>{service.service_name}</td>
                   <td className="abc">
-                    {showFullDescription[index] && service.description
-                      ? service.description
-                      : service.description
-                        ? service.description.length > 100
-                          ? `${service.description.slice(0, 100)}...`
-                          : service.description
-                        : ""}
-                    {service.description &&
-                      service.description.length > 100 && (
-                        <a
-                          className="read-more-link"
-                          onClick={() => toggleDescription(index)}
-                        >
-                          {showFullDescription[index]
-                            ? "Read Less"
-                            : "Read More"}
-                        </a>
-                      )}
+                    {showFullDescription[index] && service.description ? service.description : service.description ? (service.description.length > 100 ? `${service.description.slice(0, 100)}...` : service.description) : ""}
+                    {service.description && service.description.length > 100 && (
+                      <a className="read-more-link" onClick={() => toggleDescription(index)}>
+                        {showFullDescription[index] ? "Read Less" : "Read More"}
+                      </a>
+                    )}
                   </td>
                   <td>
                     <div className="dropdown" id="none-class">
-                      <a
-                        className="dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
+                      <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i className="fa-solid fa-ellipsis"></i>
                       </a>
-                      <ul
-                        className="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                      >
+                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                            onClick={(e) => editService(e, service.id)}
-                          >
+                          <a className="dropdown-item" href="#" onClick={(e) => editService(e, service.id)}>
                             Edit
                           </a>
                         </li>
                         <li>
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                            onClick={(e) => handleDelete(e, service.id)}
-                          >
+                          <a className="dropdown-item" href="#" onClick={(e) => handleDelete(e, service.id)}>
                             Delete
                           </a>
                         </li>
@@ -455,51 +400,21 @@ export default function ServiceChoice() {
             </tbody>
           </table>
         </div>
-        <Pagination
-          items={service2.length}
-          currentPage={currentPage}
-          pageSize={pageSize}
-          onPageChange={onPageChange}
-        />
+        <Pagination items={service2.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
       </div>
 
       {/* // Menu popup start  */}
-      <PopupModal
-        show={modalConfirm}
-        handleClose={modalConfirmClose}
-        staticClass="var-login"
-      >
+      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
         <div className="all-form">
-          <form
-            onSubmit={handlMenuSubmit}
-            className="common_form_error"
-            id="menu_form"
-
-          >
+          <form onSubmit={handlMenuSubmit} className="common_form_error" id="menu_form">
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onBlur={handleMenuBlur}
-                autoComplete="username"
-              />
-              {errors.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.name}
-                </span>
-              )}
+              <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} onBlur={handleMenuBlur} autoComplete="username" />
+              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea
-                name="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                onBlur={handleMenuBlur}
-              ></textarea>
+              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onBlur={handleMenuBlur}></textarea>
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
@@ -509,58 +424,28 @@ export default function ServiceChoice() {
                 onChange={(e:any) => setImage(e.target.files)}
                 accept="jpg,png"
               /> */}
-              <input
-                type="file"
-                name="image"
-                onChange={handleImageChange}
-                accept="jpg,png"
-              />
-              {previewImage && (
-                <img
-                  src={previewImage}
-                  alt="Preview"
-                  style={{ width: "20%", height: "auto" }}
-                />
-              )}
+              <input type="file" name="image" onChange={handleImageChange} accept="jpg,png" />
+              {previewImage && <img src={previewImage} alt="Preview" style={{ width: "20%", height: "auto" }} />}
             </div>
 
-            <button
-              type="submit"
-              className="btn-send w-100 mt-3"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
               Submit Services Choice Information
             </button>
           </form>
         </div>
       </PopupModal>
 
-      <PopupModal
-        show={editmodalConfirm}
-        handleClose={editmodalConfirmClose}
-        staticClass="var-login"
-      >
+      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
         <div className="all-form">
           <form className="common_form_error" id="menu_form" onSubmit={handleUpdateService}>
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                name="service_name"
-                value={serviceList ? serviceList.service_name : ''}
-                onBlur={handleMenuBlur}
-                autoComplete="username"
-                onChange={(e) => setServiceList({ ...serviceList, service_name: e.target.value })}
-              />
-              {errors.name && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.name}
-                </span>
-              )}
+              <input type="text" name="service_name" value={serviceList ? serviceList.service_name : ""} onBlur={handleMenuBlur} autoComplete="username" onChange={(e) => setServiceList({ ...serviceList, service_name: e.target.value })} />
+              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea name="description" value={serviceList ? serviceList.description : ''} onBlur={handleMenuBlur} onChange={(e) => setServiceList({ ...serviceList, description: e.target.value })}></textarea>
+              <textarea name="description" value={serviceList ? serviceList.description : ""} onBlur={handleMenuBlur} onChange={(e) => setServiceList({ ...serviceList, description: e.target.value })}></textarea>
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
@@ -571,7 +456,6 @@ export default function ServiceChoice() {
               ) : (
                 serviceList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/service/${serviceList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
               )}
-
             </div>
 
             <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>

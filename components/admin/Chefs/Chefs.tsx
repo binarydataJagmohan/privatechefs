@@ -539,9 +539,7 @@ export default function Chefs() {
           <li>
             <div className="text-right">
               <Link href="/admin/chefprofile">
-                <button className="table-btn border-radius round-white table-btn">
-                  Add Chefs Information
-                </button>
+                <button className="table-btn border-radius round-white table-btn">Add Chefs Information</button>
               </Link>
             </div>
           </li>
@@ -555,14 +553,11 @@ export default function Chefs() {
           </li>
         </ul>
 
-        <div className="table-box " id="villa_table">
+        <div className="table-box  " id="villa_table">
           <table className="table table-borderless common_booking">
             <thead>
               <tr>
-                {/* <th scope="col">Photo</th> */}
                 <th scope="col">Name</th>
-                {/* <th scope="col">Amount</th>
-                <th scope="col">Cuisines</th> */}
                 <th scope="col">Email</th>
                 <th scope="col">Location</th>
                 <th scope="col">Status</th>
@@ -638,33 +633,6 @@ export default function Chefs() {
                     </td>
                     <td>{filter.email || ""}</td>
                     <td>{filter.address || ""}</td>
-                    {/* <td>
-                      <ul>
-                        {filter.cuisine_name ? (
-                          <ul>
-                            {filter.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={() => setShowAllCuisines(true)}
-                                    >
-                                      +{filter.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })}
-                          </ul>
-                        ) : (
-                          <li>No cuisines available</li>
-                        )}
-                      </ul>
-                    </td> */}
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -678,18 +646,9 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      {/* <a
-                        href={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          "admin/chefs/" +
-                          filter.id
-                        }
-                      >
-                        <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a> */}
-                      <div className="dropdown" id="none-class">
+                      <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                          <i className="fa-solid fa-ellipsis " role="button"></i>
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <li>
@@ -731,34 +690,6 @@ export default function Chefs() {
                     </td>
                     <td>{filter.address || ""}</td>
                     <td>{filter.email || ""}</td>
-                    {/* <td>
-                      <ul>
-                        <ul>
-                          {filter.cuisine_name ? (
-                            filter.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={() => setShowAllCuisines(true)}
-                                    >
-                                      +{filter.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })
-                          ) : (
-                            <li>No cuisines available</li>
-                          )}
-                        </ul>
-
-                      </ul>
-                    </td> */}
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -781,9 +712,9 @@ export default function Chefs() {
                       >
                         <i className="fa fa-eye" aria-hidden="true"></i>
                       </a> */}
-                      <div className="dropdown" id="none-class">
+                      <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                          <i className="fa-solid fa-ellipsis " role="button"></i>
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <li>
@@ -831,48 +762,7 @@ export default function Chefs() {
                     </td>
                     <td>{chef.email || ""}</td>
                     <td>{chef.address || ""}</td>
-                    {/* <td>
-                      <ul>
-                        {chef.cuisine_name && (
-                          <>
-                            {chef.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={handleShowAllCuisines}
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#collapseCuisines"
-                                      aria-expanded={showAllCuisines}
-                                    >
-                                      +{chef.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })}
-                          </>
-                        )}
-                      </ul>
 
-                      <div
-                        className={`collapse${showAllCuisines ? " show" : ""}`}
-                        id="collapseCuisines"
-                      >
-                        <ul>
-                          {chef.cuisine_name &&
-                            chef.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => (
-                                <li key={index}>{cuisine}</li>
-                              ))}
-                        </ul>
-                      </div>
-                    </td> */}
                     <td>{chef.profile_status || ""}</td>
 
                     <td>
@@ -885,20 +775,10 @@ export default function Chefs() {
                         </option>
                       </select>
                     </td>
-
                     <td style={{ paddingLeft: "25px" }}>
-                      {/* <a
-                        href={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          "admin/chefs/" +
-                          chef.id
-                        }
-                      >
-                        <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a> */}
-                      <div className="dropdown" id="none-class">
+                      <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                          <i className="fa-solid fa-ellipsis " role="button"></i>
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <li>
@@ -1049,11 +929,7 @@ export default function Chefs() {
               <input type="email" id="registeremail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
-            <button
-              type="submit"
-              className="btn-send w-100"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
               {buttonStatus ? "Please wait.." : "Submit Invitation Information"}
             </button>
           </form>

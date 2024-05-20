@@ -492,7 +492,7 @@ export default function Villas() {
               });
             }
           })
-          .catch((err) => { });
+          .catch((err) => {});
       } else {
       }
     });
@@ -516,7 +516,7 @@ export default function Villas() {
           </li>
           {/* <li className="right-li"><button className="table-btn border-radius round-white">Filter </button></li> */}
         </ul>
-        <div className="table-box" id="villa_table">
+        <div className="table-box " id="villa_table">
           {villasdata.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>
@@ -618,7 +618,7 @@ export default function Villas() {
                     country={"us"}
                     value={phone}
                     onChange={(phone) => setPhone(phone)}
-                  // add the required attribute here
+                    // add the required attribute here
                   />
                 </div>
               </div>
@@ -739,7 +739,7 @@ export default function Villas() {
                     country={"us"}
                     value={consierge_phone}
                     onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
-                  // add the required attribute here
+                    // add the required attribute here
                   />
                 </div>
               </div>
@@ -840,7 +840,7 @@ export default function Villas() {
                     country={"us"}
                     value={phone}
                     onChange={(phone) => setPhone(phone)}
-                  // add the required attribute here
+                    // add the required attribute here
                   />
                 </div>
               </div>
@@ -983,7 +983,7 @@ export default function Villas() {
                     country={"us"}
                     value={consierge_phone}
                     onChange={(consierge_phone) => setConsiergePhone(consierge_phone)}
-                  // add the required attribute here
+                    // add the required attribute here
                   />
                 </div>
               </div>

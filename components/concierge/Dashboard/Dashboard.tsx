@@ -251,7 +251,7 @@ export default function Dashboard() {
 								</div>
 							</div>
 							<div className="col-lg-7 col-sm-12">
-								<div className="table-box">
+								<div className="table-box concierge">
 									<h4>Upcoming Requests</h4>
 									<table className="table table-borderless common_booking">
 										<thead>
