@@ -151,7 +151,6 @@ export default function Bookings() {
   const [villa_id, setVillasId] = useState<Number>(null);
   const [assignedata, setAssigneData] = useState(false);
 
-
   const modalConfirmOpen = () => {
     setModalConfirm(true);
   };
@@ -300,7 +299,7 @@ export default function Bookings() {
           },
         });
       }
-    } catch (err: any) { }
+    } catch (err: any) {}
   };
 
   const fetchBookingAdminDetails = async () => {
@@ -417,7 +416,6 @@ export default function Bookings() {
         if (res.status == true) {
           setgetAllChef(res.data);
           console.log(res.data);
-
         } else {
           console.log("error");
         }
@@ -818,7 +816,6 @@ export default function Bookings() {
     <>
       <div className="table-part">
         <h2 className="mb-4">Available Bookings </h2>
-
         <ul className="table_header_button_section">
           <li>
             <button className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(0, "all")}>
@@ -841,21 +838,23 @@ export default function Bookings() {
             </button>
           </li>
         </ul>
-        <div className="table-box concierge" id="admin-booking">
+        <div className="table-box responsive-table mt-3" id="admin-booking">
           {bookingUsers.length > 0 ? (
-            <table className="table table-borderless common_booking common_booking">
+            <table className="table table-borderless common_booking">
               <thead>
                 <tr>
                   <th scope="col">Booking ID</th>
                   <th scope="col">Customer</th>
-                  <th scope="col"></th>
+                  {/* <th scope="col"></th> */}
                   <th scope="col">Date Requested</th>
                   <th scope="col">Booking Date</th>
                   <th scope="col">Address</th>
                   <th scope="col">Category</th>
                   <th scope="col">Payment Status</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-sm-center">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -876,17 +875,15 @@ export default function Bookings() {
                       </td>
 
                       <td>
-                        <div className="row align-items-center">
-                          <div className="col-2 col-sm-3 text-sm-end">
-                            <p>
-                              {user.pic ? (
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" width={35} height={35} style={{ borderRadius: "35px" }} />
-                              ) : (
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" width={35} height={35} style={{ borderRadius: "50px" }} />
-                              )}
-                            </p>
+                        <div className="flex-commn">
+                          <div className="">
+                            {user.pic ? (
+                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" width={35} height={35} style={{ borderRadius: "35px" }} />
+                            ) : (
+                              <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" width={35} height={35} style={{ borderRadius: "50px" }} />
+                            )}
                           </div>
-                          <div className="col-9 p-0">
+                          <div className="">
                             <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id} target="_blank" className="nameofusers">
                               {`${user.name} ${surname}`
                                 .split(" ")
@@ -897,7 +894,7 @@ export default function Bookings() {
                         </div>
                       </td>
 
-                      <td className="chefs_pic"></td>
+                      {/* <td className="chefs_pic"></td> */}
                       <td>
                         <p className="text-data-18" id="table-p">
                           {formatDate(user.latest_created_at)}
@@ -1299,28 +1296,14 @@ export default function Bookings() {
                         <td>
                           <div className="all-form p-0 add-w">
                             <div className="login_div">
-                              <input
-                                type="number"
-                                id={`client_amount_${chef.applied_jobs_id}`}
-                                name={`client_amount_${chef.applied_jobs_id}`}
-                                placeholder="Client Amount"
-                                onChange={handleChange}
-                                value={chef.client_amount}
-                              />
+                              <input type="number" id={`client_amount_${chef.applied_jobs_id}`} name={`client_amount_${chef.applied_jobs_id}`} placeholder="Client Amount" onChange={handleChange} value={chef.client_amount} />
                             </div>
                           </div>
                         </td>
                         <td>
                           <div className="all-form p-0 add-w">
                             <div className="login_div">
-                              <input
-                                type="number"
-                                id={`admin_amount_${chef.applied_jobs_id}`}
-                                name={`admin_amount_${chef.applied_jobs_id}`}
-                                placeholder="Admin Amount"
-                                onChange={handleChange}
-                                value={chef.admin_amount}
-                              />
+                              <input type="number" id={`admin_amount_${chef.applied_jobs_id}`} name={`admin_amount_${chef.applied_jobs_id}`} placeholder="Admin Amount" onChange={handleChange} value={chef.admin_amount} />
                             </div>
                           </div>
                         </td>
@@ -1369,7 +1352,6 @@ export default function Bookings() {
           </div>
         </div>
       </PopupModal>
-
 
       <PopupModal show={modalConfirm1} handleClose={modalConfirmClose1}>
         <div className="popup-part new-modala">
@@ -1497,82 +1479,80 @@ export default function Bookings() {
             </form>
           </div>
         </div>
-        {assignedata &&
-          (
-            <div className="popup-part new-modala mt-4">
-              <h4 className="title-pop up-move mt-2">Applied chefs</h4>
-              <div className="offers">
-                <form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Chef's Name</th>
-                        <th scope="col">Chef's Email</th>
-                        <th scope="col">Chef's Amount</th>
-                        <th scope="col">Client Amount</th>
-                        <th scope="col">Admin Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {getallchef.length > 0 ? (
-                        getallchef.filter((chef: { job_status: string; }) => chef.job_status === "hired").length > 0 ? (
-                          getallchef.filter((chef: { job_status: string; }) => chef.job_status === "hired")
-                            .map((chef: any, index: any) => (
-                              <tr key={index}>
-                                <th scope="row">
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      id={`chef_id_${chef.chef_id}`}
-                                      name={`chef_id_${chef.chef_id}`}
-                                      onChange={() => handleRadioChange(Number(chef.chef_id), chef.applied_jobs_id)}
-                                      checked={assignselectedchef == chef.chef_id}
-                                    />
-                                  </div>
-                                </th>
-                                <td>
-                                  {chef.name} {chef.surname}
-                                  {payment_status === "completed" && checkassignselectedchef == chef.chef_id && (
-                                    <button type="button" className="btn btn-sm btn-success mx-2">
-                                      Paid
-                                    </button>
-                                  )}
-                                  {chef.applied_jobs_status === "discussion" && checkassignselectedchef == chef.chef_id && (
-                                    <button type="button" className="btn btn-sm btn-info text-white">
-                                      Assigned
-                                    </button>
-                                  )}
-                                </td>
-                                <td>{chef.email}</td>
-                                <td>{chef.amount}</td>
-                                <td>{chef.clientamount}</td>
-                                <td>{chef.adminamount}</td>
-                              </tr>
-                            ))
-                        ) : (
-                          <tr>
-                            <td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}>
-                              <p style={{ fontSize: "16px" }}>No Chef apply for this booking</p>
-                            </td>
-                          </tr>
-                        )
+        {assignedata && (
+          <div className="popup-part new-modala mt-4">
+            <h4 className="title-pop up-move mt-2">Applied chefs</h4>
+            <div className="offers">
+              <form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Chef's Name</th>
+                      <th scope="col">Chef's Email</th>
+                      <th scope="col">Chef's Amount</th>
+                      <th scope="col">Client Amount</th>
+                      <th scope="col">Admin Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getallchef.length > 0 ? (
+                      getallchef.filter((chef: { job_status: string }) => chef.job_status === "hired").length > 0 ? (
+                        getallchef
+                          .filter((chef: { job_status: string }) => chef.job_status === "hired")
+                          .map((chef: any, index: any) => (
+                            <tr key={index}>
+                              <th scope="row">
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    id={`chef_id_${chef.chef_id}`}
+                                    name={`chef_id_${chef.chef_id}`}
+                                    onChange={() => handleRadioChange(Number(chef.chef_id), chef.applied_jobs_id)}
+                                    checked={assignselectedchef == chef.chef_id}
+                                  />
+                                </div>
+                              </th>
+                              <td>
+                                {chef.name} {chef.surname}
+                                {payment_status === "completed" && checkassignselectedchef == chef.chef_id && (
+                                  <button type="button" className="btn btn-sm btn-success mx-2">
+                                    Paid
+                                  </button>
+                                )}
+                                {chef.applied_jobs_status === "discussion" && checkassignselectedchef == chef.chef_id && (
+                                  <button type="button" className="btn btn-sm btn-info text-white">
+                                    Assigned
+                                  </button>
+                                )}
+                              </td>
+                              <td>{chef.email}</td>
+                              <td>{chef.amount}</td>
+                              <td>{chef.clientamount}</td>
+                              <td>{chef.adminamount}</td>
+                            </tr>
+                          ))
                       ) : (
                         <tr>
                           <td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}>
                             <p style={{ fontSize: "16px" }}>No Chef apply for this booking</p>
                           </td>
                         </tr>
-                      )}
-                    </tbody>
-
-                  </table>
-                </form>
-              </div>
+                      )
+                    ) : (
+                      <tr>
+                        <td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}>
+                          <p style={{ fontSize: "16px" }}>No Chef apply for this booking</p>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </form>
             </div>
-          )
-        }
+          </div>
+        )}
       </PopupModal>
 
       <PopupModal show={modalConfirm2} handleClose={modalConfirmClose2}>

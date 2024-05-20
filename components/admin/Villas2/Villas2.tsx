@@ -369,7 +369,7 @@ export default function Villas2(props: any) {
 
         <div className="row">
           <div className="col-lg-7 col-md-12">
-            <div className="table-box">
+            <div className="table-box ">
               {bookingUsers.length > 0 ? (
                 <table className="table table-borderless common_booking common_booking">
                   <thead>

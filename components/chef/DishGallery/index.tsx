@@ -279,7 +279,7 @@ export default function DishGallery() {
   return (
     <>
       <div className="table-part">
-        <ul className="table_header_button_section p-r mt-4">
+        <ul className="table_header_button_section p-r mt-4 mb-4">
           <li
             className=""
             onClick={() => {
@@ -297,12 +297,10 @@ export default function DishGallery() {
               resetFields();
             }}
           >
-            <button className="table-btn border-radius round-white">
-              Add Dishes Gallery Image
-            </button>
+            <button className="table-btn border-radius round-white">Add Dishes Gallery Image</button>
           </li>
         </ul>
-        <div className="row mt-4 add_menu_items">
+        <div className="row mt-lg-5 mt-3 add_menu_items">
           {menuData.length > 0 ? (
             menuData.map((menu, index) => {
               return (
@@ -331,10 +329,7 @@ export default function DishGallery() {
       {/* // Menu popup start  */}
       <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
         <div className="text-center popup-img">
-          <p
-            className="text-start fw-bold px-2 fs-4"
-            style={{ color: "#ff4e00d1" }}
-          >
+          <p className="text-start fw-bold px-2 fs-4" style={{ color: "#ff4e00d1" }}>
             {dishid ? "Edit Dishes Gallery Image" : "Add Dishes Gallery Image"}
           </p>
         </div>
@@ -348,11 +343,7 @@ export default function DishGallery() {
 
             <div className="image-preview mb-4"></div>
 
-            <button
-              type="submit"
-              className="btn-send w-100 float-end"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100 float-end" disabled={buttonStatus}>
               Submit Dishes Gallery Image
             </button>
           </form>

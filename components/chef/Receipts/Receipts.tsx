@@ -391,7 +391,7 @@ export default function Receipts() {
         >
           Add
         </button>
-        <div className="table-box" id="receipt_table">
+        <div className="table-box mt-3 " id="receipt_table">
           {getreceipt.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>
@@ -550,125 +550,90 @@ export default function Receipts() {
         </div>
       </PopupModal>
 
-			<PopupModal
-				show={editmodalConfirm}
-				handleClose={editmodalConfirmClose}
-				staticClass="var-login"
-			>
-				<div className="all-form" id="form_id">
-					<form
-						className="common_form_error"
-						id="menu_form"
-						onSubmit={handleReceiptUpdate}
-					>
-						<div className="login_div">
-							<label htmlFor="booking">BookingId:</label>
-							<select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
-								<option value='' disabled>Select Booking</option>
-								{Array.isArray(getbooking) && getbooking.map((booking) => (
-									<option key={booking.id} value={booking.id} defaultValue={booking.id === booking_id ? 'true' : undefined}>
-										{`bookingid#${booking.id} - location#${booking.location} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
-									</option>
-								))}
-							</select>
-						</div>
-						<div className='row'>
-							<div className='col-md-6'>
-								<div className="login_div">
-									<div className="login_div">
-										<label htmlFor="date">Order date:</label>
-										<input
-											type="date"
-											name="order_date"
-											defaultValue={order_date}
-											onChange={(e) => setOrderDate(e.target.value)}
-										/>
-									</div>
-								</div>
-							</div>
-							<div className='col-md-6'>
-								<div className="login_div">
-									<label htmlFor="amount">Amount:</label>
-									<input
-										type="number"
-										name="amount"
-										defaultValue={amount}
-										onChange={(e) => setAmount(e.target.value)}
-									/>
-								</div>
-							</div>
-						</div>
-						<div className="login_div">
-							<label htmlFor="Description">Description:</label>
-							<textarea
-								id="form-description"
-								name="description"
-								defaultValue={description}
-								onChange={(e) => setDescription(e.target.value)}
-							></textarea>
-						</div>
-						<div className='mt-4'>
-							<button
-								className="btn-send w-100"
-								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update Receipts Information'}
-							</button>
-						</div>
-					</form>
-				</div>
-			</PopupModal>
-			<PopupModal
-				show={editimagemodalConfirm}
-				handleClose={editimagemodalConfirmClose}
-				staticClass="var-login"
-			>
-				<div className="all-form" id="form_id">
-					<form
-						className="common_form_error"
-						id="menu_form"
-						onSubmit={handleReceiptImageUpdate}
-					>
-						<div className="login_div">
-							<label htmlFor="Image">Image:</label>
-							<input
-								type="file"
-								name="image"
-								onChange={handleImageChange}
-								accept="jpg,png"
-								multiple
-							/>
+      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
+        <div className="all-form" id="form_id">
+          <form className="common_form_error" id="menu_form" onSubmit={handleReceiptUpdate}>
+            <div className="login_div">
+              <label htmlFor="booking">BookingId:</label>
+              <select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
+                <option value="" disabled>
+                  Select Booking
+                </option>
+                {Array.isArray(getbooking) &&
+                  getbooking.map((booking) => (
+                    <option key={booking.id} value={booking.id} defaultValue={booking.id === booking_id ? "true" : undefined}>
+                      {`bookingid#${booking.id} - location#${booking.location} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="login_div">
+                  <div className="login_div">
+                    <label htmlFor="date">Order date:</label>
+                    <input type="date" name="order_date" defaultValue={order_date} onChange={(e) => setOrderDate(e.target.value)} />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="login_div">
+                  <label htmlFor="amount">Amount:</label>
+                  <input type="number" name="amount" defaultValue={amount} onChange={(e) => setAmount(e.target.value)} />
+                </div>
+              </div>
+            </div>
+            <div className="login_div">
+              <label htmlFor="Description">Description:</label>
+              <textarea id="form-description" name="description" defaultValue={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+            </div>
+            <div className="mt-4">
+              <button className="btn-send w-100" disabled={buttonStatus}>
+                {buttonStatus ? "Please wait.." : "Update Receipts Information"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </PopupModal>
+      <PopupModal show={editimagemodalConfirm} handleClose={editimagemodalConfirmClose} staticClass="var-login">
+        <div className="all-form" id="form_id">
+          <form className="common_form_error" id="menu_form" onSubmit={handleReceiptImageUpdate}>
+            <div className="login_div">
+              <label htmlFor="Image">Image:</label>
+              <input type="file" name="image" onChange={handleImageChange} accept="jpg,png" multiple />
 
-							<div className='row mt-3 g-3'>
-								{image && image.map((images, index) => (
-									images instanceof Blob ? (
-										<div className='col-md-4' key={index}>
-											<div className="slider-img-plase">
-												<div className='v-img'>
-													<img src={URL.createObjectURL(images)} className="s-image" alt="selected image" width={100} height={100} />
-												</div>
-											</div>
-										</div>
-									) : (
-										<div className='col-md-4' key={index}>
-											<div className="slider-img-plase">
-												<div className='v-img'>
-													<img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/receipt/' + images.image} alt="villa-image" width={100} height={100} className="s-image" />
-												</div>
-											</div>
-										</div>
-									)
-								))}
-							</div>
-						</div>
-						<div className='mt-4'>
-							<button
-								className="btn-send w-100"
-								disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update Receipts Image'}
-							</button>
-						</div>
-					</form>
-				</div>
-			</PopupModal>
-			<ToastContainer />
-		</>
-	)
+              <div className="row mt-3 g-3">
+                {image &&
+                  image.map((images, index) =>
+                    images instanceof Blob ? (
+                      <div className="col-md-4" key={index}>
+                        <div className="slider-img-plase">
+                          <div className="v-img">
+                            <img src={URL.createObjectURL(images)} className="s-image" alt="selected image" width={100} height={100} />
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="col-md-4" key={index}>
+                        <div className="slider-img-plase">
+                          <div className="v-img">
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/receipt/" + images.image} alt="villa-image" width={100} height={100} className="s-image" />
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
+              </div>
+            </div>
+            <div className="mt-4">
+              <button className="btn-send w-100" disabled={buttonStatus}>
+                {buttonStatus ? "Please wait.." : "Update Receipts Image"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </PopupModal>
+      <ToastContainer />
+    </>
+  );
 }

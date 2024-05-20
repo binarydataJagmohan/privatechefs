@@ -182,7 +182,6 @@ export default function MyProfile(props: any) {
           ) : null}
         </div>
       </div>
-
       <div className="user-class mt-4 align-items-center d-flex">
         <div className="userImg chef-img-set">
           {/* {getUsers.pic ? (
@@ -220,7 +219,6 @@ export default function MyProfile(props: any) {
           ) : null}
         </div>
       </div>
-
       <div className="user-class mt-4 align-items-center d-flex">
         <div className="userImg chef-img-set">
           {/* {getUsers.pic ? (
@@ -258,9 +256,8 @@ export default function MyProfile(props: any) {
           ) : null}
         </div>
       </div>
-
       <div className="users-boking">
-        <div className="table-box">
+        <div className="table-box ">
           {bookingUsers.length > 0 ? (
             <table className="table table-borderless common_booking common_booking">
               <thead>
@@ -313,7 +310,8 @@ export default function MyProfile(props: any) {
             </>
           )}
         </div>
-      </div>ss
+      </div>
+      ss
       {/* // pagination */}
       <Pagination items={totalMenu.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
     </>

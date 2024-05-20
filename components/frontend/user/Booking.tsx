@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
-import { getCurrentUserData,removeBookingData } from "../../../lib/session";
+import { getCurrentUserData, removeBookingData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline,addReviews } from "../../../lib/userapi";
+import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline, addReviews } from "../../../lib/userapi";
 import { getSingleChefMenu } from "../../../lib/chefapi";
 import { getUserBookingId, deleteBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
-import moment from 'moment';
+import moment from "moment";
 import { Loader } from "@googlemaps/js-api-loader";
 import Pagination from "../../commoncomponents/Pagination";
 import swal from "sweetalert";
-import PopupModalTwo from '../../commoncomponents/PopupModal';
+import PopupModalTwo from "../../commoncomponents/PopupModal";
 import { removeToken, removeStorageData } from "../../../lib/session";
 import { showToast } from "../../commoncomponents/toastUtils";
 import PageFound from "../../pageFound";
 
 export default function Booking(props: any) {
-
   let id = props.MenuId;
 
   interface Booking {
@@ -56,9 +55,8 @@ export default function Booking(props: any) {
     pic: string | null;
     surname: string;
     role: string;
-    approved_by_admin: string
+    approved_by_admin: string;
   }
-
 
   interface MenuData {
     id: number;
@@ -84,7 +82,6 @@ export default function Booking(props: any) {
     client_amount?: string;
     pic?: string;
     user_show?: string;
-    
   }
 
   interface ChefAppliedOffer {
@@ -98,19 +95,18 @@ export default function Booking(props: any) {
     menu_id?: string;
     userName?: string;
     userSurname?: string;
-    applied_jobs_id?:string
+    applied_jobs_id?: string;
   }
 
   interface FormErrors {
     description?: string;
     stars?: number;
-}
-interface Testimonial {
+  }
+  interface Testimonial {
     id: number;
     description: string;
     stars: number;
-}
-
+  }
 
   const [bookingUsers, setBookingUser] = useState([]);
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -119,21 +115,21 @@ interface Testimonial {
   const [sidebarConfirm, setSidebarConfirm] = useState(false);
   const [booking, setBooking] = useState<Booking>({});
   const [totalBooking, setTotalBooking] = useState([]);
-  const [bookingdate, setBookingDate] = useState('');
+  const [bookingdate, setBookingDate] = useState("");
   const [daysbooking, setDaysBooking] = useState<DaysBookingCheck[]>([]);
   const mapRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [bookingid, setBookingId] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [bookingid, setBookingId] = useState("");
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
-    id: '',
-    name: '',
-    email: '',
+    id: "",
+    name: "",
+    email: "",
     pic: null,
-    surname: '',
-    role: '',
-    approved_by_admin: ''
+    surname: "",
+    role: "",
+    approved_by_admin: "",
   });
 
   const [chefoffer, setChefOffer] = useState<ChefOffer[]>([]);
@@ -142,11 +138,11 @@ interface Testimonial {
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState("");
 
   const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
 
-  const [category, setBookingCategory] = useState('');
+  const [category, setBookingCategory] = useState("");
 
   const [editmodalConfirm, editsetModalConfirm] = useState(false);
 
@@ -155,11 +151,10 @@ interface Testimonial {
   const [buttonStatus, setButtonState] = useState(false);
 
   const [description, setDescription] = useState("");
-  
 
   const editmodalConfirmClose = () => {
     editsetModalConfirm(false);
-};
+  };
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -187,15 +182,13 @@ interface Testimonial {
 
   const [chefappliedoffer, setChefAppliedOffer] = useState<ChefAppliedOffer[]>([]);
 
+  const [chef_id, setChefID] = useState("");
 
-  const [chef_id, setChefID] = useState('');
+  const [chatmessage, setChatMessage] = useState("");
 
-  const [chatmessage, setChatMessage] = useState('');
-
-  const [testimonialList, settestimonialList] = useState<Testimonial>({ id: 0, description: '', stars: 0});
+  const [testimonialList, settestimonialList] = useState<Testimonial>({ id: 0, description: "", stars: 0 });
 
   const pageSize = 10;
-
 
   useEffect(() => {
     const data = isPageVisibleToRole("user-bookings");
@@ -217,7 +210,7 @@ interface Testimonial {
         role: userData.role,
         approved_by_admin: userData.approved_by_admin,
       });
-      removeBookingData()
+      removeBookingData();
     }
   }, []);
 
@@ -248,7 +241,6 @@ interface Testimonial {
         const paginatedPosts = paginate(res.data, currentPage, pageSize);
         setBookingUser(paginatedPosts);
         console.log(paginatedPosts);
-
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -264,7 +256,7 @@ interface Testimonial {
   const onPageChange = (page: any) => {
     setCurrentPage(page);
     getCurrentUserByBooking(currentUserData.id)
-      .then(res => {
+      .then((res) => {
         if (res.status == true) {
           setTotalBooking(res.data);
           const paginatedPosts = paginate(res.data, page, pageSize);
@@ -273,7 +265,7 @@ interface Testimonial {
           setErrorMessage(res.message);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -289,15 +281,14 @@ interface Testimonial {
       setBookingCategory(res.days_booking[0].category);
 
       if (res.days_booking.length == 1) {
-        setBookingDate(formatDate(res.booking[0].dates))
+        setBookingDate(formatDate(res.booking[0].dates));
       } else {
         const datesString = res.booking[0].dates;
-        const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
+        const dates = datesString.split(",").map((dateString: string) => formatDate(dateString));
         const startDate = dates[0];
         const endDate = dates[dates.length - 1];
         const output = `${startDate} to ${endDate}`;
-        setBookingDate(output)
-
+        setBookingDate(output);
       }
 
       const loader = new Loader({
@@ -320,22 +311,20 @@ interface Testimonial {
           });
         }
       });
-
-
     });
   };
 
   const formatDate = (value: any) => {
-    return moment(value).format('D/M/YY');
-  }
+    return moment(value).format("D/M/YY");
+  };
 
   const handleButtonClick = (index: any, type: string, id: string) => {
     setActiveIndex(index);
-    if (type == 'all') {
+    if (type == "all") {
       fetchBookingUserDetails(id);
     } else {
       getUserFilterByBooking(id, type)
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
             setTotalBooking(res.data);
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
@@ -344,12 +333,11 @@ interface Testimonial {
             setErrorMessage(res.message);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
   };
-
 
   const handleBookingApplyAmount = (e: any) => {
     const { name, value } = e.target;
@@ -372,25 +360,16 @@ interface Testimonial {
 
   const handleMenuItemChange = (event: any, menuItemId: any) => {
     const isChecked = event.target.checked;
-    setSelectedMenu((prevMenuItems: any) =>
-      isChecked
-        ? [...prevMenuItems, menuItemId]
-        : prevMenuItems.filter((item: any) => item !== menuItemId)
-    );
-
+    setSelectedMenu((prevMenuItems: any) => (isChecked ? [...prevMenuItems, menuItemId] : prevMenuItems.filter((item: any) => item !== menuItemId)));
   };
 
-  const handleMenuItemBlur = (event: any) => {
-
-  };
-
-
+  const handleMenuItemBlur = (event: any) => {};
 
   const resetFields = () => {
-    setAmount('');
+    setAmount("");
     setSelectedMenu([]);
     console.log(selectedmenu);
-  }
+  };
 
   const deleteBookingByAdmin = (id: any) => {
     swal({
@@ -408,7 +387,6 @@ interface Testimonial {
                 icon: "success",
               });
               fetchBookingUserDetails(currentUserData.id);
-
             } else {
               swal(res.message, {
                 icon: "info",
@@ -424,8 +402,6 @@ interface Testimonial {
     });
   };
 
-
-
   const editbooking = (id: any) => {
     window.localStorage.removeItem("time");
     window.localStorage.removeItem("servicetype");
@@ -435,36 +411,27 @@ interface Testimonial {
     window.localStorage.removeItem("selectedallergies");
     window.localStorage.removeItem("additionalnotes");
     window.localStorage.setItem("bookingid", id);
-    window.location.href = '/user/edit-booking/step1';
-  }
+    window.location.href = "/user/edit-booking/step1";
+  };
 
-  const getuserchefofferdata = (e: any, id: any,category:any) => {
-
+  const getuserchefofferdata = (e: any, id: any, category: any) => {
     getUserChefOffer(id)
-      .then(res => {
-      
+      .then((res) => {
         if (res.status == true) {
-
-        
           modalConfirmThreeClose();
           setChefAppliedOffer(res.chefoffer);
           setBookingCategory(category);
           setBookingId(id);
-          setModalConfirm(true);  
-
+          setModalConfirm(true);
         } else {
-         
           setErrorMessage(res.message);
           setModalConfirm(true);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-
-
   };
-
 
   const handlMessageSubmit = (event: any) => {
     event.preventDefault();
@@ -476,40 +443,34 @@ interface Testimonial {
       newErrors.chatmessage = "Message is required";
     }
 
-
     setErrors(newErrors);
 
     // Submit form data if there are no errors
     if (Object.keys(newErrors).length === 0) {
-
       const data = {
         message: chatmessage,
         sender_id: currentUserData.id,
         receiver_id: chef_id,
         booking_id: bookingid,
         unique_booking_id: currentUserData.id + chef_id,
-        chat_type: 'booking'
+        chat_type: "booking",
       };
 
       ContactChefByUserWithSingleBooking(data)
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
-
             setModalConfirmTwo(false);
-            window.location.href = '/user/messages';
+            window.location.href = "/user/messages";
           } else {
-
             toast.error(res.message, {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
-
-
   };
 
   const handleMessageBlur = (event: any) => {
@@ -517,7 +478,6 @@ interface Testimonial {
     const newErrors = { ...errors };
 
     switch (name) {
-
       case "chatmessage":
         if (!value) {
           newErrors.chatmessage = "Messge is required";
@@ -535,17 +495,15 @@ interface Testimonial {
   };
 
   function handleLogout() {
-    UpdateUserToOffiline(currentUserData.id)
-      .then(res => {
-        if (res.status == true) {
-          removeToken();
-          removeStorageData();
-          window.location.href = '/';
-        } else {
-          console.log("error");
-        }
-      })
-
+    UpdateUserToOffiline(currentUserData.id).then((res) => {
+      if (res.status == true) {
+        removeToken();
+        removeStorageData();
+        window.location.href = "/";
+      } else {
+        console.log("error");
+      }
+    });
   }
 
   const handlMenuSubmit = (event: any) => {
@@ -553,94 +511,100 @@ interface Testimonial {
     // Validate form data
     const errors: any = {};
     if (!description) {
-        errors.description = "Comment is required";
+      errors.description = "Comment is required";
     }
     if (!stars) {
-        errors.stars = "Stars is required";
+      errors.stars = "Stars is required";
     }
     setErrors(errors);
     // Submit form data if there are no errors
     if (Object.keys(errors).length === 0) {
-        setButtonState(true);
-        // const currentUserData: any = {};
-        // Call an API or perform some other action to register the user
-        const data = {
-            booking_id : bookingid,
-            comment: description,
-            given_by_id: currentUserData.id,
-            given_to_id:chef_id,
-            stars: stars,
-        };
-        addReviews(data,)
-            .then((res) => {
-                if (res.status == true) {
-                    console.log(data);
-                    editsetModalConfirm(false);
-                    setButtonState(false);
-                    showToast('success', res.message);
-                } else {
-                    setButtonState(false);
-                    setModalConfirmTwo(true);
-                    toast.error(res.message, {
-                        position: toast.POSITION.TOP_RIGHT,
-                        closeButton: true,
-                        hideProgressBar: false,
-                        style: {
-                            background: '#ffff',
-                            borderLeft: '4px solid #e74c3c',
-                            color: '#454545',
-                        },
-                        progressStyle: {
-                            background: '#ffff',
-                        },
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(err);
+      setButtonState(true);
+      // const currentUserData: any = {};
+      // Call an API or perform some other action to register the user
+      const data = {
+        booking_id: bookingid,
+        comment: description,
+        given_by_id: currentUserData.id,
+        given_to_id: chef_id,
+        stars: stars,
+      };
+      addReviews(data)
+        .then((res) => {
+          if (res.status == true) {
+            console.log(data);
+            editsetModalConfirm(false);
+            setButtonState(false);
+            showToast("success", res.message);
+          } else {
+            setButtonState(false);
+            setModalConfirmTwo(true);
+            toast.error(res.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              closeButton: true,
+              hideProgressBar: false,
+              style: {
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
+              },
+              progressStyle: {
+                background: "#ffff",
+              },
             });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
- 
   const handleStarHover = (num: number) => {
     const starColor = num > 0 ? "orange" : "blue";
     const stars = document.querySelectorAll(".fa-star");
     stars.forEach((star, index) => {
-        (star as HTMLElement).style.color = index < num ? starColor : "#ff4e00d1";
+      (star as HTMLElement).style.color = index < num ? starColor : "#ff4e00d1";
     });
   };
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     setCurrentUserData((prevState) => {
-        return {
-            ...prevState,
-            [name]: value,
-        };
+      return {
+        ...prevState,
+        [name]: value,
+      };
     });
-}
+  };
 
-
-const resetForm = () => {
-  setStar(0);
-  setChefID("");
-  setBookingId("");
-  setDescription("");
-  setErrors({});
-};
+  const resetForm = () => {
+    setStar(0);
+    setChefID("");
+    setBookingId("");
+    setDescription("");
+    setErrors({});
+  };
 
   return (
     <>
       <section className="userprofile-part">
         <div className="container">
           <div className="my-profile mt-5 tab-m-0">
-            <h2> My profile <span className="log-out"><a onClick={handleLogout} role="button" >Log out</a></span></h2>
+            <h2>
+              {" "}
+              My profile{" "}
+              <span className="log-out">
+                <a onClick={handleLogout} role="button">
+                  Log out
+                </a>
+              </span>
+            </h2>
           </div>
           <div className="row">
             <div className="col-lg-3 col-md-12">
               <div className="my-profile">
-                 <a href="/user/userprofile">
+                <a href="/user/userprofile">
                   <div className="profile-cols mt-5">
                     <h4>Account Settings</h4>
                     <p>Please provide your personal information so we can issue your receipt when you book a service. If you wish an invoice please add the information of the business you with to issue the invoice.</p>
@@ -674,34 +638,22 @@ const resetForm = () => {
                 <div className="table-part mt-2">
                   <ul className="table_header_button_section text-lg-right">
                     <li>
-                      <button
-                        className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`}
-                        onClick={() => handleButtonClick(0, 'all', currentUserData.id)}
-                      >
+                      <button className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(0, "all", currentUserData.id)}>
                         Total
                       </button>
                     </li>
                     <li>
-                      <button
-                        className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`}
-                        onClick={() => handleButtonClick(1, 'upcoming', currentUserData.id)}
-                      >
+                      <button className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(1, "upcoming", currentUserData.id)}>
                         Upcoming
                       </button>
                     </li>
                     <li>
-                      <button
-                        className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`}
-                        onClick={() => handleButtonClick(2, 'cancelled', currentUserData.id)}
-                      >
+                      <button className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(2, "cancelled", currentUserData.id)}>
                         Cancelled
                       </button>
                     </li>
                     <li>
-                      <button
-                        className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`}
-                        onClick={() => handleButtonClick(3, 'completed', currentUserData.id)}
-                      >
+                      <button className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(3, "completed", currentUserData.id)}>
                         Completed
                       </button>
                     </li>
@@ -711,14 +663,20 @@ const resetForm = () => {
                       <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                           <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel"> </h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"><i className="fa-solid fa-xmark"></i></button>
+                            <h5 className="modal-title" id="exampleModalLabel">
+                              {" "}
+                            </h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
                           </div>
                           <div className="modal-body">
                             <div className="text-center popup-img">
-                              <img src={process.env.NEXT_PUBLIC_BASE_URL + 'images/pop.jpg'} alt="pop" />
+                              <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/pop.jpg"} alt="pop" />
                             </div>
-                            <p><b>Are you sure you want to cancel this booking?</b></p>
+                            <p>
+                              <b>Are you sure you want to cancel this booking?</b>
+                            </p>
                             <div className="text-right">
                               <button className="btn-send cencel">Cancel booking</button>
                               <button className="btn-send">No, I want a chef</button>
@@ -728,97 +686,93 @@ const resetForm = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="table-box scroll-remove">
-                    {bookingUsers.length > 0 ?
+                  <div className="table-box  scroll-remove">
+                    {bookingUsers.length > 0 ? (
                       <table className="table table-borderless common_booking common_booking" id="user-table">
                         <thead>
                           <tr>
                             <th scope="col">Booking ID</th>
                             <th scope="col">Date Requested</th>
                             <th scope="col">Booking Date</th>
-                            <th scope="col">Category</th> 
+                            <th scope="col">Category</th>
                             {/* <th scope="col">Status</th> */}
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
                           {bookingUsers.map((user: any, index) => {
-
                             const datesString = user.dates;
-                            const dates = datesString.split(',').map((dateString: string) => formatDate(dateString));
+                            const dates = datesString.split(",").map((dateString: string) => formatDate(dateString));
                             const startDate = dates[0];
                             const endDate = dates[dates.length - 1];
                             const output = `${startDate} to ${endDate}`;
 
                             return (
                               <tr key={index}>
-                                <td><p className="text-data-18" id="table-p">#{user.booking_id}</p></td>
-                                <td><p className="text-data-18" id="table-p">{formatDate(user.latest_created_at)}</p></td>
-                                <td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? formatDate(user.dates) : output}</p></td>
-                                <td><p className="text-data-18" id="table-p">{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</p></td>
+                                <td>
+                                  <p className="text-data-18" id="table-p">
+                                    #{user.booking_id}
+                                  </p>
+                                </td>
+                                <td>
+                                  <p className="text-data-18" id="table-p">
+                                    {formatDate(user.latest_created_at)}
+                                  </p>
+                                </td>
+                                <td>
+                                  <p className="text-data-18" id="table-p">
+                                    {user.category == "onetime" ? formatDate(user.dates) : output}
+                                  </p>
+                                </td>
+                                <td>
+                                  <p className="text-data-18" id="table-p">
+                                    {user.category == "onetime" ? "One time" : "Mutiple Times"}
+                                  </p>
+                                </td>
                                 {/* <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td> */}
                                 <td>
                                   <div className="dropdown" id="none-class">
-                                    <a
-                                      className="dropdown-toggle"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false"
-                                    >
+                                    <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                       <i className="fa-solid fa-ellipsis" role="button"></i>
                                     </a>
-                                    <ul
-                                      className="dropdown-menu"
-                                      aria-labelledby="dropdownMenuButton"
-                                    >
+                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                       <li>
-                                        <a
-                                          className="dropdown-item"
-                                          href="#"
-                                          onClick={(e) => getSingleBookingUser(e, user.booking_id)}
-                                          data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
-                                        >
+                                        <a className="dropdown-item" href="#" onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                           View Booking
                                         </a>
                                       </li>
-                                      
-                                      {user.payment_status == 'pending' && (
-                                         <li>
-                                         <a
-                                           className="dropdown-item"
-                                           href="#"
-                                           onClick={(e) => getuserchefofferdata(e, user.booking_id,user.category)}
- 
-                                         >
-                                           View Chef offer
-                                         </a>
-                                       </li>
-                                      )}
-                                    
-                                      {(user.payment_status == 'pending' && user.appliedId === null) && (
+
+                                      {user.payment_status == "pending" && (
                                         <li>
-                                          <a
-                                            className="dropdown-item"
-                                            href="#"
-                                            onClick={(e) => editbooking(user.booking_id)}
-                                          >
+                                          <a className="dropdown-item" href="#" onClick={(e) => getuserchefofferdata(e, user.booking_id, user.category)}>
+                                            View Chef offer
+                                          </a>
+                                        </li>
+                                      )}
+
+                                      {user.payment_status == "pending" && user.appliedId === null && (
+                                        <li>
+                                          <a className="dropdown-item" href="#" onClick={(e) => editbooking(user.booking_id)}>
                                             Edit
                                           </a>
                                         </li>
                                       )}
-                                      {user.payment_status == 'pending' && (
-                                          <li>
+                                      {user.payment_status == "pending" && (
+                                        <li>
                                           <a
                                             className="dropdown-item"
                                             href="#"
-                                            onClick={() => { deleteBookingByAdmin(user.booking_id); }}
+                                            onClick={() => {
+                                              deleteBookingByAdmin(user.booking_id);
+                                            }}
                                           >
                                             Delete
                                           </a>
                                         </li>
                                       )}
 
-                                      {user.payment_status == 'completed' && (
-                                          <li>
+                                      {user.payment_status == "completed" && (
+                                        <li>
                                           <a
                                             className="dropdown-item"
                                             href="#"
@@ -826,7 +780,7 @@ const resetForm = () => {
                                               resetForm();
                                               editsetModalConfirm(true);
                                               setBookingId(user.booking_id);
-                                              setChefID(user.chefId ?? '')
+                                              setChefID(user.chefId ?? "");
                                             }}
                                           >
                                             Review
@@ -834,12 +788,11 @@ const resetForm = () => {
                                         </li>
                                       )}
 
-                                      {user.payment_status == 'completed' && (
-                                          <li>
+                                      {user.payment_status == "completed" && (
+                                        <li>
                                           <button className="btn btn-sm btn-success">Payment successfull</button>
-                                          </li>
-                                        )}
-                                      
+                                        </li>
+                                      )}
                                     </ul>
                                   </div>
                                 </td>
@@ -848,18 +801,12 @@ const resetForm = () => {
                           })}
                         </tbody>
                       </table>
-                      :
+                    ) : (
                       <>
-                      <PageFound iconClass={"fa-solid fa-book-open-reader"} heading={" No bookings "} subText={"available"} />
-                    </>
-                    }
-                    <Pagination
-                      items={totalBooking.length}
-                      currentPage={currentPage}
-                      pageSize={pageSize}
-                      onPageChange={onPageChange}
-                    />
-
+                        <PageFound iconClass={"fa-solid fa-book-open-reader"} heading={" No bookings "} subText={"available"} />
+                      </>
+                    )}
+                    <Pagination items={totalBooking.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
 
                     <div className="offcanvas-part">
                       <div className="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -870,11 +817,10 @@ const resetForm = () => {
                         <div className="offcanvas-body">
                           <div>
                             <button className="table-btn btn-2 date mr-sp">{bookingdate}</button>
-
                           </div>
                           <div className="off-can">
                             <div className="accordion" id="accordionExample">
-                              {category != 'onetime' &&
+                              {category != "onetime" && (
                                 <div className="accordion-item">
                                   <h2 className="accordion-header" id="headingOne">
                                     <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -885,30 +831,29 @@ const resetForm = () => {
                                     <div className="accordion-body">
                                       {chefoffer.length > 0 ? (
                                         chefoffer.map((chef, index) => (
-                                         
-                                            <div className="row" key={index}>
-                                              <div className="col-5">
-                                                <p className="chefs-name m-2">{chef.name}</p>
-                                              </div>
-                                              <div className="col-2">
-                                                <p className="mony m-2">${chef.amount}</p>
-                                              </div>
-                                              <div className="col-5">
-                                                {chef.menu_names?.split(",").map((menu, index) => (
-                                                  <button className="table-btn btn-2 list-btn m-2" key={index}>{menu.trim()}</button>
-                                                ))}
-                                              </div>
+                                          <div className="row" key={index}>
+                                            <div className="col-5">
+                                              <p className="chefs-name m-2">{chef.name}</p>
                                             </div>
-                                         
+                                            <div className="col-2">
+                                              <p className="mony m-2">${chef.amount}</p>
+                                            </div>
+                                            <div className="col-5">
+                                              {chef.menu_names?.split(",").map((menu, index) => (
+                                                <button className="table-btn btn-2 list-btn m-2" key={index}>
+                                                  {menu.trim()}
+                                                </button>
+                                              ))}
+                                            </div>
+                                          </div>
                                         ))
                                       ) : (
                                         <p className="mt-2">No Chef apply for this booking</p>
                                       )}
-
                                     </div>
                                   </div>
                                 </div>
-                              }
+                              )}
                               <div className="accordion-item">
                                 <h2 className="accordion-header" id="headingTwo">
                                   <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -922,7 +867,7 @@ const resetForm = () => {
                                         <p className="chefs-name name-12">Service Type:</p>
                                       </div>
                                       <div className="col-8">
-                                        <p className="mony f-w-4">{booking.category == 'onetime' ? 'One time Service' : 'Mutiple Times Services'} </p>
+                                        <p className="mony f-w-4">{booking.category == "onetime" ? "One time Service" : "Mutiple Times Services"} </p>
                                       </div>
                                     </div>
                                     <div className="row mt-1">
@@ -940,15 +885,9 @@ const resetForm = () => {
                                         </div>
                                         <div className="col-8">
                                           <>
-                                            {daysbooking[0].breakfast === 'yes' &&
-                                              <button className="table-btn btn-2 list-btn">Breakfast</button>
-                                            }
-                                            {daysbooking[0].lunch === 'yes' &&
-                                              <button className="table-btn btn-2 list-btn">Lunch</button>
-                                            }
-                                            {daysbooking[0].dinner === 'yes' &&
-                                              <button className="table-btn btn-2 list-btn">Dinner</button>
-                                            }
+                                            {daysbooking[0].breakfast === "yes" && <button className="table-btn btn-2 list-btn">Breakfast</button>}
+                                            {daysbooking[0].lunch === "yes" && <button className="table-btn btn-2 list-btn">Lunch</button>}
+                                            {daysbooking[0].dinner === "yes" && <button className="table-btn btn-2 list-btn">Dinner</button>}
                                           </>
                                         </div>
                                       </div>
@@ -959,9 +898,13 @@ const resetForm = () => {
                                         <p className="chefs-name name-12">Cuisine:</p>
                                       </div>
                                       <div className="col-8">
-                                        {booking && booking.cuisines && booking.cuisines.split(",").map((cuisine, index) => (
-                                          <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">{cuisine.trim()}</button>
-                                        ))}
+                                        {booking &&
+                                          booking.cuisines &&
+                                          booking.cuisines.split(",").map((cuisine, index) => (
+                                            <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">
+                                              {cuisine.trim()}
+                                            </button>
+                                          ))}
                                       </div>
                                     </div>
 
@@ -970,10 +913,13 @@ const resetForm = () => {
                                         <p className="chefs-name name-12">Allergies:</p>
                                       </div>
                                       <div className="col-8">
-                                        {booking && booking.allergies && booking.allergies.split(",").map((allergies, index) => (
-                                          <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">{allergies.trim()}</button>
-                                        ))}
-
+                                        {booking &&
+                                          booking.allergies &&
+                                          booking.allergies.split(",").map((allergies, index) => (
+                                            <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">
+                                              {allergies.trim()}
+                                            </button>
+                                          ))}
                                       </div>
                                     </div>
                                     <div className="row mt-1">
@@ -984,7 +930,6 @@ const resetForm = () => {
                                         <p className="mony f-w-4">{booking.notes}</p>
                                       </div>
                                     </div>
-
                                   </div>
                                 </div>
                               </div>
@@ -1004,25 +949,14 @@ const resetForm = () => {
                                           </div>
                                           <div className="col-8">
                                             <p className="mony f-w-4">
-                                              {daybooking.breakfast === 'yes' ? (
-                                                <button className="table-btn btn-2 list-btn">Breakfast</button>
-                                              ) : null}
-                                              {daybooking.lunch === 'yes' ? (
-                                                <button className="table-btn btn-2 list-btn">Lunch</button>
-                                              ) : null}
-                                              {daybooking.dinner === 'yes' ? (
-                                                <button className="table-btn btn-2 list-btn">Dinner</button>
-                                              ) : null}
-                                              {daybooking.breakfast !== 'yes' &&
-                                                daybooking.lunch !== 'yes' &&
-                                                daybooking.dinner !== 'yes' && (
-                                                  <span>No meal selected</span>
-                                                )}
+                                              {daybooking.breakfast === "yes" ? <button className="table-btn btn-2 list-btn">Breakfast</button> : null}
+                                              {daybooking.lunch === "yes" ? <button className="table-btn btn-2 list-btn">Lunch</button> : null}
+                                              {daybooking.dinner === "yes" ? <button className="table-btn btn-2 list-btn">Dinner</button> : null}
+                                              {daybooking.breakfast !== "yes" && daybooking.lunch !== "yes" && daybooking.dinner !== "yes" && <span>No meal selected</span>}
                                             </p>
                                           </div>
                                         </div>
                                       ))}
-
                                     </div>
                                   </div>
                                 </div>
@@ -1070,7 +1004,9 @@ const resetForm = () => {
                                         <p className="chefs-name name-12">Full Name:</p>
                                       </div>
                                       <div className="col-7">
-                                      <p className="mony">{booking.name} {booking.surname !== null && booking.surname !== 'null' ? booking.surname : ''}</p>
+                                        <p className="mony">
+                                          {booking.name} {booking.surname !== null && booking.surname !== "null" ? booking.surname : ""}
+                                        </p>
                                       </div>
                                     </div>
                                     <div className="row mt-1">
@@ -1106,7 +1042,6 @@ const resetForm = () => {
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -1118,7 +1053,6 @@ const resetForm = () => {
         <div className="popup-part new-modala">
           <h2 className="title-pop up-move mt-2">Booking id #{bookingid}</h2>
           <div className="offers">
-
             <table className="table">
               <thead>
                 <tr>
@@ -1134,10 +1068,12 @@ const resetForm = () => {
                 {chefappliedoffer.length > 0 ? (
                   chefappliedoffer.map((chef, index) => (
                     <tr key={index}>
-                      <th scope="row">
-                        {index + 1}
-                      </th>
-                      <td><p className="text-left">{chef.userName} {chef.userSurname}</p></td>
+                      <th scope="row">{index + 1}</th>
+                      <td>
+                        <p className="text-left">
+                          {chef.userName} {chef.userSurname}
+                        </p>
+                      </td>
                       <td>{chef.address}</td>
                       <td>
                         {chef.menu_names?.split(",").map((menu, index) => (
@@ -1147,12 +1083,11 @@ const resetForm = () => {
                         ))}
                       </td>
                       <td>{chef.amount}</td>
-                      
-                      <td>
 
-                         
+                      <td>
                         <td>
-                          <a target="_blank"
+                          <a
+                            target="_blank"
                             id="btn_offer"
                             className="btn btn-success"
                             href={`/user/payment?booking_id=${chef.booking_id}&amount=${chef.amount}&chef_id=${chef.chef_id}&client_id=${currentUserData.id}&applied_id=${chef.applied_jobs_id}`}
@@ -1162,23 +1097,21 @@ const resetForm = () => {
                         </td>
 
                         <td>
-
-                          <button id="btn_offer" className="mx-2 btn-sm" type="button" onClick={() => {
-                            setModalConfirmTwo(true);
-                            setModalConfirm(false);
-                            setChefID(chef.chef_id ?? ''); // Assign a default value of an empty string if chef.chef_id is undefined
-                            setBookingId(chef.booking_id ?? ''); // Assign a default value of an empty string if chef.booking_id is undefined
-                          }}>
-
+                          <button
+                            id="btn_offer"
+                            className="mx-2 btn-sm"
+                            type="button"
+                            onClick={() => {
+                              setModalConfirmTwo(true);
+                              setModalConfirm(false);
+                              setChefID(chef.chef_id ?? ""); // Assign a default value of an empty string if chef.chef_id is undefined
+                              setBookingId(chef.booking_id ?? ""); // Assign a default value of an empty string if chef.booking_id is undefined
+                            }}
+                          >
                             Contact
                           </button>
-
-
-                          </td>
-
-
+                        </td>
                       </td>
-
                     </tr>
                   ))
                 ) : (
@@ -1194,7 +1127,7 @@ const resetForm = () => {
 
       <PopupModal show={modalConfirmThree} handleClose={modalConfirmThreeClose} staticClass="var-login">
         <h5 style={{ color: "#ff4e00d1" }}>Dishes</h5>
-        <div className="all-form" >
+        <div className="all-form">
           <table className="table">
             <thead>
               <tr>
@@ -1207,10 +1140,10 @@ const resetForm = () => {
             <tbody>
               {menu.length > 0 ? (
                 <tr>
-                  <td>{menu.find(item => item.type === 'firstcourse')?.item_name || ''}</td>
-                  <td>{menu.find(item => item.type === 'desert')?.item_name || ''}</td>
-                  <td>{menu.find(item => item.type === 'maincourse')?.item_name || ''}</td>
-                  <td>{menu.find(item => item.type === 'starter')?.item_name || ''}</td>
+                  <td>{menu.find((item) => item.type === "firstcourse")?.item_name || ""}</td>
+                  <td>{menu.find((item) => item.type === "desert")?.item_name || ""}</td>
+                  <td>{menu.find((item) => item.type === "maincourse")?.item_name || ""}</td>
+                  <td>{menu.find((item) => item.type === "starter")?.item_name || ""}</td>
                 </tr>
               ) : (
                 <tr>
@@ -1219,91 +1152,55 @@ const resetForm = () => {
               )}
             </tbody>
           </table>
-
-
         </div>
       </PopupModal>
 
       <PopupModalTwo show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
-
-        <div className="all-form" >
+        <div className="all-form">
           <form onSubmit={handlMessageSubmit} className="common_form_error" id="menu_form">
-
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="name">Message:</label>
               <textarea name="chatmessage" value={chatmessage} onChange={(e) => setChatMessage(e.target.value)} onBlur={handleMessageBlur}></textarea>
 
               {errors.chatmessage && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.chatmessage}</span>}
             </div>
 
-            <button type="submit" className="btn-send w-100 mt-3">Submit</button>
+            <button type="submit" className="btn-send w-100 mt-3">
+              Submit
+            </button>
           </form>
-
         </div>
-
       </PopupModalTwo>
 
-      <PopupModalTwo
-                show={editmodalConfirm}
-                handleClose={editmodalConfirmClose}
-                staticClass="var-login"
-            >
-                <div className="all-form">
-                    <form
-                        className="common_form_error"
-                        id="menu_form"
-                        onSubmit={handlMenuSubmit}
-                    > 
+      <PopupModalTwo show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
+        <div className="all-form">
+          <form className="common_form_error" id="menu_form" onSubmit={handlMenuSubmit}>
+            <div className="login_div mb-4">
+              <label htmlFor="Star">Choose Star:</label>
+              <input type="hidden" name="stars" value={stars} onChange={handleChange} />
 
-                      <div className="login_div mb-4">
-                            <label htmlFor="Star">Choose Star:</label>
-                            <input type="hidden" name="stars" value={stars} onChange={handleChange} />
-                           
-                            <p className="star-list blue-star" id="star-color">
-                                {[1, 2, 3, 4, 5].map((num) => (
-                                    <i
-                                        key={num}
-                                        className={`fa${num <= stars ? 's' : 'r'} fa-star`}
-                                        onMouseEnter={() => handleStarHover(num)}
-                                        onClick={() => setStar(num)}
-                                    />
-                                ))}
-                            </p>
-                            {errors.stars && (
-                                <span className="small error text-danger mb-2 d-inline-block error_login">
-                                    {errors.stars}
-                                </span>
-                            )}
-                        </div>
-                        
-                        <div className="login_div">
-                            <label htmlFor="Description">Comment:</label>
-                            <textarea
-                                name="description"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                            ></textarea>
-                             {errors.description && (
-                                <span className="small error text-danger mb-2 d-inline-block error_login">
-                                    {errors.description}
-                                </span>
-                            )}
-                        </div>
-                        
-                        
-                        <button
-                            type="submit"
-                            className="btn-send w-100 mt-3"
-                            disabled={buttonStatus}
-                        >
-                            Submit
-                        </button>
-                    </form>
-                </div>
-            </PopupModalTwo>
+              <p className="star-list blue-star" id="star-color">
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <i key={num} className={`fa${num <= stars ? "s" : "r"} fa-star`} onMouseEnter={() => handleStarHover(num)} onClick={() => setStar(num)} />
+                ))}
+              </p>
+              {errors.stars && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.stars}</span>}
+            </div>
 
+            <div className="login_div">
+              <label htmlFor="Description">Comment:</label>
+              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+              {errors.description && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.description}</span>}
+            </div>
+
+            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
+              Submit
+            </button>
+          </form>
+        </div>
+      </PopupModalTwo>
 
       <ToastContainer />
     </>
-  )
+  );
 }

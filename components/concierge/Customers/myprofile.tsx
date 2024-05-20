@@ -180,7 +180,7 @@ export default function MyProfile(props: any) {
         </div>
       </div>
       <div className="users-boking">
-        <div className="table-box">
+        <div className="table-box ">
           {bookingUsers.length > 0 ? (
             <table className="table table-borderless common_booking common_booking">
               <thead>

@@ -367,21 +367,27 @@ export default function Allergy() {
   return (
     <>
       <div className="table-part">
-        <h2>Testimonial</h2>
-        <ul className="table_header_button_section p-r">
-          <li className="right-li" id="allergy-id">
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => {
-                resetForm();
-                setModalConfirm(true);
-              }}
-            >
-              Add Testimonial Information
-            </button>
-          </li>
-        </ul>
-        <div className="table-box" id="ffff">
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
+            <h2>Testimonial</h2>
+          </div>
+          <div className="col-sm-4 col-12 text-end">
+            <ul className="table_header_button_section p-r">
+              <li className="" id="allergy-id">
+                <button
+                  className="table-btn border-radius round-white"
+                  onClick={() => {
+                    resetForm();
+                    setModalConfirm(true);
+                  }}
+                >
+                  Add Testimonial Information
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="table-box  mt-4" id="ffff">
           {testimonials.length > 0 ? (
             <table className="table table-borderless common_booking">
               <thead>
@@ -401,16 +407,10 @@ export default function Allergy() {
                     <td className="chefs_pic">
                       <div className="d-flex gap-2 align-items-center">
                         <div className="">
-                          <p>
-                            {allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}
-                          </p>
+                          <p>{allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</p>
                         </div>
-                        <div className="">
-                          {allergy.name}
-                        </div>
+                        <div className="">{allergy.name}</div>
                       </div>
-
-
                     </td>
                     {/* <td>{allergy.description}</td> */}
                     <td className="abc">
@@ -482,41 +482,17 @@ export default function Allergy() {
                             </p> */}
               <p className="star-list blue-star" id="star-color">
                 {[1, 2, 3, 4, 5].map((num) => (
-                  <i
-                    key={num}
-                    className={`fa${num <= stars ? 's' : 'r'} fa-star`}
-                    onMouseEnter={() => handleStarHover(num)}
-                    onClick={() => setStar(num)}
-                  />
+                  <i key={num} className={`fa${num <= stars ? "s" : "r"} fa-star`} onMouseEnter={() => handleStarHover(num)} onClick={() => setStar(num)} />
                 ))}
               </p>
-              {errors.stars && (
-                <span className="small error text-danger mb-2 d-inline-block error_login">
-                  {errors.stars}
-                </span>
-              )}
+              {errors.stars && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.stars}</span>}
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input
-                type="file"
-                name="image"
-                accept="jpg,png"
-                onChange={handleImageChange}
-              />
-              {previewImage && (
-                <img
-                  src={previewImage}
-                  alt="Preview"
-                  style={{ width: "20%", height: "auto" }}
-                />
-              )}
+              <input type="file" name="image" accept="jpg,png" onChange={handleImageChange} />
+              {previewImage && <img src={previewImage} alt="Preview" style={{ width: "20%", height: "auto" }} />}
             </div>
-            <button
-              type="submit"
-              className="btn-send w-100 mt-3"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
               Submit Testimonial Information
             </button>
           </form>
@@ -556,11 +532,7 @@ export default function Allergy() {
                 testimonialList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/testimonial/${testimonialList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
               )}
             </div>
-            <button
-              type="submit"
-              className="btn-send w-100 mt-3"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
               Update Testimonial Information
             </button>
           </form>

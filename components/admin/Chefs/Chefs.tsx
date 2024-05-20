@@ -498,69 +498,71 @@ export default function Chefs() {
   return (
     <>
       <div className="table-part">
-        <ul className="table_header_button_section p-r mt-4 mb-4">
-          <li className="float-end mt-0">
-            <input type="text" className="form-control" placeholder="Search chef here.." onChange={handleChef} />
-          </li>
-
-          <li className="text-right">
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-8">
             <h2>Chefs</h2>
-          </li>
-        </ul>
-        <ul className="table_header_button_section p-r">
-          <li>
-            {selectedCuisines.map((cuisine, index) => (
-              <li key={index}>
-                {" "}
-                <div className="table-btn">
-                  <span>{cuisine}</span>
-                  <button className="remove-btn" onClick={() => removeCuisine(cuisine)}>
-                    x
+          </div>
+          <div className="col-sm-4 col-12">
+            <ul className="table_header_button_section">
+              <input type="text" className="form-control" placeholder="Search chef here.." onChange={handleChef} />
+            </ul>
+          </div>
+        </div>
+
+        <div className="row align-items-center mt-3 mb-3 table_header_button_section p-r">
+          <div className="col-12">
+            <ul className="table_header_button_section p-r">
+              <li>
+                {/* <button className="table-btn">Total</button> */}
+                {selectedCuisines.map((cuisine, index) => (
+                  <li key={index}>
+                    {" "}
+                    <div className="table-btn">
+                      <span>{cuisine}</span>
+                      <button className="remove-btn" onClick={() => removeCuisine(cuisine)}>
+                        x
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </li>
+              <li>
+                <div className="">
+                  <button
+                    className="table-btn border-radius round-white table-btn"
+                    onClick={() => {
+                      SetModalConfirmTwo(true);
+                      resetFields();
+                    }}
+                  >
+                    Invitation
                   </button>
                 </div>
               </li>
-            ))}
-          </li>
-          <li>
-            <div className="text-right">
-              <button
-                className="table-btn border-radius round-white table-btn"
-                onClick={() => {
-                  SetModalConfirmTwo(true);
-                  resetFields();
-                }}
-              >
-                Invitation
-              </button>
-            </div>
-          </li>
-          <li>
-            <div className="text-right">
-              <Link href="/admin/chefprofile">
-                <button className="table-btn border-radius round-white table-btn">
-                  Add Chefs Information
+              <li>
+                <div className="">
+                  <Link href="/admin/chefprofile">
+                    <button className="table-btn border-radius round-white table-btn">Add Chefs Information</button>
+                  </Link>
+                </div>
+              </li>
+              <li className="">
+                <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
+                  Filter{" "}
+                </button>{" "}
+                <button className="table-btn border-radius round-white" onClick={() => window.location.reload()}>
+                  Clear All{" "}
                 </button>
-              </Link>
-            </div>
-          </li>
-          <li className="right-li">
-            <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
-              Filter{" "}
-            </button>{" "}
-            <button className="table-btn border-radius round-white" onClick={() => window.location.reload()}>
-              Clear All{" "}
-            </button>
-          </li>
-        </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-        <div className="table-box " id="villa_table">
+        <div className="table-box  " id="villa_table">
           <table className="table table-borderless common_booking">
             <thead>
               <tr>
-                {/* <th scope="col">Photo</th> */}
                 <th scope="col">Name</th>
-                {/* <th scope="col">Amount</th>
-                <th scope="col">Cuisines</th> */}
                 <th scope="col">Email</th>
                 <th scope="col">Location</th>
                 <th scope="col">Status</th>
@@ -648,33 +650,6 @@ export default function Chefs() {
                     </td>
                     <td>{filter.email || "N/A"}</td>
                     <td>{filter.address || "N/A"}</td>
-                    {/* <td>
-                      <ul>
-                        {filter.cuisine_name ? (
-                          <ul>
-                            {filter.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={() => setShowAllCuisines(true)}
-                                    >
-                                      +{filter.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })}
-                          </ul>
-                        ) : (
-                          <li>No cuisines available</li>
-                        )}
-                      </ul>
-                    </td> */}
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -688,18 +663,9 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      {/* <a
-                        href={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          "admin/chefs/" +
-                          filter.id
-                        }
-                      >
-                        <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a> */}
-                      <div className="dropdown" id="none-class">
+                      <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                          <i className="fa-solid fa-ellipsis " role="button"></i>
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <li>
@@ -745,36 +711,8 @@ export default function Chefs() {
                         </div>
                       </div>
                     </td>
-                    <td>{filter.email || "N/A"}</td>
                     <td>{filter.address || "N/A"}</td>
-                    {/* <td>
-                      <ul>
-                        <ul>
-                          {filter.cuisine_name ? (
-                            filter.cuisine_name
-                              .split(",")
-                              .map((cuisine, index) => {
-                                if (index < 2) {
-                                  return <li key={index} id="cuisine_id">{cuisine}</li>;
-                                } else if (index === 2) {
-                                  return (
-                                    <li
-                                      key={index}
-                                      onClick={() => setShowAllCuisines(true)}
-                                    >
-                                      +{filter.cuisine_name.split(",").length - 2}
-                                    </li>
-                                  );
-                                }
-                                return null;
-                              })
-                          ) : (
-                            <li>No cuisines available</li>
-                          )}
-                        </ul>
-
-                      </ul>
-                    </td> */}
+                    <td>{filter.email || "N/A"}</td>
                     <td>{filter.profile_status || ""}</td>
                     <td>
                       <select aria-label="Default select example" name="approved_by_admin" onChange={(e) => ApproveChefProfile(e, filter.id)}>
@@ -788,18 +726,9 @@ export default function Chefs() {
                     </td>
 
                     <td style={{ paddingLeft: "25px" }}>
-                      {/* <a
-                        href={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          "admin/chefs/" +
-                          filter.id
-                        }
-                      >
-                        <i className="fa fa-eye" aria-hidden="true"></i>
-                      </a> */}
-                      <div className="dropdown" id="none-class">
+                      <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i className="fa-solid fa-ellipsis" role="button"></i>
+                          <i className="fa-solid fa-ellipsis " role="button"></i>
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <li>
@@ -822,18 +751,18 @@ export default function Chefs() {
                 chefs.map((chef) => (
                   <tr key={chef.id}>
                     <td>
-                      <div className="d-flex gap-2 align-items-center">
+                      <div className="flex-commn">
                         <div className="">
                           {chef.pic ? (
                             <div className="chefs_pic">
                               <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + chef.pic} alt="" />
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + chef.pic} alt="" width={35} height={35} />
                               </a>
                             </div>
                           ) : (
                             <div className="chefs_pic">
                               <a href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" width={35} height={35} />
                               </a>
                             </div>
                           )}
@@ -859,7 +788,6 @@ export default function Chefs() {
                         </option>
                       </select>
                     </td>
-
                     <td style={{ paddingLeft: "25px" }}>
                       <div className="dropdown text-sm-center" id="none-class">
                         <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1014,11 +942,7 @@ export default function Chefs() {
               <input type="email" id="registeremail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               {errors.email && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.email}</span>}
             </div>
-            <button
-              type="submit"
-              className="btn-send w-100"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
               {buttonStatus ? "Please wait.." : "Submit Invitation Information"}
             </button>
           </form>

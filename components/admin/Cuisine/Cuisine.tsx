@@ -304,19 +304,20 @@ export default function Cuisine() {
   return (
     <>
       <div className="table-part">
-        <h2>Cuisine</h2>
-        <ul className="table_header_button_section p-r" id="cuision_id">
-          {/* <li><button className="table-btn">Total</button></li> */}
-          <li className="right-li">
-            <button
-              className="table-btn border-radius round-white"
-              onClick={() => setModalConfirm(true)}
-            >
-              Add Cuisine Information{" "}
-            </button>
-          </li>
-        </ul>
-        <div className="table-box" id="ffff">
+        <div className="row align-items-center mt-3 mb-3">
+          <div className="col-sm-6 col-4">
+            <h2>Cuisine</h2>
+          </div>
+          <div className="col-sm-6 col-8 text-lg-0 text-end">
+            <ul className="table_header_button_section p-r" id="">
+              <button className="table-btn border-radius round-white" onClick={() => setModalConfirm(true)}>
+                Add Cuisine Information{" "}
+              </button>
+            </ul>
+          </div>
+        </div>
+
+        <div className="table-box " id="ffff">
           <table className="table table-borderless common_booking">
             <thead>
               <tr>
@@ -402,11 +403,7 @@ export default function Cuisine() {
               {errors.image && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.image}</span>}
             </div>
 
-            <button
-              type="submit"
-              className="btn-send w-100"
-              disabled={buttonStatus}
-            >
+            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
               Submit Cuisine Information
             </button>
           </form>
