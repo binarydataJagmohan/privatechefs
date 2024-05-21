@@ -59,8 +59,14 @@ export default function Receipts() {
   return (
     <>
       <div className="table-part">
-        <h2>Receipts</h2>
-        <button className="table-btn">Total</button>
+        <div className="row align-items-center">
+          <div className="col-6">
+            <h2>Receipts</h2>
+          </div>
+          <div className="col-6 text-end">
+            <button className="table-btn">Total</button>
+          </div>
+        </div>
         <div className="table-box mt-3">
           {getreceipt.length > 0 ? (
             <table className="table table-borderless common_booking">

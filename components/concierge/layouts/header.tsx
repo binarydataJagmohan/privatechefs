@@ -70,13 +70,13 @@ export default function Header(): JSX.Element {
     <>
       <div className="right-header mt-4">
         <div className="row align-items-center">
-          <div className="col-lg-10 col-md-6 col-12">
+          <div className="col-lg-10 col-md-6 col-6">
             <a href="#" className="bars-icon">
               <i className="fa-solid fa-bars"></i>
             </a>
             <div className="d-none d-lg-block">{currentUserData.approved_by_admin === "no" && <p className="alert alert-danger text-center">Your account approval pending at administrative end.</p>}</div>
           </div>
-          <div className=" col-10 col-md-6 col-lg-2">
+          <div className=" col-6 col-md-6 col-lg-2">
             <div className="d-flex align-items-center gx-5 gap-2 justify-content-end">
               <div className="p-1">
                 <p className="mb-0 comments-bell">
@@ -87,16 +87,15 @@ export default function Header(): JSX.Element {
               </div>
               <div className="px-3">
                 <Link href={`/concierge/notification/notification?id=${currentUserData.id}`} className="notification">
-                    <span><i className="fa-solid fa-bell"></i></span>
-                    {countdata ? (
-                        <span className="badge">{countdata}</span>
-                    ) : null}
-
+                  <span>
+                    <i className="fa-solid fa-bell"></i>
+                  </span>
+                  {countdata ? <span className="badge">{countdata}</span> : null}
                 </Link>
               </div>
               <div className="">
-                <div className="profile" onClick={clickFunction}>
-                  <div className="img-box">
+                <div className="profile " onClick={clickFunction}>
+                  <div className="img-box ">
                     {currentUserData.pic && currentUserData.pic != "null" ? (
                       <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + currentUserData.pic} alt="" />
                     ) : (
@@ -117,7 +116,11 @@ export default function Header(): JSX.Element {
                         <i className="fa-solid fa-comments"></i>&nbsp;Chat
                       </a>
                     </li>
-                    <li><a href={process.env.NEXT_PUBLIC_BASE_URL+`concierge/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
+                    <li>
+                      <a href={process.env.NEXT_PUBLIC_BASE_URL + `concierge/notification/notification?id=${currentUserData.id}`}>
+                        <i className="fa-solid fa-bell"></i>&nbsp;Notification
+                      </a>
+                    </li>
                     <li>
                       <a href={process.env.NEXT_PUBLIC_BASE_URL + "concierge/setting"}>
                         <i className="fa fa-cog"></i>&nbsp;Settings

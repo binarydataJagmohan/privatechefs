@@ -420,10 +420,10 @@ export default function Chefs() {
     <>
       <div className="table-part">
         <div className="row align-items-center mt-3 mb-3">
-          <div className="col-8">
+          <div className="col-sm-8 col-4">
             <h2>Chefs</h2>
           </div>
-          <div className="col-sm-4 col-12 text-end">
+          <div className="col-sm-4 col-8 text-end">
             <ul className="table_header_button_section p-r">
               <li>
                 {/* <button className="table-btn">Total</button> */}
