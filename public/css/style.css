@@ -816,7 +816,8 @@ table thead tr:hover {
 
 .home-page-banner-text {
   position: relative;
-  right: 12%;
+  right: 5%;
+  /* right: 12%; */
   /* right: 20%; */
   width: 485px;
 }
@@ -5866,7 +5867,7 @@ main {
   display: block;
   font-size: 0.85em;
   color: #ff4e00d1;
-  padding-left: 48px; /* Adjust spacing as needed */
+  padding-left: 60px; /* Adjust spacing as needed */
 }
 /*******header user menu dropdown css end*******/
 
