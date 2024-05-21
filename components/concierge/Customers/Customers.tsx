@@ -209,10 +209,10 @@ export default function Users() {
     <>
       <div className="table-part">
         <div className="row align-items-center mt-3 mb-3">
-          <div className="col-8">
+          <div className="col-sm-8 col-4 ">
             <h2>Users</h2>
           </div>
-          <div className="col-sm-4 col-12 text-end">
+          <div className="col-sm-4 col-8 text-end">
             <div className="text-right">
               <button
                 className="table-btn"
@@ -235,7 +235,9 @@ export default function Users() {
                   <th scope="col">Name/Surname</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone no.</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-lg-center">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
