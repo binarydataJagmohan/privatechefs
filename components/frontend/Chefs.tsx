@@ -164,6 +164,8 @@ export default function Chefs(props: any) {
     }
     return description.length > 100 ? description.substring(0, 100) + '...' : description;
   };
+
+
   return (
     <>
       <section className="banner-part-chef text-center">
@@ -217,23 +219,37 @@ export default function Chefs(props: any) {
                   <p>
                     <b>For me, cooking is...</b>
                   </p>
-                  <p>{getUsers.love_cooking ? getUsers.love_cooking : ''}</p>
+                  <p>
+                    {renderDescription(getUsers.love_cooking)}
+                  </p>
+                  {/* <p>{getUsers.love_cooking ? getUsers.love_cooking : ''}</p> */}
                   <br />
                 </div>
                 <div className="col-sm-4">
                   <p>
                     <b>I learned to cook at...</b>{" "}
                   </p>
-                  <p>{getUsers.experience ? getUsers.experience : ''}</p>
+                  <p>
+                    {renderDescription(getUsers.experience)}
+                  </p>
+                  {/* <p>{getUsers.experience ? getUsers.experience : ''}</p> */}
                   <br />
                 </div>
                 <div className="col-sm-4">
                   <p>
                     <b>A cooking secret...</b>
                   </p>
-                  <p>{getUsers.cooking_secret ? getUsers.cooking_secret : ''}</p>
+                  <p>
+                    {renderDescription(getUsers.cooking_secret)}
+                  </p>
+                  {/* <p>{getUsers.cooking_secret ? getUsers.cooking_secret : ''}</p> */}
                   {/* <p>{getUsers.favorite_dishes ? getUsers.favorite_dishes : ''}</p> */}
                   <br />
+                </div>
+                <div className="col-sm-12 text-center">
+                  <a href="#" className="read-more" onClick={toggleExpand}>
+                    {isExpanded ? 'Read Less' : 'Read More'}
+                  </a>
                 </div>
               </div>
             </div>

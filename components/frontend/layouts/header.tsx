@@ -760,16 +760,13 @@ export default function Header({}) {
                     </a>
                   </li>
                 )}
+                {/* <li className="user nav-item">
+                  {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn</a> : <a className="nav-link" href="#" onClick={handleLogout} >Logout</a>}
+
+                </li> */}
                 <li className="user nav-item">
-                  {!current_user_id ? (
-                    <a className="nav-link" href="#" onClick={() => signinpopup()}>
-                      SignIn
-                    </a>
-                  ) : (
-                    <a className="nav-link" href="#" onClick={handleLogout}>
-                      Logout
-                    </a>
-                  )}
+                  {!current_user_id ? <a className="nav-link" href="#" onClick={() => signinpopup()} >SignIn</a> : ''}
+
                 </li>
                 {isAuthenticated && (
                   <div className="concierge">
@@ -783,34 +780,20 @@ export default function Header({}) {
                       </div>
                     </div>
                     <div className="menu front-menu">
-                      <ul>
-                        <li className="user_menu">
-                          <a href="#">
-                            <i className="fa-solid fa-user"></i>&nbsp;{currentUserData.name ? currentUserData.name.substring(0, 15) + "..." : ""}
-                          </a>
-                          <span className="user-role">{currentUserData.role ? currentUserData.role : ""}</span>
-                        </li>
-                        <li>
-                          <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/chats`}>
-                            <i className="fa-solid fa-comments"></i>&nbsp;Chat
-                          </a>
-                        </li>
-                        <li>
-                          <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/notification/notification?id=${currentUserData.id}`}>
-                            <i className="fa-solid fa-bell"></i>&nbsp;Notification
-                          </a>
-                        </li>
-                        <li>
-                          <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/setting`}>
-                            <i className="fa fa-cog"></i>&nbsp;Settings
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#" onClick={handleLogout}>
-                            <i className="fa fa-sign-out"></i>&nbsp;Sign Out
-                          </a>
-                        </li>
-                      </ul>
+                        <ul>
+                            <li className='user_menu'><a href='#'>
+                              {currentUserData.pic && currentUserData.pic != 'null' ? (
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="" style={{width:"30px", height:"30px", borderRadius:"20px"}}/>
+                              ) : (
+                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="" style={{width:"30px", height:"30px", borderRadius:"20px"}}/>
+                              )}&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a>
+                              {/* <span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span> */}
+                            </li>
+                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/chats`}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
+                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
+                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/setting`}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
+                            <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
+                        </ul>
                     </div>
                   </div>
                 )}

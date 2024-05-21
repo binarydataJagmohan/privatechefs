@@ -17,6 +17,16 @@ export default function Step7() {
 
     if (!bookingid) {
       window.location.href = "/bookings/step1";
+    } else {
+      if(isAuthenticated){
+        setTimeout(function() {
+          window.location.href = "/user/booking";
+        }, 10000);
+      } else {
+        setTimeout(function() {
+          window.location.href = "/bookings/step1";
+        }, 10000);
+      }
     }
   };
 
