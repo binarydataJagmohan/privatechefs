@@ -299,7 +299,7 @@ export default function Bookings() {
           },
         });
       }
-    } catch (err: any) {}
+    } catch (err: any) { }
   };
 
   const fetchBookingAdminDetails = async () => {
@@ -1458,8 +1458,13 @@ export default function Bookings() {
               <div className="row">
                 <div className="col-md-6">
                   <div className="banner-btn">
-                    <button id="btn_offer" type="button">
-                      Assign From Database
+                    <button id="btn_offer" type="button"
+                      onClick={(e) => {
+                        setModalConfirm1(false);
+                        setModalConfirm(true);
+                      }}
+                    >
+                      Assign From Applied
                     </button>
                   </div>
                 </div>
@@ -1479,80 +1484,6 @@ export default function Bookings() {
             </form>
           </div>
         </div>
-        {assignedata && (
-          <div className="popup-part new-modala mt-4">
-            <h4 className="title-pop up-move mt-2">Applied chefs</h4>
-            <div className="offers">
-              <form onSubmit={handleBookingAssignJobSubmit} className="common_form_error" id="">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Chef's Name</th>
-                      <th scope="col">Chef's Email</th>
-                      <th scope="col">Chef's Amount</th>
-                      <th scope="col">Client Amount</th>
-                      <th scope="col">Admin Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {getallchef.length > 0 ? (
-                      getallchef.filter((chef: { job_status: string }) => chef.job_status === "hired").length > 0 ? (
-                        getallchef
-                          .filter((chef: { job_status: string }) => chef.job_status === "hired")
-                          .map((chef: any, index: any) => (
-                            <tr key={index}>
-                              <th scope="row">
-                                <div className="form-check">
-                                  <input
-                                    className="form-check-input"
-                                    type="radio"
-                                    id={`chef_id_${chef.chef_id}`}
-                                    name={`chef_id_${chef.chef_id}`}
-                                    onChange={() => handleRadioChange(Number(chef.chef_id), chef.applied_jobs_id)}
-                                    checked={assignselectedchef == chef.chef_id}
-                                  />
-                                </div>
-                              </th>
-                              <td>
-                                {chef.name} {chef.surname}
-                                {payment_status === "completed" && checkassignselectedchef == chef.chef_id && (
-                                  <button type="button" className="btn btn-sm btn-success mx-2">
-                                    Paid
-                                  </button>
-                                )}
-                                {chef.applied_jobs_status === "discussion" && checkassignselectedchef == chef.chef_id && (
-                                  <button type="button" className="btn btn-sm btn-info text-white">
-                                    Assigned
-                                  </button>
-                                )}
-                              </td>
-                              <td>{chef.email}</td>
-                              <td>{chef.amount}</td>
-                              <td>{chef.clientamount}</td>
-                              <td>{chef.adminamount}</td>
-                            </tr>
-                          ))
-                      ) : (
-                        <tr>
-                          <td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}>
-                            <p style={{ fontSize: "16px" }}>No Chef apply for this booking</p>
-                          </td>
-                        </tr>
-                      )
-                    ) : (
-                      <tr>
-                        <td className="" colSpan={7} style={{ textAlign: "center", paddingTop: "5%", border: "unset", fontSize: "16px" }}>
-                          <p style={{ fontSize: "16px" }}>No Chef apply for this booking</p>
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </form>
-            </div>
-          </div>
-        )}
       </PopupModal>
 
       <PopupModal show={modalConfirm2} handleClose={modalConfirmClose2}>

@@ -10,7 +10,7 @@ import { UpdateUserToOffiline } from "../../../lib/userapi";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { showToast } from "../../commoncomponents/toastUtils";
 
-export default function Header({}) {
+export default function Header({ }) {
   interface Errors {
     password?: string;
     confirmPassword?: string;
@@ -46,6 +46,10 @@ export default function Header({}) {
   const [privacy, setPrivacy] = useState(false);
   const [terms, setTerms] = useState(false);
   const [currentUserData, setCurrentUserData]: any = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showconfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showloginPassword, setShowLoginPassword] = useState(false);
+
 
   useEffect(() => {
     getAllNotify();
@@ -150,7 +154,7 @@ export default function Header({}) {
           }
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   useEffect(() => {
@@ -780,20 +784,20 @@ export default function Header({}) {
                       </div>
                     </div>
                     <div className="menu front-menu">
-                        <ul>
-                            <li className='user_menu'><a href='#'>
-                              {currentUserData.pic && currentUserData.pic != 'null' ? (
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="" style={{width:"30px", height:"30px", borderRadius:"20px"}}/>
-                              ) : (
-                                <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="" style={{width:"30px", height:"30px", borderRadius:"20px"}}/>
-                              )}&nbsp;{currentUserData.name ? currentUserData.name.substring(0,15)+'...' : ''}</a>
-                              {/* <span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span> */}
-                            </li>
-                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/chats`}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
-                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
-                            <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/setting`}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
-                            <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
-                        </ul>
+                      <ul>
+                        <li className='user_menu'><a href='#'>
+                          {currentUserData.pic && currentUserData.pic != 'null' ? (
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users/' + currentUserData.pic} alt="" style={{ width: "30px", height: "30px", borderRadius: "20px" }} />
+                          ) : (
+                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/users.jpg'} alt="" style={{ width: "30px", height: "30px", borderRadius: "20px" }} />
+                          )}&nbsp;{currentUserData.name ? currentUserData.name.substring(0, 15) + '...' : ''}</a>
+                          {/* <span className="user-role">{currentUserData.role ? currentUserData.role : ''}</span> */}
+                        </li>
+                        <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/chats`}><i className="fa-solid fa-comments"></i>&nbsp;Chat</a></li>
+                        <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/notification/notification?id=${currentUserData.id}`}><i className="fa-solid fa-bell"></i>&nbsp;Notification</a></li>
+                        <li><a href={`${process.env.NEXT_PUBLIC_BASE_URL}${currentUserData.role}/setting`}><i className="fa fa-cog"></i>&nbsp;Settings</a></li>
+                        <li><a href="#" onClick={handleLogout}><i className="fa fa-sign-out"></i>&nbsp;Sign Out</a></li>
+                      </ul>
                     </div>
                   </div>
                 )}
@@ -891,7 +895,16 @@ export default function Header({}) {
             </div>
             <div className="login_div">
               <label htmlFor="password">Password:</label>
-              <input type="password" id="loginpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleLoginBlur} autoComplete="current-password" />
+              <div className='position-relative'>
+                <input type={showloginPassword ? "text" : "password"} id="loginpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleLoginBlur} autoComplete="current-password" />
+                <span className='eye-password' onClick={() => setShowLoginPassword(!showloginPassword)}>
+                  {showloginPassword ? (
+                    <i className="fas fa-eye-slash"></i>
+                  ) : (
+                    <i className="fa-solid fa-eye"></i>
+                  )}
+                </span>
+              </div>
 
               {errors.password && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.password}</span>}
             </div>
@@ -968,7 +981,15 @@ export default function Header({}) {
               <label htmlFor="password" className="setmobilepass">
                 Password:
               </label>
-              <input type="password" id="registerpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
+              <div className='position-relative'>
+                <input type={showPassword ? "text" : "password"}
+                  id="registerpassword" name='password' value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
+                <span className='eye-password' onClick={() => setShowPassword(!showPassword)}>{showPassword ? (
+                  <i className="fas fa-eye-slash"></i>
+                ) : (
+                  <i className="fa-solid fa-eye"></i>
+                )}</span>
+              </div>
               {errors.password && (
                 <span className="small error text-danger mb-2 d-inline-block error_login pasword-mobile" style={{ wordWrap: "break-word", marginTop: "-8px" }}>
                   {errors.password}
@@ -977,7 +998,17 @@ export default function Header({}) {
             </div>
             <div className="login_div">
               <label htmlFor="confirmPassword">Confirm Password:</label>
-              <input type="password" id="confirmPassword text-danger mb-2 d-inline-block" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
+              <div className='position-relative'>
+                <input type={showconfirmPassword ? "text" : "password"}
+                  id="confirmPassword text-danger mb-2 d-inline-block" name='confirmPassword' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleRegisterBlur} autoComplete="new-password" />
+                <span className='eye-password' onClick={() => setShowConfirmPassword(!showconfirmPassword)}>
+                  {showconfirmPassword ? (
+                    <i className="fas fa-eye-slash"></i>
+                  ) : (
+                    <i className="fa-solid fa-eye"></i>
+                  )}
+                </span>
+              </div>
               {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.confirmPassword}</span>}
             </div>
 

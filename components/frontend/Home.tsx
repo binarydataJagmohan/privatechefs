@@ -54,7 +54,8 @@ export default function Home(props: any) {
   const [stars, setStar] = useState([]);
   const [pageslug, setSlug] = useState<PageSlug | null>(null);
   const [allchef, setAllChef] = useState([]);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showconfirmPassword, setShowConfirmPassword] = useState(false);
   useEffect(() => {
     if (props) {
       setSlug(props.pages.data);
@@ -837,12 +838,30 @@ export default function Home(props: any) {
           <form onSubmit={handleResetSubmit} id="reset_register_form">
             <div className="register_div">
               <label htmlFor="password">Password:</label>
-              <input type="password" id="resetpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password" />
+              <div className='position-relative'>
+                <input type={showPassword ? "text" : "password"} id="resetpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password" />
+                <span className='eye-password' onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? (
+                    <i className="fas fa-eye-slash"></i>
+                  ) : (
+                    <i className="fa-solid fa-eye"></i>
+                  )}
+                </span>
+              </div>
               {errors.password && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.password}</span>}
             </div>
             <div className="register_div">
               <label htmlFor="confirmPassword">Confirm Password:</label>
-              <input type="password" id="resetconfirmPassword text-danger mb-2 d-inline-block" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password" />
+              <div className='position-relative'>
+                <input type={showconfirmPassword ? "text" : "password"} id="resetconfirmPassword text-danger mb-2 d-inline-block" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password" />
+                <span className='eye-password' onClick={() => setShowConfirmPassword(!showconfirmPassword)}>
+                  {showconfirmPassword ? (
+                    <i className="fas fa-eye-slash"></i>
+                  ) : (
+                    <i className="fa-solid fa-eye"></i>
+                  )}
+                </span>
+              </div>
               {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.confirmPassword}</span>}
             </div>
             <button type="submit" className="btn-send w-100" disabled={buttonStatus}>

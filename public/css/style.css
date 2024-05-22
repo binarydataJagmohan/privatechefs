@@ -724,7 +724,8 @@ table thead tr:hover {
   }
 }
 
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
   /* table, thead, tbody, th, td, tr { 
     display: block; 
   }
@@ -5347,7 +5348,8 @@ main {
   padding: 0.9rem 2rem;
   text-align: center;
   text-decoration: none;
-  transition: color 0.1s cubic-bezier(0.16, 0.08, 0.355, 1), background 0.1s cubic-bezier(0.16, 0.08, 0.355, 1);
+  transition: color 0.1s cubic-bezier(0.16, 0.08, 0.355, 1),
+    background 0.1s cubic-bezier(0.16, 0.08, 0.355, 1);
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -5535,7 +5537,8 @@ main {
   width: 20px;
   opacity: 0;
   z-index: -100;
-  transition: all 0.65s cubic-bezier(0.84, -0.18, 0.31, 1.26), opacity 0.65s 0.5s;
+  transition: all 0.65s cubic-bezier(0.84, -0.18, 0.31, 1.26),
+    opacity 0.65s 0.5s;
 }
 .toolTip:after {
   content: attr(data-tip);
@@ -5892,7 +5895,8 @@ i.fa-solid.fa-ellipsis {
 .satingStyle {
   margin: 0 auto;
   max-width: 700px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
   padding: 2%;
 }
 
@@ -5937,4 +5941,13 @@ i.fa-solid.fa-ellipsis {
   .setmobilepass {
     margin-top: 25px;
   }
+}
+
+span.eye-password {
+  position: absolute;
+  top: 9px;
+  right: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #1d1d1d;
 }
