@@ -5951,3 +5951,15 @@ span.eye-password {
   cursor: pointer;
   color: #1d1d1d;
 }
+.villas_img_delete_btn {
+  position: relative;
+  top: 10px;
+  left: 118px;
+  background: #ff0000;
+  border: none;
+  color: #fff;
+  padding: 0px;
+  border-radius: 23px;
+  width: 20px;
+  height: 20px;
+}
