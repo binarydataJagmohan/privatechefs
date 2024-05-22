@@ -447,7 +447,9 @@ export default function Villas() {
       }
     });
   };
-
+  const handleDeleteImage = (index:any) => {
+    setImage((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
   return (
     <>
       <div className="table-part">
@@ -746,6 +748,7 @@ export default function Villas() {
                         image instanceof Blob || image instanceof File ? (
                           <div className="col-md-4" key={index}>
                             <div className="v-img">
+                              <button type="button" className="btn btn-danger btn-sm mt-2 villas_img_delete_btn" onClick={() => handleDeleteImage(index)}><i className="fa fa-close"></i></button>
                               <img src={URL.createObjectURL(image)} className="s-image" alt="selected image" width={100} height={100} />
                             </div>
                           </div>
