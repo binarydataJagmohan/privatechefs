@@ -944,7 +944,7 @@ export default function Bookings() {
 
                             {/* {user.payment_status} */}
 
-                            {user.category == "multipletimes" && user.booking_status != "Expired" && (
+                            {user.booking_status != "Expired" && (
                               <li>
                                 <a
                                   className="dropdown-item"
