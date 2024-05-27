@@ -184,6 +184,22 @@ export default function Step4() {
                               if (prevSelectedCuisine.includes(String(value))) {
                                 return prevSelectedCuisine.filter((c) => c !== String(value));
                               } else {
+                                if (prevSelectedCuisine.length >= 3) {
+                                  toast.error('You can select a maximum of 3 cuisines', {
+                                    position: toast.POSITION.TOP_RIGHT,
+                                    closeButton: true,
+                                    hideProgressBar: false,
+                                    style: {
+                                      background: '#ffff',
+                                      borderLeft: '4px solid #e74c3c',
+                                      color: '#454545',
+                                    },
+                                    progressStyle: {
+                                      background: '#ffff',
+                                    },
+                                  });
+                                  return prevSelectedCuisine;
+                                }
                                 return [...prevSelectedCuisine, String(value)];
                               }
                             });
@@ -209,6 +225,22 @@ export default function Step4() {
                                   if (prevSelectedCuisine.includes(String(value))) {
                                     return prevSelectedCuisine.filter((c) => c !== String(value));
                                   } else {
+                                    if (prevSelectedCuisine.length >= 3) {
+                                      toast.error('You can select a maximum of 3 cuisines', {
+                                        position: toast.POSITION.TOP_RIGHT,
+                                        closeButton: true,
+                                        hideProgressBar: false,
+                                        style: {
+                                          background: '#ffff',
+                                          borderLeft: '4px solid #e74c3c',
+                                          color: '#454545',
+                                        },
+                                        progressStyle: {
+                                          background: '#ffff',
+                                        },
+                                      });
+                                      return prevSelectedCuisine;
+                                    }
                                     return [...prevSelectedCuisine, String(value)];
                                   }
                                 });

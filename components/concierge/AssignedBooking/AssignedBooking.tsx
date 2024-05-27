@@ -675,7 +675,7 @@ export default function Bookings() {
                               <p className="chefs-name m-2">{chef.name}</p>
                             </div>
                             <div className="col-2">
-                              <p className="mony m-2">${chef.amount}</p>
+                              <p className="mony m-2">€{chef.amount}</p>
                             </div>
                             <div className="col-5">
                               {chef.menu_names?.split(",").map((menu, index) => (

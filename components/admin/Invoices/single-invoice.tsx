@@ -146,7 +146,7 @@ export default function SingleInvoice(props: any) {
                     </table>
                 </div>
                 <div className="invoice-footer">
-                    <p className="total">Total: ${getUsers.amount}</p>
+                    <p className="total">Total: €{getUsers.amount}</p>
                 </div>
             </div>
         </>
