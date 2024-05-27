@@ -189,7 +189,7 @@ export default function Dashboard() {
                 <div className="col-lg-4 col-md-4">
                   <div className="box-today border-right m-view-border-bottom">
                     <h4>Total Payments</h4>
-                    <h2>{totalamount}$</h2>
+                    <h2>{totalamount}€</h2>
                     {/* <p>30% were pre-payed</p> */}
                   </div>
                 </div>
@@ -257,7 +257,7 @@ export default function Dashboard() {
                             <tr key={index}>
                               {/* <td>{index + 1}</td> */}
                               <td>#{booking.bookingId}</td>
-                              <td>${booking.amount}</td>
+                              <td>€{booking.amount}</td>
                               <td>{orderDate.toLocaleDateString()}</td>
                             </tr>
                           );
@@ -350,7 +350,7 @@ export default function Dashboard() {
                                 <p className="chefs-name m-2">{chef.name}</p>
                               </div>
                               <div className="col-2">
-                                <p className="mony m-2">${chef.amount}</p>
+                                <p className="mony m-2">€{chef.amount}</p>
                               </div>
                               <div className="col-5">
                                 {chef.menu_names?.split(",").map((menu, index) => (

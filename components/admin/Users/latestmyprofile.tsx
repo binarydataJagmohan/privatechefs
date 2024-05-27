@@ -617,7 +617,7 @@ export default function MyProfile(props: any) {
                                                 <tr key={index}>
                                                     <td>#{user.id}</td>
                                                     <td>{user.charge_id ? user.charge_id : 'N/A'}</td>
-                                                    <td>{user.charge_amount ? '$' + user.charge_amount : 'N/A'}</td>
+                                                    <td>{user.charge_amount ? '€' + user.charge_amount : 'N/A'}</td>
                                                     <td>{user.location}</td>
                                                     <td>{user.category == 'onetime' ? 'One time' : 'Mutiple Times'}</td>
                                                 </tr>

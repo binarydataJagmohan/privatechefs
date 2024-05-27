@@ -408,7 +408,7 @@ export default function Allergy() {
                   {/* <td></td> */}
                   {/* <td>{allergy.description}</td> */}
                   <td className="abc">
-                    {showFullDescription[index] && allergy.description ? allergy.description : allergy.description ? (allergy.description.length > 100 ? `${allergy.description.slice(0, 100)}...` : allergy.description) : ""}
+                    {showFullDescription[index] && allergy.description ? allergy.description : allergy.description ? (allergy.description.length > 100 ? `{allergy.description.slice(0, 100)}...` : allergy.description) : ""}
                     {allergy.description && allergy.description.length > 100 && (
                       <a className="read-more-link" onClick={() => toggleDescription(index)}>
                         {showFullDescription[index] ? "Read Less" : "Read More"}

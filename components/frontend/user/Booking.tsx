@@ -742,13 +742,13 @@ export default function Booking(props: any) {
                                         </a>
                                       </li>
 
-                                      {user.payment_status == "pending" && (
+                                      {/* {user.payment_status == "pending" && (
                                         <li>
                                           <a className="dropdown-item" href="#" onClick={(e) => getuserchefofferdata(e, user.booking_id, user.category)}>
                                             View Chef offer
                                           </a>
                                         </li>
-                                      )}
+                                      )} */}
 
                                       {user.payment_status == "pending" && user.appliedId === null && (
                                         <li>
@@ -836,7 +836,7 @@ export default function Booking(props: any) {
                                               <p className="chefs-name m-2">{chef.name}</p>
                                             </div>
                                             <div className="col-2">
-                                              <p className="mony m-2">${chef.amount}</p>
+                                              <p className="mony m-2">€{chef.amount}</p>
                                             </div>
                                             <div className="col-5">
                                               {chef.menu_names?.split(",").map((menu, index) => (
