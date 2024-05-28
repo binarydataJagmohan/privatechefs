@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getAdminAssignedBooking, getAdminAppliedFilterByBooking, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking, changeBookingStatus } from "../../../lib/adminapi";
+import { getUserBookingId, getAdminAssignedBooking, getAdminAppliedFilterByBooking, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking, changeBookingStatus, resendPaymentLink } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
@@ -491,6 +491,31 @@ export default function Bookings() {
       });
   };
 
+  const ReSendPaymentLink = (bookingId:any, chefId:any, amount:any, adminAmount:any, clientAmount:any, menus:any, paymentStatus:any, assignedJobId:any) => {
+    const data = {
+      booking_id: bookingId,
+      chef_id: chefId,
+      amount: amount,
+      admin_amount: adminAmount,
+      client_amount: clientAmount,
+      payment_status: paymentStatus,
+      applied_id: assignedJobId
+    }
+
+    resendPaymentLink(data)
+    .then((res) => {
+      if (res.status == true) {
+        showToast("success", res.message);
+      } else {
+        setErrorMessage(res.message);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  }
+
   return (
     <>
       <div className="table-part">
@@ -604,6 +629,20 @@ export default function Bookings() {
                                 View Booking
                               </a>
                             </li>
+                            {user.payment_status == 'pending'
+                              ?
+                                <li>
+                                  <a
+                                    className="dropdown-item"
+                                    href="#"
+                                    onClick={(e) => ReSendPaymentLink(user.booking_id, user.applied_chef_id, user.amount, user.admin_amount, user.client_amount, user.menu_names, user.payment_status, user.assigned_job_id)}
+                                  >
+                                    Resend Payment Link
+                                  </a>
+                                </li>
+                              :
+                                ''
+                            }
 
                             {/* {user.category == 'multipletimes' && (<li>
 															<a

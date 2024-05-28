@@ -715,6 +715,7 @@ export default function Bookings() {
       client_amount: clientamount,
       admin_amount: adminamount,
       payment_status: payment_status,
+      applied_id: appliedid
     };
 
     AssignedBookingByAdmin(data)
@@ -849,9 +850,10 @@ export default function Bookings() {
                   <th scope="col">Date Requested</th>
                   <th scope="col">Booking Date</th>
                   <th scope="col">Address</th>
-                  <th scope="col">Category</th>
+                  {/* <th scope="col">Category</th> */}
                   <th scope="col">Payment Status</th>
                   <th scope="col">Status</th>
+                  <th scope="col">Applied Status</th>
                   <th scope="col" className="text-sm-center">
                     Action
                   </th>
@@ -912,11 +914,11 @@ export default function Bookings() {
                           {user.location}
                         </p>
                       </td>
-                      <td>
+                      {/* <td>
                         <p className="text-data-18" id="table-p">
                           {user.category == "onetime" ? "One time" : "Mutiple Times"}
                         </p>
-                      </td>
+                      </td> */} 
 
                       <td>
                         <p className="text-data-18" id="table-p">
@@ -925,6 +927,12 @@ export default function Bookings() {
                       </td>
 
                       <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
+
+                      <td>
+                        <p className="text-data-18" id="table-p">
+                          {user.assigned_job_id && user.applied_jobs_status ? "Assigned" : "UnAssigned"}
+                        </p>
+                      </td>
 
                       {/* <td className={`booking-status-${user.booking_status}`}>
 												{isBookingUpcoming(user.dates)}
