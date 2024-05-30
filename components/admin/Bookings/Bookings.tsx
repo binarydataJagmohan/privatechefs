@@ -150,6 +150,10 @@ export default function Bookings() {
   const [villasdata, setVillasData] = useState("");
   const [villa_id, setVillasId] = useState<Number>(null);
   const [assignedata, setAssigneData] = useState(false);
+  const [assignedClientamount, setAssignedClientAmount]: any = useState("");
+  const [assignedAmount1, setAssignedAmount1]: any = useState("");
+  const [assignedAdminAmount, setAssignedAdminAmount]: any = useState("");
+  
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -401,6 +405,9 @@ export default function Bookings() {
       .then((res) => {
         if (res.status == true) {
           setChefOffer(res.data);
+          res.data.forEach((chef:any) => {
+            setAssignedClientAmount(chef.client_amount);
+          });
         } else {
           setErrorMessage(res.message);
         }
@@ -491,6 +498,7 @@ export default function Bookings() {
           chef_id: assignselectedchef,
           client_amount: client,
           payment_status: payment_status,
+          applied_id: appliedid
         };
 
         // console.log(data);
@@ -761,6 +769,21 @@ export default function Bookings() {
       setamount1(Number(e.target.value));
     }
     setClientAmount(totalAmount.toString());
+  };
+
+  const handleAssignedAmountChange = (e: any, type: string, adminCharge: any, chefCharge: any) => {
+    let totalAmount = 0;
+    if (type === "admin") {
+      totalAmount += Number(e.target.value);
+      totalAmount += Number(chefCharge);
+      setAssignedAdminAmount(Number(e.target.value));
+    }
+    // } else {
+    //   totalAmount += Number(e.target.value);
+    //   totalAmount += Number(adminCharge);
+    //   setAssignedAmount1(Number(e.target.value));
+    // }
+    setAssignedClientAmount(totalAmount.toString());
   };
 
   const handleBookingAssignVillaSubmit = (event: any) => {
@@ -1304,14 +1327,28 @@ export default function Bookings() {
                         <td>
                           <div className="all-form p-0 add-w">
                             <div className="login_div">
-                              <input type="number" id={`client_amount_${chef.applied_jobs_id}`} name={`client_amount_${chef.applied_jobs_id}`} placeholder="Client Amount" onChange={handleChange} value={chef.client_amount} />
+                              <input 
+                              type="number" 
+                              id={`client_amount_${chef.applied_jobs_id}`} 
+                              name={`client_amount_${chef.applied_jobs_id}`} 
+                              placeholder="Client Amount" 
+                              onChange={(e) => setAssignedClientAmount(e.target.value)} 
+                              value={assignedClientamount} />
                             </div>
                           </div>
                         </td>
                         <td>
                           <div className="all-form p-0 add-w">
                             <div className="login_div">
-                              <input type="number" id={`admin_amount_${chef.applied_jobs_id}`} name={`admin_amount_${chef.applied_jobs_id}`} placeholder="Admin Amount" onChange={handleChange} value={chef.admin_amount} />
+                              <input 
+                                type="number" 
+                                id={`admin_amount_${chef.applied_jobs_id}`} 
+                                name={`admin_amount_${chef.applied_jobs_id}`} 
+                                placeholder="Admin Amount" 
+                                onChange={(e) => {
+                                  handleAssignedAmountChange(e, "admin", amount1, chef.amount);
+                                }} 
+                                defaultValue={chef.admin_amount} />
                             </div>
                           </div>
                         </td>
