@@ -337,6 +337,7 @@ export default function Bookings() {
           chef_id: assignselectedchef,
           client_amount: client,
           payment_status: payment_status,
+          applied_id: appliedid,
         };
 
         // console.log(data);
