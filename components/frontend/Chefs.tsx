@@ -162,7 +162,7 @@ export default function Chefs(props: any) {
     if (isExpanded) {
       return description;
     }
-    return description.length > 100 ? description.substring(0, 100) + '...' : description;
+    return description?.length > 100 ? description?.substring(0, 100) + '...' : description;
   };
 
 
