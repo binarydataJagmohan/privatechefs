@@ -188,7 +188,7 @@ export default function Step3() {
                 </thead>
                 <tbody>
                   {servicetype === 'multipletimes' && mutipledate.map((date, index) => (
-                    <tr key={index} className="py-5">
+                    <tr key={index} className="py,lg-5">
                       <td data-label="Date"><h6 style={{ color: '#ff4e00d1' }} className="pt-3">{date}</h6></td>
                       <td data-label="Breakfast">
                         <div className="slider-img-plased pb-2 pt-3">
