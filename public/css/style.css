@@ -5971,3 +5971,97 @@ span.eye-password {
   width: 20px;
   height: 20px;
 }
+
+
+
+@media screen and (max-width: 768px) {
+
+  table.table-style {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  table.table-style caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  table.table-style tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  table.table-style th,
+  table.table-style td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  table.table-style th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  table.table-style {
+    border: 0;
+  }
+
+  table.table-style caption {
+    font-size: 1.3em;
+  }
+  
+  table.table-style thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table.table-style tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  table.table-style td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  table.table-style td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    /* font-weight: bold; */
+  }
+  
+  table.table-style td:last-child {
+    border-bottom: 0;
+  }
+
+  .table-style td:before {
+    position: absolute;
+    top: 24px;
+    left: 6px;
+    font-weight: var(--font_wt_b);
+    font-size: var(--font_table_data);
+    line-height: 22px;
+    color: var(--color_1);
+    text-align: initial;
+}
+}
+

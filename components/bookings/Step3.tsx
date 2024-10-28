@@ -169,7 +169,7 @@ export default function Step3() {
               <h1 className="awaits mb-0">a great experience awaits</h1>
               <div className="text-areya-srep dummy-up text-center mb-2">
                 <p>
-                Take control of your dining adventure. Uncheck any meals you don't want, and design a culinary experience that's all about your preferences and excitement.
+                  Take control of your dining adventure. Uncheck any meals you don't want, and design a culinary experience that's all about your preferences and excitement.
                 </p>
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function Step3() {
 
           {servicetype === 'multipletimes' && (
             <div className="row mb-5 align-items-center" >
-              <table className="table table-striped">
+              <table className="table-style table table-striped">
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -189,8 +189,8 @@ export default function Step3() {
                 <tbody>
                   {servicetype === 'multipletimes' && mutipledate.map((date, index) => (
                     <tr key={index} className="py-5">
-                      <td><h6 style={{ color: '#ff4e00d1' }} className="pt-3">{date}</h6></td>
-                      <td>
+                      <td data-label="Date"><h6 style={{ color: '#ff4e00d1' }} className="pt-3">{date}</h6></td>
+                      <td data-label="Breakfast">
                         <div className="slider-img-plased pb-2 pt-3">
                           <input
                             type="checkbox"
@@ -207,7 +207,7 @@ export default function Step3() {
 
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Lunch">
                         <div className="slider-img-plased pb-2 pt-3">
                           <input
                             type="checkbox"
@@ -224,7 +224,7 @@ export default function Step3() {
 
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Dinner">
                         <div className="slider-img-plased pb-2 pt-3">
                           <input
                             type="checkbox"
@@ -245,7 +245,6 @@ export default function Step3() {
                   ))}
                 </tbody>
               </table>
-
             </div>
           )}
 
@@ -284,7 +283,7 @@ export default function Step3() {
                         <a href="#" onClick={() =>
                           setMealValues({
                             breakfast: true,
-                            lunch: false, 
+                            lunch: false,
                             dinner: false,
                           })}>Breakfast</a>
                       </p>
@@ -300,7 +299,7 @@ export default function Step3() {
                         value={"yes"}
                         className="step_radio_css"
                         checked={mealValues.lunch}
-                         onChange={() =>
+                        onChange={() =>
                           setMealValues({
                             breakfast: false, // Deselect breakfast
                             lunch: true,
@@ -320,7 +319,7 @@ export default function Step3() {
                         <a href="#" onClick={() =>
                           setMealValues({
                             breakfast: false,
-                            lunch: true, 
+                            lunch: true,
                             dinner: false,
                           })}>Lunch</a>
                       </p>
@@ -336,7 +335,7 @@ export default function Step3() {
                         value={"yes"}
                         className="step_radio_css"
                         checked={mealValues.dinner}
-                       onChange={() =>
+                        onChange={() =>
                           setMealValues({
                             breakfast: false, // Deselect breakfast
                             lunch: false, // Deselect lunch
@@ -356,7 +355,7 @@ export default function Step3() {
                         <a href="#" onClick={() =>
                           setMealValues({
                             breakfast: false,
-                            lunch: false, 
+                            lunch: false,
                             dinner: true,
                           })}>Dinner</a>
                       </p>
@@ -371,7 +370,7 @@ export default function Step3() {
                     Choose Your One-Time Experience
                   </p>
                   <p>
-                  Your one-time culinary experience with Private Chefs is all about you. Select your preferred mealtime – breakfast, lunch, or dinner – and let us curate an unforgettable dining experience tailored to your tastes and preferences.{" "}
+                    Your one-time culinary experience with Private Chefs is all about you. Select your preferred mealtime – breakfast, lunch, or dinner – and let us curate an unforgettable dining experience tailored to your tastes and preferences.{" "}
                   </p>
                   <div className="view-more mt-4">
                     <a href="#" onClick={(e) => ClearSelectedMealsData()}>
