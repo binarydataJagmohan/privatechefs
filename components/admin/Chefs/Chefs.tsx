@@ -11,6 +11,7 @@ import { paginate } from "../../../helpers/paginate";
 import Link from "next/link";
 import { showToast } from "../../commoncomponents/toastUtils";
 import swal from "sweetalert";
+import { forgetPassword } from "../../../lib/frontendapi";
 
 export default function Chefs() {
   interface FilterData {
@@ -93,6 +94,7 @@ export default function Chefs() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [namedata, setChefName] = useState("");
+  const [loading, setLoading] = useState(false); // Global loading state
 
   const modalConfirmOpen = () => {
     setModalConfirm(true);
@@ -495,6 +497,54 @@ export default function Chefs() {
       }
     });
   };
+
+    const handleForgotSubmit = (event: any, email: string) => {
+      event.preventDefault();
+      setErrors(errors);
+      // Submit form data if there are no errors
+      if (Object.keys(errors).length === 0) {
+        setButtonState(true);
+        setLoading(true);
+        // Call an API or perform some other action to register the user
+        const data = { email };
+        forgetPassword(data)
+          .then((res) => {
+            if (res.status == true) {
+              setButtonState(false);
+              setLoading(false);
+
+              showToast("success", 'Mail has been sent');
+            } else {
+              setButtonState(false);
+              toast.info('Mail has been sent', {
+                position: toast.POSITION.TOP_RIGHT,
+                closeButton: true,
+                hideProgressBar: false,
+                style: {
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
+                  "--toastify-icon-color-info": "#ff4e00d1",
+                },
+                progressStyle: {
+                  background: "#ffff",
+                },
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    };
+
+    {loading && (
+      <div className="overlay">
+        <div className="spinner">
+        <i className="fa fa-spinner fa-spin"></i> </div>
+      </div>
+    )}
+    
   return (
     <>
       <div className="table-part">
@@ -513,7 +563,6 @@ export default function Chefs() {
           <div className="col-12">
             <ul className="table_header_button_section p-r">
               <li>
-                {/* <button className="table-btn">Total</button> */}
                 {selectedCuisines.map((cuisine, index) => (
                   <li key={index}>
                     {" "}
@@ -673,7 +722,7 @@ export default function Chefs() {
                               See Full Profile
                             </a>
                           </li>
-
+                         
                           <li>
                             <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefs/" + filter.id}>
                               See Backend Profile
@@ -794,6 +843,17 @@ export default function Chefs() {
                           <i className="fa-solid fa-ellipsis " role="button"></i>
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefprofile/" + chef.id}>
+                              Update Chef Profile
+                            </a>
+                          </li>
+                          <li>
+                            <a className="dropdown-item" href="#" onClick={(e) => handleForgotSubmit(e, chef.email)}>
+
+                              Reset Password Request
+                            </a>
+                          </li>
                           <li>
                             <a className="dropdown-item" href={process.env.NEXT_PUBLIC_BASE_URL + "privatechef/" + chef.slug}>
                               See Full Profile
@@ -877,23 +937,23 @@ export default function Chefs() {
                 <div className="row">
                   <div className="col-sm-12">
                     <input type="checkbox" value="249" checked={selectedPrice === "249"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>Under ₹250</label>
+                    <label style={{ marginLeft: "5px" }}>Under €250</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="250" checked={selectedPrice === "250"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>₹250-₹500</label>
+                    <label style={{ marginLeft: "5px" }}>€250-€500</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="900" checked={selectedPrice === "900"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>₹500-₹1,000</label>
+                    <label style={{ marginLeft: "5px" }}>€500-€1,000</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="1000" checked={selectedPrice === "1000"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>₹1,000-₹2,000</label>
+                    <label style={{ marginLeft: "5px" }}>€1,000-€2,000</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="2000" checked={selectedPrice === "2000"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>Over ₹2000</label>
+                    <label style={{ marginLeft: "5px" }}>Over €2000</label>
                   </div>
                 </div>
               </div>

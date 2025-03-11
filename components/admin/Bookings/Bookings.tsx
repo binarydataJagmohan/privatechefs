@@ -85,6 +85,7 @@ export default function Bookings() {
   const [currentPage, setCurrentPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   const [bookingid, setBookingId] = useState("");
+
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
     id: "",
     name: "",
@@ -153,24 +154,14 @@ export default function Bookings() {
   const [assignedClientamount, setAssignedClientAmount]: any = useState("");
   const [assignedAmount1, setAssignedAmount1]: any = useState("");
   const [assignedAdminAmount, setAssignedAdminAmount]: any = useState("");
-  
+  const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [chefEmail, setChefEmail] = useState("");
+  const [chefPhone, setChefPhone] = useState("");
 
-  const modalConfirmOpen = () => {
-    setModalConfirm(true);
-  };
   const modalConfirmClose = () => {
     setModalConfirm(false);
   };
-  const sidebarConfirmOpen = () => {
-    setSidebarConfirm(true);
-  };
-  const sidebarConfirmClose = () => {
-    setModalConfirm(false);
-  };
 
-  const modalConfirmOpen1 = () => {
-    setModalConfirm1(true);
-  };
   const modalConfirmClose1 = () => {
     setModalConfirm1(false);
   };
@@ -350,22 +341,57 @@ export default function Bookings() {
     }
   };
 
+  // const onPageChange = (page: any) => {
+  //   setCurrentPage(page);
+  //   getAdminChefByBooking()
+  //     .then((res) => {
+  //       if (res.status == true) {
+  //         setTotalBooking(res.data);
+  //         const paginatedPosts = paginate(res.data, page, pageSize);
+  //         setBookingUser(paginatedPosts);
+  //       } else {
+  //         setErrorMessage(res.message);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });      
+  // };
   const onPageChange = (page: any) => {
     setCurrentPage(page);
-    getAdminChefByBooking()
-      .then((res) => {
-        if (res.status == true) {
-          setTotalBooking(res.data);
-          const paginatedPosts = paginate(res.data, page, pageSize);
-          setBookingUser(paginatedPosts);
-        } else {
-          setErrorMessage(res.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      if (activeFilter === "Expired") {
+      getAdminChefByBooking()
+        .then((res) => {
+          if (res.status == true) {
+            const expiredData = res.data.filter((item: any) => item.booking_status === "Expired");
+            setTotalBooking(expiredData);
+            const paginatedPosts = paginate(expiredData, page, pageSize);
+            setBookingUser(paginatedPosts);
+          } else {
+            setErrorMessage(res.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } 
+    else {
+      getAdminChefByBooking()
+        .then((res) => {
+          if (res.status == true) {
+            setTotalBooking(res.data);
+            const paginatedPosts = paginate(res.data, page, pageSize);
+            setBookingUser(paginatedPosts);
+          } else {
+            setErrorMessage(res.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
+  
 
   const getSingleBookingUser = (e: any, id: any) => {
     e.preventDefault();
@@ -422,7 +448,6 @@ export default function Bookings() {
       .then((res) => {
         if (res.status == true) {
           setgetAllChef(res.data);
-          console.log(res.data);
         } else {
           console.log("error");
         }
@@ -452,9 +477,26 @@ export default function Bookings() {
 
   const handleButtonClick = (index: any, type: string) => {
     setActiveIndex(index);
+    setActiveFilter(type);
     if (type == "all") {
       fetchBookingAdminDetails();
-    } else {
+    } else if(type == 'Expired'){
+      getAdminChefByBooking()
+      .then((res) => {
+        if (res.status == true) {
+          const filteredData = res.data.filter((item: any) => item.booking_status === "Expired");
+          setTotalBooking(filteredData);
+          const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+          setBookingUser(paginatedPosts);
+        } else {
+          setErrorMessage(res.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }    
+    else {
       getAdminChefFilterByBooking(type)
         .then((res) => {
           if (res.status == true) {
@@ -497,11 +539,13 @@ export default function Bookings() {
           id: appliedid,
           chef_id: assignselectedchef,
           client_amount: client,
+          admin_amount: admin,
+          // user_show: user_show,
           payment_status: payment_status,
           applied_id: appliedid
         };
 
-        // console.log(data);
+        console.log(data,'sdsss');
 
         AssignedBookingByAdminWithoutDatabse(data)
           .then((res) => {
@@ -658,8 +702,7 @@ export default function Bookings() {
     }
   };
 
-  const [chefEmail, setChefEmail] = useState("");
-  const [chefPhone, setChefPhone] = useState("");
+
 
   const handleChefSelection = (event: any) => {
     const selectedChefId = event.target.value;
@@ -667,7 +710,7 @@ export default function Bookings() {
 
     const filteredMenuOptions = getchefmenu.filter((data) => data.chefid == selectedChefId);
     setMenuOptions(filteredMenuOptions);
-    const selectedChefData = getallchef.find((chef) => chef.id == parseInt(selectedChefId, 10));
+    const selectedChefData = getallchef.find((chef:any) => chef.id == parseInt(selectedChefId, 10));
     if (selectedChefData) {
       setChefEmail(selectedChefData.email);
       setChefPhone(selectedChefData.phone);
@@ -677,10 +720,7 @@ export default function Bookings() {
     }
   };
 
-  const handleChefMenu = (event: any) => {
-    const selectedChefId = event.target.value;
-    setSelectedMenu(selectedChefId);
-  };
+
 
   const handleBookingApplyJobSubmit = (event: any) => {
     event.preventDefault();
@@ -725,7 +765,7 @@ export default function Bookings() {
       payment_status: payment_status,
       applied_id: appliedid
     };
-
+    console.log(data,'data')
     AssignedBookingByAdmin(data)
       .then((res) => {
         if (res.status === true) {
@@ -859,6 +899,11 @@ export default function Bookings() {
           <li>
             <button className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(3, "completed")}>
               Completed
+            </button>
+          </li>
+          <li>
+            <button className={`table-btn ${activeIndex == 4 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(4, "Expired")}>
+              Expired
             </button>
           </li>
         </ul>

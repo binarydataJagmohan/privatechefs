@@ -799,23 +799,23 @@ export default function Chefs() {
                 <div className="row">
                   <div className="col-sm-12">
                     <input type="checkbox" value="249" checked={selectedPrice === "249"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>Under ₹250</label>
+                    <label style={{ marginLeft: "5px" }}>Under €250</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="250" checked={selectedPrice === "250"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>₹250-₹500</label>
+                    <label style={{ marginLeft: "5px" }}>€250-€500</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="900" checked={selectedPrice === "900"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>₹500-₹1,000</label>
+                    <label style={{ marginLeft: "5px" }}>€500-€1,000</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="1000" checked={selectedPrice === "1000"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>₹1,000-₹2,000</label>
+                    <label style={{ marginLeft: "5px" }}>€1,000-€2,000</label>
                   </div>
                   <div className="col-sm-12">
                     <input type="checkbox" value="2000" checked={selectedPrice === "2000"} onChange={handleCheckboxPriceChange} style={{ marginRight: "5px" }} />
-                    <label style={{ marginLeft: "5px" }}>Over ₹2000</label>
+                    <label style={{ marginLeft: "5px" }}>Over €2000</label>
                   </div>
                 </div>
               </div>

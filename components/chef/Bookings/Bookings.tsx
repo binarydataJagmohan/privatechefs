@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
 import { getUserBookingId } from "../../../lib/adminapi";
-import { getUserChefByBooking, getUserChefFilterByBooking, getAllChefMenu, saveChefAppliedBookingJob } from "../../../lib/chefapi";
+import {
+  getUserChefByBooking,
+  getUserChefFilterByBooking,
+  getAllChefMenu,
+  saveChefAppliedBookingJob,
+} from "../../../lib/chefapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
@@ -156,13 +161,18 @@ export default function Bookings() {
     }
     return null;
   };
-
   const fetchBookingUserDetails = async (id: any) => {
     try {
       const res = await getUserChefByBooking(id);
+
       if (res.status) {
         const filteredData = res.data.filter((record: any) => {
-          return record.chef_id != id && record.applied_jobs_status != "hired" && record.applied_jobs_status != "discussion" && record.applied_jobs_status != "rejected";
+          return (
+            record.chef_id != id &&
+            record.applied_jobs_status != "hired" &&
+            record.applied_jobs_status != "discussion" &&
+            record.applied_jobs_status != "rejected"
+          );
         });
         setTotalBooking(filteredData);
         const paginatedPosts = paginate(filteredData, currentPage, pageSize);
@@ -170,7 +180,8 @@ export default function Bookings() {
 
         if (filteredData.booking_id == booking_id) {
           const openOffcanvas = () => {
-            const viewBookingButton = document.getElementById("viewBookingButton");
+            const viewBookingButton =
+              document.getElementById("viewBookingButton");
             if (viewBookingButton) {
               viewBookingButton.click();
             }
@@ -215,7 +226,12 @@ export default function Bookings() {
       .then((res) => {
         if (res.status == true) {
           const filteredData = res.data.filter((record: any) => {
-            return record.chef_id != currentUserData.id && record.applied_jobs_status != "hired" && record.applied_jobs_status != "discussion" && record.applied_jobs_status != "rejected";
+            return (
+              record.chef_id != currentUserData.id &&
+              record.applied_jobs_status != "hired" &&
+              record.applied_jobs_status != "discussion" &&
+              record.applied_jobs_status != "rejected"
+            );
           });
 
           setTotalBooking(filteredData);
@@ -242,7 +258,9 @@ export default function Bookings() {
         setBookingDate(formatDate(res.booking[0].dates));
       } else {
         const datesString = res.booking[0].dates;
-        const dates = datesString.split(",").map((dateString: string) => formatDate(dateString));
+        const dates = datesString
+          .split(",")
+          .map((dateString: string) => formatDate(dateString));
         const startDate = dates[0];
         const endDate = dates[dates.length - 1];
         const output = `${startDate} to ${endDate}`;
@@ -258,12 +276,18 @@ export default function Bookings() {
         // create a new map instance
         if (mapRef.current) {
           const map = new google.maps.Map(mapRef.current, {
-            center: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+            center: {
+              lat: parseFloat(res.booking[0].lat),
+              lng: parseFloat(res.booking[0].lng),
+            },
             zoom: 12,
           });
 
           const marker = new google.maps.Marker({
-            position: { lat: parseFloat(res.booking[0].lat), lng: parseFloat(res.booking[0].lng) },
+            position: {
+              lat: parseFloat(res.booking[0].lat),
+              lng: parseFloat(res.booking[0].lng),
+            },
             map: map,
             title: res.booking[0].location,
           });
@@ -285,10 +309,19 @@ export default function Bookings() {
         .then((res) => {
           if (res.status == true) {
             const filteredData = res.data.filter((record: any) => {
-              return record.chef_id != id && record.applied_jobs_status != "hired" && record.applied_jobs_status != "discussion" && record.applied_jobs_status != "rejected";
+              return (
+                record.chef_id != id &&
+                record.applied_jobs_status != "hired" &&
+                record.applied_jobs_status != "discussion" &&
+                record.applied_jobs_status != "rejected"
+              );
             });
             setTotalBooking(filteredData);
-            const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+            const paginatedPosts = paginate(
+              filteredData,
+              currentPage,
+              pageSize
+            );
             setBookingUser(paginatedPosts);
           } else {
             setErrorMessage(res.message);
@@ -333,7 +366,11 @@ export default function Bookings() {
 
   const handleMenuItemChange = (event: any, menuItemId: any) => {
     const isChecked = event.target.checked;
-    setSelectedMenu((prevMenuItems: any) => (isChecked ? [...prevMenuItems, menuItemId] : prevMenuItems.filter((item: any) => item !== menuItemId)));
+    setSelectedMenu((prevMenuItems: any) =>
+      isChecked
+        ? [...prevMenuItems, menuItemId]
+        : prevMenuItems.filter((item: any) => item !== menuItemId)
+    );
   };
 
   const handleMenuItemBlur = (event: any) => {};
@@ -341,9 +378,9 @@ export default function Bookings() {
   const handleBookingApplyJobSubmit = (event: any) => {
     event.preventDefault();
 
-    if (isSubmitting) {
-      return; // If already submitting, return early to prevent multiple submissions
-    }
+    if (isSubmitting) return; // Prevent multiple clicks
+
+    setIsSubmitting(true); // 
 
     // Validate form data
     const newErrors: Errors = {};
@@ -351,18 +388,35 @@ export default function Bookings() {
     if (!amount) {
       newErrors.amount = "Amount is required";
     }
+    let isMenuOptional = false;
 
-    if (!selectedmenu || selectedmenu.length === 0) {
+    if (Array.isArray(bookingUsers) && bookingUsers.length > 0) {
+      isMenuOptional = bookingUsers.some((booking: any) => booking?.isMenuOptional);
+    }
+  
+    if (!isMenuOptional && (!selectedmenu || selectedmenu.length === 0)) {
       newErrors.selectedmenu = "Please select at least one menu item";
     }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitting(false); // ✅ Stop submit if errors exist
+      return;
+    }
+    // if (!selectedmenu || selectedmenu.length === 0) {
+    //   newErrors.selectedmenu = "Please select at least one menu item";
+    // }
+
     setErrors(newErrors);
 
     // Submit form data if there are no errors
-    if (amount && selectedmenu.length >= 1) {
+    // if (amount && selectedmenu.length >= 1) {
+    if (amount && (isMenuOptional || selectedmenu.length >= 1)) {
       setIsSubmitting(true);
       const data = {
         amount: amount,
-        menu: selectedmenu.join(","),
+        // menu: selectedmenu.join(","),
+        menu: selectedmenu.length > 0 ? selectedmenu.join(",") : null,
         booking_id: bookingid,
         chef_id: currentUserData.id,
       };
@@ -397,6 +451,13 @@ export default function Bookings() {
     }
   };
 
+  const isMenuOptional = useMemo(() => {
+    if (Array.isArray(bookingUsers) && bookingUsers.length > 0) {
+      return bookingUsers.some((booking: any) => booking?.isMenuOptional);
+    }
+    return false;
+  }, [bookingUsers]);
+  
   const resetFields = () => {
     setAmount("");
     setSelectedMenu([]);
@@ -409,22 +470,40 @@ export default function Bookings() {
         <h2 className="mb-4">Available Jobs</h2>
         <ul className="table_header_button_section">
           <li>
-            <button className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(0, "all", currentUserData.id)}>
+            <button
+              className={`table-btn ${activeIndex == 0 ? "active" : "btn-2"}`}
+              onClick={() => handleButtonClick(0, "all", currentUserData.id)}
+            >
               Total
             </button>
           </li>
           <li>
-            <button className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(1, "upcoming", currentUserData.id)}>
+            <button
+              className={`table-btn ${activeIndex == 1 ? "active" : "btn-2"}`}
+              onClick={() =>
+                handleButtonClick(1, "upcoming", currentUserData.id)
+              }
+            >
               Upcoming
             </button>
           </li>
           <li>
-            <button className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(2, "cancelled", currentUserData.id)}>
+            <button
+              className={`table-btn ${activeIndex == 2 ? "active" : "btn-2"}`}
+              onClick={() =>
+                handleButtonClick(2, "cancelled", currentUserData.id)
+              }
+            >
               Cancelled
             </button>
           </li>
           <li>
-            <button className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`} onClick={() => handleButtonClick(3, "completed", currentUserData.id)}>
+            <button
+              className={`table-btn ${activeIndex == 3 ? "active" : "btn-2"}`}
+              onClick={() =>
+                handleButtonClick(3, "completed", currentUserData.id)
+              }
+            >
               Completed
             </button>
           </li>
@@ -448,7 +527,9 @@ export default function Bookings() {
               <tbody>
                 {bookingUsers.map((user: any, index) => {
                   const datesString = user.dates;
-                  const dates = datesString.split(",").map((dateString: string) => formatDate(dateString));
+                  const dates = datesString
+                    .split(",")
+                    .map((dateString: string) => formatDate(dateString));
                   const startDate = dates[0];
                   const endDate = dates[dates.length - 1];
                   const output = `${startDate} to ${endDate}`;
@@ -456,30 +537,95 @@ export default function Bookings() {
                     <tr key={index}>
                       <td>#{user.booking_id}</td>
                       <td>
-                        {`${user.name} ${user.surname !== null && user.surname !== "null" ? user.surname : ""}`
+                        {`${user.name} ${
+                          user.surname !== null && user.surname !== "null"
+                            ? user.surname
+                            : ""
+                        }`
                           .split(" ")
-                          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
                           .join(" ")}
                       </td>
-                      <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td>
+                      <td className="chefs_pic">
+                        {user.pic ? (
+                          <img
+                            src={
+                              process.env.NEXT_PUBLIC_IMAGE_URL +
+                              "/images/chef/users/" +
+                              user.pic
+                            }
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            src={
+                              process.env.NEXT_PUBLIC_IMAGE_URL +
+                              "/images/users.jpg"
+                            }
+                            alt=""
+                          />
+                        )}
+                      </td>
                       <td>{formatDate(user.latest_created_at)}</td>
-                      <td>{user.category == "onetime" ? formatDate(user.dates) : output}</td>
+                      <td>
+                        {user.category == "onetime"
+                          ? formatDate(user.dates)
+                          : output}
+                      </td>
                       <td>{user.location}</td>
-                      <td>{user.category == "onetime" ? "One time" : "Mutiple Times"}</td>
-                      <td className={`booking-status-${user.booking_status}`}>{user.booking_status}</td>
+                      <td>
+                        {user.category == "onetime"
+                          ? "One time"
+                          : "Mutiple Times"}
+                      </td>
+                      <td className={`booking-status-${user.booking_status}`}>
+                        {user.booking_status}
+                      </td>
                       <td>
                         <div className="dropdown" id="none-class">
-                          <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i className="fa-solid fa-ellipsis" role="button"></i>
+                          <a
+                            className="dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <i
+                              className="fa-solid fa-ellipsis"
+                              role="button"
+                            ></i>
                           </a>
-                          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <ul
+                            className="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
                             <li>
                               {booking_id == user.booking_id ? (
-                                <a className="dropdown-item " href="#" onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="viewBookingButton">
+                                <a
+                                  className="dropdown-item "
+                                  href="#"
+                                  onClick={(e) =>
+                                    getSingleBookingUser(e, user.booking_id)
+                                  }
+                                  data-bs-toggle="offcanvas"
+                                  data-bs-target="#offcanvasRight"
+                                  aria-controls="offcanvasRight"
+                                  id="viewBookingButton"
+                                >
                                   View Booking
                                 </a>
                               ) : (
-                                <a className="dropdown-item" href="#" onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                <a
+                                  className="dropdown-item"
+                                  href="#"
+                                  onClick={(e) =>
+                                    getSingleBookingUser(e, user.booking_id)
+                                  }
+                                  data-bs-toggle="offcanvas"
+                                  data-bs-target="#offcanvasRight"
+                                  aria-controls="offcanvasRight"
+                                >
                                   View Booking
                                 </a>
                               )}
@@ -509,22 +655,42 @@ export default function Bookings() {
             </table>
           ) : (
             // <p className="book1">No Booking Records Found</p>
-            <PageFound iconClass={"fa-solid fa-book-open-reader"} heading={" You don't have"} subText={"any active Available Jobs yet"} />
+            <PageFound
+              iconClass={"fa-solid fa-book-open-reader"}
+              heading={" You don't have"}
+              subText={"any active Available Jobs yet"}
+            />
           )}
         </div>
       </div>
 
-      <Pagination items={totalBooking.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
+      <Pagination
+        items={totalBooking.length}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        onPageChange={onPageChange}
+      />
 
       <div className="offcanvas-part">
-        <div className="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div
+          className="offcanvas offcanvas-end"
+          id="offcanvasRight"
+          aria-labelledby="offcanvasRightLabel"
+        >
           <div className="offcanvas-header">
             <h5 id="offcanvasRightLabel">Booking Details</h5>
-            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button
+              type="button"
+              className="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
           </div>
           <div className="offcanvas-body">
             <div>
-              <button className="table-btn btn-2 date mr-sp">{bookingdate}</button>
+              <button className="table-btn btn-2 date mr-sp">
+                {bookingdate}
+              </button>
               {booking.booking_status != "Expired" && (
                 <button
                   className="table-btn"
@@ -543,18 +709,34 @@ export default function Bookings() {
               <div className="accordion" id="accordionExample">
                 <div className="accordion-item">
                   <h2 className="accordion-header" id="headingTwo">
-                    <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <button
+                      className="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseTwo"
+                      aria-expanded="true"
+                      aria-controls="collapseTwo"
+                    >
                       Service Details
                     </button>
                   </h2>
-                  <div id="collapseTwo" className="accordion-collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                  <div
+                    id="collapseTwo"
+                    className="accordion-collapse show"
+                    aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample"
+                  >
                     <div className="accordion-body">
                       <div className="row mt-1">
                         <div className="col-4">
                           <p className="chefs-name name-12">Service Type:</p>
                         </div>
                         <div className="col-8">
-                          <p className="mony f-w-4">{booking.category == "onetime" ? "One time Service" : "Mutiple Times Services"} </p>
+                          <p className="mony f-w-4">
+                            {booking.category == "onetime"
+                              ? "One time Service"
+                              : "Mutiple Times Services"}{" "}
+                          </p>
                         </div>
                       </div>
                       <div className="row mt-1">
@@ -572,9 +754,21 @@ export default function Bookings() {
                           </div>
                           <div className="col-8">
                             <>
-                              {daysbooking[0].breakfast === "yes" && <button className="table-btn btn-2 list-btn">Breakfast</button>}
-                              {daysbooking[0].lunch === "yes" && <button className="table-btn btn-2 list-btn">Lunch</button>}
-                              {daysbooking[0].dinner === "yes" && <button className="table-btn btn-2 list-btn">Dinner</button>}
+                              {daysbooking[0].breakfast === "yes" && (
+                                <button className="table-btn btn-2 list-btn">
+                                  Breakfast
+                                </button>
+                              )}
+                              {daysbooking[0].lunch === "yes" && (
+                                <button className="table-btn btn-2 list-btn">
+                                  Lunch
+                                </button>
+                              )}
+                              {daysbooking[0].dinner === "yes" && (
+                                <button className="table-btn btn-2 list-btn">
+                                  Dinner
+                                </button>
+                              )}
                             </>
                           </div>
                         </div>
@@ -587,11 +781,16 @@ export default function Bookings() {
                         <div className="col-8">
                           {booking &&
                             booking.cuisines &&
-                            booking.cuisines.split(",").map((cuisine, index) => (
-                              <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">
-                                {cuisine.trim()}
-                              </button>
-                            ))}
+                            booking.cuisines
+                              .split(",")
+                              .map((cuisine, index) => (
+                                <button
+                                  key={index}
+                                  className="table-btn btn-2 list-btn m-1 mb-2"
+                                >
+                                  {cuisine.trim()}
+                                </button>
+                              ))}
                         </div>
                       </div>
 
@@ -602,18 +801,32 @@ export default function Bookings() {
                         <div className="col-8">
                           {booking &&
                             booking.allergies &&
-                            booking.allergies.split(",").map((allergies, index) => (
-                              <button key={index} className="table-btn btn-2 list-btn m-1 mb-2">
-                                {allergies.trim()}
-                              </button>
-                            ))}
+                            booking.allergies
+                              .split(",")
+                              .map((allergies, index) => (
+                                <button
+                                  key={index}
+                                  className="table-btn btn-2 list-btn m-1 mb-2"
+                                >
+                                  {allergies.trim()}
+                                </button>
+                              ))}
                         </div>
                       </div>
                       <div className="row mt-1">
                         <div className="col-4">
-                          <p className="chefs-name name-12">Special Requests:</p>
+                          <p className="chefs-name name-12">
+                            Special Requests:
+                          </p>
                         </div>
-                        <div className="col-8">{booking.notes !== null && booking.notes !== "null" ? <p className="mony f-w-4">{booking.notes}</p> : ""}</div>
+                        <div className="col-8">
+                          {booking.notes !== null &&
+                          booking.notes !== "null" ? (
+                            <p className="mony f-w-4">{booking.notes}</p>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -621,23 +834,53 @@ export default function Bookings() {
                 {daysbooking.length > 1 && (
                   <div className="accordion-item">
                     <h2 className="accordion-header" id="headingTwo4">
-                      <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo4" aria-expanded="true" aria-controls="collapseTwo4">
+                      <button
+                        className="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo4"
+                        aria-expanded="true"
+                        aria-controls="collapseTwo4"
+                      >
                         Days Overview
                       </button>
                     </h2>
-                    <div id="collapseTwo4" className="accordion-collapse show" aria-labelledby="headingTwo4" data-bs-parent="#accordionExample">
+                    <div
+                      id="collapseTwo4"
+                      className="accordion-collapse show"
+                      aria-labelledby="headingTwo4"
+                      data-bs-parent="#accordionExample"
+                    >
                       <div className="accordion-body">
                         {daysbooking.map((daybooking, index) => (
                           <div key={index} className="row mt-1">
                             <div className="col-4">
-                              <p className="chefs-name name-12">Days {index + 1}:</p>
+                              <p className="chefs-name name-12">
+                                Days {index + 1}:
+                              </p>
                             </div>
                             <div className="col-8">
                               <p className="mony f-w-4">
-                                {daybooking.breakfast === "yes" ? <button className="table-btn btn-2 list-btn">Breakfast</button> : null}
-                                {daybooking.lunch === "yes" ? <button className="table-btn btn-2 list-btn">Lunch</button> : null}
-                                {daybooking.dinner === "yes" ? <button className="table-btn btn-2 list-btn">Dinner</button> : null}
-                                {daybooking.breakfast !== "yes" && daybooking.lunch !== "yes" && daybooking.dinner !== "yes" && <span>No meal selected</span>}
+                                {daybooking.breakfast === "yes" ? (
+                                  <button className="table-btn btn-2 list-btn">
+                                    Breakfast
+                                  </button>
+                                ) : null}
+                                {daybooking.lunch === "yes" ? (
+                                  <button className="table-btn btn-2 list-btn">
+                                    Lunch
+                                  </button>
+                                ) : null}
+                                {daybooking.dinner === "yes" ? (
+                                  <button className="table-btn btn-2 list-btn">
+                                    Dinner
+                                  </button>
+                                ) : null}
+                                {daybooking.breakfast !== "yes" &&
+                                  daybooking.lunch !== "yes" &&
+                                  daybooking.dinner !== "yes" && (
+                                    <span>No meal selected</span>
+                                  )}
                               </p>
                             </div>
                           </div>
@@ -648,15 +891,29 @@ export default function Bookings() {
                 )}
                 <div className="accordion-item">
                   <h2 className="accordion-header" id="headingThree">
-                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <button
+                      className="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseThree"
+                      aria-expanded="true"
+                      aria-controls="collapseThree"
+                    >
                       Customer Details
                     </button>
                   </h2>
-                  <div id="collapseThree" className="accordion-collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                  <div
+                    id="collapseThree"
+                    className="accordion-collapse show"
+                    aria-labelledby="headingThree"
+                    data-bs-parent="#accordionExample"
+                  >
                     <div className="accordion-body">
                       <div className="row mt-1">
                         <div className="col-5 text-right">
-                          <p className="chefs-name name-12">Number of people:</p>
+                          <p className="chefs-name name-12">
+                            Number of people:
+                          </p>
                         </div>
                         <div className="col-7"></div>
                       </div>
@@ -690,7 +947,11 @@ export default function Bookings() {
                         </div>
                         <div className="col-7">
                           <p className="mony">
-                            {booking.name} {booking.surname !== null && booking.surname !== "null" ? booking.surname : ""}
+                            {booking.name}{" "}
+                            {booking.surname !== null &&
+                            booking.surname !== "null"
+                              ? booking.surname
+                              : ""}
                           </p>
                         </div>
                       </div>
@@ -732,15 +993,31 @@ export default function Bookings() {
         <div className="popup-part new-modala">
           <h2 className="title-pop up-move">Booking #{bookingid}</h2>
           <div className="offers">
-            <form onSubmit={handleBookingApplyJobSubmit} className="common_form_error" id="">
+            <form
+              onSubmit={handleBookingApplyJobSubmit}
+              className="common_form_error"
+              id=""
+            >
               <div className="row">
                 <div className="col-sm-6 col-12">
                   <div className="all-form">
                     <div className="login_div">
                       <label className="f-w-4">Chef’s Offer:</label>
 
-                      <input type="number" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} onBlur={handleBookingApplyAmount} placeholder="Enter Amount" />
-                      {errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login1 ">{errors.amount}</span>}
+                      <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        onBlur={handleBookingApplyAmount}
+                        placeholder="Enter Amount"
+                      />
+                      {errors.amount && (
+                        <span className="small error text-danger mb-2 d-inline-block error_login1 ">
+                          {errors.amount}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -749,7 +1026,9 @@ export default function Bookings() {
                 <div className="col-12">
                   <div className="all-form">
                     <label className="f-w-4">Chef’s Menu:</label>
-                    <p className="f-10">Please pick one to send to the customer</p>
+                    <p className="f-10">
+                      Please pick one to send to the customer
+                    </p>
                   </div>
                   <div className="login_div">
                     <div className="row px-4">
@@ -761,27 +1040,41 @@ export default function Bookings() {
                               type="checkbox"
                               value={menuItem.id}
                               id={`menuItem-${index}`}
-                              onChange={(e) => handleMenuItemChange(e, menuItem.id)}
+                              onChange={(e) =>
+                                handleMenuItemChange(e, menuItem.id)
+                              }
                               onBlur={handleMenuItemBlur}
                               checked={selectedmenu.includes(menuItem.id)}
                             />
-                            <label className="form-check-label" htmlFor={`menuItem-${index}`}>
+                            <label
+                              className="form-check-label"
+                              htmlFor={`menuItem-${index}`}
+                            >
                               {menuItem.menu_name}
                             </label>
                           </div>
                         ))
                       ) : (
-                        <PageFound iconClass={"fa-solid fa-book-open-reader"} heading={" You don't have"} subText={"any active Available Jobs yet"} />
+                        <PageFound
+                          iconClass={"fa-solid fa-book-open-reader"}
+                          heading={" You don't have"}
+                          subText={"any active Available Jobs yet"}
+                        />
                       )}
                     </div>
-                    {errors.selectedmenu && <span className="small error text-danger mb-2 d-inline-block error_login1 ">{errors.selectedmenu}</span>}
+                    {!isMenuOptional && errors.selectedmenu && (
+                      <span className="small error text-danger mb-2 d-inline-block error_login1">
+                        {errors.selectedmenu}
+                      </span>
+                    )}
                   </div>
                   <div className="text-right">
                     <div className="banner-btn" id="bookid">
-                      {/* <button id="btn_offer" type="submit">Send Request</button>
-                       */}
-
-                      <button id="btn_offer" type="submit" disabled={isSubmitting}>
+                      <button
+                        id="btn_offer"
+                        type="submit"
+                        disabled={isSubmitting}
+                      >
                         {isSubmitting ? "Submitting..." : "Send Request"}
                       </button>
                     </div>

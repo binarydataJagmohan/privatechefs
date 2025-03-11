@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalLarge";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getAllBooking, saveReceipt, getChefReceipt, getSingleReceipt, updateReceipt, deleteReceipt, updateReceiptImages } from "../../../lib/chefapi";
+import {
+  getAllBooking,
+  saveReceipt,
+  getChefReceipt,
+  getSingleReceipt,
+  updateReceipt,
+  deleteReceipt,
+  updateReceiptImages,
+} from "../../../lib/chefapi";
 import { getCurrentUserData } from "../../../lib/session";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
@@ -40,12 +48,18 @@ export default function Receipts() {
   const [order_date, setOrderDate] = useState("");
   const [booking_id, setBookingId] = useState("");
   const [image, setImage] = useState<Array<Blob | ImageObject>>([]);
-  const [currentuserdata, setCurrentUserData] = useState<CurrentUserData>({ id: 0, name: "" });
+  const [currentuserdata, setCurrentUserData] = useState<CurrentUserData>({
+    id: 0,
+    name: "",
+  });
 
   const [errors, setErrors]: any = useState({});
   const [getbooking, setGetBooking] = useState("");
   const [getreceipt, setGetReceipt] = useState("");
-  const [getsinglereceipt, setGetSingleReceipt] = useState<SingleReceipt>({ id: 0, receipt_id: 0 });
+  const [getsinglereceipt, setGetSingleReceipt] = useState<SingleReceipt>({
+    id: 0,
+    receipt_id: 0,
+  });
   const [getreceiptimageid, setGetReceiptImageId] = useState("");
   const [modalConfirm, setModalConfirm] = useState(false);
   const [editmodalConfirm, editsetModalConfirm] = useState(false);
@@ -413,14 +427,25 @@ export default function Receipts() {
                       <td>{index + 1}</td>
                       <td>#{receipt.booking_id}</td>
                       <td>{receipt.amount}</td>
-                      <td>{receipt.order_date ? new Date(receipt.order_date).toLocaleDateString() : ""}</td>
+                      <td>
+                        {receipt.order_date
+                          ? new Date(receipt.order_date).toLocaleDateString()
+                          : ""}
+                      </td>
                       {/* <td>{new Date(receipt.booking_date).toLocaleDateString()}</td> */}
                       <td>
                         <div className="dropdown" id="none-class">
-                          <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          <a
+                            className="dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
                             <i className="fa-solid fa-ellipsis"></i>
                           </a>
-                          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <ul
+                            className="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
                             <li>
                               <a
                                 className="dropdown-item"
@@ -433,12 +458,20 @@ export default function Receipts() {
                               </a>
                             </li>
                             <li>
-                              <a className="dropdown-item" href="#" onClick={() => getImageData(receipt.id)}>
+                              <a
+                                className="dropdown-item"
+                                href="#"
+                                onClick={() => getImageData(receipt.id)}
+                              >
                                 Image
                               </a>
                             </li>
                             <li>
-                              <a className="dropdown-item" href="#" onClick={() => deleteReceiptData(receipt.id)}>
+                              <a
+                                className="dropdown-item"
+                                href="#"
+                                onClick={() => deleteReceiptData(receipt.id)}
+                              >
                                 Delete
                               </a>
                             </li>
@@ -451,50 +484,98 @@ export default function Receipts() {
             </table>
           ) : (
             <>
-              <PageFound iconClass={"fa-solid fa-receipt"} heading={" No receipts  "} subText={"available"} />
+              <PageFound
+                iconClass={"fa-solid fa-receipt"}
+                heading={" No receipts  "}
+                subText={"available"}
+              />
             </>
           )}
         </div>
       </div>
 
-      <Pagination items={totalMenu.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
+      <Pagination
+        items={totalMenu.length}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        onPageChange={onPageChange}
+      />
 
-      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
+      <PopupModal
+        show={modalConfirm}
+        handleClose={modalConfirmClose}
+        staticClass="var-login"
+      >
         <div className="all-form" id="form_id">
-          <form className="common_form_error" id="menu_form" onSubmit={handleReceiptSubmit}>
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handleReceiptSubmit}
+          >
             <div className="login_div">
               <label htmlFor="booking">BookingId:</label>
-              <select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
+              <select
+                aria-label="Default select example"
+                value={booking_id}
+                onChange={(e) => setBookingId(e.target.value)}
+              >
                 <option value="" disabled>
                   Select Booking
                 </option>
                 {Array.isArray(getbooking) &&
                   getbooking.map((booking, index) => (
                     <option key={booking.id} value={booking.id}>
-                      {`bookingid#${booking.id} - location#${booking.location}-booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
+                      {`bookingid#${booking.id} - location#${
+                        booking.location
+                      }-booking_date#${new Date(
+                        booking.created_at
+                      ).toLocaleDateString()}`}
                     </option>
                   ))}
               </select>
-              {errors.booking_id && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.booking_id}</span>}
+              {errors.booking_id && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.booking_id}
+                </span>
+              )}
             </div>
             <div className="row">
               <div className="col-md-6">
                 <div className="login_div">
                   <label htmlFor="date">Order date:</label>
-                  <input type="date" name="order_date" value={order_date} onChange={(e) => setOrderDate(e.target.value)} />
+                  <input
+                    type="date"
+                    name="order_date"
+                    value={order_date}
+                    onChange={(e) => setOrderDate(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="login_div">
                   <label htmlFor="amount">Amount:</label>
-                  <input type="number" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                  {errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.amount}</span>}
+                  <input
+                    type="number"
+                    name="amount"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                  />
+                  {errors.amount && (
+                    <span className="small error text-danger mb-2 d-inline-block error_login">
+                      {errors.amount}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea id="form-description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+              <textarea
+                id="form-description"
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
             </div>
             <div className="mt-4">
               <button className="btn-send w-100" disabled={buttonStatus}>
@@ -504,42 +585,102 @@ export default function Receipts() {
           </form>
         </div>
       </PopupModal>
-      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
+      <PopupModal
+        show={modalConfirm}
+        handleClose={modalConfirmClose}
+        staticClass="var-login"
+      >
         <div className="all-form" id="form_id">
-          <form className="common_form_error" id="menu_form" onSubmit={handleReceiptSubmit}>
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handleReceiptSubmit}
+          >
             <div className="login_div">
               <label htmlFor="booking">BookingId:</label>
-              <select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
+              <select
+                aria-label="Default select example"
+                value={booking_id}
+                onChange={(e) => setBookingId(e.target.value)}
+              >
                 <option value="" disabled>
                   Select Booking
                 </option>
-                {Array.isArray(getbooking) &&
+                {/* {Array.isArray(getbooking) &&
                   getbooking.map((booking, index) => (
-                    <option key={booking.id} value={booking.id}>
+                    <option key={booking.id} value={booking.id} >
                       {`bookingid#${booking.id} - location#${booking.location}-booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
                     </option>
-                  ))}
+                  ))} */}
+                {Array.isArray(getbooking) &&
+                  getbooking.map((booking) => {
+                    const locationShort =
+                      booking.location.length > 50
+                        ? `${booking.location.slice(0, 50)}...`
+                        : booking.location;
+
+                    return (
+                      <option
+                        key={booking.id}
+                        value={booking.id}
+                        title={`bookingid#${booking.id} - location#${
+                          booking.location
+                        } - booking_date#${new Date(
+                          booking.created_at
+                        ).toLocaleDateString()}`}
+                      >
+                        {`bookingid#${
+                          booking.id
+                        } - location#${locationShort} - booking_date#${new Date(
+                          booking.created_at
+                        ).toLocaleDateString()}`}
+                      </option>
+                    );
+                  })}
               </select>
-              {errors.booking_id && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.booking_id}</span>}
+              {errors.booking_id && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.booking_id}
+                </span>
+              )}
             </div>
             <div className="row">
               <div className="col-md-6">
                 <div className="login_div">
                   <label htmlFor="date">Order date:</label>
-                  <input type="date" name="order_date" value={order_date} onChange={(e) => setOrderDate(e.target.value)} />
+                  <input
+                    type="date"
+                    name="order_date"
+                    value={order_date}
+                    onChange={(e) => setOrderDate(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="login_div">
                   <label htmlFor="amount">Amount:</label>
-                  <input type="number" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                  {errors.amount && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.amount}</span>}
+                  <input
+                    type="number"
+                    name="amount"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                  />
+                  {errors.amount && (
+                    <span className="small error text-danger mb-2 d-inline-block error_login">
+                      {errors.amount}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea id="form-description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+              <textarea
+                id="form-description"
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
             </div>
             <div className="mt-4">
               <button className="btn-send w-100" disabled={buttonStatus}>
@@ -550,19 +691,41 @@ export default function Receipts() {
         </div>
       </PopupModal>
 
-      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
+      <PopupModal
+        show={editmodalConfirm}
+        handleClose={editmodalConfirmClose}
+        staticClass="var-login"
+      >
         <div className="all-form" id="form_id">
-          <form className="common_form_error" id="menu_form" onSubmit={handleReceiptUpdate}>
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handleReceiptUpdate}
+          >
             <div className="login_div">
               <label htmlFor="booking">BookingId:</label>
-              <select aria-label="Default select example" value={booking_id} onChange={(e) => setBookingId(e.target.value)}>
+              <select
+                aria-label="Default select example"
+                value={booking_id}
+                onChange={(e) => setBookingId(e.target.value)}
+              >
                 <option value="" disabled>
                   Select Booking
                 </option>
                 {Array.isArray(getbooking) &&
                   getbooking.map((booking) => (
-                    <option key={booking.id} value={booking.id} defaultValue={booking.id === booking_id ? "true" : undefined}>
-                      {`bookingid#${booking.id} - location#${booking.location} -booking_date#${new Date(booking.created_at).toLocaleDateString()}`}
+                    <option
+                      key={booking.id}
+                      value={booking.id}
+                      defaultValue={
+                        booking.id === booking_id ? "true" : undefined
+                      }
+                    >
+                      {`bookingid#${booking.id} - location#${
+                        booking.location
+                      } -booking_date#${new Date(
+                        booking.created_at
+                      ).toLocaleDateString()}`}
                     </option>
                   ))}
               </select>
@@ -572,20 +735,35 @@ export default function Receipts() {
                 <div className="login_div">
                   <div className="login_div">
                     <label htmlFor="date">Order date:</label>
-                    <input type="date" name="order_date" defaultValue={order_date} onChange={(e) => setOrderDate(e.target.value)} />
+                    <input
+                      type="date"
+                      name="order_date"
+                      defaultValue={order_date}
+                      onChange={(e) => setOrderDate(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="login_div">
                   <label htmlFor="amount">Amount:</label>
-                  <input type="number" name="amount" defaultValue={amount} onChange={(e) => setAmount(e.target.value)} />
+                  <input
+                    type="number"
+                    name="amount"
+                    defaultValue={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea id="form-description" name="description" defaultValue={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+              <textarea
+                id="form-description"
+                name="description"
+                defaultValue={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
             </div>
             <div className="mt-4">
               <button className="btn-send w-100" disabled={buttonStatus}>
@@ -595,12 +773,26 @@ export default function Receipts() {
           </form>
         </div>
       </PopupModal>
-      <PopupModal show={editimagemodalConfirm} handleClose={editimagemodalConfirmClose} staticClass="var-login">
+      <PopupModal
+        show={editimagemodalConfirm}
+        handleClose={editimagemodalConfirmClose}
+        staticClass="var-login"
+      >
         <div className="all-form" id="form_id">
-          <form className="common_form_error" id="menu_form" onSubmit={handleReceiptImageUpdate}>
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handleReceiptImageUpdate}
+          >
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" onChange={handleImageChange} accept="jpg,png" multiple />
+              <input
+                type="file"
+                name="image"
+                onChange={handleImageChange}
+                accept="jpg,png"
+                multiple
+              />
 
               <div className="row mt-3 g-3">
                 {image &&
@@ -609,7 +801,13 @@ export default function Receipts() {
                       <div className="col-md-4" key={index}>
                         <div className="slider-img-plase">
                           <div className="v-img">
-                            <img src={URL.createObjectURL(images)} className="s-image" alt="selected image" width={100} height={100} />
+                            <img
+                              src={URL.createObjectURL(images)}
+                              className="s-image"
+                              alt="selected image"
+                              width={100}
+                              height={100}
+                            />
                           </div>
                         </div>
                       </div>
@@ -617,7 +815,17 @@ export default function Receipts() {
                       <div className="col-md-4" key={index}>
                         <div className="slider-img-plase">
                           <div className="v-img">
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/receipt/" + images.image} alt="villa-image" width={100} height={100} className="s-image" />
+                            <img
+                              src={
+                                process.env.NEXT_PUBLIC_IMAGE_URL +
+                                "/images/chef/receipt/" +
+                                images.image
+                              }
+                              alt="villa-image"
+                              width={100}
+                              height={100}
+                              className="s-image"
+                            />
                           </div>
                         </div>
                       </div>

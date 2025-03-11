@@ -159,9 +159,11 @@ export default function Bookings() {
   const fetchChefAppliedBooking = async (id: any) => {
     try {
       const res = await getChefAppliedBooking(id);
+
       if (res.status) {
+
         const filteredData = res.data.filter((record: any) => {
-          return record.chef_id != id && record.applied_jobs_status == "applied";
+          return record.chef_id != id && record.applied_jobs_status == "discussion";
         });
 
         setTotalBooking(filteredData);
@@ -199,6 +201,7 @@ export default function Bookings() {
     }
   };
 
+  console.log(bookingUsers,'bookingUsers')
   const onPageChange = (page: any) => {
     setCurrentPage(page);
     getChefAppliedBooking(currentUserData.id)

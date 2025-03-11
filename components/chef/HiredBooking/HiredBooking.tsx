@@ -479,14 +479,14 @@ export default function Bookings() {
                           <thead>
                             <tr>
                               <th scope="col">Chef Amount</th>
-                              <th scope="col">Admin Amount</th>
+                              {/* <th scope="col">Admin Amount</th> */}
                             </tr>
                           </thead>
                           <tbody>
                             {chefoffer.map((chef, index) => (
                               <tr key={index}>
                                 <td>{chef.amount}</td>
-                                <td>{chef.admin_amount}</td>
+                                {/* <td>{chef.admin_amount}</td> */}
                               </tr>
                             ))}
                           </tbody>

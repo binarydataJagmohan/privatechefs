@@ -14,6 +14,7 @@ export function isPageVisibleToRole(pageName: string): number {
     const pageRoles: { [key: string]: string[] } = {
       "public-page": ["admin", "user", "guest"],
       "admin-page": ["admin"],
+      "chefprofile":["admin"],
       "chef-menu": ["chef"],
       "chef-edit-profile": ["chef"],
       "admin-chef-edit-profile": ["admin"],
