@@ -17,8 +17,9 @@ export default function Location({pages,locations}) {
 
 export async function getServerSideProps({ params }) {
  const { slug } = params;
-  const pagesdata = await slugSingleSetting('location');
-  const locationsdata = await getLocationBySlug(slug);
+ const pagesdata = await slugSingleSetting('location');
+ const locationsdata = await getLocationBySlug(slug);
+ console.log(locationsdata,'locationsdata')
   return {
     props: {
       pages: pagesdata ,

@@ -98,7 +98,6 @@ export default function Home(props: any) {
       const res = await getAllLocation();
       if (res.status) {
         setLocations(res.data);
-        console.log(res.data);
       } else {
         console.log("error");
       }

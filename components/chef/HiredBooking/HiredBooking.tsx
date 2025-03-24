@@ -308,7 +308,7 @@ export default function Bookings() {
 
                   return (
                     <tr key={index}>
-                      <td>#{user.booking_id}</td>
+                      <td onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{cursor:'pointer',color:'#ce910d'}}>#{user.booking_id}</td>
                       <td>
                         {`${user.name} ${user.surname !== null && user.surname !== "null" ? user.surname : ""}`
                           .split(" ")
@@ -573,7 +573,7 @@ export default function Bookings() {
                           </p>
                         </div>
                       </div>
-                      <div className="row mt-1">
+                      {/* <div className="row mt-1">
                         <div className="col-5">
                           <p className="chefs-name name-12">Email:</p>
                         </div>
@@ -588,7 +588,7 @@ export default function Bookings() {
                         <div className="col-7">
                           <p className="mony">{booking.phone}</p>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="row mt-1">
                         <div className="col-5">
                           <p className="chefs-name name-12">Location:</p>

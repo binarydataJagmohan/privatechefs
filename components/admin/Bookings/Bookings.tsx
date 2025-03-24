@@ -475,19 +475,127 @@ export default function Bookings() {
     return moment(value).format("D/M/YY");
   };
 
+  // const handleButtonClick = (index: any, type: string) => {
+  //   setActiveIndex(index);
+  //   setActiveFilter(type);
+  //   setCurrentPage(1);
+  //   if (type == "all") {
+  //     fetchBookingAdminDetails();
+  //   } else if(type == 'Expired'){
+  //     getAdminChefByBooking()
+  //     .then((res) => {
+  //       if (res.status === true) {
+  //         const filteredData = res.data.filter((item: any) => item.booking_status === "Expired");
+  //         setTotalBooking(filteredData);
+  //         // const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+  //         // setBookingUser(paginatedPosts);
+
+  //         const paginatedPosts = paginate(filteredData, 1, pageSize); // 👈 Reset to page 1
+  //         setBookingUser(paginatedPosts);
+  //       } else {
+  //         setErrorMessage(res.message);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   }    
+  //   else {
+  //     getAdminChefFilterByBooking(type)
+  //       .then((res) => {
+  //         if (res.status === true) {
+  //           setTotalBooking(res.data);
+  //           // const paginatedPosts = paginate(res.data, currentPage, pageSize);
+  //           const paginatedPosts = paginate(res.data, 1, pageSize); // 👈 Reset to page 1
+
+  //           setBookingUser(paginatedPosts);
+  //         } else {
+  //           setErrorMessage(res.message);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // };
+
+  // const handleButtonClick = (index: any, type: string) => {
+  //   setActiveIndex(index);
+  //   setActiveFilter(type);
+  //   setCurrentPage(1);
+  
+  //   getAdminChefByBooking()
+  //     .then((res) => {
+  //       if (res.status === true) {
+  //         const currentDate = new Date(); // ✅ Aaj ki date
+  //         let filteredData = res.data; // Default: sabhi bookings
+  
+  //         if (type === "Expired") {
+  //           // ✅ Past me chali gayi bookings (jo expire ho chuki hain)
+  //           filteredData = res.data.filter((item: any) => {
+  //             const dateArray = item.dates.split(","); // ✅ String ko array me convert karein
+  //             const endDate = new Date(dateArray[dateArray.length - 1]); // ✅ Last date ko extract karein
+  //             return endDate < currentDate; // ✅ Sirf expired bookings
+  //           });
+  //         } 
+  //         else if (type === "upcoming") {
+  //           // ✅ Future me aane wali bookings
+  //           filteredData = res.data.filter((item: any) => {
+  //             const dateArray = item.dates.split(","); // ✅ String ko array me convert karein
+  //             const startDate = new Date(dateArray[0]); // ✅ First date ko extract karein
+  //             return startDate >= currentDate; // ✅ Sirf upcoming bookings
+  //           });
+  //         } 
+  //         else if (type !== "all") {
+  //           // ✅ Cancelled, Completed ya aur status ke liye
+  //           filteredData = res.data.filter((item: any) => item.booking_status === type);
+  //         }
+  
+  //         setTotalBooking(filteredData);
+  //         setBookingUser(paginate(filteredData, 1, pageSize)); // 👈 Reset to page 1
+  //       } else {
+  //         setErrorMessage(res.message);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  
   const handleButtonClick = (index: any, type: string) => {
     setActiveIndex(index);
     setActiveFilter(type);
-    if (type == "all") {
-      fetchBookingAdminDetails();
-    } else if(type == 'Expired'){
-      getAdminChefByBooking()
+    setCurrentPage(1);
+  
+    getAdminChefByBooking()
       .then((res) => {
-        if (res.status == true) {
-          const filteredData = res.data.filter((item: any) => item.booking_status === "Expired");
+        if (res.status === true) {
+          const currentDate = new Date(); 
+          currentDate.setHours(0, 0, 0, 0);           
+          let filteredData = res.data; 
+          if (type === "Expired") {
+            //  past bookings 
+            filteredData = res.data.filter((item: any) => {
+              const dateArray = item.dates.split(",");
+              const endDate = new Date(dateArray[dateArray.length - 1]); 
+              endDate.setHours(0, 0, 0, 0); 
+              return endDate < currentDate; 
+            });
+          } 
+          else if (type === "upcoming") {
+            // ✅ Future bookings 
+            filteredData = res.data.filter((item: any) => {
+              const dateArray = item.dates.split(","); 
+              const startDate = new Date(dateArray[0]);
+              startDate.setHours(0, 0, 0, 0); 
+              return startDate >= currentDate; 
+            });
+          } 
+          else if (type !== "all") {
+            filteredData = res.data.filter((item: any) => item.booking_status === type);
+          }
           setTotalBooking(filteredData);
-          const paginatedPosts = paginate(filteredData, currentPage, pageSize);
-          setBookingUser(paginatedPosts);
+          setBookingUser(paginate(filteredData, 1, pageSize)); 
         } else {
           setErrorMessage(res.message);
         }
@@ -495,24 +603,8 @@ export default function Bookings() {
       .catch((err) => {
         console.log(err);
       });
-    }    
-    else {
-      getAdminChefFilterByBooking(type)
-        .then((res) => {
-          if (res.status == true) {
-            setTotalBooking(res.data);
-            const paginatedPosts = paginate(res.data, currentPage, pageSize);
-            setBookingUser(paginatedPosts);
-          } else {
-            setErrorMessage(res.message);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
   };
-
+  
   const handleRadioChange = (chef: number, appliedid: any) => {
     setAsssignSelectedChef(Number(chef));
     setAppliedId(appliedid);
@@ -909,15 +1001,16 @@ export default function Bookings() {
         </ul>
         <div className="table-box responsive-table mt-3" id="admin-booking">
           {bookingUsers.length > 0 ? (
-            <table className="table table-borderless common_booking">
+            // <table className="table table-borderless common_booking" >
+            <table className="table table-borderless" >
               <thead>
                 <tr>
                   <th scope="col">Booking ID</th>
                   <th scope="col">Customer</th>
                   {/* <th scope="col"></th> */}
                   <th scope="col">Date Requested</th>
-                  <th scope="col">Booking Date</th>
-                  <th scope="col">Address</th>
+                  {/* <th scope="col">Booking Date</th> */}
+                  {/* <th scope="col">Address</th> */}
                   {/* <th scope="col">Category</th> */}
                   <th scope="col">Payment Status</th>
                   <th scope="col">Status</th>
@@ -939,20 +1032,20 @@ export default function Bookings() {
                   return (
                     <tr key={index}>
                       <td>
-                        <p className="text-data-18" id="table-p">
+                        <p className="text-data-18" id="table-p"  onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{cursor:'pointer',color:'#ce910d'}}>
                           #{user.booking_id}
                         </p>
                       </td>
 
                       <td>
                         <div className="flex-commn">
-                          <div className="">
+                          {/* <div className="">
                             {user.pic ? (
                               <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" width={35} height={35} style={{ borderRadius: "35px" }} />
                             ) : (
                               <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" width={35} height={35} style={{ borderRadius: "50px" }} />
                             )}
-                          </div>
+                          </div> */}
                           <div className="">
                             <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/users/" + user.id} target="_blank" className="nameofusers">
                               {`${user.name} ${surname}`
@@ -971,17 +1064,17 @@ export default function Bookings() {
                         </p>
                       </td>
 
-                      <td>
+                      {/* <td>
                         <p className="text-data-18" id="table-p">
                           {user.category == "onetime" ? formatDate(user.dates) : output}
                         </p>
-                      </td>
+                      </td> */}
 
-                      <td>
+                      {/* <td>
                         <p className="text-data-18" id="table-p">
                           {user.location}
                         </p>
-                      </td>
+                      </td> */}
                       {/* <td>
                         <p className="text-data-18" id="table-p">
                           {user.category == "onetime" ? "One time" : "Mutiple Times"}

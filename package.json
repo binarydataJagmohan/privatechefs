@@ -36,6 +36,7 @@
     "react-rating-stars-component": "^2.2.0",
     "react-read-more-read-less": "^1.0.7",
     "react-responsive-carousel": "^3.2.23",
+    "react-select": "^5.10.1",
     "react-slick": "^0.29.0",
     "react-toastify": "^9.1.2",
     "sweetalert": "^2.1.2"

@@ -5,11 +5,11 @@ import {
   dishAddUpdate,
   getDishes,
   deleteSingleDish,
-  fetchDishCategoryById
+  fetchDishCategoryById,
 } from "../../../lib/chefapi";
 import { getToken, getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import Pagination from "../../commoncomponents/Pagination";
@@ -17,12 +17,10 @@ import { paginate } from "../../../helpers/paginate";
 import { showToast } from "../../commoncomponents/toastUtils";
 
 export default function Dish() {
-
   interface Errors {
     name?: string;
     description?: string;
     dishcategory?: string;
-    // add more properties as needed
   }
 
   interface CurrentUserData {
@@ -36,7 +34,6 @@ export default function Dish() {
     profile_status: string;
   }
 
-
   type Dish = {
     id: number;
     item_name: string;
@@ -45,53 +42,36 @@ export default function Dish() {
 
   type DishCategpory = {
     dish_category: string;
-    id: number
+    id: number;
   };
-
-
   const [errors, setErrors] = useState<Errors>({});
   const [modalConfirm, setModalConfirm] = useState(false);
-  const [editmodalConfirm, editsetModalConfirm] = useState(false);
   const [buttonStatus, setButtonState] = useState(false);
   const [dishCategories, setDishCategories] = useState<DishCategpory[]>([]);
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
-    id: '',
-    name: '',
-    email: '',
+    id: "",
+    name: "",
+    email: "",
     pic: null,
-    surname: '',
-    role: '',
-    approved_by_admin: '',
-    profile_status: ''
+    surname: "",
+    role: "",
+    approved_by_admin: "",
+    profile_status: "",
   });
-
   const [dishName, setDishName] = useState("");
   const [dishCategory, setDishcategory] = useState("");
   const [dishList, setDishLists] = useState<Dish[]>([]);
-
-  const [dishmethod, setDishMethod] = useState('');
-  const [dishid, setDishId] = useState('');
-
-  const [dishcategoryid, setDishCategoryId] = useState('all');
-
+  const [dishid, setDishId] = useState("");
+  const [dishcategoryid, setDishCategoryId] = useState("all");
   const [dishTotalList, setTotalDishLists] = useState<Dish[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [alphabetletter, setAlphabetLetter] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [selectedLetter, setSelectedLetter] = useState('');
-
-
-
-  const pageSize = 25;
-
-  const modalConfirmOpen = () => {
-    setModalConfirm(true);
-  };
-
+  const [alphabetletter, setAlphabetLetter] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [selectedLetter, setSelectedLetter] = useState("");
+  const pageSize = 30;
   const modalConfirmClose = () => {
     setModalConfirm(false);
   };
-
 
   useEffect(() => {
     const data = isPageVisibleToRole("chef-dish");
@@ -102,43 +82,38 @@ export default function Dish() {
     }
     if (data == 1) {
       const userData = getCurrentUserData() as CurrentUserData;
-        fetchdishes(userData.id);
-        setCurrentUserData({
-          ...userData,
-          id: userData.id,
-          name: userData.name,
-          pic: userData.pic,
-          surname: userData.surname,
-          role: userData.role,
-          approved_by_admin: userData.approved_by_admin,
-
-        });
-    }
-    else {
+      fetchdishes(userData.id);
+      setCurrentUserData({
+        ...userData,
+        id: userData.id,
+        name: userData.name,
+        pic: userData.pic,
+        surname: userData.surname,
+        role: userData.role,
+        approved_by_admin: userData.approved_by_admin,
+      });
+    } else {
       window.location.href = "/404";
     }
     // Fetch the list of dish categories from the API
     getDishecategory()
       .then((data) => {
         setDishCategories(data.data);
-       // console.log(data.data)
+        // console.log(data.data)
       })
       .catch((error) => {
         console.error(error);
       });
-
   }, []);
 
   const fetchdishes = async (user_id: any) => {
-
     try {
       const res = await getDishes(user_id);
       if (res.status) {
-
         setTotalDishLists(res.data);
-        const paginatedPosts = paginate(res.data, currentPage, pageSize);
-        setDishLists(paginatedPosts);
-
+        setDishLists(paginate(res.data, currentPage, pageSize));
+        // const paginatedPosts = paginate(res.data, currentPage, pageSize);
+        // setDishLists(paginatedPosts);
         //console.log(res.data);
       } else {
         toast.error(res.message, {
@@ -146,12 +121,12 @@ export default function Dish() {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       }
@@ -161,35 +136,39 @@ export default function Dish() {
         closeButton: true,
         hideProgressBar: false,
         style: {
-          background: '#ffff',
-          borderLeft: '4px solid #e74c3c',
-          color: '#454545',
+          background: "#ffff",
+          borderLeft: "4px solid #e74c3c",
+          color: "#454545",
         },
         progressStyle: {
-          background: '#ffff',
+          background: "#ffff",
         },
       });
     }
   };
 
+  useEffect(() => {
+    const paginatedPosts = paginate(dishTotalList, currentPage, pageSize);
+    setDishLists(paginatedPosts);
+  }, [dishTotalList, currentPage]);
+
   const onPageChange = (page: any) => {
     setCurrentPage(page);
-    fetchdishes(currentUserData.id)
-      .then((res: any) => {
-        if (res.status == true) {
-          setTotalDishLists(res.data);
-          const paginatedPosts = paginate(res.data, page, pageSize);
-          setDishLists(paginatedPosts);
-        } else {
-          setErrorMessage(res.message);
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    setDishLists(paginate(dishTotalList, page, pageSize)); 
+    // fetchdishes(currentUserData.id)
+    //   .then((res: any) => {
+    //     if (res.status == true) {
+    //       setTotalDishLists(res.data);
+    //       const paginatedPosts = paginate(res.data, page, pageSize);
+    //       setDishLists(paginatedPosts);
+    //     } else {
+    //       setErrorMessage(res.message);
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //   });
   };
-
-
 
   const handlMenuSubmit = (event: any) => {
     event.preventDefault();
@@ -230,7 +209,7 @@ export default function Dish() {
             setDishLists((prevState) => [...prevState, res.data]);
             setDishName("");
             setDishcategory("");
-            showToast('success', res.message);
+            showToast("success", res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -238,12 +217,12 @@ export default function Dish() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           }
@@ -258,16 +237,15 @@ export default function Dish() {
     }
   };
 
-
   const handleEdit = (e: any, id: any) => {
     e.preventDefault();
     const userData = getCurrentUserData() as CurrentUserData;
     setDishId(id);
-    const dish = dishTotalList.find(d => d.id === id);
+    const dish = dishTotalList.find((d) => d.id === id);
     if (dish) {
       fetchdishes(userData.id);
       setDishName(dish.item_name);
-      setDishcategory(dish.dish_category_id)
+      setDishcategory(dish.dish_category_id);
       setModalConfirm(true);
     }
   };
@@ -281,7 +259,6 @@ export default function Dish() {
       icon: "warning",
       dangerMode: true,
       buttons: ["Cancel", "Yes, I am sure!"],
-
     }).then((willDelete) => {
       if (willDelete) {
         deleteSingleDish(id)
@@ -300,12 +277,12 @@ export default function Dish() {
                 closeButton: true,
                 hideProgressBar: false,
                 style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
                 },
                 progressStyle: {
-                  background: '#ffff',
+                  background: "#ffff",
                 },
               });
             }
@@ -316,12 +293,12 @@ export default function Dish() {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
           });
@@ -359,11 +336,9 @@ export default function Dish() {
     setErrors(newErrors);
   };
 
-  const fetchDishCategoryDataById = (id: any, alphabetletter = '') => {
+  const fetchDishCategoryDataById = (id: any, alphabetletter = "") => {
     setSelectedLetter(alphabetletter);
-
     setDishCategoryId(id);
-
     const data = {
       letter: alphabetletter,
       dish_category_id: id,
@@ -373,58 +348,46 @@ export default function Dish() {
     fetchDishCategoryById(data)
       .then((res) => {
         if (res.status == true) {
-
           setTotalDishLists(res.data);
           const paginatedPosts = paginate(res.data, currentPage, pageSize);
           setDishLists(paginatedPosts);
-
         } else {
-
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         }
       })
       .catch((err) => {
-
         toast.error(err.message, {
           position: toast.POSITION.TOP_RIGHT,
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       });
-
   };
 
-
-  // const fetchDishCategoryDataByAlphabet = (letter) => {
-  //   setAlphabetLetter(letter);
-  //   fetchDishCategoryDataById(dishcategoryid)
-  // };
-
   const resetFields = () => {
-    setDishName('');
-    setDishcategory('');
-  }
-
+    setDishName("");
+    setDishcategory("");
+  };
 
   return (
     <>
@@ -432,15 +395,33 @@ export default function Dish() {
         <h2>Dishes </h2> {alphabetletter}
         <div className="row sfsd">
           <div className="col-lg-8">
-            <button key='' className={`${dishcategoryid == 'all' ? 'table-btn btn-2' : 'table-btn'}`} onClick={() => { fetchDishCategoryDataById('all'); }}>
+            <button
+              key=""
+              className={`${
+                dishcategoryid == "all" ? "table-btn btn-2" : "table-btn"
+              }`}
+              //  onClick={() => { fetchDishCategoryDataById('all'); }}
+              onClick={() => {
+                fetchDishCategoryDataById("all");
+                setCurrentPage(1); 
+              }}
+            >
               All
             </button>
             {Array.isArray(dishCategories) &&
               dishCategories.map((category) => (
                 <button
                   key={category.id}
-                  className={`${dishcategoryid == category.id.toString() ? 'table-btn btn-2 mx-1' : 'table-btn mx-1'}`}
-                  onClick={() => fetchDishCategoryDataById(category.id)}
+                  className={`${
+                    dishcategoryid == category.id.toString()
+                      ? "table-btn btn-2 mx-1"
+                      : "table-btn mx-1"
+                  }`}
+                  // onClick={() => fetchDishCategoryDataById(category.id)}
+                  onClick={() => {
+                    fetchDishCategoryDataById(category.id);
+                    setCurrentPage(1); 
+                  }}
                 >
                   {category.dish_category}
                 </button>
@@ -449,11 +430,14 @@ export default function Dish() {
 
           {/* <button className="table-btn">Starter</button> */}
           <div className="col-lg-4 text-end">
-            <button className="table-btn" onClick={() => {
-              setDishId('');
-              setModalConfirm(true);
-              resetFields();
-            }}>
+            <button
+              className="table-btn"
+              onClick={() => {
+                setDishId("");
+                setModalConfirm(true);
+                resetFields();
+              }}
+            >
               Add Dish Information
             </button>
           </div>
@@ -461,16 +445,8 @@ export default function Dish() {
         <div className="row mt-4">
           <div className="col-auto">
             <table className="table" id="alpabet_table">
-              {/* <tbody>
-              {Array.from(Array(26), (e, i) => String.fromCharCode(65 + i)).map((letter, index) => (
-                <tr key={index}>
-                  <th scope="row" onClick={() => fetchDishCategoryDataById(dishcategoryid,letter)} style={{border:'none',padding:'0px'} } role='button'>{letter}</th>
-
-                </tr>
-              ))}
-            </tbody> */}
               <tbody>
-                {Array.from(Array(26), (e, i) => String.fromCharCode(65 + i)).map((letter, index) => (
+                {/* {Array.from(Array(26), (e, i) => String.fromCharCode(65 + i)).map((letter, index) => (
                   <tr key={index}>
                     <th
                       scope="row"
@@ -485,36 +461,56 @@ export default function Dish() {
                       {letter}
                     </th>
                   </tr>
+                ))} */}
+                {Array.from(Array(26), (e, i) =>
+                  String.fromCharCode(65 + i)
+                ).map((letter, index) => (
+                  <tr key={index}>
+                    <th
+                      scope="row"
+                      onClick={() => {
+                        fetchDishCategoryDataById(dishcategoryid, letter);
+                        setCurrentPage(1); 
+                      }}
+                      style={{
+                        border: "none",
+                        padding: "0px",
+                        color:
+                          selectedLetter === letter ? "#ff4e00d1" : "initial",
+                      }}
+                      role="button"
+                    >
+                      {letter}
+                    </th>
+                  </tr>
                 ))}
               </tbody>
-
-
             </table>
           </div>
           <div className="col">
             <table className="table">
-              <thead>
-              </thead>
+              <thead></thead>
               <tbody>
-
                 {dishList
                   .sort((a, b) => a.item_name.localeCompare(b.item_name))
                   .map((dish, index) => {
                     return (
-                      <tr key={index} style={{ border: 'none' }} id={`singledish_${dish.id}`}>
-
+                      <tr
+                        key={index}
+                        style={{ border: "none" }}
+                        id={`singledish_${dish.id}`}
+                      >
                         <td>{dish.item_name}</td>
                         <td className="text-end add-icon-class" id="icons">
                           <i
                             className="fa-solid fa-pencil"
-                            role='button'
+                            role="button"
                             onClick={(e) => handleEdit(e, dish.id)}
                           ></i>
                           <i
-                            className="fa-sharp fa-solid fa-trash" style={{ cursor: "pointer" }}
-
+                            className="fa-sharp fa-solid fa-trash"
+                            style={{ cursor: "pointer" }}
                             onClick={(e) => handleDelete(e, dish.id)}
-
                           ></i>
                         </td>
                       </tr>
@@ -529,8 +525,6 @@ export default function Dish() {
               pageSize={pageSize}
               onPageChange={onPageChange}
             />
-
-
           </div>
         </div>
       </div>
@@ -549,7 +543,6 @@ export default function Dish() {
                 name="name"
                 value={dishName}
                 onBlur={handleMenuBlur}
-                // autoComplete="username"
                 onChange={(e) => setDishName(e.target.value)}
                 placeholder="Enter dish name"
                 required
@@ -596,7 +589,6 @@ export default function Dish() {
           </form>
         </div>
       </PopupModal>
-
       <ToastContainer />
     </>
   );

@@ -380,7 +380,7 @@ export default function Bookings() {
 
     if (isSubmitting) return; // Prevent multiple clicks
 
-    setIsSubmitting(true); // 
+    setIsSubmitting(true); //
 
     // Validate form data
     const newErrors: Errors = {};
@@ -391,13 +391,15 @@ export default function Bookings() {
     let isMenuOptional = false;
 
     if (Array.isArray(bookingUsers) && bookingUsers.length > 0) {
-      isMenuOptional = bookingUsers.some((booking: any) => booking?.isMenuOptional);
+      isMenuOptional = bookingUsers.some(
+        (booking: any) => booking?.isMenuOptional
+      );
     }
-  
+
     if (!isMenuOptional && (!selectedmenu || selectedmenu.length === 0)) {
       newErrors.selectedmenu = "Please select at least one menu item";
     }
-  
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setIsSubmitting(false); // ✅ Stop submit if errors exist
@@ -428,6 +430,9 @@ export default function Bookings() {
             setModalConfirm(false);
             fetchBookingUserDetails(currentUserData.id);
             showToast("success", res.message);
+            setTimeout(() => {
+              window.location.href = "/chef/applied-booking";
+            }, 1500);
           } else {
             toast.error(res.message, {
               position: toast.POSITION.TOP_RIGHT,
@@ -457,7 +462,7 @@ export default function Bookings() {
     }
     return false;
   }, [bookingUsers]);
-  
+
   const resetFields = () => {
     setAmount("");
     setSelectedMenu([]);
@@ -510,18 +515,21 @@ export default function Bookings() {
         </ul>
         <div className="table-box mt-3">
           {bookingUsers.length > 0 ? (
-            <table className="table table-borderless common_booking common_booking">
+            // <table className="table table-borderless common_booking common_booking">
+            <table className="table table-borderless">
               <thead>
                 <tr>
                   <th scope="col">Booking ID</th>
                   <th scope="col">Customer</th>
-                  <th scope="col">Image</th>
+                  {/* <th scope="col">Image</th> */}
                   <th scope="col">Date Requested</th>
-                  <th scope="col">Booking Date</th>
-                  <th scope="col">Address</th>
+                  {/* <th scope="col">Booking Date</th> */}
+                  {/* <th scope="col">Address</th> */}
                   <th scope="col">Category</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-sm-center">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -535,7 +543,17 @@ export default function Bookings() {
                   const output = `${startDate} to ${endDate}`;
                   return (
                     <tr key={index}>
-                      <td>#{user.booking_id}</td>
+                      <td
+                        onClick={(e) =>
+                          getSingleBookingUser(e, user.booking_id)
+                        }
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                        style={{ cursor: "pointer", color: "#ce910d" }}
+                      >
+                        #{user.booking_id}
+                      </td>
                       <td>
                         {`${user.name} ${
                           user.surname !== null && user.surname !== "null"
@@ -549,7 +567,7 @@ export default function Bookings() {
                           )
                           .join(" ")}
                       </td>
-                      <td className="chefs_pic">
+                      {/* <td className="chefs_pic">
                         {user.pic ? (
                           <img
                             src={
@@ -568,14 +586,14 @@ export default function Bookings() {
                             alt=""
                           />
                         )}
-                      </td>
+                      </td> */}
                       <td>{formatDate(user.latest_created_at)}</td>
-                      <td>
+                      {/* <td>
                         {user.category == "onetime"
                           ? formatDate(user.dates)
                           : output}
-                      </td>
-                      <td>{user.location}</td>
+                      </td> */}
+                      {/* <td>{user.location}</td> */}
                       <td>
                         {user.category == "onetime"
                           ? "One time"
@@ -955,7 +973,7 @@ export default function Bookings() {
                           </p>
                         </div>
                       </div>
-                      <div className="row mt-1">
+                      {/* <div className="row mt-1">
                         <div className="col-5">
                           <p className="chefs-name name-12">Email:</p>
                         </div>
@@ -970,7 +988,7 @@ export default function Bookings() {
                         <div className="col-7">
                           <p className="mony">{booking.phone}</p>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="row mt-1">
                         <div className="col-5">
                           <p className="chefs-name name-12">Location:</p>
@@ -1002,7 +1020,7 @@ export default function Bookings() {
                 <div className="col-sm-6 col-12">
                   <div className="all-form">
                     <div className="login_div">
-                      <label className="f-w-4">Chef’s Offer:</label>
+                      <label className="f-w-4">Chef’s sdfOffer:</label>
 
                       <input
                         type="number"

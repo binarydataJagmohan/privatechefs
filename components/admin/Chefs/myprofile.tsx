@@ -311,7 +311,6 @@ export default function MyProfile(props: any) {
           )}
         </div>
       </div>
-      ss
       {/* // pagination */}
       <Pagination items={totalMenu.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
     </>
