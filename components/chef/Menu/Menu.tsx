@@ -10,16 +10,17 @@ import {
   deleteMenu,
   updateChefPersonPrice,
   getDishes,
-  updateChefDishCount
+  updateChefDishCount,
 } from "../../../lib/chefapi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
-import PopupModal from '../../commoncomponents/PopupModal';
-import Image from 'next/image'
+import PopupModal from "../../commoncomponents/PopupModal";
+import Image from "next/image";
 import { showToast } from "../../commoncomponents/toastUtils";
-export default function Menus2(props: any) {
+import Select from "react-select";
 
+export default function Menus2(props: any) {
   let id = props.MenuId;
 
   interface CurrentUserData {
@@ -32,7 +33,6 @@ export default function Menus2(props: any) {
     approved_by_admin: string;
     profile_status: string;
   }
-
 
   interface Errors {
     menuname?: string;
@@ -50,7 +50,7 @@ export default function Menus2(props: any) {
     id?: number;
     item_name?: string;
     type?: string;
-    menu_item_id?: string
+    menu_item_id?: string;
   }
 
   interface CuisineData {
@@ -62,18 +62,17 @@ export default function Menus2(props: any) {
     name?: string;
   }
 
-
   const [menu, setMenu] = useState<Menu[]>([]);
   const [dishesdata, setDishes] = useState<DishSearch[]>([]);
   const [currentUserData, setCurrentUserData] = useState<CurrentUserData>({
-    id: '',
-    name: '',
-    email: '',
+    id: "",
+    name: "",
+    email: "",
     pic: null,
-    surname: '',
-    role: '',
-    approved_by_admin: '',
-    profile_status: ''
+    surname: "",
+    role: "",
+    approved_by_admin: "",
+    profile_status: "",
   });
 
   const [errors, setErrors] = useState<Errors>({});
@@ -82,35 +81,35 @@ export default function Menus2(props: any) {
   const [modalConfirm, setModalConfirm] = useState(false);
   const [cuisinedata, setCuisineData] = useState<CuisineData[]>([]);
   const [menuname, setMenuName] = useState("");
-  const [description, setDescription] = useState('');
-  const [cuisineid, setCuisineDataId] = useState('');
-  const [image, setImage] = useState('');
-  const [previewimage, setPreviewimage] = useState('');
-  const [Uploadimage, setUploadImage] = useState('');
+  const [description, setDescription] = useState("");
+  // const [cuisineid, setCuisineDataId] = useState('');
+  const [cuisineid, setCuisineDataId] = useState<string[]>([]);
 
-  const [minperson, setMinPerson] = useState('');
-  const [maxperson, setMaxPerson] = useState('');
-  const [minprice, setMinPice] = useState('');
-  const [maxprice, setMaxPice] = useState('');
-  const [comments, setcomments] = useState('');
+  const [image, setImage] = useState("");
+  const [previewimage, setPreviewimage] = useState("");
+  const [Uploadimage, setUploadImage] = useState("");
+
+  const [minperson, setMinPerson] = useState("");
+  const [maxperson, setMaxPerson] = useState("");
+  const [minprice, setMinPice] = useState("");
+  const [maxprice, setMaxPice] = useState("");
+  const [comments, setcomments] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [chefalldishes, setChefAllDish] = useState<DishSearch>({});
   const [searchInputValue, setSearchInputValue] = useState("");
   const [searchResultsVisible, setSearchResultsVisible] = useState(true);
-  const [dishtype, setDishType] = useState('');
-  const [dishid, setDishId] = useState('');
-  const [starter_items, setStartItems] = useState('');
-  const [firstcourse_items, setFirstCourseItems] = useState('');
-  const [maincourse_items, setMainCourseItems] = useState('');
-  const [desert_items, setDesertItems] = useState('');
+  const [dishtype, setDishType] = useState("");
+  const [dishid, setDishId] = useState("");
+  const [starter_items, setStartItems] = useState("");
+  const [firstcourse_items, setFirstCourseItems] = useState("");
+  const [maincourse_items, setMainCourseItems] = useState("");
+  const [desert_items, setDesertItems] = useState("");
   const [showActualImage, setShowActualImage] = useState(false);
-
 
   useEffect(() => {
     getUserData();
   }, []);
-
 
   const modalConfirmClose = () => {
     setModalConfirm(false);
@@ -137,20 +136,16 @@ export default function Menus2(props: any) {
         surname: userData.surname,
         role: userData.role,
         approved_by_admin: userData.approved_by_admin,
-
       });
-    }
-    else {
+    } else {
       window.location.href = "/404";
     }
   };
 
   const fetchdishes = async (user_id: any) => {
-
     try {
       const res = await getDishes(user_id);
       if (res.status) {
-
         setChefAllDish(res.data);
 
         //console.log(res.data);
@@ -160,12 +155,12 @@ export default function Menus2(props: any) {
           closeButton: true,
           hideProgressBar: false,
           style: {
-            background: '#ffff',
-            borderLeft: '4px solid #e74c3c',
-            color: '#454545',
+            background: "#ffff",
+            borderLeft: "4px solid #e74c3c",
+            color: "#454545",
           },
           progressStyle: {
-            background: '#ffff',
+            background: "#ffff",
           },
         });
       }
@@ -175,12 +170,12 @@ export default function Menus2(props: any) {
         closeButton: true,
         hideProgressBar: false,
         style: {
-          background: '#ffff',
-          borderLeft: '4px solid #e74c3c',
-          color: '#454545',
+          background: "#ffff",
+          borderLeft: "4px solid #e74c3c",
+          color: "#454545",
         },
         progressStyle: {
-          background: '#ffff',
+          background: "#ffff",
         },
       });
     }
@@ -213,10 +208,9 @@ export default function Menus2(props: any) {
     reader.readAsDataURL(file);
   };
 
-
   const getAllCrusineData = async () => {
     getAllCrusine()
-      .then(res => {
+      .then((res) => {
         if (res.status == true) {
           setCuisineData(res.data);
         } else {
@@ -225,10 +219,10 @@ export default function Menus2(props: any) {
           // });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const getSingleChefMenuData = async (id: any) => {
     getSingleChefMenu(id)
@@ -237,7 +231,9 @@ export default function Menus2(props: any) {
           setMenu(res.menudata);
           setMenuName(res.menudata.menu_name);
           setDescription(res.menudata.description);
-          setCuisineDataId(res.menudata.cuisine_id);
+          setCuisineDataId(
+            res.menudata.cuisine_id ? res.menudata.cuisine_id.split(",") : []
+          );
           setImage(res.menudata.image);
           setMinPerson(res.menudata.min_person);
           setMaxPerson(res.menudata.max_person);
@@ -249,8 +245,6 @@ export default function Menus2(props: any) {
           setFirstCourseItems(res.menudata.firstcourse_items);
           setMainCourseItems(res.menudata.maincourse_items);
           setDesertItems(res.menudata.desert_items);
-
-
         } else {
           //   toast.error(res.message, {
           //   position: toast.POSITION.TOP_RIGHT
@@ -277,24 +271,24 @@ export default function Menus2(props: any) {
       .then((res) => {
         if (res.status == true) {
           setDishes(res.dishes);
-          setSearchInputValue('');
-          setDishType('');
+          setSearchInputValue("");
+          setDishType("");
           setSearchResultsVisible(false);
-          showToast('success', res.message);
+          showToast("success", res.message);
 
-          setName('');
+          setName("");
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,
             closeButton: true,
             hideProgressBar: false,
             style: {
-              background: '#ffff',
-              borderLeft: '4px solid #e74c3c',
-              color: '#454545',
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
             },
             progressStyle: {
-              background: '#ffff',
+              background: "#ffff",
             },
           });
         }
@@ -302,7 +296,6 @@ export default function Menus2(props: any) {
       .catch((err) => {
         console.log(err);
       });
-
   };
 
   const deleteMenuitem = (id: any) => {
@@ -317,29 +310,27 @@ export default function Menus2(props: any) {
         deleteChefMenuItem(id)
           .then((res) => {
             if (res.status == true) {
-
               getSingleChefMenuData(props.MenuId);
               swal("Your menu item has been deleted!", {
                 icon: "success",
               });
-
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
                 closeButton: true,
                 hideProgressBar: false,
                 style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
                 },
                 progressStyle: {
-                  background: '#ffff',
+                  background: "#ffff",
                 },
               });
             }
           })
-          .catch((err) => { });
+          .catch((err) => {});
       } else {
       }
     });
@@ -351,10 +342,11 @@ export default function Menus2(props: any) {
     event.preventDefault();
     const newErrors: Errors = {};
 
-    if (!menuname.trim()) { // Check if menuname is empty or contains only whitespace
+    if (!menuname.trim()) {
+      // Check if menuname is empty or contains only whitespace
       newErrors.menuname = "Name is required";
     }
-    if (!cuisineid) {
+    if (!cuisineid || cuisineid.length === 0) {
       newErrors.cuisine = "Cuisine is required";
     }
     setErrors(newErrors);
@@ -364,11 +356,12 @@ export default function Menus2(props: any) {
         menu_id: id,
         name: menuname,
         description: description,
-        cuisineid: cuisineid,
-        user_id: currentUserData.id
+        // cuisineid: cuisineid,
+        cuisineid: cuisineid.join(","),
+        user_id: currentUserData.id,
       };
       updateChefMenu(data, Uploadimage[0])
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
             setModalConfirm(false);
             setButtonState(false);
@@ -376,8 +369,7 @@ export default function Menus2(props: any) {
             setDescription(res.menudata.description);
             setCuisineDataId(res.menudata.cuisine_id);
             setImage(res.menudata.image);
-            showToast('success', res.message);
-
+            showToast("success", res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -385,22 +377,20 @@ export default function Menus2(props: any) {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
-
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
-
   };
 
   const handleMenuBlur = (event: any) => {
@@ -408,7 +398,6 @@ export default function Menus2(props: any) {
     const newErrors = { ...errors };
 
     switch (menuname) {
-
       case "name":
         if (!value) {
           newErrors.name = "Name is required";
@@ -451,7 +440,7 @@ export default function Menus2(props: any) {
                 icon: "success",
               });
               setTimeout(() => {
-                window.location.href = '/chef/menus';
+                window.location.href = "/chef/menus";
               }, 1000);
             } else {
               toast.error(res.message, {
@@ -459,23 +448,22 @@ export default function Menus2(props: any) {
                 closeButton: true,
                 hideProgressBar: false,
                 style: {
-                  background: '#ffff',
-                  borderLeft: '4px solid #e74c3c',
-                  color: '#454545',
+                  background: "#ffff",
+                  borderLeft: "4px solid #e74c3c",
+                  color: "#454545",
                 },
                 progressStyle: {
-                  background: '#ffff',
+                  background: "#ffff",
                 },
               });
             }
           })
-          .catch((err) => { });
+          .catch((err) => {});
       } else {
       }
     });
   };
   //delete menu start
-
 
   //PersonPriceSubmit submit start
 
@@ -513,11 +501,10 @@ export default function Menus2(props: any) {
         max_person: maxperson,
         min_price: minprice,
         max_price: maxprice,
-        comments: comments
-
+        comments: comments,
       };
       updateChefPersonPrice(data)
-        .then(res => {
+        .then((res) => {
           if (res.status == true) {
             setButtonState(false);
             setMinPerson(res.menudata.min_person);
@@ -525,7 +512,7 @@ export default function Menus2(props: any) {
             setMinPice(res.menudata.min_price);
             setMaxPice(res.menudata.max_price);
             setcomments(res.menudata.comments);
-            showToast('success', res.message);
+            showToast("success", res.message);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -533,22 +520,20 @@ export default function Menus2(props: any) {
               closeButton: true,
               hideProgressBar: false,
               style: {
-                background: '#ffff',
-                borderLeft: '4px solid #e74c3c',
-                color: '#454545',
+                background: "#ffff",
+                borderLeft: "4px solid #e74c3c",
+                color: "#454545",
               },
               progressStyle: {
-                background: '#ffff',
+                background: "#ffff",
               },
             });
-
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
-
   };
 
   const handlPersonPriceBlur = (event: any) => {
@@ -556,8 +541,6 @@ export default function Menus2(props: any) {
     const newErrors = { ...errors };
 
     switch (name) {
-
-
       case "minprice":
         if (!value) {
           newErrors.minprice = "Min Price is required";
@@ -603,62 +586,68 @@ export default function Menus2(props: any) {
     const type = dishtype;
     const matchingData = Object.values(chefalldishes)
 
-      .filter((dish) => dish.type === type && dish.item_name.toLowerCase().includes(query))
+      .filter(
+        (dish) =>
+          dish.type === type && dish.item_name.toLowerCase().includes(query)
+      )
       .reduce((acc, dish) => {
         acc[dish.id] = dish.item_name;
         return acc;
       }, {});
 
     return (
-      <div id="search-results" style={{ height: Object.keys(matchingData).length > 0 ? '' : 'auto', display: searchResultsVisible ? 'block' : 'none' }}>
+      <div
+        id="search-results"
+        style={{
+          height: Object.keys(matchingData).length > 0 ? "" : "auto",
+          display: searchResultsVisible ? "block" : "none",
+        }}
+      >
         <ul>
           {Object.keys(matchingData).length > 0 ? (
             Object.entries(matchingData).map(([id, name]) => (
-              <li key={id} onClick={() => addItem(id, name as string)} role="button">
+              <li
+                key={id}
+                onClick={() => addItem(id, name as string)}
+                role="button"
+              >
                 {name as string}
               </li>
-
             ))
           ) : (
-            <li>
-              No record found
-            </li>
+            <li>No record found</li>
           )}
         </ul>
       </div>
     );
   }
 
-
   function handleSearchInputChange(event: any) {
-
     setSearchInputValue(event.target.value.trim());
     setDishType(event.target.name);
     setSearchResultsVisible(true);
-
   }
 
   function addItem(id: any, name: any) {
-    setSearchInputValue(name)
-    setSearchResultsVisible(false)
-    setDishId(id)
+    setSearchInputValue(name);
+    setSearchResultsVisible(false);
+    setDishId(id);
   }
 
   function handleDishCount(e: any) {
-
-    if (e.target.name == 'starter_items') {
+    if (e.target.name == "starter_items") {
       setStartItems(e.target.value);
     }
 
-    if (e.target.name == 'firstcourse_items') {
+    if (e.target.name == "firstcourse_items") {
       setFirstCourseItems(e.target.value);
       alert(e.target.value);
     }
 
-    if (e.target.name == 'maincourse_items') {
+    if (e.target.name == "maincourse_items") {
       setMainCourseItems(e.target.value);
     }
-    if (e.target.name == 'desert_items') {
+    if (e.target.name == "desert_items") {
       setDesertItems(e.target.value);
     }
 
@@ -666,36 +655,51 @@ export default function Menus2(props: any) {
       menu_id: props.MenuId,
       dishcount: e.target.value,
       name: e.target.name,
-
     };
     updateChefDishCount(data)
-      .then(res => {
+      .then((res) => {
         if (res.status == true) {
         } else {
           setButtonState(false);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-
   }
 
+  const parsedIds = Array.isArray(cuisineid)
+    ? cuisineid.map(String)
+    : String(cuisineid)
+        .split(",")
+        .map((id) => id.trim());
 
+  const options = cuisinedata.map((cuisine) => ({
+    value: String(cuisine.id),
+    label: cuisine.name,
+  }));
 
-
+  const selectedValues = options.filter((option) =>
+    parsedIds.includes(option.value)
+  );
   return (
     <>
       <div className="table-part">
         <div className="row">
           <div className="col-lg-8 col-md-12">
             <h2>
-
-              {menuname ? menuname : ''}
+              {menuname ? menuname : ""}
               <a href="#" className="t-icon">
-                <i className="fa-solid fa-pencil" onClick={() => setModalConfirm(true)} ></i>
+                <i
+                  className="fa-solid fa-pencil"
+                  onClick={() => setModalConfirm(true)}
+                ></i>
               </a>
-              <a href="#" className="t-icon" onClick={(e) => deleteSingleMenu(id)}>
+              <a
+                href="#"
+                className="t-icon"
+                onClick={(e) => deleteSingleMenu(id)}
+              >
                 <i className="fa-solid fa-trash"></i>
               </a>
             </h2>
@@ -749,7 +753,6 @@ export default function Menus2(props: any) {
               </li>
             </ul>
             <div className="tab-content" id="pills-tabContent">
-
               <div
                 className="tab-pane fade show active"
                 id="pills-profile"
@@ -769,14 +772,13 @@ export default function Menus2(props: any) {
                             aria-expanded="true"
                             aria-controls="collapseOne"
                             onClick={() => {
-                              setSearchInputValue('');
-                              setDishType('');
+                              setSearchInputValue("");
+                              setDishType("");
                               setSearchResultsVisible(false);
                             }}
                           >
                             Starter
                           </button>
-
                         </h2>
                         <div
                           id="collapseOne"
@@ -786,7 +788,6 @@ export default function Menus2(props: any) {
                         >
                           <div className="accordion-body p-remove">
                             <div className="all-form" id="all_menu_dishes_form">
-
                               <form
                                 onSubmit={handlMenuItemsSubmit}
                                 className="common_form_error dishes_form"
@@ -795,15 +796,21 @@ export default function Menus2(props: any) {
                                   <input
                                     type="text"
                                     name="starter"
-                                    value={searchInputValue} onChange={handleSearchInputChange}
+                                    value={searchInputValue}
+                                    onChange={handleSearchInputChange}
                                     placeholder="Search starter..."
-
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
 
-
-                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} id="dishes_id" name="starter_items" value={starter_items} style={{ height: '46px' }}>
+                                  <select
+                                    className="w-25 mx-2 dishes_name_input"
+                                    onChange={handleDishCount}
+                                    id="dishes_id"
+                                    name="starter_items"
+                                    value={starter_items}
+                                    style={{ height: "46px" }}
+                                  >
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -811,10 +818,7 @@ export default function Menus2(props: any) {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="5">All</option>
-
-
                                   </select>
-
 
                                   <button
                                     type="submit"
@@ -823,15 +827,12 @@ export default function Menus2(props: any) {
                                   >
                                     Add Starter Course
                                   </button>
-
                                 </div>
                               </form>
                               <div className="" id="compare_countries_result">
                                 {searchInputValue && renderSearchResults()}
                               </div>
                             </div>
-
-
 
                             {dishesdata &&
                               dishesdata.length > 0 &&
@@ -883,8 +884,8 @@ export default function Menus2(props: any) {
                             aria-expanded="false"
                             aria-controls="collapseTwo"
                             onClick={() => {
-                              setSearchInputValue('');
-                              setDishType('');
+                              setSearchInputValue("");
+                              setDishType("");
                               setSearchResultsVisible(false);
                             }}
                           >
@@ -907,7 +908,8 @@ export default function Menus2(props: any) {
                                   <input
                                     type="text"
                                     name="firstcourse"
-                                    value={searchInputValue} onChange={handleSearchInputChange}
+                                    value={searchInputValue}
+                                    onChange={handleSearchInputChange}
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
@@ -917,7 +919,14 @@ export default function Menus2(props: any) {
                                     </span>
                                   )}
 
-                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} id="dishes_id" name="firstcourse_items" value={firstcourse_items} style={{ height: '46px' }}>
+                                  <select
+                                    className="w-25 mx-2 dishes_name_input"
+                                    onChange={handleDishCount}
+                                    id="dishes_id"
+                                    name="firstcourse_items"
+                                    value={firstcourse_items}
+                                    style={{ height: "46px" }}
+                                  >
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -925,8 +934,6 @@ export default function Menus2(props: any) {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">All</option>
-
-
                                   </select>
 
                                   <button
@@ -995,8 +1002,8 @@ export default function Menus2(props: any) {
                             aria-expanded="false"
                             aria-controls="collapseThree"
                             onClick={() => {
-                              setSearchInputValue('');
-                              setDishType('');
+                              setSearchInputValue("");
+                              setDishType("");
                               setSearchResultsVisible(false);
                             }}
                           >
@@ -1019,13 +1026,20 @@ export default function Menus2(props: any) {
                                   <input
                                     type="text"
                                     name="maincourse"
-                                    value={searchInputValue} onChange={handleSearchInputChange}
-
+                                    value={searchInputValue}
+                                    onChange={handleSearchInputChange}
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
 
-                                  <select className="w-25 mx-2 dishes_name_input" onChange={handleDishCount} id="dishes_id" name="maincourse_items" value={maincourse_items} style={{ height: '46px' }}>
+                                  <select
+                                    className="w-25 mx-2 dishes_name_input"
+                                    onChange={handleDishCount}
+                                    id="dishes_id"
+                                    name="maincourse_items"
+                                    value={maincourse_items}
+                                    style={{ height: "46px" }}
+                                  >
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -1033,8 +1047,6 @@ export default function Menus2(props: any) {
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">All</option>
-
-
                                   </select>
 
                                   <button
@@ -1054,9 +1066,7 @@ export default function Menus2(props: any) {
                             {dishesdata &&
                               dishesdata.length > 0 &&
                               dishesdata
-                                .filter(
-                                  (dishes) => dishes.type == "maincourse"
-                                )
+                                .filter((dishes) => dishes.type == "maincourse")
                                 .map((dishes, index) => (
                                   <div
                                     className="row mt-2"
@@ -1104,8 +1114,8 @@ export default function Menus2(props: any) {
                             aria-expanded="false"
                             aria-controls="collapseFour"
                             onClick={() => {
-                              setSearchInputValue('');
-                              setDishType('');
+                              setSearchInputValue("");
+                              setDishType("");
                               setSearchResultsVisible(false);
                             }}
                           >
@@ -1128,13 +1138,20 @@ export default function Menus2(props: any) {
                                   <input
                                     type="text"
                                     name="desert"
-                                    value={searchInputValue} onChange={handleSearchInputChange}
-
+                                    value={searchInputValue}
+                                    onChange={handleSearchInputChange}
                                     className="mx-2 dishes_name_input"
                                     required
                                   />
 
-                                  <select className="w-25 mx-2" onChange={handleDishCount} name="desert_items" id="dishes_id" value={desert_items} style={{ height: '48px' }}>
+                                  <select
+                                    className="w-25 mx-2"
+                                    onChange={handleDishCount}
+                                    name="desert_items"
+                                    id="dishes_id"
+                                    value={desert_items}
+                                    style={{ height: "48px" }}
+                                  >
                                     <option value="0">Choose Dishes</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -1146,7 +1163,6 @@ export default function Menus2(props: any) {
                                     <option value="8">8</option>
                                     <option value="9">9</option>
                                     <option value="10">10</option>
-
                                   </select>
 
                                   <button
@@ -1213,35 +1229,95 @@ export default function Menus2(props: any) {
                 role="tabpanel"
                 aria-labelledby="pills-contact-tab"
               >
-                <form onSubmit={handlPersonPriceSubmit} className="common_form_error" id="menu_form">
+                <form
+                  onSubmit={handlPersonPriceSubmit}
+                  className="common_form_error"
+                  id="menu_form"
+                >
                   <div className="row mt-4 all-form">
                     <div className="col-lg-3 col-md-6">
                       <label>Minimum Person</label>
-                      <input type="number" name='minperson' value={minperson || ''} onChange={(e) => setMinPerson(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='1' />
-                      {errors.minperson && <span className="small error text-danger mb-2 d-inline-block ">{errors.minperson}</span>}
+                      <input
+                        type="number"
+                        name="minperson"
+                        value={minperson || ""}
+                        onChange={(e) => setMinPerson(e.target.value)}
+                        onBlur={handlPersonPriceBlur}
+                        placeholder="1"
+                      />
+                      {errors.minperson && (
+                        <span className="small error text-danger mb-2 d-inline-block ">
+                          {errors.minperson}
+                        </span>
+                      )}
                     </div>
                     <div className="col-lg-3 col-md-6">
                       <label>Maximum Person</label>
-                      <input type="number" name='maxperson' value={maxperson || ''} onChange={(e) => setMaxPerson(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='10' />
-                      {errors.maxperson && <span className="small error text-danger mb-2 d-inline-block ">{errors.maxperson}</span>}
+                      <input
+                        type="number"
+                        name="maxperson"
+                        value={maxperson || ""}
+                        onChange={(e) => setMaxPerson(e.target.value)}
+                        onBlur={handlPersonPriceBlur}
+                        placeholder="10"
+                      />
+                      {errors.maxperson && (
+                        <span className="small error text-danger mb-2 d-inline-block ">
+                          {errors.maxperson}
+                        </span>
+                      )}
                     </div>
                     <div className="col-lg-3 col-md-6">
                       <label>Price for 6</label>
-                      <input type="number" name='minprice' value={minprice || ''} onChange={(e) => setMinPice(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='50' />
-                      {errors.minprice && <span className="small error text-danger mb-2 d-inline-block ">{errors.minprice}</span>}
+                      <input
+                        type="number"
+                        name="minprice"
+                        value={minprice || ""}
+                        onChange={(e) => setMinPice(e.target.value)}
+                        onBlur={handlPersonPriceBlur}
+                        placeholder="50"
+                      />
+                      {errors.minprice && (
+                        <span className="small error text-danger mb-2 d-inline-block ">
+                          {errors.minprice}
+                        </span>
+                      )}
                     </div>
                     <div className="col-lg-3 col-md-6">
                       <label>Price for 7 to 20</label>
-                      <input type="number" name='maxprice' value={maxprice || ''} onChange={(e) => setMaxPice(e.target.value)} onBlur={handlPersonPriceBlur} placeholder='100' />
-                      {errors.maxprice && <span className="small error text-danger mb-2 d-inline-block ">{errors.maxprice}</span>}
+                      <input
+                        type="number"
+                        name="maxprice"
+                        value={maxprice || ""}
+                        onChange={(e) => setMaxPice(e.target.value)}
+                        onBlur={handlPersonPriceBlur}
+                        placeholder="100"
+                      />
+                      {errors.maxprice && (
+                        <span className="small error text-danger mb-2 d-inline-block ">
+                          {errors.maxprice}
+                        </span>
+                      )}
                     </div>
                     <div className="col-lg-12 col-md-6 mt-2">
                       <label>Add Comments</label>
-                      <textarea name="comments" value={comments || ''} onChange={(e) => setcomments(e.target.value)} onBlur={handlPersonPriceBlur} ></textarea>
+                      <textarea
+                        name="comments"
+                        value={comments || ""}
+                        onChange={(e) => setcomments(e.target.value)}
+                        onBlur={handlPersonPriceBlur}
+                      ></textarea>
                     </div>
                     <div className="col-lg-12 text-end col-md-6 mt-2">
-                      <button type="submit" className="btn-send w-20 mb-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Submit Persons & Prices Information'}</button>
-
+                      <button
+                        type="submit"
+                        className="btn-send w-20 mb-3"
+                        disabled={buttonStatus}
+                      >
+                        {buttonStatus
+                          ? "Please wait.."
+                          : "Submit Persons & Prices Information"}
+                      </button>
                     </div>
                   </div>
                 </form>
@@ -1259,61 +1335,132 @@ export default function Menus2(props: any) {
         </div>
       </div>
 
-
-      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
+      <PopupModal
+        show={modalConfirm}
+        handleClose={modalConfirmClose}
+        staticClass="var-login"
+      >
         {/* <div className="text-center popup-img">
                   <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
               </div> */}
-        <div className="all-form" >
-          <form onSubmit={handlMenuSubmit} className="common_form_error" id="menu_form">
-
-            <div className='login_div'>
+        <div className="all-form">
+          <form
+            onSubmit={handlMenuSubmit}
+            className="common_form_error"
+            id="menu_form"
+          >
+            <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input type="text" name='name' value={menuname} onChange={(e) => setMenuName(e.target.value)} onBlur={handleMenuBlur} autoComplete="off" />
-              {errors.menuname && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.menuname}</span>}
+              <input
+                type="text"
+                name="name"
+                value={menuname}
+                onChange={(e) => setMenuName(e.target.value)}
+                onBlur={handleMenuBlur}
+                autoComplete="off"
+              />
+              {errors.menuname && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.menuname}
+                </span>
+              )}
             </div>
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onBlur={handleMenuBlur} ></textarea>
-
+              <textarea
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                onBlur={handleMenuBlur}
+              ></textarea>
             </div>
 
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="Cuisine">Cuisine:</label>
-              <select aria-label="Default select example" value={cuisineid} onChange={(e) => setCuisineDataId(e.target.value)}>
-                <option value=''>Select Cuisine</option>
-                {cuisinedata.length > 0 ? cuisinedata.map((cuisine, index) => (
-                  <option key={cuisine.id} value={cuisine.id}>{cuisine.name}</option>
-                )) : ''}
-              </select>
-
-              {errors.cuisine && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.cuisine}</span>}
+              <Select
+                isMulti
+                options={options}
+                value={selectedValues}
+                onChange={(selectedOptions: any) =>
+                  setCuisineDataId(
+                    selectedOptions
+                      ? selectedOptions.map((option: any) => option.value)
+                      : []
+                  )
+                }
+                placeholder="Select Cuisine"
+                styles={{
+                  control: (provided: any, state: any) => ({
+                    ...provided,
+                    borderColor: state.isFocused
+                      ? "#eeeeee"
+                      : provided.borderColor,
+                    boxShadow: state.isFocused
+                      ? "0 0 0 1px #eeeeee"
+                      : provided.boxShadow,
+                    "&:hover": {
+                      borderColor: "grey",
+                    },
+                  }),
+                }}
+              />
+              {errors.cuisine && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.cuisine}
+                </span>
+              )}
             </div>
-            <div className='login_div'>
+            <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" accept="jpg,png" onChange={handleImageChange} />
+              <input
+                type="file"
+                name="image"
+                accept="jpg,png"
+                onChange={handleImageChange}
+              />
               {previewImage && (
                 <div className="image_preview mb-4 d-block">
-                  <img src={previewImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                  <img
+                    src={previewImage}
+                    alt="Preview"
+                    style={{ width: "20%", height: "100px" }}
+                  />
                 </div>
               )}
               {image && (
                 <div className="image_actual mb-4 d-block">
-                  <img src={process.env.NEXT_PUBLIC_IMAGE_URL + '/images/chef/menu/' + image} width={100} height={100} />
+                  <img
+                    src={
+                      process.env.NEXT_PUBLIC_IMAGE_URL +
+                      "/images/chef/menu/" +
+                      image
+                    }
+                    width={100}
+                    height={100}
+                  />
                 </div>
               )}
             </div>
             <div className="image_preview mb-4 d-none">
               {previewimage && (
-                <img src={previewimage} alt="Preview" width={100} height={100} />
+                <img
+                  src={previewimage}
+                  alt="Preview"
+                  width={100}
+                  height={100}
+                />
               )}
             </div>
 
-            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>{buttonStatus ? 'Please wait..' : 'Update Menu Information'}</button>
+            <button
+              type="submit"
+              className="btn-send w-100 mt-3"
+              disabled={buttonStatus}
+            >
+              {buttonStatus ? "Please wait.." : "Update Menu Information"}
+            </button>
           </form>
-
         </div>
-
       </PopupModal>
 
       <ToastContainer />

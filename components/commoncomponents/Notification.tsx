@@ -99,8 +99,6 @@ export default function Notification() {
                     setTotalNotify(res.data);
                     const paginatedPosts = paginate(res.data, currentPage, pageSize);
                     setUserData(paginatedPosts);
-                    console.log(paginatedPosts);
-
                 } else {
                     console.log("error");
                 }
@@ -124,6 +122,19 @@ export default function Notification() {
             });
     }
 
+    const getBookingLink = (role: string, description: string | null) => {
+        if (!description || !description.includes("#")) return "#"; 
+    
+        const bookingId = description.split('#')[1]; 
+        if (role === "admin") {
+            return `${process.env.NEXT_PUBLIC_BASE_URL}admin/bookings?booking_id=${bookingId}`;
+        } else if (role === "chef") {
+            return `${process.env.NEXT_PUBLIC_BASE_URL}chef/bookings?booking_id=${bookingId}`;
+        } else {
+            return "#"; // Default case agar role unknown ho
+        }
+    };
+    
 
     return (
         <>
@@ -171,7 +182,8 @@ export default function Notification() {
                                                             <a
                                                                 className=''
                                                                 target={"_blank"}
-                                                                href={`${process.env.NEXT_PUBLIC_BASE_URL}admin/bookings?booking_id=${notification.description.split('#')[1]}`}
+                                                                href={getBookingLink(currentUserData.role, notification.description)}
+
                                                             >
                                                                 <small>View Booking</small>
                                                             </a>

@@ -42,9 +42,9 @@ export default function Location(props: any) {
 
     useEffect(() => {
         if (props) {
-            console.log(props)
             setSlug(props.pages.data);            
             setAddress(props.locations.data);
+            console.log(props.locations.data)
 
             fetchLocationDetails();
         }
@@ -385,7 +385,7 @@ export default function Location(props: any) {
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <Slider {...settings}>
-                            {locations.map((location) =>
+                            {address.map((location) =>
                                 <div className="col-lg-2 col-md-6">
                                     <div className="slider-img-plase" id="location-img">
                                         {location.pic ? (

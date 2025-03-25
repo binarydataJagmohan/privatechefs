@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSingleReceiptAdmin } from "../../../lib/adminapi";
 import moment from "moment";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+import Link from "next/link";
 
 export default function MyProfile(props: any) {
   interface User {
@@ -78,7 +79,10 @@ export default function MyProfile(props: any) {
   return (
     <>
       <div className="row">
-        <div className="col-sm-2 text-center">
+      <Link href="/admin/receipts">
+        <button className="table-btn mb-4">Back</button>
+      </Link>
+        <div className="col-sm-1 ">
           <div className="receiptsImage">
             {getUsers.chefpic ? (
               <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + getUsers.chefpic} alt="" width={100} height={100} />
@@ -87,7 +91,9 @@ export default function MyProfile(props: any) {
             )}
           </div>
         </div>
+      
         <div className="col-lg-10 text-left">
+      
           <h2>Booking Details</h2>
           {/* <strong>Street:</strong> <span>109, 1st Flr, Om Chambers, Kemps Corner, Nr Peddar Rdfly Over, Kemps Corner</span> */}
           <strong>Street:</strong> <span>{getUsers.location}</span>

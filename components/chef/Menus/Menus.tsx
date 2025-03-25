@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../commoncomponents/Pagination";
 import PopupModal from "../../commoncomponents/PopupModal";
+import PopupModalLarge from "../../commoncomponents/PopupModalLarge";
 import { paginate } from "../../../helpers/paginate";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getAllCrusine, saveChefMenu, getAllChefMenu } from "../../../lib/chefapi";
-import { useRouter } from "next/router";
-import { getToken, getCurrentUserData } from "../../../lib/session";
-import { ToastContainer, toast } from "react-toastify";
+import {
+  getAllCrusine,
+  saveChefMenu,
+  getAllChefMenu,
+} from "../../../lib/chefapi";
+import { getCurrentUserData } from "../../../lib/session";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Image from "next/image";
 import { showToast } from "../../commoncomponents/toastUtils";
+import Select from "react-select";
+
 export default function Menus() {
   interface CurrentUserData {
     id: string;
@@ -21,19 +26,16 @@ export default function Menus() {
     approved_by_admin: string;
     profile_status: string;
   }
-
   interface Errors {
     cuisine?: string;
     name?: string;
   }
-
   interface MenuData {
     id: number;
     name?: string;
     menu_name?: string;
     image?: string;
   }
-
   interface CuisineData {
     id?: number;
     name?: string;
@@ -42,10 +44,11 @@ export default function Menus() {
   const [errors, setErrors] = useState<Errors>({});
   const [cuisinedata, setCuisineData] = useState<CuisineData[]>([]);
   const [modalConfirm, setModalConfirm] = useState(false);
+  const [modalfilterConfirm, setModalFilterConfirm] = useState(false);
   const [buttonStatus, setButtonState] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [cuisineid, setCuisineDataId] = useState("");
+  const [cuisineid, setCuisineDataId] = useState<string[]>([]);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -65,9 +68,14 @@ export default function Menus() {
   const [currentPage, setCurrentPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   const pageSize = 10;
+  const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
 
   const modalConfirmClose = () => {
     setModalConfirm(false);
+  };
+
+  const modalFilterConfirmClose = () => {
+    setModalFilterConfirm(false);
   };
 
   useEffect(() => {
@@ -122,10 +130,6 @@ export default function Menus() {
       .then((res) => {
         if (res.status == true) {
           setCuisineData(res.data);
-        } else {
-          //   toast.error(res.message, {
-          //   position: toast.POSITION.TOP_RIGHT
-          // });
         }
       })
       .catch((err) => {
@@ -140,10 +144,6 @@ export default function Menus() {
           setTotalMenu(res.data);
           const paginatedPosts = paginate(res.data, currentPage, pageSize);
           setMenu(paginatedPosts);
-        } else {
-          //   toast.error(res.message, {
-          //   position: toast.POSITION.TOP_RIGHT
-          // });
         }
       })
       .catch((err) => {
@@ -163,7 +163,7 @@ export default function Menus() {
       newErrors.name = "Name is required";
     }
 
-    if (!cuisineid) {
+    if (!cuisineid || cuisineid.length === 0) {  
       newErrors.cuisine = "Cuisine is required";
     }
 
@@ -176,7 +176,8 @@ export default function Menus() {
       const data = {
         name: name,
         description: description,
-        cuisineid: cuisineid,
+        // cuisineid: cuisineid,
+        cuisineid: cuisineid.join(","),
         user_id: currentUserData.id,
       };
       saveChefMenu(data, image)
@@ -264,29 +265,87 @@ export default function Menus() {
     setPreview(null);
   };
 
+  // const uniqueCuisines = [
+  //   ...new Set(
+  //     menuData?.flatMap((menu: any) =>
+  //       menu.cuisine_id?.includes(",")
+  //         ? menu.cuisine_id?.split(",")
+  //         : [menu.cuisine_id]
+  //     )
+  //   ),
+  // ];
+
+  const uniqueCuisines = [
+    ...new Set(
+      menuData?.flatMap((menu: any) => {
+        if (!menu.cuisine_id) return []; // Handle null or undefined case
+  
+        const cuisineId = String(menu.cuisine_id); // Ensure it's a string
+        return cuisineId.includes(",") ? cuisineId.split(",") : [cuisineId];
+      })
+    ),
+  ];
+  
+
+  const filteredCuisines = cuisinedata.filter((cuisine: any) =>
+    uniqueCuisines.includes(cuisine.id.toString())
+  );
+
+  const handleCuisineFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSelectedCuisines((prev) =>
+      prev.includes(value)
+        ? prev.filter((id) => id !== value)
+        : [...prev, value]
+    );
+  };
+
+  // const filteredMenu = menuData.filter((menu: any) =>
+  //   selectedCuisines.length === 0
+  //     ? true
+  //     : selectedCuisines.some((cuisine) =>
+  //         menu.cuisine_id.split(",").includes(cuisine)
+  //       )
+  // );
+
+  const filteredMenu = menuData.filter((menu: any) => {
+    const cuisineId = menu.cuisine_id ? String(menu.cuisine_id) : ""; // Ensure it's a string
+    return selectedCuisines.length === 0
+      ? true
+      : selectedCuisines.some((cuisine) =>
+          cuisineId.split(",").includes(cuisine)
+        );
+  });
+  
+
+  const clearFilters = () => {
+    setSelectedCuisines([]); 
+    setMenu(totalMenu); 
+  };
+  
   return (
     <>
       <div className="table-part">
         <h2>Menus</h2>
         <ul className="table_header_button_section p-r">
-          <li>
-            <button className="table-btn btn-2">
-              Thai <i className="fa-solid fa-xmark"></i>
-            </button>
-          </li>
-          <li>
-            <button className="table-btn btn-2">
-              Greek <i className="fa-solid fa-xmark"></i>
-            </button>
-          </li>
-          <li>
-            <button className="table-btn btn-2">
-              Desserts <i className="fa-solid fa-xmark"></i>
-            </button>
-          </li>
           <li className="">
-            <button className="table-btn border-radius round-white">Filter </button>
+            <button
+              className="table-btn border-radius round-white"
+              onClick={() => {
+                setModalFilterConfirm(true);
+              }}
+            >
+              Filter{" "}
+            </button>
           </li>
+          <li>
+    <button
+      className="table-btn border-radius round-white"
+      onClick={clearFilters}
+    >
+      Clear
+    </button>
+  </li>
         </ul>
         <div className="row mt-4 add_menu_items gap-3">
           <div
@@ -302,20 +361,47 @@ export default function Menus() {
             </div>
           </div>
 
-          {menuData.length > 0 ? (
-            menuData.map((menu, index) => {
+          {filteredMenu.length > 0 ? (
+            filteredMenu.map((menu, index) => {
               return (
                 <div className="col-sm-3" key={index}>
                   <a href={"/chef/menu/" + menu.id} className="sdf">
                     <div className="slider-img-plase">
                       {menu.image ? (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/menu/" + menu.image} width={612} height={300} alt={menu.name} />
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/chef/menu/" +
+                            menu.image
+                          }
+                          width={612}
+                          height={300}
+                          alt={menu.name}
+                        />
                       ) : (
-                        <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} width={612} height={300} alt={menu.menu_name} />
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/placeholder.jpg"
+                          }
+                          width={612}
+                          height={300}
+                          alt={menu.menu_name}
+                        />
                       )}
 
-                      <p className="plase-btn" data-bs-toggle="tooltip" title={menu.menu_name}>
-                        <span className="plase-btn-span">{menu.menu_name ? (menu.menu_name.length > 15 ? menu.menu_name.slice(0, 15) + "..." : menu.menu_name) : ""}</span>
+                      <p
+                        className="plase-btn"
+                        data-bs-toggle="tooltip"
+                        title={menu.menu_name}
+                      >
+                        <span className="plase-btn-span">
+                          {menu.menu_name
+                            ? menu.menu_name.length > 15
+                              ? menu.menu_name.slice(0, 15) + "..."
+                              : menu.menu_name
+                            : ""}
+                        </span>
                       </p>
                     </div>
                   </a>
@@ -329,58 +415,138 @@ export default function Menus() {
           )}
         </div>
       </div>
-      <Pagination items={totalMenu.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
+      <Pagination
+        items={totalMenu.length}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        onPageChange={onPageChange}
+      />
+      {/* {filter basis of cusineis menu} */}
+
+      <PopupModalLarge
+        show={modalfilterConfirm}
+        handleClose={modalFilterConfirmClose}
+      >
+        <div className="accordion-body" style={{ padding: "32px 10px" }}>
+          <div className="row">
+            {filteredCuisines.map((cuisine: any) => (
+              <div className="col-sm-4" key={cuisine.id}>
+                <input
+                  type="checkbox"
+                  value={cuisine.id}
+                  onChange={handleCuisineFilter}
+                  checked={selectedCuisines.includes(cuisine.id.toString())}
+                  style={{ marginRight: "5px" }}
+                />
+                <label style={{ marginLeft: "5px" }}>{cuisine.name}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      </PopupModalLarge>
 
       {/* // Menu popup start  */}
-      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
-        {/* <div className="text-center popup-img">
-                      <img src={process.env.NEXT_PUBLIC_BASE_URL+'images/logo.png'} alt="logo" />
-                  </div> */}
+      <PopupModal
+        show={modalConfirm}
+        handleClose={modalConfirmClose}
+        staticClass="var-login"
+      >
         <div className="all-form">
-          <form onSubmit={handlMenuSubmit} className="common_form_error" id="menu_form">
+          <form
+            onSubmit={handlMenuSubmit}
+            className="common_form_error"
+            id="menu_form"
+          >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} onBlur={handleMenuBlur} autoComplete="username" />
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                onBlur={handleMenuBlur}
+                autoComplete="username"
+              />
 
-              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
+              {errors.name && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.name}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)} onBlur={handleMenuBlur}></textarea>
+              <textarea
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                onBlur={handleMenuBlur}
+              ></textarea>
             </div>
             <div className="login_div">
               <label htmlFor="Cuisine">Cuisine:</label>
-              <select aria-label="Default select example" value={cuisineid} onChange={(e) => setCuisineDataId(e.target.value)}>
-                <option value="">Select Cuisine</option>
-                {cuisinedata.length > 0
-                  ? cuisinedata.map((cuisine, index) => (
-                      <option key={cuisine.id} value={cuisine.id}>
-                        {cuisine.name}
-                      </option>
-                    ))
-                  : ""}
-              </select>
-
-              {errors.cuisine && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.cuisine}</span>}
+              <Select
+                isMulti
+                options={cuisinedata.map((cuisine) => ({
+                  value: cuisine.id,
+                  label: cuisine.name,
+                }))}
+                value={cuisinedata
+                  .filter((cuisine:any) => cuisineid.includes(cuisine.id))
+                  .map((cuisine) => ({
+                    value: cuisine.id,
+                    label: cuisine.name,
+                  }))}
+                onChange={(selectedOptions:any) =>
+                  setCuisineDataId(
+                    selectedOptions.map((option:any) => option.value)
+                  )
+                }
+                placeholder="Select Cuisine"
+                className="basic-multi-select"
+                styles={{
+                  control: (provided:any, state:any) => ({
+                    ...provided,
+                    borderColor: state.isFocused ? '#eeeeee' : provided.borderColor,
+                    boxShadow: state.isFocused ? '0 0 0 1px #eeeeee' : provided.boxShadow,
+                    '&:hover': {
+                      borderColor: 'grey',
+                    },
+                  }),
+                }}
+              />
+              {errors.cuisine && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.cuisine}
+                </span>
+              )}
             </div>
 
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" accept="image/*" onChange={handleImageChange} />
-              {preview && <img src={preview} alt="Preview" width={100} height={100} />}
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              {preview && (
+                <img src={preview} alt="Preview" width={100} height={100} />
+              )}
             </div>
 
             <div className="image-preview mb-4"></div>
 
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
+            <button
+              type="submit"
+              className="btn-send w-100"
+              disabled={buttonStatus}
+            >
               Submit Menu Information
             </button>
           </form>
         </div>
       </PopupModal>
-
-      {/* // Menu popup end  */}
-      {/* <ToastContainer /> */}
     </>
   );
 }

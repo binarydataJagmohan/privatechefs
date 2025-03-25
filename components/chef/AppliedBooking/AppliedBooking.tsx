@@ -161,11 +161,13 @@ export default function Bookings() {
       const res = await getChefAppliedBooking(id);
       if (res.status) {
         const filteredData = res.data.filter((record: any) => {
-          return record.chef_id != id && record.applied_jobs_status == "applied";
+          return record.id != id && record.applied_jobs_status == "discussion";
         });
 
         setTotalBooking(filteredData);
-        const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+        // const paginatedPosts = paginate(filteredData, currentPage, pageSize);
+        const paginatedPosts = paginate(filteredData.length ? filteredData : res.data, currentPage, pageSize);
+
         setBookingUser(paginatedPosts);
       } else {
         toast.error(res.message, {
@@ -320,19 +322,19 @@ export default function Bookings() {
         </ul>
         <div className="table-box mt-3">
           {bookingUsers.length > 0 ? (
-            <table className="table table-borderless common_booking common_booking">
+            <table className="table table-borderless ">
               <thead>
                 <tr>
                   <th scope="col">Booking ID</th>
                   <th scope="col">Customer</th>
-                  <th scope="col">Image</th>
+                  {/* <th scope="col">Image</th> */}
                   <th scope="col">Booking Date</th>
                   <th scope="col">Category</th>
                   <th scope="col">Menu</th>
                   <th scope="col">Amount</th>
                   {/* <th scope="col">Applied Status</th> */}
                   <th scope="col">Booking Status</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-sm-center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -345,14 +347,17 @@ export default function Bookings() {
 
                   return (
                     <tr key={index}>
-                      <td>#{user.booking_id}</td>
+                      <td                      
+                      onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                      style={{ cursor: "pointer", color: "#ce910d" }}
+                      >#{user.booking_id}</td>
                       <td>
                         {`${user.name} ${user.surname !== null && user.surname !== "null" ? user.surname : ""}`
                           .split(" ")
                           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                           .join(" ")}
                       </td>
-                      <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td>
+                      {/* <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td> */}
 
                       <td>{user.category == "onetime" ? formatDate(user.latest_created_at) : output}</td>
 
@@ -629,7 +634,7 @@ export default function Bookings() {
                           </p>
                         </div>
                       </div>
-                      <div className="row mt-1">
+                      {/* <div className="row mt-1">
                         <div className="col-5">
                           <p className="chefs-name name-12">Email:</p>
                         </div>
@@ -644,7 +649,7 @@ export default function Bookings() {
                         <div className="col-7">
                           <p className="mony">{booking.phone}</p>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="row mt-1">
                         <div className="col-5">
                           <p className="chefs-name name-12">Location:</p>

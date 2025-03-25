@@ -1,61 +1,64 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getCurrentUserData } from "../../../lib/session";
 import {
-  admincreateChef,
   UpdateChefResumeByAdmin,
   SaveChefLocationByAdmin,
   getSingleLocationByAdmin,
   UpdateLocationStatusByAdmin,
   deleteSingleLocationofchefByAdmin,
+  updateChefProfileByAdmin,
+  getChefDetailByAdmin,
+  getCurrentLocationofchefByAdmin,
+  getChefResumeByAdmin,
+  getChefLocationByAdmin,
 } from "../../../lib/adminapi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { useRouter } from "next/router";
 import { Loader } from "@googlemaps/js-api-loader";
 import { showToast } from "../../commoncomponents/toastUtils";
 import PopupModal from "../../commoncomponents/PopupModal";
+import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
+interface User {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+  approved_by_admin: string;
+  address: string;
+  phone: string;
+  passport_no: string;
+}
 
-export default function ChefProfile() {
-  interface User {
-    id: number;
-    name: string;
-    surname: string;
-    email: string;
-    approved_by_admin: string;
-    address: string;
-    phone: string;
-    passport_no: string;
-  }
+interface UserData {
+  pic: string | null;
+}
 
-  interface UserData {
-    pic: string | null;
-  }
-
-  interface Errors {
-    email?: string;
-    name?: string;
-    surname?: string;
-    address?: string;
-    phone?: string;
-    passport_no?: string;
-    password?: string;
-    confirmPassword?: string;
-    locationaddress?: string;
-  }
-  interface Location {
-    id: number;
-    address: string;
-    location_status: string;
-  }
-  interface Location1 {
-    id: number;
-    address: string;
-    lat: number;
-    lng: number;
-  }
-  const router = useRouter();
+interface Errors {
+  email?: string;
+  name?: string;
+  surname?: string;
+  address?: string;
+  phone?: string;
+  passport_no?: string;
+  password?: string;
+  confirmPassword?: string;
+  locationaddress?: string;
+}
+interface Location {
+  id: number;
+  address: string;
+  location_status: string;
+}
+interface Location1 {
+  id: number;
+  address: string;
+  lat: number;
+  lng: number;
+}
+export default function UpdateChefByAdmin(props: any) {
+  const chefid = props.userId;
   const [name, setFullName] = useState("");
   const [surname, setSurName] = useState("");
   const [email, setEmail] = useState("");
@@ -85,8 +88,6 @@ export default function ChefProfile() {
   const [about, setAbout] = useState("");
   const [description, setDescription] = useState<any>([]);
   const [services_type, setServicesType] = useState<any>([]);
-  const [employment_status, setEmploymentStatus] = useState("");
-  const [website, setWebsite] = useState("");
   const [languages, setLanguages] = useState<any>([]);
   const [experience, setExperience] = useState("");
   const [skills, setSkills] = useState<any>([]);
@@ -114,12 +115,11 @@ export default function ChefProfile() {
   });
   const [userData, setUserData] = useState<UserData>({ pic: "" });
   const mapRef = useRef(null);
-  const [chefid, setChefId] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
   const [showconfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const imageChange = (e: any) => {
     const file = e.target.files[0];
@@ -131,6 +131,23 @@ export default function ChefProfile() {
   const [vat_no, setVatNo] = useState("");
   const [tax_id, setTaxId] = useState("");
 
+  const getUserData = async () => {
+    const data = isPageVisibleToRole("chefprofile");
+    if (data == 2) {
+      window.location.href = "/";
+    }
+    if (data == 0) {
+      window.location.href = "/404";
+    }
+    if (data == 1) {
+      const userData: User = getCurrentUserData() as User;
+      setCurrentUserData(userData);
+      getChefDetailData(chefid);
+      getChefResumeData(chefid);
+      getChefLocationData(chefid);
+      getCurrentLocationData(chefid);
+    }
+  };
   const handleRegisterSubmit = (event: any) => {
     event.preventDefault();
     // Validate form data
@@ -177,21 +194,17 @@ export default function ChefProfile() {
         tax_id: tax_id || "",
         lat: lat || "",
         lng: lng || "",
-        created_by: currentUserData.id,
+        created_by: chefid,
       };
 
-      admincreateChef(data)
+      updateChefProfileByAdmin(chefid, data)
         .then((res) => {
           if (res.status == true) {
             setButtonState(false);
-
+            // setTimeout(() => {
+            //   router.push("/admin/chefs");
+            // }, 1000);
             showToast("success", res.message);
-            setChefId(res.data.id);
-            const chefResumeTab = document.querySelector("#pills-profile-tab");
-            if (chefResumeTab) {
-              (chefResumeTab as HTMLButtonElement).click(); 
-            }
-  
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -245,21 +258,6 @@ export default function ChefProfile() {
   const resumeUpdate = async (e: any) => {
     e.preventDefault();
 
-    if (!chefid) {
-        toast.error("Please first create a chef profile...", {
-          position: toast.POSITION.TOP_RIGHT,
-          closeButton: true,
-          hideProgressBar: false,
-          style: {
-            background: "#ffff",
-            borderLeft: "4px solid #e74c3c",
-            color: "#454545",
-          },
-          progressStyle: {
-            background: "#ffff",
-          },
-        });
-    }
     const formattedDescription = Object.keys(description)
       .filter((key: any) => description[key])
       .join(", ");
@@ -283,6 +281,7 @@ export default function ChefProfile() {
     // console.log(formattedDescription);
 
     setButtonState(true);
+
     const data = {
       about: about || "",
       description: formattedDescription || "",
@@ -301,13 +300,12 @@ export default function ChefProfile() {
       cooking_secret: cookingSecret || "",
       know_me_better: knowMeBetter || "",
     };
+    console.log(data);
     UpdateChefResumeByAdmin(chefid, data)
       .then((res) => {
         setButtonState(false);
+        console.log(res.data);
         showToast("success", res.message);
-        setTimeout(() => {
-          router.push("/admin/chefs");
-        }, 1000);
       })
       .catch((err) => {
         setButtonState(false);
@@ -478,6 +476,8 @@ export default function ChefProfile() {
     if (Object.keys(errors).length === 0) {
       e.preventDefault();
       setButtonState(true);
+      // const userData: User = getCurrentUserData() as User;
+      //console.log(user_id)
       const data = {
         user_id: chefid,
         address: locationaddress,
@@ -491,9 +491,6 @@ export default function ChefProfile() {
             setModalConfirm(false);
             setButtonState(false);
             showToast("success", res.message);
-            setTimeout(() => {
-              router.push("/admin/chefs");
-            }, 1000);
           } else {
             setButtonState(false);
             toast.error(res.message, {
@@ -513,6 +510,7 @@ export default function ChefProfile() {
         })
         .catch((err) => {
           setButtonState(false);
+          console.log("error");
           toast.error("Maximum limit of locations reached", {
             position: toast.POSITION.TOP_RIGHT,
             closeButton: true,
@@ -550,7 +548,7 @@ export default function ChefProfile() {
   };
 
   useEffect(() => {
-    // getUserData();
+    getUserData();
 
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
     const loader = new Loader({
@@ -609,6 +607,211 @@ export default function ChefProfile() {
       });
   }, []);
 
+  const getChefDetailData = async (id: any) => {
+    getChefDetailByAdmin(id)
+      .then((res) => {
+        setButtonState(false);
+        if (res.status == true) {
+          setFullName(res.data.name);
+          setSurName(res.data.surname);
+          setEmail(res.data.email);
+          setPhone(res.data.phone);
+          setAddress(res.data.address);
+          setPassportNo(res.data.passport_no);
+          setBIC(res.data.BIC);
+          setIBAN(res.data.IBAN);
+          setBankName(res.data.bank_name);
+          setHolderName(res.data.holder_name);
+          setBankAddress(res.data.bank_address);
+          setUserData(res.data);
+          setVatNo(res.data.vat_no);
+          setTaxId(res.data.tax_id);
+          setPassword(res.data.view_password);
+          setConfirmPassword(res.data.view_password);
+        } else {
+          setButtonState(false);
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
+            },
+            progressStyle: {
+              background: "#ffff",
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getCurrentLocationData = async (id: any) => {
+    try {
+      const res = await getCurrentLocationofchefByAdmin(id);
+      if (res.status == true) {
+        setModalConfirm(false);
+        setCurrentLocation(res.data);
+        //console.log(res.data.address);
+        // Display the map for the selected location
+        let lat, lng;
+
+        // Update the property access based on the response structure
+        if (res.data.geometry && res.data.geometry.location) {
+          lat = res.data.geometry.location.lat;
+          lng = res.data.geometry.location.lng;
+        } else if (res.data.lat && res.data.lng) {
+          lat = res.data.lat;
+          lng = res.data.lng;
+        } else {
+          // Handle the case when the location coordinates are not available
+          console.log("Location coordinates not found");
+          return;
+        }
+
+        const parsedLat = parseFloat(lat);
+        const parsedLng = parseFloat(lng);
+
+        // Check if the parsed lat and lng are valid numbers
+        if (!isNaN(parsedLat) && !isNaN(parsedLng)) {
+          const mapOptions = {
+            center: { lat: parsedLat, lng: parsedLng },
+            zoom: 12,
+          };
+
+          // Ensure google is defined before creating the map
+          if (typeof google !== "undefined" && mapRef.current !== null) {
+            const map = new google.maps.Map(mapRef.current, mapOptions);
+            const marker = new google.maps.Marker({
+              position: { lat: parsedLat, lng: parsedLng },
+              map: map,
+              title: res.data.address,
+            });
+          }
+        }
+      } else {
+        console.log("error");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getChefResumeData = async (id: any) => {
+    getChefResumeByAdmin(id)
+      .then((res) => {
+        if (res.status == true) {
+          setAbout(res.data.about);
+          if (res.data.description) {
+            const descriptionArray = res.data.description
+              .split(",")
+              .map((item: any) => item.trim());
+
+            // Set the description state based on the array
+            setDescription({
+              "Private Chef": descriptionArray.includes("Private Chef"),
+              "Yacht Chef": descriptionArray.includes("Yacht Chef"),
+              "Private Cook": descriptionArray.includes("Private Cook"),
+            });
+          }
+
+          if (res.data.services_type) {
+            const servicesTypeArray = res.data.services_type
+              .split(",")
+              .map((item: any) => item.trim());
+            // Set the description state based on the array
+            setServicesType({
+              "In-House Chef": servicesTypeArray.includes("In-House Chef"),
+              "Full time chef": servicesTypeArray.includes("Full time chef"),
+              "Cooking Classes": servicesTypeArray.includes("Cooking Classes"),
+              "Event Catering": servicesTypeArray.includes("Event Catering"),
+            });
+          }
+
+          if (res.data.languages) {
+            const languagesTypeArray = res.data.languages
+              .split(",")
+              .map((item: any) => item.trim());
+            // Set the description state based on the array
+            setLanguages({
+              Greek: languagesTypeArray.includes("Greek"),
+              English: languagesTypeArray.includes("English"),
+              Spanish: languagesTypeArray.includes("Spanish"),
+              French: languagesTypeArray.includes("German"),
+              Italian: languagesTypeArray.includes("Italian"),
+              German: languagesTypeArray.includes("German"),
+            });
+          }
+
+          if (res.data.favorite_dishes) {
+            const FavoriteDishesTypeArray = res.data.favorite_dishes
+              .split(",")
+              .map((item: any) => item.trim());
+            // Set the description state based on the array
+            setFavoriteDishes({
+              Greek: FavoriteDishesTypeArray.includes("Greek"),
+              Mediterranean: FavoriteDishesTypeArray.includes("Mediterranean"),
+              Italian: FavoriteDishesTypeArray.includes("Italian"),
+              French: FavoriteDishesTypeArray.includes("French"),
+              Asian: FavoriteDishesTypeArray.includes("Asian"),
+              Japanese: FavoriteDishesTypeArray.includes("Japanese"),
+              Thai: FavoriteDishesTypeArray.includes("Thai"),
+              Ethnic: FavoriteDishesTypeArray.includes("Ethnic"),
+              BBQ: FavoriteDishesTypeArray.includes("BBQ"),
+              Vegetarian: FavoriteDishesTypeArray.includes("Vegetarian"),
+              Vegan: FavoriteDishesTypeArray.includes("Vegan"),
+              "Fine Dining": FavoriteDishesTypeArray.includes("Fine Dining"),
+            });
+          }
+
+          if (res.data.skills) {
+            const SkillsTypeArray = res.data.skills
+              .split(",")
+              .map((item: any) => item.trim());
+
+            // Set the description state based on the array
+            setSkills({
+              Kosher: SkillsTypeArray.includes("Kosher"),
+              Halal: SkillsTypeArray.includes("Halal"),
+              Hindu: SkillsTypeArray.includes("Hindu"),
+              None: SkillsTypeArray.includes("None"),
+            });
+          }
+          setExperience(res.data.experience);
+          setFavoriteChef(res.data.favorite_chef);
+          setLoveCooking(res.data.love_cooking);
+          setFacebookLink(res.data.facebook_link);
+          setInstagramLink(res.data.instagram_link);
+          setTwitterLink(res.data.twitter_link);
+          setLinkedinLink(res.data.linkedin_link);
+          setYoutubeLink(res.data.youtube_link);
+          setCookingSecret(res.data.cooking_secret);
+          setKnowMeBetter(res.data.know_me_better);
+        } else {
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            closeButton: true,
+            hideProgressBar: false,
+            style: {
+              background: "#ffff",
+              borderLeft: "4px solid #e74c3c",
+              color: "#454545",
+            },
+            progressStyle: {
+              background: "#ffff",
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const getLocation = async (id: any) => {
     try {
       const res = await getSingleLocationByAdmin(id);
@@ -659,7 +862,7 @@ export default function ChefProfile() {
   };
 
   const getChefLocationData = async (id: any) => {
-    SaveChefLocationByAdmin(id)
+    getChefLocationByAdmin(id)
       .then((res) => {
         setButtonState(false);
         if (res.status == true) {
@@ -790,7 +993,7 @@ export default function ChefProfile() {
   return (
     <>
       <div className="table-part">
-        <h2>Add Chef</h2>
+        <h2>Update Chef</h2>
         <div className="tab-part change-btn-colors">
           <div className="border-bottom pb-3">
             <ul
@@ -824,6 +1027,20 @@ export default function ChefProfile() {
                   aria-selected="false"
                 >
                   Chef Resume
+                </button>
+              </li>
+              <li className="nav-item" role="presentation">
+                <button
+                  className="nav-link"
+                  id="pills-contact-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#pills-contact"
+                  type="button"
+                  role="tab"
+                  aria-controls="pills-contact"
+                  aria-selected="false"
+                >
+                  Chef Locations
                 </button>
               </li>
             </ul>
@@ -894,6 +1111,7 @@ export default function ChefProfile() {
                           <input
                             type="text"
                             name="name"
+                            value={name || ""}
                             onChange={(e) => setFullName(e.target.value)}
                             maxLength={50}
                           />
@@ -908,6 +1126,7 @@ export default function ChefProfile() {
                           <input
                             type="text"
                             name="surname"
+                            value={surname || ""}
                             onChange={(e) => setSurName(e.target.value)}
                             maxLength={30}
                           />
@@ -922,8 +1141,10 @@ export default function ChefProfile() {
                           <input
                             type="email"
                             name="email"
-                            onChange={(e) => setEmail(e.target.value)}
+                            // onChange={(e) => setEmail(e.target.value)}
                             maxLength={50}
+                            value={email}
+                            readOnly
                           />
 
                           {errors.email && (
@@ -937,6 +1158,7 @@ export default function ChefProfile() {
                           <PhoneInput
                             country={"us"}
                             onChange={(phone) => setPhone(phone)}
+                            value={phone}
                           />
                           {errors.phone && (
                             <span className="small error text-danger mb-2 d-inline-block error_login">
@@ -950,6 +1172,7 @@ export default function ChefProfile() {
                             id="address-input"
                             type="text"
                             name="address"
+                            value={address || ""}
                             onChange={(e) => setAddress(e.target.value)}
                           />
                           {errors.address && (
@@ -965,6 +1188,7 @@ export default function ChefProfile() {
                             name="passport_no"
                             onChange={(e) => setPassportNo(e.target.value)}
                             maxLength={15}
+                            value={passport_no || ""}
                           />
 
                           {errors.passport_no && (
@@ -998,6 +1222,7 @@ export default function ChefProfile() {
                             name="IBAN"
                             onChange={(e) => setIBAN(e.target.value)}
                             maxLength={50}
+                            value={IBAN || ""}
                           />
                           {/* {errors.IBAN && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
@@ -1012,6 +1237,7 @@ export default function ChefProfile() {
                             name="holder_name"
                             onChange={(e) => setHolderName(e.target.value)}
                             maxLength={50}
+                            value={holder_name || ""}
                           />
                           {/* {errors.holder_name && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
@@ -1026,6 +1252,7 @@ export default function ChefProfile() {
                             name="bank_name"
                             onChange={(e) => setBankName(e.target.value)}
                             maxLength={50}
+                            value={bank_name || ""}
                           />
                           {/* {errors.bank_name && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
@@ -1040,6 +1267,7 @@ export default function ChefProfile() {
                             name="bank_address"
                             onChange={(e) => setBankAddress(e.target.value)}
                             maxLength={50}
+                            value={bank_address || ""}
                           />
                           {/* {errors.bank_address && (
 														<span className="small error text-danger mb-2 d-inline-block error_login">
@@ -2065,61 +2293,169 @@ export default function ChefProfile() {
                   <hr></hr>
                 </>
               </form>
-              <div className="row" style={{ paddingBottom: "30px" }}>
-                <div className="col-lg-4 col-md-12">
-                  <div className="text-left">
-                    <h5>Chef Locations</h5>
-                    <p className="f-12">Share your locations with clients.</p>
-                  </div>
-                </div>
-                <div className="col-lg-8 col-md-12">
-                  <div className="banner-btn" style={{ marginTop: "2%" }}>
-                    <a
-                      onClick={() => {
-                        modalConfirmOpen();
-                        resetFields();
-                      }}
-                      style={{ cursor: "pointer", color: "white" }}
-                    >
-                      Add New Location
-                    </a>
-                  </div>
-                </div>
-                <PopupModal
-                  show={modalConfirm}
-                  handleClose={modalConfirmClose}
-                  staticClass="var-login"
-                >
-                  <div className="all-form" id="form_id">
-                    <form onSubmit={saveLocation}>
-                      {/* <h5>Add Location</h5> */}
-                      <div className="row">
-                        <div className="col-md-12">
-                          <label>Address</label>
-                          <input
-                            id="address-input1"
-                            type="text"
-                            name="locationaddress"
-                            onChange={(e) => setLocationaddress(e.target.value)}
-                          />
-                          {errors.locationaddress && (
-                            <span className="small error text-danger mb-2 d-inline-block error_login">
-                              {errors.locationaddress}
-                            </span>
-                          )}
+            </div>
+            <div
+              className="tab-pane fade"
+              id="pills-contact"
+              role="tabpanel"
+              aria-labelledby="pills-contact-tab"
+            >
+              <div className="row">
+                <div className="col-lg-5 col-md-12 position-r">
+                  {Array.isArray(chefLocation) && chefLocation.length > 0 ? (
+                    // Render the locations if the data is available
+                    chefLocation.map((location, index) => (
+                      <div className="location-name" key={index}>
+                        <div className="row">
+                          <div className="col-7">
+                            <a onClick={() => getLocation(location.id)}>
+                              <p className="f-16" style={{ cursor: "pointer" }}>
+                                {location.address}
+                              </p>
+                            </a>
+                          </div>
+                          <div className="col-2">
+                            <label className="switch">
+                              <input
+                                type="checkbox"
+                                name="location_status"
+                                value={location_status}
+                                checked={location.location_status === "visible"}
+                                onChange={(e) => {
+                                  setLocationStatus(
+                                    e.target.checked ? "visible" : "unvisible"
+                                  );
+                                  updateLocationStatus(
+                                    location.id,
+                                    e.target.checked ? "visible" : "unvisible"
+                                  );
+                                }}
+                              />
+                              <span className="slider round"></span>
+                            </label>
+                          </div>
+                          <div className="col-3 social">
+                            <a
+                              onClick={() => GetSingleLocation(location.id)}
+                              id={`myCheckbox_${location.id}`}
+                            >
+                              <i className="fa fa-edit" aria-hidden="true"></i>
+                            </a>
+                            <a onClick={() => deleteReceiptData(location.id)}>
+                              <i className="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                          </div>
                         </div>
                       </div>
-                      <div className="text-right" style={{marginTop:'15px'}}>
-                        <button className="table-btn" disabled={buttonStatus}>
-                          {buttonStatus
-                            ? "Please wait.."
-                            : "Save Profile Location Information"}
-                        </button>
+                    ))
+                  ) : (
+                    // Render a single item when the data is not available
+                    <div className="location-name">
+                      <div className="row">
+                        <div className="col-7">
+                          <a>
+                            <p className="f-16" style={{ cursor: "pointer" }}>
+                              {currentlocation.address}
+                            </p>
+                          </a>
+                        </div>
+                        <div className="col-2">
+                          <label className="switch">
+                            <input type="checkbox" name="location_status" />
+                            <span className="slider round"></span>
+                          </label>
+                        </div>
                       </div>
-                    </form>
+                    </div>
+                  )}
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="banner-btn position-top">
+                        <a
+                          onClick={() => {
+                            modalConfirmOpen();
+                            resetFields();
+                          }}
+                          style={{ cursor: "pointer", color: "white" }}
+                        >
+                          Add New Location
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                </PopupModal>
+                </div>
+                <div className="col-lg-7 col-md-12">
+                  <div ref={mapRef} style={{ height: "400px" }}></div>
+                </div>
               </div>
+              <PopupModal
+                show={modalConfirm}
+                handleClose={modalConfirmClose}
+                staticClass="var-login"
+              >
+                <div className="all-form" id="form_id">
+                  <form onSubmit={saveLocation}>
+                    <h5>Add Location</h5>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <label>Address</label>
+                        <input
+                          id="address-input1"
+                          type="text"
+                          name="locationaddress"
+                          onChange={(e) => setLocationaddress(e.target.value)}
+                        />
+                        {errors.locationaddress && (
+                          <span className="small error text-danger mb-2 d-inline-block error_login">
+                            {errors.locationaddress}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <button className="table-btn" disabled={buttonStatus}>
+                        {buttonStatus
+                          ? "Please wait.."
+                          : "Save Profile Location Information"}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </PopupModal>
+
+              <PopupModal
+                show={editmodalConfirm}
+                handleClose={editmodalConfirmClose}
+                staticClass="var-login"
+              >
+                <div className="all-form" id="form_id">
+                  <form>
+                    <h5>Edit Location</h5>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <label>Address</label>
+                        <input
+                          id="address-input2"
+                          type="text"
+                          name="address"
+                          defaultValue={locationaddress || ""}
+                          onChange={(e) => setLocationaddress(e.target.value)}
+                        />
+                        {errors.locationaddress && (
+                          <span className="small error text-danger mb-2 d-inline-block error_login">
+                            {errors.locationaddress}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <button className="table-btn" disabled={buttonStatus}>
+                        {buttonStatus ? "Please wait.." : "Update"}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </PopupModal>
             </div>
           </div>
         </div>

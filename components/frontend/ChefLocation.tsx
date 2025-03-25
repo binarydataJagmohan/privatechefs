@@ -51,7 +51,6 @@ export default function ChefLocation(props: any) {
             if (res.status) {
                 setTestimonials(res.data);
                 setStar(res.data.stars)
-                //console.log(res.data);
             } else {
                 console.log(res.message);
             }

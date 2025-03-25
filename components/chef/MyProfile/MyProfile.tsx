@@ -1013,15 +1013,10 @@ export default function MyProfile() {
 		});
 	};
 
-	const handleCookingSecretChange = () =>{
-
-	}
 	return (
 		<>
 			<div className="table-part">
 				<h2>My Profile</h2>
-
-
 				<div className="tab-part change-btn-colors">
 					<div className="border-bottom pb-3">
 						<ul className="nav nav-pills text-left-j " id="pills-tab" role="tablist">

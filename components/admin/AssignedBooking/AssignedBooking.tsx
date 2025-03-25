@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getUserBookingId, getAdminAssignedBooking, getAdminAppliedFilterByBooking, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking, changeBookingStatus, resendPaymentLink } from "../../../lib/adminapi";
+import { getUserBookingId, getAdminAssignedBooking, getAdminAppliedFilterByBooking, getSingleUserAssignBooking, UpdatedAppliedBookingByKeyValue, deleteBooking, changeBookingStatus, resendPaymentLink,adminCancelAndReopenBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
@@ -111,18 +111,45 @@ export default function Bookings() {
   };
 
   const radioRef = useRef<HTMLInputElement>(null);
-
   const [bookingid, setBookingId] = useState("");
-
   const [appliedid, setAppliedId] = useState("");
   const [appliedkey, setAppliedKey] = useState("");
   const [appliedValue, setAppliedValue] = useState("");
-
   const [selectedmenu, setSelectedMenu] = useState<number[]>([]);
   const [amount, setAmount] = useState("");
   const [bookingstatus, setBookingStatus] = useState("");
-
   const pageSize = 10;
+
+  const CandelAndReopenByAdmin = (id: any) => {
+    swal({
+      title: "Are you sure?",
+      text: "You want to Cancel And Reopen the booking",
+      icon: "warning",
+      buttons: ["No", "Yes"],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        adminCancelAndReopenBooking(id)
+          .then((res) => {
+            if (res.status === true) {
+              swal("Booking has been canceled and reopen succesfully", {
+                icon: "success",
+              });
+              fetchAdminAssignedBooking();
+            } else {
+              swal(res.message, {
+                icon: "info",
+              });
+            }
+          })
+          .catch((err) => {
+            // Handle error
+          });
+      } else {
+        // Handle cancellation
+      }
+    });
+  };
 
   useEffect(() => {
     const data = isPageVisibleToRole("admin-assigned-bookings");
@@ -545,13 +572,13 @@ export default function Bookings() {
         </ul>
         <div className="table-box mt-3 ">
           {bookingUsers.length > 0 ? (
-            <table className="table table-borderless common_booking common_booking">
+            <table className="table table-borderless ">
               <thead>
                 <tr>
                   <th scope="col">Booking ID</th>
                   <th scope="col">Chef</th>
                   <th scope="col">Customer</th>
-                  <th scope="col">Image</th>
+                  {/* <th scope="col">Image</th> */}
                   <th scope="col">Booking Date</th>
                   {/* <th scope="col">Category</th> */}
                   {/* <th scope="col">Menu</th> */}
@@ -560,7 +587,7 @@ export default function Bookings() {
                   <th scope="col">Admin Amount</th>
                   <th scope="col">Applied Status</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" className="text-sm-center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -573,7 +600,9 @@ export default function Bookings() {
 
                   return (
                     <tr key={index} className="lll">
-                      <td>#{user.booking_id}</td>
+                      <td
+                      onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{cursor:'pointer',color:'#ce910d'}}
+                      >#{user.booking_id}</td>
 
                       <td>
                         <a href={process.env.NEXT_PUBLIC_BASE_URL + "admin/chefs/" + user.applied_chef_id} target="_blank" className="nameofusers">
@@ -590,7 +619,7 @@ export default function Bookings() {
                         </a>
                       </td>
 
-                      <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td>
+                      {/* <td className="chefs_pic">{user.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + user.pic} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="" />}</td> */}
 
                       <td>{user.category == "onetime" ? formatDate(user.latest_created_at) : output}</td>
 
@@ -615,6 +644,9 @@ export default function Bookings() {
                           <option value="cancelled" selected={user.booking_status === "cancelled"}>
                             Cancelled
                           </option>
+                          <option value="cancelRefunded" selected={user.booking_status === "cancelRefunded"}>
+                            Cancelled & Refunded
+                          </option>
                         </select>
                       </td>
 
@@ -629,6 +661,13 @@ export default function Bookings() {
                                 View Booking
                               </a>
                             </li>
+                            {user.booking_status !== 'cancelled'
+                              ?
+                            <li>
+                              <a className="dropdown-item" href='#' onClick={() => CandelAndReopenByAdmin(user.booking_id)}>
+                                Cancel & Reopen Booking
+                              </a>
+                            </li>:""}
                             {user.payment_status == 'pending'
                               ?
                                 <li>
