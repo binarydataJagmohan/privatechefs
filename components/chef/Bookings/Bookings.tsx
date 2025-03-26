@@ -1020,7 +1020,7 @@ export default function Bookings() {
                 <div className="col-sm-6 col-12">
                   <div className="all-form">
                     <div className="login_div">
-                      <label className="f-w-4">Chef’s sdfOffer:</label>
+                      <label className="f-w-4">Chef’s Offer:</label>
 
                       <input
                         type="number"
