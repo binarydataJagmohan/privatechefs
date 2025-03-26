@@ -963,7 +963,7 @@ export default function Bookings() {
           console.log(err);
         })
         .finally(() => {
-          setIsSubmitting(false); // Always set isSubmitting to false, whether the submission succeeds or fails.
+          setIsSubmitting(false); 
         });
     }
   };
