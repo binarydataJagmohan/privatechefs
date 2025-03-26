@@ -123,7 +123,7 @@ export default function Bookings() {
     try {
       const res = await getChefAppliedBooking(id);
       if (res.status) {
-        const filteredData = res.data.filter((record: any) => {
+        const filteredData = res.assigned_jobs.filter((record: any) => {
           return record.chef_id != id && record.applied_jobs_status == "hired";
         });
 
@@ -167,7 +167,7 @@ export default function Bookings() {
     getChefAppliedBooking(currentUserData.id)
       .then((res) => {
         if (res.status == true) {
-          const filteredData = res.data.filter((record: any) => {
+          const filteredData = res.assigned_jobs.filter((record: any) => {
             return record.chef_id != currentUserData.id && record.applied_jobs_status == "hired";
           });
 

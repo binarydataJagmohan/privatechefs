@@ -168,11 +168,9 @@ export default function Notification() {
                                         <p className='notify' style={{ fontWeight: "500" }}> {notification.type === 'register' ? (
                                             <>
                                                 {notification.description}.
-                                                <a className='' target={"_blank"} href={notification.description ? process.env.NEXT_PUBLIC_BASE_URL + 'admin/bookings?booking_id=' + notification.description.split('#')[1] : ''}><small>View Booking</small></a>
-
+                                                {/* <a className='' target={"_blank"} href={notification.description ? process.env.NEXT_PUBLIC_BASE_URL + 'admin/bookings?booking_id=' + notification.description.split('#')[1] : ''}><small>View Booking</small></a> */}
                                             </>
                                         ) : (
-
                                             notification.type === 'booking' ? (
                                                 // JSX for your additional condition
                                                 <>
