@@ -238,7 +238,6 @@ export default function Step6() {
           role: role
         }
 
-        console.log(data);
 
         UpdateBooking(data)
           .then(res => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopupModal from "../../../components/commoncomponents/PopupModalXtraLarge";
 import { getCurrentUserData, removeBookingData } from "../../../lib/session";
 import { isPageVisibleToRole } from "../../../helpers/isPageVisibleToRole";
-import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline, addReviews } from "../../../lib/userapi";
+import { getCurrentUserByBooking, getUserFilterByBooking, getUserChefOffer, ContactChefByUserWithSingleBooking, UpdateUserToOffiline, addReviews,getSingleReceiptUser, getSingleInvoiceUser } from "../../../lib/userapi";
 import { getSingleChefMenu } from "../../../lib/chefapi";
 import { getUserBookingId, deleteBooking } from "../../../lib/adminapi";
 import { paginate } from "../../../helpers/paginate";
@@ -151,6 +151,8 @@ export default function Booking(props: any) {
   const [buttonStatus, setButtonState] = useState(false);
 
   const [description, setDescription] = useState("");
+  const [getReceiptUser, setReceiptUsers] = useState<any>();
+  const [getchefUser, setChefUser] = useState<any>({});
 
   const editmodalConfirmClose = () => {
     editsetModalConfirm(false);
@@ -279,7 +281,8 @@ export default function Booking(props: any) {
       setDaysBooking(res.days_booking);
       setSidebarConfirm(true);
       setBookingCategory(res.days_booking[0].category);
-
+      GetSingleReceiptUser(id);
+      getInvoiceData(id);
       if (res.days_booking.length == 1) {
         setBookingDate(formatDate(res.booking[0].dates));
       } else {
@@ -532,7 +535,6 @@ export default function Booking(props: any) {
       addReviews(data)
         .then((res) => {
           if (res.status == true) {
-            console.log(data);
             editsetModalConfirm(false);
             setButtonState(false);
             showToast("success", res.message);
@@ -586,6 +588,41 @@ export default function Booking(props: any) {
     setErrors({});
   };
 
+    const getInvoiceData = async (bookingId: number) => {
+      getSingleInvoiceUser(bookingId)
+        .then((res) => {
+          if (res.status == true) {
+            setChefUser(res.data);
+  
+            setMenu(res.dishNames);
+          } else {
+            console.log("error");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const GetSingleReceiptUser = async (id: number) => {
+      try {
+        const res = await getSingleReceiptUser(id);
+        if (res.status === true) {
+          const apiBookingId = Number(res.data.booking_id);
+          const inputBookingId = Number(id);
+    
+          if (apiBookingId === inputBookingId) {
+            setReceiptUsers(res.data);
+          } else {
+            setReceiptUsers(null); 
+          }
+        } else {
+          setReceiptUsers(null);
+        }
+      } catch (err) {
+        setReceiptUsers(null); 
+      }
+    };
   return (
     <>
       <section className="userprofile-part">
@@ -686,7 +723,7 @@ export default function Booking(props: any) {
                       </div>
                     </div>
                   </div>
-                  <div className="table-box  scroll-remove">
+                  <div className="table-box  scroll-remove mt-2">
                     {bookingUsers.length > 0 ? (
                       <table className="table table-borderless common_booking common_booking" id="user-table">
                         <thead>
@@ -709,7 +746,7 @@ export default function Booking(props: any) {
 
                             return (
                               <tr key={index}>
-                                <td>
+                                <td onClick={(e) => getSingleBookingUser(e, user.booking_id)} data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{ cursor: "pointer",color:'#d69c1f' }}>
                                   <p className="text-data-18" id="table-p">
                                     #{user.booking_id}
                                   </p>
@@ -1037,6 +1074,211 @@ export default function Booking(props: any) {
                                   </div>
                                 </div>
                               </div>
+
+                               {/* invoice details */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingFour">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseFour"
+                          aria-expanded="true"
+                          aria-controls="collapseFour"
+                        >
+                          Invoice Details
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseFour"
+                        className="accordion-collapse show"
+                        aria-labelledby="headingFour"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div className="accordion-body">
+                          {menu.length > 0 ? (
+                            <>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                    Menu Name:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getchefUser.menu_name}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">Starter</p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {menu.find(
+                                      (item) => item.type === "starter"
+                                    )?.item_name || ""}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                    First Course:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {menu.find(
+                                      (item) => item.type === "firstcourse"
+                                    )?.item_name || ""}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                    Main Course:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {menu.find(
+                                      (item) => item.type === "maincourse"
+                                    )?.item_name || ""}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">Desert:</p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {menu.find((item) => item.type === "desert")
+                                      ?.item_name || ""}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                    Description:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getchefUser.description}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">Total:</p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getchefUser.amount
+                                      ? `€${getchefUser.amount}`
+                                      : ""}
+                                  </p>
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="text-center">
+                              <p className="alert alert-warning">
+                                <strong>Invoice cannot be generated.</strong> No
+                                menu details or total amount available.
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                     {/* Receipt details */}
+                     <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingFive">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseFive"
+                          aria-expanded="true"
+                          aria-controls="collapseFive"
+                        >
+                          Receipt Details
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseFive"
+                        className="accordion-collapse show"
+                        aria-labelledby="headingFive"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div className="accordion-body">
+                          {getReceiptUser ? (
+                            <>
+                            <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                  Receipt Name:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.username}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                    Chef Name:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.chefname}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                  Order Date:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.orderdate}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                  Receipt Amount:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.amount}
+                                  </p>
+                                </div>
+                              </div>
+                            </>
+                        ) : (
+                            <div className="text-center">
+                              <p className="alert alert-warning">
+                                <strong>Receipt cannot be generated of this booking.</strong> 
+                              </p>
+                            </div>
+                          )} 
+                        </div>
+                      </div>
+                    </div>
                             </div>
                           </div>
                         </div>

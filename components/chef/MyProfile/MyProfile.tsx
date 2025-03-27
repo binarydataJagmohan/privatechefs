@@ -435,7 +435,6 @@ export default function MyProfile() {
 			.filter((key: any) => skills[key])
 			.join(', ');
 
-		// console.log(formattedDescription);
 
 		setButtonState(true);
 		const id = currentUserData.id;
@@ -459,7 +458,6 @@ export default function MyProfile() {
 			cooking_secret: cookingSecret || '',
 			know_me_better: knowMeBetter || ''
 		};
-		console.log(data);
 		UpdateChefResume(id, data)
 		.then(res => {
 			setButtonState(false);

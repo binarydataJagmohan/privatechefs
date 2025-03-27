@@ -9,6 +9,7 @@ import {
   updateReceipt,
   deleteReceipt,
   updateReceiptImages,
+  getAllChefBooking,
 } from "../../../lib/chefapi";
 import { getCurrentUserData } from "../../../lib/session";
 import Pagination from "../../commoncomponents/Pagination";
@@ -102,27 +103,29 @@ export default function Receipts() {
     }
     if (data == 1) {
       const userData: User = getCurrentUserData() as User;
-      getAllBookingData();
+      // getAllBookingData();
+      getAllBookingData(userData.id);
       getReceiptData();
     } else {
       window.location.href = "/404";
     }
   };
 
-  const getAllBookingData = async () => {
-    getAllBooking()
-      .then((res) => {
-        if (res.status == true) {
-          setGetBooking(res.data);
-          console.log(res.data);
-        } else {
-          console.log("error");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
+    const getAllBookingData = async (id: any) => {
+      const userData: any = getCurrentUserData();
+      getAllChefBooking(userData.id)
+        .then((res) => {
+          if (res.status == true) {
+            setGetBooking(res.data);
+          } else {
+            console.log("error");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
   const getReceiptData = async () => {
     const userData: User = getCurrentUserData() as User;
@@ -225,7 +228,6 @@ export default function Receipts() {
       saveReceipt(data)
         .then((res) => {
           if (res.status == true) {
-            console.log(res.status);
             getReceiptData();
             modalConfirmClose();
             editmodalConfirmClose();
@@ -269,7 +271,6 @@ export default function Receipts() {
     updateReceipt(id, data)
       .then((res) => {
         if (res.status == true) {
-          console.log(res.status);
           getReceiptData();
           modalConfirmClose();
           editmodalConfirmClose();
@@ -302,7 +303,6 @@ export default function Receipts() {
     e.preventDefault();
     setButtonState(true);
     const id = getsinglereceipt.id;
-    console.log(id);
     const data = {
       receipt_id: getsinglereceipt.receipt_id,
       image: image,
@@ -311,7 +311,6 @@ export default function Receipts() {
     updateReceiptImages(id, data, image)
       .then((res) => {
         if (res.status === true) {
-          console.log(res.status);
           getReceiptData();
           modalConfirmClose();
           editmodalConfirmClose();
@@ -391,6 +390,8 @@ export default function Receipts() {
     setImage([]);
     setBookingId("");
   };
+
+
 
   return (
     <>
@@ -615,7 +616,7 @@ export default function Receipts() {
                 {Array.isArray(getbooking) &&
                   getbooking.map((booking) => {
                     const locationShort =
-                      booking.location.length > 50
+                      booking.location?.length > 50
                         ? `${booking.location.slice(0, 50)}...`
                         : booking.location;
 
@@ -763,6 +764,7 @@ export default function Receipts() {
                 name="description"
                 defaultValue={description}
                 onChange={(e) => setDescription(e.target.value)}
+                placeholder="e.g., Groceries, Services, Gas, Other Expenses"
               ></textarea>
             </div>
             <div className="mt-4">

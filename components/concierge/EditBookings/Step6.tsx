@@ -230,9 +230,6 @@ export default function Step6() {
           bookingid: bookingid,
           role: role
         }
-
-        console.log(data);
-
         UpdateBooking(data)
           .then(res => {
             if (res.status == true) {

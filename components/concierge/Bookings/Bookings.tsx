@@ -340,8 +340,6 @@ export default function Bookings() {
           applied_id: appliedid,
         };
 
-        // console.log(data);
-
         AssignedBookingByAdminWithoutDatabse(data)
           .then((res) => {
             if (res.status == true) {

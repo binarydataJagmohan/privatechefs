@@ -163,7 +163,7 @@ export default function Menus() {
       newErrors.name = "Name is required";
     }
 
-    if (!cuisineid || cuisineid.length === 0) {  
+    if (!cuisineid || cuisineid.length === 0) {
       newErrors.cuisine = "Cuisine is required";
     }
 
@@ -279,13 +279,12 @@ export default function Menus() {
     ...new Set(
       menuData?.flatMap((menu: any) => {
         if (!menu.cuisine_id) return []; // Handle null or undefined case
-  
+
         const cuisineId = String(menu.cuisine_id); // Ensure it's a string
         return cuisineId.includes(",") ? cuisineId.split(",") : [cuisineId];
       })
     ),
   ];
-  
 
   const filteredCuisines = cuisinedata.filter((cuisine: any) =>
     uniqueCuisines.includes(cuisine.id.toString())
@@ -316,13 +315,12 @@ export default function Menus() {
           cuisineId.split(",").includes(cuisine)
         );
   });
-  
 
   const clearFilters = () => {
-    setSelectedCuisines([]); 
-    setMenu(totalMenu); 
+    setSelectedCuisines([]);
+    setMenu(totalMenu);
   };
-  
+
   return (
     <>
       <div className="table-part">
@@ -339,13 +337,13 @@ export default function Menus() {
             </button>
           </li>
           <li>
-    <button
-      className="table-btn border-radius round-white"
-      onClick={clearFilters}
-    >
-      Clear
-    </button>
-  </li>
+            <button
+              className="table-btn border-radius round-white"
+              onClick={clearFilters}
+            >
+              Clear
+            </button>
+          </li>
         </ul>
         <div className="row mt-4 add_menu_items gap-3">
           <div
@@ -428,8 +426,9 @@ export default function Menus() {
         handleClose={modalFilterConfirmClose}
       >
         <div className="accordion-body" style={{ padding: "32px 10px" }}>
+          <h5>Menu Filter</h5>
           <div className="row">
-            {filteredCuisines.map((cuisine: any) => (
+            {/* {filteredCuisines.map((cuisine: any) => (
               <div className="col-sm-4" key={cuisine.id}>
                 <input
                   type="checkbox"
@@ -440,7 +439,23 @@ export default function Menus() {
                 />
                 <label style={{ marginLeft: "5px" }}>{cuisine.name}</label>
               </div>
-            ))}
+            ))} */}
+            {filteredCuisines.length === 0 ? (
+              <p>No Menus available.</p>
+            ) : (
+              filteredCuisines.map((cuisine: any) => (
+                <div className="col-sm-4" key={cuisine.id}>
+                  <input
+                    type="checkbox"
+                    value={cuisine.id}
+                    onChange={handleCuisineFilter}
+                    checked={selectedCuisines.includes(cuisine.id.toString())}
+                    style={{ marginRight: "5px" }}
+                  />
+                  <label style={{ marginLeft: "5px" }}>{cuisine.name}</label>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </PopupModalLarge>
@@ -492,25 +507,29 @@ export default function Menus() {
                   label: cuisine.name,
                 }))}
                 value={cuisinedata
-                  .filter((cuisine:any) => cuisineid.includes(cuisine.id))
+                  .filter((cuisine: any) => cuisineid.includes(cuisine.id))
                   .map((cuisine) => ({
                     value: cuisine.id,
                     label: cuisine.name,
                   }))}
-                onChange={(selectedOptions:any) =>
+                onChange={(selectedOptions: any) =>
                   setCuisineDataId(
-                    selectedOptions.map((option:any) => option.value)
+                    selectedOptions.map((option: any) => option.value)
                   )
                 }
                 placeholder="Select Cuisine"
                 className="basic-multi-select"
                 styles={{
-                  control: (provided:any, state:any) => ({
+                  control: (provided: any, state: any) => ({
                     ...provided,
-                    borderColor: state.isFocused ? '#eeeeee' : provided.borderColor,
-                    boxShadow: state.isFocused ? '0 0 0 1px #eeeeee' : provided.boxShadow,
-                    '&:hover': {
-                      borderColor: 'grey',
+                    borderColor: state.isFocused
+                      ? "#eeeeee"
+                      : provided.borderColor,
+                    boxShadow: state.isFocused
+                      ? "0 0 0 1px #eeeeee"
+                      : provided.boxShadow,
+                    "&:hover": {
+                      borderColor: "grey",
                     },
                   }),
                 }}

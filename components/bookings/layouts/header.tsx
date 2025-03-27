@@ -110,8 +110,6 @@ export default function Header({ }) {
       password: '12345678'
     };
 
-    // console.log(data);
-
     socialDataSave(data)
       .then(res => {
         if (res.status == true) {

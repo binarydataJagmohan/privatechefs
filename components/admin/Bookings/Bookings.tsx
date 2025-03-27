@@ -178,6 +178,55 @@ export default function Bookings() {
       getUserData();
     } else {
       getUserData();
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
+      const loader = new Loader({
+        apiKey,
+        version: "weekly",
+        libraries: ["places"],
+      });
+  
+      function setupAddressAutocomplete(inputId: string) {
+        const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null;
+        if (input) {
+          const autocomplete = new google.maps.places.Autocomplete(input);
+          autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+  
+            if (place && place.formatted_address && place.geometry && place.geometry.location) {
+              // Set the values for the corresponding input field
+              if (inputId === "address-input") {
+                const lat = place.geometry.location.lat();
+                const lng = place.geometry.location.lng();
+  
+                const data = {
+                  lat: lat,
+                  lng: lng,
+                };
+                getAllChefDetails()
+                  .then((res) => {
+                    if (res.status == true) {
+                      fetchBookingChefDetailbylocation(data, res.data);
+                    } else {
+                      console.log("error");
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }
+            }
+          });
+        }
+      }
+  
+      loader
+        .load()
+        .then(() => {
+          setupAddressAutocomplete("address-input");
+        })
+        .catch((error) => {
+          console.error("Failed to load Google Maps API", error);
+        });
     }
   }, [router.query]);
 
@@ -205,55 +254,7 @@ export default function Bookings() {
       });
     }
 
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
-    const loader = new Loader({
-      apiKey,
-      version: "weekly",
-      libraries: ["places"],
-    });
-
-    function setupAddressAutocomplete(inputId: string) {
-      const input: HTMLInputElement | null = document.getElementById(inputId) as HTMLInputElement | null;
-      if (input) {
-        const autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.addListener("place_changed", () => {
-          const place = autocomplete.getPlace();
-
-          if (place && place.formatted_address && place.geometry && place.geometry.location) {
-            // Set the values for the corresponding input field
-            if (inputId === "address-input") {
-              const lat = place.geometry.location.lat();
-              const lng = place.geometry.location.lng();
-
-              const data = {
-                lat: lat,
-                lng: lng,
-              };
-              getAllChefDetails()
-                .then((res) => {
-                  if (res.status == true) {
-                    fetchBookingChefDetailbylocation(data, res.data);
-                  } else {
-                    console.log("error");
-                  }
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
-          }
-        });
-      }
-    }
-
-    loader
-      .load()
-      .then(() => {
-        setupAddressAutocomplete("address-input");
-      })
-      .catch((error) => {
-        console.error("Failed to load Google Maps API", error);
-      });
+  
   };
 
   const getAllVillasData = async () => {
@@ -475,92 +476,7 @@ export default function Bookings() {
     return moment(value).format("D/M/YY");
   };
 
-  // const handleButtonClick = (index: any, type: string) => {
-  //   setActiveIndex(index);
-  //   setActiveFilter(type);
-  //   setCurrentPage(1);
-  //   if (type == "all") {
-  //     fetchBookingAdminDetails();
-  //   } else if(type == 'Expired'){
-  //     getAdminChefByBooking()
-  //     .then((res) => {
-  //       if (res.status === true) {
-  //         const filteredData = res.data.filter((item: any) => item.booking_status === "Expired");
-  //         setTotalBooking(filteredData);
-  //         // const paginatedPosts = paginate(filteredData, currentPage, pageSize);
-  //         // setBookingUser(paginatedPosts);
-
-  //         const paginatedPosts = paginate(filteredData, 1, pageSize); // 👈 Reset to page 1
-  //         setBookingUser(paginatedPosts);
-  //       } else {
-  //         setErrorMessage(res.message);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   }    
-  //   else {
-  //     getAdminChefFilterByBooking(type)
-  //       .then((res) => {
-  //         if (res.status === true) {
-  //           setTotalBooking(res.data);
-  //           // const paginatedPosts = paginate(res.data, currentPage, pageSize);
-  //           const paginatedPosts = paginate(res.data, 1, pageSize); // 👈 Reset to page 1
-
-  //           setBookingUser(paginatedPosts);
-  //         } else {
-  //           setErrorMessage(res.message);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // };
-
-  // const handleButtonClick = (index: any, type: string) => {
-  //   setActiveIndex(index);
-  //   setActiveFilter(type);
-  //   setCurrentPage(1);
-  
-  //   getAdminChefByBooking()
-  //     .then((res) => {
-  //       if (res.status === true) {
-  //         const currentDate = new Date(); // ✅ Aaj ki date
-  //         let filteredData = res.data; // Default: sabhi bookings
-  
-  //         if (type === "Expired") {
-  //           // ✅ Past me chali gayi bookings (jo expire ho chuki hain)
-  //           filteredData = res.data.filter((item: any) => {
-  //             const dateArray = item.dates.split(","); // ✅ String ko array me convert karein
-  //             const endDate = new Date(dateArray[dateArray.length - 1]); // ✅ Last date ko extract karein
-  //             return endDate < currentDate; // ✅ Sirf expired bookings
-  //           });
-  //         } 
-  //         else if (type === "upcoming") {
-  //           // ✅ Future me aane wali bookings
-  //           filteredData = res.data.filter((item: any) => {
-  //             const dateArray = item.dates.split(","); // ✅ String ko array me convert karein
-  //             const startDate = new Date(dateArray[0]); // ✅ First date ko extract karein
-  //             return startDate >= currentDate; // ✅ Sirf upcoming bookings
-  //           });
-  //         } 
-  //         else if (type !== "all") {
-  //           // ✅ Cancelled, Completed ya aur status ke liye
-  //           filteredData = res.data.filter((item: any) => item.booking_status === type);
-  //         }
-  
-  //         setTotalBooking(filteredData);
-  //         setBookingUser(paginate(filteredData, 1, pageSize)); // 👈 Reset to page 1
-  //       } else {
-  //         setErrorMessage(res.message);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+ 
   
   const handleButtonClick = (index: any, type: string) => {
     setActiveIndex(index);
@@ -637,17 +553,17 @@ export default function Bookings() {
           applied_id: appliedid
         };
 
-        console.log(data,'sdsss');
-
         AssignedBookingByAdminWithoutDatabse(data)
           .then((res) => {
             if (res.status == true) {
               showToast("success", res.message);
-
               setModalConfirm(false);
-
               getSingleUserAssignBookingData(bookingid);
               fetchBookingAdminDetails();
+              router.push("/admin/assigned-booking").then(() => {
+                window.location.reload();
+              });
+        
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -856,15 +772,16 @@ export default function Bookings() {
       admin_amount: adminamount,
       payment_status: payment_status,
       applied_id: appliedid
-    };
-    console.log(data,'data')
+    };    
     AssignedBookingByAdmin(data)
       .then((res) => {
         if (res.status === true) {
           // setModalConfirm(false);
           setModalConfirm1(false);
           showToast("success", res.message);
-          window.location.reload();
+          router.push("/admin/assigned-booking").then(() => {
+            window.location.reload();
+          });
         } else {
           toast.error(res.message, {
             position: toast.POSITION.TOP_RIGHT,

@@ -641,7 +641,7 @@ export default function Menus2(props: any) {
 
     if (e.target.name == "firstcourse_items") {
       setFirstCourseItems(e.target.value);
-      alert(e.target.value);
+      // alert(e.target.value);
     }
 
     if (e.target.name == "maincourse_items") {

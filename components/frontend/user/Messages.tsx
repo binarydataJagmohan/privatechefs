@@ -532,8 +532,6 @@ export default function Booking(props: any) {
         single_chat_id: chat_single_chat_id ? chat_single_chat_id : `1${currentUserData.id}`,
       };
 
-      console.log(data);
-
       ContactChefByUser(data)
         .then((res) => {
           if (res.status == true) {

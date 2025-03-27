@@ -138,7 +138,6 @@ export default function Chefs() {
       getChefByFilter({ cuisines: cuisinesArray.join(",") })
         .then((res) => {
           if (res.status) {
-            console.log(res.data);
             setFilteredChefs(res.data);
           }
         })
@@ -152,7 +151,6 @@ export default function Chefs() {
     const locationsArray = Array.isArray(selectedLocation)
       ? selectedLocation
       : [selectedLocation];
-    //console.log(locationsArray);
     getChefLocationByFilter({ locations: locationsArray.join(",") })
       .then((res) => {
         if (res.status) {
@@ -224,7 +222,6 @@ export default function Chefs() {
         email: email,
         created_by: userData.id,
       };
-      console.log(data);
       createChef(data)
         .then((res) => {
           if (res.status == true) {

@@ -195,10 +195,8 @@ export default function ServiceChoice() {
       saveService(data, image)
         .then((res) => {
           if (res.status == true) {
-            console.log(data);
             setModalConfirm(false);
             setButtonState(false);
-            //console.log(res);
 
             // Reset form data
             setName("");

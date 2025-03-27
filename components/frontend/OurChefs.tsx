@@ -23,7 +23,7 @@ export default function OurChefs(props: any) {
   const [allchef, setAllChef] = useState([]);
   const [locations, setLocations] = useState<Location[]>([]);
   const [pageslug, setSlug] = useState<PageSlug | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState("Greece");
+  const [selectedLocation, setSelectedLocation] = useState("Athens");
 
   useEffect(() => {
     if (props) {
