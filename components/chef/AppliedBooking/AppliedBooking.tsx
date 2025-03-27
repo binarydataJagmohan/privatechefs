@@ -383,6 +383,9 @@ export default function Bookings() {
                           <option value="cancelled" selected={user.booking_status === "cancelled"}>
                             Cancelled
                           </option>
+                          <option value="expired" selected={user.booking_status === "expired"}>
+                            Expired
+                          </option>
                         </select>
                       </td>
 
