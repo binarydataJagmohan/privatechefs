@@ -175,7 +175,6 @@ export default function Users() {
       user_id: selectedFilters,
     };
 
-    // console.log(data)
 
     sendMessageToUserByAdmin(data)
       .then((res) => {

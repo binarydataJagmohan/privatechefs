@@ -33,7 +33,6 @@ export default function CalendarComponent() {
 			const res = await getAdminCalenderBookings();
 			if (res.status) {
 				setGetBookings(res.bookings);
-				console.log(res.bookings);
 			}
 		} catch (err: any) {
 			console.log('error');

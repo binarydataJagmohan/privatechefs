@@ -124,7 +124,6 @@ export default function Users() {
         email: email,
         created_by: userData.id,
       };
-      console.log(data);
       createUser(data)
         .then((res) => {
           if (res.status == true) {

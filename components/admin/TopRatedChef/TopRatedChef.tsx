@@ -87,7 +87,6 @@ export default function TopRatedChef() {
     const data = {
       top_rated: topratedchef,
     };
-    console.log(data);
     updateTopratedChef(id, data)
       .then((res) => {
         if (res.status == true) {

@@ -79,6 +79,7 @@ export default function SingleInvoice(props: any) {
     const getReceiptData = async () => {
         getSingleInvoice(id)
             .then(res => {
+                console.log(res,'daaaaaaaaaaaa');
                 if (res.status == true) {
                     setUsers(res.data);
                     setMenu(res.dishNames);

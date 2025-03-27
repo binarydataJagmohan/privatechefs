@@ -199,7 +199,6 @@ export default function Cuisine() {
       saveCuisine(data, image[0])
         .then((res) => {
           if (res.status == true) {
-            console.log(data);
             setModalConfirm(false);
             setButtonState(false);
             //console.log(res);

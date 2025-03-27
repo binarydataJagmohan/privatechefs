@@ -6,7 +6,6 @@ import {
   SendMessageToUserByAdmin,
   CreateGroupChatByAdmin,
 } from "../../../lib/adminapi";
-
 import {
   getChefMessageData,
   getClickChefUserChatData,
@@ -15,16 +14,12 @@ import {
   getAdminData,
   deleteChatMessage,
 } from "../../../lib/chefapi";
-
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import { formatDistanceToNow } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 import PopupModalTwo from "../../commoncomponents/PopupModal";
 import PopupModalLarge from "../../commoncomponents/PopupModalLarge";
-import { AnyPtrRecord } from "dns";
-import { showToast } from "../../commoncomponents/toastUtils";
-import PopupModal from "../../commoncomponents/PopupModal";
 import swal from "sweetalert";
 
 export default function Booking(props: any) {
@@ -38,21 +33,13 @@ export default function Booking(props: any) {
   const [adminuserchefmesage, setAdminChatMessage] = useState<
     AdninChatMessages[]
   >([]);
-  const [receiver_id, setCurrentChatReceiverid] = useState("");
-  const [receiver_name, setCurrentChatReceiverName] = useState("");
   const [message, setMessage] = useState("");
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-
   const [activeChat, setActiveChat] = useState(-1);
-
   const [activeButton, setActiveButton] = useState("desc");
-
   const ChatSortBy = useRef("desc");
-
   const [searchInputValue, setSearchInputValue] = useState("");
-
   const [searchResultsVisible, setSearchResultsVisible] = useState(true);
-
   const [userdata, setUserData] = useState<UserData>({
     id: "",
     name: "",
@@ -71,21 +58,15 @@ export default function Booking(props: any) {
   });
 
   const [modalConfirmTwo, setModalConfirmTwo] = useState(false);
-
   const [chatmessage, setChatMessage] = useState("");
-
   const [searchuserid, setSearchUserId] = useState("");
-
   const [modalConfirm, setModalConfirm] = useState(false);
-
-  const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [Uploadimage, setUploadImage] = useState("");
   const [previewimage, setPreviewimage] = useState("");
   const [groupname, setGroupName] = useState("");
   const [groupmessage, setGroupMessage] = useState("");
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
-
   const ChatSortTypeBy = useRef("first");
 
   const modalConfirmCloseTwo = () => {
@@ -198,11 +179,7 @@ export default function Booking(props: any) {
   }
 
   const [errors, setErrors] = useState<Errors>({});
-
-  const [group_name, setCurrentGroupName] = useState("");
-
   const [chatgroupmember, setChatGroupMember] = useState<ChatGroupMember[]>([]);
-
   const [chat_type, setCurrentChatType] = useState("");
   const [chat_receiver_id, setChatReceiverId] = useState("");
   const [chat_sender_id, setChatSenderId] = useState("");
@@ -212,22 +189,17 @@ export default function Booking(props: any) {
   const [chat_single_chat_id, setChatSingleChatId] = useState("");
   const [chat_group_name, setChatGroupName] = useState("");
   const [chat_single_name, setChatSingleChatName] = useState("");
-
   const latestChatTypeRef = useRef(null);
   const uniqueBookingIdRef = useRef(null);
   const singleChatIdRef = useRef(null);
   const groupIdRef = useRef(null);
   const SenderIdRef = useRef(null);
-
   const newuniqueBookingIdRef = useRef(null);
   const newsingleChatIdRef = useRef(null);
   const newgroupIdRef = useRef(null);
-
   const [showContent, setShowContent] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [showToast, setShowToast] = useState(false);
-
   const restrictedWords = [
     "email",
     "gmail",
@@ -266,7 +238,6 @@ export default function Booking(props: any) {
     "calendar",
   ];
 
-
   function AdminApprovalInfoAlert() {
     swal({
       title: "Oops!",
@@ -277,7 +248,6 @@ export default function Booking(props: any) {
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newMessage = e.target.value.toLowerCase();
-
     // Check if message contains restricted words
     const containsRestrictedWord = restrictedWords.some((word) =>
       newMessage.includes(word)
@@ -512,6 +482,7 @@ export default function Booking(props: any) {
     }
   };
 
+
   const fetchAdminData = async () => {
     try {
       const res = await getAdminData();
@@ -629,8 +600,6 @@ export default function Booking(props: any) {
           ? chat_single_chat_id
           : `1${currentUserData.id}`,
       };
-
-      // console.log(data);
 
       ContactUserByChef(data)
         .then((res) => {
@@ -936,9 +905,6 @@ export default function Booking(props: any) {
     setActiveChat(0);
     ChatSortBy.current = buttonName;
     ChatSortTypeBy.current = "first";
-
-    // handleButtonClick(0,receiver_id,booking_id);
-    // Additional logic or actions you want to perform
   };
 
   function handleSearchInputChange(event: any) {
@@ -1182,14 +1148,7 @@ export default function Booking(props: any) {
                     <div className="users-all">
                       <div className="chats-btns mt-4">
                         <form className="form-Search">
-                          {/* <input
-                          type="text"
-                          name="starter"
-                          //value={searchInputValue} onChange={handleSearchInputChange}
-                          placeholder="Search user and chef by name.."
-                          className="mb-4"
-                          required
-                      /> */}
+                       
                         </form>
                         <div className="position-relative">
                           <div className="" id="compare_countries_result">
@@ -1467,11 +1426,6 @@ export default function Booking(props: any) {
                                               }`}
                                             >
                                               Booking# {message.booking_id}
-                                              {/* {Number(message.unreadcount) > 0 && (
-                                                    <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
-                                                      {message.unreadcount}
-                                                    </span>
-                                                  )} */}
                                             </h5>
                                           )}
 
@@ -1492,11 +1446,6 @@ export default function Booking(props: any) {
                                                   )}...`
                                                 : message.group_name}{" "}
                                               (Group)
-                                              {/* {Number(message.unreadcount) > 0 && (
-                                                    <span className={`chat_color badge text-danger position-absolute mx-2 chat_badge ${activeChat === index ? 'bg-white' : 'text-white bg-secondary'}`}>
-                                                      {message.unreadcount}
-                                                    </span>
-                                                  )} */}
                                             </h5>
                                           )}
 

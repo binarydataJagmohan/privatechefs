@@ -339,7 +339,6 @@ export default function Chefs() {
         email: email,
         created_by: userData.id,
       };
-      console.log(data);
       createChef(data)
         .then((res) => {
           if (res.status == true) {

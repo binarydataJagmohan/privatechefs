@@ -220,7 +220,6 @@ export default function Allergy() {
       allergy(data, image)
         .then((res) => {
           if (res.status == true) {
-            console.log(data);
             setModalConfirm(false);
             setButtonState(false);
             //console.log(res);
@@ -261,7 +260,6 @@ export default function Allergy() {
     event.preventDefault();
     const selectedFile = event.target.files[0];
     setImage(selectedFile);
-    console.log(image);
     setPreviewImage(URL.createObjectURL(selectedFile));
   };
 
@@ -270,7 +268,6 @@ export default function Allergy() {
     editsetModalConfirm(true);
     getSingleAllergy(id).then((res) => {
       setAllergyList(res.allergy);
-      console.log(res);
     });
   };
 
@@ -284,7 +281,6 @@ export default function Allergy() {
     }
     updateAllergy(updatedData)
       .then((res) => {
-        console.log(res.data);
         if (res.status == true) {
           editsetModalConfirm(false);
           fetchAllergyDetails();

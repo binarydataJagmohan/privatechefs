@@ -82,7 +82,6 @@ export default function MyProfile(props: any) {
   const getSingleBookingUser = (id: any) => {
     getChefAppliedBooking(id).then((res) => {
       setBookingUser(res.data);
-      console.log(res.data);
     });
   };
 

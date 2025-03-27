@@ -84,6 +84,7 @@ export default function Invoices() {
           setAmount(res.data.invoiceAmount);
           setBookingId(res.data.booking_id);
           setInvoiceNo(res.data.invoice_no);
+          setDescription(res.data.description);
           setDate(res.data.date);
         } else {
           console.log("error");
@@ -168,7 +169,6 @@ export default function Invoices() {
       saveInvoice(data)
         .then((res) => {
           if (res.status == true) {
-            console.log(res.status);
             getInvoiceData(userData.id);
             modalConfirmClose();
             setButtonState(false);
@@ -201,7 +201,6 @@ export default function Invoices() {
     setButtonState(true);
     const userData: any = getCurrentUserData();
     const id = getsingleinvoice.invoiceID;
-    console.log(id);
     const data = {
       user_id: userData.id,
       booking_id: booking_id,
@@ -485,15 +484,16 @@ export default function Invoices() {
                 onChange={(e) => setInvoiceNo(e.target.value)}
               />
             </div>
-            {/* <div className="login_div">
+            <div className="login_div">
 							<label htmlFor="Description">Description:</label>
 							<textarea
 								id="form-description"
 								name="description"
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
+                  placeholder="e.g., Groceries, Services, Gas, Other Expenses"
 							></textarea>
-						</div> */}
+						</div>
             <div className="mt-4">
               <button
                 type="submit"
@@ -578,7 +578,7 @@ export default function Invoices() {
                 onChange={(e) => setInvoiceNo(e.target.value)}
               />
             </div>
-            {/* <div className="login_div">
+            <div className="login_div">
 							<label htmlFor="Description">Description:</label>
 							<textarea
 								id="form-description"
@@ -586,7 +586,7 @@ export default function Invoices() {
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}
 							></textarea>
-						</div> */}
+						</div>
             <div className="mt-4">
               <button
                 type="submit"

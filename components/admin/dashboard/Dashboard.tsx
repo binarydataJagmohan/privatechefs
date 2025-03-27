@@ -102,7 +102,6 @@ export default function Dashboard() {
           setPendingBooking(data.pendingBooking);
 
           setCompletedBooking(data.completedBooking);
-          console.log(data.completedBooking);
 
           setWeeklyUsers(data.weeklyUsers);
           setweeklybooking(data.weeklyBooking);

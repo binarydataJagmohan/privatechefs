@@ -301,7 +301,6 @@ export default function Bookings() {
       .then((res) => {
         if (res.status == true) {
           setChefOffer(res.data);
-          // console.log(res.data);
           res.data.forEach((item: any) => {
             //
             if (item.applied_jobs_status == "hired") {

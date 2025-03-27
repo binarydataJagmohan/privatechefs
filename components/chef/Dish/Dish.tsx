@@ -99,7 +99,6 @@ export default function Dish() {
     getDishecategory()
       .then((data) => {
         setDishCategories(data.data);
-        // console.log(data.data)
       })
       .catch((error) => {
         console.error(error);
@@ -199,7 +198,6 @@ export default function Dish() {
         dish_category_id: dishCategory,
         userId: currentUserData.id,
       };
-      console.log(data);
       dishAddUpdate(data)
         .then((res) => {
           if (res.status == true) {

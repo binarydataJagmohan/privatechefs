@@ -90,14 +90,11 @@ export default function Allergy() {
         user_id: localStorage.getItem("id"),
         stars: stars,
       };
-      //  console.log(data.user_id);
       testimonial(data, image)
         .then((res) => {
           if (res.status == true) {
-            console.log(data);
             setModalConfirm(false);
             setButtonState(false);
-            //console.log(res);
             // Reset form data
             setName("");
             setDescription("");

@@ -215,8 +215,6 @@ export default function Booking(props: any) {
               setAdminChatMessage(res.userchatdata);
               setChatGroupMember(res.chat_member);
 
-              // console.log(res.userchatsider);
-
               if (ChatSortTypeBy.current == "first") {
                 setChatSenderId(res.userchatsider[0].sender_id);
                 setCurrentChatType(res.userchatsider[0].latest_chat_type);
@@ -259,8 +257,6 @@ export default function Booking(props: any) {
                   if (res.userchatsider[0].single_chat_id != newsingleChatIdRef.current) {
                     ChatSortTypeBy.current = "first";
                   }
-                  console.log(res.userchatsider[0].single_chat_id + "c_s");
-                  console.log(newsingleChatIdRef.current + "a_s");
                 }
 
                 if (res.userchatsider[0].latest_chat_type == "booking") {
@@ -268,17 +264,12 @@ export default function Booking(props: any) {
                     ChatSortTypeBy.current = "first";
                   }
 
-                  console.log(res.userchatsider[0].unique_booking_id + "c_b");
-                  console.log(newuniqueBookingIdRef.current + "a_b");
                 }
 
                 if (res.userchatsider[0].latest_chat_type == "group") {
                   if (res.userchatsider[0].group_id != newgroupIdRef.current) {
                     ChatSortTypeBy.current = "first";
                   }
-
-                  console.log(res.userchatsider[0].group_id + "c_g");
-                  console.log(newgroupIdRef.current + "a_g");
                 }
               }
             } else {

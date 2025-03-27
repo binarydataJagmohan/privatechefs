@@ -300,7 +300,6 @@ export default function UpdateChefByAdmin(props: any) {
       cooking_secret: cookingSecret || "",
       know_me_better: knowMeBetter || "",
     };
-    console.log(data);
     UpdateChefResumeByAdmin(chefid, data)
       .then((res) => {
         setButtonState(false);

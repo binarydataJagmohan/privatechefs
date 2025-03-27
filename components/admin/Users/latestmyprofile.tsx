@@ -11,6 +11,7 @@ import {
   UpdateSetting,
   userDeactivate,
   userDelete,
+  getSingleReceiptAdmin
 } from "../../../lib/adminapi";
 import { notificationForUserAdmin } from "../../../lib/notificationapi";
 import moment from "moment";
@@ -55,6 +56,7 @@ export default function MyProfile(props: any) {
   }
 
   const [getUsers, setUsers] = useState<User>();
+  const [getReceiptUser, setReceiptUsers] = useState<any>();
 
   interface Allergies {
     id: string;
@@ -89,6 +91,7 @@ export default function MyProfile(props: any) {
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [menu, setMenu] = useState<any[]>([]);
   const [getchefUser, setChefUser] = useState<any>({});
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -246,7 +249,6 @@ export default function MyProfile(props: any) {
           setUserBookingPayment(paginatedPosts);
           setLoading(false);
         } else {
-          console.log(res.message);
           setLoading(true);
         }
       })
@@ -488,6 +490,7 @@ export default function MyProfile(props: any) {
     setSelectedBooking(booking || null);
     setModalConfirm(true);
     getReceiptData(bookingId);
+    GetSingleReceiptAdmin(bookingId);
   };
 
   const getReceiptData = async (bookingId: number) => {
@@ -497,7 +500,6 @@ export default function MyProfile(props: any) {
           setChefUser(res.data);
 
           setMenu(res.dishNames);
-          console.log(res.dishNames);
         } else {
           console.log("error");
         }
@@ -506,6 +508,27 @@ export default function MyProfile(props: any) {
         console.log(err);
       });
   };
+
+  const GetSingleReceiptAdmin = async (id: number) => {
+    try {
+      const res = await getSingleReceiptAdmin(id);
+      if (res.status === true) {
+        const apiBookingId = Number(res.data.booking_id);
+        const inputBookingId = Number(id);
+  
+        if (apiBookingId === inputBookingId) {
+          setReceiptUsers(res.data);
+        } else {
+          setReceiptUsers(null); 
+        }
+      } else {
+        setReceiptUsers(null);
+      }
+    } catch (err) {
+      setReceiptUsers(null); 
+    }
+  };
+
   return (
     <>
       <Link href="/admin/users">
@@ -1142,6 +1165,18 @@ export default function MyProfile(props: any) {
                               </div>
                               <div className="row mt-1">
                                 <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                    Description:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getchefUser.description}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
                                   <p className="chefs-name name-12">Total:</p>
                                 </div>
                                 <div className="col-7">
@@ -1161,6 +1196,88 @@ export default function MyProfile(props: any) {
                               </p>
                             </div>
                           )}
+                        </div>
+                      </div>
+                    </div>
+                     {/* Receipt details */}
+                     <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingFive">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseFive"
+                          aria-expanded="true"
+                          aria-controls="collapseFive"
+                        >
+                          Receipt Details
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseFive"
+                        className="accordion-collapse show"
+                        aria-labelledby="headingFive"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div className="accordion-body">
+                          {getReceiptUser ? (
+                            <>
+                            <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                  Receipt Name:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.username}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                    Chef Name:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.chefname}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                  Order Date:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.orderdate}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="row mt-1">
+                                <div className="col-5 text-right">
+                                  <p className="chefs-name name-12">
+                                  Receipt Amount:
+                                  </p>
+                                </div>
+                                <div className="col-7">
+                                  <p className="mony">
+                                    {getReceiptUser?.amount}
+                                  </p>
+                                </div>
+                              </div>
+                            </>
+                        ) : (
+                            <div className="text-center">
+                              <p className="alert alert-warning">
+                                <strong>Receipt cannot be generated of this booking.</strong> 
+                              </p>
+                            </div>
+                          )} 
                         </div>
                       </div>
                     </div>
