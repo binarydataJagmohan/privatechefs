@@ -9,7 +9,7 @@ import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { UpdateUserToOffiline } from "../../../lib/userapi";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { showToast } from "../../commoncomponents/toastUtils";
-import { googleOneTap } from "../../../pages/googleOneTap";
+import { googleOneTap } from "../../googleOneTap";
 
 export default function Header({ }) {
   interface Errors {
