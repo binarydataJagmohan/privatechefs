@@ -3,7 +3,13 @@ import { getToken, getCurrentUserData } from "../../../lib/session";
 import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { ToastContainer, toast } from "react-toastify";
 
-import { testimonial, getTestimonials, testimonialDelete, getSingleTestimonial, updateTestimonial } from "../../../lib/adminapi";
+import {
+  testimonial,
+  getTestimonials,
+  testimonialDelete,
+  getSingleTestimonial,
+  updateTestimonial,
+} from "../../../lib/adminapi";
 import Pagination from "../../commoncomponents/Pagination";
 import { paginate } from "../../../helpers/paginate";
 import swal from "sweetalert";
@@ -39,9 +45,17 @@ export default function Allergy() {
   const [testimonials, setTestimonials] = useState([]);
   const [testimonials2, setTestimonials2] = useState([]);
   const [newImage, setNewImage] = useState("");
-  const [showFullDescription, setShowFullDescription] = useState(new Array(testimonial.length).fill(false));
+  const [showFullDescription, setShowFullDescription] = useState(
+    new Array(testimonial.length).fill(false)
+  );
   const [previewImage, setPreviewImage] = useState("");
-  const [testimonialList, settestimonialList] = useState<Testimonial>({ id: 0, name: "", description: "", stars: 0, image: "" });
+  const [testimonialList, settestimonialList] = useState<Testimonial>({
+    id: 0,
+    name: "",
+    description: "",
+    stars: 0,
+    image: "",
+  });
   const [preview, setPreview] = useState<null | string>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -102,7 +116,13 @@ export default function Allergy() {
             setPreviewImage("");
             const paginatedPosts = paginate(res.data, currentPage, pageSize);
             setTestimonials(paginatedPosts);
-            settestimonialList({ id: 0, name: "", description: "", image: "", stars: 0 });
+            settestimonialList({
+              id: 0,
+              name: "",
+              description: "",
+              image: "",
+              stars: 0,
+            });
             showToast("success", res.message);
           } else {
             setButtonState(false);
@@ -234,7 +254,13 @@ export default function Allergy() {
                 icon: "success",
               });
               fetchTestimonialDetails();
-              settestimonialList({ id: 0, name: "", description: "", image: "", stars: 0 });
+              settestimonialList({
+                id: 0,
+                name: "",
+                description: "",
+                image: "",
+                stars: 0,
+              });
             } else {
               toast.error(res.message, {
                 position: toast.POSITION.TOP_RIGHT,
@@ -281,7 +307,6 @@ export default function Allergy() {
     }
     if (data == 1) {
       const userData = getCurrentUserData();
-      console.log(userData);
       setCurrentUserData(userData);
     }
     fetchTestimonialDetails();
@@ -294,7 +319,6 @@ export default function Allergy() {
         setTestimonials2(res.data);
         const paginatedPosts = paginate(res.data, currentPage, pageSize);
         setTestimonials(paginatedPosts);
-        console.log(paginatedPosts);
       } else {
         toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
@@ -404,34 +428,80 @@ export default function Allergy() {
                     <td className="chefs_pic">
                       <div className="d-flex gap-2 align-items-center">
                         <div className="">
-                          <p>{allergy.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + allergy.image} alt="" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} alt="" />}</p>
+                          <p>
+                            {allergy.image ? (
+                              <img
+                                src={
+                                  process.env.NEXT_PUBLIC_IMAGE_URL +
+                                  "/images/admin/testimonial/" +
+                                  allergy.image
+                                }
+                                alt=""
+                              />
+                            ) : (
+                              <img
+                                src={
+                                  process.env.NEXT_PUBLIC_IMAGE_URL +
+                                  "/images/placeholder.jpg"
+                                }
+                                alt=""
+                              />
+                            )}
+                          </p>
                         </div>
                         <div className="">{allergy.name}</div>
                       </div>
                     </td>
                     {/* <td>{allergy.description}</td> */}
                     <td className="abc">
-                      {showFullDescription[index] && allergy.description ? allergy.description : allergy.description ? (allergy.description.length > 100 ? `${allergy.description.slice(0, 100)}...` : allergy.description) : ""}
-                      {allergy.description && allergy.description.length > 100 && (
-                        <a className="read-more-link" onClick={() => toggleDescription(index)}>
-                          {showFullDescription[index] ? "Read Less" : "Read More"}
-                        </a>
-                      )}
+                      {showFullDescription[index] && allergy.description
+                        ? allergy.description
+                        : allergy.description
+                        ? allergy.description.length > 100
+                          ? `${allergy.description.slice(0, 100)}...`
+                          : allergy.description
+                        : ""}
+                      {allergy.description &&
+                        allergy.description.length > 100 && (
+                          <a
+                            className="read-more-link"
+                            onClick={() => toggleDescription(index)}
+                          >
+                            {showFullDescription[index]
+                              ? "Read Less"
+                              : "Read More"}
+                          </a>
+                        )}
                     </td>
                     <td>{allergy.stars}</td>
                     <td>
                       <div className="dropdown" id="none-class">
-                        <a className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a
+                          className="dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
                           <i className="fa-solid fa-ellipsis"></i>
                         </a>
-                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <ul
+                          className="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
                           <li>
-                            <a className="dropdown-item" href="#" onClick={(e) => editTestimonial(e, allergy.id)}>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              onClick={(e) => editTestimonial(e, allergy.id)}
+                            >
                               Edit
                             </a>
                           </li>
                           <li>
-                            <a className="dropdown-item" href="#" onClick={(e) => handleDelete(e, allergy.id)}>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              onClick={(e) => handleDelete(e, allergy.id)}
+                            >
                               Delete
                             </a>
                           </li>
@@ -444,29 +514,66 @@ export default function Allergy() {
             </table>
           ) : (
             <>
-              <PageFound iconClass={"fa-solid fa-comment-dots"} heading={" No testimonials yet "} subText={"Be the first to leave a testimonial!"} />
+              <PageFound
+                iconClass={"fa-solid fa-comment-dots"}
+                heading={" No testimonials yet "}
+                subText={"Be the first to leave a testimonial!"}
+              />
             </>
           )}
         </div>
-        <Pagination items={testimonials2.length} currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} />
+        <Pagination
+          items={testimonials2.length}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          onPageChange={onPageChange}
+        />
       </div>
 
       {/* // Menu popup start  */}
-      <PopupModal show={modalConfirm} handleClose={modalConfirmClose} staticClass="var-login">
+      <PopupModal
+        show={modalConfirm}
+        handleClose={modalConfirmClose}
+        staticClass="var-login"
+      >
         <div className="all-form">
-          <form className="common_form_error" id="menu_form" onSubmit={handlMenuSubmit}>
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handlMenuSubmit}
+          >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
-              <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="username" onBlur={handleMenuBlur} />
-              {errors.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.name}</span>}
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="username"
+                onBlur={handleMenuBlur}
+              />
+              {errors.name && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.name}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+              <textarea
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
             </div>
             <div className="login_div">
               <label htmlFor="Star">Star:</label>
-              <input type="hidden" name="stars" value={stars} onChange={handleChange} />
+              <input
+                type="hidden"
+                name="stars"
+                value={stars}
+                onChange={handleChange}
+              />
               {/* <p className="star-list blue-star" id="star-color">
                                 {[1, 2, 3, 4, 5].map((num) => (
                                     <i
@@ -479,57 +586,128 @@ export default function Allergy() {
                             </p> */}
               <p className="star-list blue-star" id="star-color">
                 {[1, 2, 3, 4, 5].map((num) => (
-                  <i key={num} className={`fa${num <= stars ? "s" : "r"} fa-star`} onMouseEnter={() => handleStarHover(num)} onClick={() => setStar(num)} />
+                  <i
+                    key={num}
+                    className={`fa${num <= stars ? "s" : "r"} fa-star`}
+                    onMouseEnter={() => handleStarHover(num)}
+                    onClick={() => setStar(num)}
+                  />
                 ))}
               </p>
-              {errors.stars && <span className="small error text-danger mb-2 d-inline-block error_login">{errors.stars}</span>}
+              {errors.stars && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors.stars}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" accept="jpg,png" onChange={handleImageChange} />
-              {previewImage && <img src={previewImage} alt="Preview" style={{ width: "20%", height: "auto" }} />}
+              <input
+                type="file"
+                name="image"
+                accept="jpg,png"
+                onChange={handleImageChange}
+              />
+              {previewImage && (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  style={{ width: "20%", height: "auto" }}
+                />
+              )}
             </div>
-            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
+            <button
+              type="submit"
+              className="btn-send w-100 mt-3"
+              disabled={buttonStatus}
+            >
               Submit Testimonial Information
             </button>
           </form>
         </div>
       </PopupModal>
 
-      <PopupModal show={editmodalConfirm} handleClose={editmodalConfirmClose} staticClass="var-login">
+      <PopupModal
+        show={editmodalConfirm}
+        handleClose={editmodalConfirmClose}
+        staticClass="var-login"
+      >
         <div className="all-form">
-          <form className="common_form_error" id="menu_form" onSubmit={handleUpdateTestimonial}>
+          <form
+            className="common_form_error"
+            id="menu_form"
+            onSubmit={handleUpdateTestimonial}
+          >
             <div className="login_div">
               <label htmlFor="name">Name:</label>
               <input type="hidden" id="name" value={testimonialList.id} />
 
-              <input type="text" name="name" value={testimonialList ? testimonialList.name : ""} autoComplete="username" onChange={handleInputChange} onBlur={handleMenuBlur} />
-              {errors_name.name && <span className="small error text-danger mb-2 d-inline-block error_login">{errors_name.name}</span>}
+              <input
+                type="text"
+                name="name"
+                value={testimonialList ? testimonialList.name : ""}
+                autoComplete="username"
+                onChange={handleInputChange}
+                onBlur={handleMenuBlur}
+              />
+              {errors_name.name && (
+                <span className="small error text-danger mb-2 d-inline-block error_login">
+                  {errors_name.name}
+                </span>
+              )}
             </div>
             <div className="login_div">
               <label htmlFor="Description">Description:</label>
-              <textarea name="description" value={testimonialList ? testimonialList.description : ""} onChange={handleInputChange}></textarea>
+              <textarea
+                name="description"
+                value={testimonialList ? testimonialList.description : ""}
+                onChange={handleInputChange}
+              ></textarea>
             </div>
             <div className="login_div">
               <label htmlFor="Star">Star:</label>
               <input type="hidden" name="stars" onChange={handleChange} />
               <p className="star-list blue-star" id="star-color">
                 {[1, 2, 3, 4, 5].map((num) => (
-                  <i key={num} className={`fa${num <= stars ? "s" : "r"} fa-star`} onMouseEnter={() => handleStarHover(num)} onClick={() => setStar(num)} />
+                  <i
+                    key={num}
+                    className={`fa${num <= stars ? "s" : "r"} fa-star`}
+                    onMouseEnter={() => handleStarHover(num)}
+                    onClick={() => setStar(num)}
+                  />
                 ))}
               </p>
             </div>
             <div className="login_div">
               <label htmlFor="Image">Image:</label>
-              <input type="file" name="image" accept="jpg,png" onChange={handleInputChange} />
+              <input
+                type="file"
+                name="image"
+                accept="jpg,png"
+                onChange={handleInputChange}
+              />
 
               {newImage ? (
-                <img src={newImage} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                <img
+                  src={newImage}
+                  alt="Preview"
+                  style={{ width: "20%", height: "100px" }}
+                />
               ) : (
-                testimonialList.image && <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/testimonial/${testimonialList.image}`} alt="Preview" style={{ width: "20%", height: "100px" }} />
+                testimonialList.image && (
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/images/admin/testimonial/${testimonialList.image}`}
+                    alt="Preview"
+                    style={{ width: "20%", height: "100px" }}
+                  />
+                )
               )}
             </div>
-            <button type="submit" className="btn-send w-100 mt-3" disabled={buttonStatus}>
+            <button
+              type="submit"
+              className="btn-send w-100 mt-3"
+              disabled={buttonStatus}
+            >
               Update Testimonial Information
             </button>
           </form>

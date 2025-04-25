@@ -18,7 +18,6 @@ export default function ChefLocation() {
       const res = await getAllLocation();
       if (res.status) {
         setLocations(res.data);
-        //console.log(res.data);
       } else {
         console.log("error");
       }
@@ -43,16 +42,23 @@ export default function ChefLocation() {
       <div className="container">
         <h4> Private Chefs in Greece</h4>
         <h6 className="mb-4">
-          Immerse yourself in the culinary wonders of Greece with our <br /> private chefs.
+          Immerse yourself in the culinary wonders of Greece with our <br />{" "}
+          private chefs.
         </h6>
         <div className="row">
-          {locations.map((location, index) => (
+          {locations.map((location: any, index: any) => (
             <div className="col-md-4" key={index}>
               <div className="set-location-chef ">
-                <a href={process.env.NEXT_PUBLIC_BASE_URL + "location/" + location.address}>
+                <a
+                  href={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "location/" +
+                    location.location_slug
+                  }
+                >
                   <div className="mt-2">
                     <p> Private Chefs in </p>
-                    <span> {location.address.slice(0, 35)}</span>
+                    <span> {location.location_name.slice(0, 35)}</span>
                   </div>
                 </a>
               </div>
