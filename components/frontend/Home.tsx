@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Slider from "react-slick";
 import { useRouter } from "next/router";
-import { /*CheckUserEmailVerification,*/ CheckUserResetPasswordVerification, UpdateResetPassword, getAllTopRatedChef } from "../../lib/frontendapi";
+import {
+  /*CheckUserEmailVerification,*/ CheckUserResetPasswordVerification,
+  UpdateResetPassword,
+  getAllTopRatedChef,
+} from "../../lib/frontendapi";
 import { getTestimonials } from "../../lib/adminapi";
 import Head from "next/head";
 import PopupModal from "../../components/commoncomponents/PopupModal";
@@ -128,7 +132,7 @@ export default function Home(props: any) {
           },
         });
       }
-    } catch (err: any) { }
+    } catch (err: any) {}
   };
 
   const CheckResetPasswordVerification = async () => {
@@ -324,22 +328,36 @@ export default function Home(props: any) {
   return (
     <>
       <Head>
-        <title>{pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}</title>
-        <meta name="description" content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`} />
+        <title>
+          {pageslug?.meta_tag ? pageslug.meta_tag : `Private Chefs`}
+        </title>
+        <meta
+          name="description"
+          content={pageslug?.meta_desc ? pageslug?.meta_desc : `Private Chefs`}
+        />
       </Head>
       <section className="banner-part">
         <div className="container-fluid">
           <div className="row">
             <div className="col-sm-8">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/banner.webp"} alt="banner" />
+              <img
+                src={process.env.NEXT_PUBLIC_BASE_URL + "images/banner.webp"}
+                alt="banner"
+              />
             </div>
             <div className="col-sm-4">
               <div className="banner-text home-page-banner-text">
                 <h1>Creating memories with food</h1>
                 <p>
-                  Food has a unique way of bringing people together, creating lasting memories, and celebrating moments of joy. From family gatherings to festive celebrations, food plays an integral role in our lives. Whether it’s a holiday feast, a
-                  birthday party, or a simple dinner with loved ones, the meals we share are often the highlight of these special occasions. Food not only nourishes our bodies but also serves as a bridge between cultures and generations, connecting
-                  us to our heritage and traditions.
+                  Food has a unique way of bringing people together, creating
+                  lasting memories, and celebrating moments of joy. From family
+                  gatherings to festive celebrations, food plays an integral
+                  role in our lives. Whether it’s a holiday feast, a birthday
+                  party, or a simple dinner with loved ones, the meals we share
+                  are often the highlight of these special occasions. Food not
+                  only nourishes our bodies but also serves as a bridge between
+                  cultures and generations, connecting us to our heritage and
+                  traditions.
                 </p>
                 <div className="banner-btn">
                   <a href="/bookings/step1">Start your journey</a>
@@ -352,25 +370,46 @@ export default function Home(props: any) {
 
       <section className="experience-slider mt-5">
         <div className="container">
-          <h2 className="text-center"> Get inspired for your next experience</h2>
+          <h2 className="text-center">
+            {" "}
+            Get inspired for your next experience
+          </h2>
         </div>
         <div className="container-fluid mt-5">
           <div className="row">
             <Slider {...settings}>
-              {locations.map((location, index) => {
+              {locations.map((location: any, index) => {
                 if (index < 7) {
                   return (
                     <div className="col-lg-2 col-md-6" key={index}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + "location/" + location.address}>
+                      <a
+                        href={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          "location/" +
+                          location.location_slug
+                        }
+                      >
                         <div className="slider-img-plase" id="location_idd">
-                          {location.location_pic ? (
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/location/" + location.location_pic} id="loc_id" alt="slider-1" />
-                          ) : (
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} id="dummy-img" alt="slider-1" />
-                          )}
+                          <img
+                            src={
+                              location?.location_image
+                                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/images/location/${location.location_image}`
+                                : "/images/placeholder.jpg"
+                            }
+                            id="loc_id"
+                            alt="slider-1"
+                          />
 
                           <p className="plase-btn">
-                            <a href={process.env.NEXT_PUBLIC_BASE_URL + "location/" + location.address}>{location.address.slice(0, 35)}</a>
+                            <a
+                              href={
+                                process.env.NEXT_PUBLIC_BASE_URL +
+                                "location/" +
+                                location.location_slug
+                              }
+                            >
+                              {location.location_name.slice(0, 35)}
+                            </a>
                           </p>
                         </div>
                       </a>
@@ -380,20 +419,38 @@ export default function Home(props: any) {
               })}
             </Slider>
             <Slider {...settings}>
-              {locations.map((location, index) => {
+              {locations.map((location: any, index) => {
                 if (index < 7) {
                   return (
                     <div className="col-lg-2 col-md-6" key={index}>
-                      <a href={process.env.NEXT_PUBLIC_BASE_URL + "location/" + location.address}>
+                      <a
+                        href={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          "location/" +
+                          location.location_slug
+                        }
+                      >
                         <div className="slider-img-plase" id="location_idd">
-                          {location.location_pic ? (
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/location/" + location.location_pic} id="loc_id" alt="slider-1" />
-                          ) : (
-                            <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/placeholder.jpg"} id="dummy-img" alt="slider-1" />
-                          )}
+                          <img
+                            src={
+                              location?.location_image
+                                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/images/location/${location.location_image}`
+                                : "/images/placeholder.jpg"
+                            }
+                            id="loc_id"
+                            alt="slider-1"
+                          />
 
                           <p className="plase-btn">
-                            <a href={process.env.NEXT_PUBLIC_BASE_URL + "location/" + location.address}>{location.address.slice(0, 35)}</a>
+                            <a
+                              href={
+                                process.env.NEXT_PUBLIC_BASE_URL +
+                                "location/" +
+                                location.location_slug
+                              }
+                            >
+                              {location.location_name.slice(0, 35)}
+                            </a>
                           </p>
                         </div>
                       </a>
@@ -411,15 +468,29 @@ export default function Home(props: any) {
         <div className="container">
           <div className="row">
             <div className="col-lg-6 col-md-12">
-              <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/Secondphoto.jpg"} alt="7" className="border-radius" />
+              <img
+                src={
+                  process.env.NEXT_PUBLIC_BASE_URL + "images/Secondphoto.jpg"
+                }
+                alt="7"
+                className="border-radius"
+              />
             </div>
             <div className="col-lg-6 col-md-12">
               <div className="contant-box mt-5 mt-0-1024">
                 <h2>Design your next experience</h2>
                 <p>
-                  At Private Chefs World, we believe that every moment deserves a touch of extraordinary. Our feature empowers you to create a culinary journey as unique as you are. Whether it's an intimate dinner for two, a lavish celebration, or a
-                  themed event, we offer a canvas for your imagination. Select from our team of world-class chefs, butlers, waiters, and bartenders to craft a one-of-a-kind experience that reflects your tastes and aspirations. Together, we'll bring
-                  your vision to life, ensuring that every detail is tailored to perfection, from the menu to the ambiance. Your next memorable experience awaits – let's design it together.
+                  At Private Chefs World, we believe that every moment deserves
+                  a touch of extraordinary. Our feature empowers you to create a
+                  culinary journey as unique as you are. Whether it's an
+                  intimate dinner for two, a lavish celebration, or a themed
+                  event, we offer a canvas for your imagination. Select from our
+                  team of world-class chefs, butlers, waiters, and bartenders to
+                  craft a one-of-a-kind experience that reflects your tastes and
+                  aspirations. Together, we'll bring your vision to life,
+                  ensuring that every detail is tailored to perfection, from the
+                  menu to the ambiance. Your next memorable experience awaits –
+                  let's design it together.
                 </p>
                 <div className="banner-btn">
                   <a href="/bookings/step1">Start your journey</a>
@@ -433,9 +504,15 @@ export default function Home(props: any) {
         <div className="container">
           <h2 className="text-uppercase">How it works? </h2>
           <div className="services-id">
-            <p className="dis-max-width mb-3 text-uppercase">We know chefs. We know the materials. We deliver results.</p>
+            <p className="dis-max-width mb-3 text-uppercase">
+              We know chefs. We know the materials. We deliver results.
+            </p>
           </div>
-          <p className="dis-max-width mb-4 text-capital">The aim of our service is to make the booking process from choosing a menu to the arrival of your Private Chefs (at the place & time you want them) as quick & easy as possible for you.</p>
+          <p className="dis-max-width mb-4 text-capital">
+            The aim of our service is to make the booking process from choosing
+            a menu to the arrival of your Private Chefs (at the place & time you
+            want them) as quick & easy as possible for you.
+          </p>
           <div className="row g-3 mt-5">
             <div className="col-lg-4 col-md-6">
               <div className="num-list h-100" id="num-list-id">
@@ -445,7 +522,9 @@ export default function Home(props: any) {
                   </span>{" "}
                 </h4>
                 <h4>We tailor your menu</h4>
-                <p>Every menu is tailored specifically for you and your guests.</p>
+                <p>
+                  Every menu is tailored specifically for you and your guests.
+                </p>
               </div>
             </div>
             <div className="col-lg-4 col-md-6">
@@ -456,7 +535,9 @@ export default function Home(props: any) {
                   </span>{" "}
                 </h4>
                 <h4>We buy the ingredients</h4>
-                <p>All shopping is taken care by our Chefs prior their arrival.</p>
+                <p>
+                  All shopping is taken care by our Chefs prior their arrival.
+                </p>
               </div>
             </div>
             <div className="col-lg-4 col-md-6">
@@ -467,7 +548,9 @@ export default function Home(props: any) {
                   </span>{" "}
                 </h4>
                 <h4>We cook in your kitchen</h4>
-                <p>All the magic is prepared before your eyes in your own house.</p>
+                <p>
+                  All the magic is prepared before your eyes in your own house.
+                </p>
               </div>
             </div>
           </div>
@@ -482,7 +565,9 @@ export default function Home(props: any) {
                   </span>{" "}
                 </h4>
                 <h4>We serve each dish</h4>
-                <p>All dishes are served by our Chefs so you can relax and enjoy.</p>
+                <p>
+                  All dishes are served by our Chefs so you can relax and enjoy.
+                </p>
               </div>
             </div>
             <div className="col-lg-4 col-md-6">
@@ -493,7 +578,10 @@ export default function Home(props: any) {
                   </span>
                 </h4>
                 <h4> We clean up</h4>
-                <p>Don't worry about cleaning. Just sit and enjoy your experience.</p>
+                <p>
+                  Don't worry about cleaning. Just sit and enjoy your
+                  experience.
+                </p>
               </div>
             </div>
             <div className="col-lg-2 col-md-12 d-none d-lg-block"> </div>
@@ -505,8 +593,13 @@ export default function Home(props: any) {
         <div className="container">
           <h2>Top rated chefs</h2>
           <p className="dis-max-width mb-4">
-            Explore a selection of our top-rated chefs who have consistently dazzled clients with their culinary expertise. These culinary all-stars are masters of their craft, each bringing a unique blend of creativity and skill to the table.
-            Whether you're craving the rich flavors of Italian cuisine, the delicate art of sushi, or a fusion of global tastes, our top-rated chefs are ready to turn your dining dreams into reality.
+            Explore a selection of our top-rated chefs who have consistently
+            dazzled clients with their culinary expertise. These culinary
+            all-stars are masters of their craft, each bringing a unique blend
+            of creativity and skill to the table. Whether you're craving the
+            rich flavors of Italian cuisine, the delicate art of sushi, or a
+            fusion of global tastes, our top-rated chefs are ready to turn your
+            dining dreams into reality.
           </p>
         </div>
         <div className="container-fluid mt-5">
@@ -515,9 +608,28 @@ export default function Home(props: any) {
               {allchef.map((data: any) => (
                 <div className="col-lg-2 col-md-6" key={data.id}>
                   <div className="slider-img-plase" id="chef-img">
-                    {data.pic ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/chef/users/" + data.pic} id="chef_id" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} id="chef_id" />}
+                    {data.pic ? (
+                      <img
+                        src={
+                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                          "/images/chef/users/" +
+                          data.pic
+                        }
+                        id="chef_id"
+                      />
+                    ) : (
+                      <img
+                        src={
+                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                          "/images/users.jpg"
+                        }
+                        id="chef_id"
+                      />
+                    )}
                     <p className="plase-btn">
-                      <a href={`/privatechef/${data.slug}`}>Chef {data.name && data.name.split(" ")[0]}</a>
+                      <a href={`/privatechef/${data.slug}`}>
+                        Chef {data.name && data.name.split(" ")[0]}
+                      </a>
                     </p>
                   </div>
                 </div>
@@ -529,7 +641,9 @@ export default function Home(props: any) {
       <section className="testimonial-part mt-5">
         <div className="container">
           <h2 className="text-center">What they say about us...</h2>
-          <h4 className="text-center">So proud to create such beautiful memories!</h4>
+          <h4 className="text-center">
+            So proud to create such beautiful memories!
+          </h4>
           <div className="row">
             {testimonials.slice(0, 3).map((testimonial) => (
               <div className="col-lg-4 col-md-12" key={testimonial.id}>
@@ -537,7 +651,24 @@ export default function Home(props: any) {
                   <p>{testimonial.description.slice(0, 200)}.</p>
                   <div className="row">
                     <div className="col-3" id="test-img">
-                      {testimonial.image ? <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/admin/testimonial/" + testimonial.image} alt="ava4" /> : <img src={process.env.NEXT_PUBLIC_IMAGE_URL + "/images/users.jpg"} alt="ava4" />}
+                      {testimonial.image ? (
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/admin/testimonial/" +
+                            testimonial.image
+                          }
+                          alt="ava4"
+                        />
+                      ) : (
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_IMAGE_URL +
+                            "/images/users.jpg"
+                          }
+                          alt="ava4"
+                        />
+                      )}
                     </div>
                     <div className="col-9">
                       <div className="say">
@@ -545,7 +676,14 @@ export default function Home(props: any) {
                         {/* <p className="font-12"> */}
                         <p className="star-list blue-star" id="star-color">
                           {[1, 2, 3, 4, 5].map((num) => (
-                            <i key={num} className={`fa${num <= testimonial.stars ? "s" : "r"} fa-star`} onMouseEnter={() => handleStarHover(num)} onClick={() => setStar(stars)} />
+                            <i
+                              key={num}
+                              className={`fa${
+                                num <= testimonial.stars ? "s" : "r"
+                              } fa-star`}
+                              onMouseEnter={() => handleStarHover(num)}
+                              onClick={() => setStar(stars)}
+                            />
                           ))}
                         </p>
                         {/* </p> */}
@@ -624,152 +762,332 @@ export default function Home(props: any) {
           <div className="row  mt-5">
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/1.jpg"} alt="logo-1" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/1.jpg"
+                  }
+                  alt="logo-1"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst ">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/2.jpg"} alt="logo-2" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/2.jpg"
+                  }
+                  alt="logo-2"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/3.jpg"} alt="logo-3" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/3.jpg"
+                  }
+                  alt="logo-3"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/4.jpg"} alt="logo-4" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/4.jpg"
+                  }
+                  alt="logo-4"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/5.jpg"} alt="logo-5" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/5.jpg"
+                  }
+                  alt="logo-5"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/6.jpg"} alt="logo-6" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/6.jpg"
+                  }
+                  alt="logo-6"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/7.jpg"} alt="logo-7" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/7.jpg"
+                  }
+                  alt="logo-7"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/8.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/8.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/9.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/9.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/10.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/10.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/11.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/11.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/12.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/12.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/13.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/13.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/14.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/14.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/15.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/15.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/16.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/16.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/17.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/17.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/18.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/18.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/19.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/19.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/20.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/20.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/21.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/21.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/22.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/22.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/23.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/23.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/24.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/24.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/25.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/25.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/26.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/26.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/27.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/27.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/28.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/28.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/12.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/12.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos width-set-inst">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/instragram-feed/13.jpg"} alt="logo-8" />
+                <img
+                  src={
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    "images/instragram-feed/13.jpg"
+                  }
+                  alt="logo-8"
+                />
               </div>
             </div>
           </div>
@@ -779,33 +1097,49 @@ export default function Home(props: any) {
         <div className="container">
           <h2>Trusted by pioneers around the world</h2>
           <p>
-            Serving exelence and quality services to clients around the globe. <br /> Our paramount priority? You...
+            Serving exelence and quality services to clients around the globe.{" "}
+            <br /> Our paramount priority? You...
           </p>
 
           <div className="row   mt-5">
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-1.png"} alt="logo-1" />
+                <img
+                  src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-1.png"}
+                  alt="logo-1"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-2.png"} alt="logo-2" />
+                <img
+                  src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-2.png"}
+                  alt="logo-2"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-3.png"} alt="logo-3" />
+                <img
+                  src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-3.png"}
+                  alt="logo-3"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-4.png"} alt="logo-4" />
+                <img
+                  src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-4.png"}
+                  alt="logo-4"
+                />
               </div>
             </div>
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-5.png"} alt="logo-5" />
+                <img
+                  src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-5.png"}
+                  alt="logo-5"
+                />
               </div>
             </div>
 
@@ -816,7 +1150,10 @@ export default function Home(props: any) {
                         </div> */}
             <div className="col-lg-2 col-md-6 col-6">
               <div className="logos img-set-log">
-                <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-8.png"} alt="logo-8" />
+                <img
+                  src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo-8.png"}
+                  alt="logo-8"
+                />
               </div>
             </div>
             {/* <div className="col-lg-4 col-md-6 col-6">
@@ -829,17 +1166,35 @@ export default function Home(props: any) {
       </section>
       {/* // register popup code start  */}
 
-      <PopupModal show={modalConfirmTwo} handleClose={modalConfirmCloseTwo} staticClass="var-login">
+      <PopupModal
+        show={modalConfirmTwo}
+        handleClose={modalConfirmCloseTwo}
+        staticClass="var-login"
+      >
         <div className="text-center popup-img">
-          <img src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo.png"} alt="logo" />
+          <img
+            src={process.env.NEXT_PUBLIC_BASE_URL + "images/logo.png"}
+            alt="logo"
+          />
         </div>
         <div className="all-form">
           <form onSubmit={handleResetSubmit} id="reset_register_form">
             <div className="register_div">
               <label htmlFor="password">Password:</label>
-              <div className='position-relative'>
-                <input type={showPassword ? "text" : "password"} id="resetpassword" name="password" value={password} onChange={(e) => setPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password" />
-                <span className='eye-password' onClick={() => setShowPassword(!showPassword)}>
+              <div className="position-relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="resetpassword"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onBlur={handleResetBlur}
+                  autoComplete="new-password"
+                />
+                <span
+                  className="eye-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
                   {showPassword ? (
                     <i className="fas fa-eye-slash"></i>
                   ) : (
@@ -847,13 +1202,28 @@ export default function Home(props: any) {
                   )}
                 </span>
               </div>
-              {errors.password && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.password}</span>}
+              {errors.password && (
+                <span className="small error text-danger mb-2 d-inline-block error_register">
+                  {errors.password}
+                </span>
+              )}
             </div>
             <div className="register_div">
               <label htmlFor="confirmPassword">Confirm Password:</label>
-              <div className='position-relative'>
-                <input type={showconfirmPassword ? "text" : "password"} id="resetconfirmPassword text-danger mb-2 d-inline-block" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onBlur={handleResetBlur} autoComplete="new-password" />
-                <span className='eye-password' onClick={() => setShowConfirmPassword(!showconfirmPassword)}>
+              <div className="position-relative">
+                <input
+                  type={showconfirmPassword ? "text" : "password"}
+                  id="resetconfirmPassword text-danger mb-2 d-inline-block"
+                  name="confirmPassword"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onBlur={handleResetBlur}
+                  autoComplete="new-password"
+                />
+                <span
+                  className="eye-password"
+                  onClick={() => setShowConfirmPassword(!showconfirmPassword)}
+                >
                   {showconfirmPassword ? (
                     <i className="fas fa-eye-slash"></i>
                   ) : (
@@ -861,9 +1231,17 @@ export default function Home(props: any) {
                   )}
                 </span>
               </div>
-              {errors.confirmPassword && <span className="small error text-danger mb-2 d-inline-block error_register">{errors.confirmPassword}</span>}
+              {errors.confirmPassword && (
+                <span className="small error text-danger mb-2 d-inline-block error_register">
+                  {errors.confirmPassword}
+                </span>
+              )}
             </div>
-            <button type="submit" className="btn-send w-100" disabled={buttonStatus}>
+            <button
+              type="submit"
+              className="btn-send w-100"
+              disabled={buttonStatus}
+            >
               {buttonStatus ? "Please wait" : "Submit"}
             </button>
           </form>

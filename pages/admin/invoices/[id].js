@@ -1,15 +1,15 @@
-import React from 'react';
-import MyProfile from '../../../components/admin/Invoices/single-invoice';
+import React from "react";
+import MyProfile from "../../../components/admin/Invoices/single-invoice";
 
-export default function Myprofile({id}) {
+export default function Myprofile({ id }) {
   return (
-        <>
-            <MyProfile userId={id}/>
-        </>
-  )
+    <>
+      <MyProfile userId={id} />
+    </>
+  );
 }
 export async function getServerSideProps({ params }) {
-    return {
-        props: { id: params.id }
-    }
+  return {
+    props: { id: params.id },
+  };
 }

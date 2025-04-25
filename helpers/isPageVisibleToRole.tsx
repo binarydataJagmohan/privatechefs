@@ -1,5 +1,5 @@
 import { getCurrentUserData } from "../lib/session";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 interface User {
   id: string;
@@ -10,11 +10,10 @@ export function isPageVisibleToRole(pageName: string): number {
   const user: User = getCurrentUserData() as User;
 
   if (user.id != null) {
-    
     const pageRoles: { [key: string]: string[] } = {
       "public-page": ["admin", "user", "guest"],
       "admin-page": ["admin"],
-      "chefprofile":["admin"],
+      chefprofile: ["admin"],
       "chef-menu": ["chef"],
       "chef-edit-profile": ["chef"],
       "admin-chef-edit-profile": ["admin"],
@@ -23,33 +22,35 @@ export function isPageVisibleToRole(pageName: string): number {
       "admin-allergy": ["admin"],
       "admin-testimonial": ["admin"],
       "admin-servicechoice": ["admin"],
+      "admin-cms": ["admin"],
+      "admin-frontendlocations": ["admin"],
       "user-edit-profile": ["user"],
-      "notification": ["admin", "chef", "concierge", "user"],
+      notification: ["admin", "chef", "concierge", "user"],
       "admin-villas": ["admin"],
       "chef-dish": ["chef"],
-      "admin-cuisine": ['admin'],
-      "admin-bookings": ['admin'],
-      "admin-assigned-bookings": ['admin'],
-      "admin-users": ['admin'],
-      "chef-bookings": ['chef'],
-      "chef-applied-bookings": ['chef'],
-      "chef-hired-bookings": ['chef'],
-      "user-bookings": ['user'],
-      "receipt": ["chef"],
-      "admin": ['admin'],
-      "user": ['user'],
-      "chef": ['chef'],
+      "admin-cuisine": ["admin"],
+      "admin-bookings": ["admin"],
+      "admin-assigned-bookings": ["admin"],
+      "admin-users": ["admin"],
+      "chef-bookings": ["chef"],
+      "chef-applied-bookings": ["chef"],
+      "chef-hired-bookings": ["chef"],
+      "user-bookings": ["user"],
+      receipt: ["chef"],
+      admin: ["admin"],
+      user: ["user"],
+      chef: ["chef"],
       "admin-receipt": ["admin"],
       "admin-single-receipt": ["admin"],
-      "invoice": ["chef"],
+      invoice: ["chef"],
       "admin-invoice": ["admin"],
       "admin-single-invoice": ["admin"],
-      "concierge": ['concierge'],
-      "concierge-bookings": ['concierge'],
-      "concierge-assigned-bookings": ['concierge'],
+      concierge: ["concierge"],
+      "concierge-bookings": ["concierge"],
+      "concierge-assigned-bookings": ["concierge"],
       "concierge-invoice": ["concierge"],
       "concierge-chefs": ["concierge"],
-      "concierge-users": ['concierge'],
+      "concierge-users": ["concierge"],
       "concierge-villas": ["concierge"],
       "concierge-receipt": ["concierge"],
       "concierge-single-receipt": ["concierge"],

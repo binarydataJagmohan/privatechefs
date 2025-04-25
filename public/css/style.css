@@ -1331,7 +1331,7 @@ h2.font-black {
   font-size: var(--font_title);
   line-height: var(--font_menu_line_height);
   color: var(--color_1) !important;
-  width: 100%;
+  /* width: 100%; */
   margin-bottom: 6px;
 }
 
@@ -4026,6 +4026,25 @@ div#test-img img {
   cursor: pointer;
 }
 
+.user-img2 img {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.user-img2 label i {
+  background: var(--background_5);
+  border-radius: 36px;
+  width: 25.71px;
+  height: 25px;
+  padding: 5px 5px;
+  color: #fff;
+  /* position: absolute; */
+  /* position: relative; */
+  right: 72%;
+  cursor: pointer;
+}
+
 .chatactive {
   background: rgba(186, 134, 57, 0.1);
   display: block;
@@ -6103,5 +6122,5 @@ span.eye-password {
 
 .color-disbaled-class {
   color: #e7e7e7e7 !important;
-  border:unset;
+  border: unset;
 }

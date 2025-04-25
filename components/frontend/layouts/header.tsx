@@ -9,6 +9,7 @@ import PopupModal from "../../../components/commoncomponents/PopupModal";
 import { UpdateUserToOffiline } from "../../../lib/userapi";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { showToast } from "../../commoncomponents/toastUtils";
+import { googleOneTap } from "../../../pages/googleOneTap";
 
 export default function Header({ }) {
   interface Errors {
@@ -70,7 +71,62 @@ export default function Header({ }) {
       }
     }
   }, []);
-
+  const fetchDetail = (options:any) => {
+    try {
+      googleOneTap(options, async (response) => {
+        try {
+          if (!response || !response.credential) {
+            throw new Error("Google response is missing or invalid");
+          }
+  
+          const res = await fetch('http://127.0.0.1:8000/api/google-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential: response.credential }),
+          });
+  
+          const data = await res.json();
+          if (data.token) {
+            // Store user data and token in localStorage
+            window.localStorage.setItem("token", data.token);
+            window.localStorage.setItem("id", data.user.id || null);
+            window.localStorage.setItem("name", data.user.name || null);
+            window.localStorage.setItem("email", data.user.email || null);
+            window.localStorage.setItem("role", data.user.role || null);
+            window.localStorage.setItem("pic", data.user.pic || null);
+            window.localStorage.setItem("surname", data.user.surname || null);
+            window.localStorage.setItem("phone", data.user.phone || null);
+            window.localStorage.setItem("address", data.user.address || null);
+            window.localStorage.setItem("expiration", data.expiration || null);
+            window.localStorage.setItem("approved_by_admin", data.user.approved_by_admin || "no");
+            window.localStorage.setItem("profile_status", data.user.profile_status || "pending");
+            window.localStorage.setItem("created_by", data.user.created_by || null);          
+            // Redirect to user profile
+            window.location.href = '/user/userprofile';
+            showToast("success", data.message);
+          } else {
+            console.error("Missing token or user data");
+          }
+        } catch (error) {
+          console.error("Google One Tap Error:", error);
+        }
+      });
+    } catch (error) {
+      console.error("Unexpected Error:", error);
+    }
+  };
+  
+  
+    useEffect(() => {
+      const options = {
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_ID || 'your-client-id',
+        auto_select: true,
+        cancel_on_tap_outside: true,
+        context: 'signin',
+      };
+  
+      fetchDetail(options);
+    }, []);
   const getAllNotify = async () => {
     const userData: any = getCurrentUserData();
     setCurrentUserData(userData);
