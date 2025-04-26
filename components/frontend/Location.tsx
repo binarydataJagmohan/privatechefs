@@ -144,8 +144,8 @@ export default function Location(props: any) {
                     {locationData?.peragraph_one}
                     <br></br>
                     <br></br>
-                    Indulge in the extraordinary, where the ancient spirit of
-                    Athens meets the modern magic of Private Chefs World.
+                    {/* Indulge in the extraordinary, where the ancient spirit of
+                    Athens meets the modern magic of Private Chefs World. */}
                   </>
                 </div>
               </div>
