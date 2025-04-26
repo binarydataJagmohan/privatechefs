@@ -49,7 +49,7 @@ export function googleOneTap(
         });
 
         // Check if the user is already authenticated
-        if (!localStorage.getItem('token')) {  // Replace with your actual session management check
+        if (!localStorage.getItem('token')) {  
           // Prompt for Google One Tap login if user is not authenticated
           window.google.accounts.id.prompt();
         } else {
