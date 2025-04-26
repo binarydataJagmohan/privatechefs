@@ -53,7 +53,7 @@ export function googleOneTap(
           // Prompt for Google One Tap login if user is not authenticated
           window.google.accounts.id.prompt();
         } else {
-          console.log('User already authenticated, skipping One Tap prompt.');
+          console.log('User already authenticated, skipping One Tap prompt..');
         }
       }
     };
