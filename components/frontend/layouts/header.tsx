@@ -79,7 +79,7 @@ export default function Header({ }) {
             throw new Error("Google response is missing or invalid");
           }
   
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/google-login`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/google-login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ credential: response.credential }),
